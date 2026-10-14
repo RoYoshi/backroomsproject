@@ -4,7 +4,7 @@ One command decides whether a checkpoint is still the accepted B++ game, on the 
 
 ```text
 node dev/tools/gate/gate.js --tier fast --out <scratch>/gate        # a few minutes: every deterministic comparison
-node dev/tools/gate/gate.js --tier full --out <scratch>/gate_full   # the final candidate: about 40 minutes on 2 CPUs
+node dev/tools/gate/gate.js --tier full --out <scratch>/gate_full   # the final candidate: about 35 minutes on 2 CPUs
 ```
 
 ## How it decides
@@ -25,6 +25,7 @@ for the frozen layout.
 | build | `dev/tools/build/build.js --check` | It replaces the three `.sh` builds: every built output (`public/`, `generated/`) is what `src/` builds |
 | lineage | `dev/tools/lineage/lineage.js verify` and `tree-id` | New at H3M-6: the client lineage replays (bundle, stylesheet, page), `blame.json` is current, and `src/core/client/bundle/original-v11/` is the recovered v11 snapshot |
 | parts | `dev/tools/checks/parts.js` | New at H3M-3: every part of a built output declares what it provides, uses and writes in the shared closure, and TypeScript's checker agrees |
+| docs | `dev/tools/docs/docs.js --check` | New at H3M-7: the documentation's generated tables (outputs, frameworks, each framework's files, the window globals) are what the repository gives today |
 | scope | `scope_m.js` + `declared_changes.json` | It asks about content, not paths. Each file outside `dev/` must be one of: B++'s file, moved where the layout says; a declared change, with its reason; or a source, a build output or documentation. The deployment workflow and the passcode line are compared by hash. A declared change that did not happen fails |
 | srv_golden, bpp_golden | `golden/srv_golden.js`, `golden/bpp_golden.js` (with `golden/srv_harness.js`) | **Old side:** B++'s `server.js` runs against the working tree's runtime written under its old names into a scratch folder (`dev/tools/layout.js` `projectOld`, with the layout's own path edit in `death_srv.js` undone). **New side:** the working tree's `server.js` runs in the working tree. As in 3H0, only `server.js`'s text differs. The harness records a require that resolves to the sim or the death module under its old name, so traces do not depend on where files live |
 | cli_golden | `golden/cli_golden.js`, `golden/cli_golden_h2.js` (with `cli_lib.js`, `cli_lib_h2.js`) | Each side's files are read from its web root (`public/`) |

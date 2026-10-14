@@ -1,0 +1,61 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/m7_docs_mutants.js",
+ "cases": {
+  "untouched": {
+   "exit": 0,
+   "ok": true,
+   "said": "DOCS CHECK: PASS (23 generated blocks in 23 documents)"
+  },
+  "new_recipe": {
+   "exit": 1,
+   "ok": true,
+   "said": "STALE docs/architecture/BUILD_PIPELINE.md: outputs | STALE docs/architecture/FRAMEWORKS.md: frameworks | STALE src/frameworks/front/README.md: sources:front | DOCS CHECK: FAIL (23 generated blocks in 23 documents; 3 stale)"
+  },
+  "new_framework_file": {
+   "exit": 1,
+   "ok": true,
+   "said": "STALE docs/architecture/FRAMEWORKS.md: frameworks | STALE src/frameworks/ward/README.md: sources:ward | DOCS CHECK: FAIL (23 generated blocks in 23 documents; 2 stale)"
+  },
+  "new_global": {
+   "exit": 1,
+   "ok": true,
+   "said": "STALE docs/architecture/CONTRACTS.md: globals | DOCS CHECK: FAIL (23 generated blocks in 23 documents; 1 stale)"
+  },
+  "part_title": {
+   "exit": 1,
+   "ok": true,
+   "said": "STALE src/frameworks/gib/README.md: sources:gib | DOCS CHECK: FAIL (23 generated blocks in 23 documents; 1 stale)"
+  },
+  "row_removed": {
+   "exit": 1,
+   "ok": true,
+   "said": "STALE docs/architecture/BUILD_PIPELINE.md: outputs | DOCS CHECK: FAIL (23 generated blocks in 23 documents; 1 stale)"
+  },
+  "hand_edit_in_block": {
+   "exit": 1,
+   "ok": true,
+   "said": "STALE docs/architecture/FRAMEWORKS.md: frameworks | DOCS CHECK: FAIL (23 generated blocks in 23 documents; 1 stale)"
+  },
+  "block_renamed": {
+   "exit": 1,
+   "ok": true,
+   "said": "docs/architecture/BUILD_PIPELINE.md: no block named outputz | docs/architecture/BUILD_PIPELINE.md: must hold the block outputs once (it holds it 0 times) | DOCS CHECK: FAIL (23 generated blocks in 23 documents; 2 stale)"
+  },
+  "readme_deleted": {
+   "exit": 1,
+   "ok": true,
+   "said": "MISSING src/frameworks/echo/README.md | DOCS CHECK: FAIL (22 generated blocks in 22 documents)"
+  },
+  "block_removed": {
+   "exit": 1,
+   "ok": true,
+   "said": "docs/architecture/CONTRACTS.md: must hold the block globals once (it holds it 0 times) | DOCS CHECK: FAIL (22 generated blocks in 23 documents; 1 stale)"
+  },
+  "block_elsewhere": {
+   "exit": 1,
+   "ok": true,
+   "said": "src/frameworks/ward/README.md: holds the block sources:gib, which belongs elsewhere | DOCS CHECK: FAIL (24 generated blocks in 23 documents; 1 stale)"
+  }
+ },
+ "ok": true
+}

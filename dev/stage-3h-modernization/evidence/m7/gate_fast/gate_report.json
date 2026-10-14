@@ -1,0 +1,112 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "fast",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "2aac0b12e7b917b6c00d2e61a3871aa2896a3800",
+ "startedAt": "2026-10-14T23:20:29.145Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em2/work/gate_m7_fast",
+ "steps": {
+  "build": {
+   "ok": true,
+   "cases": 40,
+   "note": "BUILD CHECK: PASS (40 outputs and the manifest are what src/ builds)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "lineage": {
+   "ok": true,
+   "cases": 83,
+   "note": "steps replayed (bundle, stylesheet, page); blame.json what the ledger gives; the v11 snapshot's tree proven",
+   "exit": 0,
+   "seconds": 0
+  },
+  "parts": {
+   "ok": true,
+   "cases": 64,
+   "note": "9 outputs built from parts; every header agrees with the code (TypeScript 6.0.3)",
+   "exit": 0,
+   "seconds": 3
+  },
+  "docs": {
+   "ok": true,
+   "cases": 23,
+   "note": "DOCS CHECK: PASS (23 generated blocks in 23 documents)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "scope": {
+   "ok": true,
+   "cases": 198,
+   "note": "runtime changed (declared): death_srv.js, index.html, mp.js, package.json, server.js, server/static.js; added: assets/mp-hum.js, assets/net-newrun.js, server/aftermath.js, server/newrun.js, src/core/server/loop.js, src/core/server/rooms.js, src/frameworks/bpp/server/poses.js, src/frameworks/overseer/server/admin.js, src/frameworks/space/server/movement.js; other files: 5 identical, 129 moved, 1 replaced (declared)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "srv_golden": {
+   "ok": true,
+   "cases": 11,
+   "note": "HTTP lines about changed files: index.html, mp.js",
+   "exit": 0,
+   "seconds": 13
+  },
+  "bpp_golden": {
+   "ok": true,
+   "cases": 7,
+   "note": "",
+   "exit": 0,
+   "seconds": 12
+  },
+  "cli_golden": {
+   "ok": true,
+   "cases": 12,
+   "note": "B++ client scenes 3",
+   "exit": 0,
+   "seconds": 6
+  },
+  "protocol": {
+   "ok": true,
+   "cases": 52740,
+   "note": "messages checked; selftest PASS",
+   "exit": null,
+   "seconds": 3
+  },
+  "mutants": {
+   "ok": true,
+   "cases": 18,
+   "note": "guard_off@src/frameworks/space/server/movement.js grace_1000@src/frameworks/space/server/movement.js q_self@src/frameworks/bpp/server/poses.js nr_gap_200@src/frameworks/bpp/server/newrun.js nr_wait_round@src/frameworks/bpp/server/newrun.js nr_no_memory@src/frameworks/bpp/server/newrun.js nr_free_off@src/frameworks/bpp/server/newrun.js nr_held_free@generated/server/sim.js aft_el_half@src/frameworks/gib/server/aftermath.js aft_every_tick@src/frameworks/gib/server/aftermath.js aft_victim_replay@src/frameworks/gib/server/aftermath.js aft_one_per_player@src/frameworks/gib/server/aftermath.js aft_world_tick@src/frameworks/gib/server/aftermath.js aft_killer_end@src/frameworks/gib/server/aftermath.js aft_boom_revive@src/frameworks/gib/server/aftermath.js aft_revive_end@src/frameworks/overseer/server/admin.js",
+   "exit": 0,
+   "seconds": 28
+  },
+  "static": {
+   "ok": true,
+   "cases": 4,
+   "note": "",
+   "exit": 0,
+   "seconds": 1
+  },
+  "raw_live": {
+   "ok": true,
+   "cases": 173,
+   "note": "responses for changed files: index.html, mp.js",
+   "exit": 0,
+   "seconds": 24
+  },
+  "quick_suites": {
+   "ok": true,
+   "cases": 23,
+   "note": "s_humanqa_hotfix 5/6, s_ir 3/3, interp_test 3, test_3bn 7/7, ir_net 4/4 (only the known B++ failures fail)",
+   "exit": 0,
+   "seconds": 8
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-14T23:22:07.882Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate",
+  "srv_keep",
+  "bpp_keep",
+  "cli_keep",
+  "cli_h2_keep"
+ ]
+}

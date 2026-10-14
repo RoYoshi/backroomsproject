@@ -1,0 +1,6 @@
+ok   real                    exit 0  
+ok   replacement_undeclared  exit 1  moved to dev/archive/readme-history/README_UNTIL_3H.md, and a new file stands at README.md: not declared in other.replaced
+ok   replacement_not_made    exit 1  declared as replaced but not: 2D_SHADOWS_REPORT.md
+ok   moved_elsewhere         exit 1  missing (not runtime): 2D_SHADOWS_REPORT.md -> dev/archive/2d-shadows/NOT_HERE.md
+ok   move_undeclared         exit 1  missing (not runtime): 2D_SHADOWS_REPORT.md
+SCOPE CASES: the real declarations pass; every wrong declaration about the moved root files is refused

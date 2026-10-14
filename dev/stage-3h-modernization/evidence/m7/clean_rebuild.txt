@@ -1,0 +1,7 @@
+source: working tree copy; node v22.22.2
+build:check before: BUILD CHECK: PASS (40 outputs and the manifest are what src/ builds)
+--clean: 41 of 41 built files removed; other files touched: 0
+build: built 40 outputs (41 files written, 0 already up to date)
+compare: 41 of 41 identical to the source
+build:check after: BUILD CHECK: PASS (40 outputs and the manifest are what src/ builds)
+CLEAN REBUILD: PASS

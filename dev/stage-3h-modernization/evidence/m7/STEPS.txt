@@ -1,0 +1,70 @@
+# Stage 3H engine modernization, checkpoint M7: H3M-7, the root archive and the developer documentation
+# $SP is the session's scratch folder. The parent is M3 = 2aac0b1. No runtime file changed: no file under public/ or generated/, no
+# server file, no part. B++ = 143b63f; frozen 3H2 = 22751bb.
+
+## the root archive (dev/stage-3h-modernization/tools/m7_archive_root.py)
+  --apply moved H3M-0's plan (inventory/ROOT_ARCHIVE_PLAN.csv: 128 stage reports, change lists, QA pages and images) and the root
+  README.md into dev/archive/<era>/ with git mv. Before moving it checked the targets for collisions (case and Unicode folded) and that
+  each file was the blob the plan recorded; after each move it compared the bytes. It wrote the ledger dev/archive/root_cleanup.csv
+  (the master pack's columns), dev/archive/INDEX.md (every old root name -> new path), a README per era and the root listings.
+  A short README.md was then written at the root by hand (the scope step's other.replaced declares it), and
+  --root-after rewrote dev/archive/ROOT_AFTER.txt from the root as it now is. The era README of readme-history was corrected by hand
+  (its title line named the old README's first heading).
+python3 -I -B dev/stage-3h-modernization/tools/m7_archive_root.py --verify         exit 0  129 files where the ledger says, byte for
+                                                                                         byte (blob id and SHA-256 before = after), each a
+                                                                                         file of B++ (archive_verify.txt)
+python3 -I -B dev/stage-3h-modernization/tools/m7_archive_root.py --audit           exit 0  REFERENCE AUDIT: PASS (reference_audit.*)
+  root: 141 entries (134 files) before, 13 entries (6 files) now: .github/ README.md audio_source/ dev/ docs/ generated/ package.json
+  public/ redirect.js run_linux.sh run_windows.bat server.js src/ (ROOT_AFTER.txt current); 129 files moved into 11 eras (106 markdown,
+  21 text, 2 images).
+  Active files (src/, public/, generated/, docs/, the root, dev/tools/) name a moved report only by its new path, in the scope step's
+  move declarations, or in the game's own bytes: two served scripts' comments (public/assets/level0_visuals.js, public/index.html), the
+  source of the first, and the lineage record of index.html's text. Those are kept: their bytes are the game's (FINDINGS M-026).
+  Earlier stages' files (159), this stage's inventories and tools (6) and the archive itself (98) keep the old names as they were.
+node dev/stage-3h-modernization/tools/m7_scope_cases.js --work $SP/em2/work/m7e_scope   exit 0  (scope_cases.*) the real declarations pass;
+                                                                                         refused: the new README undeclared, a
+                                                                                         replacement declared but not made, a moved
+                                                                                         file declared elsewhere, a move undeclared
+
+## the documentation
+  New: README.md (short), docs/development/QUICKSTART.md, docs/architecture/FRAMEWORKS.md, RUNTIME_FLOWS.md, BUILD_PIPELINE.md,
+  CONTRACTS.md, PARITY_MATRIX.md, ADRS/ADR-003-server-modules.md, ADRS/ADR-004-owned-parts.md; a README.md in each of the 20 framework
+  folders (8 new folders hold only their README: the frameworks with no code). Their tables of files, outputs, frameworks and window
+  globals are written by dev/tools/docs/docs.js from the repository, between markers; the text around them is written by hand.
+  The gate has a new fast step, docs (dev/tools/docs/docs.js --check). The scope step counts the moved files as compared (198, as
+  before the move) and reports the moved and replaced ones.
+node dev/tools/docs/docs.js --check                                                exit 0  DOCS CHECK: PASS (23 generated blocks in 23
+                                                                                         documents) (docs_check.txt)
+node dev/stage-3h-modernization/tools/m7_docs_mutants.js --work $SP/em2/work/m7e_docs    exit 0  (docs_mutants.*) the untouched copy passes;
+                                                                                         refused (10 of 10): a new recipe, a new file in a
+                                                                                         framework, a new window global, a part's new
+                                                                                         title, a row removed, a hand edit in a block, a
+                                                                                         block renamed, a README deleted, a block removed,
+                                                                                         a block in another document
+
+## the build from nothing
+node dev/stage-3h-modernization/tools/m7_clean_rebuild.js --work $SP/em2/work/m7e_clean  exit 0  (clean_rebuild.*) on a copy of the working
+                                                                                         tree: build:check PASS; --clean removed 41 of 41
+                                                                                         built files and touched no other; npm run build
+                                                                                         wrote 41; 41 of 41 identical; build:check PASS.
+                                                                                         Node only: no npm install, no network
+
+## the proof (no runtime file changed)
+node dev/tools/build/build.js --check                                     exit 0  BUILD CHECK: PASS (40 outputs) (build_check.txt)
+node dev/stage-3h-modernization/tools/m1_relocate.js --verify             exit 0  40 of 40 built outputs and 25 of 25 static files byte-identical
+                                                                                  to the frozen 3H2's files (outputs_vs_3h2.json)
+node dev/tools/gate/gate.js --tier fast --out $SP/em2/work/gate_m7_fast   exit 0  PASS, 13 of 13 steps (gate_fast/): build 40, lineage 83,
+                                                                                  parts 64, docs 23, scope 198 (other files: 5 identical,
+                                                                                  129 moved, 1 replaced, all declared), srv_golden 11,
+                                                                                  bpp_golden 7, cli_golden 12, protocol 52,740, mutants 18,
+                                                                                  static 4, raw_live 173, quick_suites 23
+  The full gate is H3M-8's.
+
+## the remote
+  M3's receipt is copied into evidence/remote/verify_m3_2aac0b1.json. This checkpoint's receipt is written after the push
+  (verify_remote_m.py M7) and copied in by the next checkpoint.
+python3 -I -B dev/stage-3h-modernization/tools/secret_scan_m.py --extra <private list>   exit 0  CLEAN before the commit (secret_scan.*); run
+                                                                                  again with --rev HEAD after it (the next checkpoint keeps it)
+  The scan now lists, without scanning, a file under dev/archive/ whose bytes are a file of the parent (published there already): here
+  one, dev/archive/readme-history/README_UNTIL_3H.md, the parent's README.md (git sees it as added, because a new README.md stands at
+  the root). The 128 other moved files are renames, which the scan never read. Every other file under dev/archive/ is scanned.

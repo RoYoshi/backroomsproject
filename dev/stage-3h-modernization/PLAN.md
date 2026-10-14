@@ -5,13 +5,15 @@ This file states the decisions the waves follow. When the live code forces a cha
 ## 1. Where things live
 
 ```text
-/                     README.md, package.json, server.js (thin bootstrap), redirect.js (deployment), run_*.sh/.bat, .github/
+/                     README.md, package.json, server.js (thin bootstrap; since M2 the composition root, the session held: M-023),
+                      redirect.js (deployment), run_*.sh/.bat, .github/
 src/                  canonical, human-edited source
   core/server/        the server's composition root: configuration in, wiring, start
   core/client/        the page's composition: the multiplayer layer's prologue, per-frame hook, epilogue
   frameworks/<name>/  one folder per framework name; client/ server/ shared/ lanes only where code exists; README.md in each
-  shared/             pure contracts and constants shared by several owners (no logic dumping ground)
-  integrations/       explicit adapters between two owners
+  shared/             pure contracts and constants shared by several owners (no logic dumping ground). Not created: no code
+                      needed it; code that the page and the server both load lives in its owner's shared/ lane
+  integrations/       explicit adapters between two owners. Not created: no adapter was needed
   build-recipes.json  every built output: its parts, in order
 public/               THE WEB ROOT, and the only folder the server serves:
                         - static files (index.html, media, CSS, the manifest);
@@ -60,7 +62,7 @@ differs from what the sources build.
 | H3M-2 server modules (done at M2) | `server.js` becomes the composition root; its code is regrouped by owner. The WebSocket session, which holds the passcode check and its lockout, stays in `server.js` (M-023) | server goldens byte-identical (traces, timers, sockets, console), protocol, mutants, live real-server checks, two real browsers |
 | H3M-3..5 parts (done at M3) | none: byte-identical outputs | `build:check` (bytes), the parts checker, a smoke run |
 | H3M-6 bundle (revised at M1-R, ADR-002; done at M6a) | none: the bundle and stylesheet become build outputs of the v11 output plus the lineage ledger, byte-identical; the PixiJS chunks, copies of the v11 output | `lineage.js verify` (every step's hashes, the replayed files = the shipped ones), `build:check`, the recovered snapshot's blob and tree ids, the `__api` contract ledger |
-| H3M-7 archive and docs | none | hash ledger (before = after), reference audit, root listing |
+| H3M-7 archive and docs (done at M7) | none: 129 root files moved into `dev/archive/` byte for byte; a short root README; the developer documentation; a `docs` gate step | hash ledger (before = after), reference audit, root listing and scorecard, the scope step (moved and replaced files declared), the docs check and its tamper cases, the fast gate |
 | H3M-8 final | none | the full gate against B++ and 3H2; clean-checkout build; package |
 
 ## 5. Gate and tests
@@ -105,5 +107,5 @@ compatibility island with its `__api` ledger, and the final status was to be VER
 1. **M1-R.** This intake, the lineage, the contract and the revised plan, checkpointed. Done.
 2. **H3M-1.** Finish the test and harness migration and the gate. Done at M1.
 3. **H3M-6.** The integration described above. Done at M6a.
-4. **H3M-2** (done at M2, with the session held in `server.js`: M-023), **H3M-3 to H3M-5** (done at M3), then **H3M-7, H3M-8,** as
-   planned.
+4. **H3M-2** (done at M2, with the session held in `server.js`: M-023), **H3M-3 to H3M-5** (done at M3), **H3M-7** (done at M7), then
+   **H3M-8,** as planned.

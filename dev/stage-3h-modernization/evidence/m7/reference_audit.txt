@@ -1,0 +1,14 @@
+ROOT: 141 entries before (134 files), 13 now (6 files): .github/ README.md audio_source/ dev/ docs/ generated/ package.json public/ redirect.js run_linux.sh run_windows.bat server.js src/
+MOVED: 129 files into 11 eras of dev/archive/ (2 image, 106 markdown, 21 text); ROOT_AFTER.txt current
+active             6 files,   263 references (129 archive path, 134 bare name)
+this stage         6 files,  1818 references (128 archive path, 1690 bare name)
+earlier stages   159 files,   763 references (731 bare name, 32 relative path)
+archive           98 files,  1327 references (128 archive path, 943 bare name, 256 relative path)
+  active: dev/tools/gate/declared_changes.json: 128 references: the move declarations (the gate's scope step)
+  active: dev/tools/gate/declared_changes.json: 128 references: by its new path
+  active: docs/architecture/CONTRACTS.md: 1 reference: by its new path
+  active: public/assets/level0_visuals.js: 2 references: the game's own bytes, kept (the ledger notes it)
+  active: public/index.html: 1 reference: the game's own bytes, kept (the ledger notes it)
+  active: src/core/client/bundle/lineage/html/H26.json: 1 reference: the game's own bytes, kept (the ledger notes it)
+  active: src/frameworks/lost/client/level0_visuals.js: 2 references: the game's own bytes, kept (the ledger notes it)
+REFERENCE AUDIT: PASS (0 problems)

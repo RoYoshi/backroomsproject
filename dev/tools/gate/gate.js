@@ -9,6 +9,7 @@
  *   - lineage (added at H3M-6): dev/tools/lineage/lineage.js verify and tree-id (the client lineage replays, blame.json is current, and
  *     src/core/client/bundle/original-v11/ is the recovered v11 snapshot);
  *   - parts (added at H3M-3): dev/tools/checks/parts.js (every part of a built output declares its interface; the code agrees);
+ *   - docs (added at H3M-7): dev/tools/docs/docs.js --check (the documentation's generated tables are what the repository gives today);
  *   - scope: dev/tools/gate/scope_m.js (every file outside dev/ is B++'s, moved where the layout says, or a declared change listed in
  *     dev/tools/gate/declared_changes.json; it replaces --allow-prod);
  *   - the harnesses that read runtime files by path are the layout-aware copies in dev/tools/gate/golden/ and checks/ (srv_harness,
@@ -18,9 +19,9 @@
  * The tools that never read a runtime file by path (protocol_v2, suites, static_check, live_wire_h2, place_replay, place_guard_check,
  * two_browser, col_browser, gameplay_smoke, contact_lab, compare_captures) are used where they are.
  *
- *   --tier fast   (default, a few minutes) build, lineage, parts, scope, srv_golden, bpp_golden, cli_golden, protocol, mutants, static, raw_live,
- *                 quick_suites
- *   --tier full   (the final candidate; about 40 minutes) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, contact_lab,
+ *   --tier fast   (default, a few minutes) build, lineage, parts, docs, scope, srv_golden, bpp_golden, cli_golden, protocol, mutants, static,
+ *                 raw_live, quick_suites
+ *   --tier full   (the final candidate; about 35 minutes on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, contact_lab,
  *                 suites, perf
  * Everything is written under --out (default: a scratch folder): gate_report.json plus each tool's log and report.
  *
@@ -96,8 +97,11 @@ const STEPS = {
     const r = run('parts', ['node', 'dev/tools/checks/parts.js', '--out', o('parts.json')]), j = J(o('parts.json'));
     const n = j ? j.outputs.reduce((a, x) => a + x.parts.length, 0) : 0;
     return { ok: r.exit === 0 && !!j && j.ok, cases: n, note: j ? `${j.outputs.length} outputs built from parts; every header agrees with the code (TypeScript ${j.typescript})` : (r.text.trim().split('\n').pop() || '').slice(0, 160), r }; },
+  docs: () => {                                                           // (H3M-7) the documentation's generated tables are current
+    const r = run('docs', ['node', 'dev/tools/docs/docs.js', '--check']), m = /\((\d+) generated blocks in (\d+) documents/.exec(r.text);
+    return { ok: r.exit === 0 && /DOCS CHECK: PASS/.test(r.text), cases: m ? +m[1] : 0, note: (r.text.trim().split('\n').pop() || '').slice(0, 160), r }; },
   scope: () => { const r = run('scope', ['node', G('scope_m.js'), '--out', o('scope.json')]); const j = J(o('scope.json'));
-    return { ok: r.exit === 0 && j && j.ok, cases: j ? j.counts.runtimeIdentical + j.counts.runtimeChanged + j.counts.runtimeAdded + j.counts.otherIdentical : 0, note: j ? `runtime changed (declared): ${Object.keys(j.runtime.changed).join(', ')}; added: ${Object.keys(j.runtime.added).join(', ')}` : '', r }; },
+    return { ok: r.exit === 0 && j && j.ok, cases: j ? j.counts.runtimeIdentical + j.counts.runtimeChanged + j.counts.runtimeAdded + j.counts.otherIdentical + (j.counts.otherMoved || 0) : 0, note: j ? `runtime changed (declared): ${Object.keys(j.runtime.changed).join(', ')}; added: ${Object.keys(j.runtime.added).join(', ')}; other files: ${j.counts.otherIdentical} identical, ${j.counts.otherMoved || 0} moved, ${j.counts.otherReplaced || 0} replaced (declared)` : '', r }; },
   srv_golden: () => { const r = run('srv_golden', ['node', G('golden', 'srv_golden.js'), '--old-ref', BPP, '--baseline', path.join(E1, 'srv_traces'), '--out', o('srv'), '--keep', o('srv_keep')]); const j = J(o('srv', 'srv_golden_report.json'));
     const n = j ? j.scenarios.length : 0, exp = j ? j.scenarios.flatMap(s => (s.baseline && s.baseline.expectedContentChanges || []).map(x => x.file)) : [];
     return { ok: r.exit === 0 && j && j.ok && n === 11, cases: n, note: exp.length ? 'HTTP lines about changed files: ' + [...new Set(exp)].join(', ') : 'identical to the baseline', r }; },
@@ -189,7 +193,7 @@ const STEPS = {
 };
 const QUICK = ['s_humanqa_hotfix', 's_ir', 'interp_test', 'test_3bn', 'ir_net'];
 function suiteNote(j) { return Object.entries(j.suites).map(([n, x]) => `${n} ${x.summary ? x.summary.passed + '/' + x.summary.total : x.ran}${x.ok ? '' : ' FAIL'}`).join(', ') + ' (only the known B++ failures fail)'; }
-const FAST = ['build', 'lineage', 'parts', 'scope', 'srv_golden', 'bpp_golden', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites'];
+const FAST = ['build', 'lineage', 'parts', 'docs', 'scope', 'srv_golden', 'bpp_golden', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites'];
 const FULL = FAST.concat(['cli_mutants', 'live_wire', 'bpp_checks', 'browsers', 'contact_lab', 'suites', 'perf']);
 const steps = ARG.only ? ARG.only.split(',') : ARG.tier === 'full' ? FULL : FAST;
 const R = { tool: 'dev/tools/gate/gate.js', tier: ARG.tier, declared: 'dev/tools/gate/declared_changes.json', base: BPP, head: execFileSync('git', ['-C', REPO, 'rev-parse', 'HEAD']).toString().trim(), startedAt: new Date().toISOString(), out: OUT, steps: {}, ok: true };

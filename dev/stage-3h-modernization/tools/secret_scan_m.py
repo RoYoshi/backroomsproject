@@ -17,6 +17,9 @@ Checks, each reported with file and line; every match on a reported line is mask
   - IPv4 addresses outside loopback, private, link-local and the documentation ranges (192.0.2/24, 198.51.100/24, 203.0.113/24);
   - personal home folders: a named user's folder under a Users folder (macOS, Windows) or under /home other than the build machine's;
   - no file whose name says it is private (the private security findings stay outside the repository).
+One kind of file is listed but not scanned (H3M-7): a file under dev/archive/ whose bytes are a file of the parent (the root's reports
+and old README, moved there byte for byte). Its bytes were published at the parent already, so it adds nothing; everything else in
+dev/archive/ (the indexes, the ledger) is scanned like any other file.
 Before scanning, a self-test feeds the checks synthetic text in memory (nothing is written): each planted item must be found, and each
 look-alike that is allowed (documentation and private addresses, version numbers, example e-mail domains, the passcode's own line in
 server.js) must not be.  Exit status 0 only when the self-test passes and the scan finds nothing."""
@@ -117,20 +120,26 @@ else:
     names = [n for n in git('diff', '--name-only', '--diff-filter=AM', PARENT).decode().splitlines() if n]
     names += [n for n in git('ls-files', '--others', '--exclude-standard').decode().splitlines() if n and n not in names]
 read = (lambda n: git('show', f'{A.rev}:{n}')) if A.rev else (lambda n: open(n, 'rb').read())
-ST = self_test(); found, kinds = [], {}
+PARENT_BLOBS = {}
+for l in git('ls-tree', '-r', '-z', PARENT).decode().split('\0'):
+    if l: PARENT_BLOBS.setdefault(l.split('\t', 1)[0].split()[2], l.split('\t', 1)[1])
+blob = lambda b: hashlib.sha1(b'blob %d\0' % len(b) + b).hexdigest()
+ST = self_test(); found, kinds, archived = [], {}, []
 for n in sorted(names):
     try: b = read(n)
     except (subprocess.CalledProcessError, FileNotFoundError, IsADirectoryError): continue
+    if n.startswith('dev/archive/') and blob(b) in PARENT_BLOBS: archived.append({'file': n, 'blob': blob(b), 'parentPath': PARENT_BLOBS[blob(b)]}); continue
     ext = os.path.splitext(n[:-3] if n.endswith('.gz') else n)[1].lower(); kinds[ext] = kinds.get(ext, 0) + 1
     found += scan(n, b, LITERALS + EXTRA)
 by = {}
 for f in found: by[f['check']] = by.get(f['check'], 0) + 1
 R = {'tool': 'dev/stage-3h-modernization/tools/secret_scan_m.py', 'rev': A.rev or 'working tree', 'parent': PARENT, 'filesScanned': sum(kinds.values()), 'byType': dict(sorted(kinds.items())),
-     'extraStrings': len(EXTRA), 'checks': CHECKS, 'selfTest': ST, 'findings': len(found), 'byCheck': by, 'details': found, 'clean': not found, 'ok': ST['ok'] and not found}
+     'extraStrings': len(EXTRA), 'checks': CHECKS, 'selfTest': ST, 'archivedParentFiles': archived, 'findings': len(found), 'byCheck': by, 'details': found, 'clean': not found, 'ok': ST['ok'] and not found}
 if A.out: open(A.out, 'w').write(json.dumps(R, indent=1, ensure_ascii=False) + '\n')
 print(f'self-test: {ST["caught"]}/{ST["planted"]} planted items found, {len(ST["falseFindings"])} findings on {ST["allowedLookAlikes"]} lines of allowed look-alikes: {"PASS" if ST["ok"] else "FAIL " + json.dumps(ST)}')
 print(f'{R["filesScanned"]} files scanned (' + ', '.join(f'{v} {k or "(no extension)"}' for k, v in sorted(kinds.items())) + f'), {len(EXTRA)} extra string(s)')
 print('checks: ' + ', '.join(CHECKS))
+if archived: print(f'not scanned: {len(archived)} file(s) under dev/archive/ byte-identical to a file of the parent (published there already): ' + ', '.join(f"{a['file']} (= {a['parentPath']})" for a in archived))
 for f in found[:60]: print(f'  {f["check"]}: {f["file"]}:{f["line"]}: {f["context"][:150]}')
 print('CLEAN: nothing found' if not found else f'FOUND {len(found)}: {by}')
 sys.exit(0 if R['ok'] else 1)

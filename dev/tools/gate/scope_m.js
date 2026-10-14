@@ -9,7 +9,8 @@
  *      B++'s (its Git tree) against the working tree's (wherever the layout puts each one, Git blob ids).  Each is identical, or a
  *      declared change, addition or removal (declared_changes.json, with its reason).  A declared entry that did not happen fails too;
  *   2. the files outside dev/ that are not runtime (the root reports, README.md, redirect.js, run_*.sh, .github/, audio_source/): identical
- *      at the same path, or declared as moved, and then identical where they went;
+ *      at the same path, or declared as moved, and then identical where they went; a new file at a moved file's old path is declared in
+ *      other.replaced (H3M-7: the short README.md);
  *   3. a new path outside dev/ is runtime (public/), source (src/), a build output (generated/: build:check proves those) or documentation
  *      (docs/); anything else is reported;
  *   4. two files whose copies the layout keeps in two places (world.js, dphys.js: public/ and generated/server/) are identical;
@@ -48,6 +49,10 @@ for (const [p, b] of BASE) {
   if (!fs.existsSync(f)) { problem(`missing (not runtime): ${p}${moved ? ' -> ' + moved : ''}`); continue; }
   if (blobId(fs.readFileSync(f)) !== b) { problem(`changed (not runtime): ${at}`); continue; }
   if (moved) R.other.moved[p] = moved; else R.other.identical++;
+  /* (H3M-7) a file moved away whose old path holds a new file (the short README): declared in other.replaced, with its reason */
+  const replaced = (DECL.other && DECL.other.replaced || {})[p];
+  if (moved && fs.existsSync(path.join(REPO, p))) { if (replaced) (R.other.replaced = R.other.replaced || {})[p] = replaced; else problem(`moved to ${moved}, and a new file stands at ${p}: not declared in other.replaced`); }
+  else if (replaced) problem(`declared as replaced but not: ${p}`);
 }
 
 /* 3. new paths outside dev/ */
@@ -73,7 +78,7 @@ R.passcodeLine = { present: !!pw, sameAsBase: !!pb && sha(pb) === sha(pw) };
 if (!R.passcodeLine.sameAsBase) problem('the admin passcode line of server.js is not byte-identical to B++');
 
 R.counts = { runtimeIdentical: R.runtime.identical, runtimeChanged: Object.keys(R.runtime.changed).length, runtimeAdded: Object.keys(R.runtime.added).length, runtimeRemoved: Object.keys(R.runtime.removed).length,
-  otherIdentical: R.other.identical, otherMoved: Object.keys(R.other.moved).length, newPaths: Object.values(R.newPaths).reduce((s, x) => s + x, 0) };
+  otherIdentical: R.other.identical, otherMoved: Object.keys(R.other.moved).length, otherReplaced: Object.keys(R.other.replaced || {}).length, newPaths: Object.values(R.newPaths).reduce((s, x) => s + x, 0) };
 if (ARG.out) fs.writeFileSync(ARG.out, JSON.stringify(R, null, 1) + '\n');
 console.log(`runtime: ${R.counts.runtimeIdentical} identical to B++, changed ${Object.keys(R.runtime.changed).join(' ') || '-'}, added ${Object.keys(R.runtime.added).join(' ') || '-'}, removed ${Object.keys(R.runtime.removed).join(' ') || '-'}`);
 console.log(`other files: ${R.counts.otherIdentical} identical, ${R.counts.otherMoved} moved; new paths: ${JSON.stringify(R.newPaths)}; passcode line ${R.passcodeLine.sameAsBase ? 'unchanged' : 'CHANGED'}`);

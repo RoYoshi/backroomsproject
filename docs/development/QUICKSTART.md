@@ -1,0 +1,74 @@
+# Quickstart
+
+## What you need
+
+| To | You need |
+|---|---|
+| Run the game | Node.js 18 or later. No `npm install`: the game has no dependencies |
+| Build, check the build, run the scenario suite | the same |
+| Run the gate (`npm run gate`) | Git with this repository's full history (the gate reads the accepted build, `143b63f`, from it: a shallow clone will not do); TypeScript installed globally (`npm i -g typescript`) for the parts check; Playwright for Node installed globally, with Chromium (`npm i -g playwright`, then `npx playwright install chromium`), for the client goldens |
+| Run the full gate (`npm run gate:full`) | also Python 3 with Playwright for Python, Pillow and NumPy (`pip install playwright pillow numpy`) for the browser checks and the contact lab |
+
+Everything here was run on Linux with Node 22 (the gate's evidence says which machine). On Windows, use `node <script>` rather
+than the `.sh` files; `run_windows.bat` starts the game.
+
+## Run the game
+
+```text
+node server.js                 The Far Backrooms → http://localhost:8000  (share  ?room=NAME  to group up)
+```
+
+Open http://localhost:8000. A second browser on the same address and `?room=` joins the same world. The admin panel opens with the
+backquote key; give the server a passcode with `ADMIN_PASSCODE=... node server.js`.
+
+## Change something
+
+1. **Find the owner.** [`docs/architecture/FRAMEWORKS.md`](../architecture/FRAMEWORKS.md) lists every framework and its folder; each
+   `src/frameworks/<name>/README.md` lists its files.
+2. **Edit the source in `src/`.** Never edit `public/*.js`, `public/assets/*.js` (except the static ones) or `generated/`: the build
+   writes them. A file that begins with `/** @part` is one part of a bigger script: its header says which, and what it shares with the
+   others.
+3. **Build.** `npm run build` rewrites what changed:
+
+   ```text
+   built 40 outputs (2 files written, 39 already up to date)
+   ```
+
+4. **Check.** `npm run build:check` must say `BUILD CHECK: PASS`. If you edited a part,
+   `node dev/tools/checks/parts.js` checks its header; `node dev/tools/checks/parts.js --fix <output>` rewrites the header's lists from
+   the code (then read the diff). The compiled client bundle and its stylesheet are not edited this way: see
+   [`src/core/client/bundle/README.md`](../../src/core/client/bundle/README.md).
+5. **Test.** `npm test` runs the scenario suite on the real simulation (about 5 minutes). 13 of its 162 cases fail on the accepted
+   build too; `dev/stage-3h/gate/known_failures_bpp.json` lists every known failure. `npm run gate` compares the whole game with the
+   accepted build (about 2 minutes on 2 CPUs; it prints one line per step and `MODERNIZATION GATE (fast): PASS`).
+6. **Commit the built files with the sources.** The production host runs `node server.js` from a fresh pull, with no build step.
+
+## Tests, from quick to thorough
+
+| Command | What it checks | Time |
+|---|---|---|
+| `npm run build:check` | every built file is what `src/` builds | seconds |
+| `node dev/tools/checks/parts.js` | every part's header agrees with its code | seconds |
+| `node dev/tools/lineage/lineage.js verify` | the compiled bundle's lineage replays byte for byte | seconds |
+| `npm test` (`node dev/tests/run.js [file]`) | the scenario suite on the real simulation; one file: `npm run test:hound` and the others in `package.json` | minutes |
+| `npm run gate` | the fast tier of the gate: build, lineage, parts, docs, scope, the server and client goldens against the accepted build, the protocol, the mutants, the HTTP surface, the quick suites | ~2 min |
+| `npm run gate:full` | everything, with two real browsers, the contact lab's pixels, all suites and performance | ~35 min |
+
+The gate writes everything under `--out <folder>` (default: a temporary folder) and says where. `dev/tools/gate/README.md` explains each
+step and what it cannot see.
+
+## When something goes wrong
+
+- **`EADDRINUSE`**: another server has the port. `node server.js 9000`.
+- **`BUILD CHECK: FAIL ... differs from what its sources build`**: a built file was edited by hand, or `npm run build` was not run
+  after a source change. Run `npm run build`, and edit the source next time.
+- **`BUILD ERROR: ... step B.. did not give the recorded bytes`**: the compiled bundle's lineage does not replay; see
+  `src/core/client/bundle/README.md`.
+- **`PARTS CHECK: FAIL`**: a part's header lists names its code does not have, or misses some. `--fix <output>` rewrites the lists.
+  "a statement ... straddles two parts" means a split cuts a statement in two: move the boundary.
+- **The gate's `perf` step fails once**: on a small machine its seven rounds can miss by chance (FINDINGS M-021). Measure before anything
+  else: `node dev/stage-3h-modernization/tools/m1_perf_paired.js --work <empty folder> --scenario <the failing one>`, then run the step
+  again (`node dev/tools/gate/gate.js --only perf`).
+- **`place_replay` fails one case**: a glitched wall can land on its walk by chance (3H F-036); `dev/tools/gate/README.md` says how to
+  tell.
+- **A suite shows failures**: compare with `dev/stage-3h/gate/known_failures_bpp.json`; the gate does that for you.

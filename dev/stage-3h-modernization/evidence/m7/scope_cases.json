@@ -1,0 +1,39 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/m7_scope_cases.js",
+ "cases": {
+  "real": {
+   "exit": 0,
+   "ok": true,
+   "problems": []
+  },
+  "replacement_undeclared": {
+   "exit": 1,
+   "ok": true,
+   "problems": [
+    "moved to dev/archive/readme-history/README_UNTIL_3H.md, and a new file stands at README.md: not declared in other.replaced"
+   ]
+  },
+  "replacement_not_made": {
+   "exit": 1,
+   "ok": true,
+   "problems": [
+    "declared as replaced but not: 2D_SHADOWS_REPORT.md"
+   ]
+  },
+  "moved_elsewhere": {
+   "exit": 1,
+   "ok": true,
+   "problems": [
+    "missing (not runtime): 2D_SHADOWS_REPORT.md -> dev/archive/2d-shadows/NOT_HERE.md"
+   ]
+  },
+  "move_undeclared": {
+   "exit": 1,
+   "ok": true,
+   "problems": [
+    "missing (not runtime): 2D_SHADOWS_REPORT.md"
+   ]
+  }
+ },
+ "ok": true
+}

@@ -1,0 +1,1913 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/m7_archive_root.py --audit",
+ "moved": 129,
+ "classes": {
+  "earlier stages": {
+   "files": 159,
+   "references": 763,
+   "by kind": {
+    "relative path": 32,
+    "bare name": 731
+   }
+  },
+  "archive": {
+   "files": 98,
+   "references": 1327,
+   "by kind": {
+    "bare name": 943,
+    "relative path": 256,
+    "archive path": 128
+   }
+  },
+  "this stage": {
+   "files": 6,
+   "references": 1818,
+   "by kind": {
+    "bare name": 1690,
+    "archive path": 128
+   }
+  },
+  "active": {
+   "files": 6,
+   "references": 263,
+   "by kind": {
+    "bare name": 134,
+    "archive path": 129
+   }
+  }
+ },
+ "active": [
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 28,
+   "name": "2D_SHADOWS_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 28,
+   "name": "2D_SHADOWS_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 29,
+   "name": "2D_SHADOWS_GIT_CHECKPOINTS.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 29,
+   "name": "2D_SHADOWS_GIT_CHECKPOINTS.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 30,
+   "name": "2D_SHADOWS_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 30,
+   "name": "2D_SHADOWS_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 31,
+   "name": "2D_SHADOWS_PERFORMANCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 31,
+   "name": "2D_SHADOWS_PERFORMANCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 32,
+   "name": "2D_SHADOWS_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 32,
+   "name": "2D_SHADOWS_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 33,
+   "name": "2D_SHADOWS_TEST_SUMMARY.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 33,
+   "name": "2D_SHADOWS_TEST_SUMMARY.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 34,
+   "name": "3H0_ARCHITECTURE_MAP.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 34,
+   "name": "3H0_ARCHITECTURE_MAP.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 35,
+   "name": "3H0_DEFERRED_FULL_3H.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 35,
+   "name": "3H0_DEFERRED_FULL_3H.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 36,
+   "name": "3H0_EQUIVALENCE_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 36,
+   "name": "3H0_EQUIVALENCE_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 37,
+   "name": "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 37,
+   "name": "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 38,
+   "name": "3H0_H0_1_BASELINE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 38,
+   "name": "3H0_H0_1_BASELINE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 39,
+   "name": "3H0_MP_API_LOCK.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 39,
+   "name": "3H0_MP_API_LOCK.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 40,
+   "name": "3H0_MP_OWNERSHIP_MAP.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 40,
+   "name": "3H0_MP_OWNERSHIP_MAP.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 41,
+   "name": "3H0_PROTOCOL_INVENTORY.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 41,
+   "name": "3H0_PROTOCOL_INVENTORY.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 42,
+   "name": "3H0_Q0_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 42,
+   "name": "3H0_Q0_AUDIT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 43,
+   "name": "3H0_SERVER_API_LOCK.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 43,
+   "name": "3H0_SERVER_API_LOCK.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 44,
+   "name": "3H0_SERVER_OWNERSHIP_MAP.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 44,
+   "name": "3H0_SERVER_OWNERSHIP_MAP.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 45,
+   "name": "BR_ROLE_1_0_ARCHITECTURE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 45,
+   "name": "BR_ROLE_1_0_ARCHITECTURE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 46,
+   "name": "BR_ROLE_1_0_CHANGED_FILES.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 46,
+   "name": "BR_ROLE_1_0_CHANGED_FILES.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 47,
+   "name": "BR_ROLE_1_0_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 47,
+   "name": "BR_ROLE_1_0_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 48,
+   "name": "BR_ROLE_1_0_PERFORMANCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 48,
+   "name": "BR_ROLE_1_0_PERFORMANCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 49,
+   "name": "BR_ROLE_1_0_TEST_SUMMARY.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 49,
+   "name": "BR_ROLE_1_0_TEST_SUMMARY.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 50,
+   "name": "BR_ROLE_BR0_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 50,
+   "name": "BR_ROLE_BR0_AUDIT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 51,
+   "name": "BR_ROLE_BR1_1_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 51,
+   "name": "BR_ROLE_BR1_1_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 52,
+   "name": "BR_ROLE_BR1_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 52,
+   "name": "BR_ROLE_BR1_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 53,
+   "name": "BR_ROLE_BR2_1_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 53,
+   "name": "BR_ROLE_BR2_1_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 54,
+   "name": "BR_ROLE_BR2_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 54,
+   "name": "BR_ROLE_BR2_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 55,
+   "name": "PART_2_AI01_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 55,
+   "name": "PART_2_AI01_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 56,
+   "name": "PART_2_AI02_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 56,
+   "name": "PART_2_AI02_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 57,
+   "name": "PART_2_CAMERA_FIX.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 57,
+   "name": "PART_2_CAMERA_FIX.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 58,
+   "name": "PART_2_ENTITY_LOOK_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 58,
+   "name": "PART_2_ENTITY_LOOK_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 59,
+   "name": "PART_2_FPS_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 59,
+   "name": "PART_2_FPS_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 60,
+   "name": "PART_2_FPS_EQUALITY.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 60,
+   "name": "PART_2_FPS_EQUALITY.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 61,
+   "name": "PART_2_HQA_AI01_SEARCH_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 61,
+   "name": "PART_2_HQA_AI01_SEARCH_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 62,
+   "name": "PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 62,
+   "name": "PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 63,
+   "name": "PART_2_HQA_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 63,
+   "name": "PART_2_HQA_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 64,
+   "name": "PART_2_HQA_HOTFIX_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 64,
+   "name": "PART_2_HQA_HOTFIX_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 65,
+   "name": "PART_2_HQA_TEST_SUMMARY.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 65,
+   "name": "PART_2_HQA_TEST_SUMMARY.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 66,
+   "name": "PART_2_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 66,
+   "name": "PART_2_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 67,
+   "name": "STAGE_2E_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 67,
+   "name": "STAGE_2E_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 68,
+   "name": "STAGE_2F_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 68,
+   "name": "STAGE_2F_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 69,
+   "name": "STAGE_2F_TEST_SUMMARY.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 69,
+   "name": "STAGE_2F_TEST_SUMMARY.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 70,
+   "name": "STAGE_3B_DONOR_LEDGER.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 70,
+   "name": "STAGE_3B_DONOR_LEDGER.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 71,
+   "name": "STAGE_3B_FINAL_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 71,
+   "name": "STAGE_3B_FINAL_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 72,
+   "name": "STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 72,
+   "name": "STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 73,
+   "name": "STAGE_3B_FINAL_PERFORMANCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 73,
+   "name": "STAGE_3B_FINAL_PERFORMANCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 74,
+   "name": "STAGE_3B_FINAL_POLISH_BR_ROLE_1_1_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 74,
+   "name": "STAGE_3B_FINAL_POLISH_BR_ROLE_1_1_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 75,
+   "name": "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 75,
+   "name": "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 76,
+   "name": "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 76,
+   "name": "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 77,
+   "name": "STAGE_3B_FINAL_POLISH_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 77,
+   "name": "STAGE_3B_FINAL_POLISH_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 78,
+   "name": "STAGE_3B_FINAL_POLISH_PERFORMANCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 78,
+   "name": "STAGE_3B_FINAL_POLISH_PERFORMANCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 79,
+   "name": "STAGE_3B_FINAL_PROP_CANON_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 79,
+   "name": "STAGE_3B_FINAL_PROP_CANON_AUDIT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 80,
+   "name": "STAGE_3B_FINAL_RENDERING_OPTIMIZATION.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 80,
+   "name": "STAGE_3B_FINAL_RENDERING_OPTIMIZATION.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 81,
+   "name": "STAGE_3B_FINAL_VISUAL_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 81,
+   "name": "STAGE_3B_FINAL_VISUAL_AUDIT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 82,
+   "name": "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 82,
+   "name": "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 83,
+   "name": "STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 83,
+   "name": "STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 84,
+   "name": "STAGE_3B_FINAL_VISUAL_POLISH_PERFORMANCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 84,
+   "name": "STAGE_3B_FINAL_VISUAL_POLISH_PERFORMANCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 85,
+   "name": "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 85,
+   "name": "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 86,
+   "name": "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 86,
+   "name": "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 87,
+   "name": "STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 87,
+   "name": "STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 88,
+   "name": "STAGE_3B_LIGHTING_QA_CORRECTION_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 88,
+   "name": "STAGE_3B_LIGHTING_QA_CORRECTION_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 89,
+   "name": "STAGE_3B_LIGHTING_QA_CORRECTION_PERFORMANCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 89,
+   "name": "STAGE_3B_LIGHTING_QA_CORRECTION_PERFORMANCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 90,
+   "name": "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 90,
+   "name": "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 91,
+   "name": "STAGE_3B_PROP_CANON_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 91,
+   "name": "STAGE_3B_PROP_CANON_AUDIT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 92,
+   "name": "STAGE_3B_QA2_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 92,
+   "name": "STAGE_3B_QA2_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 93,
+   "name": "STAGE_3B_QA2_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 93,
+   "name": "STAGE_3B_QA2_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 94,
+   "name": "STAGE_3B_QA2_PERFORMANCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 94,
+   "name": "STAGE_3B_QA2_PERFORMANCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 95,
+   "name": "STAGE_3B_VISUAL_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 95,
+   "name": "STAGE_3B_VISUAL_AUDIT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 96,
+   "name": "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 96,
+   "name": "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 97,
+   "name": "STAGE_3C_C0_UI_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 97,
+   "name": "STAGE_3C_C0_UI_AUDIT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 98,
+   "name": "STAGE_3C_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 98,
+   "name": "STAGE_3C_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 99,
+   "name": "STAGE_3C_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 99,
+   "name": "STAGE_3C_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 100,
+   "name": "STAGE_3C_PERFORMANCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 100,
+   "name": "STAGE_3C_PERFORMANCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 101,
+   "name": "STAGE_3C_QA1_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 101,
+   "name": "STAGE_3C_QA1_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 102,
+   "name": "STAGE_3C_QA1_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 102,
+   "name": "STAGE_3C_QA1_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 103,
+   "name": "STAGE_3C_QA1_MENU_COMPARISON.jpg",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 103,
+   "name": "STAGE_3C_QA1_MENU_COMPARISON.jpg",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 104,
+   "name": "STAGE_3C_QA1_PERFORMANCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 104,
+   "name": "STAGE_3C_QA1_PERFORMANCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 105,
+   "name": "STAGE_3C_QA1_Q0_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 105,
+   "name": "STAGE_3C_QA1_Q0_AUDIT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 106,
+   "name": "STAGE_3C_QA1_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 106,
+   "name": "STAGE_3C_QA1_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 107,
+   "name": "STAGE_3C_QA2_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 107,
+   "name": "STAGE_3C_QA2_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 108,
+   "name": "STAGE_3C_QA2_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 108,
+   "name": "STAGE_3C_QA2_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 109,
+   "name": "STAGE_3C_QA2_MENU_COMPARISON.jpg",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 109,
+   "name": "STAGE_3C_QA2_MENU_COMPARISON.jpg",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 110,
+   "name": "STAGE_3C_QA2_PERFORMANCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 110,
+   "name": "STAGE_3C_QA2_PERFORMANCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 111,
+   "name": "STAGE_3C_QA2_Q0_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 111,
+   "name": "STAGE_3C_QA2_Q0_AUDIT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 112,
+   "name": "STAGE_3C_QA2_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 112,
+   "name": "STAGE_3C_QA2_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 113,
+   "name": "STAGE_3C_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 113,
+   "name": "STAGE_3C_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 114,
+   "name": "STAGE_3D_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 114,
+   "name": "STAGE_3D_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 115,
+   "name": "STAGE_3D_D0_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 115,
+   "name": "STAGE_3D_D0_AUDIT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 116,
+   "name": "STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 116,
+   "name": "STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 117,
+   "name": "STAGE_3D_HQ1_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 117,
+   "name": "STAGE_3D_HQ1_AUDIT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 118,
+   "name": "STAGE_3D_HQ1_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 118,
+   "name": "STAGE_3D_HQ1_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 119,
+   "name": "STAGE_3D_HQ1_DEATH_LIGHT_PROTOCOL.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 119,
+   "name": "STAGE_3D_HQ1_DEATH_LIGHT_PROTOCOL.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 120,
+   "name": "STAGE_3D_HQ1_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 120,
+   "name": "STAGE_3D_HQ1_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 121,
+   "name": "STAGE_3D_HQ1_PERFORMANCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 121,
+   "name": "STAGE_3D_HQ1_PERFORMANCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 122,
+   "name": "STAGE_3D_HQ1_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 122,
+   "name": "STAGE_3D_HQ1_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 123,
+   "name": "STAGE_3D_HQ1_VISUAL_EVIDENCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 123,
+   "name": "STAGE_3D_HQ1_VISUAL_EVIDENCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 124,
+   "name": "STAGE_3D_HQ2_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 124,
+   "name": "STAGE_3D_HQ2_AUDIT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 125,
+   "name": "STAGE_3D_HQ2_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 125,
+   "name": "STAGE_3D_HQ2_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 126,
+   "name": "STAGE_3D_HQ2_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 126,
+   "name": "STAGE_3D_HQ2_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 127,
+   "name": "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 127,
+   "name": "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 128,
+   "name": "STAGE_3D_HQ2_PERFORMANCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 128,
+   "name": "STAGE_3D_HQ2_PERFORMANCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 129,
+   "name": "STAGE_3D_HQ2_PLAYER_COLLISION.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 129,
+   "name": "STAGE_3D_HQ2_PLAYER_COLLISION.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 130,
+   "name": "STAGE_3D_HQ2_REGRESSION.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 130,
+   "name": "STAGE_3D_HQ2_REGRESSION.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 131,
+   "name": "STAGE_3D_HQ2_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 131,
+   "name": "STAGE_3D_HQ2_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 132,
+   "name": "STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 132,
+   "name": "STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 133,
+   "name": "STAGE_3D_HQ3_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 133,
+   "name": "STAGE_3D_HQ3_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 134,
+   "name": "STAGE_3D_HQ3_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 134,
+   "name": "STAGE_3D_HQ3_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 135,
+   "name": "STAGE_3D_HQ3_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 135,
+   "name": "STAGE_3D_HQ3_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 136,
+   "name": "STAGE_3D_HQ4_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 136,
+   "name": "STAGE_3D_HQ4_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 137,
+   "name": "STAGE_3D_HQ4_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 137,
+   "name": "STAGE_3D_HQ4_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 138,
+   "name": "STAGE_3D_HQ4_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 138,
+   "name": "STAGE_3D_HQ4_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 139,
+   "name": "STAGE_3D_HQ5_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 139,
+   "name": "STAGE_3D_HQ5_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 140,
+   "name": "STAGE_3D_HQ5_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 140,
+   "name": "STAGE_3D_HQ5_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 141,
+   "name": "STAGE_3D_HQ5_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 141,
+   "name": "STAGE_3D_HQ5_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 142,
+   "name": "STAGE_3D_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 142,
+   "name": "STAGE_3D_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 143,
+   "name": "STAGE_3D_PERFORMANCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 143,
+   "name": "STAGE_3D_PERFORMANCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 144,
+   "name": "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 144,
+   "name": "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 145,
+   "name": "STAGE_3D_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 145,
+   "name": "STAGE_3D_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 146,
+   "name": "STAGE_3D_VARIANT_MATRIX.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 146,
+   "name": "STAGE_3D_VARIANT_MATRIX.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 147,
+   "name": "STAGE_3E0_BPLUSPLUS_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 147,
+   "name": "STAGE_3E0_BPLUSPLUS_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 148,
+   "name": "STAGE_3E0_BPLUSPLUS_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 148,
+   "name": "STAGE_3E0_BPLUSPLUS_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 149,
+   "name": "STAGE_3E0_BPLUS_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 149,
+   "name": "STAGE_3E0_BPLUS_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 150,
+   "name": "STAGE_3E0_BPLUS_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 150,
+   "name": "STAGE_3E0_BPLUS_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 151,
+   "name": "STAGE_3E0_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 151,
+   "name": "STAGE_3E0_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 152,
+   "name": "STAGE_3H0_CHANGED_FILES.txt",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 152,
+   "name": "STAGE_3H0_CHANGED_FILES.txt",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 153,
+   "name": "STAGE_3H0_HUMAN_QA.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 153,
+   "name": "STAGE_3H0_HUMAN_QA.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 154,
+   "name": "STAGE_3H0_PERFORMANCE.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 154,
+   "name": "STAGE_3H0_PERFORMANCE.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 155,
+   "name": "STAGE_3H0_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the move declarations (the gate's scope step)"
+  },
+  {
+   "file": "dev/tools/gate/declared_changes.json",
+   "line": 155,
+   "name": "STAGE_3H0_REPORT.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "docs/architecture/CONTRACTS.md",
+   "line": 24,
+   "name": "3H0_PROTOCOL_INVENTORY.md",
+   "kind": "archive path",
+   "accepted": "by its new path"
+  },
+  {
+   "file": "public/assets/level0_visuals.js",
+   "line": 6,
+   "name": "STAGE_3B_PROP_CANON_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the game's own bytes, kept (the ledger notes it)"
+  },
+  {
+   "file": "public/assets/level0_visuals.js",
+   "line": 170,
+   "name": "STAGE_3B_PROP_CANON_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the game's own bytes, kept (the ledger notes it)"
+  },
+  {
+   "file": "public/index.html",
+   "line": 29,
+   "name": "STAGE_3C_QA1_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the game's own bytes, kept (the ledger notes it)"
+  },
+  {
+   "file": "src/core/client/bundle/lineage/html/H26.json",
+   "line": 1,
+   "name": "STAGE_3C_QA1_REPORT.md",
+   "kind": "bare name",
+   "accepted": "the game's own bytes, kept (the ledger notes it)"
+  },
+  {
+   "file": "src/frameworks/lost/client/level0_visuals.js",
+   "line": 6,
+   "name": "STAGE_3B_PROP_CANON_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the game's own bytes, kept (the ledger notes it)"
+  },
+  {
+   "file": "src/frameworks/lost/client/level0_visuals.js",
+   "line": 170,
+   "name": "STAGE_3B_PROP_CANON_AUDIT.md",
+   "kind": "bare name",
+   "accepted": "the game's own bytes, kept (the ledger notes it)"
+  }
+ ],
+ "problems": [],
+ "scorecard": {
+  "root entries before": 141,
+  "root entries now": 13,
+  "root files before": 134,
+  "root files now": 6,
+  "root now": [
+   ".github/",
+   "README.md",
+   "audio_source/",
+   "dev/",
+   "docs/",
+   "generated/",
+   "package.json",
+   "public/",
+   "redirect.js",
+   "run_linux.sh",
+   "run_windows.bat",
+   "server.js",
+   "src/"
+  ],
+  "moved": 129,
+  "moved by type": {
+   "image": 2,
+   "markdown": 106,
+   "text": 21
+  },
+  "eras": 11,
+  "ROOT_AFTER.txt current": true
+ },
+ "ok": true
+}
