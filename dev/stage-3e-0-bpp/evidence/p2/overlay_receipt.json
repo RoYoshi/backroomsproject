@@ -1,0 +1,119 @@
+{
+ "commit": "d501afe4c065a555de709bb11f438a47a7b643ba",
+ "tree": "2a6af226e7cfa752ca2704502f6785859f09f767",
+ "bplus": {
+  "commit": "1f2deba0fc4a1facd41366fb2da9b88af3bd5a52",
+  "tree": "11686a0ab061a5a463bbfbd3bc7c8c42e26febd2"
+ },
+ "changed": [
+  "server.js"
+ ],
+ "clientFilesChanged": [],
+ "checks": {
+  "zip": {
+   "crcFirstBad": null,
+   "gameFilesEqualGit": {
+    "BPLUSPLUS_OVERLAY/server.js": true,
+    "REVERT_TO_BPLUS/server.js": true
+   },
+   "faviconUnchangedAndSupplied": true,
+   "ok": true
+  },
+  "overBplusExport": {
+   "runtimeFiles": 55,
+   "runtimeInCommit": 55,
+   "missing": [],
+   "extra": [],
+   "different": [],
+   "bplusExportWasBplus": true,
+   "filesChangedByTheOverlay": [
+    "server.js"
+   ],
+   "ok": true
+  },
+  "overHq5PlusBplusOverlay": {
+   "runtimeFiles": 55,
+   "runtimeInCommit": 55,
+   "missing": [],
+   "extra": [],
+   "different": [],
+   "bplusOverlaySha": "139f4664645825792de54cba2d57cf084adca4546676a7b4e115ec03806e349e",
+   "bplusOverlayIsTheDelivered": true,
+   "wasBplusBeforeBpp": true,
+   "ok": true
+  },
+  "revertToBplus": {
+   "runtimeFiles": 55,
+   "runtimeInCommit": 55,
+   "missing": [],
+   "extra": [],
+   "different": [],
+   "ok": true
+  },
+  "runs": {
+   "favicon": {
+    "status": 200,
+    "type": "image/x-icon",
+    "sameBytes": true
+   },
+   "pages": {
+    "version": "br-role 1.2-candidate",
+    "bob": {
+     "mode": "bplus",
+     "fast": true,
+     "counts": {
+      "s": 255,
+      "q": 10,
+      "qApplied": 10,
+      "qStale": 0,
+      "qUnknown": 0
+     }
+    },
+    "alice": {
+     "mode": "bplus",
+     "fast": true
+    },
+    "iconLinks": [
+     "./favicon.ico"
+    ],
+    "qBefore": 0,
+    "placement": {
+     "bobBefore": [
+      504,
+      888
+     ],
+     "bobPage": [
+      1012,
+      690
+     ],
+     "serverSaysViaAlice": [
+      1012,
+      690
+     ],
+     "kept": true
+    }
+   },
+   "pageErrors": [],
+   "ok": true
+  }
+ },
+ "ok": true,
+ "written": "2026-10-14T04:32:51Z",
+ "final": {
+  "crcFirstBad": null,
+  "gameFilesEqualGit": true,
+  "entries": [
+   "BPLUSPLUS_OVERLAY/server.js",
+   "REVERT_TO_BPLUS/server.js",
+   "WHERE_TO_COPY.txt",
+   "OVERLAY_RECEIPT.txt",
+   "HUMAN_QA.md",
+   "BPLUSPLUS_SOURCE.diff"
+  ]
+ },
+ "zip": {
+  "file": "BPLUSPLUS_HUMAN_QA_OVERLAY.zip",
+  "sha256": "668dec4cc5a2420ac6e2e8feae8d5625c122fa9fb26e891a6b2a42c1b753fe13",
+  "bytes": 34637
+ }
+}

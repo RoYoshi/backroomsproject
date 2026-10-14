@@ -1,0 +1,23 @@
+Stage 3E-0 B++ human-QA overlay - receipt
+written 2026-10-14T04:32:51Z by dev/stage-3e-0-bpp/overlay_bpp.py
+
+source    stage-3e-0-bplusplus d501afe4c065a555de709bb11f438a47a7b643ba (tree 2a6af226e7cfa752ca2704502f6785859f09f767)
+reverts   stage-3e-0 (accepted B+) 1f2deba0fc4a1facd41366fb2da9b88af3bd5a52 (tree 11686a0ab061a5a463bbfbd3bc7c8c42e26febd2)
+game files changed since B+: server.js (nothing else; no file the browser loads: yes)
+
+files:
+  0424cbc1942a301a3bca01f681f0618a090479815e131bb2e1ee2ea569d8fb2d  BPLUSPLUS_OVERLAY/server.js  (41751 bytes) - B++-0: a pose sent before a server placement (teleport, world reset) can no longer undo it
+  661ec9e54a58bfc98b84413f35dfefe9a640e492dd49dcc4fd605ab7be2b2293  REVERT_TO_BPLUS/server.js  (40788 bytes) - the accepted B+ file, to undo
+  1760cdc0b7c6d4620629f58ec92a1b630a1583daf6ee0b873cc16cb4e16ab663  WHERE_TO_COPY.txt
+  9b1401e5b1877bc079b710ef00e7792093e86eacff5562a03718e3357cfdfe81  HUMAN_QA.md
+  9640634284bd44264a1e54726b8aa5b72a9e1e83403fe0184f0a1b9c27c9967b  BPLUSPLUS_SOURCE.diff  (git diff 1f2deba d501afe of the files above)
+
+1. ZIP CRCs good, its game files byte-identical to Git, favicon.ico unchanged and your supplied icon: yes
+2. BPLUSPLUS_OVERLAY copied over a clean export of stage-3e-0 1f2deba: 55 runtime files byte-identical to stage-3e-0-bplusplus, the copy changed only server.js: yes
+3. HQ5 + STAGE_3E0_BPLUS_HUMAN_QA_OVERLAY.zip (the delivered one: yes) is B+ byte for byte: yes; BPLUSPLUS_OVERLAY over it: byte-identical to stage-3e-0-bplusplus: yes
+4. REVERT_TO_BPLUS copied back: byte-identical to stage-3e-0 1f2deba: yes
+5. the overlaid B+ folder runs: page errors 0; GET /favicon.ico 200 image/x-icon, your bytes: yes; both pages get the fresher poses: yes; Bob's page applied Alice's 'q' while she walked: 10; br-role 1.2-candidate; Bob brought 545 px ([504, 888] -> (1012, 690)): his page [1012, 690], the server as Alice's page has him [1012, 690], kept: yes: yes
+
+OVERLAY CHECK: PASS
+
+the ZIP itself: BPLUSPLUS_HUMAN_QA_OVERLAY.zip  34637 bytes  sha256 668dec4cc5a2420ac6e2e8feae8d5625c122fa9fb26e891a6b2a42c1b753fe13

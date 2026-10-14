@@ -1,0 +1,7 @@
+B++ delivery steps (SP = the session scratch folder)
+B++-0  b8391ef38b21ca562c4b28eb5ce57ec31a070b8a (tree 98f1d04): pushed (a new branch), verify_remote_bpp.py -> ../p1/remote_bpp0.json ok
+docs   d501afe4c065a555de709bb11f438a47a7b643ba (tree 2a6af22): measurements, QA page, report (no game change): pushed, verified -> remote_commit2.json ok
+python3 -I dev/stage-3e-0-bpp/overlay_bpp.py . d501afe... $SP/bpp/overlay --qa STAGE_3E0_BPLUSPLUS_HUMAN_QA.md \
+    --bplus-overlay STAGE_3E0_BPLUS_HUMAN_QA_OVERLAY.zip (sha256 139f4664...349e) --ico <V3 pack>/SUPPLIED/favicon.ico
+    -> OVERLAY_RECEIPT.txt, overlay_receipt.json, BPLUSPLUS_HUMAN_QA_OVERLAY.zip.sha256 (here); OVERLAY CHECK: PASS
+then this commit (the receipt and the report's SHAs, no game change), pushed and verified; the ZIP's files compared with the fetched tip

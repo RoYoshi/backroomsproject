@@ -10,7 +10,8 @@ B++ is a candidate until you decide. Nothing is merged or promoted.
 | B++-0, the placement race fix | `b8391ef38b21ca562c4b28eb5ce57ec31a070b8a`, tree `98f1d047f228114ef35136a437eaeaf4fe903fc8`, verified on GitHub |
 | Optimisation commit | **None**: profiled, nothing measurable to win (below) |
 | Game files changed since B+ | **`server.js` only** (+8 / −2 lines). Unchanged: `mp.js`, `index.html`, `favicon.ico`, `server/static.js`, every page file, BR-RoLE 1.2, `sim.js`, `ai.js`, `move.js` |
-| Overlay | `BPLUSPLUS_HUMAN_QA_OVERLAY.zip` goes over the accepted B+ game, with `REVERT_TO_BPLUS`. Its SHA-256 is in its `.sha256` and in `dev/stage-3e-0-bpp/evidence/p2/` |
+| Measurements and docs | `d501afe4c065a555de709bb11f438a47a7b643ba` (tree `2a6af22`): no game change. A last commit adds only the overlay receipt and these SHAs |
+| Overlay | `BPLUSPLUS_HUMAN_QA_OVERLAY.zip` (34,637 bytes, SHA-256 `668dec4cc5a2420ac6e2e8feae8d5625c122fa9fb26e891a6b2a42c1b753fe13`) goes over the accepted B+ game, with `REVERT_TO_BPLUS`. Validated: over a B+ export, over HQ5 + your B+ overlay, the revert, and two real pages, including the 545 px teleport |
 
 ## B++-0: server placements kept against stale movement packets
 
