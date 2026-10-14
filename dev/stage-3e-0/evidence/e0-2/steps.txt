@@ -1,0 +1,8 @@
+E0-2 steps (SP = the session scratch folder)
+git commit (B+ source, tools, e0-0 / e0-1 evidence, root documents) -> 004b43f751856ff567b87c7e6d3f0bed8939a618, tree 83fbc5da19c3b363c5dde1be556772d56efe7d41
+python3 -I dev/stage-3e-0/overlay_e0.py . 004b43f... $SP/e0/overlay --qa STAGE_3E0_BPLUS_HUMAN_QA.md \
+    --hq3zip <HQ3 human-QA ZIP> --hq4overlay HQ4_HUMAN_QA_OVERLAY.zip --hq5overlay HQ5_BR_ROLE_1_2_HUMAN_QA_OVERLAY.zip --ico <pack>/SUPPLIED/favicon.ico
+    -> OVERLAY_RECEIPT.txt, overlay_receipt.json, STAGE_3E0_BPLUS_HUMAN_QA_OVERLAY.zip.sha256 (here); OVERLAY CHECK: PASS
+git push origin stage-3e-0 (a new branch; no force)
+python3 -I dev/stage-3e-0/verify_remote_e0.py "commit 1 (B+ source)" --out remote_commit1.json   -> ok
+then this commit (the receipt), pushed and verified the same way; the ZIP's game files compared with the fetched tip (reported in the delivery message)

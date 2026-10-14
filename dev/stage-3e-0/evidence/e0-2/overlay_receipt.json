@@ -1,0 +1,134 @@
+{
+ "commit": "004b43f751856ff567b87c7e6d3f0bed8939a618",
+ "tree": "83fbc5da19c3b363c5dde1be556772d56efe7d41",
+ "hq5": {
+  "commit": "ad98475767bcae6794cd01af832de660355da7a2",
+  "tree": "9f721d371693656110f58c8e8fb6b6382ded6fa8"
+ },
+ "changed": [
+  "favicon.ico",
+  "index.html",
+  "mp.js",
+  "server.js",
+  "server/static.js"
+ ],
+ "added": [
+  "favicon.ico"
+ ],
+ "checks": {
+  "zip": {
+   "crcFirstBad": null,
+   "gameFilesEqualGit": {
+    "BPLUS_OVERLAY/favicon.ico": true,
+    "BPLUS_OVERLAY/index.html": true,
+    "BPLUS_OVERLAY/mp.js": true,
+    "BPLUS_OVERLAY/server.js": true,
+    "BPLUS_OVERLAY/server/static.js": true,
+    "REVERT_TO_HQ5/index.html": true,
+    "REVERT_TO_HQ5/mp.js": true,
+    "REVERT_TO_HQ5/server.js": true,
+    "REVERT_TO_HQ5/server/static.js": true
+   },
+   "faviconIsSupplied": true,
+   "ok": true
+  },
+  "overHq5Export": {
+   "runtimeFiles": 55,
+   "runtimeInCommit": 55,
+   "missing": [],
+   "extra": [],
+   "different": [],
+   "hq5ExportWasHq5": true,
+   "filesChangedByTheOverlay": [
+    "favicon.ico",
+    "index.html",
+    "mp.js",
+    "server.js",
+    "server/static.js"
+   ],
+   "ok": true
+  },
+  "overHq3Hq4Hq5Chain": {
+   "runtimeFiles": 55,
+   "runtimeInCommit": 55,
+   "missing": [],
+   "extra": [],
+   "different": [],
+   "zips": {
+    "hq3": true,
+    "hq4overlay": true,
+    "hq5overlay": true
+   },
+   "wasHq5BeforeBplus": true,
+   "ok": true
+  },
+  "revertToHq5": {
+   "runtimeFiles": 54,
+   "runtimeInCommit": 54,
+   "missing": [],
+   "extra": [],
+   "different": [],
+   "deleted": [
+    "favicon.ico"
+   ],
+   "ok": true
+  },
+  "runs": {
+   "favicon": {
+    "status": 200,
+    "type": "image/x-icon",
+    "sameBytes": true
+   },
+   "pages": {
+    "version": "br-role 1.2-candidate",
+    "bob": {
+     "mode": "bplus",
+     "fast": true,
+     "counts": {
+      "s": 223,
+      "q": 3,
+      "qApplied": 3,
+      "qStale": 0,
+      "qUnknown": 0
+     }
+    },
+    "alice": {
+     "mode": "bplus",
+     "fast": true
+    },
+    "iconLinks": [
+     "./favicon.ico"
+    ],
+    "qBefore": 0
+   },
+   "pageErrors": [],
+   "ok": true
+  }
+ },
+ "ok": true,
+ "written": "2026-10-14T03:44:10Z",
+ "final": {
+  "crcFirstBad": null,
+  "gameFilesEqualGit": true,
+  "entries": [
+   "BPLUS_OVERLAY/favicon.ico",
+   "BPLUS_OVERLAY/index.html",
+   "BPLUS_OVERLAY/mp.js",
+   "BPLUS_OVERLAY/server.js",
+   "BPLUS_OVERLAY/server/static.js",
+   "REVERT_TO_HQ5/index.html",
+   "REVERT_TO_HQ5/mp.js",
+   "REVERT_TO_HQ5/server.js",
+   "REVERT_TO_HQ5/server/static.js",
+   "WHERE_TO_COPY.txt",
+   "OVERLAY_RECEIPT.txt",
+   "HUMAN_QA.md",
+   "BPLUS_SOURCE.diff"
+  ]
+ },
+ "zip": {
+  "file": "STAGE_3E0_BPLUS_HUMAN_QA_OVERLAY.zip",
+  "sha256": "139f4664645825792de54cba2d57cf084adca4546676a7b4e115ec03806e349e",
+  "bytes": 132948
+ }
+}

@@ -1,0 +1,30 @@
+Stage 3E-0 B+ human-QA overlay - receipt
+written 2026-10-14T03:44:10Z by dev/stage-3e-0/overlay_e0.py
+
+source    stage-3e-0 004b43f751856ff567b87c7e6d3f0bed8939a618 (tree 83fbc5da19c3b363c5dde1be556772d56efe7d41)
+reverts   stage-3d-hq5 ad98475767bcae6794cd01af832de660355da7a2 (tree 9f721d371693656110f58c8e8fb6b6382ded6fa8)
+game files changed since HQ5: favicon.ico (new), index.html, mp.js, server.js, server/static.js (nothing else)
+
+files:
+  5489c214c3d50d6a1e08bce814a0234673dcc2094279d081e712f39edd78501b  BPLUS_OVERLAY/favicon.ico  (4758 bytes) - NEW: your supplied icon, byte for byte
+  ea756260589054f9fd787c8c1037fb1a8123c174059ae660c100f8c5c76b5db6  BPLUS_OVERLAY/index.html  (24478 bytes) - one line: <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  b338e5aa87f37bd3a436d584233a6b9e0b554f118d8d99e316dfe7bee0494653  BPLUS_OVERLAY/mp.js  (96283 bytes) - B: the others eased by elapsed time; B+: their fresher poses; ?peers=a|b DEV comparison
+  661ec9e54a58bfc98b84413f35dfefe9a640e492dd49dcc4fd605ab7be2b2293  BPLUS_OVERLAY/server.js  (40788 bytes) - B+: the player-only 'q' between snapshots and 16 ms pose spacing, for clients that ask ('caps')
+  696ee13f377e626deda222d16ff2f137a440cf436a00475d4354540caf9455f1  BPLUS_OVERLAY/server/static.js  (4096 bytes) - serves /favicon.ico (image/x-icon) and nothing else new
+  0805a0abb69fa6665f8ad5a740c7617583ea4c2155b9c9edc3b3c99a4fa33181  REVERT_TO_HQ5/index.html  (24417 bytes) - HQ5's own file, to undo
+  3673ef6aa81a0ce7ce3db76e241512547c368325706ef13cfa2107b14f327952  REVERT_TO_HQ5/mp.js  (92023 bytes) - HQ5's own file, to undo
+  dc4e9b8e270846e2ad4cd2a9a64654c3decc1cfbb6c7eab46e99a61055a96d0a  REVERT_TO_HQ5/server.js  (38590 bytes) - HQ5's own file, to undo
+  0735f0af25185acc10a6962b029f4c3e3db11472bd820d3e10cbb512e104483d  REVERT_TO_HQ5/server/static.js  (3861 bytes) - HQ5's own file, to undo
+  f1db0223aa201e65554679eee08291e29062e86643b4d2e2d3c92a3403971cfd  WHERE_TO_COPY.txt
+  f3b5b2fe6eb5b1d4c379da678b93a1f2ca42106f93b55f19eb0398bab2492cd9  HUMAN_QA.md
+  e87a0587eec8713bb3e1e72112bf20310c54b28740dbd3dfa53e82b3c2675a50  BPLUS_SOURCE.diff  (git diff ad98475 004b43f of the files above)
+
+1. ZIP CRCs good, its game files byte-identical to Git, favicon.ico = your supplied icon: yes
+2. BPLUS_OVERLAY copied over a clean export of stage-3d-hq5 ad98475: 55 runtime files byte-identical to stage-3e-0, the copy changed only favicon.ico, index.html, mp.js, server.js, server/static.js: yes
+3. the HQ3 human-QA ZIP + HQ4_HUMAN_QA_OVERLAY.zip + HQ5_BR_ROLE_1_2_HUMAN_QA_OVERLAY.zip (all the known ones: yes) is HQ5 byte for byte: yes; BPLUS_OVERLAY over it: byte-identical to stage-3e-0: yes
+4. REVERT_TO_HQ5 copied back and favicon.ico deleted: byte-identical to stage-3d-hq5 ad98475: yes
+5. the overlaid HQ5 export runs: page errors 0; GET /favicon.ico 200 image/x-icon, your bytes: yes; the page names it once: yes; both pages get the fresher poses: yes; Bob's page applied Alice's 'q' while she walked: 3; br-role 1.2-candidate: yes
+
+OVERLAY CHECK: PASS
+
+the ZIP itself: STAGE_3E0_BPLUS_HUMAN_QA_OVERLAY.zip  132948 bytes  sha256 139f4664645825792de54cba2d57cf084adca4546676a7b4e115ec03806e349e

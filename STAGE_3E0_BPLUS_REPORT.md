@@ -5,8 +5,8 @@
 | | |
 |---|---|
 | Branch | `stage-3e-0`, made from `stage-3d-hq5` `ad98475767bcae6794cd01af832de660355da7a2` (tree `9f721d3`) |
-| B+ source | The first commit on the branch. Its SHA and tree are in `dev/stage-3e-0/evidence/e0-2/` and in the overlay's receipt. |
-| Overlay | `STAGE_3E0_BPLUS_HUMAN_QA_OVERLAY.zip`: B+ over a clean HQ5 game, with `REVERT_TO_HQ5`, `WHERE_TO_COPY.txt`, `HUMAN_QA.md` and `BPLUS_SOURCE.diff` |
+| B+ source | `004b43f751856ff567b87c7e6d3f0bed8939a618`, tree `83fbc5da19c3b363c5dde1be556772d56efe7d41`, verified on GitHub (`dev/stage-3e-0/evidence/e0-2/remote_commit1.json`). A second commit adds only the overlay receipt and this table. |
+| Overlay | `STAGE_3E0_BPLUS_HUMAN_QA_OVERLAY.zip` (132,948 bytes, SHA-256 `139f4664645825792de54cba2d57cf084adca4546676a7b4e115ec03806e349e`): B+ over a clean HQ5 game, with `REVERT_TO_HQ5`, `WHERE_TO_COPY.txt`, `HUMAN_QA.md` and `BPLUS_SOURCE.diff`. Validated: over HQ5, over the HQ3→HQ4→HQ5 chain, the revert, and two pages running. |
 
 ## What was found first
 
