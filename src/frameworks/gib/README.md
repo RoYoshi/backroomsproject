@@ -29,7 +29,7 @@ One server event per death, and one persistent, replicated aftermath. Eight enti
 | [`client/mp.replays.js`](client/mp.replays.js) | G.I.B.: other players' deaths and vanishings, replayed for everybody in line of sight | `public/mp.js` (a part) |
 | [`server/aftermath.js`](server/aftermath.js) | server/aftermath.js - the death aftermath on the server, and the NEW RUN blast's: one event per death or blast, decided and finished here. | a server module: `server.js` requires it |
 | [`server/death_srv.js`](server/death_srv.js) | death_srv.js - the server's side of a death's aftermath (never served to browsers). | a server module: `server.js` requires it |
-| [`server/sim.bodies.js`](server/sim.bodies.js) | G.I.B.: everyone's bodies, one per player, and how long they stay | `generated/server/sim.js` (a part) |
+| [`server/sim.bodies.js`](server/sim.bodies.js) | src/frameworks/gib/server/sim.bodies.js - G.I.B.: everyone's bodies, one per player, and how long they stay; and the sim's clock (a | a module of the sim: `src/core/server/sim.js` requires it |
 | [`shared/dphys.js`](shared/dphys.js) | dphys.js - lightweight procedural physics for the death animations (v18). | `public/dphys.js`, `generated/server/dphys.js` |
 <!-- end of generated block -->
 
@@ -42,7 +42,7 @@ A file marked "(a part)" is one part of a bigger script: its `/** @part` header 
 
 ## Changing it
 
-Server modules are required directly; parts and `dphys.js` need `npm run build`. A body's lifetime: `BODY_TTL` (an environment variable read by `server.js`).
+Server modules are required directly (`sim.bodies.js` too, a module of the sim since continuation C3a: the bodies and the sim's clock); parts and `dphys.js` need `npm run build`. A body's lifetime: `BODY_TTL` (an environment variable read by `server.js`).
 
 ## Tests
 

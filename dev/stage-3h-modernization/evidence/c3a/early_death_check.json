@@ -1,0 +1,60 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c3a_early_death_check.js",
+ "old": "143b63f: sim.js",
+ "new": "src/core/server/sim.js",
+ "seeds": 150,
+ "secs": 60,
+ "different": [],
+ "worldsWithDeath": 6,
+ "deaths": [
+  {
+   "seed": 61,
+   "first": [
+    1,
+    "Smiler",
+    46.633
+   ]
+  },
+  {
+   "seed": 72,
+   "first": [
+    3,
+    "Hound",
+    52.55
+   ]
+  },
+  {
+   "seed": 94,
+   "first": [
+    1,
+    "Smiler",
+    47.267
+   ]
+  },
+  {
+   "seed": 110,
+   "first": [
+    3,
+    "Hound",
+    54.683
+   ]
+  },
+  {
+   "seed": 130,
+   "first": [
+    1,
+    "Hound",
+    58.417
+   ]
+  },
+  {
+   "seed": 148,
+   "first": [
+    3,
+    "Smiler",
+    58.45
+   ]
+  }
+ ],
+ "ok": true
+}

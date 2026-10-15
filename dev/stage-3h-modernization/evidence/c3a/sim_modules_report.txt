@@ -1,0 +1,94 @@
+src/frameworks/lost/server/sim.level0.js: 25 lines
+  from src/frameworks/lost/server/sim.level0.js (M8) lines 14-15, verbatim unless edited below
+  new lines (the header, the factory, the controls, the return): 24
+src/frameworks/nani/server/sim.ai.js: 100 lines
+  from src/frameworks/nani/server/sim.ai.js (M8) lines 11-13,15-17,20-96, verbatim unless edited below
+  from src/frameworks/gib/server/sim.bodies.js (M8) lines 10-11, verbatim unless edited below
+  new lines (the header, the factory, the controls, the return): 16
+  edit: var PR=0;const ANCHOR={x:1056,y:3264};
+     -> const ANCHOR={x:1056,y:3264};
+src/frameworks/lost/server/sim.glitches.js: 29 lines
+  from src/frameworks/lost/server/sim.glitches.js (M8) lines 8-9,13-26, verbatim unless edited below
+  new lines (the header, the factory, the controls, the return): 14
+src/frameworks/pocket/server/sim.items.js: 18 lines
+  from src/frameworks/lost/server/sim.glitches.js (M8) lines 10-12, verbatim unless edited below
+  from src/core/server/sim.glue.js (M8) lines 9, verbatim unless edited below
+  new lines (the header, the factory, the controls, the return): 15
+  edit: const p=randomSpot(1800,glitches,700,true);
+     -> const p=randomSpot(1800,glitches(),700,true);
+src/frameworks/gib/server/sim.bodies.js: 24 lines
+  from src/frameworks/gib/server/sim.bodies.js (M8) lines 7-9,12-18, verbatim unless edited below
+  new lines (the header, the factory, the controls, the return): 15
+src/frameworks/nani/server/sim.feed.js: 33 lines
+  from src/frameworks/nani/server/sim.feed.js (M8) lines 6-28, verbatim unless edited below
+  new lines (the header, the factory, the controls, the return): 11
+src/core/server/sim.step.js: 51 lines
+  from src/frameworks/nani/server/sim.ai.js (M8) lines 17,19, verbatim unless edited below
+  from src/frameworks/space/server/sim.players.js (M8) lines 7-13, verbatim unless edited below
+  from src/core/server/sim.step.js (M8) lines 7-29, verbatim unless edited below
+  new lines (the header, the factory, the controls, the return): 20
+  edit: var PR=0;const ANCHOR={x:1056,y:3264};   // spawn is hard against a wall; this open spot next to it is used for reachability checks
+     -> var PR=0;
+  edit: let frozen=false,speed=1,bmode=`auto`,runT=0,spawnT=0,debugOn=false,worldSeq=0;
+     -> let frozen=false,speed=1,bmode=`auto`,runT=0,spawnT=0,worldSeq=0;
+  edit: glitches=makeGlitches(3);items=makeItems();
+     -> placeGlitches();placeItems();
+  edit: bodies.clear();bodyT.clear();bodyVer++;
+     -> clearBodies();
+  edit: clockT+=dt;pruneBodies(dt);
+     -> tick(dt);
+  edit: for(const g of glitches)if(Math.hypot(p.x-g.x,p.y-g.y)<54)
+     -> for(const g of glitches())if(Math.hypot(p.x-g.x,p.y-g.y)<54)
+  edit: else V.blackout=bmode===`on`;
+     -> else forceBlackout(bmode===`on`);
+  edit: st:+clockT.toFixed(3)
+     -> st:+clock().toFixed(3)
+  edit: gw:glitches.map(
+     -> gw:glitches().map(
+  edit: it:items.map(
+     -> it:items().map(
+src/frameworks/space/server/sim.players.js: 47 lines
+  from src/frameworks/space/server/sim.players.js (M8) lines 14-50, verbatim unless edited below
+  new lines (the header, the factory, the controls, the return): 11
+  edit: p.active=true;spawn(p);p.t0=runT;
+     -> p.active=true;spawn(p);p.t0=runT();
+src/frameworks/space/server/sim.movement.js: 58 lines
+  from src/frameworks/space/server/sim.movement.js (M8) lines 6-54, verbatim unless edited below
+  new lines (the header, the factory, the controls, the return): 10
+src/frameworks/overseer/server/sim.admin.js: 75 lines
+  from src/frameworks/overseer/server/sim.admin.js (M8) lines 7-66, verbatim unless edited below
+  new lines (the header, the factory, the controls, the return): 16
+  edit: freeze(on){frozen=!!on},
+     -> freeze(on){controls.freeze(!!on)},
+  edit: speed(v){speed=Math.max(.25,Math.min(3,+v||1))},
+     -> speed(v){controls.setSpeed(Math.max(.25,Math.min(3,+v||1)))},
+  edit: blackout(mode){bmode=[`on`,`off`,`auto`].includes(mode)?mode:`auto`;if(bmode===`auto`)V.elapsed=0},
+     -> blackout(mode){controls.setBlackout([`on`,`off`,`auto`].includes(mode)?mode:`auto`);if(controls.bmode===`auto`)restartBlackout()},
+  edit: resetMonsters(){spawnMonsters(RND()<.5?1:2,2+((RND()*4)|0));runT=Math.min(runT,60)},
+     -> resetMonsters(){spawnMonsters(RND()<.5?1:2,2+((RND()*4)|0));controls.capRunTime(60)},
+  edit: newGlitches(){glitches=makeGlitches(3)},
+     -> newGlitches(){placeGlitches()},
+  edit: newItem(){items=makeItems()},
+     -> newItem(){placeItems()},
+  edit: for(const i of items){
+     -> for(const i of items()){
+  edit: for(const g of glitches){
+     -> for(const g of glitches()){
+  edit: fz:frozen?1:0,sp:speed,bo:bmode,
+     -> fz:controls.frozen?1:0,sp:controls.speed,bo:controls.bmode,
+  edit: gw:glitches.length,it:items.length,
+     -> gw:glitches().length,it:items().length,
+src/core/server/sim.js: 48 lines
+  from src/core/server/sim.header.js (M8) lines 9, verbatim unless edited below
+  from src/frameworks/lost/server/sim.level0.js (M8) lines 13, verbatim unless edited below
+  from src/core/server/sim.glue.js (M8) lines 10-14,17-18, verbatim unless edited below
+  new lines (the header, the factory, the controls, the return): 40
+  edit: module.exports=function createSim(opts){opts=opts||{};
+     -> module.exports=function createSim(options){const opts=options||{};
+  edit: get debugOn(){return debugOn}
+     -> get debugOn(){return over.debugOn()}
+  edit: get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},get runT(){return runT},get worldSeq(){return worldSeq},
+     -> get bodies(){return bodies.bodies},get bodyVer(){return bodies.bodyVer()},get glitches(){return walls.glitches()},get runT(){return run.runT()},get worldSeq(){return run.worldSeq()},
+  edit: debug:{V,Ic,get glitches(){return glitches}}};
+     -> debug:{V,Ic,get glitches(){return walls.glitches()}}};
+removed: src/core/server/sim.header.js, src/core/server/sim.glue.js, generated/server/sim.js (the composition replaces the header and the glue parts; the sim is not built any more)

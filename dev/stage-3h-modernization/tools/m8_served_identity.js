@@ -6,7 +6,8 @@
  * For every file under public/ (built or static), this compares public/X with X in 3H2's tree and in B++'s tree.  It does the same for
  * the four files the build writes for the server: generated/server/sim.js, ai.js, world.js and dphys.js against sim.js, ai.js, world.js
  * and dphys.js at the root of each tree.  The server's own code (server.js and the modules) is not compared here: the goldens compare
- * what it does.
+ * what it does.  (Continuation C3a: the sim is no longer built - it is modules, src/core/server/sim.js and its owners' - so only the
+ * built server files that exist are compared; the gate's sim step compares the sim's behaviour with B++'s.)
  * Exit 0 when every file is byte-identical to 3H2's.  The differences from B++ are listed: they must be exactly the files Stage 3H2
  * changed or added on purpose (index.html, mp.js, assets/net-newrun.js, assets/mp-hum.js), each declared in
  * dev/tools/gate/declared_changes.json. */
@@ -19,7 +20,8 @@ const tree = ref => new Map(execFileSync('git', ['-C', REPO, 'ls-tree', '-r', '-
 const T2 = tree(H2), TB = tree(BPP);
 const walk = d => fs.readdirSync(d, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
 const pub = walk(path.join(REPO, 'public')).map(f => path.relative(REPO, f).split(path.sep).join('/')).sort();
-const pairs = pub.map(f => [f, f.slice('public/'.length)]).concat(['sim.js', 'ai.js', 'world.js', 'dphys.js'].map(n => ['generated/server/' + n, n]));
+const SERVER_BUILT = ['sim.js', 'ai.js', 'world.js', 'dphys.js'].filter(n => fs.existsSync(path.join(REPO, 'generated', 'server', n)));   // (C3a) the sim is not built
+const pairs = pub.map(f => [f, f.slice('public/'.length)]).concat(SERVER_BUILT.map(n => ['generated/server/' + n, n]));
 const recipes = new Set(JSON.parse(fs.readFileSync(path.join(REPO, 'src', 'build-recipes.json'), 'utf8')).outputs.map(o => o.out));
 const R = { tool: 'dev/stage-3h-modernization/tools/m8_served_identity.js', frozen3H2: H2, acceptedBpp: BPP, files: [], ok: true };
 for (const [now, old] of pairs) {
@@ -29,7 +31,7 @@ for (const [now, old] of pairs) {
 const notSame3H2 = R.files.filter(f => !f.same3H2), notBpp = R.files.filter(f => !f.sameBpp);
 const decl = JSON.parse(fs.readFileSync(path.join(REPO, 'dev', 'tools', 'gate', 'declared_changes.json'), 'utf8')).runtime;
 const undeclared = notBpp.filter(f => !(f.inBpp ? decl.changed[f.oldPath] : decl.added[f.oldPath]));
-R.counts = { public: pub.length, publicBuilt: pub.filter(f => recipes.has(f)).length, publicStatic: pub.filter(f => !recipes.has(f)).length, serverBuilt: 4,
+R.counts = { public: pub.length, publicBuilt: pub.filter(f => recipes.has(f)).length, publicStatic: pub.filter(f => !recipes.has(f)).length, serverBuilt: SERVER_BUILT.length,
   identicalTo3H2: R.files.length - notSame3H2.length, of: R.files.length, differFromBpp: notBpp.map(f => f.oldPath + (f.inBpp ? ' (changed)' : ' (added)')) };
 R.ok = !notSame3H2.length && !undeclared.length;
 if (ARG.out) fs.writeFileSync(ARG.out, JSON.stringify(R, null, 1) + '\n');

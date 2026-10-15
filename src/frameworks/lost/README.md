@@ -23,8 +23,8 @@ Levels should be data, not code, with the server and the page agreeing. Today th
 | [`client/glitch.js`](client/glitch.js) | L.O.S.T.: the glitched walls on the page (the IIFE opens here): their canvas | `public/glitch.js` (a part) |
 | [`client/level0_visuals.js`](client/level0_visuals.js) | level0_visuals.js - Stage 3B: the Level 0 presentation authority (visual metadata only). | `public/assets/level0_visuals.js` |
 | [`client/mp.glitch.js`](client/mp.glitch.js) | L.O.S.T.: the glitched walls: touching one takes you out of Level 0 | `public/mp.js` (a part) |
-| [`server/sim.glitches.js`](server/sim.glitches.js) | L.O.S.T.: the glitched walls, the way out of Level 0 | `generated/server/sim.js` (a part) |
-| [`server/sim.level0.js`](server/sim.level0.js) | L.O.S.T. / S.P.A.C.E.: Level 0's map, collision, ray-cast and light code, extracted from the production bundle; createSim opens here | `generated/server/sim.js` (a part) |
+| [`server/sim.glitches.js`](server/sim.glitches.js) | src/frameworks/lost/server/sim.glitches.js - L.O.S.T.: the glitched walls, the way out of Level 0; a module of the sim | a module of the sim: `src/core/server/sim.js` requires it |
+| [`server/sim.level0.js`](server/sim.level0.js) | src/frameworks/lost/server/sim.level0.js - L.O.S.T., with S.P.A.C.E.'s collision: Level 0 as the server builds it for one world - the | a module of the sim: `src/core/server/sim.js` requires it |
 | [`shared/world.lamps.js`](shared/world.lamps.js) | L.O.S.T.: Level 0's working ceiling fixtures (W.lamps), for the client and the server alike | `public/world.js`, `generated/server/world.js` (a part) |
 | [`shared/world.surfaces.js`](shared/world.surfaces.js) | L.O.S.T.: the floor surfaces (carpet, concrete, wet tile) | `public/world.js`, `generated/server/world.js` (a part) |
 <!-- end of generated block -->
@@ -46,4 +46,4 @@ There is no level format yet, so a new level is not something to add here: it ne
 
 ## Known debt
 
-- The map exists twice (M-003). `sim.level0.js` is minified bundle code, kept as one part (M-025).
+- The map exists twice (M-003). `sim.level0.js` is minified bundle code, kept whole (M-025): since continuation C3a a module of the sim, its two code lines unchanged.

@@ -1,0 +1,10 @@
+ok   the unchanged copy passes
+ok   state_outside_factory: a sim module keeps a value at its top level (every room's world would share it)
+ok   import_assigned: a module assigns a name it was given
+ok   name_not_given: a module uses a name nobody gave it
+ok   import_unused: a module is given a name it never uses
+ok   import_not_exported: a module imports a name its giver does not return
+ok   made_after: a module is made from one made after it (a cycle, or the wrong order)
+ok   key_not_given: the composition does not give a module what its factory takes
+ok   global_backchannel: a module reaches a global back-channel
+MODULES CHECK MUTANTS: PASS (8 of 8 broken boundaries refused, each for its own reason)

@@ -27,20 +27,23 @@ backquote key; give the server a passcode with `ADMIN_PASSCODE=... node server.j
    `src/frameworks/<name>/README.md` lists its files.
 2. **Edit the source in `src/`.** Never edit `public/*.js`, `public/assets/*.js` (except the static ones) or `generated/`: the build
    writes them. A file that begins with `/** @part` is one part of a bigger script: its header says which, and what it shares with the
-   others.
-3. **Build.** `npm run build` rewrites what changed:
+   others. The server's modules (`src/**/server/*.js`, the sim's included since continuation C3a) are loaded as they are: a module is
+   a factory, and its parameters say what it uses from which owner (`docs/architecture/CONTRACTS.md` section 3).
+3. **Build.** `npm run build` rewrites what changed (a change to a server module needs no build):
 
    ```text
-   built 40 outputs (2 files written, 39 already up to date)
+   built 39 outputs (2 files written, 37 already up to date)
    ```
 
 4. **Check.** `npm run build:check` must say `BUILD CHECK: PASS`. If you edited a part,
    `node dev/tools/checks/parts.js` checks its header; `node dev/tools/checks/parts.js --fix <output>` rewrites the header's lists from
-   the code (then read the diff). The compiled client bundle and its stylesheet are not edited this way: see
+   the code (then read the diff). If you edited a server module, `node dev/tools/checks/modules.js` checks its boundaries (every name
+   given to it or its own, nothing it was given assigned, every import used; for the sim, no state outside the factory and the wiring
+   in order). The compiled client bundle and its stylesheet are not edited this way: see
    [`src/core/client/bundle/README.md`](../../src/core/client/bundle/README.md).
 5. **Test.** `npm test` runs the scenario suite on the real simulation (about 5 minutes). 13 of its 162 cases fail on the accepted
    build too; `dev/stage-3h/gate/known_failures_bpp.json` lists every known failure. `npm run gate` compares the whole game with the
-   accepted build (about 2.5 minutes on 2 CPUs; it prints one line per step and `MODERNIZATION GATE (fast): PASS`).
+   accepted build (about 4.5 minutes on 2 CPUs; it prints one line per step and `MODERNIZATION GATE (fast): PASS`).
 6. **Commit the built files with the sources.** The production host runs `node server.js` from a fresh pull, with no build step.
 
 ## Tests, from quick to thorough
@@ -49,9 +52,11 @@ backquote key; give the server a passcode with `ADMIN_PASSCODE=... node server.j
 |---|---|---|
 | `npm run build:check` | every built file is what `src/` builds | seconds |
 | `node dev/tools/checks/parts.js` | every part's header agrees with its code | seconds |
+| `node dev/tools/checks/modules.js` | the module boundaries of every server file and the sim's wiring | seconds |
+| `node dev/tools/gate/golden/sim_diff.js` | the sim against B++'s `sim.js`: the same calls give the same results | ~30 s |
 | `node dev/tools/lineage/lineage.js verify` | the compiled bundle's lineage replays byte for byte | seconds |
 | `npm test` (`node dev/tests/run.js [file]`) | the scenario suite on the real simulation; one file: `npm run test:hound` and the others in `package.json` | minutes |
-| `npm run gate` | the fast tier of the gate: build, lineage, parts, docs, scope, the server, session and client goldens against the accepted build, the protocol, the mutants, the HTTP surface, the quick suites | ~2.5 min |
+| `npm run gate` | the fast tier of the gate: build, lineage, parts, modules, docs, scope, the server, session and client goldens against the accepted build, the sim against B++'s, the protocol, the mutants, the HTTP surface, the quick suites | ~4.5 min |
 | `npm run gate:full` | everything, with two real browsers, the contact lab's pixels, all suites and performance | ~35 min |
 
 The gate writes everything under `--out <folder>` (default: a temporary folder) and says where. `dev/tools/gate/README.md` explains each

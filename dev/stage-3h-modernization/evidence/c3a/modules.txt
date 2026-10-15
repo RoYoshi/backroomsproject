@@ -1,0 +1,28 @@
+ok   server.js
+ok   src/core/server/loop.js: given rooms, poseSend, aftStart, aftSend, aftTick, bodyAt, send, SNAP_EVERY, ADMIN_EVERY; returns tick
+ok   src/core/server/rooms.js: given createSim, BODY_TTL, aftStart, placeFree, mvReset, send; returns rooms getRoom worldReset
+ok   src/core/server/sim.js: given options; returns takeItem players addPlayer removePlayer join respawn canRespawn moveOk moveRoute spawnOk leave newRun nrWhy nrWait NR_CD forfeit gaitFloor lifeOf clearAt blockersAt step entities resetWorld admin setBody killerEnd navCmd hearMove capInfo debugInfo logSince logSeq engStats debugOn engine adapter bodies bodyVer glitches runT worldSeq debug
+ok   src/core/server/sim.step.js: given opts, players, level {Lc Rc V forceBlackout}, ai {DIRECTOR_MAX_HOUNDS RND alive eng ents newHound rnd spawnMonsters}, feed {feed processEvents}, walls {glitches placeGlitches}, items {items placeItems}, bodies {clearBodies clock tick}; returns controls entities ofKind resetWorld step runT worldSeq
+ok   src/frameworks/bpp/server/newrun.js: given send, boomStart; returns NR_GAP nrIntent
+ok   src/frameworks/bpp/server/poses.js: given send; returns poseSend
+ok   src/frameworks/bpp/server/session.js: given srv, crypto, MAX_ROOM, FAST_GAP, getRoom, rooms, send, reader, PEERS, num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook, MV, PD, blockers, placeFree, mvReset, mvCheck, adminMove, nrIntent, adminCommand, adminLogin
+ok   src/frameworks/bpp/server/ws.js
+ok   src/frameworks/gib/server/aftermath.js: given deathSrv, send, HEX; returns aftStart aftOf aftSend aftTick bodyAt putBody boomStart
+ok   src/frameworks/gib/server/death_srv.js
+ok   src/frameworks/gib/server/sim.bodies.js: given opts, ai {MAX_BODIES}; returns bodies setBody tick clearBodies clock bodyVer
+ok   src/frameworks/lost/server/sim.glitches.js: given ai {ANCHOR RND}, level {FBH FBW Hc Ic fl sl zc}; returns glitches placeGlitches
+ok   src/frameworks/lost/server/sim.level0.js: given WORLD; returns FBH FBW Bc Fc Gc Hc Ic Lc Oc Rc Uc V W al fl il ll qc sl ul zc forceBlackout restartBlackout
+ok   src/frameworks/nani/server/sim.ai.js: given AI, WORLD, opts, players, level {Bc FBH FBW Fc Gc Ic Oc Uc V W al fl il ll qc sl ul zc}; returns ADMIN_MAX_HOUNDS ADMIN_MAX_SMILERS ANCHOR DIRECTOR_MAX_HOUNDS MAX_BODIES RND SNn adapter adminCap adminSpawn alive eng ents isAlive killerEnd navCmd newHound randomSpot rnd spawnMonsters
+ok   src/frameworks/nani/server/sim.feed.js: given WORLD, opts, players, level {Gc}, ai {SNn eng isAlive}; returns capInfo feed processEvents
+ok   src/frameworks/overseer/server/admin.js: given send, aftOf, moveTo, worldReset; returns adminCommand
+ok   src/frameworks/overseer/server/sim.admin.js: given players, level {restartBlackout sl}, ai {ADMIN_MAX_HOUNDS ADMIN_MAX_SMILERS DIRECTOR_MAX_HOUNDS RND adminCap adminSpawn eng ents spawnMonsters}, feed {feed processEvents}, walls {glitches placeGlitches}, items {items placeItems}, run {controls ofKind resetWorld}, life {spawn}; returns admin debugOn
+ok   src/frameworks/pocket/server/sim.items.js: given ai {eng randomSpot}, walls {glitches}; returns items placeItems takeItem
+ok   src/frameworks/space/server/movement.js: given PEERS, send; returns MV PD blockers placeFree mvReset mvCheck moveTo adminMove
+ok   src/frameworks/space/server/peers.js
+ok   src/frameworks/space/server/sim.movement.js: given WORLD, level {sl}, ai {eng}; returns gaitFloor hearMove moveOk moveRoute spawnOk
+ok   src/frameworks/space/server/sim.players.js: given players, level {Ic}, ai {eng}, feed {processEvents}, run {resetWorld runT}; returns NR_CD addPlayer canRespawn forfeit join leave lifeOf newRun nrWait nrWhy removePlayer respawn spawn
+ok   src/frameworks/ward/server/admin_login.js: given crypto, ADMIN_PASS, send; returns adminLogin
+ok   src/frameworks/ward/server/fields.js
+ok   src/frameworks/ward/server/static.js: given ROOT
+the sim: level; ai <- level; walls <- ai level; items <- ai walls; bodies <- ai; feed <- level ai; run <- level ai feed walls items bodies; life <- level ai feed run; move <- level ai; over <- level ai feed walls items run life
+MODULES CHECK: PASS (26 server files, 21 factories; the sim: 10 modules, wired in order)

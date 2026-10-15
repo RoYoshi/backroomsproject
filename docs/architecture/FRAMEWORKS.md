@@ -14,16 +14,16 @@ layer's opening and per-frame hook, and the compiled bundle's source and record,
 | [BR-RoLE](../../src/frameworks/br-role/README.md) | `src/frameworks/br-role/` | lighting and shadows | 2 client | page: `assets/br-role.js`, `light.js` |
 | [BR-R](../../src/frameworks/br-r/README.md) | `src/frameworks/br-r/` | world and actor rendering | 9 client, 1 shared | page: `assets/l0-remaster.js`, `camcorder.js`, `camera_policy.js`, `ents.js`, `move.js`, `mp.js`, `world.js`; server: `world.js` |
 | [Spacious Audio](../../src/frameworks/spacious-audio/README.md) | `src/frameworks/spacious-audio/` | sound presentation | 7 client | page: `assets/mp-hum.js`, `camcorder.js`, `ents.js`, `glitch.js`, `move.js`, `mp.js`, `sfx.js` |
-| [N.A.N.I.](../../src/frameworks/nani/README.md) | `src/frameworks/nani/` | entity intelligence | 1 client, 12 server | page: `mp.js`; server: `ai.js`, `sim.js` |
-| [S.P.A.C.E.](../../src/frameworks/space/README.md) | `src/frameworks/space/` | movement, collision, placement | 2 client, 4 server, 4 shared | page: `move.js`, `mp.js`, `timing_policy.js`, `world.js`; server: `sim.js`, `world.js`; 2 server modules |
-| [G.I.B.](../../src/frameworks/gib/README.md) | `src/frameworks/gib/` | deaths, gibs and corpses | 5 client, 3 server, 1 shared | page: `dphys.js`, `ents.js`, `gore.js`, `mp.js`; server: `dphys.js`, `sim.js`; 2 server modules |
-| [L.O.S.T.](../../src/frameworks/lost/README.md) | `src/frameworks/lost/` | level definition and transitions | 4 client, 2 server, 2 shared | page: `assets/level0_visuals.js`, `glitch.js`, `mp.js`, `world.js`; server: `sim.js`, `world.js` |
+| [N.A.N.I.](../../src/frameworks/nani/README.md) | `src/frameworks/nani/` | entity intelligence | 1 client, 12 server | page: `mp.js`; server: `ai.js`; 2 server modules |
+| [S.P.A.C.E.](../../src/frameworks/space/README.md) | `src/frameworks/space/` | movement, collision, placement | 2 client, 4 server, 4 shared | page: `move.js`, `mp.js`, `timing_policy.js`, `world.js`; server: `world.js`; 4 server modules |
+| [G.I.B.](../../src/frameworks/gib/README.md) | `src/frameworks/gib/` | deaths, gibs and corpses | 5 client, 3 server, 1 shared | page: `dphys.js`, `ents.js`, `gore.js`, `mp.js`; server: `dphys.js`; 3 server modules |
+| [L.O.S.T.](../../src/frameworks/lost/README.md) | `src/frameworks/lost/` | level definition and transitions | 4 client, 2 server, 2 shared | page: `assets/level0_visuals.js`, `glitch.js`, `mp.js`, `world.js`; server: `world.js`; 2 server modules |
 | [P.U.L.S.E.](../../src/frameworks/pulse/README.md) | `src/frameworks/pulse/` | diagnostics and performance | none: a README only | - |
-| [OVERSEER](../../src/frameworks/overseer/README.md) | `src/frameworks/overseer/` | administration and QA controls | 3 client, 2 server | page: `ents.js`, `mp.js`; server: `sim.js`; 1 server module |
+| [OVERSEER](../../src/frameworks/overseer/README.md) | `src/frameworks/overseer/` | administration and QA controls | 3 client, 2 server | page: `ents.js`, `mp.js`; 2 server modules |
 | [E.C.H.O.](../../src/frameworks/echo/README.md) | `src/frameworks/echo/` | environmental sound occlusion (future) | none: a README only | - |
 | [CASHIER](../../src/frameworks/cashier/README.md) | `src/frameworks/cashier/` | cache ownership and budgets | none: a README only | - |
 | [LogicZ](../../src/frameworks/logicz/README.md) | `src/frameworks/logicz/` | vertical world rules (future) | none: a README only | - |
-| [P.O.C.K.E.T.](../../src/frameworks/pocket/README.md) | `src/frameworks/pocket/` | inventory and usable items | 2 client | page: `inventory.js`, `mp.js` |
+| [P.O.C.K.E.T.](../../src/frameworks/pocket/README.md) | `src/frameworks/pocket/` | inventory and usable items | 2 client, 1 server | page: `inventory.js`, `mp.js`; 1 server module |
 | [F.R.O.N.T.](../../src/frameworks/front/README.md) | `src/frameworks/front/` | menus and HUD | 4 client | page: `assets/credits_data.js`, `assets/net-newrun.js`, `assets/ui.js`, `hud.js` |
 | [W.A.R.D.](../../src/frameworks/ward/README.md) | `src/frameworks/ward/` | trust and deployment security | 3 server | 3 server modules |
 | [A.T.L.A.S.](../../src/frameworks/atlas/README.md) | `src/frameworks/atlas/` | asset provenance and packaging | none: a README only | - |

@@ -3,12 +3,13 @@
  "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
  "runtime": {
   "changed": {
-   "server.js": "3H2 C-1 and C-2: NEW RUN's decision and the death aftermath moved to modules (server/newrun.js, server/aftermath.js). H3M-1: the web root is public/; the moved modules and the generated sim.js are required from their new paths. H3M-2: the composition root; the movement authority, the rooms and the world reset, the admin panel's commands, the fresher poses and the loop moved to modules as they were (the move proof: dev/stage-3h-modernization/evidence/m2/); the configuration and the passcode's source stay. Continuation C2: the WebSocket session (src/frameworks/bpp/server/session.js) and the admin login with its lockout (src/frameworks/ward/server/admin_login.js) moved to modules as they were, with the owner's approval to relocate them (the move proof: dev/stage-3h-modernization/evidence/c2/)",
+   "server.js": "3H2 C-1 and C-2: NEW RUN's decision and the death aftermath moved to modules (server/newrun.js, server/aftermath.js). H3M-1: the web root is public/; the moved modules and the generated sim.js are required from their new paths. H3M-2: the composition root; the movement authority, the rooms and the world reset, the admin panel's commands, the fresher poses and the loop moved to modules as they were (the move proof: dev/stage-3h-modernization/evidence/m2/); the configuration and the passcode's source stay. Continuation C2: the WebSocket session (src/frameworks/bpp/server/session.js) and the admin login with its lockout (src/frameworks/ward/server/admin_login.js) moved to modules as they were, with the owner's approval to relocate them (the move proof: dev/stage-3h-modernization/evidence/c2/) Continuation C3a: it requires the sim from src/core/server/sim.js (the composition of its owners' modules) instead of the built generated/server/sim.js.",
    "mp.js": "3H2 C-3 and C-4: NEW RUN's button and run-menu words, and the fluorescent hum, moved to assets/net-newrun.js and assets/mp-hum.js",
    "index.html": "3H2 C-3 and C-4: the two helper scripts are loaded",
    "death_srv.js": "H3M-1: its path to the built dphys.js (generated/server/dphys.js)",
    "server/static.js": "H3M-1: one comment (the web root it is given is public/)",
-   "package.json": "H3M-1: the scripts build, build:check, gate and gate:full (no change to start, the engines or anything Node reads at run time)"
+   "package.json": "H3M-1: the scripts build, build:check, gate and gate:full (no change to start, the engines or anything Node reads at run time)",
+   "sim.js": "Continuation C3a (M-024): the sim is modules. Its old name now names the composition, src/core/server/sim.js, which makes each owner's module in the order the one function ran and returns the same object; the code is M8's sim.js, every line verbatim except the edits dev/stage-3h-modernization/tools/c3_sim_modules.py lists (a write into another owner's state became a call to that owner's function). Behaviour: the server goldens, the session scenarios, the differential run and the suites, equal to B++."
   },
   "added": {
    "server/newrun.js": "3H2 C-1: NEW RUN's decision, moved out of server.js",
@@ -21,7 +22,17 @@
    "src/frameworks/bpp/server/poses.js": "H3M-2: B++, the fresher poses between two snapshots (Stage 3E-0 B+), moved out of server.js as it was",
    "src/core/server/loop.js": "H3M-2: core, the loop's tick (the body of server.js's setInterval callback), moved out of server.js as it was",
    "src/frameworks/ward/server/admin_login.js": "Continuation C2: W.A.R.D.'s admin login - the passcode's hash and constant-time check, the failure map and the lockout - moved out of server.js as it was",
-   "src/frameworks/bpp/server/session.js": "Continuation C2: B++'s WebSocket session - the upgrade, each connection's state and messages, the leaving - moved out of server.js as it was"
+   "src/frameworks/bpp/server/session.js": "Continuation C2: B++'s WebSocket session - the upgrade, each connection's state and messages, the leaving - moved out of server.js as it was",
+   "src/frameworks/lost/server/sim.level0.js": "Continuation C3a: L.O.S.T.'s Level 0 for one world (the map, collision, ray cast and light code extracted from the bundle), a module of the sim; its two code lines are sim.js's, unchanged",
+   "src/frameworks/nani/server/sim.ai.js": "Continuation C3a: N.A.N.I.'s AI engine wiring for one world (the seed, the engine, spawning, the director's caps, the nav command), a module of the sim",
+   "src/frameworks/lost/server/sim.glitches.js": "Continuation C3a: L.O.S.T.'s glitched walls, a module of the sim",
+   "src/frameworks/pocket/server/sim.items.js": "Continuation C3a: P.O.C.K.E.T.'s cartograph on the server (where it lies, who picks it up), a module of the sim",
+   "src/frameworks/gib/server/sim.bodies.js": "Continuation C3a: G.I.B.'s bodies and the sim's clock, a module of the sim",
+   "src/frameworks/nani/server/sim.feed.js": "Continuation C3a: N.A.N.I.'s feed of the players to the AI and its events, a module of the sim",
+   "src/core/server/sim.step.js": "Continuation C3a: core's run of one world (its state, the world reset, one step, the snapshot's entities), a module of the sim",
+   "src/frameworks/space/server/sim.players.js": "Continuation C3a: S.P.A.C.E.'s player lifecycle and the roster's changes, a module of the sim",
+   "src/frameworks/space/server/sim.movement.js": "Continuation C3a: S.P.A.C.E.'s movement checks and what the AI hears of movement, a module of the sim",
+   "src/frameworks/overseer/server/sim.admin.js": "Continuation C3a: OVERSEER's world side of the admin tools, a module of the sim"
   },
   "removed": {}
  },

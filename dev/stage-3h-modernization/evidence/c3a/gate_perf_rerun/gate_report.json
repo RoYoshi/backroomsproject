@@ -1,0 +1,21 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "fast",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "8abf81a776f762deabd5e0f476bcf0ef0bfac06b",
+ "startedAt": "2026-10-15T02:52:38.435Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em3/c3a/gate_perf_rerun",
+ "steps": {
+  "perf": {
+   "ok": true,
+   "cases": 9,
+   "note": "lifecycle -1.73%, deaths +0.38%, admin -0.61%, schedule -6.64%",
+   "exit": 0,
+   "seconds": 72
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-15T02:53:50.904Z",
+ "removed": []
+}

@@ -6,7 +6,7 @@
 
 The Hounds and the Smilers: what they perceive, remember and infer, how they decide, move, navigate and attack. All of it on the server:
 - `server/ai.*.js`, the ten parts of `ai.js` (senses and memory, intelligence, light as evidence, entities, captures, the Hound, the Smiler, the engine);
-- `server/sim.ai.js` and `server/sim.feed.js`, the world's side (the engine's wiring and the level as it sees it; what it reads of the players each step, its events).
+- `server/sim.ai.js` and `server/sim.feed.js`, the world's side (the engine's wiring and the level as it sees it, spawning, the admin's nav command; what it reads of the players each step, its events): two modules of the sim since continuation C3a.
 On the page, `client/mp.monsters.js` mirrors the server's monsters into the game.
 
 ## What it must not own
@@ -33,8 +33,8 @@ AI perception is server-side and limited to evidence.
 | [`server/ai.light.js`](server/ai.light.js) | N.A.N.I.: visible light as evidence (Part 2, stage 2C) | `generated/server/ai.js` (a part) |
 | [`server/ai.senses.js`](server/ai.senses.js) | N.A.N.I.: perception, memory, leads and social awareness; the evidence law (Part 2, stage 2C) | `generated/server/ai.js` (a part) |
 | [`server/ai.smiler.js`](server/ai.smiler.js) | N.A.N.I.: the canon Smiler (Part 2, stage 2D) | `generated/server/ai.js` (a part) |
-| [`server/sim.ai.js`](server/sim.ai.js) | N.A.N.I.: the AI engine's wiring (ai.js, the world's seed, the level as the engine sees it), the director's caps and spawning | `generated/server/sim.js` (a part) |
-| [`server/sim.feed.js`](server/sim.feed.js) | N.A.N.I.: what the AI reads of the players every step (feed), its events (processEvents), and a capture as the snapshot sends it | `generated/server/sim.js` (a part) |
+| [`server/sim.ai.js`](server/sim.ai.js) | src/frameworks/nani/server/sim.ai.js - N.A.N.I.: the AI engine's wiring for one world (the world's seed, the engine, the level as the | a module of the sim: `src/core/server/sim.js` requires it |
+| [`server/sim.feed.js`](server/sim.feed.js) | src/frameworks/nani/server/sim.feed.js - N.A.N.I.: what the AI reads of the players every step (feed), its events (processEvents), and | a module of the sim: `src/core/server/sim.js` requires it |
 <!-- end of generated block -->
 
 A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header.
@@ -47,7 +47,7 @@ A file marked "(a part)" is one part of a bigger script: its `/** @part` header 
 
 ## Changing it
 
-Edit the part, `npm run build` (it writes `generated/server/ai.js` and `sim.js`), run `node dev/tools/checks/parts.js`, then the scenario suite. Why a Hound detected someone: its senses (`ai.senses.js`, `ai.light.js`); the admin's DEBUG overlay draws its leads.
+`ai.js`: edit the part, `npm run build` (it writes `generated/server/ai.js`), run `node dev/tools/checks/parts.js`. The sim's modules (`sim.ai.js`, `sim.feed.js`) are loaded as they are: edit, then `node dev/tools/checks/modules.js`. Then the scenario suite. Why a Hound detected someone: its senses (`ai.senses.js`, `ai.light.js`); the admin's DEBUG overlay draws its leads.
 
 ## Tests
 
@@ -56,4 +56,4 @@ Edit the part, `npm run build` (it writes `generated/server/ai.js` and `sim.js`)
 
 ## Known debt
 
-- Its parts share `ai.js`'s factory and `sim.js`'s `createSim` (M-024): the engine part uses 60 names of the others.
+- `ai.js`'s ten parts share its factory: the engine part uses 60 names of the others. They are all N.A.N.I.'s, so no state crosses an owner (M-024); they stay one cohesive file. The sim's side is modules since continuation C3a (ADR-005).

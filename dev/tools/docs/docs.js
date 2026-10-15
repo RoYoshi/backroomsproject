@@ -39,9 +39,11 @@ function whatIs(p) {
   const line = c[1].split('\n').map(l => l.replace(/^\s*(\/\*+|\*+\/?|\/\/)\s?/, '').replace(/\*\/\s*$/, '').trim()).find(l => l);
   return line || '';
 }
+const SIM = require(path.join(REPO, 'dev', 'tools', 'layout.js')).simFiles();   // (C3) the sim's composition and its modules
 function goesInto(p) {
   const into = intoOf(p);
   if (into.length) return into.map(o => '`' + o + '`').join(', ') + (into.length && fs.readFileSync(path.join(REPO, p), 'latin1').startsWith('/** @part') ? ' (a part)' : '');
+  if (SIM.includes(p)) return p === SIM[0] ? 'the sim\'s composition: `server.js` requires it' : 'a module of the sim: `src/core/server/sim.js` requires it';
   if (/\/server\/[^/]+\.js$/.test(p)) return 'a server module: `server.js` requires it';
   return '-';
 }

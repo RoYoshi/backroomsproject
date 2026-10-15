@@ -1,7 +1,7 @@
 {
  "note": "Written by dev/tools/build/build.js. Every built output, its parts in order and their SHA-256. Do not edit: run npm run build.",
  "recipes": "src/build-recipes.json",
- "recipesSha256": "a80e5b23d7ab1e5806a41347723420edd556f4c62f7b92246de3bd77449cce29",
+ "recipesSha256": "4f56dc0324398b8e13c5a9839cf1cbae884fb3adc29cf2b708181608212f3745",
  "tool": "dev/tools/build/build.js",
  "toolSha256": "7e9808dcac2039f6cba90c2ef73af846b837705488de0f5bd03fcf163774feb9",
  "outputs": [
@@ -906,68 +906,6 @@
      "path": "src/frameworks/gib/shared/dphys.js",
      "sha256": "c5fb5064b1fadbf09d5f3645b9dfd90351668e0313fa2cd4d7beb184ee320501",
      "headerBytes": 0
-    }
-   ]
-  },
-  {
-   "out": "generated/server/sim.js",
-   "bytes": 29413,
-   "sha256": "ac2f83b6a6ac50c1077aab7897d870c423d0ae8a24348e43a7f051170db23c55",
-   "parts": [
-    {
-     "path": "src/core/server/sim.header.js",
-     "sha256": "b89a1e8367399e808061a8b586e353fe11e1fdd601d7a27f13e3a650aa5e3368",
-     "headerBytes": 132
-    },
-    {
-     "path": "src/frameworks/lost/server/sim.level0.js",
-     "sha256": "40b5c251427ebf97b49200f0ae2d8d14d289a0d14d30df0ba132f890a459ec16",
-     "headerBytes": 755
-    },
-    {
-     "path": "src/frameworks/nani/server/sim.ai.js",
-     "sha256": "b08a5346873cacbecb8a5c89c9a50d7b636af4ebe5a527107c2cb20763536efe",
-     "headerBytes": 720
-    },
-    {
-     "path": "src/frameworks/lost/server/sim.glitches.js",
-     "sha256": "f5f3563ed9811e71e05795e6d6a2108d26945c45d21179c955618f530ef51007",
-     "headerBytes": 391
-    },
-    {
-     "path": "src/frameworks/gib/server/sim.bodies.js",
-     "sha256": "0cf401cf37c4ccb7f958d21f708acffd865a2162235d19d1994a976f165b4ebb",
-     "headerBytes": 368
-    },
-    {
-     "path": "src/frameworks/space/server/sim.players.js",
-     "sha256": "5aa33faaab976065401ed9b9c598f26101735d75863a934db4a99284826fedc2",
-     "headerBytes": 523
-    },
-    {
-     "path": "src/frameworks/space/server/sim.movement.js",
-     "sha256": "64f980be15c49479193168b4657d1104dea0ee811b3ef8745485133b9da07471",
-     "headerBytes": 250
-    },
-    {
-     "path": "src/frameworks/nani/server/sim.feed.js",
-     "sha256": "02c67af79d3e7913a23e8e0209f941b502b324be295ef1e3a585c0ba1903d991",
-     "headerBytes": 270
-    },
-    {
-     "path": "src/core/server/sim.step.js",
-     "sha256": "9620536f8aa931e39038d7842792ee9a97ca1bde11edc047a1d023e5a24a5544",
-     "headerBytes": 378
-    },
-    {
-     "path": "src/frameworks/overseer/server/sim.admin.js",
-     "sha256": "89d419de71485a2140d172506584d58dda8a87f036f24cd426a0ae5cca7bcf85",
-     "headerBytes": 465
-    },
-    {
-     "path": "src/core/server/sim.glue.js",
-     "sha256": "ce37fedab8b70dc6c8534dbb9b429379f18ac1104633bb1a8b255951db885451",
-     "headerBytes": 632
     }
    ]
   },

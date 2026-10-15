@@ -1,15 +1,14 @@
-/** @part generated/server/sim.js - L.O.S.T.: the glitched walls, the way out of Level 0
- * P.O.C.K.E.T.'s cartograph placement (items, makeItems) sits between the walls' lines, as it always did; its pick-up (takeItem) is in
- * src/core/server/sim.glue.js.
- * provides: glitches, items, makeGlitches, makeItems
- * uses: ANCHOR, FBH, FBW, Hc, Ic, RND, fl, randomSpot, sl, zc
- * writes: -
- */
+/* src/frameworks/lost/server/sim.glitches.js - L.O.S.T.: the glitched walls, the way out of Level 0; a module of the sim
+ * (src/core/server/sim.js).
+ * Stage 3H continuation C3 (M-024, dev/stage-3h-modernization/tools/c3_sim_modules.py): a module.  Its lines are sim.js's
+ * at M8, as they were, except what that tool lists: P.O.C.K.E.T.'s cartograph, which sat among these lines, is in its own module
+ * (src/frameworks/pocket/server/sim.items.js).
+ *   simGlitches({ ai, level })   returns the current walls (glitches(): the list changes at every world reset) and placeGlitches(),
+ *     which places three new ones: the world reset and the admin call it where they used to assign the list themselves. */
+'use strict';
+module.exports = function simGlitches({ ai: { ANCHOR, RND }, level: { FBH, FBW, Hc, Ic, fl, sl, zc } }) {
 /* --- glitched walls: the way out of Level 0 --- */
 let glitches=[];
-/* one rare find per world: a paranormal cartograph lying somewhere in the halls (first to reach it keeps it) */
-let items=[];
-function makeItems(){const p=randomSpot(1800,glitches,700,true);return p?[{id:`cartograph`,x:Math.round(p.x),y:Math.round(p.y)}]:[]}
 function makeGlitches(n=3){
   const out=[],dirs=[[1,0],[-1,0],[0,1],[0,-1]];
   for(let t=0;t<6000&&out.length<n;t++){
@@ -24,4 +23,7 @@ function makeGlitches(n=3){
   }
   return out;
 }
-
+/* (C3) three new glitched walls */
+const placeGlitches=()=>{glitches=makeGlitches(3)};
+return { glitches: () => glitches, placeGlitches };
+};

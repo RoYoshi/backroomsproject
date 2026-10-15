@@ -7,13 +7,15 @@
  *
  *   const L = require('<path>/dev/tools/layout.js');
  *   L.at('mp.js')          absolute path of what was <root>/mp.js in this repository (the built file the browser gets: public/mp.js)
- *   L.at('sim.js')         ... generated/server/sim.js (what the server loads)
+ *   L.at('sim.js')         ... src/core/server/sim.js (the sim's composition, which the server requires; continuation C3)
  *   L.at('server/ws.js')   ... src/frameworks/bpp/server/ws.js
  *   L.at('dev/ents_src/10_hound.js')   ... src/frameworks/br-r/client/ents.hound.js (a part's canonical source)
  *   L.forTree(dir)         the same API for another game folder (an export); detects the old layout and maps names to themselves
  *   L.isModern(dir)        true when dir has the public/ web root or the generated/server/ folder
  *   L.webRoot(dir)         the folder the server serves (dir/public, or dir itself on the old layout)
  *   L.serverFiles()        the server-side runtime files (relative paths); L.serverSource() the server's own code as one text
+ *   L.simFiles()           (C3) the sim's own files: its composition and the modules it requires (relative paths); L.simSource() their
+ *                          text, for the tests that read the sim's code (s_ir I1, light_test)
  * A name the map does not know is returned as <root>/<name> (an unmoved file such as server.js or a dev/ path). */
 'use strict';
 const fs = require('fs'), path = require('path');
@@ -28,10 +30,11 @@ const MAP = {
   /* loaded by the server as well as served: the server's copy (byte-identical to the served one: both are built from the same parts) */
   'world.js': 'generated/server/world.js', 'dphys.js': 'generated/server/dphys.js',
   /* loaded by the server only */
-  'sim.js': 'generated/server/sim.js', 'ai.js': 'generated/server/ai.js', 'death_srv.js': `${F}/gib/server/death_srv.js`,
+  'sim.js': 'src/core/server/sim.js', 'ai.js': 'generated/server/ai.js', 'death_srv.js': `${F}/gib/server/death_srv.js`,   // (C3) the sim: its composition
   'server/newrun.js': `${F}/bpp/server/newrun.js`, 'server/aftermath.js': `${F}/gib/server/aftermath.js`, 'server/peers.js': `${F}/space/server/peers.js`,
   'server/ws.js': `${F}/bpp/server/ws.js`, 'server/fields.js': `${F}/ward/server/fields.js`, 'server/static.js': `${F}/ward/server/static.js`,
-  /* the old development sources of the assembled files -> their canonical parts (dev/sim_glue.js has none since H3M-3: it is nine parts, sim.js's recipe) */
+  /* the old development sources of the assembled files -> their canonical parts (dev/sim_glue.js has none: since H3M-3 it was nine parts, and
+   * since C3 the sim is modules, simFiles) */
   'dev/ents_src/00_head.js': `${F}/br-r/client/ents.head.js`, 'dev/ents_src/10_hound.js': `${F}/br-r/client/ents.hound.js`, 'dev/ents_src/20_smiler.js': `${F}/br-r/client/ents.smiler.js`,
   'dev/ents_src/25_death.js': `${F}/gib/client/ents.death.js`, 'dev/ents_src/30_audio.js': `${F}/spacious-audio/client/ents.audio.js`, 'dev/ents_src/40_debug.js': `${F}/overseer/client/ents.debug.js`,
 };
@@ -59,16 +62,28 @@ function forTree(dir) {
     const mods = walk('src').map(f => f.split(path.sep).join('/')).filter(f => /\/server\/[^/]+\.js$/.test(f) && !parts.has(f));
     return ['server.js', ...gen, ...mods];
   };
+  /* (C3) the sim's own files, relative paths: on the modern layout its composition (src/core/server/sim.js) and every module the
+   * composition requires from src/, in the composition's order; on the old layout sim.js alone */
+  const simFiles = () => {
+    if (!modern) return ['sim.js'];
+    const root = rel('sim.js'), out = [root];
+    for (const m of fs.readFileSync(path.join(dir, root), 'utf8').matchAll(/require\('(\.{1,2}\/[^']+)'\)/g)) {
+      const f = path.posix.normalize(path.posix.join(path.posix.dirname(root), m[1]));
+      if (f.startsWith('src/') && !out.includes(f)) out.push(f);
+    }
+    return out;
+  };
+  const simSource = () => simFiles().map(f => fs.readFileSync(path.join(dir, f), 'utf8')).join('\n');
   /* (H3M-2) the server's own code as one text: server.js and every module split out of it (Stage 3H0, 3H2, H3M-2), on either layout, for
-   * the tests that read the server's code (s_ir I1, s_humanqa_hotfix X02).  The built world files (sim.js, ai.js, world.js, dphys.js)
-   * are not server.js's code and are left out. */
-  const serverSource = () => serverFiles().filter(f => !f.startsWith('generated/') && !['sim.js', 'ai.js', 'world.js', 'dphys.js'].includes(f))
-    .sort((a, b) => a === 'server.js' ? -1 : b === 'server.js' ? 1 : a < b ? -1 : a > b ? 1 : 0).map(f => fs.readFileSync(path.join(dir, f), 'utf8')).join('\n');
+   * the tests that read the server's code (s_ir I1, s_humanqa_hotfix X02).  The world's files (sim.js and, since C3, its modules; ai.js,
+   * world.js, dphys.js) are not server.js's code and are left out. */
+  const serverSource = () => { const sim = new Set(simFiles()); return serverFiles().filter(f => !f.startsWith('generated/') && !sim.has(f) && !['sim.js', 'ai.js', 'world.js', 'dphys.js'].includes(f))
+    .sort((a, b) => a === 'server.js' ? -1 : b === 'server.js' ? 1 : a < b ? -1 : a > b ? 1 : 0).map(f => fs.readFileSync(path.join(dir, f), 'utf8')).join('\n'); };
   return {
     root: dir, modern, rel,
     at: name => path.join(dir, rel(name)),
     webRoot: () => modern ? path.join(dir, 'public') : dir,
-    serverFiles, serverSource,
+    serverFiles, serverSource, simFiles, simSource,
   };
 }
 /* The runtime of a tree under its old (root-relative) names: [old name, absolute path] for every file the game serves or the server loads.
@@ -99,25 +114,37 @@ const PATH_EDITS = {
 };
 /* Write a tree's runtime, under its old names, into an empty folder: an old-layout copy of a modern tree, which a pre-modernization
  * server.js (B++'s, 3H2's) can run as if it were its own folder.  A file with a layout path edit is written with that edit undone
- * (PATH_EDITS).  Returns the old names written. */
+ * (PATH_EDITS).  (C3) The sim's composition, written as sim.js, has each of its requires pointed at where this copy puts that file: its
+ * old name if it has one (./world.js, ./ai.js), else its own path (./src/frameworks/.../sim.*.js, copied there as runtime); a require
+ * that names no runtime file stops the copy.  Returns the old names written. */
 function projectOld(dir, outDir) {
   const R = runtimeOf(dir), modern = isModern(path.resolve(dir));
+  const byPath = new Map([...R].map(([n, p]) => [path.resolve(p), n]));
   for (const [n, p] of R) {
     const o = path.join(outDir, n); fs.mkdirSync(path.dirname(o), { recursive: true });
     if (modern && PATH_EDITS[n]) {
       let t = fs.readFileSync(p, 'utf8');
       for (const [now, was] of PATH_EDITS[n]) { if (t.split(now).length !== 2) throw new Error(`projectOld: the layout edit in ${n} is not found exactly once`); t = t.replace(now, was); }
       fs.writeFileSync(o, t);
+    } else if (modern && n === 'sim.js') {
+      const t = fs.readFileSync(p, 'utf8').replace(/require\('(\.{1,2}\/[^']+)'\)/g, (all, r) => {
+        const to = byPath.get(path.resolve(path.dirname(p), r));
+        if (!to) throw new Error(`projectOld: the sim's composition requires ${r}, which is not a runtime file`);
+        return `require('./${to}')`;
+      });
+      fs.writeFileSync(o, t);
     } else fs.copyFileSync(p, o);
   }
   return [...R.keys()].sort();
 }
 const self = forTree(path.resolve(__dirname, '..', '..'));
-module.exports = Object.assign({ forTree, isModern, MAP, PATH_EDITS, runtimeOf, projectOld, webRoot: dir => forTree(dir).webRoot() }, { root: self.root, at: self.at, rel: self.rel, modern: self.modern, serverFiles: self.serverFiles, serverSource: self.serverSource });
-/* command line, for tools in other languages:  node dev/tools/layout.js at <old name> [--dir <tree>]   prints the absolute path */
+module.exports = Object.assign({ forTree, isModern, MAP, PATH_EDITS, runtimeOf, projectOld, webRoot: dir => forTree(dir).webRoot() }, { root: self.root, at: self.at, rel: self.rel, modern: self.modern, serverFiles: self.serverFiles, serverSource: self.serverSource, simFiles: self.simFiles, simSource: self.simSource });
+/* command line, for tools in other languages:  node dev/tools/layout.js at <old name> [--dir <tree>]   prints the absolute path;
+ * sim-files [--dir <tree>]   prints the absolute path of each of the sim's files, one per line (C3) */
 if (require.main === module) {
   const a = process.argv.slice(2), i = a.indexOf('--dir'), T = i >= 0 ? forTree(a[i + 1]) : self;
   if (a[0] === 'at' && a[1]) process.stdout.write(T.at(a[1]) + '\n');
   else if (a[0] === 'web-root') process.stdout.write(T.webRoot() + '\n');
-  else { process.stderr.write('usage: layout.js at <name> [--dir <tree>] | web-root [--dir <tree>]\n'); process.exitCode = 2; }
+  else if (a[0] === 'sim-files') process.stdout.write(T.simFiles().map(f => path.join(T.root, f)).join('\n') + '\n');
+  else { process.stderr.write('usage: layout.js at <name> [--dir <tree>] | web-root [--dir <tree>] | sim-files [--dir <tree>]\n'); process.exitCode = 2; }
 }

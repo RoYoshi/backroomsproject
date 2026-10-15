@@ -3,7 +3,7 @@
 // blackout timer and shared evidence.  sim.js and ai.js are never served to browsers.
 const http = require('http'), fs = require('fs'), path = require('path'), crypto = require('crypto');
 const zlib = require('zlib');
-const createSim = require('./generated/server/sim.js');   // (built from src/: npm run build)
+const createSim = require('./src/core/server/sim.js');     // (continuation C3) the sim: its owners' modules, made by src/core/server/sim.js
 
 const PORT = +process.argv[2] || process.env.PORT || 8000, ROOT = path.join(__dirname, 'public'), MAX_ROOM = 8;   // (Stage 3H modernization: the web root is public/; nothing outside it can be served)
 // Admin passcode. Override on the host with the ADMIN_PASSCODE environment variable (recommended).

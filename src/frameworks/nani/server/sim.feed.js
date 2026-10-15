@@ -1,8 +1,11 @@
-/** @part generated/server/sim.js - N.A.N.I.: what the AI reads of the players every step (feed), its events (processEvents), and a capture as the snapshot sends it
- * provides: capInfo, feed, processEvents
- * uses: Gc, SNn, eng, isAlive, opts, players
- * writes: -
- */
+/* src/frameworks/nani/server/sim.feed.js - N.A.N.I.: what the AI reads of the players every step (feed), its events (processEvents), and
+ * a capture as the snapshot sends it (capInfo); a module of the sim (src/core/server/sim.js).
+ * Stage 3H continuation C3 (M-024, dev/stage-3h-modernization/tools/c3_sim_modules.py): a module; its lines are sim.js's
+ * at M8, as they were.
+ *   simFeed({ WORLD, opts, players, level, ai })   players is the roster (feed writes the fields the AI reads on each record; a kill
+ *     marks its victim dead and calls opts.onDeath). */
+'use strict';
+module.exports = function simFeed({ WORLD, opts, players, level: { Gc }, ai: { SNn, eng, isAlive } }) {
 /* the numbers the AI reads about each player, refreshed every step */
 function feed(){
   for(const p of players){
@@ -26,3 +29,5 @@ function processEvents(){
   }
 }
 const capInfo=p=>{const c=p.caught;return c?{ph:c.phase,e:c.eid,k:c.kind,d:c.drag?[Math.round(c.drag.x),Math.round(c.drag.y)]:0}:0};
+return { capInfo, feed, processEvents };
+};

@@ -5,6 +5,8 @@ _HERE=os.path.dirname(os.path.abspath(__file__))
 ROOT=next(p for p in (os.path.join(_HERE,'..','..','g'),os.path.join(_HERE,'..','..')) if os.path.exists(os.path.join(p,'server.js')))
 # (Stage 3H modernization) a runtime file where the layout puts it (dev/tools/layout.js: e.g. ai.js is generated/server/ai.js)
 AT=lambda name: subprocess.run(['node',os.path.join(ROOT,'dev','tools','layout.js'),'at',name,'--dir',ROOT],capture_output=True,text=True,check=True).stdout.strip()
+# (Stage 3H continuation C3) the sim's own files: its composition and the modules it requires (dev/tools/layout.js sim-files)
+SIMFILES=lambda: subprocess.run(['node',os.path.join(ROOT,'dev','tools','layout.js'),'sim-files','--dir',ROOT],capture_output=True,text=True,check=True).stdout.split()
 # (Stage 3H modernization) the built-in default passcode of the server this test starts, read from that server.js so that this file does not repeat it
 DEFAULT_PASS=lambda: __import__('re').search(r"ADMIN_PASSCODE\s*\|\|\s*'([^']*)'",open(os.path.join(ROOT,'server.js'),encoding='utf-8').read()).group(1)
 from playwright.async_api import async_playwright
@@ -125,7 +127,7 @@ async def main():
             await b.close()
     finally: srv.terminate()
     # AI / server side is untouched by rendering: nothing in the server sim reads client presentation values
-    srvsrc=open(AT('ai.js')).read()+open(AT('sim.js')).read()
+    srvsrc=open(AT('ai.js')).read()+''.join(open(f).read() for f in SIMFILES())   # (C3) every file of the sim
     ok('AI never reads render visibility (no alpha / tint / __light in ai.js or sim.js)', '__light' not in srvsrc and '.alpha' not in srvsrc and '.tint' not in srvsrc)
     R['pass']=all(c['ok'] for c in R['checks'].values())
     json.dump(R,open(os.path.join(OUT,'light_report.json'),'w'),indent=1)

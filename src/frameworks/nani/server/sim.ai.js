@@ -1,22 +1,20 @@
-/** @part generated/server/sim.js - N.A.N.I.: the AI engine's wiring (ai.js, the world's seed, the level as the engine sees it), the director's caps and spawning
- * The world's shared state is declared here too, at the top of the glue as it always was: players, frozen, speed, bmode, runT, spawnT,
- * debugOn and worldSeq.
- * provides: ADMIN_MAX_HOUNDS, ADMIN_MAX_SMILERS, ANCHOR, DIRECTOR_MAX_HOUNDS, MAX_BODIES, PR, RND, SNn, adapter, adminCap, adminSpawn,
- *           alive, bmode, debugOn, eng, ents, frozen, isAlive, newHound, players, randomSpot, rnd, runT, spawnMonsters, spawnT, speed,
- *           worldSeq
- * uses: Bc, FBH, FBW, Fc, Gc, Ic, Oc, Uc, V, W, al, fl, il, ll, opts, qc, sl, ul, zc
- * writes: -
- */
-
+/* src/frameworks/nani/server/sim.ai.js - N.A.N.I.: the AI engine's wiring for one world (the world's seed, the engine, the level as the
+ * engine sees it), the director's caps and spawning, and the admin's nav command; a module of the sim (src/core/server/sim.js).
+ * Stage 3H continuation C3 (M-024, dev/stage-3h-modernization/tools/c3_sim_modules.py): a module.  Its lines are sim.js's
+ * at M8, as they were, except what that tool lists: ai.js is required once by the sim and given here (AI); the world's shared state that
+ * was declared here, "at the top of the glue", went to its owners (the roster to the sim, PR and the run's clock and controls to the
+ * run, debugOn to the admin); navCmd and killerEnd, which sat among G.I.B.'s lines, are here, with the engine they call.
+ *   simAi({ AI, WORLD, opts, players, level })   makes the world's random stream (RND, from opts.seed or 4 random bytes) and its AI
+ *     engine (eng) on the level's primitives, and returns them with the director's caps and what spawns and places the monsters.
+ *     players is the roster, read only (alive). */
+'use strict';
+module.exports = function simAi({ AI, WORLD, opts, players, level: { Bc, FBH, FBW, Fc, Gc, Ic, Oc, Uc, V, W, al, fl, il, ll, qc, sl, ul, zc } }) {
 /* ---------- multiplayer glue (v16): the shared AI engine (ai.js) drives every Hound and Smiler.
    The old single-hound / single-smiler code that used to sit above this line has been replaced by that engine;
    everything the entities know about players reaches them through perception (see ai.js). ---------- */
-const AI=require('./ai.js');
 const SIM_SEED=(opts.seed??require('crypto').randomBytes(4).readUInt32LE(0))>>>0;
 const RND=AI.mkRng(SIM_SEED);
-var PR=0;const ANCHOR={x:1056,y:3264};   // spawn is hard against a wall; this open spot next to it is used for reachability checks
-const players=[];
-let frozen=false,speed=1,bmode=`auto`,runT=0,spawnT=0,debugOn=false,worldSeq=0;      // worldSeq: Stage 3D, counts world resets (a death's corpse belongs to its world)
+const ANCHOR={x:1056,y:3264};   // spawn is hard against a wall; this open spot next to it is used for reachability checks
 // Shipped/director population remains intentionally small.  Human-QA/stress tools get a much higher ceiling without silently changing normal balance.
 const DIRECTOR_MAX_HOUNDS=3,ADMIN_MAX_HOUNDS=64,ADMIN_MAX_SMILERS=64,MAX_BODIES=24;
 const adminCap=k=>k===`hound`?ADMIN_MAX_HOUNDS:ADMIN_MAX_SMILERS;
@@ -94,4 +92,9 @@ function spawnMonsters(nh,ns){
   for(let i=0;i<nh;i++)newHound();
   for(let i=0;i<ns;i++)newSmiler();
 }
-
+/* (C3) the admin's nav command, and where a kill left the Hound (they sat among G.I.B.'s lines) */
+function navCmd(eid,cmd,p){const e=eng.entities.find(o=>o.id===eid);if(!e)return null;return eng.navCmd(e,cmd,p)}
+function killerEnd(id,x,y,a){return eng.commitEnd(id,x,y,a)}
+return { ADMIN_MAX_HOUNDS, ADMIN_MAX_SMILERS, ANCHOR, DIRECTOR_MAX_HOUNDS, MAX_BODIES, RND, SNn, adapter, adminCap, adminSpawn, alive, eng, ents, isAlive,
+  killerEnd, navCmd, newHound, randomSpot, rnd, spawnMonsters };
+};

@@ -1,0 +1,14 @@
+projectOld: 76 runtime files under their old names; the sim's composition written as sim.js; its requires:
+  ./world.js  present in the copy
+  ./ai.js  present in the copy
+  ./src/frameworks/lost/server/sim.level0.js  present in the copy
+  ./src/frameworks/nani/server/sim.ai.js  present in the copy
+  ./src/frameworks/lost/server/sim.glitches.js  present in the copy
+  ./src/frameworks/pocket/server/sim.items.js  present in the copy
+  ./src/frameworks/gib/server/sim.bodies.js  present in the copy
+  ./src/frameworks/nani/server/sim.feed.js  present in the copy
+  ./src/core/server/sim.step.js  present in the copy
+  ./src/frameworks/space/server/sim.players.js  present in the copy
+  ./src/frameworks/space/server/sim.movement.js  present in the copy
+  ./src/frameworks/overseer/server/sim.admin.js  present in the copy
+createSim({seed:7}) in the copy: 42 keys; world 1; hounds 1, smilers 5

@@ -124,12 +124,34 @@ module of the server (so the order of the server's own requires, which the golde
 | `frameworks/bpp/server/session.js` | `srv` and what the session hands messages to (`getRoom`, `rooms`, `send`, `reader`, the field checks, the movement authority, `nrIntent`, `adminCommand`, `adminLogin`), `crypto`, `MAX_ROOM`, `FAST_GAP` | nothing: it registers the upgrade handler on `srv` |
 | `core/server/loop.js` | `rooms`, `poseSend`, `aftStart`, `aftSend`, `aftTick`, `bodyAt`, `send`, `SNAP_EVERY`, `ADMIN_EVERY` | `tick` |
 
-The world itself (`generated/server/sim.js`, `createSim(opts)`) returns the API the server uses: `step`, `entities`, `addPlayer`, `join`,
-`respawn`, `leave`, `newRun`, `moveOk`, `moveRoute`, `spawnOk`, `admin`, ... (`src/core/server/sim.glue.js`, its last part).
+The world itself (`core/server/sim.js`, `createSim(opts)`, one per room) returns the API the server uses: `step`, `entities`,
+`addPlayer`, `join`, `respawn`, `leave`, `newRun`, `moveOk`, `moveRoute`, `spawnOk`, `admin`, ..., the same object, key for key, as the
+built `sim.js` returned until continuation C3a. Since C3a the sim is modules, each a factory given what it uses, by owner, and returning
+what it gives. `core/server/sim.js` makes them in this order (the order the one function ran) and wires them:
+
+| Module (its name in `sim.js`) | Owner | Given | Returns |
+|---|---|---|---|
+| `frameworks/lost/server/sim.level0.js` (`level`) | L.O.S.T. | `WORLD` | the map, collision, ray cast and light primitives (`FBW`, `FBH`, `Oc`, `Ic`, `Fc`, `W`, `al`, `il`, `ll`, `ul`, `zc`, `Hc`, `Bc`, `sl`, `Uc`, `fl`, `Gc`, `qc`), the blackout `V` with `Lc`, `Rc`, and its controls `forceBlackout`, `restartBlackout` |
+| `frameworks/nani/server/sim.ai.js` (`ai`) | N.A.N.I. | `AI`, `WORLD`, `opts`, `players`, `level` | the seed's stream `RND`, `rnd`, the engine `eng` and its `adapter`, the caps, `alive`, `isAlive`, `ents`, `randomSpot`, `newHound`, `spawnMonsters`, `adminSpawn`, `adminCap`, `ANCHOR`, `SNn`, `navCmd`, `killerEnd` |
+| `frameworks/lost/server/sim.glitches.js` (`walls`) | L.O.S.T. | `ai`, `level` | `glitches()` (the current walls), `placeGlitches()` |
+| `frameworks/pocket/server/sim.items.js` (`items`) | P.O.C.K.E.T. | `ai`, `walls` | `items()` (the current cartograph), `placeItems()`, `takeItem(p)` |
+| `frameworks/gib/server/sim.bodies.js` (`bodies`) | G.I.B. | `opts`, `ai` | `bodies` (a Map), `setBody`, `tick(dt)` (the sim's clock and the bodies' pruning), `clearBodies()`, `clock()`, `bodyVer()` |
+| `frameworks/nani/server/sim.feed.js` (`feed`) | N.A.N.I. | `WORLD`, `opts`, `players`, `level`, `ai` | `feed`, `processEvents`, `capInfo` |
+| `core/server/sim.step.js` (`run`) | core | `opts`, `players`, `level`, `ai`, `feed`, `walls`, `items`, `bodies` | `resetWorld`, `step`, `entities`, `ofKind`, `runT()`, `worldSeq()`, and `controls`: the admin's way into the run (`freeze`, `setSpeed`, `setBlackout`, `capRunTime`; `frozen`, `speed`, `bmode` to read) |
+| `frameworks/space/server/sim.players.js` (`life`) | S.P.A.C.E. | `players`, `level`, `ai`, `feed`, `run` | the lifecycle (`addPlayer`, `removePlayer`, `spawn`, `join`, `respawn`, `canRespawn`, `leave`, `newRun`, `nrWhy`, `nrWait`, `NR_CD`, `forfeit`, `lifeOf`) |
+| `frameworks/space/server/sim.movement.js` (`move`) | S.P.A.C.E. | `WORLD`, `level`, `ai` | `moveRoute`, `moveOk`, `spawnOk`, `hearMove`, `gaitFloor` |
+| `frameworks/overseer/server/sim.admin.js` (`over`) | OVERSEER | `players`, `level`, `ai`, `feed`, `walls`, `items`, `run`, `life` | `admin` (the object the server calls) and `debugOn()` |
+
+A factory's parameter names what it takes from each giver (`ai: { eng, randomSpot }`). A value that changes (the walls, the run's clock,
+the world count, the bodies' version, the debug switch) is read through a function, never copied. State has one owner: another module
+changes it only by calling a function its owner returns (the run's `controls`, `placeGlitches`, `clearBodies` ...). `players`, the
+roster, is made by `sim.js`; only S.P.A.C.E.'s `sim.players.js` adds and removes players. `node dev/tools/checks/modules.js` (the gate's
+`modules` step) proves these boundaries from the code, and the gate's `sim` step proves the behaviour against B++'s `sim.js`.
 
 ## 4. The parts of one script
 
-The parts of `mp.js`, `sim.js`, `ai.js`, `ents.js`, `world.js`, `move.js`, `camcorder.js` and `glitch.js` share their script's closure.
+The parts of `mp.js`, `ai.js`, `ents.js`, `world.js`, `move.js`, `camcorder.js` and `glitch.js` share their script's closure (`sim.js`
+was built from parts too, until continuation C3a made it modules: section 3).
 Each part's header lists what it provides, uses and writes; `node dev/tools/checks/parts.js` (the gate's `parts` step) proves every list
 against the code. Those lists are the contracts between the parts: a name in another part's `uses` cannot be renamed alone.
 

@@ -6,8 +6,9 @@ Paths are under `src/` unless they start with `public/`. A function name in a pa
 ## The server starts
 
 `node server.js [port]` (the composition root):
-1. requires the built world (`generated/server/sim.js`) and reads its configuration: the port, the web root `public/`, the admin
-   passcode (`ADMIN_PASSCODE`), the body lifetime (`BODY_TTL`);
+1. requires the sim (`core/server/sim.js`: since continuation C3a the composition of its owners' modules, which requires the built
+   `generated/server/world.js` and `ai.js`) and reads its configuration: the port, the web root `public/`, the admin passcode
+   (`ADMIN_PASSCODE`), the body lifetime (`BODY_TTL`);
 2. creates the HTTP server with the static file server (`frameworks/ward/server/static.js`);
 3. wires the modules, each given what it uses: the movement authority (`frameworks/space/server/movement.js`), the death aftermath
    (`frameworks/gib/server/aftermath.js`), NEW RUN's decision (`frameworks/bpp/server/newrun.js`), the rooms
@@ -29,7 +30,9 @@ scripts' hooks. `mp.js` connects (`frameworks/bpp/client/mp.transport.js`: `conn
 
 `core/server/loop.js`, `tick()`, for each room:
 1. **Steps the world** at 60 Hz: as many 1/60 s steps as the elapsed time asks (at most 15), `room.sim.step()`
-   (`core/server/sim.step.js`): the AI's feed and engine, the captures, the events.
+   (`core/server/sim.step.js`): the sim's clock and the bodies' pruning (G.I.B.'s `tick`), the spawn protection, the glitched walls'
+   exits, then (unless frozen, or nobody is alive) the run's clock, the blackout, the pressure and the director, the AI's feed and
+   engine, the captures, the events.
 2. On **one tick in two** (`SNAP_EVERY`): plays the deaths' aftermath (`aftStart` for any death without its event, then `aftSend`,
    `aftTick`), and sends each client one **snapshot** (`{t:'s'}`: the other players, the entities, the client's own state, the world
    epoch). With it, when due: the admin's panel data (5 times a second), the AI debug data (to admins who asked), the bodies (when they

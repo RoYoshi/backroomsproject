@@ -1,0 +1,101 @@
+# Stage 3H continuation, wave C3a (M-024): the server's sim made of modules
+# $SP is the session's scratch folder. The parent is C2 = 8abf81a (tree 7e4c8e4). B++ = 143b63f. M8 = c34f0c2 (the sim's parts at M8
+# are those of C2: C0 and C2 changed none of them).
+
+## the modules (dev/stage-3h-modernization/tools/c3_sim_modules.py, new at C3a)
+python3 -I -B dev/stage-3h-modernization/tools/c3_sim_modules.py --apply     writes the modules and the composition from M8's parts (read
+                                                                               from Git, each checked by its blob id); removes
+                                                                               src/core/server/sim.header.js, sim.glue.js and the built
+                                                                               generated/server/sim.js
+python3 -I -B dev/stage-3h-modernization/tools/c3_sim_modules.py --check --report sim_modules_report.txt   exit 0
+  C3a SIM MODULES CHECK: PASS.  The report lists, for each module, which of M8's lines it holds (verbatim) and every edit, old -> new.
+  The edits, all of them:
+  - the run's state, which N.A.N.I.'s lines declared "at the top of the glue", went to core's sim.step.js (PR, frozen, speed, bmode,
+    runT, spawnT, worldSeq); debugOn to OVERSEER's sim.admin.js; the roster (players) to the composition;
+  - where one owner assigned another's variable it now calls that owner's function: glitches=makeGlitches(3) -> placeGlitches();
+    items=makeItems() -> placeItems(); bodies.clear();bodyT.clear();bodyVer++ -> clearBodies(); clockT+=dt;pruneBodies(dt) ->
+    tick(dt); V.blackout=bmode===`on` -> forceBlackout(bmode===`on`); V.elapsed=0 -> restartBlackout(); the admin's frozen=,
+    speed=, bmode=, runT=Math.min(runT,60) -> controls.freeze(), setSpeed(), setBlackout(), capRunTime(60);
+  - where a value that changes was read across owners it is now read through a function: glitches(), items(), clock(), runT(),
+    bodyVer(), worldSeq(), debugOn(), controls.frozen / speed / bmode;
+  - createSim(opts){opts=opts||{}; -> createSim(options){const opts=options||{}; (a factory never assigns what it is given).
+  Moved whole: the cartograph (items, makeItems, takeItem) to P.O.C.K.E.T.'s new sim.items.js; navCmd and killerEnd to N.A.N.I.'s
+  sim.ai.js; the world reset to the run.  sim.level0.js's two long lines (the bundle's code) are unchanged.
+server.js: line 6 requires ./src/core/server/sim.js instead of ./generated/server/sim.js (one line; the passcode line unchanged).
+src/build-recipes.json: the sim's recipe removed; npm run build: 39 outputs; BUILD CHECK: PASS.
+
+## the layout (dev/tools/layout.js)
+  'sim.js' names the composition, src/core/server/sim.js.  simFiles() and simSource() give every file of the sim (the composition
+  and the modules it requires), and serverSource() leaves them out, as it left sim.js out.  projectOld writes the composition as sim.js
+  with each require pointed at where the copy puts that file (./world.js, ./ai.js, ./src/frameworks/.../sim.*.js), so B++'s
+  server.js (the gate's old side) runs this sim.  Checked (projection_check.txt): every require of the copy's sim.js names a file the
+  copy holds, and createSim({seed:7}) works there.
+  The tests that read the sim's code read all of it: s_ir.js I1 (LAYOUT.simSource()) and light_test.py (layout.js sim-files).
+  node dev/tests/run.js s_ir.js                                                 3/3 (s_ir.txt; I1: infrared names in the sim's code 0)
+  node dev/stage-3h-modernization/tools/m8_served_identity.js                   SERVED IDENTITY: PASS (served_identity.*): public/'s
+  48 files and the server's 3 built files (ai.js, world.js, dphys.js) identical to 3H2's; the sim is not built any more
+
+## the module boundaries (dev/tools/checks/modules.js, new: the gate's modules step)
+node dev/tools/checks/modules.js --out modules.json                            exit 0  (modules.json, modules.txt)
+  MODULES CHECK: PASS: 26 server files, 21 factories; every name used is the file's own, given to its factory, or the host's or the
+  language's; no global object; no import assigned; every import used; the sim: 10 modules, each made from modules made before it:
+  level; ai <- level; walls <- ai level; items <- ai walls; bodies <- ai; feed <- level ai; run <- level ai feed walls items bodies;
+  life <- level ai feed run; move <- level ai; over <- level ai feed walls items run life
+node dev/stage-3h-modernization/tools/c3_modules_mutants.js --out modules_mutants.json   exit 0  (modules_mutants.*)
+  MODULES CHECK MUTANTS: PASS: the unchanged copy passes, and 8 of 8 broken boundaries are refused, each for its own reason (state at
+  a sim module's top level, an import assigned, a name nobody gave, an import never used, an import its giver does not return, a
+  module made from one made after it, a key the composition does not give, a reach for the global object)
+
+## the sim against B++'s (dev/tools/gate/golden/sim_diff.js and sim_mutants.js, new: the gate's sim step)
+node dev/tools/gate/golden/sim_diff.js --out sim_diff.json                     exit 0  (gate_full/sim_diff.*)
+  SIM DIFF: SAME: 20,050 comparisons over 5 seeds (1, 7, 42, 99, 1234), 0 differences.  The old side is B++'s sim.js (with its ai.js and
+  world.js); every call's result and the world's visible state after it.  Reached: 10,060 steps, 1,587 moves, 1,221 movement reports,
+  957 pick-ups (283 cartographs taken), 782 bodies, the lifecycle (137 joins, 116 leaves, 116 NEW RUNs and 11 respawns done), every
+  admin tool (about 150 to 220 calls each; 96 preview kills done), 96 deaths reported (onDeath)
+node dev/tools/gate/golden/bpp_mutants.js --scenarios dev/stage-3h0/golden/srv_scenarios.js --mutants dev/tools/gate/golden/sim_mutants.js
+     --out sim_mutants_goldens.json                                            (gate_full/sim_mutants.*)  13 of 15 caught by Stage 3H0's
+  server scenarios.  Missed there: debug_never and run_time_zero (the server never reads sim.debugOn or sim.runT, and no scenario has a
+  second player join mid-run and leave through a glitched wall), and none other.
+node dev/tools/gate/golden/sim_diff.js --mutants dev/tools/gate/golden/sim_mutants.js --seeds 1,7 --ops 800 --out sim_mutants_diff.json
+                                                                               (gate_full/sim_diff_mutants.*)  14 of 15 caught by the
+  differential run.  Missed there: cap_run_time_61 (caught by the admin scenario).  Each of the 15 is caught by one or the other: the
+  gate's sim step requires exactly that.
+
+## the gate
+node dev/tools/gate/gate.js --tier fast --out $SP/em3/c3a/gate_fast1            exit 0  PASS, 16 of 16 steps, 4.1 min (before the
+  documents were finished; the final fast gate is below)
+node dev/tools/gate/gate.js --tier full --out $SP/em3/c3a/gate_full             exit 1  (gate_full/: the reports and logs; screenshots
+  left out; the live wire's raw frames gzipped)       21 of 23 steps PASS, in 37.9 min:
+  build 39, lineage 83, parts 53 (8 outputs: the sim is no longer built from parts), modules 26, docs 23, scope 210, srv_golden 11,
+  bpp_golden 7, session 18, sim 20,065, cli_golden 12, protocol 52,740, mutants 18 (nr_held_free now applied in sim.players.js),
+  static 4, raw_live 173, quick_suites 23, cli_mutants 22, live_wire 65 (structurally identical), bpp_checks 36 (8/22/6 as on B++;
+  proto_check builds its world from this sim), contact_lab 23 images identical pixel for pixel, suites 293 (only the known B++
+  failures fail).
+  browsers FAILED: two_browser, col_head and col_aside passed; gameplay_smoke failed: a Smiler killed Alice before the check's admin
+  connection removed the monsters (its server log: the death is the first line after the start; the screenshot shows Alice's death
+  screen), so her walk, turn, light and NEW RUN could not be checked.  The real server picks a random world seed each run, so where
+  the monsters start differs each time.
+  perf FAILED: the page scene fx_bodies' hook +13.64 % (over its tolerance); the server's four timings were within theirs (lifecycle
+  +1.68 %, deaths -0.43 %, admin -0.75 %, schedule +5.82 %).  C3a changed no file the page runs.
+the browsers failure, examined:
+  gameplay_smoke.py ten more times, alternating this tree and C2 (a copy of each game; gameplay_smoke_repeats.txt): 10 of 10 OK, no
+  death before the monsters were removed, on either.
+  dev/stage-3h-modernization/tools/c3a_early_death_check.js (new): for 150 world seeds, B++'s sim.js and this sim each get two
+  players who join, stand near the start, turn and step for 60 s: the two give the same deaths at the same moments for every seed (0
+  worlds differ), and 6 of the 150 worlds have a death within the minute (early_death_check.*).  So a death before the check's
+  clean-up can happen by chance on B++'s sim too, and the modules do not change when or whether it happens.
+node dev/tools/gate/gate.js --only browsers --out $SP/em3/c3a/gate_browsers_rerun   exit 0  PASS (gate_browsers_rerun/): two_browser
+  106, col_head 5, col_aside 5, gameplay_smoke ok 5
+node dev/tools/gate/gate.js --only perf --out $SP/em3/c3a/gate_perf_rerun           exit 0  PASS (gate_perf_rerun/): server
+  lifecycle -1.73 %, deaths +0.38 %, admin -0.61 %, schedule -6.64 %; page: 5 scenes within their rules (fx_bodies' hook -5.85 %)
+  (M-021: the page scenes' timing on this 2-CPU machine is noisy; C2's gate failed once on another page scene the same way)
+node dev/tools/gate/gate.js --tier fast --out $SP/em3/c3a/gate_fast2           exit 0  PASS, 16 of 16 steps (gate_fast/), on the final
+  tree: the documents and this evidence included
+
+## the secret scans
+  C3a's changes, before the commit: secret_scan.* (CLEAN).  C2's committed revision, after its commit: secret_scan_c2_after_commit.txt
+  (CLEAN).  The scan includes the owner's private extra strings (not in this repository).
+
+## the remote
+  C2's receipt is copied into evidence/remote/verify_c2_8abf81a.json.  C3a's receipt is written after the push (verify_remote_m.py
+  C3a) and copied in by the next checkpoint.

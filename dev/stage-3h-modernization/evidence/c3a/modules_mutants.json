@@ -1,0 +1,91 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c3_modules_mutants.js",
+ "cases": [
+  {
+   "id": "state_outside_factory",
+   "file": "src/frameworks/gib/server/sim.bodies.js",
+   "why": "a sim module keeps a value at its top level (every room's world would share it)",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/frameworks/gib/server/sim.bodies.js: a module of the sim with code outside its factory: let shared=0;"
+   ]
+  },
+  {
+   "id": "import_assigned",
+   "file": "src/frameworks/nani/server/sim.feed.js",
+   "why": "a module assigns a name it was given",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/frameworks/nani/server/sim.feed.js: assigns names it was given: eng"
+   ]
+  },
+  {
+   "id": "name_not_given",
+   "file": "src/frameworks/nani/server/sim.feed.js",
+   "why": "a module uses a name nobody gave it",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/frameworks/nani/server/sim.feed.js: names used and declared nowhere: isAlive"
+   ]
+  },
+  {
+   "id": "import_unused",
+   "file": "src/frameworks/nani/server/sim.feed.js",
+   "why": "a module is given a name it never uses",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/frameworks/nani/server/sim.feed.js: is given names it never uses: rnd"
+   ]
+  },
+  {
+   "id": "import_not_exported",
+   "file": "src/frameworks/pocket/server/sim.items.js",
+   "why": "a module imports a name its giver does not return",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/frameworks/pocket/server/sim.items.js: is given names it never uses: players",
+    "PROBLEM src/core/server/sim.js: items imports from ai names it does not return: players"
+   ]
+  },
+  {
+   "id": "made_after",
+   "file": "src/core/server/sim.js",
+   "why": "a module is made from one made after it (a cycle, or the wrong order)",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/core/server/sim.js: life uses run, made after it"
+   ]
+  },
+  {
+   "id": "key_not_given",
+   "file": "src/core/server/sim.js",
+   "why": "the composition does not give a module what its factory takes",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/core/server/sim.js: items = simItems(...): its factory takes walls, which the composition does not give"
+   ]
+  },
+  {
+   "id": "global_backchannel",
+   "file": "src/frameworks/overseer/server/sim.admin.js",
+   "why": "a module reaches a global back-channel",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/frameworks/overseer/server/sim.admin.js: reaches the global object: globalThis"
+   ]
+  }
+ ],
+ "ok": true,
+ "unchanged": {
+  "exit": 0,
+  "pass": true
+ }
+}

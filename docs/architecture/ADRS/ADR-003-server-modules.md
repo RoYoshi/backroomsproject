@@ -4,6 +4,7 @@
   - At M2 the WebSocket session's move was held for the owner (M-023).
   - The owner approved moving it as a relocation on 2026-10-14. It moved at continuation C2: B++'s `session.js` and W.A.R.D.'s
     `admin_login.js`, with every line verbatim, the same traces as B++, and 15 session mutants caught (`evidence/c2/`).
+  - At continuation C3a the sim became modules of the same kind, composed by `src/core/server/sim.js` once per room (ADR-005).
 - **Evidence:** `dev/stage-3h-modernization/evidence/m2/` (the move proof, the free names, the full gate); `FINDINGS.md` M-023.
 
 ## Context
@@ -36,7 +37,8 @@
    - No module adds `'use strict'`.
 3. **A free-name check.** `dev/stage-3h-modernization/tools/m2_free_names.js` proves that every name a module uses is one of three
    things: declared in the module, a factory parameter, or the host's or the language's global. A module cannot quietly reach into
-   another's state.
+   another's state. Since continuation C3 the gate proves it for every server file, with more rules, in its `modules` step
+   (`dev/tools/checks/modules.js`, ADR-005).
 4. **`server.js` is the composition root.** It keeps:
    - the configuration;
    - the requires the server always made, in their order;

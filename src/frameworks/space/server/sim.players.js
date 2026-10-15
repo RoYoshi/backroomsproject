@@ -1,16 +1,11 @@
-/** @part generated/server/sim.js - S.P.A.C.E.: the world reset and the player lifecycle (join, spawn, respawn, NEW RUN's rules, forfeit, leave)
- * provides: NR_CD, addPlayer, canRespawn, forfeit, join, leave, lifeOf, newRun, nrWait, nrWhy, removePlayer, resetWorld, respawn, spawn
- * uses: Ic, Lc, PR, RND, bodies, bodyT, bodyVer, eng, glitches, items, makeGlitches, makeItems, players, processEvents, rnd, runT,
- *       spawnMonsters, spawnT, worldSeq
- * writes: PR, bodyVer, glitches, items, runT, spawnT, worldSeq
- */
-function resetWorld(){
-  worldSeq++;
-  Lc();runT=0;PR=0;eng.pressure=0;spawnT=rnd(70,150);
-  spawnMonsters(RND()<.5?1:2,2+((RND()*4)|0));      // 1-2 hounds to begin with (up to 3 later), 2-5 smilers
-  glitches=makeGlitches(3);items=makeItems();
-  bodies.clear();bodyT.clear();bodyVer++;
-}
+/* src/frameworks/space/server/sim.players.js - S.P.A.C.E.: the player lifecycle (join, spawn, respawn, NEW RUN's rules, forfeit, leave)
+ * and the roster's changes (addPlayer, removePlayer); a module of the sim (src/core/server/sim.js).
+ * Stage 3H continuation C3 (M-024, dev/stage-3h-modernization/tools/c3_sim_modules.py): a module.  Its lines are sim.js's
+ * at M8, as they were, except what that tool lists: the world reset, which was among these lines, is the run's (core's sim.step.js),
+ * and join reads the run's clock through runT().
+ *   simPlayers({ players, level, ai, feed, run })   players is the roster: this module alone adds and removes; the others read it. */
+'use strict';
+module.exports = function simPlayers({ players, level: { Ic }, ai: { eng }, feed: { processEvents }, run: { resetWorld, runT } }) {
 function addPlayer(id){
   const p={id,x:Ic.x,y:Ic.y,vx:0,vy:0,angle:0,sprinting:false,light:true,equipment:{kind:`flashlight`},
     active:false,dead:``,dseq:0,safe:0,exited:false,t0:0,
@@ -22,7 +17,7 @@ function spawn(p){eng.forgetPlayer(p.id);p.life=(p.life||0)+1;Object.assign(p,{x
 function join(p){
   const L=lifeOf(p);if(L===`held`||L===`alive`)return false;           // no walking out of a capture; a living run ends only through NEW RUN (newRun) or a death
   const others=players.some(o=>o!==p&&o.active&&!o.exited);
-  p.active=true;spawn(p);p.t0=runT;
+  p.active=true;spawn(p);p.t0=runT();
   if(!others)resetWorld();
   return true;
 }
@@ -48,4 +43,5 @@ const nrWait=(p,now)=>p.nrAt==null?0:Math.max(0,NR_CD-(now-p.nrAt));
 function newRun(p,now=Date.now()/1000,free=false){const why=nrWhy(p,now,free);if(why)return why;p.nrAt=now;p.active=false;p.dead=``;p.caught=null;p.kill=null;eng.forgetPlayer(p.id);return``}
 function forfeit(p){if(lifeOf(p)!==`held`)return false;const ok=eng.forfeitCapture(p);processEvents();return ok}
 function leave(p){const L=lifeOf(p);if(L===`held`||L===`alive`)return false;p.active=false;p.dead=``;p.caught=null;eng.forgetPlayer(p.id);return true}
-
+return { NR_CD, addPlayer, canRespawn, forfeit, join, leave, lifeOf, newRun, nrWait, nrWhy, removePlayer, respawn, spawn };
+};

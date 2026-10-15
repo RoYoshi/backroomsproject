@@ -272,22 +272,6 @@
    ]
   },
   {
-   "out": "generated/server/sim.js",
-   "parts": [
-    "src/core/server/sim.header.js",
-    "src/frameworks/lost/server/sim.level0.js",
-    "src/frameworks/nani/server/sim.ai.js",
-    "src/frameworks/lost/server/sim.glitches.js",
-    "src/frameworks/gib/server/sim.bodies.js",
-    "src/frameworks/space/server/sim.players.js",
-    "src/frameworks/space/server/sim.movement.js",
-    "src/frameworks/nani/server/sim.feed.js",
-    "src/core/server/sim.step.js",
-    "src/frameworks/overseer/server/sim.admin.js",
-    "src/core/server/sim.glue.js"
-   ]
-  },
-  {
    "out": "generated/server/world.js",
    "parts": [
     "src/frameworks/space/shared/world.js",

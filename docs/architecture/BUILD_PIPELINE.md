@@ -15,9 +15,12 @@ their SHA-256, in `generated/BUILD_MANIFEST.json`. The outputs are committed, be
 | **A copy of the recovered v11 build** | One part: a file of `src/core/client/bundle/original-v11/dist/` | the 11 PixiJS chunks |
 | **A replay of the lineage ledger** | The v11 build output, then every recorded step's patch, each checked by its SHA-256 before and after | `public/assets/index-DKbV5Nv9.js`, `index-D7hdwmUU.css` |
 
-The parts of one script share one closure (an IIFE, a UMD factory, `createSim`). Each part's header says what it provides to the
-others, what it uses of theirs and which of their bindings it writes; `dev/tools/checks/parts.js` proves it against the code
+The parts of one script share one closure (an IIFE, a UMD factory). Each part's header says what it provides to the others, what it
+uses of theirs and which of their bindings it writes; `dev/tools/checks/parts.js` proves it against the code
 ([`CONTRACTS.md`](CONTRACTS.md)).
+
+The server's sim is not built any more (continuation C3a, ADR-005): it is modules the server loads from `src/` as they are, composed by
+`src/core/server/sim.js`. Until C3a it was `generated/server/sim.js`, joined from eleven parts.
 
 `public/` also holds files no recipe lists: `index.html` (the page's hand-edited source), the stylesheet `assets/ui.css`, the images,
 sounds and web manifest, and the retired `assets/shadows-2d.js` (still served, unchanged). They are edited where they are.
@@ -65,7 +68,6 @@ sounds and web manifest, and the retired `assets/shadows-2d.js` (still served, u
 | `public/world.js` | 6 parts, joined in order | `frameworks/space/shared/world.js`<br>`frameworks/lost/shared/world.lamps.js`<br>`frameworks/space/shared/world.crawl.js`<br>`frameworks/lost/shared/world.surfaces.js`<br>`frameworks/space/shared/world.move.js`<br>`frameworks/br-r/shared/world.art.js` |
 | `generated/server/ai.js` | 10 parts, joined in order | `frameworks/nani/server/ai.head.js`<br>`frameworks/nani/server/ai.geo.js`<br>`frameworks/nani/server/ai.senses.js`<br>`frameworks/nani/server/ai.intelligence.js`<br>`frameworks/nani/server/ai.light.js`<br>`frameworks/nani/server/ai.entity.js`<br>`frameworks/nani/server/ai.capture.js`<br>`frameworks/nani/server/ai.hound.js`<br>`frameworks/nani/server/ai.smiler.js`<br>`frameworks/nani/server/ai.engine.js` |
 | `generated/server/dphys.js` | one source file | `frameworks/gib/shared/dphys.js` |
-| `generated/server/sim.js` | 11 parts, joined in order | `core/server/sim.header.js`<br>`frameworks/lost/server/sim.level0.js`<br>`frameworks/nani/server/sim.ai.js`<br>`frameworks/lost/server/sim.glitches.js`<br>`frameworks/gib/server/sim.bodies.js`<br>`frameworks/space/server/sim.players.js`<br>`frameworks/space/server/sim.movement.js`<br>`frameworks/nani/server/sim.feed.js`<br>`core/server/sim.step.js`<br>`frameworks/overseer/server/sim.admin.js`<br>`core/server/sim.glue.js` |
 | `generated/server/world.js` | 6 parts, joined in order | `frameworks/space/shared/world.js`<br>`frameworks/lost/shared/world.lamps.js`<br>`frameworks/space/shared/world.crawl.js`<br>`frameworks/lost/shared/world.surfaces.js`<br>`frameworks/space/shared/world.move.js`<br>`frameworks/br-r/shared/world.art.js` |
 <!-- end of generated block -->
 
@@ -75,8 +77,8 @@ sounds and web manifest, and the retired `assets/shadows-2d.js` (still served, u
 ## Doing it
 
 ```text
-npm run build                                   # writes only what changed: "built 40 outputs (N files written, M already up to date)"
-npm run build:check                             # "BUILD CHECK: PASS (40 outputs and the manifest are what src/ builds)"
+npm run build                                   # writes only what changed: "built 39 outputs (N files written, M already up to date)"
+npm run build:check                             # "BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)"
 node dev/tools/build/build.js --list            # every output and its sources
 node dev/tools/build/build.js --clean           # deletes every built file and the manifest (then build again)
 ```

@@ -1,8 +1,10 @@
-/** @part generated/server/sim.js - S.P.A.C.E.: movement as the server checks it (moveRoute, moveOk, spawnOk) and as the AI hears it (hearMove, gaitFloor)
- * provides: gaitFloor, hearMove, moveOk, moveRoute, spawnOk
- * uses: eng, sl
- * writes: -
- */
+/* src/frameworks/space/server/sim.movement.js - S.P.A.C.E.: movement as the server checks it (moveRoute, moveOk, spawnOk) and as the AI
+ * hears it (hearMove, gaitFloor); a module of the sim (src/core/server/sim.js).
+ * Stage 3H continuation C3 (M-024, dev/stage-3h-modernization/tools/c3_sim_modules.py): a module; its lines are sim.js's
+ * at M8, as they were.
+ *   simMovement({ WORLD, level, ai })   WORLD.setMode switches the collision's mode for a check and back. */
+'use strict';
+module.exports = function simMovement({ WORLD, level: { sl }, ai: { eng } }) {
 /* movement validation (server.js): could a body get from a to b?  Only real walls and full-height furniture count ('any' mode: every
    crawl hole, table and vaultable prop is passable, since the client's own movement handles those).  Short hops are checked along the
    segment; a long one (packets bunched up after a lag spike) needs a walkable route no longer than the distance budget.
@@ -52,3 +54,5 @@ function gaitFloor(p,claimed){
   else if(st===1&&ov>225)st=2;
   p.st=st;p.sp=sp;
 }
+return { gaitFloor, hearMove, moveOk, moveRoute, spawnOk };
+};

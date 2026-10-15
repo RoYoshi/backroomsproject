@@ -1,0 +1,1024 @@
+{
+ "tool": "dev/tools/checks/modules.js",
+ "typescript": "6.0.3",
+ "tree": "this repository",
+ "files": {
+  "server.js": {
+   "factory": false,
+   "host": [
+    "__dirname",
+    "console",
+    "process",
+    "setInterval"
+   ],
+   "language": [
+    "JSON",
+    "Math"
+   ],
+   "undeclared": []
+  },
+  "src/core/server/loop.js": {
+   "factory": true,
+   "host": [
+    "process"
+   ],
+   "language": [
+    "Date",
+    "JSON",
+    "Math",
+    "Number",
+    "Object"
+   ],
+   "undeclared": [],
+   "imports": {
+    "rooms": [
+     "rooms"
+    ],
+    "poseSend": [
+     "poseSend"
+    ],
+    "aftStart": [
+     "aftStart"
+    ],
+    "aftSend": [
+     "aftSend"
+    ],
+    "aftTick": [
+     "aftTick"
+    ],
+    "bodyAt": [
+     "bodyAt"
+    ],
+    "send": [
+     "send"
+    ],
+    "SNAP_EVERY": [
+     "SNAP_EVERY"
+    ],
+    "ADMIN_EVERY": [
+     "ADMIN_EVERY"
+    ]
+   },
+   "exports": [
+    "tick"
+   ]
+  },
+  "src/core/server/rooms.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Date",
+    "Map",
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "createSim": [
+     "createSim"
+    ],
+    "BODY_TTL": [
+     "BODY_TTL"
+    ],
+    "aftStart": [
+     "aftStart"
+    ],
+    "placeFree": [
+     "placeFree"
+    ],
+    "mvReset": [
+     "mvReset"
+    ],
+    "send": [
+     "send"
+    ]
+   },
+   "exports": [
+    "rooms",
+    "getRoom",
+    "worldReset"
+   ]
+  },
+  "src/core/server/sim.js": {
+   "factory": true,
+   "host": [],
+   "language": [],
+   "undeclared": [],
+   "imports": {
+    "options": [
+     "options"
+    ]
+   },
+   "exports": [
+    "takeItem",
+    "players",
+    "addPlayer",
+    "removePlayer",
+    "join",
+    "respawn",
+    "canRespawn",
+    "moveOk",
+    "moveRoute",
+    "spawnOk",
+    "leave",
+    "newRun",
+    "nrWhy",
+    "nrWait",
+    "NR_CD",
+    "forfeit",
+    "gaitFloor",
+    "lifeOf",
+    "clearAt",
+    "blockersAt",
+    "step",
+    "entities",
+    "resetWorld",
+    "admin",
+    "setBody",
+    "killerEnd",
+    "navCmd",
+    "hearMove",
+    "capInfo",
+    "debugInfo",
+    "logSince",
+    "logSeq",
+    "engStats",
+    "debugOn",
+    "engine",
+    "adapter",
+    "bodies",
+    "bodyVer",
+    "glitches",
+    "runT",
+    "worldSeq",
+    "debug"
+   ],
+   "sim": "the composition"
+  },
+  "src/core/server/sim.step.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "opts": [
+     "opts"
+    ],
+    "players": [
+     "players"
+    ],
+    "level": [
+     "Lc",
+     "Rc",
+     "V",
+     "forceBlackout"
+    ],
+    "ai": [
+     "DIRECTOR_MAX_HOUNDS",
+     "RND",
+     "alive",
+     "eng",
+     "ents",
+     "newHound",
+     "rnd",
+     "spawnMonsters"
+    ],
+    "feed": [
+     "feed",
+     "processEvents"
+    ],
+    "walls": [
+     "glitches",
+     "placeGlitches"
+    ],
+    "items": [
+     "items",
+     "placeItems"
+    ],
+    "bodies": [
+     "clearBodies",
+     "clock",
+     "tick"
+    ]
+   },
+   "exports": [
+    "controls",
+    "entities",
+    "ofKind",
+    "resetWorld",
+    "step",
+    "runT",
+    "worldSeq"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/bpp/server/newrun.js": {
+   "factory": true,
+   "host": [
+    "console"
+   ],
+   "language": [
+    "Date",
+    "Math",
+    "Number"
+   ],
+   "undeclared": [],
+   "imports": {
+    "send": [
+     "send"
+    ],
+    "boomStart": [
+     "boomStart"
+    ]
+   },
+   "exports": [
+    "NR_GAP",
+    "nrIntent"
+   ]
+  },
+  "src/frameworks/bpp/server/poses.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "send": [
+     "send"
+    ]
+   },
+   "exports": [
+    "poseSend"
+   ]
+  },
+  "src/frameworks/bpp/server/session.js": {
+   "factory": true,
+   "host": [
+    "URL"
+   ],
+   "language": [
+    "Date",
+    "Math",
+    "String",
+    "isFinite"
+   ],
+   "undeclared": [],
+   "imports": {
+    "srv": [
+     "srv"
+    ],
+    "crypto": [
+     "crypto"
+    ],
+    "MAX_ROOM": [
+     "MAX_ROOM"
+    ],
+    "FAST_GAP": [
+     "FAST_GAP"
+    ],
+    "getRoom": [
+     "getRoom"
+    ],
+    "rooms": [
+     "rooms"
+    ],
+    "send": [
+     "send"
+    ],
+    "reader": [
+     "reader"
+    ],
+    "PEERS": [
+     "PEERS"
+    ],
+    "num": [
+     "num"
+    ],
+    "kindOf": [
+     "kindOf"
+    ],
+    "cleanParts": [
+     "cleanParts"
+    ],
+    "HEX": [
+     "HEX"
+    ],
+    "DEFAULT_LOOK": [
+     "DEFAULT_LOOK"
+    ],
+    "cleanLook": [
+     "cleanLook"
+    ],
+    "MV": [
+     "MV"
+    ],
+    "PD": [
+     "PD"
+    ],
+    "blockers": [
+     "blockers"
+    ],
+    "placeFree": [
+     "placeFree"
+    ],
+    "mvReset": [
+     "mvReset"
+    ],
+    "mvCheck": [
+     "mvCheck"
+    ],
+    "adminMove": [
+     "adminMove"
+    ],
+    "nrIntent": [
+     "nrIntent"
+    ],
+    "adminCommand": [
+     "adminCommand"
+    ],
+    "adminLogin": [
+     "adminLogin"
+    ]
+   },
+   "exports": null
+  },
+  "src/frameworks/bpp/server/ws.js": {
+   "factory": false,
+   "host": [
+    "Buffer"
+   ],
+   "language": [
+    "JSON"
+   ],
+   "undeclared": []
+  },
+  "src/frameworks/gib/server/aftermath.js": {
+   "factory": true,
+   "host": [
+    "console"
+   ],
+   "language": [
+    "Date",
+    "Math",
+    "Object",
+    "Set",
+    "WeakMap"
+   ],
+   "undeclared": [],
+   "imports": {
+    "deathSrv": [
+     "deathSrv"
+    ],
+    "send": [
+     "send"
+    ],
+    "HEX": [
+     "HEX"
+    ]
+   },
+   "exports": [
+    "aftStart",
+    "aftOf",
+    "aftSend",
+    "aftTick",
+    "bodyAt",
+    "putBody",
+    "boomStart"
+   ]
+  },
+  "src/frameworks/gib/server/death_srv.js": {
+   "factory": false,
+   "host": [
+    "__dirname"
+   ],
+   "language": [
+    "Array",
+    "Function",
+    "Math",
+    "String"
+   ],
+   "undeclared": []
+  },
+  "src/frameworks/gib/server/sim.bodies.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Map",
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "opts": [
+     "opts"
+    ],
+    "ai": [
+     "MAX_BODIES"
+    ]
+   },
+   "exports": [
+    "bodies",
+    "setBody",
+    "tick",
+    "clearBodies",
+    "clock",
+    "bodyVer"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/lost/server/sim.glitches.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "ai": [
+     "ANCHOR",
+     "RND"
+    ],
+    "level": [
+     "FBH",
+     "FBW",
+     "Hc",
+     "Ic",
+     "fl",
+     "sl",
+     "zc"
+    ]
+   },
+   "exports": [
+    "glitches",
+    "placeGlitches"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/lost/server/sim.level0.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Int32Array",
+    "Math",
+    "Number",
+    "Object",
+    "Set",
+    "Uint8Array"
+   ],
+   "undeclared": [],
+   "imports": {
+    "WORLD": [
+     "WORLD"
+    ]
+   },
+   "exports": [
+    "FBH",
+    "FBW",
+    "Bc",
+    "Fc",
+    "Gc",
+    "Hc",
+    "Ic",
+    "Lc",
+    "Oc",
+    "Rc",
+    "Uc",
+    "V",
+    "W",
+    "al",
+    "fl",
+    "il",
+    "ll",
+    "qc",
+    "sl",
+    "ul",
+    "zc",
+    "forceBlackout",
+    "restartBlackout"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/nani/server/sim.ai.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "AI": [
+     "AI"
+    ],
+    "WORLD": [
+     "WORLD"
+    ],
+    "opts": [
+     "opts"
+    ],
+    "players": [
+     "players"
+    ],
+    "level": [
+     "Bc",
+     "FBH",
+     "FBW",
+     "Fc",
+     "Gc",
+     "Ic",
+     "Oc",
+     "Uc",
+     "V",
+     "W",
+     "al",
+     "fl",
+     "il",
+     "ll",
+     "qc",
+     "sl",
+     "ul",
+     "zc"
+    ]
+   },
+   "exports": [
+    "ADMIN_MAX_HOUNDS",
+    "ADMIN_MAX_SMILERS",
+    "ANCHOR",
+    "DIRECTOR_MAX_HOUNDS",
+    "MAX_BODIES",
+    "RND",
+    "SNn",
+    "adapter",
+    "adminCap",
+    "adminSpawn",
+    "alive",
+    "eng",
+    "ents",
+    "isAlive",
+    "killerEnd",
+    "navCmd",
+    "newHound",
+    "randomSpot",
+    "rnd",
+    "spawnMonsters"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/nani/server/sim.feed.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "WORLD": [
+     "WORLD"
+    ],
+    "opts": [
+     "opts"
+    ],
+    "players": [
+     "players"
+    ],
+    "level": [
+     "Gc"
+    ],
+    "ai": [
+     "SNn",
+     "eng",
+     "isAlive"
+    ]
+   },
+   "exports": [
+    "capInfo",
+    "feed",
+    "processEvents"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/overseer/server/admin.js": {
+   "factory": true,
+   "host": [
+    "Buffer",
+    "console",
+    "setTimeout"
+   ],
+   "language": [
+    "Math",
+    "String"
+   ],
+   "undeclared": [],
+   "imports": {
+    "send": [
+     "send"
+    ],
+    "aftOf": [
+     "aftOf"
+    ],
+    "moveTo": [
+     "moveTo"
+    ],
+    "worldReset": [
+     "worldReset"
+    ]
+   },
+   "exports": [
+    "adminCommand"
+   ]
+  },
+  "src/frameworks/overseer/server/sim.admin.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Boolean",
+    "Math",
+    "Set"
+   ],
+   "undeclared": [],
+   "imports": {
+    "players": [
+     "players"
+    ],
+    "level": [
+     "restartBlackout",
+     "sl"
+    ],
+    "ai": [
+     "ADMIN_MAX_HOUNDS",
+     "ADMIN_MAX_SMILERS",
+     "DIRECTOR_MAX_HOUNDS",
+     "RND",
+     "adminCap",
+     "adminSpawn",
+     "eng",
+     "ents",
+     "spawnMonsters"
+    ],
+    "feed": [
+     "feed",
+     "processEvents"
+    ],
+    "walls": [
+     "glitches",
+     "placeGlitches"
+    ],
+    "items": [
+     "items",
+     "placeItems"
+    ],
+    "run": [
+     "controls",
+     "ofKind",
+     "resetWorld"
+    ],
+    "life": [
+     "spawn"
+    ]
+   },
+   "exports": [
+    "admin",
+    "debugOn"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/pocket/server/sim.items.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "ai": [
+     "eng",
+     "randomSpot"
+    ],
+    "walls": [
+     "glitches"
+    ]
+   },
+   "exports": [
+    "items",
+    "placeItems",
+    "takeItem"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/space/server/movement.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Date",
+    "Math",
+    "Object"
+   ],
+   "undeclared": [],
+   "imports": {
+    "PEERS": [
+     "PEERS"
+    ],
+    "send": [
+     "send"
+    ]
+   },
+   "exports": [
+    "MV",
+    "PD",
+    "blockers",
+    "placeFree",
+    "mvReset",
+    "mvCheck",
+    "moveTo",
+    "adminMove"
+   ]
+  },
+  "src/frameworks/space/server/peers.js": {
+   "factory": false,
+   "host": [],
+   "language": [
+    "Math"
+   ],
+   "undeclared": []
+  },
+  "src/frameworks/space/server/sim.movement.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Array",
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "WORLD": [
+     "WORLD"
+    ],
+    "level": [
+     "sl"
+    ],
+    "ai": [
+     "eng"
+    ]
+   },
+   "exports": [
+    "gaitFloor",
+    "hearMove",
+    "moveOk",
+    "moveRoute",
+    "spawnOk"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/space/server/sim.players.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Date",
+    "Math",
+    "Object"
+   ],
+   "undeclared": [],
+   "imports": {
+    "players": [
+     "players"
+    ],
+    "level": [
+     "Ic"
+    ],
+    "ai": [
+     "eng"
+    ],
+    "feed": [
+     "processEvents"
+    ],
+    "run": [
+     "resetWorld",
+     "runT"
+    ]
+   },
+   "exports": [
+    "NR_CD",
+    "addPlayer",
+    "canRespawn",
+    "forfeit",
+    "join",
+    "leave",
+    "lifeOf",
+    "newRun",
+    "nrWait",
+    "nrWhy",
+    "removePlayer",
+    "respawn",
+    "spawn"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/ward/server/admin_login.js": {
+   "factory": true,
+   "host": [
+    "console"
+   ],
+   "language": [
+    "Date",
+    "Map",
+    "Math",
+    "String"
+   ],
+   "undeclared": [],
+   "imports": {
+    "crypto": [
+     "crypto"
+    ],
+    "ADMIN_PASS": [
+     "ADMIN_PASS"
+    ],
+    "send": [
+     "send"
+    ]
+   },
+   "exports": [
+    "adminLogin"
+   ]
+  },
+  "src/frameworks/ward/server/fields.js": {
+   "factory": false,
+   "host": [],
+   "language": [
+    "Math",
+    "String"
+   ],
+   "undeclared": []
+  },
+  "src/frameworks/ward/server/static.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "JSON",
+    "Map",
+    "String",
+    "decodeURIComponent"
+   ],
+   "undeclared": [],
+   "imports": {
+    "ROOT": [
+     "ROOT"
+    ]
+   },
+   "exports": null
+  }
+ },
+ "sim": {
+  "modules": [
+   {
+    "name": "level",
+    "file": "src/frameworks/lost/server/sim.level0.js",
+    "given": [
+     "(positional)"
+    ],
+    "uses": []
+   },
+   {
+    "name": "ai",
+    "file": "src/frameworks/nani/server/sim.ai.js",
+    "given": [
+     "AI",
+     "WORLD",
+     "opts",
+     "players",
+     "level"
+    ],
+    "uses": [
+     "level"
+    ]
+   },
+   {
+    "name": "walls",
+    "file": "src/frameworks/lost/server/sim.glitches.js",
+    "given": [
+     "ai",
+     "level"
+    ],
+    "uses": [
+     "ai",
+     "level"
+    ]
+   },
+   {
+    "name": "items",
+    "file": "src/frameworks/pocket/server/sim.items.js",
+    "given": [
+     "ai",
+     "walls"
+    ],
+    "uses": [
+     "ai",
+     "walls"
+    ]
+   },
+   {
+    "name": "bodies",
+    "file": "src/frameworks/gib/server/sim.bodies.js",
+    "given": [
+     "opts",
+     "ai"
+    ],
+    "uses": [
+     "ai"
+    ]
+   },
+   {
+    "name": "feed",
+    "file": "src/frameworks/nani/server/sim.feed.js",
+    "given": [
+     "WORLD",
+     "opts",
+     "players",
+     "level",
+     "ai"
+    ],
+    "uses": [
+     "level",
+     "ai"
+    ]
+   },
+   {
+    "name": "run",
+    "file": "src/core/server/sim.step.js",
+    "given": [
+     "opts",
+     "players",
+     "level",
+     "ai",
+     "feed",
+     "walls",
+     "items",
+     "bodies"
+    ],
+    "uses": [
+     "level",
+     "ai",
+     "feed",
+     "walls",
+     "items",
+     "bodies"
+    ]
+   },
+   {
+    "name": "life",
+    "file": "src/frameworks/space/server/sim.players.js",
+    "given": [
+     "players",
+     "level",
+     "ai",
+     "feed",
+     "run"
+    ],
+    "uses": [
+     "level",
+     "ai",
+     "feed",
+     "run"
+    ]
+   },
+   {
+    "name": "move",
+    "file": "src/frameworks/space/server/sim.movement.js",
+    "given": [
+     "WORLD",
+     "level",
+     "ai"
+    ],
+    "uses": [
+     "level",
+     "ai"
+    ]
+   },
+   {
+    "name": "over",
+    "file": "src/frameworks/overseer/server/sim.admin.js",
+    "given": [
+     "players",
+     "level",
+     "ai",
+     "feed",
+     "walls",
+     "items",
+     "run",
+     "life"
+    ],
+    "uses": [
+     "level",
+     "ai",
+     "feed",
+     "walls",
+     "items",
+     "run",
+     "life"
+    ]
+   }
+  ],
+  "ok": true
+ },
+ "problems": [],
+ "ok": true
+}

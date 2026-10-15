@@ -1,6 +1,7 @@
 # ADR-004: Scripts with many owners are built from owned parts with checked interface headers
 
 - **Status:** accepted for Stage 3H (H3M-3 to H3M-5, checkpoint M3). The parts are not modules: architecture debt, recorded (M-024).
+  Superseded for `sim.js` by ADR-005 at continuation C3a: the sim is modules now, not parts. The page's scripts are still parts.
 - **Evidence:** `dev/stage-3h-modernization/evidence/m3/`; `dev/tools/checks/parts.js`; `FINDINGS.md` M-024 and M-025.
 
 ## Context
