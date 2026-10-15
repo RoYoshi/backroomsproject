@@ -1,0 +1,1135 @@
+status,old_path,new_path,category
+M,,README.md,root README
+D,death_srv.js,,runtime moved with a declared edit (H3M-1): now src/frameworks/gib/server/death_srv.js, listed as added
+D,dev/ai_src/00_head.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ai_src/10_geo.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ai_src/20_senses.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ai_src/22_intelligence.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ai_src/25_light.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ai_src/30_entity.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ai_src/40_capture.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ai_src/50_hound.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ai_src/60_smiler.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ai_src/90_engine.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+R,2D_SHADOWS_CHANGED_FILES.txt,dev/archive/2d-shadows/2D_SHADOWS_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,2D_SHADOWS_GIT_CHECKPOINTS.md,dev/archive/2d-shadows/2D_SHADOWS_GIT_CHECKPOINTS.md,"archive: moved from the root, byte for byte"
+R,2D_SHADOWS_HUMAN_QA.md,dev/archive/2d-shadows/2D_SHADOWS_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,2D_SHADOWS_PERFORMANCE.md,dev/archive/2d-shadows/2D_SHADOWS_PERFORMANCE.md,"archive: moved from the root, byte for byte"
+R,2D_SHADOWS_REPORT.md,dev/archive/2d-shadows/2D_SHADOWS_REPORT.md,"archive: moved from the root, byte for byte"
+R,2D_SHADOWS_TEST_SUMMARY.md,dev/archive/2d-shadows/2D_SHADOWS_TEST_SUMMARY.md,"archive: moved from the root, byte for byte"
+A,,dev/archive/2d-shadows/README.md,"archive: index, ledger, era READMEs, root listings"
+A,,dev/archive/INDEX.md,"archive: index, ledger, era READMEs, root listings"
+A,,dev/archive/ROOT_AFTER.txt,"archive: index, ledger, era READMEs, root listings"
+A,,dev/archive/ROOT_BEFORE.txt,"archive: index, ledger, era READMEs, root listings"
+R,BR_ROLE_1_0_ARCHITECTURE.md,dev/archive/br-role/BR_ROLE_1_0_ARCHITECTURE.md,"archive: moved from the root, byte for byte"
+R,BR_ROLE_1_0_CHANGED_FILES.md,dev/archive/br-role/BR_ROLE_1_0_CHANGED_FILES.md,"archive: moved from the root, byte for byte"
+R,BR_ROLE_1_0_HUMAN_QA.md,dev/archive/br-role/BR_ROLE_1_0_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,BR_ROLE_1_0_PERFORMANCE.md,dev/archive/br-role/BR_ROLE_1_0_PERFORMANCE.md,"archive: moved from the root, byte for byte"
+R,BR_ROLE_1_0_TEST_SUMMARY.md,dev/archive/br-role/BR_ROLE_1_0_TEST_SUMMARY.md,"archive: moved from the root, byte for byte"
+R,BR_ROLE_BR0_AUDIT.md,dev/archive/br-role/BR_ROLE_BR0_AUDIT.md,"archive: moved from the root, byte for byte"
+R,BR_ROLE_BR1_1_HUMAN_QA.md,dev/archive/br-role/BR_ROLE_BR1_1_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,BR_ROLE_BR1_HUMAN_QA.md,dev/archive/br-role/BR_ROLE_BR1_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,BR_ROLE_BR2_1_HUMAN_QA.md,dev/archive/br-role/BR_ROLE_BR2_1_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,BR_ROLE_BR2_HUMAN_QA.md,dev/archive/br-role/BR_ROLE_BR2_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+A,,dev/archive/br-role/README.md,"archive: index, ledger, era READMEs, root listings"
+R,PART_2_AI01_CHANGED_FILES.txt,dev/archive/part-2/PART_2_AI01_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,PART_2_AI02_CHANGED_FILES.txt,dev/archive/part-2/PART_2_AI02_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,PART_2_CAMERA_FIX.md,dev/archive/part-2/PART_2_CAMERA_FIX.md,"archive: moved from the root, byte for byte"
+R,PART_2_ENTITY_LOOK_REPORT.md,dev/archive/part-2/PART_2_ENTITY_LOOK_REPORT.md,"archive: moved from the root, byte for byte"
+R,PART_2_FPS_CHANGED_FILES.txt,dev/archive/part-2/PART_2_FPS_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,PART_2_FPS_EQUALITY.md,dev/archive/part-2/PART_2_FPS_EQUALITY.md,"archive: moved from the root, byte for byte"
+R,PART_2_HQA_AI01_SEARCH_REPORT.md,dev/archive/part-2/PART_2_HQA_AI01_SEARCH_REPORT.md,"archive: moved from the root, byte for byte"
+R,PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md,dev/archive/part-2/PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md,"archive: moved from the root, byte for byte"
+R,PART_2_HQA_CHANGED_FILES.txt,dev/archive/part-2/PART_2_HQA_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,PART_2_HQA_HOTFIX_REPORT.md,dev/archive/part-2/PART_2_HQA_HOTFIX_REPORT.md,"archive: moved from the root, byte for byte"
+R,PART_2_HQA_TEST_SUMMARY.md,dev/archive/part-2/PART_2_HQA_TEST_SUMMARY.md,"archive: moved from the root, byte for byte"
+R,PART_2_HUMAN_QA.md,dev/archive/part-2/PART_2_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+A,,dev/archive/part-2/README.md,"archive: index, ledger, era READMEs, root listings"
+A,,dev/archive/readme-history/README.md,"archive: index, ledger, era READMEs, root listings"
+A,,dev/archive/readme-history/README_UNTIL_3H.md,"archive: moved from the root, byte for byte"
+A,,dev/archive/root_cleanup.csv,"archive: index, ledger, era READMEs, root listings"
+A,,dev/archive/stage-2e/README.md,"archive: index, ledger, era READMEs, root listings"
+R,STAGE_2E_REPORT.md,dev/archive/stage-2e/STAGE_2E_REPORT.md,"archive: moved from the root, byte for byte"
+A,,dev/archive/stage-2f/README.md,"archive: index, ledger, era READMEs, root listings"
+R,STAGE_2F_REPORT.md,dev/archive/stage-2f/STAGE_2F_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_2F_TEST_SUMMARY.md,dev/archive/stage-2f/STAGE_2F_TEST_SUMMARY.md,"archive: moved from the root, byte for byte"
+A,,dev/archive/stage-3b/README.md,"archive: index, ledger, era READMEs, root listings"
+R,STAGE_3B_DONOR_LEDGER.md,dev/archive/stage-3b/STAGE_3B_DONOR_LEDGER.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_CHANGED_FILES.txt,dev/archive/stage-3b/STAGE_3B_FINAL_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md,dev/archive/stage-3b/STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_PERFORMANCE.md,dev/archive/stage-3b/STAGE_3B_FINAL_PERFORMANCE.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_POLISH_BR_ROLE_1_1_REPORT.md,dev/archive/stage-3b/STAGE_3B_FINAL_POLISH_BR_ROLE_1_1_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md,dev/archive/stage-3b/STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt,dev/archive/stage-3b/STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_POLISH_HUMAN_QA.md,dev/archive/stage-3b/STAGE_3B_FINAL_POLISH_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_POLISH_PERFORMANCE.md,dev/archive/stage-3b/STAGE_3B_FINAL_POLISH_PERFORMANCE.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_PROP_CANON_AUDIT.md,dev/archive/stage-3b/STAGE_3B_FINAL_PROP_CANON_AUDIT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_RENDERING_OPTIMIZATION.md,dev/archive/stage-3b/STAGE_3B_FINAL_RENDERING_OPTIMIZATION.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_VISUAL_AUDIT.md,dev/archive/stage-3b/STAGE_3B_FINAL_VISUAL_AUDIT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt,dev/archive/stage-3b/STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md,dev/archive/stage-3b/STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_VISUAL_POLISH_PERFORMANCE.md,dev/archive/stage-3b/STAGE_3B_FINAL_VISUAL_POLISH_PERFORMANCE.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md,dev/archive/stage-3b/STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt,dev/archive/stage-3b/STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md,dev/archive/stage-3b/STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_LIGHTING_QA_CORRECTION_HUMAN_QA.md,dev/archive/stage-3b/STAGE_3B_LIGHTING_QA_CORRECTION_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_LIGHTING_QA_CORRECTION_PERFORMANCE.md,dev/archive/stage-3b/STAGE_3B_LIGHTING_QA_CORRECTION_PERFORMANCE.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md,dev/archive/stage-3b/STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_PROP_CANON_AUDIT.md,dev/archive/stage-3b/STAGE_3B_PROP_CANON_AUDIT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_QA2_CHANGED_FILES.txt,dev/archive/stage-3b/STAGE_3B_QA2_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3B_QA2_HUMAN_QA.md,dev/archive/stage-3b/STAGE_3B_QA2_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_QA2_PERFORMANCE.md,dev/archive/stage-3b/STAGE_3B_QA2_PERFORMANCE.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_VISUAL_AUDIT.md,dev/archive/stage-3b/STAGE_3B_VISUAL_AUDIT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3B_VISUAL_SLICE_HUMAN_QA.md,dev/archive/stage-3b/STAGE_3B_VISUAL_SLICE_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+A,,dev/archive/stage-3c/README.md,"archive: index, ledger, era READMEs, root listings"
+R,STAGE_3C_C0_UI_AUDIT.md,dev/archive/stage-3c/STAGE_3C_C0_UI_AUDIT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3C_CHANGED_FILES.txt,dev/archive/stage-3c/STAGE_3C_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3C_HUMAN_QA.md,dev/archive/stage-3c/STAGE_3C_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3C_PERFORMANCE.md,dev/archive/stage-3c/STAGE_3C_PERFORMANCE.md,"archive: moved from the root, byte for byte"
+R,STAGE_3C_QA1_CHANGED_FILES.txt,dev/archive/stage-3c/STAGE_3C_QA1_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3C_QA1_HUMAN_QA.md,dev/archive/stage-3c/STAGE_3C_QA1_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3C_QA1_MENU_COMPARISON.jpg,dev/archive/stage-3c/STAGE_3C_QA1_MENU_COMPARISON.jpg,"archive: moved from the root, byte for byte"
+R,STAGE_3C_QA1_PERFORMANCE.md,dev/archive/stage-3c/STAGE_3C_QA1_PERFORMANCE.md,"archive: moved from the root, byte for byte"
+R,STAGE_3C_QA1_Q0_AUDIT.md,dev/archive/stage-3c/STAGE_3C_QA1_Q0_AUDIT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3C_QA1_REPORT.md,dev/archive/stage-3c/STAGE_3C_QA1_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3C_QA2_CHANGED_FILES.txt,dev/archive/stage-3c/STAGE_3C_QA2_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3C_QA2_HUMAN_QA.md,dev/archive/stage-3c/STAGE_3C_QA2_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3C_QA2_MENU_COMPARISON.jpg,dev/archive/stage-3c/STAGE_3C_QA2_MENU_COMPARISON.jpg,"archive: moved from the root, byte for byte"
+R,STAGE_3C_QA2_PERFORMANCE.md,dev/archive/stage-3c/STAGE_3C_QA2_PERFORMANCE.md,"archive: moved from the root, byte for byte"
+R,STAGE_3C_QA2_Q0_AUDIT.md,dev/archive/stage-3c/STAGE_3C_QA2_Q0_AUDIT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3C_QA2_REPORT.md,dev/archive/stage-3c/STAGE_3C_QA2_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3C_REPORT.md,dev/archive/stage-3c/STAGE_3C_REPORT.md,"archive: moved from the root, byte for byte"
+A,,dev/archive/stage-3d/README.md,"archive: index, ledger, era READMEs, root listings"
+R,STAGE_3D_CHANGED_FILES.txt,dev/archive/stage-3d/STAGE_3D_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3D_D0_AUDIT.md,dev/archive/stage-3d/STAGE_3D_D0_AUDIT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md,dev/archive/stage-3d/STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ1_AUDIT.md,dev/archive/stage-3d/STAGE_3D_HQ1_AUDIT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ1_CHANGED_FILES.txt,dev/archive/stage-3d/STAGE_3D_HQ1_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ1_DEATH_LIGHT_PROTOCOL.md,dev/archive/stage-3d/STAGE_3D_HQ1_DEATH_LIGHT_PROTOCOL.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ1_HUMAN_QA.md,dev/archive/stage-3d/STAGE_3D_HQ1_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ1_PERFORMANCE.md,dev/archive/stage-3d/STAGE_3D_HQ1_PERFORMANCE.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ1_REPORT.md,dev/archive/stage-3d/STAGE_3D_HQ1_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ1_VISUAL_EVIDENCE.md,dev/archive/stage-3d/STAGE_3D_HQ1_VISUAL_EVIDENCE.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ2_AUDIT.md,dev/archive/stage-3d/STAGE_3D_HQ2_AUDIT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ2_CHANGED_FILES.txt,dev/archive/stage-3d/STAGE_3D_HQ2_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ2_HUMAN_QA.md,dev/archive/stage-3d/STAGE_3D_HQ2_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md,dev/archive/stage-3d/STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ2_PERFORMANCE.md,dev/archive/stage-3d/STAGE_3D_HQ2_PERFORMANCE.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ2_PLAYER_COLLISION.md,dev/archive/stage-3d/STAGE_3D_HQ2_PLAYER_COLLISION.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ2_REGRESSION.md,dev/archive/stage-3d/STAGE_3D_HQ2_REGRESSION.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ2_REPORT.md,dev/archive/stage-3d/STAGE_3D_HQ2_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md,dev/archive/stage-3d/STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ3_CHANGED_FILES.txt,dev/archive/stage-3d/STAGE_3D_HQ3_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ3_HUMAN_QA.md,dev/archive/stage-3d/STAGE_3D_HQ3_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ3_REPORT.md,dev/archive/stage-3d/STAGE_3D_HQ3_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ4_CHANGED_FILES.txt,dev/archive/stage-3d/STAGE_3D_HQ4_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ4_HUMAN_QA.md,dev/archive/stage-3d/STAGE_3D_HQ4_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ4_REPORT.md,dev/archive/stage-3d/STAGE_3D_HQ4_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ5_CHANGED_FILES.txt,dev/archive/stage-3d/STAGE_3D_HQ5_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ5_HUMAN_QA.md,dev/archive/stage-3d/STAGE_3D_HQ5_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HQ5_REPORT.md,dev/archive/stage-3d/STAGE_3D_HQ5_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_HUMAN_QA.md,dev/archive/stage-3d/STAGE_3D_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_PERFORMANCE.md,dev/archive/stage-3d/STAGE_3D_PERFORMANCE.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_REGRESSION_AND_EQUIVALENCE.md,dev/archive/stage-3d/STAGE_3D_REGRESSION_AND_EQUIVALENCE.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_REPORT.md,dev/archive/stage-3d/STAGE_3D_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3D_VARIANT_MATRIX.md,dev/archive/stage-3d/STAGE_3D_VARIANT_MATRIX.md,"archive: moved from the root, byte for byte"
+A,,dev/archive/stage-3e-0/README.md,"archive: index, ledger, era READMEs, root listings"
+R,STAGE_3E0_BPLUSPLUS_HUMAN_QA.md,dev/archive/stage-3e-0/STAGE_3E0_BPLUSPLUS_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3E0_BPLUSPLUS_REPORT.md,dev/archive/stage-3e-0/STAGE_3E0_BPLUSPLUS_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3E0_BPLUS_HUMAN_QA.md,dev/archive/stage-3e-0/STAGE_3E0_BPLUS_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3E0_BPLUS_REPORT.md,dev/archive/stage-3e-0/STAGE_3E0_BPLUS_REPORT.md,"archive: moved from the root, byte for byte"
+R,STAGE_3E0_CHANGED_FILES.txt,dev/archive/stage-3e-0/STAGE_3E0_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,3H0_ARCHITECTURE_MAP.md,dev/archive/stage-3h0/3H0_ARCHITECTURE_MAP.md,"archive: moved from the root, byte for byte"
+R,3H0_DEFERRED_FULL_3H.md,dev/archive/stage-3h0/3H0_DEFERRED_FULL_3H.md,"archive: moved from the root, byte for byte"
+R,3H0_EQUIVALENCE_REPORT.md,dev/archive/stage-3h0/3H0_EQUIVALENCE_REPORT.md,"archive: moved from the root, byte for byte"
+R,3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md,dev/archive/stage-3h0/3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md,"archive: moved from the root, byte for byte"
+R,3H0_H0_1_BASELINE.md,dev/archive/stage-3h0/3H0_H0_1_BASELINE.md,"archive: moved from the root, byte for byte"
+R,3H0_MP_API_LOCK.md,dev/archive/stage-3h0/3H0_MP_API_LOCK.md,"archive: moved from the root, byte for byte"
+R,3H0_MP_OWNERSHIP_MAP.md,dev/archive/stage-3h0/3H0_MP_OWNERSHIP_MAP.md,"archive: moved from the root, byte for byte"
+R,3H0_PROTOCOL_INVENTORY.md,dev/archive/stage-3h0/3H0_PROTOCOL_INVENTORY.md,"archive: moved from the root, byte for byte"
+R,3H0_Q0_AUDIT.md,dev/archive/stage-3h0/3H0_Q0_AUDIT.md,"archive: moved from the root, byte for byte"
+R,3H0_SERVER_API_LOCK.md,dev/archive/stage-3h0/3H0_SERVER_API_LOCK.md,"archive: moved from the root, byte for byte"
+R,3H0_SERVER_OWNERSHIP_MAP.md,dev/archive/stage-3h0/3H0_SERVER_OWNERSHIP_MAP.md,"archive: moved from the root, byte for byte"
+A,,dev/archive/stage-3h0/README.md,"archive: index, ledger, era READMEs, root listings"
+R,STAGE_3H0_CHANGED_FILES.txt,dev/archive/stage-3h0/STAGE_3H0_CHANGED_FILES.txt,"archive: moved from the root, byte for byte"
+R,STAGE_3H0_HUMAN_QA.md,dev/archive/stage-3h0/STAGE_3H0_HUMAN_QA.md,"archive: moved from the root, byte for byte"
+R,STAGE_3H0_PERFORMANCE.md,dev/archive/stage-3h0/STAGE_3H0_PERFORMANCE.md,"archive: moved from the root, byte for byte"
+R,STAGE_3H0_REPORT.md,dev/archive/stage-3h0/STAGE_3H0_REPORT.md,"archive: moved from the root, byte for byte"
+M,,dev/br-role/test_br_role.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/build_ai.sh,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/build_ents.sh,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/build_sim.sh,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/chk_world.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ents_src/00_head.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ents_src/10_hound.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ents_src/20_smiler.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ents_src/25_death.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ents_src/30_audio.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/ents_src/40_debug.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/harness.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/move_model.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/shadows/test_shadows.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/sim_geo.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/sim_glue.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+D,dev/sim_head.js,,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/stage-3b-n/camera_3bn.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/stage-3b-n/test_3bn.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+A,,dev/stage-3h-modernization/CHECKPOINTS.md,stage records and tools
+A,,dev/stage-3h-modernization/FINDINGS.md,stage records and tools
+A,,dev/stage-3h-modernization/HUMAN_QA.md,stage records and tools
+A,,dev/stage-3h-modernization/MODULE_EXTRACTION_PLAN.csv,stage records and tools
+A,,dev/stage-3h-modernization/PLAN.md,stage records and tools
+A,,dev/stage-3h-modernization/PREFLIGHT.md,stage records and tools
+A,,dev/stage-3h-modernization/PRESERVATION_HOLD.md,stage records and tools
+A,,dev/stage-3h-modernization/README.md,stage records and tools
+A,,dev/stage-3h-modernization/REPORT.md,stage records and tools
+A,,dev/stage-3h-modernization/SOURCE_RECOVERY_INTAKE.md,stage records and tools
+A,,dev/stage-3h-modernization/evidence/m0/build.json,evidence
+A,,dev/stage-3h-modernization/evidence/m0/gate_fast_parent.log,evidence
+A,,dev/stage-3h-modernization/evidence/m0/gate_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m0/scope.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1-preservation/build_check.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m1-preservation/gameplay_smoke_cand.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1-preservation/http_probe.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m1-preservation/outputs_vs_parent.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1-preservation/ws_smoke.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1-resume/build_check.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m1-resume/lineage_verify.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1-resume/recovery_verify.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1-resume/relocate_verify.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m1-resume/remote_heads_before_m1r.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1-resume/secret_scan.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1-resume/secret_scan.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m1/STEPS.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m1/copies_equivalence/bpp_copy.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/copies_equivalence/bpp_orig.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/copies_equivalence/cli2_copy.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/copies_equivalence/cli2_orig.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/copies_equivalence/cli_copy.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/copies_equivalence/cli_orig.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/copies_equivalence/equiv_console.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/copies_equivalence/equiv_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/copies_equivalence/mut_copy.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/copies_equivalence/mut_orig.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/copies_equivalence/raw_copy.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/copies_equivalence/raw_orig.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/copies_equivalence/srv_copy.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/copies_equivalence/srv_orig.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/bpp/bpp_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/bpp_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/build.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/cli/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/cli_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/cli_golden_h2.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/cli_h2/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/gate_console.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/gate_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/mutants.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/mutants.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/protocol_0.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/protocol_0.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/protocol_1.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/protocol_1.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/protocol_selftest.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/quick_suites.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/quick_suites/interp_test.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/quick_suites/ir_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/quick_suites/s_humanqa_hotfix.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/quick_suites/s_ir.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/quick_suites/suites_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/quick_suites/test_3bn.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/raw_live.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/raw_live.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/scope.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/scope.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/srv/srv_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/srv_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/static.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_fast_final/static.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/bpp/bpp_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/bpp_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/build.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/cli/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/cli_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/cli_golden_h2.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/cli_h2/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/cli_mutants.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/cli_mutants.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/col_aside.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/col_aside.json.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/col_aside.json.watch.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/col_aside.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/col_head.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/col_head.json.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/col_head.json.watch.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/col_head.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/contact/bpp/result.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/contact/bpp/server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/contact/cand/result.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/contact/cand/server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/contact_bpp.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/contact_cand.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/contact_compare.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/contact_compare.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/gameplay_smoke.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/gate_console.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/gate_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/live_wire.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/live_wire.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/live_wire_raw_new.json.gz,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/live_wire_raw_old.json.gz,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/mutants.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/mutants.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/perf.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/perf_det.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/place_guard.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/place_guard.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/place_replay.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/place_replay.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/proto_check.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/proto_check.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/protocol_0.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/protocol_0.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/protocol_1.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/protocol_1.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/protocol_selftest.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/quick_suites.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/quick_suites/interp_test.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/quick_suites/ir_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/quick_suites/s_humanqa_hotfix.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/quick_suites/s_ir.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/quick_suites/suites_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/quick_suites/test_3bn.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/raw_live.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/raw_live.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/scope.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/scope.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/smoke/cand.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/smoke/cand.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/srv/srv_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/srv_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/static.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/static.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/suites.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/suites/audit_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/suites/audit_net2.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/suites/interp_test.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/suites/ir_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/suites/npm_test.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/suites/s_humanqa_hotfix.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/suites/s_ir.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/suites/suites_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/suites/test_3bn.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/suites/test_br_role.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/suites/test_shadows.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/two_browser.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/two_browser.json.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_full/two_browser.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_perf_rerun/gate_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_perf_rerun/perf.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/gate_perf_rerun/perf_det.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/passcode_tests/fallback_parity/fallback_parity_frozen.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/passcode_tests/fallback_parity/fallback_parity_modern.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/passcode_tests/light_test/light_report_frozen.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/passcode_tests/light_test/light_report_modern.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/passcode_tests/light_test/light_test_frozen.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/passcode_tests/light_test/light_test_modern.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/passcode_tests/live_chase/live_chase_frozen.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/passcode_tests/live_chase/live_chase_modern.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/passcode_tests/suites/audit_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/passcode_tests/suites/audit_net2.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/passcode_tests/suites/suites_console.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/passcode_tests/suites/suites_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/perf_paired/exploratory/ab_deaths_AA2_1792010130194.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/perf_paired/exploratory/ab_deaths_AB_1792010072018.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/perf_paired/exploratory/ab_deaths_AB_1792010359301.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/perf_paired/exploratory/ab_deaths_BA_1792010106053.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/perf_paired/exploratory/ab_deaths_BB2_1792010153976.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/perf_paired/exploratory/ab_deaths_CB_1792010526422.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/perf_paired/exploratory/ab_deaths_DCAB_1792010257836.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/perf_paired/exploratory/ab_deaths_DC_1792010442324.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/perf_paired/exploratory/scratch_ab.js,evidence
+A,,dev/stage-3h-modernization/evidence/m1/perf_paired/perf_paired_console.log,evidence
+A,,dev/stage-3h-modernization/evidence/m1/perf_paired/perf_paired_deaths.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/secret_scan.json,evidence
+A,,dev/stage-3h-modernization/evidence/m1/secret_scan.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m2/STEPS.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m2/free_names.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/free_names.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/bpp/bpp_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/bpp_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/build.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/cli/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/cli_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/cli_golden_h2.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/cli_h2/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/cli_mutants.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/cli_mutants.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/col_aside.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/col_aside.json.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/col_aside.json.watch.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/col_aside.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/col_head.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/col_head.json.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/col_head.json.watch.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/col_head.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/contact/bpp/result.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/contact/bpp/server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/contact/cand/result.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/contact/cand/server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/contact_bpp.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/contact_cand.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/contact_compare.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/contact_compare.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/gameplay_smoke.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/gate_console.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/gate_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/lineage.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/lineage.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/lineage_tree.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/live_wire.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/live_wire.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/live_wire_raw_new.json.gz,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/live_wire_raw_old.json.gz,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/mutants.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/mutants.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/perf.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/perf_det.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/place_guard.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/place_guard.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/place_replay.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/place_replay.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/proto_check.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/proto_check.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/protocol_0.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/protocol_0.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/protocol_1.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/protocol_1.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/protocol_selftest.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/quick_suites.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/quick_suites/interp_test.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/quick_suites/ir_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/quick_suites/s_humanqa_hotfix.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/quick_suites/s_ir.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/quick_suites/suites_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/quick_suites/test_3bn.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/raw_live.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/raw_live.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/scope.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/scope.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/smoke/cand.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/smoke/cand.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/srv/srv_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/srv_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/static.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/static.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/suites.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/suites/audit_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/suites/audit_net2.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/suites/interp_test.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/suites/ir_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/suites/npm_test.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/suites/s_humanqa_hotfix.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/suites/s_ir.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/suites/suites_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/suites/test_3bn.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/suites/test_br_role.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/suites/test_shadows.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/two_browser.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/two_browser.json.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/gate_full/two_browser.log,evidence
+A,,dev/stage-3h-modernization/evidence/m2/move_proof.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/move_proof.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m2/perf_paired/perf_paired_lifecycle.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/secret_scan.json,evidence
+A,,dev/stage-3h-modernization/evidence/m2/secret_scan.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m2/split_check.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m3/STEPS.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m3/build_check.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/bpp/bpp_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/bpp_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/build.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/cli/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/cli_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/cli_golden_h2.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/cli_h2/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/gate_console.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/gate_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/lineage.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/lineage.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/lineage_tree.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/mutants.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/mutants.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/parts.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/parts.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/protocol_0.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/protocol_0.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/protocol_1.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/protocol_1.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/protocol_selftest.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/quick_suites.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/quick_suites/interp_test.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/quick_suites/ir_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/quick_suites/s_humanqa_hotfix.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/quick_suites/s_ir.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/quick_suites/suites_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/quick_suites/test_3bn.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/raw_live.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/raw_live.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/scope.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/scope.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/srv/srv_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/srv_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/static.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/gate_fast/static.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/outputs_vs_3h2.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/parts.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/parts.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m3/parts_mutants.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/parts_mutants.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m3/secret_scan.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/secret_scan.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/col_aside.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/col_aside.json.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/col_aside.json.watch.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/col_aside.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/col_head.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/col_head.json.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/col_head.json.watch.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/col_head.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/gameplay_smoke.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/gate_console.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/gate_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/smoke/cand.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/smoke/cand.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/two_browser.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/two_browser.json.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/smoke_browsers/two_browser.log,evidence
+A,,dev/stage-3h-modernization/evidence/m3/specs/ai.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/specs/camcorder.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/specs/ents.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/specs/glitch.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/specs/move.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/specs/mp.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/specs/sim.json,evidence
+A,,dev/stage-3h-modernization/evidence/m3/specs/world.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/STEPS.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/build_check.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/build_list.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/bpp/bpp_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/bpp_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/build.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/cli/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/cli_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/cli_golden_h2.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/cli_h2/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/gate_console.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/gate_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/lineage.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/lineage.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/lineage_tree.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/mutants.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/mutants.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/protocol_0.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/protocol_0.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/protocol_1.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/protocol_1.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/protocol_selftest.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/quick_suites.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/quick_suites/interp_test.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/quick_suites/ir_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/quick_suites/s_humanqa_hotfix.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/quick_suites/s_ir.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/quick_suites/suites_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/quick_suites/test_3bn.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/raw_live.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/raw_live.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/scope.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/scope.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/srv/srv_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/srv_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/static.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/gate_fast/static.log,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/http_probe.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/lineage_verify.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/lineage_verify.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/record_check.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/record_check.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/replay_mutants.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/replay_mutants.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/secret_scan.json,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/secret_scan.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m6a/tree_id.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m7/STEPS.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m7/archive_verify.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m7/build_check.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m7/clean_rebuild.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/clean_rebuild.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m7/docs_check.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m7/docs_mutants.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/docs_mutants.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/bpp/bpp_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/bpp_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/build.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/cli/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/cli_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/cli_golden_h2.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/cli_h2/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/docs.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/gate_console.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/gate_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/lineage.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/lineage.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/lineage_tree.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/mutants.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/mutants.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/parts.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/parts.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/protocol_0.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/protocol_0.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/protocol_1.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/protocol_1.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/protocol_selftest.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/quick_suites.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/quick_suites/interp_test.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/quick_suites/ir_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/quick_suites/s_humanqa_hotfix.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/quick_suites/s_ir.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/quick_suites/suites_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/quick_suites/test_3bn.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/raw_live.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/raw_live.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/scope.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/scope.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/srv/srv_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/srv_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/static.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/gate_fast/static.log,evidence
+A,,dev/stage-3h-modernization/evidence/m7/outputs_vs_3h2.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/reference_audit.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/reference_audit.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m7/scope_cases.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/scope_cases.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m7/secret_scan.json,evidence
+A,,dev/stage-3h-modernization/evidence/m7/secret_scan.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m8/clean_checkout.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/clean_checkout.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/bpp/bpp_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/bpp_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/build.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/cli/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/cli_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/cli_golden_h2.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/cli_h2/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/docs.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/gate_console.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/gate_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/lineage.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/lineage.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/lineage_tree.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/mutants.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/mutants.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/parts.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/parts.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/protocol_0.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/protocol_0.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/protocol_1.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/protocol_1.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/protocol_selftest.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/quick_suites.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/quick_suites/interp_test.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/quick_suites/ir_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/quick_suites/s_humanqa_hotfix.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/quick_suites/s_ir.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/quick_suites/suites_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/quick_suites/test_3bn.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/raw_live.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/raw_live.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/scope.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/scope.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/srv/srv_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/srv_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/static.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_fast/static.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/bpp/bpp_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/bpp_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/build.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/cli/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/cli_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/cli_golden_h2.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/cli_h2/cli_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/cli_mutants.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/cli_mutants.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/col_aside.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/col_aside.json.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/col_aside.json.watch.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/col_aside.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/col_head.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/col_head.json.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/col_head.json.watch.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/col_head.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/contact/bpp/result.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/contact/bpp/server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/contact/cand/result.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/contact/cand/server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/contact_bpp.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/contact_cand.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/contact_compare.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/contact_compare.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/docs.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/gameplay_smoke.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/gate_console.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/gate_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/lineage.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/lineage.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/lineage_tree.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/live_wire.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/live_wire.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/live_wire_raw_new.json.gz,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/live_wire_raw_old.json.gz,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/mutants.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/mutants.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/parts.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/parts.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/perf.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/perf_det.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/place_guard.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/place_guard.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/place_replay.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/place_replay.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/proto_check.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/proto_check.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/protocol_0.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/protocol_0.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/protocol_1.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/protocol_1.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/protocol_selftest.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/quick_suites.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/quick_suites/interp_test.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/quick_suites/ir_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/quick_suites/s_humanqa_hotfix.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/quick_suites/s_ir.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/quick_suites/suites_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/quick_suites/test_3bn.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/raw_live.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/raw_live.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/scope.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/scope.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/smoke/cand.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/smoke/cand.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/srv/srv_golden_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/srv_golden.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/static.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/static.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/suites.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/suites/audit_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/suites/audit_net2.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/suites/interp_test.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/suites/ir_net.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/suites/npm_test.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/suites/s_humanqa_hotfix.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/suites/s_ir.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/suites/suites_report.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/suites/test_3bn.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/suites/test_br_role.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/suites/test_shadows.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/two_browser.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/two_browser.json.server.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/gate_full/two_browser.log,evidence
+A,,dev/stage-3h-modernization/evidence/m8/secret_scan_m7_after_commit.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/secret_scan_m7_after_commit.txt,evidence
+A,,dev/stage-3h-modernization/evidence/m8/served_identity.json,evidence
+A,,dev/stage-3h-modernization/evidence/m8/served_identity.txt,evidence
+A,,dev/stage-3h-modernization/evidence/remote/verify_m0_fe8f9b4.json,evidence
+A,,dev/stage-3h-modernization/evidence/remote/verify_m1_6356d53.json,evidence
+A,,dev/stage-3h-modernization/evidence/remote/verify_m1p_a895c07.json,evidence
+A,,dev/stage-3h-modernization/evidence/remote/verify_m1r_589681c.json,evidence
+A,,dev/stage-3h-modernization/evidence/remote/verify_m2_527dc35.json,evidence
+A,,dev/stage-3h-modernization/evidence/remote/verify_m3_2aac0b1.json,evidence
+A,,dev/stage-3h-modernization/evidence/remote/verify_m6a_f2db9d8.json,evidence
+A,,dev/stage-3h-modernization/evidence/remote/verify_m7_14ac446.json,evidence
+A,,dev/stage-3h-modernization/inventory/ROOT_ARCHIVE_PLAN.csv,stage records and tools
+A,,dev/stage-3h-modernization/inventory/bundle.json,stage records and tools
+A,,dev/stage-3h-modernization/inventory/generators.json,stage records and tools
+A,,dev/stage-3h-modernization/inventory/path_consumers.json,stage records and tools
+A,,dev/stage-3h-modernization/inventory/remote_heads_before.json,stage records and tools
+A,,dev/stage-3h-modernization/inventory/requires.json,stage records and tools
+A,,dev/stage-3h-modernization/inventory/root.json,stage records and tools
+A,,dev/stage-3h-modernization/inventory/scripts.json,stage records and tools
+A,,dev/stage-3h-modernization/inventory/tracked.json,stage records and tools
+A,,dev/stage-3h-modernization/tools/api_contract.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/lineage_derive.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/lineage_doc.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/m0_inventory.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/m1_copies_equivalence.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/m1_perf_paired.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/m1_relocate.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/m2_free_names.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/m2_split_server.py,stage records and tools
+A,,dev/stage-3h-modernization/tools/m3_parts_mutants.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/m3_split_parts.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/m6a_record_check.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/m6a_replay_mutants.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/m7_archive_root.py,stage records and tools
+A,,dev/stage-3h-modernization/tools/m7_clean_rebuild.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/m7_docs_mutants.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/m7_scope_cases.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/m8_package.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/m8_served_identity.js,stage records and tools
+A,,dev/stage-3h-modernization/tools/recovery_verify.py,stage records and tools
+A,,dev/stage-3h-modernization/tools/secret_scan_m.py,stage records and tools
+A,,dev/stage-3h-modernization/tools/verify_remote_m.py,stage records and tools
+M,,dev/tests/audit_net.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/audit_net2.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/escape_bench.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/fallback_parity.py,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/interp_test.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/light_test.py,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/live_chase.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/nav_bench.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/perf_light.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/perf_smiler.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/phys_test.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/play_server.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/s_audit.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/s_camera_fairness.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/s_capture.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/s_chase.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/s_fps_equality.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/s_humanqa_hotfix.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/s_ir.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/s_shared2f.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/s_smiler.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+M,,dev/tests/s_system.js,dev/: tests and tools adapted to the layout; the old shell builds and part folders removed
+A,,dev/tools/README.md,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/build/build.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/checks/parts.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/docs/docs.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/README.md,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/checks/proto_check.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/declared_changes.json,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/gate.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/golden/bpp_golden.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/golden/bpp_mutants.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/golden/cli_golden.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/golden/cli_golden_h2.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/golden/cli_lib.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/golden/cli_lib_h2.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/golden/perf_det.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/golden/raw_live.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/golden/srv_golden.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/golden/srv_harness.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/gate/scope_m.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/layout.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,dev/tools/lineage/lineage.js,"lasting development tools (build, checks, gate, docs, layout)"
+A,,docs/architecture/ADRS/ADR-001-layout.md,documentation
+A,,docs/architecture/ADRS/ADR-002-client-bundle-source.md,documentation
+A,,docs/architecture/ADRS/ADR-003-server-modules.md,documentation
+A,,docs/architecture/ADRS/ADR-004-owned-parts.md,documentation
+A,,docs/architecture/BUILD_PIPELINE.md,documentation
+A,,docs/architecture/CONTRACTS.md,documentation
+A,,docs/architecture/FRAMEWORKS.md,documentation
+A,,docs/architecture/PARITY_MATRIX.md,documentation
+A,,docs/architecture/RUNTIME_FLOWS.md,documentation
+A,,docs/development/QUICKSTART.md,documentation
+A,,generated/BUILD_MANIFEST.json,"runtime: served, or loaded by the server (built or static)"
+R,ai.js,generated/server/ai.js,"runtime: served, or loaded by the server (built or static)"
+R,dphys.js,generated/server/dphys.js,"runtime: served, or loaded by the server (built or static)"
+R,sim.js,generated/server/sim.js,"runtime: served, or loaded by the server (built or static)"
+R,world.js,generated/server/world.js,"runtime: served, or loaded by the server (built or static)"
+M,,package.json,root: the composition root and package.json
+R,assets/BufferResource-B-thlpip.js,public/assets/BufferResource-B-thlpip.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/Cache-DDo62lBW.js,public/assets/Cache-DDo62lBW.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/CanvasPool-DecUtJxW.js,public/assets/CanvasPool-DecUtJxW.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/Filter-DzecrWg_.js,public/assets/Filter-DzecrWg_.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/GCManagedHash-Bz2ZMBJN.js,public/assets/GCManagedHash-Bz2ZMBJN.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/GraphicsContext-vm7TDg_M.js,public/assets/GraphicsContext-vm7TDg_M.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/MAIN_MENU_LOGO_USER_SUPPLIED.png,public/assets/MAIN_MENU_LOGO_USER_SUPPLIED.png,"runtime: served, or loaded by the server (built or static)"
+R,assets/MainTheme_MenuIntro.wav,public/assets/MainTheme_MenuIntro.wav,"runtime: served, or loaded by the server (built or static)"
+R,assets/MainTheme_MenuLoop.wav,public/assets/MainTheme_MenuLoop.wav,"runtime: served, or loaded by the server (built or static)"
+R,assets/RenderTargetSystem-CgUxHIsn.js,public/assets/RenderTargetSystem-CgUxHIsn.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/br-role.js,public/assets/br-role.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/browserAll-B-iwy0YI.js,public/assets/browserAll-B-iwy0YI.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/canvasUtils-CxYPZET9.js,public/assets/canvasUtils-CxYPZET9.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/carpet.png,public/assets/carpet.png,"runtime: served, or loaded by the server (built or static)"
+R,assets/credits_data.js,public/assets/credits_data.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/getTextureBatchBindGroup-DBCrgHVb.js,public/assets/getTextureBatchBindGroup-DBCrgHVb.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/index-D7hdwmUU.css,public/assets/index-D7hdwmUU.css,"runtime: served, or loaded by the server (built or static)"
+R,assets/index-DKbV5Nv9.js,public/assets/index-DKbV5Nv9.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/init-Cn1_BCi0.js,public/assets/init-Cn1_BCi0.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/l0-remaster.js,public/assets/l0-remaster.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/level0_visuals.js,public/assets/level0_visuals.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/manifest.webmanifest,public/assets/manifest.webmanifest,"runtime: served, or loaded by the server (built or static)"
+R,assets/mp-hum.js,public/assets/mp-hum.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/net-interp.js,public/assets/net-interp.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/net-newrun.js,public/assets/net-newrun.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/net-wire.js,public/assets/net-wire.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/shadows-2d.js,public/assets/shadows-2d.js,"runtime: served, or loaded by the server (built or static)"
+R,assets/ui.css,public/assets/ui.css,"runtime: served, or loaded by the server (built or static)"
+R,assets/ui.js,public/assets/ui.js,"runtime: served, or loaded by the server (built or static)"
+R,camcorder.js,public/camcorder.js,"runtime: served, or loaded by the server (built or static)"
+R,camera_policy.js,public/camera_policy.js,"runtime: served, or loaded by the server (built or static)"
+A,,public/dphys.js,"runtime: served, or loaded by the server (built or static)"
+R,ents.js,public/ents.js,"runtime: served, or loaded by the server (built or static)"
+R,favicon.ico,public/favicon.ico,"runtime: served, or loaded by the server (built or static)"
+R,glitch.js,public/glitch.js,"runtime: served, or loaded by the server (built or static)"
+R,gore.js,public/gore.js,"runtime: served, or loaded by the server (built or static)"
+R,hud.js,public/hud.js,"runtime: served, or loaded by the server (built or static)"
+R,index.html,public/index.html,"runtime: served, or loaded by the server (built or static)"
+R,inventory.js,public/inventory.js,"runtime: served, or loaded by the server (built or static)"
+R,light.js,public/light.js,"runtime: served, or loaded by the server (built or static)"
+R,move.js,public/move.js,"runtime: served, or loaded by the server (built or static)"
+R,mp.js,public/mp.js,"runtime: served, or loaded by the server (built or static)"
+R,sfx.js,public/sfx.js,"runtime: served, or loaded by the server (built or static)"
+R,sounds/README.txt,public/sounds/README.txt,"runtime: served, or loaded by the server (built or static)"
+R,sounds/sting copy.mp3,public/sounds/sting copy.mp3,"runtime: served, or loaded by the server (built or static)"
+R,sounds/sting.mp3,public/sounds/sting.mp3,"runtime: served, or loaded by the server (built or static)"
+R,timing_policy.js,public/timing_policy.js,"runtime: served, or loaded by the server (built or static)"
+A,,public/world.js,"runtime: served, or loaded by the server (built or static)"
+M,,server.js,root: the composition root and package.json
+D,server/static.js,,runtime moved with a declared edit (H3M-1): now src/frameworks/ward/server/static.js, listed as added
+A,,src/build-recipes.json,"canonical source: moved, split into parts, or new server modules"
+A,,src/core/client/bundle/API_CONTRACT.md,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/ORIGINAL_V11_PROVENANCE.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/README.md,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/api_contract.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/STEPS.md,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/blame.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B01.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B02.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B03.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B04.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B05.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B06.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B07.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B08.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B09.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B10.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B11.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B12.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B13.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B14.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B15.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B16.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B17.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B18.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B19.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B20.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B21.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B22.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B23.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B24.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B25.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B26.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B27.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B28.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B29.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B30.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B31.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B32.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B33.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B34.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B35.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B36.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B37.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B38.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B39.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/bundle/B40.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/css/C01.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/css/C02.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/css/C03.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/css/C04.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/css/C05.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/css/C06.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/css/C07.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/css/C08.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/descriptions.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H01.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H02.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H03.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H04.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H05.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H06.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H07.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H08.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H09.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H10.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H11.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H12.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H13.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H14.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H15.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H16.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H17.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H18.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H19.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H20.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H21.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H22.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H23.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H24.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H25.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H26.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H27.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H28.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H29.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H30.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H31.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H32.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H33.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H34.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/html/H35.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/ledger.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/lineage/module_map.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/.gitignore,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/README.md,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/client/appearance.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/client/audio.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/client/corpse-view.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/client/death.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/client/entity-view.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/client/loadout.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/client/main.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/client/player-view.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/client/render.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/client/style.css,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/client/vite-env.d.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/BufferResource-B-thlpip.js,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/Cache-DDo62lBW.js,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/CanvasPool-DecUtJxW.js,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/Filter-DzecrWg_.js,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/GCManagedHash-Bz2ZMBJN.js,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/GraphicsContext-vm7TDg_M.js,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/RenderTargetSystem-CgUxHIsn.js,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/browserAll-B-iwy0YI.js,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/canvasUtils-CxYPZET9.js,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/carpet.png,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/concrete.webp,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/getTextureBatchBindGroup-DBCrgHVb.js,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/index-D7hdwmUU.css,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/index-DKbV5Nv9.js,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/init-Cn1_BCi0.js,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/assets/webworkerAll-ByhiNG9W.js,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/dist/index.html,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/index.html,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/package-lock.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/package.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/public/assets/carpet.png,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/public/assets/concrete.webp,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/shared/avatar.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/shared/entity.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/shared/equipment.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/shared/evidence.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/shared/movement.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/shared/navigation.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/shared/remains.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/shared/vision.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/shared/world.ts,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/bundle/original-v11/tsconfig.json,client bundle: the recovered v11 project and the lineage record
+A,,src/core/client/mp.frame.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/core/client/mp.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/core/server/loop.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/core/server/rooms.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/core/server/sim.glue.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/core/server/sim.header.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/core/server/sim.step.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/atlas/README.md,framework READMEs
+A,,src/frameworks/bpp/README.md,framework READMEs
+A,,src/frameworks/bpp/client/mp.net.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/bpp/client/mp.newrun.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/bpp/client/mp.transport.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/bpp/client/net-interp.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/bpp/client/net-wire.js,"canonical source: moved, split into parts, or new server modules"
+R,server/newrun.js,src/frameworks/bpp/server/newrun.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/bpp/server/poses.js,"canonical source: moved, split into parts, or new server modules"
+R,server/ws.js,src/frameworks/bpp/server/ws.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/br-r/README.md,framework READMEs
+A,,src/frameworks/br-r/client/camcorder.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/br-r/client/camcorder.view.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/br-r/client/camera_policy.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/br-r/client/ents.head.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/br-r/client/ents.hound.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/br-r/client/ents.smiler.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/br-r/client/l0-remaster.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/br-r/client/move.poses.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/br-r/client/mp.wanderers.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/br-r/shared/world.art.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/br-role/README.md,framework READMEs
+A,,src/frameworks/br-role/client/br-role.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/br-role/client/light.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/cashier/README.md,framework READMEs
+A,,src/frameworks/echo/README.md,framework READMEs
+A,,src/frameworks/front/README.md,framework READMEs
+A,,src/frameworks/front/client/credits_data.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/front/client/hud.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/front/client/net-newrun.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/front/client/ui.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/gib/README.md,framework READMEs
+A,,src/frameworks/gib/client/ents.death.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/gib/client/gore.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/gib/client/mp.bodies.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/gib/client/mp.owndeath.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/gib/client/mp.replays.js,"canonical source: moved, split into parts, or new server modules"
+R,server/aftermath.js,src/frameworks/gib/server/aftermath.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/gib/server/death_srv.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/gib/server/sim.bodies.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/gib/shared/dphys.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/hands/README.md,framework READMEs
+A,,src/frameworks/logicz/README.md,framework READMEs
+A,,src/frameworks/lost/README.md,framework READMEs
+A,,src/frameworks/lost/client/glitch.draw.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/lost/client/glitch.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/lost/client/level0_visuals.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/lost/client/mp.glitch.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/lost/server/sim.glitches.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/lost/server/sim.level0.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/lost/shared/world.lamps.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/lost/shared/world.surfaces.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/nani/README.md,framework READMEs
+A,,src/frameworks/nani/client/mp.monsters.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/nani/server/ai.capture.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/nani/server/ai.engine.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/nani/server/ai.entity.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/nani/server/ai.geo.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/nani/server/ai.head.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/nani/server/ai.hound.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/nani/server/ai.intelligence.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/nani/server/ai.light.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/nani/server/ai.senses.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/nani/server/ai.smiler.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/nani/server/sim.ai.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/nani/server/sim.feed.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/overseer/README.md,framework READMEs
+A,,src/frameworks/overseer/client/ents.debug.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/overseer/client/mp.admin.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/overseer/client/mp.deathlab.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/overseer/server/admin.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/overseer/server/sim.admin.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/pocket/README.md,framework READMEs
+A,,src/frameworks/pocket/client/inventory.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/pocket/client/mp.cartograph.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/pulse/README.md,framework READMEs
+A,,src/frameworks/space/README.md,framework READMEs
+A,,src/frameworks/space/client/move.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/space/client/mp.peers.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/space/server/movement.js,"canonical source: moved, split into parts, or new server modules"
+R,server/peers.js,src/frameworks/space/server/peers.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/space/server/sim.movement.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/space/server/sim.players.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/space/shared/timing_policy.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/space/shared/world.crawl.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/space/shared/world.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/space/shared/world.move.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/spacious-audio/README.md,framework READMEs
+A,,src/frameworks/spacious-audio/client/camcorder.audio.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/spacious-audio/client/ents.audio.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/spacious-audio/client/glitch.audio.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/spacious-audio/client/move.sound.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/spacious-audio/client/mp-hum.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/spacious-audio/client/mp.dread.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/spacious-audio/client/sfx.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/stage/README.md,framework READMEs
+A,,src/frameworks/vault/README.md,framework READMEs
+A,,src/frameworks/ward/README.md,framework READMEs
+R,server/fields.js,src/frameworks/ward/server/fields.js,"canonical source: moved, split into parts, or new server modules"
+A,,src/frameworks/ward/server/static.js,"canonical source: moved, split into parts, or new server modules"

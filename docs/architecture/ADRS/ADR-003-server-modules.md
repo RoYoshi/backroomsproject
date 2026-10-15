@@ -7,11 +7,14 @@
 
 - **One file held the whole server.** Before H3M-2, `server.js` was 385 lines. It held the configuration, the static files' wiring,
   the WebSocket session, the movement authority, the rooms and the world reset, the admin panel's commands, the fresher poses and the
-  loop. Stages 3H0 and 3H2 had already moved six pieces out: `static.js`, `ws.js`, `fields.js`, `peers.js`, `newrun.js`,
-  `aftermath.js`.
+  loop. Seven server modules existed already:
+  - `death_srv.js` (v22.2) and `peers.js` (Stage 3D HQ2), written as modules;
+  - `static.js`, `ws.js` and `fields.js`, moved out of `server.js` by Stage 3H0;
+  - `newrun.js` and `aftermath.js`, moved out by Stage 3H2.
 - **The server's behaviour is pinned byte for byte.** The goldens run B++'s `server.js` and this one in a closed world: a fake clock,
-  fake sockets, seeded randomness. The harness records which modules the server requires. A module that ran code at load, started a
-  timer, or changed the order of the server's own requires would show up in every trace.
+  fake sockets, seeded randomness. The harness records every timer and every byte sent, and the server's requires of Node's modules,
+  of the world (`sim.js`) and of the death module. A module that started a timer or sent anything when loaded, or changed the order
+  of those requires, would show up in the traces.
 - **The owner's security rule.** Modularization must not change the admin passcode's default, the authentication, the lockout per
   address, permissions, CORS or Origin handling, or credential handling, unless the owner approves it separately.
 - **`server.js` is not strict code.** A module that added `'use strict'` would run the same lines under other rules.
@@ -45,8 +48,10 @@
 - **`server.js` went from 385 lines to 141.** Each of the server's other jobs lives in its owner's folder. Its factory's parameters
   say what it depends on, and its return value says what it offers.
 - **The server answers the same.**
-  - The 18 server scenarios' traces are byte-identical to B++'s baselines.
-  - The 18 server mutants, each applied where its code now lives (a module or the built `sim.js`), each change a golden.
+  - The 18 server scenarios' traces equal B++'s stored baselines. The one allowed exception is in `http_base`: its 10 lines about
+    `index.html` and `mp.js`, the two served files Stage 3H2 changed on purpose. Those bodies are checked against the files instead.
+  - The 18 server mutants each change a golden. Each is applied where its code now lives: a module, the built `sim.js`, or
+    `server.js`.
   - The full gate passed at M2, 18 of 18 steps.
 - **`server.js` is not yet a bare bootstrap.** The session (about 75 lines, with the passcode check) is still there. That is recorded
   as PARTIAL until the owner decides. If the owner approves, the session can move the same way: the check kept as it is, the lines

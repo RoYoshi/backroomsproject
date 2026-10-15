@@ -69,6 +69,7 @@ step and what it cannot see.
 - **The gate's `perf` step fails once**: on a small machine its seven rounds can miss by chance (FINDINGS M-021). Measure before anything
   else: `node dev/stage-3h-modernization/tools/m1_perf_paired.js --work <empty folder> --scenario <the failing one>`, then run the step
   again (`node dev/tools/gate/gate.js --only perf`).
-- **`place_replay` fails one case**: a glitched wall can land on its walk by chance (3H F-036); `dev/tools/gate/README.md` says how to
-  tell.
+- **`place_replay` fails one case**: a glitched wall can land on its walk by chance, in about 7 % of runs (3H finding F-036). If the
+  failing case sent no stale pose, got no correction and its track stops early, that is it: run the step again
+  (`dev/stage-3h/gate/README.md`).
 - **A suite shows failures**: compare with `dev/stage-3h/gate/known_failures_bpp.json`; the gate does that for you.

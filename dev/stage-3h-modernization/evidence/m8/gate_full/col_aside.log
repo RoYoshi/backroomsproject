@@ -1,0 +1,26 @@
+$ python3 -I -B dev/stage-3d-hq2/col_browser.py --game /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em2/m8/gate_full/game_candidate --case aside --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em2/m8/gate_full/col_aside.json
+{
+ "setupOk": true,
+ "minSeparationServer": 37.1,
+ "minSeparationPages": null,
+ "aliceEnd": {
+  "t": 1792021340.81,
+  "x": 1430.2,
+  "y": 727.9,
+  "id": 1
+ },
+ "bobEnd": {
+  "t": 1792021340.907,
+  "x": 1012,
+  "y": 690,
+  "id": 3
+ },
+ "alicePastBob": true,
+ "bobMoved": 0
+}
+PASS setup: both alive and placed  {"setup": {"deadAtStart": [], "ok": true}, "placed": {"alice": {"t": 1792021332.971, "x": 862, "y": 720, "id": 1}, "bob": {"t": 1792021333.113, "x": 1012, "y": 690, "id": 3}}}
+PASS C09 the server never lets her closer than D (whole-px snapshots: >= 35.29)  {"min": 37.12, "snapshots": 40}
+PASS C09 her own page predicts it: never closer than D to him on her own screen (35.5 with the 0.1 px sampling), and no correction at all (he stands still)  {"pageMin": 37.4, "corrections": []}
+PASS C09 he stands aside: her page slides her past his shoulder and on (>= 100 px past him)  {"alicePageEnd": {"t": 1792021340.81, "x": 1430.2, "y": 727.9, "id": 1}, "aliceServerEnd": [1792021341.31, 1430, 728]}
+PASS C09 he is never moved (every snapshot has him where he was placed)  {"samples": 40, "moved": []}
+5/5 checks passed

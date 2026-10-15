@@ -5,7 +5,9 @@ Hounds and the Smilers, the blackouts, the glitched walls, the deaths and the bo
 its wanderer.
 
 **This branch (`stage-3h-engine-modernization`):** the engine's code is reorganised by owner. The game is meant to play exactly as the
-accepted build does. **HUMAN QA PENDING:** only the owner can accept it. The deployed game is `main`.
+accepted build does. **HUMAN QA PENDING:** only the owner can accept it
+([`HUMAN_QA.md`](dev/stage-3h-modernization/HUMAN_QA.md); the report: [`REPORT.md`](dev/stage-3h-modernization/REPORT.md)). The deployed
+game is `main`.
 
 ## Run it
 

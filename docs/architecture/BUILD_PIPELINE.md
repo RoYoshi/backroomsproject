@@ -11,7 +11,7 @@ their SHA-256, in `generated/BUILD_MANIFEST.json`. The outputs are committed, be
 
 | Kind | How it is built | Example |
 |---|---|---|
-| **Parts, joined** | Each part's text, in recipe order. A part file may begin with a `/** @part ... */` header, which the build removes: nothing else is changed (no minifying, no transpiling, no wrapping) | `public/mp.js`: 16 parts from 10 frameworks' folders |
+| **Parts, joined** | Each part's text, in recipe order. A part file may begin with a `/** @part ... */` header, which the build removes: nothing else is changed (no minifying, no transpiling, no wrapping) | `public/mp.js`: 16 parts from 9 frameworks' folders and `src/core/` |
 | **A copy of the recovered v11 build** | One part: a file of `src/core/client/bundle/original-v11/dist/` | the 11 PixiJS chunks |
 | **A replay of the lineage ledger** | The v11 build output, then every recorded step's patch, each checked by its SHA-256 before and after | `public/assets/index-DKbV5Nv9.js`, `index-D7hdwmUU.css` |
 
@@ -83,7 +83,8 @@ node dev/tools/build/build.js --clean           # deletes every built file and t
 
 From nothing: `--clean` then `npm run build` gives back `public/` and `generated/` byte for byte, with Node alone (no `npm install`,
 no network). `node dev/stage-3h-modernization/tools/m7_clean_rebuild.js --work <empty folder> [--ref <commit>]` proves it on a copy of
-the working tree, or on a fresh clone of a commit. It was run at checkpoint M7 (`dev/stage-3h-modernization/evidence/m7/`).
+the working tree, or on a fresh clone of a commit. It was run on the working tree at checkpoint M7, and on a fresh clone of M7 at M8
+(`dev/stage-3h-modernization/evidence/m7/`, `evidence/m8/clean_checkout.*`).
 
 ## Adding or changing a recipe
 

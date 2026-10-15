@@ -42,7 +42,7 @@ The session (`server.js`, `onMessage`) reads JSON frames (`frameworks/bpp/server
 | Message | Goes to | What happens |
 |---|---|---|
 | `p` (the pose: in a run every 50 ms, or 25 with the fresher poses) | `mvCheck` (S.P.A.C.E., `movement.js`); `room.sim.hearMove` | the move is accepted, cut short by another player, or refused and corrected (`{t:'tp'}`); the AI hears how the player moves |
-| `join`, `respawn`, `leave` | `room.sim` (S.P.A.C.E.'s `sim.players.js`) | the lifecycle; a placement onto a free spot (`placeFree`) |
+| `join`, `respawn`, `leave` | `room.sim` (S.P.A.C.E.'s `sim.players.js`), then `placeFree` (S.P.A.C.E.'s `movement.js`) | the lifecycle; after a join or a respawn, a placement onto a free spot |
 | `nr` | `nrIntent` (B++, `newrun.js`) | NEW RUN, below |
 | `pick` | `room.sim.takeItem` | the cartograph, if the player stands on it |
 | `admin` | the passcode check (`server.js`) | unlock, or a wrong guess counted (five: 60 s lockout) |

@@ -49,6 +49,7 @@ is out of date. Each framework's README lists its files the same way, with what 
 | How do I add a level? | Not yet possible: Level 0 is code (L.O.S.T.'s `lost/server/sim.level0.js`, and the bundle). `lost/README.md` says what a level format would need |
 | How will verticality work? | It does not: `logicz/README.md` |
 | How do I change a key binding? | F.R.O.N.T.: `front/client/ui.js`, its keybinds section. H.A.N.D.S. is a name only |
+| Where are the settings kept? | In the browser's storage, written by F.R.O.N.T. (`front/client/ui.js`: settings, keybinds, name; `hud.js`), BR-RoLE (`br-role.js`: the lighting quality), OVERSEER (`overseer/client/mp.admin.js`) and the compiled bundle (the appearance and the light). V.A.U.L.T. is a name only: `vault/README.md` |
 | Where do the sounds live? | Spacious Audio's README: the synthesised sounds are code; the recorded ones are `public/sounds/` and `public/assets/*.wav` |
 | Where is old QA evidence? | `dev/archive/INDEX.md`, by old root name |
 | How do I ship safely? | [`docs/development/QUICKSTART.md`](../development/QUICKSTART.md), [`BUILD_PIPELINE.md`](BUILD_PIPELINE.md), and W.A.R.D.'s README: the server serves only `public/`, through an allowlist |

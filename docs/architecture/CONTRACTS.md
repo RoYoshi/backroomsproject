@@ -116,7 +116,7 @@ module of the server (so the order of the server's own requires, which the golde
 | `frameworks/gib/server/death_srv.js` | (nothing; it loads `generated/server/dphys.js` itself) | `fxFor`, `bodyFor`, `begin`, `step`, `corpse`, `durOf`, `DP`, `boomFx`, `boomBegin` |
 | `frameworks/space/server/movement.js` | `PEERS`, `send` | `MV`, `PD`, `blockers`, `placeFree`, `mvReset`, `mvCheck`, `moveTo`, `adminMove` |
 | `frameworks/gib/server/aftermath.js` | `deathSrv`, `send`, `HEX` | `aftStart`, `aftOf`, `aftSend`, `aftTick`, `bodyAt`, `putBody`, `boomStart` |
-| `frameworks/bpp/server/newrun.js` | `send`, `boomStart` | `nrIntent` |
+| `frameworks/bpp/server/newrun.js` | `send`, `boomStart` | `NR_GAP`, `nrIntent` |
 | `core/server/rooms.js` | `createSim`, `BODY_TTL`, `aftStart`, `placeFree`, `mvReset`, `send` | `rooms`, `getRoom`, `worldReset` |
 | `frameworks/overseer/server/admin.js` | `send`, `aftOf`, `moveTo`, `worldReset` | `adminCommand` |
 | `frameworks/bpp/server/poses.js` | `send` | `poseSend` |

@@ -4,7 +4,7 @@
 
 ## What it owns
 
-The admin's tools: the panel's commands on the server (`server/admin.js`: kick, revive, god, bring, freeze, the monster and world tools, the death previews, ...), their world side (`server/sim.admin.js`), the admin menu (`client/mp.admin.js`, the backquote key), the death lab (`client/mp.deathlab.js`) and the AI debug overlay (`client/ents.debug.js`).
+The admin's tools: the panel's commands on the server (`server/admin.js`: kick, revive, god, bring, freeze, the monster and world tools, the death previews, ...), their world side (`server/sim.admin.js`), the admin menu (`client/mp.admin.js`), the death lab (`client/mp.deathlab.js`, which also binds the backquote key that opens the menu) and the AI debug overlay (`client/ents.debug.js`).
 
 ## What it must not own
 

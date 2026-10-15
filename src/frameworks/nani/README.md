@@ -51,7 +51,7 @@ Edit the part, `npm run build` (it writes `generated/server/ai.js` and `sim.js`)
 
 ## Tests
 
-- `npm test`: `s_percept`, `s_hound`, `s_hound2e`, `s_smiler`, `s_capture`, `s_system`, `s_nav`, `s_chase`, `s_shared2f`, `s_humanqa_hotfix` (13 of 162 cases fail on the accepted build too).
+- `npm test`: `s_percept`, `s_hound`, `s_hound2e`, `s_smiler`, `s_capture`, `s_system`, `s_nav`, `s_chase`, `s_evidence`, `s_shared2f` (13 of its 162 cases fail on the accepted build too). `npm run test:humanqa` runs `s_humanqa_hotfix`.
 - `node dev/tests/nav_bench.js`, `escape_bench.js`, `live_chase.js`.
 
 ## Known debt

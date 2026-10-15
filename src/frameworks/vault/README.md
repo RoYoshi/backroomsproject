@@ -22,7 +22,7 @@ No file of its own: this framework has no code in this repository yet (see above
 
 ## How it connects
 
-The settings are in the browser's storage today, written by F.R.O.N.T. (`ui.js`, `hud.js`), BR-RoLE (`br-role.js`'s quality) and the admin menu (`mp.admin.js`).
+The settings are in the browser's storage today, written by F.R.O.N.T. (`ui.js`, `hud.js`), BR-RoLE (`br-role.js`'s quality), the admin menu (`mp.admin.js`) and the compiled bundle (the wanderer's appearance and light: `wanderer-appearance`, `wanderer-light`).
 
 ## Changing it
 

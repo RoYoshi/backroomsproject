@@ -1,0 +1,67 @@
+# Stage 3H engine modernization, checkpoint M8: H3M-8, the final gate, the package, the report, the Human QA page
+# $SP is the session's scratch folder. The parent is M7 = 14ac446 (tree b3a7a56). No runtime file changed at M8. B++ = 143b63f; frozen
+# 3H2 = 22751bb. Stopped after this checkpoint for the owner's decision.
+
+## the build from a clean checkout (dev/stage-3h-modernization/tools/m7_clean_rebuild.js --ref)
+node dev/stage-3h-modernization/tools/m7_clean_rebuild.js --work $SP/em2/m8/clean_checkout_work --ref 14ac446   exit 0  (clean_checkout.*)
+  a fresh clone of the repository, M7 checked out: build:check PASS; --clean removed 41 of 41 built files and touched no other; npm run
+  build wrote 41; 41 of 41 identical to the commit's blobs; git status clean; build:check PASS. Node only: no npm install, no network.
+
+## the final full gate (on a fresh clone of M7, so that no edit in the working tree could reach it)
+git clone /home/claude/backroomsproject $SP/em2/m8/final_tree; git checkout --detach 14ac446
+node dev/tools/gate/gate.js --tier full --out $SP/em2/m8/gate_full      exit 0  MODERNIZATION GATE (full): PASS, 20 of 20 steps, 34.8 min
+  (gate_full/: the reports and logs; screenshots left out; the live wire's raw frames gzipped)
+  build 40, lineage 83, parts 64, docs 23, scope 198, srv_golden 11, bpp_golden 7, cli_golden 12, protocol 52,740, mutants 18, static 4,
+  raw_live 173, quick_suites 23, cli_mutants 22, live_wire 65 (structurally identical), bpp_checks 36 (8/22/6 as on B++), browsers 123
+  (two_browser 108, col_head 5, col_aside 5, gameplay_smoke 5), contact_lab 23 images identical pixel for pixel, suites 293 (only the
+  known B++ failures fail), perf 9 (server: lifecycle -2.19 %, deaths +2.10 %, admin +5.36 % within its 9.97 % tolerance, schedule
+  -1.44 %; page: 5 scenes, every hook and handler within its rule)
+  srv_golden: every scenario's old and new traces are equal; against the stored B++ baselines, http_base's 10 lines about index.html
+  and mp.js (the files 3H2 changed) are the one allowed difference, their bodies checked against the files.
+
+## every file the game runs, against 3H2 and B++ (dev/stage-3h-modernization/tools/m8_served_identity.js; new at M8)
+node dev/stage-3h-modernization/tools/m8_served_identity.js              exit 0  (served_identity.*) public/: 48 files (36 built, 12 static)
+                                                                                  and the server's 4 built files: 52 of 52 identical to 3H2;
+                                                                                  different from B++: exactly 3H2's four declared files
+  It replaces m1_relocate.js --verify's "40 of 40 outputs and 25 of 25 static files" for the final count: since M6a, 13 of those 25
+  (the bundle, its stylesheet, the 11 PixiJS chunks) are also built outputs, so they were counted twice (found by the review below).
+
+## an independent review of the documentation
+  A separate agent, which had not written the documents, checked every claim in REPORT.md, HUMAN_QA.md, PARITY_MATRIX.md, ADR-003,
+  ADR-004, RUNTIME_FLOWS.md, CONTRACTS.md, BUILD_PIPELINE.md, FRAMEWORKS.md, QUICKSTART.md, the root README and the framework READMEs
+  against the repository (read-only). Corrected from its findings:
+  - ADR-003 and REPORT.md: seven server modules existed before H3M-2 (death_srv.js and peers.js written as modules; static.js, ws.js,
+    fields.js moved out by 3H0; newrun.js, aftermath.js by 3H2), not "six moved by 3H0 and 3H2";
+  - "18 scenarios byte-identical to B++'s baselines" now says that http_base's 10 lines about index.html and mp.js are the one allowed
+    difference; the server mutants include two applied in server.js; the harness records what it records;
+  - PARITY_MATRIX.md: placeFree is in movement.js; NEW RUN has 11 page mutants (3 in assets/net-newrun.js); run_online is a page scene;
+    the perf step also times 5 page scenes; m1_relocate.js is not a gate step; the path edits are four kinds in 10 lines; the counts of
+    served files are 48 + 4, all identical to 3H2;
+  - RUNTIME_FLOWS.md (placeFree after a join or respawn), CONTRACTS.md (newrun.js also returns NR_GAP), BUILD_PIPELINE.md (9 frameworks
+    and src/core/), QUICKSTART.md and the gate README (how to tell place_replay's chance failure), the N.A.N.I. README (s_humanqa_hotfix
+    is not in npm test), the OVERSEER README (the backquote key is bound in mp.deathlab.js), FRAMEWORKS.md (a settings row in "Who to
+    ask"), the V.A.U.L.T. README (the bundle's own storage keys);
+  - REPORT.md and HUMAN_QA.md: the contact lab's 23 are images of 3 scenes; the M1 full gate passed perf only on its re-run; the
+    secret-scan claim limited to what is recorded.
+
+## the changed files since 3H2
+git diff --cached --name-status -M100% 22751bb (before the commit)       changed_files_since_3h2.csv (every path), .txt (by category)
+
+## the proof (no runtime file changed at M8)
+node dev/tools/build/build.js --check; node dev/tools/docs/docs.js --check   PASS; PASS
+node dev/tools/gate/gate.js --tier fast --out $SP/em2/work/gate_m8_fast     exit 0  PASS, 13 of 13 steps (gate_fast/), on the final tree
+
+## the secret scans
+  M7's committed revision, after its commit: secret_scan_m7_after_commit.* (CLEAN; the archived old README is listed, not scanned: its
+  bytes are the parent's README.md).  M8's changes, before the commit: secret_scan.* (CLEAN).
+
+## the remote
+  M7's receipt is copied into evidence/remote/verify_m7_14ac446.json. M8's receipt is written after the push (verify_remote_m.py M8);
+  no later checkpoint will copy it in (the stage stops here), so the delivery message carries it.
+
+## the package (after the commit: dev/stage-3h-modernization/tools/m8_package.js --ref <M8> --out <folder>)
+  THE_FAR_BACKROOMS_STAGE_3H_ENGINE_MODERNIZATION_HUMAN_QA.zip with SOURCE_MANIFEST.json, BUILD_RECEIPT.json, PACKAGE_RECEIPT.json,
+  HUMAN_QA.md and SHA256SUMS.txt.  The tool was first run on a local test commit of this content (never pushed): PASS (ZIP 321 files =
+  the commit's, every CRC read back; build, lineage, docs and parts checks PASS on the extracted copy; its server served 48 of 48 files
+  as committed, refused 23 of 23 forbidden paths, gzip correct, a WebSocket greeted; sha256sum -c OK).  The final package's SHA-256 is
+  in the delivery message.

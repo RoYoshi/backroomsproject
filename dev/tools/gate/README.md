@@ -52,7 +52,9 @@ Stage 3H2's limits still apply (`dev/stage-3h/gate/README.md`, "What the gate ca
 - pixels outside the contact lab's frozen scenes;
 - sound heard rather than traced.
 
-B++'s `place_replay.js` can fail one case by chance (F-036). The gate's notes say how to tell that case apart from a real failure.
+B++'s `place_replay.js` can fail one case by chance, in about 7 % of runs (3H finding F-036): a glitched wall drawn on its walk takes
+its mover out of the level. A failing case that sent no stale pose, got no correction and whose track stops early is that case; run
+the step again (`dev/stage-3h/gate/README.md`, "What the gate cannot see").
 
 The perf step can also fail by chance on a small machine (M-021). With seven rounds, the tolerance can fall to its 5 % floor while
 the two sides' medians differ by more than that, with nothing changed. Do not relax the rule. Measure first:

@@ -1,0 +1,17 @@
+# every path that differs from the frozen 3H2 (22751bb) at M8, by category: A added, M modified, R moved byte for byte, D removed
+# (the full list, with old and new paths: changed_files_since_3h2.csv)
+   15  archive: index, ledger, era READMEs, root listings: A 15
+  129  archive: moved from the root, byte for byte: A 1, R 128
+   88  canonical source: moved, split into parts, or new server modules: A 83, R 5
+  137  client bundle: the recovered v11 project and the lineage record: A 137
+   51  dev/: tests and tools adapted to the layout; the old shell builds and part folders removed: D 21, M 30
+   10  documentation: A 10
+  564  evidence: A 564
+   20  framework READMEs: A 20
+   21  lasting development tools (build, checks, gate, docs, layout): A 21
+    1  root README: M 1
+    2  root: the composition root and package.json: M 2
+    2  runtime moved with a declared edit (H3M-1; their new paths are among the added sources): death_srv.js (its path to dphys.js), server/static.js (a comment): D 2
+   53  runtime: served, or loaded by the server (built or static): A 3, R 50
+   41  stage records and tools: A 41
+ 1134  in all
