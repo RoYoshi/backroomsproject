@@ -7,7 +7,7 @@
 The Hounds and the Smilers: what they perceive, remember and infer, how they decide, move, navigate and attack. All of it on the server:
 - `server/ai.*.js`, the ten parts of `ai.js` (senses and memory, intelligence, light as evidence, entities, captures, the Hound, the Smiler, the engine);
 - `server/sim.ai.js` and `server/sim.feed.js`, the world's side (the engine's wiring and the level as it sees it, spawning, the admin's nav command; what it reads of the players each step, its events): two modules of the sim since continuation C3a.
-On the page, `client/mp.monsters.js` mirrors the server's monsters into the game.
+On the page, `client/mp.monsters.js` (a module of `mp.js` since continuation C3c) mirrors the server's monsters into the game, and owns what goes with them: their slots, the kill record and the killer's slot, and the held state it hands to `move.js`.
 
 ## What it must not own
 
@@ -22,7 +22,7 @@ AI perception is server-side and limited to evidence.
 <!-- generated: sources:nani (dev/tools/docs/docs.js) -->
 | File | What it is | Goes into |
 |---|---|---|
-| [`client/mp.monsters.js`](client/mp.monsters.js) | N.A.N.I.: the server's monsters, mirrored into the game | `public/mp.js` (a part) |
+| [`client/mp.monsters.js`](client/mp.monsters.js) | N.A.N.I.: the server's monsters, mirrored into the game; a module: naniMonsters | `public/mp.js` (a part) |
 | [`server/ai.capture.js`](server/ai.capture.js) | N.A.N.I.: captures and the choice of kill | `generated/server/ai.js` (a part) |
 | [`server/ai.engine.js`](server/ai.engine.js) | N.A.N.I.: the engine: species table, sound bus, level of detail, capture loop, snapshots; the factory closes here | `generated/server/ai.js` (a part) |
 | [`server/ai.entity.js`](server/ai.entity.js) | N.A.N.I.: entities: personality, movement, traversal, navigation records, state plumbing | `generated/server/ai.js` (a part) |
@@ -37,7 +37,7 @@ AI perception is server-side and limited to evidence.
 | [`server/sim.feed.js`](server/sim.feed.js) | src/frameworks/nani/server/sim.feed.js - N.A.N.I.: what the AI reads of the players every step (feed), its events (processEvents), and | a module of the sim: `src/core/server/sim.js` requires it |
 <!-- end of generated block -->
 
-A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header.
+A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header. Since continuation C3b a part of `world.js`, `move.js`, `camcorder.js`, `glitch.js` or `ents.js` is a module, and since C3c a part of `mp.js` too: one factory, given what it uses of the modules made before it; its header also lists its `imports` and `exports` (and, for `mp.js`'s session, the names it is given `late`), and the script's `*.compose.js` part makes the modules in order (`docs/architecture/CONTRACTS.md` section 4; `node dev/tools/checks/modules.js` proves the boundaries).
 
 ## How it connects
 

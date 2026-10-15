@@ -1,7 +1,8 @@
 # ADR-004: Scripts with many owners are built from owned parts with checked interface headers
 
 - **Status:** accepted for Stage 3H (H3M-3 to H3M-5, checkpoint M3). The parts are not modules: architecture debt, recorded (M-024).
-  Superseded for `sim.js` by ADR-005 at continuation C3a: the sim is modules now, not parts. The page's scripts are still parts.
+  Superseded by ADR-005 for `sim.js` (continuation C3a: modules, not parts), for `world.js`, `move.js`, `camcorder.js`, `glitch.js` and
+  `ents.js` (C3b) and for `mp.js` (C3c): their parts are modules. `ai.js`, one owner's, is still built from parts this way.
 - **Evidence:** `dev/stage-3h-modernization/evidence/m3/`; `dev/tools/checks/parts.js`; `FINDINGS.md` M-024 and M-025.
 
 ## Context
@@ -33,7 +34,8 @@
     */
    ```
 
-   Notes may follow the title line. The header above is `src/frameworks/bpp/client/mp.transport.js`'s, with its lists cut short.
+   Notes may follow the title line. The header above was `src/frameworks/bpp/client/mp.transport.js`'s at M3, with its lists cut short
+   (since C3c that file is part of B++'s session module, `mp.session.js`, whose header lists its imports, exports and late names instead).
 3. **A checker proves the headers.** `dev/tools/checks/parts.js`, the gate's `parts` step:
    - assembles each output as the build does;
    - finds the shared closure with TypeScript's parser: the function with the largest body (an IIFE, `ai.js`'s UMD factory,

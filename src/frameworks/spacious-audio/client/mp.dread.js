@@ -1,10 +1,16 @@
-/** @part public/mp.js - Spacious Audio: the dread's sound (the drone and the heartbeat)
- * provides: ac, beatT, burst, dg, soundOn, thump
+/** @part public/mp.js - Spacious Audio: the dread's sound (the drone and the heartbeat); a module: audioDread
+ * A module (continuation C3c, M-024): M8's part in its factory. The per-frame hook (core's mp.frame.js) set the drone's gain itself at
+ * M8; now it asks (setDrone), and it shows or hides the pause screen's online note this module made through onlineNote. The heartbeat's
+ * timer (beatT), which only the hook used, is the hook's.
+ * imports: -
+ * exports: burst, onlineNote, setDrone, thump
+ * provides: audioDread
  * uses: -
  * writes: -
  */
+function audioDread() {
 /* ---------- audio ---------- */
-let ac, drone, dg, beatT = 0;
+let ac, drone, dg;
 const soundOn = () => /ON/.test(document.getElementById('sound')?.textContent || 'ON');
 function initAudio() {
   if (ac) return;
@@ -40,5 +46,8 @@ if (pauseNote) {
   n.textContent = 'Online: pausing does not stop the halls. The monsters keep moving.';
   pauseNote.before(n);
 }
-
-
+/* (C3c) the drone's level from the dread (k, 0..1: the per-frame hook's), and the online note, shown while online */
+function setDrone(k) { if (dg && ac) dg.gain.value = soundOn() ? k * k * .16 : 0; }
+const onlineNote = on => { const note = document.getElementById('onlineNote'); if (note) note.hidden = !on; };
+return { burst, onlineNote, setDrone, thump };
+}

@@ -159,7 +159,7 @@ if (LAYOUT.modern && fs.existsSync(path.join(TREE, SIM_ROOT))) {
   })(root || sf);
   R.sim = S;
 }
-/* ---------------------------------------------------------------- the page's scripts made of modules (continuation C3b)
+/* ---------------------------------------------------------------- the page's scripts made of modules (continuation C3b, C3c)
  * A script whose last part is a composition (*.compose.js) is a set of modules inside the script's wrapper: each part but the last is one
  * factory, the last makes them.  The script is checked as the build assembles it (dev/tools/build/build.js: the parts in order, less their
  * headers), so what is checked is what the page runs:
@@ -169,14 +169,24 @@ if (LAYOUT.modern && fs.existsSync(path.join(TREE, SIM_ROOT))) {
  *   8. imports    as on the server: a factory never assigns what it is given, and uses all of it;
  *   9. links      the composition makes each module once, in the order of the parts, each from modules made before it, under the keys its
  *                 factory takes, and each imported name is one its giver returns; the part's header lists the same imports and exports;
- *  10. owners     no module writes a property of an object another owner's module made, except to add its own entry to the script's
- *                 public object (published on window, or returned by the script), and each entry of a public object has one module that
- *                 writes it; no module calls a function that a third module put on another module's object (E.drawSmiler, put on the
- *                 head's E by the Smiler's module): it imports the function from the module that made it;
- *  11. window     no module reads, through the global object, a name another module of the same script puts there: no global back-channel.
+ *  10. owners     no module writes a property of an object another owner's module made, nor changes it in place (C3c: set, delete,
+ *                 clear, add, push, splice, fill ...), except to add its own entry to the script's public object (published on window, or
+ *                 returned by the script), and each entry of a public object has one module that writes it; no module calls a function
+ *                 that a third module put on another module's object (E.drawSmiler, put on the head's E by the Smiler's module): it
+ *                 imports the function from the module that made it.  An object another script made, named from the global object (NET,
+ *                 from window.__mpLib.interp), is that script's: each of its properties this script writes has one module that writes it;
+ *  11. window     no module reads, through the global object, a name another module of the same script puts there: no global
+ *                 back-channel; and (C3c) each name is put there by one module, and what is written through it (window.X.p = ...,
+ *                 window.X.add(...)) has one module that writes it - the one that put X there, when this script does;
+ *  12. late       (C3c) a module that calls modules made after it is given them late: `let` names declared with no value, assigned only
+ *                 by its own wire({ key, ... }), which holds nothing but ({ name, ... } = key) statements; each used, never assigned
+ *                 elsewhere, and never while the module is being made (at its top level, or in a function it calls then); the composition
+ *                 calls each such module's wire once, after the last module is made, with modules made after it, each name one its giver
+ *                 returns; the header's `late:` line lists them; no module imports wire.
  * (A part's owner is its framework folder, src/frameworks/<owner>/.) */
 const PART_HEADER = /^\/\*\* @part [\s\S]*?\*\/\r?\n/;
 const RECIPES_FILE = path.join(TREE, 'src', 'build-recipes.json');
+const MUTATORS = new Set(['set', 'delete', 'clear', 'add', 'push', 'pop', 'shift', 'unshift', 'splice', 'fill', 'sort', 'reverse', 'copyWithin']);
 R.page = {};
 if (LAYOUT.modern && fs.existsSync(RECIPES_FILE)) {
   const seen = new Set();
@@ -191,8 +201,10 @@ function pageScript(o) {
   let text = '';
   for (const p of o.parts) {
     const raw = fs.readFileSync(path.join(TREE, p), 'utf8'), h = (raw.match(PART_HEADER) || [''])[0], body = raw.slice(h.length);
-    const line = k => { const m = new RegExp('^ \\* ' + k + ': (.*)$', 'm').exec(h); return m ? m[1].trim() : null; };
-    P.push({ path: p, owner: (/^src\/frameworks\/([^/]+)\//.exec(p) || [, 'core'])[1], start: text.length, end: text.length + body.length, imports: line('imports'), exports: line('exports') });
+    /* a header line, with its continuation lines (indented further) joined (C3c) */
+    const line = k => { const ls = h.split('\n'), i = ls.findIndex(l => l.startsWith(' * ' + k + ': ')); if (i < 0) return null; let v = ls[i].slice((' * ' + k + ': ').length);
+      for (let j = i + 1; j < ls.length && /^ \*\s{3,}\S/.test(ls[j]); j++) v += ' ' + ls[j].replace(/^ \*\s+/, ''); return v.trim(); };
+    P.push({ path: p, owner: (/^src\/frameworks\/([^/]+)\//.exec(p) || [, 'core'])[1], start: text.length, end: text.length + body.length, imports: line('imports'), exports: line('exports'), late: line('late') });
     text += body;
   }
   const name = out.replace(/[^\w.]/g, '_'), sf = ts.createSourceFile(name, text, ts.ScriptTarget.ES2022, true, ts.ScriptKind.JS);
@@ -206,11 +218,15 @@ function pageScript(o) {
   const symOf = n => ts.isShorthandPropertyAssignment(n.parent) && n.parent.name === n ? checker.getShorthandAssignmentValueSymbol(n.parent) : checker.getSymbolAtLocation(n);
   const declOf = n => { const s = symOf(n); return s && s.declarations && s.declarations.length ? s.declarations[0] : null; };
   const isGlobal = n => ts.isIdentifier(n) && !declOf(n);
+  const isFnNode = n => ts.isFunctionDeclaration(n) || ts.isFunctionExpression(n) || ts.isArrowFunction(n) || ts.isMethodDeclaration(n) || ts.isGetAccessor(n) || ts.isSetAccessor(n) || ts.isConstructorDeclaration(n);
+  const GLOBAL_ROOTS = ['window', 'self', 'globalThis'];
+  /* an expression made only of property accesses from a global name (window.__mpLib.interp; no call): another script's object */
+  const globalRooted = e => { while (e && (ts.isPropertyAccessExpression(e) || ts.isElementAccessExpression(e) || ts.isParenthesizedExpression(e))) e = e.expression; return !!e && isGlobal(e); };
   /* the wrapper: the function with the largest block body (as the parts check finds it) */
   let wrap = null;
   (function walk(n) { if ((ts.isFunctionExpression(n) || ts.isArrowFunction(n) || ts.isFunctionDeclaration(n)) && n.body && ts.isBlock(n.body) && (!wrap || n.body.end - n.body.pos > wrap.body.end - wrap.body.pos)) wrap = n; ts.forEachChild(n, walk); })(sf);
   /* 6. the wrapper's own statements: a factory per module part; the composition's calls, consts and the script's return */
-  const M = P.slice(0, last).map(p => ({ path: p.path, owner: p.owner, fn: null })), first = l => l.getText(sf).split('\n')[0].slice(0, 70);
+  const M = P.slice(0, last).map(p => ({ path: p.path, owner: p.owner, fn: null, part: p })), first = l => l.getText(sf).split('\n')[0].slice(0, 70);
   for (const s of wrap.body.statements) {
     const k = partAt(s.getStart(sf));
     if (k < 0) { prob(`a statement outside every part: ${first(s)}`); continue; }
@@ -240,14 +256,67 @@ function pageScript(o) {
     const written = [...syms.values()].filter(b => b.writes).map(b => b.n), unused = [...syms.values()].filter(b => !b.reads && !b.writes).map(b => b.n);
     if (written.length) prob(`${m.path}: ${m.factory} assigns names it was given: ${written.join(', ')}`);
     if (unused.length) prob(`${m.path}: ${m.factory} is given names it never uses: ${unused.join(', ')}`);
+    if (B.some(([n]) => n === 'wire')) prob(`${m.path}: ${m.factory} imports wire: only the composition calls a module's wire`);
     m.exports = exportsOf(fn) || [];
-    m.locals = new Map(); for (const st of fn.body.statements) if (ts.isVariableStatement(st)) for (const d of st.declarationList.declarations) if (ts.isIdentifier(d.name)) m.locals.set(d.name.text, d);
+    m.locals = new Map(); m.extLocals = new Map();
+    for (const st of fn.body.statements) if (ts.isVariableStatement(st)) for (const d of st.declarationList.declarations) {
+      if (ts.isIdentifier(d.name)) { if (d.initializer && globalRooted(d.initializer)) m.extLocals.set(d.name.text, d); else m.locals.set(d.name.text, d); }
+      else if (d.initializer && globalRooted(d.initializer)) for (const [n2, , id2] of bindings({ name: d.name })) m.extLocals.set(n2, id2.parent);   // named from another script's object
+    }
+    m.external = new Set([...m.extLocals.keys()].filter(n2 => m.exports.includes(n2)));
+    /* 12. late: the module's wire, the names it is given late, and that none is used while the module is being made */
+    const wireFn = fn.body.statements.find(s => ts.isFunctionDeclaration(s) && s.name && s.name.text === 'wire');
+    if (!wireFn) { if (m.part.late !== null) prob(`${m.path}: its header lists names given late, and ${m.factory} has no wire`); continue; }
+    const L = { keys: [], names: new Map(), syms: new Map() };
+    const prm = wireFn.parameters;
+    if (prm.length !== 1 || !ts.isObjectBindingPattern(prm[0].name) || prm[0].name.elements.some(e => e.propertyName || !ts.isIdentifier(e.name) || e.initializer || e.dotDotDotToken)) prob(`${m.path}: ${m.factory}'s wire takes something other than one object of modules ({ key, ... })`);
+    else L.keys = prm[0].name.elements.map(e => e.name.text);
+    for (const s of wireFn.body.statements) {
+      const e = ts.isExpressionStatement(s) && ts.isParenthesizedExpression(s.expression) ? s.expression.expression : null;
+      if (!e || !ts.isBinaryExpression(e) || e.operatorToken.kind !== ts.SyntaxKind.EqualsToken || !ts.isObjectLiteralExpression(e.left) || !ts.isIdentifier(e.right) || !L.keys.includes(e.right.text) || e.left.properties.some(p => !ts.isShorthandPropertyAssignment(p))) { prob(`${m.path}: ${m.factory}'s wire holds something other than ({ name, ... } = key): ${first(s)}`); continue; }
+      if (L.names.has(e.right.text)) prob(`${m.path}: ${m.factory}'s wire takes from ${e.right.text} twice`);
+      L.names.set(e.right.text, e.left.properties.map(p => p.name.text));
+      for (const p of e.left.properties) {
+        const sym = checker.getShorthandAssignmentValueSymbol(p), d = sym && sym.declarations && sym.declarations[0];
+        if (!d || !ts.isVariableDeclaration(d) || d.initializer || !(d.parent.flags & ts.NodeFlags.Let) || d.parent.parent.parent !== fn.body) prob(`${m.path}: ${m.factory}'s wire assigns ${p.name.text}, not a name the factory declares with let and no value`);
+        else if (L.syms.has(sym)) prob(`${m.path}: ${m.factory}'s wire assigns ${p.name.text} twice`);
+        else L.syms.set(sym, p.name.text);
+      }
+    }
+    for (const k of L.keys) if (!L.names.has(k)) prob(`${m.path}: ${m.factory}'s wire is given ${k} and takes nothing from it`);
+    /* what runs while the module is being made: its top level, the functions it calls then (to a fixed point), and functions called in place */
+    const localFns = new Map(fn.body.statements.filter(s => ts.isFunctionDeclaration(s) && s.name).map(s => [s.name.text, s]));
+    const atMake = new Set([fn]);
+    const callsIn = (root, add) => (function walk(n) { if (n !== root && isFnNode(n)) { if (ts.isCallExpression(n.parent) && n.parent.expression === n || (ts.isParenthesizedExpression(n.parent) && ts.isCallExpression(n.parent.parent) && n.parent.parent.expression === n.parent)) add(n); return; }
+      if (ts.isCallExpression(n) && ts.isIdentifier(n.expression) && localFns.has(n.expression.text) && declOf(n.expression) === localFns.get(n.expression.text)) add(localFns.get(n.expression.text)); ts.forEachChild(n, walk); })(root);
+    for (let grew = true; grew;) { grew = false; for (const f of [...atMake]) callsIn(f, g => { if (!atMake.has(g)) { atMake.add(g); grew = true; } }); }
+    const used = new Set();
+    (function walk(n, owner) {
+      if (ts.isIdentifier(n) && !isName(n)) {
+        const nm = !(ts.isVariableDeclaration(n.parent) && n.parent.name === n) && L.syms.get(symOf(n));
+        if (nm && !(n.pos >= wireFn.pos && n.end <= wireFn.end)) {
+          used.add(nm);
+          if (isWrite(n)) prob(`${m.path}: ${m.factory} assigns ${nm}, a name wire gives it late`);
+          if (atMake.has(owner)) prob(`${m.path}: ${m.factory} uses ${nm}, given late, while it is being made`);
+        }
+      }
+      ts.forEachChild(n, c => walk(c, isFnNode(c) ? c : owner));
+    })(fn.body, fn);
+    for (const nm of L.syms.values()) if (!used.has(nm)) prob(`${m.path}: ${m.factory} is given ${nm} late and never uses it`);
+    const want = [...L.names].map(([k, ns]) => `${k} { ${[...ns].sort().join(' ')} }`).sort().join(', ') || '-';
+    const said = (m.part.late || '').split(/,\s*(?=[\w$]+ \{)/).map(x => x.replace(/\{\s*([^}]*)\}/, (a, ns) => '{ ' + ns.trim().split(/\s+/).sort().join(' ') + ' }').trim()).sort().join(', ') || '-';
+    if (m.part.late === null || said !== want) prob(`${m.path}: its header's late names (${m.part.late}) are not what its wire takes (${want})`);
+    if (!m.exports.includes('wire')) prob(`${m.path}: ${m.factory} has a wire it does not return`);
+    m.late = L;
   }
-  /* 9. links: the composition */
-  const C = { made: [], ok: true }, consts = new Map();
+  /* 9. links: the composition (12: and its late wiring, after the last module is made) */
+  const C = { made: [], wired: [], ok: true }, consts = new Map();
   const callOf = e => e && ts.isCallExpression(e) && ts.isIdentifier(e.expression) && byFactory.has(e.expression.text) ? e : null;
+  const wires = [];
   for (const s of wrap.body.statements.filter(x => partAt(x.getStart(sf)) === last)) {
     let call = null, as = null;
+    if (ts.isExpressionStatement(s) && ts.isCallExpression(s.expression) && ts.isPropertyAccessExpression(s.expression.expression) && s.expression.expression.name.text === 'wire'
+      && ts.isIdentifier(s.expression.expression.expression) && consts.has(s.expression.expression.expression.text)) { wires.push({ s, at: C.made.length, g: consts.get(s.expression.expression.expression.text), as: s.expression.expression.expression.text, call: s.expression }); continue; }
     if (ts.isVariableStatement(s) && s.declarationList.declarations.length === 1 && (s.declarationList.flags & ts.NodeFlags.Const) && ts.isIdentifier(s.declarationList.declarations[0].name)) { call = callOf(s.declarationList.declarations[0].initializer); as = s.declarationList.declarations[0].name.text; }
     else if (ts.isExpressionStatement(s)) call = callOf(s.expression);
     else if (ts.isReturnStatement(s) && s.expression && ts.isPropertyAccessExpression(s.expression) && ts.isIdentifier(s.expression.expression) && consts.has(s.expression.expression.text)) {
@@ -256,8 +325,9 @@ function pageScript(o) {
       g.returned = nm; C.returns = s.expression.getText(sf); continue;
     }
     if (!call) { prob(`the composition holds something other than the modules' making: ${first(s)}`); continue; }
+    if (wires.length) prob(`${call.expression.text} is made after a module's wire: every module is made before the late wiring`);
     const m = byFactory.get(call.expression.text), given = {};
-    if (m.made) prob(`${m.factory} is made twice`); m.made = true;
+    if (m.made) prob(`${m.factory} is made twice`); m.made = true; m.order = C.made.length;
     const arg = call.arguments[0];
     if (call.arguments.length > 1 || (arg && !ts.isObjectLiteralExpression(arg))) prob(`${m.factory} is not given one object of modules`);
     else if (arg) for (const p of arg.properties) {
@@ -275,6 +345,25 @@ function pageScript(o) {
   }
   const order = C.made.map(x => x.factory), expected = M.filter(m => m.fn).map(m => m.factory);
   if (order.join() !== expected.join()) prob(`the composition makes ${order.join(', ')}; the parts run ${expected.join(', ')}`);
+  /* 12. each module with names given late is wired once, with the modules made after it under the keys its wire takes */
+  const wiredBy = new Map();
+  for (const w of wires) {
+    if (!w.g.late) { prob(`the composition calls ${w.as}.wire, and ${w.g.factory} has no wire`); continue; }
+    if (wiredBy.has(w.g)) prob(`${w.g.factory} is wired twice`); wiredBy.set(w.g, w);
+    const arg = w.call.arguments[0], given = {};
+    if (w.call.arguments.length !== 1 || !ts.isObjectLiteralExpression(arg)) { prob(`${w.as}.wire is not given one object of modules`); continue; }
+    for (const p of arg.properties) {
+      const key = p.name && p.name.getText(sf), val = ts.isShorthandPropertyAssignment(p) ? p.name.text : ts.isPropertyAssignment(p) && ts.isIdentifier(p.initializer) ? p.initializer.text : null, g = val && consts.get(val);
+      if (!g) { prob(`${w.as}.wire is given ${key}: not a module`); continue; }
+      if (!(g.order > w.g.order)) prob(`${w.as}.wire is given ${key} (${g.factory}), made before ${w.g.factory}: a module made before is an import, not a late name`);
+      given[key] = g;
+    }
+    for (const k of w.g.late.keys) if (!given[k]) prob(`${w.g.factory}'s wire takes ${k}, which the composition does not give`);
+    for (const k of Object.keys(given)) if (!w.g.late.keys.includes(k)) prob(`${w.as}.wire is given ${k}, which its wire does not take`);
+    for (const [k, ns] of w.g.late.names) { const g = given[k]; const missing = g ? ns.filter(x => !g.exports.includes(x)) : []; if (missing.length) prob(`${w.g.factory} takes late from ${k} (${g.factory}) names it does not return: ${missing.join(', ')}`); }
+    C.wired.push({ module: w.as, factory: w.g.factory, from: Object.entries(given).map(([k, g]) => `${k}=${g.factory}`) });
+  }
+  for (const m of M.filter(x => x.late)) if (!wiredBy.has(m)) prob(`${m.factory} has names given late, and the composition never calls its wire`);
   for (const m of M.filter(x => x.fn)) {                                                     // the header says what the code says
     const want = Object.entries(m.imports || {}).map(([k, ns]) => `${k} { ${[...ns].sort().join(' ')} }`).sort().join(', ') || '-';
     const said = (P[M.indexOf(m)].imports || '').split(/,\s*(?=[\w$]+ \{)/).map(x => x.replace(/\{\s*([^}]*)\}/, (a, ns) => '{ ' + ns.trim().split(/\s+/).sort().join(' ') + ' }').trim()).sort().join(', ') || '-';
@@ -282,52 +371,69 @@ function pageScript(o) {
     const ex = [...m.exports].sort().join(', ') || '-', hx = (P[M.indexOf(m)].exports || '').split(/,\s*/).filter(x => x && x !== '-').sort().join(', ') || '-';
     if (P[M.indexOf(m)].exports === null || hx !== ex) prob(`${m.path}: its header's exports (${P[M.indexOf(m)].exports}) are not what its factory returns (${ex})`);
   }
-  /* 10. owners, 11. window: the objects modules share, and what they put on the global object */
-  const objOf = (m, id) => {                                                                   // the shared object an identifier names: [the module that made it, its name]
+  /* 10. owners, 11. window: the objects modules share, and what they put on, and write through, the global object */
+  const objOf = (m, id) => {                                                                   // the shared object an identifier names: the module that made it (or named it, ext: another script's), its name
     const s = symOf(id), b = s && m.paramSyms.get(s);
-    if (b) { const g = m.givers && m.givers[b.k]; return g ? [g, b.n] : null; }
+    if (b) { const g = m.givers && m.givers[b.k]; return g ? { mod: g, name: b.n, ext: g.external.has(b.n) } : null; }
     const d = s && s.declarations && s.declarations[0];
-    return d && m.locals.get(id.text) === d && m.exports.includes(id.text) ? [m, id.text] : null;
+    if (d && m.locals.get(id.text) === d && m.exports.includes(id.text)) return { mod: m, name: id.text, ext: false };
+    if (d && m.extLocals.has(id.text) && (m.extLocals.get(id.text) === d || m.extLocals.get(id.text) === d.parent)) return { mod: m, name: id.text, ext: true };
+    return null;
   };
-  const publicObj = new Set(), entries = new Map(), win = new Map(), calls = [], winReads = [];
-  const key = (g, n) => g.factory + '.' + n;
+  const publicObj = new Set(), entries = new Map(), win = new Map(), calls = [], winReads = [], winW = new Map(), extW = new Map();
+  const key = (g, n) => g.factory + '.' + n, addTo = (map, k, m) => { if (!map.has(k)) map.set(k, new Set()); map.get(k).add(m); };
   for (const m of M.filter(x => x.fn)) {
     for (const [n, d] of m.locals) {                                                        // a module's export published on window, or returned by the script
       let e = d.initializer; while (e && ts.isBinaryExpression(e) && e.operatorToken.kind === ts.SyntaxKind.EqualsToken) { if (ts.isPropertyAccessExpression(e.left) && isGlobal(e.left.expression) && e.left.expression.text === 'window' && m.exports.includes(n)) publicObj.add(key(m, n)); e = e.right; }
-      if (e && ts.isObjectLiteralExpression(e) && m.exports.includes(n)) for (const p of e.properties) if (p.name) { const k = key(m, n) + '|' + p.name.getText(sf); if (!entries.has(k)) entries.set(k, new Set()); entries.get(k).add(m); }
+      if (e && ts.isObjectLiteralExpression(e) && m.exports.includes(n)) for (const p of e.properties) if (p.name) addTo(entries, key(m, n) + '|' + p.name.getText(sf), m);
     }
     if (m.returned) publicObj.add(key(m, m.returned));
     (function walk(n) {
-      if (ts.isBinaryExpression(n) && n.operatorToken.kind === ts.SyntaxKind.EqualsToken && ts.isPropertyAccessExpression(n.left) && isGlobal(n.left.expression) && ['window', 'self', 'globalThis'].includes(n.left.expression.text)) {
-        const nm = n.left.name.text; if (!win.has(nm)) win.set(nm, new Set()); win.get(nm).add(m);
-        if (ts.isIdentifier(n.right) && objOf(m, n.right) && objOf(m, n.right)[0] === m) publicObj.add(key(m, n.right.text));
+      if (ts.isBinaryExpression(n) && n.operatorToken.kind === ts.SyntaxKind.EqualsToken && ts.isPropertyAccessExpression(n.left) && isGlobal(n.left.expression) && GLOBAL_ROOTS.includes(n.left.expression.text)) {
+        addTo(win, n.left.name.text, m);
+        if (ts.isIdentifier(n.right) && objOf(m, n.right) && objOf(m, n.right).mod === m && !objOf(m, n.right).ext) publicObj.add(key(m, n.right.text));
+      }
+      /* what is written through the global object: window.X.p = ..., delete window.X.p, window.X.add(...) (C3c) */
+      if ((ts.isPropertyAccessExpression(n) || ts.isElementAccessExpression(n)) && ts.isPropertyAccessExpression(n.expression) && isGlobal(n.expression.expression) && GLOBAL_ROOTS.includes(n.expression.expression.text)) {
+        const X = n.expression.name.text, p = ts.isPropertyAccessExpression(n) ? n.name.text : '[' + n.argumentExpression.getText(sf) + ']';
+        const del = n.parent && ts.isDeleteExpression(n.parent), mut = ts.isCallExpression(n.parent) && n.parent.expression === n && MUTATORS.has(p);
+        if (isWrite(n) || del) addTo(winW, X + '|.' + p, m); else if (mut) addTo(winW, X + '|, in place (' + p + ')', m);
       }
       if ((ts.isPropertyAccessExpression(n) || ts.isElementAccessExpression(n)) && ts.isIdentifier(n.expression)) {
-        if (isGlobal(n.expression) && ['window', 'self', 'globalThis'].includes(n.expression.text) && ts.isPropertyAccessExpression(n) && !(isWrite(n) && ts.isBinaryExpression(n.parent))) winReads.push([m, n.name.text]);
+        if (isGlobal(n.expression) && GLOBAL_ROOTS.includes(n.expression.text) && ts.isPropertyAccessExpression(n) && !(isWrite(n) && ts.isBinaryExpression(n.parent))) winReads.push([m, n.name.text]);
         const ob = objOf(m, n.expression);
         if (ob) {
-          const p = ts.isPropertyAccessExpression(n) ? n.name.text : '[' + n.argumentExpression.getText(sf) + ']', k = key(ob[0], ob[1]) + '|' + p;
-          const del = n.parent && ts.isDeleteExpression(n.parent);
-          if (isWrite(n) || del) { if (!entries.has(k)) entries.set(k, new Set()); entries.get(k).add(m); if (ob[0].owner !== m.owner) (m.crossWrites = m.crossWrites || []).push([ob, p]); }
-          else if (ts.isCallExpression(n.parent) && n.parent.expression === n) calls.push([m, ob, p]);
+          const p = ts.isPropertyAccessExpression(n) ? n.name.text : '[' + n.argumentExpression.getText(sf) + ']', k = key(ob.mod, ob.name) + '|' + p;
+          const del = n.parent && ts.isDeleteExpression(n.parent), isCall = ts.isCallExpression(n.parent) && n.parent.expression === n;
+          if (ob.ext) { if (isWrite(n) || del) addTo(extW, k, m); else if (isCall && MUTATORS.has(p)) addTo(extW, key(ob.mod, ob.name) + '|, in place (' + p + ')', m); }
+          else if (isWrite(n) || del) { addTo(entries, k, m); if (ob.mod.owner !== m.owner) (m.crossWrites = m.crossWrites || []).push([ob, p]); }
+          else if (isCall && MUTATORS.has(p)) { if (ob.mod.owner !== m.owner) (m.crossMut = m.crossMut || []).push([ob, p]); }
+          else if (isCall) calls.push([m, ob, p]);
         }
       }
       if (ts.isIdentifier(n) && !isName(n) && isGlobal(n)) winReads.push([m, n.text]);
       ts.forEachChild(n, walk);
     })(m.fn.body);
   }
-  for (const m of M.filter(x => x.fn)) for (const [ob, p] of m.crossWrites || []) if (!publicObj.has(key(ob[0], ob[1]))) prob(`${m.path}: ${m.factory} (${m.owner}) writes ${ob[1]}.${p}, state of ${ob[0].factory} (${ob[0].owner}): another owner's state changes only through a function its owner gives`);
+  for (const m of M.filter(x => x.fn)) for (const [ob, p] of m.crossWrites || []) if (!publicObj.has(key(ob.mod, ob.name))) prob(`${m.path}: ${m.factory} (${m.owner}) writes ${ob.name}.${p}, state of ${ob.mod.factory} (${ob.mod.owner}): another owner's state changes only through a function its owner gives`);
+  for (const m of M.filter(x => x.fn)) for (const [ob, p] of m.crossMut || []) prob(`${m.path}: ${m.factory} (${m.owner}) changes ${ob.name} in place (${p}), state of ${ob.mod.factory} (${ob.mod.owner}): another owner's state changes only through a function its owner gives`);
   for (const [k, ms] of entries) if (publicObj.has(k.split('|')[0]) && ms.size > 1) prob(`${k.replace('|', ': the entry ')} is written by ${[...ms].map(x => x.factory).join(' and ')}: an entry of a public object has one module that writes it`);
-  for (const [m, ob, p] of calls) { const w = entries.get(key(ob[0], ob[1]) + '|' + p); if (w && w.size === 1 && !w.has(m) && !w.has(ob[0])) prob(`${m.path}: ${m.factory} calls ${ob[1]}.${p} (${ob[0].factory}'s object), which ${[...w][0].factory} puts there: a dependence on ${[...w][0].factory} its imports do not show; it imports the function from that module instead`); }
+  for (const [k, ms] of extW) if (ms.size > 1) prob(`${k.replace('|', ' ')} (another script's object) is written by ${[...ms].map(x => x.factory).join(' and ')}: what this script writes of it has one module that writes it`);
+  for (const [m, ob, p] of calls) { const w = entries.get(key(ob.mod, ob.name) + '|' + p); if (w && w.size === 1 && !w.has(m) && !w.has(ob.mod)) prob(`${m.path}: ${m.factory} calls ${ob.name}.${p} (${ob.mod.factory}'s object), which ${[...w][0].factory} puts there: a dependence on ${[...w][0].factory} its imports do not show; it imports the function from that module instead`); }
   for (const [m, nm] of winReads) { const w = win.get(nm); if (w && !w.has(m)) prob(`${m.path}: ${m.factory} reads ${nm} through the global object, which ${[...w].map(x => x.factory).join(', ')} of the same script put there: a global back-channel`); }
-  return { modules: M.filter(x => x.fn).map(m => ({ path: m.path, owner: m.owner, factory: m.factory, imports: m.imports, exports: m.exports, globals: [...m.globals].sort() })), composition: C.made, returns: C.returns || null,
-    publicObjects: [...publicObj].sort(), windowNames: Object.fromEntries([...win].map(([k, v]) => [k, [...v].map(x => x.factory)])) };
+  for (const [nm, ms] of win) if (ms.size > 1) prob(`window.${nm} is put there by ${[...ms].map(x => x.factory).join(' and ')}: one module puts each name on the global object`);
+  for (const [k, ms] of winW) { const X = k.split('|')[0], w = win.get(X), what = 'window.' + X + k.split('|')[1];
+    if (ms.size > 1) prob(`${what} is written by ${[...ms].map(x => x.factory).join(' and ')}: what is written through the global object has one module that writes it`);
+    else if (w && !w.has([...ms][0])) prob(`${[...ms][0].path}: ${[...ms][0].factory} writes ${what}, which ${[...w].map(x => x.factory).join(', ')} put there: another owner's state, through the global object`); }
+  return { modules: M.filter(x => x.fn).map(m => ({ path: m.path, owner: m.owner, factory: m.factory, imports: m.imports, exports: m.exports, late: m.late ? Object.fromEntries(m.late.names) : null, globals: [...m.globals].sort() })),
+    composition: C.made, wired: C.wired, returns: C.returns || null, publicObjects: [...publicObj].sort(), windowNames: Object.fromEntries([...win].map(([k, v]) => [k, [...v].map(x => x.factory)])),
+    writtenThroughWindow: Object.fromEntries([...winW].map(([k, v]) => ['window.' + k.split('|')[0] + k.split('|')[1], [...v].map(x => x.factory)])) };
 }
 
 if (ARG.out) fs.writeFileSync(ARG.out, JSON.stringify(R, null, 1) + '\n');
 if (!ARG.quiet) for (const [f, r] of Object.entries(R.files)) console.log(`${R.problems.some(p => p.startsWith(f + ':')) ? 'FAIL' : 'ok  '} ${f}${r.factory ? `: given ${Object.entries(r.imports).map(([k, v]) => k === v[0] && v.length === 1 ? k : `${k} {${v.join(' ')}}`).join(', ') || 'nothing'}` : ''}${r.exports ? `; returns ${r.exports.join(' ')}` : ''}`);
 if (R.sim && !ARG.quiet) console.log('the sim: ' + R.sim.modules.map(m => `${m.name}${m.uses.length ? ' <- ' + m.uses.join(' ') : ''}`).join('; '));
-if (!ARG.quiet) for (const [out, s] of Object.entries(R.page)) console.log(`${R.problems.some(p => p.startsWith(out + ':')) ? 'FAIL' : 'ok  '} ${out}: ${s.composition.map(c => `${c.module === '-' ? '' : c.module + ' = '}${c.factory}${c.from.length ? '(' + c.from.join(' ') + ')' : ''}`).join('; ')}${s.publicObjects.length ? '; public objects ' + s.publicObjects.join(' ') : ''}`);
+if (!ARG.quiet) for (const [out, s] of Object.entries(R.page)) console.log(`${R.problems.some(p => p.startsWith(out + ':')) ? 'FAIL' : 'ok  '} ${out}: ${s.composition.map(c => `${c.module === '-' ? '' : c.module + ' = '}${c.factory}${c.from.length ? '(' + c.from.join(' ') + ')' : ''}`).join('; ')}${s.publicObjects.length ? '; public objects ' + s.publicObjects.join(' ') : ''}${(s.wired || []).map(w => `; then ${w.module}.wire(${w.from.join(' ')})`).join('')}${Object.keys(s.writtenThroughWindow || {}).length ? '; written through window: ' + Object.entries(s.writtenThroughWindow).map(([k, v]) => `${k} by ${v.join(' and ')}`).join(', ') : ''}`);
 for (const p of R.problems) console.log('PROBLEM ' + p);
 const pageModules = Object.values(R.page).reduce((a, s) => a + s.modules.length, 0);
 console.log(`MODULES CHECK: ${R.ok ? 'PASS' : 'FAIL'} (${Object.keys(R.files).length} server files, ${Object.values(R.files).filter(r => r.factory).length} factories${R.sim ? `; the sim: ${R.sim.modules.length} modules, wired in order` : ''}; the page: ${Object.keys(R.page).length} scripts, ${pageModules} modules)`);

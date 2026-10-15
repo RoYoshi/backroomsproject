@@ -7,7 +7,7 @@
 Every death, from the server's event to the body that stays:
 - **Server:** the aftermath (`server/aftermath.js`: one event per death, decided and finished by the server; NEW RUN's blast), the server's own replay of a death (`server/death_srv.js`), one body per player and how long it stays (`server/sim.bodies.js`).
 - **Both:** the death physics (`shared/dphys.js`, the same file on both sides).
-- **Page:** our own death from the server's record (`client/mp.owndeath.js`), everyone's bodies (`client/mp.bodies.js`), others' deaths replayed (`client/mp.replays.js`), how a death plays out (`client/ents.death.js`), blood and remains (`client/gore.js`).
+- **Page:** deaths and bodies on the network layer (`client/mp.deaths.js`, one module of `mp.js` since continuation C3c: M8's `mp.owndeath.js`, `mp.bodies.js` and `mp.replays.js`): our own death from the server's record, everyone's bodies, others' deaths replayed, the dying lights and wall stains, the other wanderers drawn; how a death plays out (`client/ents.death.js`), blood and remains (`client/gore.js`).
 
 ## What it must not own
 
@@ -24,16 +24,14 @@ One server event per death, and one persistent, replicated aftermath. Eight enti
 |---|---|---|
 | [`client/ents.death.js`](client/ents.death.js) | G.I.B.: how a death plays out on screen, four variants per killer; a module: entsDeath | `public/ents.js` (a part) |
 | [`client/gore.js`](client/gore.js) | Realistic wound / blood rendering for the death animation, corpses and dead peers. | `public/gore.js` |
-| [`client/mp.bodies.js`](client/mp.bodies.js) | G.I.B.: everyone's bodies, one per player | `public/mp.js` (a part) |
-| [`client/mp.owndeath.js`](client/mp.owndeath.js) | G.I.B.: our own death, from the server's kill record (window.__dvic) | `public/mp.js` (a part) |
-| [`client/mp.replays.js`](client/mp.replays.js) | G.I.B.: other players' deaths and vanishings, replayed for everybody in line of sight | `public/mp.js` (a part) |
+| [`client/mp.deaths.js`](client/mp.deaths.js) | G.I.B.: deaths and bodies on this page: our own death's record, everyone's bodies, other players' deaths replayed, the dying lights, the wall stains, the other Wanderers drawn; a module: gibDeaths | `public/mp.js` (a part) |
 | [`server/aftermath.js`](server/aftermath.js) | server/aftermath.js - the death aftermath on the server, and the NEW RUN blast's: one event per death or blast, decided and finished here. | a server module: `server.js` requires it |
 | [`server/death_srv.js`](server/death_srv.js) | death_srv.js - the server's side of a death's aftermath (never served to browsers). | a server module: `server.js` requires it |
 | [`server/sim.bodies.js`](server/sim.bodies.js) | src/frameworks/gib/server/sim.bodies.js - G.I.B.: everyone's bodies, one per player, and how long they stay; and the sim's clock (a | a module of the sim: `src/core/server/sim.js` requires it |
 | [`shared/dphys.js`](shared/dphys.js) | dphys.js - lightweight procedural physics for the death animations (v18). | `public/dphys.js`, `generated/server/dphys.js` |
 <!-- end of generated block -->
 
-A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header. Since continuation C3b a part of `world.js`, `move.js`, `camcorder.js`, `glitch.js` or `ents.js` is a module: one factory, given what it uses of the modules made before it; its header also lists its `imports` and `exports`, and the script's `*.compose.js` part makes the modules in order (`docs/architecture/CONTRACTS.md` section 4; `node dev/tools/checks/modules.js` proves the boundaries).
+A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header. Since continuation C3b a part of `world.js`, `move.js`, `camcorder.js`, `glitch.js` or `ents.js` is a module, and since C3c a part of `mp.js` too: one factory, given what it uses of the modules made before it; its header also lists its `imports` and `exports` (and, for `mp.js`'s session, the names it is given `late`), and the script's `*.compose.js` part makes the modules in order (`docs/architecture/CONTRACTS.md` section 4; `node dev/tools/checks/modules.js` proves the boundaries).
 
 ## How it connects
 
@@ -52,4 +50,4 @@ Server modules are required directly (`sim.bodies.js` too, a module of the sim s
 ## Known debt
 
 - `dphys.js` and `gore.js` stay whole (one owner each; M-025).
-- How a death plays out on the page (`client/ents.death.js`) is a module of `ents.js` since continuation C3b: it draws the Smiler with `drawSmiler`, which it imports from BR-R's Smiler module (at M8 it called it through `window.__ents`). The page's other G.I.B. code still shares `mp.js`'s closure (C3c).
+- How a death plays out on the page (`client/ents.death.js`) is a module of `ents.js` since continuation C3b: it draws the Smiler with `drawSmiler`, which it imports from BR-R's Smiler module (at M8 it called it through `window.__ents`). Its code in `mp.js` (`client/mp.deaths.js`) is a module since continuation C3c: its state is its own (our death's record, the bodies, the replays, the light timeline, the corpses hidden, `window.__peerLights`), and the session asks for every change - a replay's or a corpse's message, a kill record, the world epoch, a closed connection - through its functions.

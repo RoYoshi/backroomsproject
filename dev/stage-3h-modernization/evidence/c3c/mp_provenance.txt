@@ -1,0 +1,270 @@
+mp.js: 16 parts at M8 (921 lines) -> 12 parts now, 11 modules and the composition (1054 lines); 863 of M8's 921 lines are in the modules as they were
+  src/core/client/mp.js                                  27 lines:   24 M8's,   3 C3c's
+  src/frameworks/bpp/client/mp.session.js               195 lines:  135 M8's,  60 C3c's
+  src/frameworks/lost/client/mp.glitch.js                35 lines:   27 M8's,   8 C3c's
+  src/frameworks/pocket/client/mp.cartograph.js          31 lines:   25 M8's,   6 C3c's
+  src/frameworks/nani/client/mp.monsters.js              81 lines:   66 M8's,  15 C3c's
+  src/frameworks/space/client/mp.peers.js                41 lines:   31 M8's,  10 C3c's
+  src/frameworks/spacious-audio/client/mp.dread.js       42 lines:   36 M8's,   6 C3c's
+  src/frameworks/br-r/client/mp.wanderers.js             17 lines:   13 M8's,   4 C3c's
+  src/frameworks/gib/client/mp.deaths.js                251 lines:  232 M8's,  19 C3c's
+  src/frameworks/overseer/client/mp.admin.js            279 lines:  245 M8's,  34 C3c's
+  src/core/client/mp.frame.js                            41 lines:   28 M8's,  13 C3c's
+  src/core/client/mp.compose.js                          14 lines:    1 M8's,  13 C3c's
+the changes, each group with its reason (tools/c3c_mp_edits.js):
+  [modules] 0 M8 line(s) gone, 53 line(s) new - the modules themselves: each factory's first line (its parameter: what it imports, by giver), what it returns (its exports, and a reader for each changing value: me() is `() => me`), the closing braces of the factories and of the owners' new functions, and the composition that makes them in order and wires the session; no M8 line
+      now: function mpCore() {
+      now: return { buildHum, cv, cx, dread, EN, game, humUpdate, light, lookStr, NET, netHist, netPose, netReset, nrButton, parseLook, partList, partObj, PEER_MODE, PEER_SNAP, room, runMenuWords, toRec };
+      now: function bppSession({ core: { lookStr, netHist, netReset, nrButton, partList, PEER_MODE, PEER_SNAP, room, runMenuWords } }) {
+      now: return { connected: () => ws && ws.readyState === 1, cpNow: () => cpNow, graceUntil: () => graceUntil, handled: () => handled, me: () => me, mseq: () => mseq, myId: () => myId,
+      now: N, nrBusy: () => nrBusy, nrLast: () => nrLast, peers, sendPose, snap: () => snap, tellId, tx, wire };
+      now: function lostGlitch({ session: { N } }) {
+      now: return { doExit, exited: () => exited, glitches: () => window.__glitches, glitchesFrom, noGlitches, resetExit, soloGlitches, soloOff };
+      now: function pocketCartograph({ session: { N, tx } }) {
+      now: return { giveItem, itemsFrame, itemsFrom, noItems, soloItems };
+      now: function naniMonsters({ core: { EN, NET, netPose }, session: { cpNow, graceUntil, N, snap }, glitch: { glitchesFrom }, cartograph: { itemsFrom } }) {
+      now: return { angDiff, announceKill, applyCaught, applyServerState, clearKill, clearKiller, clearSlots, entitySignals, fadeHit, hitFlash: () => hitFlash, hMap, hSlots, markKiller, noFails, unhold };
+      now: function spacePeers({ session: { cpNow, me, nrBusy, peers }, glitch: { exited } }) {
+      now: return { blendTick, resolid, softCount: () => softN, softTp, solidCount: () => window.__peerBodies.length, solidOff, solidPeers, stopBlend };
+      now: function audioDread() {
+      now: return { burst, onlineNote, setDrone, thump };
+      now: function brrWanderers({ session: { peers } }) {
+      now: return { dropAvatar, hoverTip, mx: () => mx, my: () => my };
+      now: function gibDeaths({ core: { cx, EN, NET, parseLook, partObj, PEER_MODE, toRec }, session: { myId, N, peers, tellId }, monsters: { angDiff, hMap }, wanderers: { hoverTip, mx, my } }) {
+      now: return { applyBodies, drawPeers, endAllFx, flushSt, forgetOwnDeath, fxMsg, hideCorpse, killNoted, noPeerLights, oldLights, showCorpse, startFx, takeBodies };
+      now: function overseerAdmin({ core: { buildHum, EN, room }, session: { connected, myId, N, nrLast, tx }, glitch: { glitches }, cartograph: { giveItem } }) {
+      now: }
+      now: }
+      now: }
+      now: }
+      now: }
+      now: }
+      now: }
+      now: }
+      now: }
+      now: }
+      now: }
+      now: }
+      now: }
+      now: }
+      now: }
+      now: return { adminData, adminOffline, aresAnswer, debugData, debugGone, kickedShow, loginAnswer, nrfAnswer, pong, previewTick, relogin, showMsg, unlocked: () => adm.unlocked };
+      now: }
+      now: function mpFrame({ core: { cv, cx, dread, EN, game, humUpdate, light }, session: { handled, me, mseq, N, sendPose }, glitch: { exited, soloGlitches }, cartograph: { itemsFrame, soloItems },
+      now: monsters: { applyCaught, applyServerState, fadeHit, hitFlash, hSlots, unhold }, audio: { burst, onlineNote, setDrone, thump }, deaths: { drawPeers }, admin: { previewTick } }) {
+      now: }
+      now: /* (C3c) the modules */
+      now: const core = mpCore();
+      now: const session = bppSession({ core });
+      now: const glitch = lostGlitch({ session });
+      now: const cartograph = pocketCartograph({ session });
+      now: const monsters = naniMonsters({ core, session, glitch, cartograph });
+      now: const space = spacePeers({ session, glitch });
+      now: const audio = audioDread();
+      now: const wanderers = brrWanderers({ session });
+      now: const deaths = gibDeaths({ core, session, monsters, wanderers });
+      now: const admin = overseerAdmin({ core, session, glitch, cartograph });
+      now: mpFrame({ core, session, glitch, cartograph, monsters, audio, deaths, admin });
+      now: session.wire({ glitch, cartograph, monsters, space, wanderers, deaths, admin });
+  [late] 0 M8 line(s) gone, 17 line(s) new - the session's late wiring (rule 12 of dev/tools/checks/modules.js): the functions it calls of the modules made after it, declared without a value and given once by wire(), when every module is made
+      now: /* (C3c) given late: the functions this module calls of the modules made after it, each its owner's own (they change that owner's state);
+      now: * the composition hands them over once with wire(), when every module is made and before anything runs, so none is called before */
+      now: let doExit, noGlitches, resetExit, soloOff;                                                                     // L.O.S.T.
+      now: let giveItem, noItems;                                                                                          // P.O.C.K.E.T.
+      now: let announceKill, clearKill, clearKiller, clearSlots, entitySignals, markKiller, noFails, unhold;              // N.A.N.I.
+      now: let blendTick, resolid, softCount, softTp, solidCount, solidOff, solidPeers, stopBlend;                        // S.P.A.C.E.
+      now: let dropAvatar;                                                                                                 // BR-R
+      now: let applyBodies, endAllFx, flushSt, forgetOwnDeath, fxMsg, hideCorpse, killNoted, noPeerLights, oldLights, showCorpse, startFx, takeBodies;   // G.I.B.
+      now: let adminData, adminOffline, aresAnswer, debugData, debugGone, kickedShow, loginAnswer, nrfAnswer, pong, relogin, showMsg, unlocked;       // OVERSEER
+      now: function wire({ glitch, cartograph, monsters, space, wanderers, deaths, admin }) {
+      now: ({ doExit, noGlitches, resetExit, soloOff } = glitch);
+      now: ({ giveItem, noItems } = cartograph);
+      now: ({ announceKill, clearKill, clearKiller, clearSlots, entitySignals, markKiller, noFails, unhold } = monsters);
+      now: ({ blendTick, resolid, softCount, softTp, solidCount, solidOff, solidPeers, stopBlend } = space);
+      now: ({ dropAvatar } = wanderers);
+      now: ({ applyBodies, endAllFx, flushSt, forgetOwnDeath, fxMsg, hideCorpse, killNoted, noPeerLights, oldLights, showCorpse, startFx, takeBodies } = deaths);
+      now: ({ adminData, adminOffline, aresAnswer, debugData, debugGone, kickedShow, loginAnswer, nrfAnswer, pong, relogin, showMsg, unlocked } = admin);
+  [owners_state] 6 M8 line(s) gone, 10 line(s) new - state declared by its owner (ADR-005: ownership follows meaning): the status line's element is the session's (it writes it); the exit flag L.O.S.T.'s; the soft corrections' count S.P.A.C.E.'s; the heartbeat's timer the per-frame hook's (the only code using it); the last view G.I.B.'s (likewise); the admin panel's state OVERSEER's - each declaration line split or moved with a note, the values as at M8
+      M8:  game = document.getElementById('game'), light = document.getElementById('light'),
+      M8:  net = Object.assign(document.createElement('div'), { id: 'net', textContent: 'SOLO' });
+      M8:  let snap = null, me = '', mseq = 0, handled = 0, peersN = 0, kicked = false, exited = false;
+      M8:  let worldEnds = 0, oldDropped = 0, softN = 0;
+      M8:  let ac, drone, dg, beatT = 0;
+      M8:  let view = null;
+      now: game = document.getElementById('game'), light = document.getElementById('light');
+      now: const net = Object.assign(document.createElement('div'), { id: 'net', textContent: 'SOLO' });   // (C3c) the status line (core's at M8): the session writes it
+      now: let snap = null, me = '', mseq = 0, handled = 0, peersN = 0, kicked = false;
+      now: let worldEnds = 0, oldDropped = 0;
+      now: let exited = false;                                   // (C3c) out through a glitched wall (core's at M8; the session's join puts it back)
+      now: let softN = 0;                                       // (C3c) how many soft corrections (window.__epochDebug's softTp, the session's)
+      now: let ac, drone, dg;
+      now: let view = null;                                  // (C3c) where the other players were last drawn (BR-R's mp.wanderers.js declared it; only this module uses it)
+      now: /* (C3c) the panel's state, made here (B++'s mp.net.js declared it at M8, just before window.__net) */
+      now: let beatT = 0;                                      // (C3c) the heartbeat's timer (Spacious Audio's part declared it at M8; only this hook uses it)
+  [readers] 14 M8 line(s) gone, 14 line(s) new - a read of another owner's changing value is a call of the reader its owner gives (me -> me(), snap -> snap(), exited -> exited(), nrLast -> nrLast(), mx -> mx(), window.__glitches -> glitches(), ws && ws.readyState === 1 -> connected(), the S.P.A.C.E. counts in window.__epochDebug): the same value, read at the same moment
+      M8:  const solidNow = A => !(!A || !A.started || !A.started() || me || cpNow || nrBusy === 2 || exited || (A.G && A.G.caught));
+      M8:  window.__epochDebug = () => ({ w: worldW, ends: worldEnds, at: worldAt, oldDropped, softTp: softN, peers: window.__peerBodies.length });
+      M8:  const A = window.__api, s = snap, E = EN();
+      M8:  const G = A.G, grace = Math.max(0, graceUntil - performance.now() / 1000);
+      M8:  const cp = N.on && !A.G.caught ? cpNow : 0, ph = cp ? cp.ph : '';
+      M8:  const A = window.__api, layer = A && A.layer && A.layer(); if (!A || !layer || !A.mkAvatar || !A.Jl || (m.id === myId && m.k !== 'boom')) return;   // (Stage 3D HQ2: our own NEW RUN blast plays here too: our short beat shows it)
+      M8:  const dm = Math.hypot(mx - sx, my - sy);
+      M8:  const A = window.__api; if (!A || !A.sl || !A.Uc) return null; const H = A.H, gl = window.__glitches || [], lamps = A.lamps || [], TAU2 = Math.PI * 2;
+      M8:  const nf = adm.nf, last = nrLast, lastTxt = !last ? 'NOT PRESSED YET ON THIS CONNECTION' : last.ok ? 'APPROVED (EVENT ' + last.de + ')' : last.why === 'cooldown' ? 'REFUSED · WAIT ' + Math.ceil(+last.wait || 0) + ' S' : 'REFUSED · ' + ({ state: 'NOT IN A RUN (SPAWN FIRST)', dead: 'DEAD', held: 'HELD BY AN ENTITY', epoch: 'THE WORLD WAS JUST RESET' }[last.why] || String(last.why).toUpperCase());
+      M8:  $a('admErr').textContent = ws && ws.readyState === 1 ? adm.err : 'Admin needs the online server (not available in solo mode).';
+      M8:  if (adm.opts.auto && !r.sent && now - r.t1 > 1300) { r.sent = true; tx({ t: 'a', c: 'revive', id: myId }); }
+      M8:  { const A = window.__api; if (N.on && me && mseq > handled && A && !A.G.caught && A.paused && A.paused() && A.unpause) A.unpause(); }
+      M8:  if (run && !exited) itemsFrame(p);
+      M8:  if (window.__glitchFrame) window.__glitchFrame({ p, cam, sc, los, W, H, t, run: run && !exited });
+      now: window.__epochDebug = () => ({ w: worldW, ends: worldEnds, at: worldAt, oldDropped, softTp: softCount(), peers: solidCount() });
+      now: const A = window.__api, s = snap(), E = EN();
+      now: const G = A.G, grace = Math.max(0, graceUntil() - performance.now() / 1000);
+      now: const cp = N.on && !A.G.caught ? cpNow() : 0, ph = cp ? cp.ph : '';
+      now: const solidNow = A => !(!A || !A.started || !A.started() || me() || cpNow() || nrBusy() === 2 || exited() || (A.G && A.G.caught));
+      now: const A = window.__api, layer = A && A.layer && A.layer(); if (!A || !layer || !A.mkAvatar || !A.Jl || (m.id === myId() && m.k !== 'boom')) return;   // (Stage 3D HQ2: our own NEW RUN blast plays here too: our short beat shows it)
+      now: const dm = Math.hypot(mx() - sx, my() - sy);
+      now: const A = window.__api; if (!A || !A.sl || !A.Uc) return null; const H = A.H, gl = glitches() || [], lamps = A.lamps || [], TAU2 = Math.PI * 2;
+      now: const nf = adm.nf, last = nrLast(), lastTxt = !last ? 'NOT PRESSED YET ON THIS CONNECTION' : last.ok ? 'APPROVED (EVENT ' + last.de + ')' : last.why === 'cooldown' ? 'REFUSED · WAIT ' + Math.ceil(+last.wait || 0) + ' S' : 'REFUSED · ' + ({ state: 'NOT IN A RUN (SPAWN FIRST)', dead: 'DEAD', held: 'HELD BY AN ENTITY', epoch: 'THE WORLD WAS JUST RESET' }[last.why] || String(last.why).toUpperCase());
+      now: $a('admErr').textContent = connected() ? adm.err : 'Admin needs the online server (not available in solo mode).';
+      now: if (adm.opts.auto && !r.sent && now - r.t1 > 1300) { r.sent = true; tx({ t: 'a', c: 'revive', id: myId() }); }
+      now: { const A = window.__api; if (N.on && me() && mseq() > handled() && A && !A.G.caught && A.paused && A.paused() && A.unpause) A.unpause(); }
+      now: if (run && !exited()) itemsFrame(p);
+      now: if (window.__glitchFrame) window.__glitchFrame({ p, cam, sc, los, W, H, t, run: run && !exited() });
+  [calls] 38 M8 line(s) gone, 43 line(s) new - a change of another owner's state is a call of that owner's function, in the same place (the narrow contract): the session's tick, join, respawn, world epoch, hello, every admin, body, replay, kill and debug message and the closed connection; N.A.N.I.'s mirror of the walls and items; G.I.B.'s bodies (the session tells the game our id) and hover; the per-frame hook's offline hold, cartograph, online note, drone, hit flash and network send; B+'s fresher poses (S.P.A.C.E.'s bodies follow)
+      M8:  if (blend && A) blendStep(A);
+      M8:  if (myId) window.__hideBodies.add('r' + myId);         // Stage 3D: the server's copy of our corpse is not shown while we are still dying (ours replaces it)
+      M8:  window.__killer = me === 'Hound' ? b : -1;             // that hound's own model is replaced by the attack animation
+      M8:  join() { nrBusy = 0; runMenuWords(false); exited = false; graceUntil = performance.now() / 1000 + 4; window.__kill = null; window.__hideBodies.delete('r' + myId); window.__glitchSolo = false; if (!N.on) { window.__glitches = []; window.__items = []; } tx({ t: 'join' }); setTimeout(applyBodies, 80); },
+      M8:  respawn() { handled = Math.max(handled, mseq); graceUntil = performance.now() / 1000 + 4; window.__kill = null; window.__hideBodies.delete('r' + myId); tx({ t: 'respawn' }); },
+      M8:  for (const f of fxs.splice(0)) killFx(f);
+      M8:  handled = mseq; ownDeath = null; mkAt = null; window.__kill = null; window.__killer = -1; if (myId) window.__hideBodies.delete('r' + myId);
+      M8:  if (window.__mv) { window.__mv.down = 0; window.__mv.dragTo = null; }
+      M8:  blend = null; stainAt = 0; worldAt = Date.now() / 1000;
+      M8:  if (adm.pass) tx({ t: 'admin', pass: adm.pass });                         // stay unlocked across reconnects (kept in memory only)
+      M8:  if (m.t === 'hi') { if (myId && myId !== m.id) window.__hideBodies.delete('r' + myId); myId = m.id; const A = window.__api; if (A) A.H.id = myId; }   // Stage 3D: a new connection is a new owner
+      M8:  else if (m.t === 'admin') {
+      M8:  else if (m.t === 'tp') { const A = window.__api; if (A) { if (m.pc && softTp(A, m.x, m.y)) { } else { blend = null; A.tp(m.x, m.y); } } }   // (Stage 3D HQ2: pc - a soft peer correction, blended)
+      M8:  else if (m.t === 'nrf') { adm.nf = m.on ? 1 : 0; adm.sig = ''; renderAdminData(); }   // Stage 3D HQ3: the server's answer to UNLIMITED NEW RUN ON / OFF
+      M8:  else if (m.t === 'ares') {                                                // the server's one-line answer to an admin command
+      M8:  else if (m.t === 'pong') { const E = EN(); if (E) { const r = performance.now() - (+m.ts || 0); E.dbgX.ping = E.dbgX.ping < 0 ? r : E.dbgX.ping + (r - E.dbgX.ping) * .3; } }
+      M8:  else if (m.t === 'kick') { kicked = true; document.getElementById('kicked').hidden = false; }
+      M8:  else if (m.t === 'bodies') { if (oldWorld(m.w)) return; bodiesList = m.b || []; const tb = performance.now() / 1000; for (const b of bodiesList) if (b && b.de != null && Array.isArray(b.lf) && b.lf.length === 4 && Number.isFinite(b.ag + b.lf[3])) { relOf(b.de, tb - b.ag + b.lf[3]); pendSt.push(['r', b.de, b.ag, b.lf[3]]); } applyBodies(); }   // (HQ1: when each corpse's light was let go)
+      M8:  else if (m.t === 'fx') { if ((m.k === 'death' || m.k === 'boom') && oldWorld(m.wn)) return; if (((m.k === 'death' && m.id !== myId) || m.k === 'boom') && m.de != null) pendSt.push(['k', m.de, Math.max(0, +m.el || 0)]); startFx(m); }   // (HQ1: when the death began, on the server's clock; HQ2: a NEW RUN blast too)
+      M8:  if (m.mk && m.ms !== killSeq && !oldWorld(m.w)) { killSeq = m.ms; mkAt = { de: m.mk.de, t: performance.now() / 1000 }; if (m.mk.de != null && m.e && typeof m.e.st === 'number') stNote(m.mk.de, 'k', m.e.st); announceKill(m.mk); }   // who killed us, how, and where the wall is (HQ1: and when, on the server's clock)
+      M8:  if (m.e && typeof m.e.st === 'number' && pendSt.length) { for (const q of pendSt) stNote(q[1], q[0], q[0] === 'k' ? m.e.st - q[2] : m.e.st - q[2] + q[3]); pendSt.length = 0; }   // (HQ1: a replay or corpse that came just before this snapshot was sent in its pass)
+      M8:  if (m.dbg && EN()) { EN().setDebug(m.dbg); if (m.dx) EN().setDebugX(m.dx); }
+      M8:  if (m.ad) { adm.data = m.ad; adm.you = m.you; adm.nf = m.nf ? 1 : 0; renderAdminData(); }   // (nf: Stage 3D HQ3, every admin snapshot says it again)
+      M8:  fastAck = false; lastK = -1; solidHeld = null;                               // Stage 3E-0: a new connection asks again
+      M8:  window.__peerBodies.length = 0; blend = null;                                  // (and nobody to bump into offline)
+      M8:  netReset(); if (myId) window.__hideBodies.delete('r' + myId);                  // Stage 3D: the old connection's corpse is no longer ours to hide
+      M8:  for (const f of fxs.splice(0)) killFx(f); N.on = false; snap = null; cpNow = 0; window.__kill = null; window.__glitchSolo = false; window.__glitches = []; window.__items = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null); sSlot.fill(null);
+      M8:  if (EN()) { EN().clearDebug(); EN().dbgCfg.on = false; EN().drawDebug(); EN().setFails([]); }
+      M8:  if (window.__mv) { window.__mv.down = 0; window.__mv.dragTo = null; }
+      M8:  adm.unlocked = false; adm.dbg = false; adm.nf = 0; renderAdmin();          // (Stage 3D HQ3: UNLIMITED NEW RUN is gone with the connection: a new one starts OFF on the server too)
+      M8:  window.__glitches = s.gw || []; window.__items = s.it || [];
+      M8:  function applyBodies() { const A = window.__api; if (A && myId) A.H.id = myId; if (A && A.bodies) A.bodies(bodiesList.map(toRec)); }
+      M8:  else { if (window.__mv && window.__mv.down) { window.__mv.down = 0; window.__mv.dragTo = null; } if (started && !exited) { soloGlitches(p); if (!(window.__items && window.__items.length) && window.__itemSolo !== true) soloItem(); } }
+      M8:  const note = document.getElementById('onlineNote'); if (note) note.hidden = !N.on;
+      M8:  net.textContent = N.on ? 'ONLINE · ROOM ' + room.toUpperCase() + ' · ' + (peersN + 1) + ' WANDERER' + (peersN ? 'S' : '') + ' · SHARED MONSTERS' + (adm.unlocked ? ' · ADMIN' : '')
+      M8:  if (dg && ac) dg.gain.value = soundOn() ? k * k * .16 : 0;
+      M8:  hitFlash = Math.max(0, hitFlash - t * 1.6);
+      M8:  dread.style.opacity = Math.max(dv, hitFlash * .95);
+      now: blendTick(A);
+      now: if (myId) hideCorpse(myId);                            // Stage 3D: the server's copy of our corpse is not shown while we are still dying (ours replaces it)
+      now: markKiller(A, me);                                     // that hound's own model is replaced by the attack animation
+      now: join() { nrBusy = 0; runMenuWords(false); resetExit(); graceUntil = performance.now() / 1000 + 4; clearKill(); showCorpse(myId); soloOff(); if (!N.on) { noGlitches(); noItems(); } tx({ t: 'join' }); setTimeout(applyBodies, 80); },
+      now: respawn() { handled = Math.max(handled, mseq); graceUntil = performance.now() / 1000 + 4; clearKill(); showCorpse(myId); tx({ t: 'respawn' }); },
+      now: resolid();                                                                         // (C3c) S.P.A.C.E.: the bodies we steer round, from the newer poses
+      now: endAllFx();
+      now: handled = mseq; forgetOwnDeath(); clearKill(); clearKiller(); if (myId) showCorpse(myId);
+      now: unhold();
+      now: oldLights();                                                                       // (C3c) G.I.B.: the old world's dying lights and wall stains: gone now, not at the next frame
+      now: stopBlend(); worldAt = Date.now() / 1000;
+      now: relogin();                                                                 // (C3c) OVERSEER: stay unlocked across reconnects (the panel keeps the passcode, in memory only)
+      now: if (m.t === 'hi') { if (myId && myId !== m.id) showCorpse(myId); myId = m.id; const A = window.__api; if (A) A.H.id = myId; }   // Stage 3D: a new connection is a new owner
+      now: else if (m.t === 'admin') loginAnswer(m);                                 // (C3c) OVERSEER's: the login's answer
+      now: else if (m.t === 'tp') { const A = window.__api; if (A) { if (m.pc && softTp(A, m.x, m.y)) { } else { stopBlend(); A.tp(m.x, m.y); } } }   // (Stage 3D HQ2: pc - a soft peer correction, blended)
+      now: else if (m.t === 'nrf') nrfAnswer(m);                                      // Stage 3D HQ3: the server's answer to UNLIMITED NEW RUN ON / OFF (OVERSEER's)
+      now: else if (m.t === 'ares') aresAnswer(m);                                    // the server's one-line answer to an admin command (OVERSEER's)
+      now: else if (m.t === 'pong') pong(m);
+      now: else if (m.t === 'kick') { kicked = true; kickedShow(); }
+      now: else if (m.t === 'bodies') { if (oldWorld(m.w)) return; takeBodies(m.b); }   // (G.I.B.'s: the corpses, and when each one's light was let go)
+      now: else if (m.t === 'fx') { if ((m.k === 'death' || m.k === 'boom') && oldWorld(m.wn)) return; fxMsg(m); }   // (G.I.B.'s: the replay, and when the death began)
+      now: if (m.mk && m.ms !== killSeq && !oldWorld(m.w)) { killSeq = m.ms; killNoted(m); announceKill(m.mk); }   // who killed us, how, and where the wall is (HQ1: and when, on the server's clock: G.I.B.'s)
+      now: if (m.e && typeof m.e.st === 'number') flushSt(m.e.st);                   // (HQ1: a replay or corpse that came just before this snapshot was sent in its pass: G.I.B.'s)
+      now: if (m.dbg) debugData(m);                                                  // (OVERSEER's: the debug overlay's data)
+      now: if (m.ad) adminData(m);                                                   // (OVERSEER's: the admin panel's data; nf: Stage 3D HQ3, every admin snapshot says it again)
+      now: fastAck = false; lastK = -1; solidOff();                                     // Stage 3E-0: a new connection asks again (and nobody to bump into offline: S.P.A.C.E.'s)
+      now: netReset(); if (myId) showCorpse(myId);                                      // Stage 3D: the old connection's corpse is no longer ours to hide
+      now: endAllFx(); N.on = false; snap = null; cpNow = 0; clearKill(); soloOff(); noGlitches(); noItems(); for (const o of peers.values()) dropAvatar(o); peers.clear(); noPeerLights(); clearSlots();
+      now: debugGone(); noFails();
+      now: unhold();
+      now: adminOffline();                                                              // (Stage 3D HQ3: UNLIMITED NEW RUN is gone with the connection: a new one starts OFF on the server too)
+      now: /* ---------- the network send (C3c: the per-frame hook's, core's mp.frame.js at M8; it hands over this frame's moment and the player) ---------- */
+      now: function sendPose(now, p, started, lightOn) {
+      now: net.textContent = N.on ? 'ONLINE · ROOM ' + room.toUpperCase() + ' · ' + (peersN + 1) + ' WANDERER' + (peersN ? 'S' : '') + ' · SHARED MONSTERS' + (unlocked() ? ' · ADMIN' : '')
+      now: glitchesFrom(s.gw); itemsFrom(s.it);                                                 // (C3c) the walls are L.O.S.T.'s, the items P.O.C.K.E.T.'s
+      now: function applyBodies() { tellId(); const A = window.__api; if (A && A.bodies) A.bodies(bodiesList.map(toRec)); }   // (C3c: the session tells the game our network id first, as this line did)
+      now: hoverTip(hover, sc);                                                        // (C3c) BR-R shows the hover name (or hides it)
+      now: else { if (window.__mv && window.__mv.down) unhold(); if (started && !exited()) { soloGlitches(p); soloItems(); } }
+      now: onlineNote(N.on);
+      now: sendPose(now, p, started, lightOn);                                     // (C3c) the session's: our pose every 25 / 50 ms, every 250 ms in the menu
+      now: setDrone(k);
+      now: fadeHit(t);
+      now: dread.style.opacity = Math.max(dv, hitFlash() * .95);
+  [owner_functions] 0 M8 line(s) gone, 54 line(s) new - the owners' new functions: what the other modules now ask of each owner, each holding the lines M8's other modules ran on its state (the M8 lines they hold are matched as M8's above), with a note where a group of them begins
+      now: /* (C3c) the game's player record learns its network id (the hello's answer does it too): G.I.B. asks before handing the game the bodies */
+      now: function tellId() { const A = window.__api; if (A && myId) A.H.id = myId; }
+      now: /* (C3c) the walls' state is this module's: the others read it and ask for its changes */
+      now: const resetExit = () => { exited = false; };
+      now: const soloOff = () => { window.__glitchSolo = false; };
+      now: const noGlitches = () => { window.__glitches = []; };
+      now: const glitchesFrom = gw => { window.__glitches = gw || []; };          // the server's walls, from each snapshot (N.A.N.I.'s mirror)
+      now: /* (C3c) the items' state is this module's: the others ask for its changes */
+      now: function soloItems() { if (!(window.__items && window.__items.length) && window.__itemSolo !== true) soloItem(); }   // offline, when there is none (the per-frame hook's test at M8)
+      now: const noItems = () => { window.__items = []; };
+      now: const itemsFrom = it => { window.__items = it || []; };              // the server's items, from each snapshot (N.A.N.I.'s mirror)
+      now: /* (C3c) the monsters' state is this module's: the session, the world epoch and the per-frame hook ask for its changes */
+      now: function markKiller(A, by) {                          // our death has begun (the session's tick): which hound slot made the kill
+      now: window.__killer = by === 'Hound' ? b : -1;             // that hound's own model is replaced by the attack animation
+      now: const clearKill = () => { window.__kill = null; };
+      now: const clearKiller = () => { window.__killer = -1; };
+      now: const clearSlots = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); };
+      now: function unhold() { if (window.__mv) { window.__mv.down = 0; window.__mv.dragTo = null; } }
+      now: const noFails = () => { if (EN()) EN().setFails([]); };
+      now: const fadeHit = t => { hitFlash = Math.max(0, hitFlash - t * 1.6); };
+      now: /* (C3c) after B+'s fresher poses (the session's peerPoses) moved the players' targets: the bodies we steer round, from them */
+      now: function resolid() {
+      now: /* (C3c) what the session asks of this module's state: the fixed-step blend, its end (a plain tp, a new world), nothing solid offline */
+      now: const blendTick = A => { if (blend && A) blendStep(A); };
+      now: const stopBlend = () => { blend = null; };
+      now: function solidOff() { solidHeld = null; window.__peerBodies.length = 0; blend = null; }
+      now: /* (C3c) the drone's level from the dread (k, 0..1: the per-frame hook's), and the online note, shown while online */
+      now: function setDrone(k) { if (dg && ac) dg.gain.value = soundOn() ? k * k * .16 : 0; }
+      now: const onlineNote = on => { const note = document.getElementById('onlineNote'); if (note) note.hidden = !on; };
+      now: /* (C3c) the hover name: the wanderer the drawing found under the mouse (in line of sight), or none */
+      now: function hoverTip(hover, sc) {
+      now: /* (C3c) G.I.B.'s state is this module's: the session asks for its changes - on each message, on the world epoch, when the connection closes */
+      now: const endAllFx = () => { for (const f of fxs.splice(0)) killFx(f); };
+      now: const forgetOwnDeath = () => { ownDeath = null; mkAt = null; };
+      now: const hideCorpse = id => { window.__hideBodies.add('r' + id); };
+      now: const showCorpse = id => { window.__hideBodies.delete('r' + id); };
+      now: const noPeerLights = () => { window.__peerLights = []; };
+      now: function oldLights() {                                                           // the world epoch: the old world's dying lights and wall stains
+      now: stainAt = 0;
+      now: function killNoted(m) { mkAt = { de: m.mk.de, t: performance.now() / 1000 }; if (m.mk.de != null && m.e && typeof m.e.st === 'number') stNote(m.mk.de, 'k', m.e.st); }   // our kill record arrived (HQ1: and when, on the server's clock)
+      now: function takeBodies(list) { bodiesList = list || []; const tb = performance.now() / 1000; for (const b of bodiesList) if (b && b.de != null && Array.isArray(b.lf) && b.lf.length === 4 && Number.isFinite(b.ag + b.lf[3])) { relOf(b.de, tb - b.ag + b.lf[3]); pendSt.push(['r', b.de, b.ag, b.lf[3]]); } applyBodies(); }   // (HQ1: when each corpse's light was let go)
+      now: function fxMsg(m) { if (((m.k === 'death' && m.id !== myId()) || m.k === 'boom') && m.de != null) pendSt.push(['k', m.de, Math.max(0, +m.el || 0)]); startFx(m); }   // (HQ1: when the death began, on the server's clock; HQ2: a NEW RUN blast too)
+      now: function flushSt(st) { if (pendSt.length) { for (const q of pendSt) stNote(q[1], q[0], q[0] === 'k' ? st - q[2] : st - q[2] + q[3]); pendSt.length = 0; } }   // (HQ1: a replay or corpse that came just before this snapshot was sent in its pass)
+      now: /* (C3c) the session hands the server's admin messages to the panel: each changes the panel's own state, as the transport's lines did at M8 */
+      now: function loginAnswer(m) {                                                        // the login's answer (not a test's quiet one)
+      now: const relogin = () => { if (adm.pass) tx({ t: 'admin', pass: adm.pass }); };   // a new connection: stay unlocked across reconnects (kept in memory only)
+      now: function nrfAnswer(m) { adm.nf = m.on ? 1 : 0; adm.sig = ''; renderAdminData(); }   // Stage 3D HQ3: the server's answer to UNLIMITED NEW RUN ON / OFF
+      now: function aresAnswer(m) {                                                         // the server's one-line answer to an admin command
+      now: function pong(m) { const E = EN(); if (E) { const r = performance.now() - (+m.ts || 0); E.dbgX.ping = E.dbgX.ping < 0 ? r : E.dbgX.ping + (r - E.dbgX.ping) * .3; } }
+      now: const kickedShow = () => { document.getElementById('kicked').hidden = false; };
+      now: function debugData(m) { if (EN()) { EN().setDebug(m.dbg); if (m.dx) EN().setDebugX(m.dx); } }
+      now: function adminData(m) { adm.data = m.ad; adm.you = m.you; adm.nf = m.nf ? 1 : 0; renderAdminData(); }   // (nf: Stage 3D HQ3, every admin snapshot says it again)
+      now: function debugGone() { if (EN()) { EN().clearDebug(); EN().dbgCfg.on = false; EN().drawDebug(); } }   // the connection closed: the overlay goes
+      now: function adminOffline() { adm.unlocked = false; adm.dbg = false; adm.nf = 0; renderAdmin(); }   // (Stage 3D HQ3: UNLIMITED NEW RUN is gone with the connection: a new one starts OFF on the server too)
+C3C MP PROVENANCE: PASS (863 of 921 M8 lines kept as they were; 58 gone and 191 new, every one listed with its reason)

@@ -1,7 +1,14 @@
-/** @part public/mp.js - core: the page's network and dread layer opens (the IIFE): its imports, page elements, connection, snapshot and entity-slot state
- * provides: EN, NET, PEER_MODE, PEER_SNAP, PN, bodiesList, buildHum, cpNow, cv, cx, dread, everConnected, exited, fastAck, game,
- *           graceUntil, hMap, hSlots, handled, humUpdate, kicked, killSeq, lastK, lastSend, light, lookStr, me, mseq, myId, net, netHist,
- *           netPose, netReset, nrButton, parseLook, partList, partObj, peersN, retry, room, runMenuWords, sSlot, snap, toRec, ws
+/** @part public/mp.js - core: the page's network and dread layer opens (the IIFE): what the page gives it; a module: mpCore
+ * A module (continuation C3c, M-024): the page's environment, read once when the script loads - the helper scripts' codecs, the snapshot
+ * interpolation, NEW RUN's words and the hum (window.__mpLib), the page's elements, the room and the peers' drawing mode from the
+ * address - and the lamp-failure sound registered on ents.js's object, at the same moment as before. The session's state that M8 kept
+ * here moved to its owner: the connection, the snapshot and the B+ counters to B++'s mp.session.js; the entity slots to N.A.N.I.'s
+ * mp.monsters.js; the exit flag to L.O.S.T.'s mp.glitch.js; the bodies to G.I.B.'s mp.deaths.js; the status line's element to the
+ * session, which writes it. mp.compose.js makes it first.
+ * imports: -
+ * exports: buildHum, cv, cx, dread, EN, game, humUpdate, light, lookStr, NET, netHist, netPose, netReset, nrButton, parseLook, partList,
+ *          partObj, PEER_MODE, PEER_SNAP, room, runMenuWords, toRec
+ * provides: mpCore
  * uses: -
  * writes: -
  */
@@ -11,14 +18,13 @@
  * - Falls back to the game's built-in single-player AI when there is no server.
  * - Also draws other wanderers and adds the proximity scare effects. */
 (() => {
+function mpCore() {
 const { lookStr, partList, partObj, parseLook, toRec } = window.__mpLib.wire;   // Stage 3H0: the look / light / corpse wire codec (assets/net-wire.js, loaded before this file)
 const { NET, netReset, netHist, netPose } = window.__mpLib.interp;   // Stage 3H0: the snapshot interpolation (assets/net-interp.js, loaded just before this file)
 const { nrButton, runMenuWords } = window.__mpLib.newrun;   // Stage 3H2 (C-3): NEW RUN's button and run-menu words (assets/net-newrun.js, loaded before this file)
 const { buildHum, humUpdate } = window.__mpLib.hum;   // Stage 3H2 (C-4): the fluorescent hum (assets/mp-hum.js, loaded before this file)
 const cv = document.getElementById('mp'), cx = cv.getContext('2d'), dread = document.getElementById('dread'),
-  game = document.getElementById('game'), light = document.getElementById('light'),
-  net = Object.assign(document.createElement('div'), { id: 'net', textContent: 'SOLO' });
-document.body.appendChild(net);
+  game = document.getElementById('game'), light = document.getElementById('light');
 const room = new URLSearchParams(location.search).get('room') || 'main';
 /* Stage 3E-0: how the other Wanderers are shown.
  *   'bplus' (the default): B, and the server's fresher accepted poses between its full snapshots ('q', asked for with 'caps' and used
@@ -29,16 +35,7 @@ const room = new URLSearchParams(location.search).get('room') || 'main';
  * DEV comparison only: ?peers=a or ?peers=b changes this page alone, never the server or anyone else */
 const PEER_MODE = (() => { const v = new URLSearchParams(location.search).get('peers'); return v === 'a' || v === 'b' ? v : 'bplus'; })();
 const PEER_SNAP = 96;                             // B / B+: a jump of more than this between where one is drawn and its new pose is shown at once (a teleport, a spawn)
-let fastAck = false, lastK = -1;                   // B+: the server said yes to 'caps'; the newest server tick seen ('s' or 'q')
-const PN = { s: 0, q: 0, qApplied: 0, qStale: 0, qUnknown: 0 };   // B+ DEV counters (window.__peerNet)
-
-let ws, retry = 0, myId = null, lastSend = 0, everConnected = false;
-let snap = null, me = '', mseq = 0, handled = 0, peersN = 0, kicked = false, exited = false;
-let bodiesList = [];                              // corpses from the server (everyone's, one per player)
-const CLIENT_ENTITY_SLOTS = 64;                 // stress/admin ceiling; ordinary director population is still 3 Hounds / <=5 Smilers
-const hMap = new Map(), hSlots = Array(CLIENT_ENTITY_SLOTS).fill(null);
-const sSlot = Array(CLIENT_ENTITY_SLOTS).fill(null); // entity id living in each preallocated Smiler render object
-window.__hounds = hSlots;
-let cpNow = 0, killSeq = -1, graceUntil = 0;      // what the server says is holding us / which death we already announced / the spawn grace
 const EN = () => window.__ents;
 if (EN()) EN().onFail = f => EN().smilerVoice(f.x, f.y, 'blackout');      // a lamp going out has a sound of its own
+return { buildHum, cv, cx, dread, EN, game, humUpdate, light, lookStr, NET, netHist, netPose, netReset, nrButton, parseLook, partList, partObj, PEER_MODE, PEER_SNAP, room, runMenuWords, toRec };
+}

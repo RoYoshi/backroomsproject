@@ -1,0 +1,480 @@
+{
+ "tool": "dev/tools/gate/golden/cli_golden_c3c.js --mutants",
+ "file": "dev/tools/gate/golden/cli_mutants_c3c.js",
+ "reference": {
+  "run_online": "51995af81336a1b8a35909c33882aab5b8336886adec6f4544866b15f2706728",
+  "c3c_poses": "469cb724e456a524edbb319f6b5310cbfaf815d0d2c017791d99f661e4895182",
+  "admin": "b7ffb34a699af7169d2698dc6ad0df9b128a3a81610f4d9d5a3962208afd714b",
+  "fx_bodies": "a94dd7857b83adc44e4fd038d46cb5776dc69ca35c0d621566c53c8de149db12",
+  "c3c_deathlight": "bf649b877ca1467f95b3e7b0d6821feb4e67e6b78215ab5adff6946981624bcc",
+  "facade": "e50e808162793307e8a3bdd6899910774d4ea8a25606c84ec3314657f1c4894b",
+  "reconnect_solo": "395aaf696d33abf49b9061aff1099f84c5f6d928313697e68aac5e96eb120770",
+  "c3c_epoch": "0d328c0e192934040a209c67da67ba0bf66c0018a932b91bae921c118f8b05ab",
+  "c3c_misc": "20365f36096af374634495e6a9da8eb9640856a16d959d9973b2d35c26d69076",
+  "menu_online": "2636fe01a314c1791edadef371fe4ba28ab77e9efada9daf25cd6a7ba39579e9",
+  "hum_dread": "d415d0bf6bbf0bfca5e901b25c00d09caf15a791891cd4b21043bee1bfc6ddad",
+  "load": "7610e6d85b3dd6ed56f0051af1758a2507d4b83f7deaa03800344ccd9c8b73ce"
+ },
+ "mutants": [
+  {
+   "id": "wire_not_called",
+   "why": "the composition never hands the session its later modules (every message that reaches one of them fails)",
+   "found": 1,
+   "scenes": {
+    "run_online": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "wire_swapped",
+   "why": "the session's solidPeers is wired to another S.P.A.C.E. function",
+   "found": 1,
+   "scenes": {
+    "c3c_poses": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "login_to_wrong_owner",
+   "why": "the login's answer is handed to the command answer's function",
+   "found": 1,
+   "scenes": {
+    "admin": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "bodies_not_handed",
+   "why": "the corpses the server sends are not handed to G.I.B.",
+   "found": 1,
+   "scenes": {
+    "fx_bodies": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "fx_skips_timeline",
+   "why": "a death's message skips G.I.B.'s light timeline (only the replay starts)",
+   "found": 1,
+   "scenes": {
+    "c3c_deathlight": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "st_not_flushed",
+   "why": "the snapshot's server clock is not handed to G.I.B.'s timeline",
+   "found": 1,
+   "scenes": {
+    "c3c_deathlight": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "kill_not_noted",
+   "why": "our kill record's arrival is not noted by G.I.B. (its death id and moment)",
+   "found": 1,
+   "scenes": {
+    "c3c_deathlight": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "killer_by_nobody",
+   "why": "N.A.N.I. is not told who killed us (the Hound's slot is never marked)",
+   "found": 1,
+   "scenes": {
+    "run_online": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "corpse_not_hidden",
+   "why": "our corpse is not hidden while we are still dying",
+   "found": 1,
+   "scenes": {
+    "run_online": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "join_keeps_exit",
+   "why": "joining again does not bring us back from L.O.S.T.'s exit (we stay not solid)",
+   "found": 1,
+   "scenes": {
+    "c3c_poses": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "close_keeps_solid",
+   "why": "a closed connection leaves the solid peers in place",
+   "found": 1,
+   "scenes": {
+    "c3c_poses": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "close_keeps_kill",
+   "why": "a closed connection leaves N.A.N.I.'s kill record (its clearSlots is not a seam the page can see: netReset, just before, clears the slots through NET.onEpoch, as at M8)",
+   "found": 1,
+   "scenes": {
+    "facade": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "close_keeps_hold",
+   "why": "a closed connection leaves move.js's held state",
+   "found": 1,
+   "scenes": {
+    "reconnect_solo": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "close_keeps_admin",
+   "why": "a closed connection leaves the admin panel unlocked",
+   "found": 1,
+   "scenes": {
+    "reconnect_solo": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "no_relogin",
+   "why": "a new connection does not ask the panel to send the passcode again",
+   "found": 1,
+   "scenes": {
+    "reconnect_solo": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "epoch_keeps_fx",
+   "why": "the world epoch leaves G.I.B.'s replays playing",
+   "found": 1,
+   "scenes": {
+    "c3c_epoch": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "epoch_keeps_lights",
+   "why": "the world epoch leaves the old world's dying lights and wall stains",
+   "found": 1,
+   "scenes": {
+    "c3c_epoch": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "epoch_keeps_own_death",
+   "why": "the world epoch leaves our own death's record",
+   "found": 1,
+   "scenes": {
+    "c3c_epoch": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "epoch_keeps_killer",
+   "why": "the world epoch leaves N.A.N.I.'s killer slot",
+   "found": 1,
+   "scenes": {
+    "c3c_epoch": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "reader_snap",
+   "why": "N.A.N.I. reads no snapshot (the monsters are not mirrored)",
+   "found": 1,
+   "scenes": {
+    "run_online": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "reader_grace",
+   "why": "N.A.N.I. reads no spawn grace",
+   "found": 1,
+   "scenes": {
+    "run_online": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "reader_exited",
+   "why": "S.P.A.C.E. no longer reads L.O.S.T.'s exit flag (we stay solid after leaving)",
+   "found": 1,
+   "scenes": {
+    "c3c_poses": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "reader_kill_state",
+   "why": "the per-frame hook misreads the session's handled kill (the pause screen no longer gives way)",
+   "found": 1,
+   "scenes": {
+    "facade": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "reader_nr_last",
+   "why": "the admin panel no longer reads the session's last NEW RUN answer",
+   "found": 1,
+   "scenes": {
+    "c3c_misc": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "reader_connected",
+   "why": "the admin panel no longer reads whether the session is connected",
+   "found": 1,
+   "scenes": {
+    "admin": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "reader_mouse",
+   "why": "G.I.B.'s drawing reads BR-R's mouse the wrong way round",
+   "found": 1,
+   "scenes": {
+    "menu_online": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "frame_no_send",
+   "why": "the per-frame hook tells the session we are in a run while in the menu (the menu's pose rate)",
+   "found": 1,
+   "scenes": {
+    "menu_online": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "frame_no_drone",
+   "why": "the per-frame hook no longer hands Spacious Audio the dread's level",
+   "found": 1,
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "frame_no_fade",
+   "why": "the per-frame hook no longer fades N.A.N.I.'s hit flash",
+   "found": 1,
+   "scenes": {
+    "run_online": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "frame_no_note",
+   "why": "the per-frame hook shows the online note offline too",
+   "found": 1,
+   "scenes": {
+    "load": {
+     "differs": false,
+     "errors": 0
+    },
+    "reconnect_solo": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "frame_no_solo_item",
+   "why": "the per-frame hook no longer asks P.O.C.K.E.T. for the offline cartograph",
+   "found": 1,
+   "scenes": {
+    "reconnect_solo": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "mirror_swapped",
+   "why": "N.A.N.I. hands the server's walls and items to the wrong owners",
+   "found": 1,
+   "scenes": {
+    "run_online": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "bodies_no_id",
+   "why": "G.I.B. hands the game the bodies without the session telling it our id first",
+   "found": 1,
+   "scenes": {
+    "c3c_misc": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "poses_not_solid",
+   "why": "B+'s fresher poses no longer move the bodies S.P.A.C.E. steers us round",
+   "found": 1,
+   "scenes": {
+    "c3c_poses": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  },
+  {
+   "id": "hover_not_shown",
+   "why": "G.I.B.'s drawing no longer hands BR-R the wanderer under the mouse",
+   "found": 1,
+   "scenes": {
+    "menu_online": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "caught": true
+  }
+ ],
+ "ok": true
+}

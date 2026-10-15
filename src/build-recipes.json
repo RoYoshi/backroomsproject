@@ -214,21 +214,17 @@
    "out": "public/mp.js",
    "parts": [
     "src/core/client/mp.js",
-    "src/frameworks/bpp/client/mp.net.js",
-    "src/frameworks/gib/client/mp.owndeath.js",
-    "src/frameworks/bpp/client/mp.newrun.js",
-    "src/frameworks/space/client/mp.peers.js",
-    "src/frameworks/bpp/client/mp.transport.js",
-    "src/frameworks/nani/client/mp.monsters.js",
+    "src/frameworks/bpp/client/mp.session.js",
     "src/frameworks/lost/client/mp.glitch.js",
     "src/frameworks/pocket/client/mp.cartograph.js",
-    "src/frameworks/gib/client/mp.bodies.js",
+    "src/frameworks/nani/client/mp.monsters.js",
+    "src/frameworks/space/client/mp.peers.js",
     "src/frameworks/spacious-audio/client/mp.dread.js",
     "src/frameworks/br-r/client/mp.wanderers.js",
-    "src/frameworks/gib/client/mp.replays.js",
+    "src/frameworks/gib/client/mp.deaths.js",
     "src/frameworks/overseer/client/mp.admin.js",
-    "src/frameworks/overseer/client/mp.deathlab.js",
-    "src/core/client/mp.frame.js"
+    "src/core/client/mp.frame.js",
+    "src/core/client/mp.compose.js"
    ]
   },
   {

@@ -4,7 +4,7 @@
 
 ## What it owns
 
-The admin's tools: the panel's commands on the server (`server/admin.js`: kick, revive, god, bring, freeze, the monster and world tools, the death previews, ...), their world side (`server/sim.admin.js`), the admin menu (`client/mp.admin.js`), the death lab (`client/mp.deathlab.js`, which also binds the backquote key that opens the menu) and the AI debug overlay (`client/ents.debug.js`).
+The admin's tools: the panel's commands on the server (`server/admin.js`: kick, revive, god, bring, freeze, the monster and world tools, the death previews, ...), their world side (`server/sim.admin.js`), the admin menu and the death lab (`client/mp.admin.js`, one module of `mp.js` since continuation C3c: M8's `mp.admin.js` and `mp.deathlab.js`; it also binds the backquote key that opens the menu) and the AI debug overlay (`client/ents.debug.js`).
 
 ## What it must not own
 
@@ -20,13 +20,12 @@ Every privileged action is checked on the server: a command reaches `adminComman
 | File | What it is | Goes into |
 |---|---|---|
 | [`client/ents.debug.js`](client/ents.debug.js) | OVERSEER: the admin-only DEBUG overlay (never drawn for ordinary players); a module: entsDebug | `public/ents.js` (a part) |
-| [`client/mp.admin.js`](client/mp.admin.js) | OVERSEER: the admin menu (press `) | `public/mp.js` (a part) |
-| [`client/mp.deathlab.js`](client/mp.deathlab.js) | OVERSEER: the death lab (window.__dlab: the clock, the x-ray, the overlay) | `public/mp.js` (a part) |
+| [`client/mp.admin.js`](client/mp.admin.js) | OVERSEER: the admin menu (press `) and the death lab; a module: overseerAdmin | `public/mp.js` (a part) |
 | [`server/admin.js`](server/admin.js) | src/frameworks/overseer/server/admin.js - OVERSEER on the server: the admin panel's commands ({t:'a', c}), each answered on the panel's | a server module: `server.js` requires it |
 | [`server/sim.admin.js`](server/sim.admin.js) | src/frameworks/overseer/server/sim.admin.js - OVERSEER: the world side of the admin tools (placeNear, the admin API); a module of the | a module of the sim: `src/core/server/sim.js` requires it |
 <!-- end of generated block -->
 
-A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header. Since continuation C3b a part of `world.js`, `move.js`, `camcorder.js`, `glitch.js` or `ents.js` is a module: one factory, given what it uses of the modules made before it; its header also lists its `imports` and `exports`, and the script's `*.compose.js` part makes the modules in order (`docs/architecture/CONTRACTS.md` section 4; `node dev/tools/checks/modules.js` proves the boundaries).
+A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header. Since continuation C3b a part of `world.js`, `move.js`, `camcorder.js`, `glitch.js` or `ents.js` is a module, and since C3c a part of `mp.js` too: one factory, given what it uses of the modules made before it; its header also lists its `imports` and `exports` (and, for `mp.js`'s session, the names it is given `late`), and the script's `*.compose.js` part makes the modules in order (`docs/architecture/CONTRACTS.md` section 4; `node dev/tools/checks/modules.js` proves the boundaries).
 
 ## How it connects
 
@@ -43,4 +42,4 @@ A new command: its case in `server/admin.js`, its world side in `sim.admin.js` i
 
 ## Known debt
 
-- The admin panel's page code shares `mp.js`'s closure (M-024; C3c). The AI debug overlay (`client/ents.debug.js`) is a module of `ents.js` since continuation C3b: it adds its own entries to `window.__ents`; `mp.js` still sets two of them (`navSel`, `onFail`), a contract between scripts.
+- The admin panel (`client/mp.admin.js`) is a module of `mp.js` since continuation C3c: its state, `adm`, is made there (B++'s part declared it at M8); the session hands it each admin message (the login's answer, the command answers, UNLIMITED NEW RUN, the debug data, a closed connection) and asks it to send the passcode again on a new connection (`relogin`: the passcode stays in the panel, in memory only, as before). No auth semantics changed. The AI debug overlay (`client/ents.debug.js`) is a module of `ents.js` since continuation C3b: it adds its own entries to `window.__ents`; `mp.js` still sets two of them (`navSel`, `onFail`), a contract between scripts.

@@ -27,10 +27,11 @@ backquote key; give the server a passcode with `ADMIN_PASSCODE=... node server.j
    `src/frameworks/<name>/README.md` lists its files.
 2. **Edit the source in `src/`.** Never edit `public/*.js`, `public/assets/*.js` (except the static ones) or `generated/`: the build
    writes them. A file that begins with `/** @part` is one part of a bigger script: its header says which, and what it shares with the
-   others. In `world.js`, `move.js`, `camcorder.js`, `glitch.js` and `ents.js` (continuation C3b) each part is a module: one factory,
-   whose parameter names what it takes from which earlier module and whose return is what it gives; the script's `*.compose.js` part
-   makes them (`docs/architecture/CONTRACTS.md` section 4). The server's modules (`src/**/server/*.js`, the sim's included since
-   continuation C3a) are loaded as they are: a module is a factory, and its parameters say what it uses from which owner (section 3).
+   others. In `world.js`, `move.js`, `camcorder.js`, `glitch.js`, `ents.js` (continuation C3b) and `mp.js` (C3c) each part is a
+   module: one factory, whose parameter names what it takes from which earlier module and whose return is what it gives; the script's
+   `*.compose.js` part makes them (`docs/architecture/CONTRACTS.md` section 4; `mp.js`'s session also takes functions of the modules
+   made after it, through its `wire`). The server's modules (`src/**/server/*.js`, the sim's included since continuation C3a) are
+   loaded as they are: a module is a factory, and its parameters say what it uses from which owner (section 3).
 3. **Build.** `npm run build` rewrites what changed (a change to a server module needs no build):
 
    ```text
@@ -41,8 +42,9 @@ backquote key; give the server a passcode with `ADMIN_PASSCODE=... node server.j
    `node dev/tools/checks/parts.js` checks its header; `node dev/tools/checks/parts.js --fix <output>` rewrites the header's lists from
    the code (then read the diff). If you edited a server module or a page module, `node dev/tools/checks/modules.js` checks its
    boundaries (every name given to it or its own, nothing it was given assigned, every import used; for the sim and the page's module
-   scripts, no state outside the factories, the wiring in order; for the page, no write into another owner's state, no global
-   back-channel, the header's `imports` and `exports` the code's). The compiled client bundle and its stylesheet are not edited this way: see
+   scripts, no state outside the factories, the wiring in order; for the page, no write into another owner's state (a mutating call
+   such as `set` or `push` is a write), no global back-channel, a late name given once, by the composition, and the header's
+   `imports`, `exports` and `late` the code's). The compiled client bundle and its stylesheet are not edited this way: see
    [`src/core/client/bundle/README.md`](../../src/core/client/bundle/README.md).
 5. **Test.** `npm test` runs the scenario suite on the real simulation (about 5 minutes). 13 of its 162 cases fail on the accepted
    build too; `dev/stage-3h/gate/known_failures_bpp.json` lists every known failure. `npm run gate` compares the whole game with the
@@ -59,6 +61,7 @@ backquote key; give the server a passcode with `ADMIN_PASSCODE=... node server.j
 | `node dev/tools/gate/golden/sim_diff.js` | the sim against B++'s `sim.js`: the same calls give the same results | ~30 s |
 | `node dev/tools/gate/golden/world_diff.js` | `world.js` against B++'s: every function, the same answers | seconds |
 | `node dev/tools/gate/golden/page_scripts.js` | `move.js`, `camcorder.js`, `glitch.js`, `ents.js` against B++'s, in the same closed Chromium page: equal traces | ~20 s |
+| `node dev/tools/gate/golden/cli_golden_c3c.js` | `mp.js` against B++'s: all 18 client scenes in one Chromium page, equal traces, every function of `mp.js` run | ~10 s |
 | `node dev/tools/lineage/lineage.js verify` | the compiled bundle's lineage replays byte for byte | seconds |
 | `npm test` (`node dev/tests/run.js [file]`) | the scenario suite on the real simulation; one file: `npm run test:hound` and the others in `package.json` | minutes |
 | `npm run gate` | the fast tier of the gate: build, lineage, parts, modules, docs, scope, the server, session and client goldens against the accepted build, the sim and the page's module scripts against B++'s, the protocol, the mutants, the HTTP surface, the quick suites | ~6 min |

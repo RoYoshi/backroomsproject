@@ -1,0 +1,38 @@
+{
+ "oldRef": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "chromium": "141.0.7390.37",
+ "side": "B++ (the old side)",
+ "page": "cli_lib_c3c.js (3H2's page with the C3c scenes)",
+ "scenes": {
+  "c3c_poses": {
+   "file": "c3c_poses.json.gz",
+   "sha256": "469cb724e456a524edbb319f6b5310cbfaf815d0d2c017791d99f661e4895182",
+   "entries": 3094
+  },
+  "c3c_epoch": {
+   "file": "c3c_epoch.json.gz",
+   "sha256": "0d328c0e192934040a209c67da67ba0bf66c0018a932b91bae921c118f8b05ab",
+   "entries": 1258
+  },
+  "c3c_deathlight": {
+   "file": "c3c_deathlight.json.gz",
+   "sha256": "bf649b877ca1467f95b3e7b0d6821feb4e67e6b78215ab5adff6946981624bcc",
+   "entries": 7733
+  },
+  "c3c_misc": {
+   "file": "c3c_misc.json.gz",
+   "sha256": "20365f36096af374634495e6a9da8eb9640856a16d959d9973b2d35c26d69076",
+   "entries": 1427
+  },
+  "c3c_mode_a": {
+   "file": "c3c_mode_a.json.gz",
+   "sha256": "3a1ae0bcbfe91ae3189e727614d8a6bf641d192164b30ae9a22aed83fe89f16f",
+   "entries": 1109
+  },
+  "c3c_mode_b": {
+   "file": "c3c_mode_b.json.gz",
+   "sha256": "ec0a2bb4e1eba312510aff41f9c4db550c62319be2b7596ca60e8ad147149eb8",
+   "entries": 1109
+  }
+ }
+}

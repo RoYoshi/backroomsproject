@@ -9,9 +9,9 @@
  * what it does.  (Continuation C3a: the sim is no longer built - it is modules, src/core/server/sim.js and its owners' - so only the
  * built server files that exist are compared; the gate's sim step compares the sim's behaviour with B++'s.)
  * Exit 0 when every file is byte-identical to 3H2's, except the outputs made of modules (continuation C3b: camcorder.js, ents.js,
- * glitch.js, move.js, world.js and the server's copy of world.js), whose bytes changed on purpose and whose behaviour the gate's page step
- * compares with B++'s.  The differences from B++ are listed: each must be declared in dev/tools/gate/declared_changes.json (Stage 3H2's
- * index.html, mp.js, assets/net-newrun.js, assets/mp-hum.js, and C3b's). */
+ * glitch.js, move.js, world.js and the server's copy of world.js; C3c: mp.js), whose bytes changed on purpose and whose behaviour the
+ * gate's page step (C3b's five) and cli_golden step (mp.js) compare with B++'s.  The differences from B++ are listed: each must be declared
+ * in dev/tools/gate/declared_changes.json (Stage 3H2's index.html, mp.js, assets/net-newrun.js, assets/mp-hum.js, and C3b's and C3c's). */
 'use strict';
 const fs = require('fs'), path = require('path'), crypto = require('crypto'), { execFileSync } = require('child_process');
 const ARG = {}; for (let i = 2; i < process.argv.length; i += 2) ARG[process.argv[i].replace(/^--/, '')] = process.argv[i + 1];
@@ -40,7 +40,7 @@ R.counts = { public: pub.length, publicBuilt: pub.filter(f => recipes.has(f)).le
 R.ok = !notSame3H2.length && !undeclared.length;
 if (ARG.out) fs.writeFileSync(ARG.out, JSON.stringify(R, null, 1) + '\n');
 console.log(`public/: ${R.counts.public} files (${R.counts.publicBuilt} built, ${R.counts.publicStatic} static), and the server's ${R.counts.serverBuilt} built files`);
-console.log(`identical to the frozen 3H2 (${H2.slice(0, 7)}): ${R.counts.identicalTo3H2} of ${R.counts.of}${rebuilt.length ? `; rebuilt as modules (continuation C3b; their behaviour is compared instead, the gate's page step): ${rebuilt.map(f => f.file).join(', ')}` : ''}${notSame3H2.length ? '; DIFFERENT: ' + notSame3H2.map(f => f.file).join(', ') : ''}`);
+console.log(`identical to the frozen 3H2 (${H2.slice(0, 7)}): ${R.counts.identicalTo3H2} of ${R.counts.of}${rebuilt.length ? `; rebuilt as modules (continuation C3b, C3c; their behaviour is compared instead: the gate's page step, and its cli_golden step for mp.js): ${rebuilt.map(f => f.file).join(', ')}` : ''}${notSame3H2.length ? '; DIFFERENT: ' + notSame3H2.map(f => f.file).join(', ') : ''}`);
 console.log(`different from B++ (${BPP.slice(0, 7)}): ${R.counts.differFromBpp.join(', ') || 'none'}${undeclared.length ? '; NOT DECLARED: ' + undeclared.map(f => f.oldPath).join(', ') : ' (each declared in dev/tools/gate/declared_changes.json)'}`);
 console.log('SERVED IDENTITY: ' + (R.ok ? 'PASS' : 'FAIL'));
 process.exitCode = R.ok ? 0 : 1;

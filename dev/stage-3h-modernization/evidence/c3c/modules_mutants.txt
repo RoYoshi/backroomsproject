@@ -1,0 +1,40 @@
+ok   the unchanged copy passes
+ok   state_outside_factory: a sim module keeps a value at its top level (every room's world would share it)
+ok   import_assigned: a module assigns a name it was given
+ok   name_not_given: a module uses a name nobody gave it
+ok   import_unused: a module is given a name it never uses
+ok   import_not_exported: a module imports a name its giver does not return
+ok   made_after: a module is made from one made after it (a cycle, or the wrong order)
+ok   key_not_given: the composition does not give a module what its factory takes
+ok   global_backchannel: a module reaches a global back-channel
+ok   page_state_outside_factory: a page module keeps a value in the script's wrapper, outside its factory
+ok   page_hidden_closure: a page module uses a name of the wrapper (another factory): a hidden closure dependence
+ok   page_import_assigned: a page module assigns a name it was given
+ok   page_import_unused: a page module is given a name it never uses
+ok   page_not_exported: a page module imports a name its giver does not return
+ok   page_made_after: the composition makes a page module from one made after it
+ok   page_key_not_given: the composition does not give a page module what its factory takes
+ok   page_cross_owner_write: a page module writes another owner's state (M8's S.whine, before C3b gave it a setter)
+ok   page_hidden_call: a page module calls a function a third module put on the public object (M8's E.drawSmiler)
+ok   page_global_backchannel: a page module reads through the global object what another module of its script put there (M8's window.__mvSfx)
+ok   page_entry_twice: two page modules write the same entry of the public object
+ok   page_header_lies: a page module's header does not list what its factory takes
+ok   mp_cross_owner_write: a page module writes a property of another owner's object (the session's peers map)
+ok   mp_cross_owner_mutation: a page module changes another owner's object in place (deletes from the session's peers map)
+ok   mp_entry_twice: a second module writes an entry of the public object window.__net (its on flag is the session's)
+ok   mp_window_two_names: two modules put the same name on the global object (M8's join cleared N.A.N.I.'s kill record itself)
+ok   mp_window_path_two_writers: two modules write the same property through the global object (M8's closed connection let go of move.js's held state itself)
+ok   mp_window_in_place: a module changes, through the global object, a set another module put there (M8's tick hid G.I.B.'s corpse itself)
+ok   mp_external_two_writers: two modules write the same property of another script's object (net-interp.js's NET.onEpoch is N.A.N.I.'s registration)
+ok   mp_late_at_load: a module calls a function it is given late while it is being made (it is not wired yet)
+ok   mp_late_in_load_call: a function the module calls while it is being made (connect) calls a function given late
+ok   mp_late_assigned: a module assigns a name its wire gives it, outside wire
+ok   mp_wire_extra_statement: a module's wire does something besides taking names from the later modules
+ok   mp_wire_made_after: the composition wires the session before the last module is made
+ok   mp_wire_key_missing: the composition does not give the session's wire a module it takes
+ok   mp_wire_from_before: the composition gives the session late a module made before it (that is an import)
+ok   mp_wire_never_called: the composition never wires the session (its late names would stay empty)
+ok   mp_late_not_exported: the session takes late a name its giver does not return
+ok   mp_late_header_lies: the session's header does not list what its wire takes
+ok   mp_imports_wire: a module imports another module's wire
+MODULES CHECK MUTANTS: PASS (38 of 38 broken boundaries refused, each for its own reason)

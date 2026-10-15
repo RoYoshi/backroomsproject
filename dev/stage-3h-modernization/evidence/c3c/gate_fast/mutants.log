@@ -1,0 +1,20 @@
+$ node dev/tools/gate/golden/bpp_mutants.js --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em3/c3c/gate_fast2/mutants.json
+CAUGHT  guard_off (src/frameworks/space/server/movement.js): B++-0's placement guard removed (B+'s behaviour) | bpp_place_guard differs, bpp_world_guard differs
+CAUGHT  grace_1000 (src/frameworks/space/server/movement.js): the grace after a placement 100 ms longer | bpp_known_limits differs
+CAUGHT  admin_checked (src/frameworks/bpp/server/session.js): an admin's own poses checked like anyone's | bpp_known_limits differs
+CAUGHT  fast_gap_30 (server.js): B+'s faster pose intake off | bpp_caps_q differs
+CAUGHT  q_self (src/frameworks/bpp/server/poses.js): 'q' also carries the receiver's own pose | bpp_caps_q differs
+CAUGHT  nr_gap_200 (src/frameworks/bpp/server/newrun.js): NEW RUN's flood gap 50 ms shorter | bpp_new_run differs
+CAUGHT  nr_wait_round (src/frameworks/bpp/server/newrun.js): the cooldown wait rounded instead of rounded up | bpp_new_run differs
+CAUGHT  nr_no_memory (src/frameworks/bpp/server/newrun.js): a repeated press decided again instead of answered again | bpp_new_run differs
+CAUGHT  nr_free_off (src/frameworks/bpp/server/newrun.js): an admin's UNLIMITED NEW RUN ignored | bpp_new_run differs
+CAUGHT  nr_held_free (src/frameworks/space/server/sim.players.js): a NEW RUN pressed while held is no longer refused (sim.nrWhy) | bpp_new_run_held differs
+CAUGHT  aft_el_half (src/frameworks/gib/server/aftermath.js): a late joiner's replay says how far it has run only after 0.5 s instead of 0.25 s | bpp_aftermath differs
+CAUGHT  aft_every_tick (src/frameworks/gib/server/aftermath.js): the replay sent on every snapshot tick instead of once to each client | bpp_aftermath differs
+CAUGHT  aft_victim_replay (src/frameworks/gib/server/aftermath.js): the victim is sent its own death replay too | bpp_aftermath differs
+CAUGHT  aft_one_per_player (src/frameworks/gib/server/aftermath.js): a player's second death no longer drops its first | bpp_aftermath differs
+CAUGHT  aft_world_tick (src/frameworks/gib/server/aftermath.js): a death from a world that is gone plays on and leaves a corpse | bpp_aftermath differs
+CAUGHT  aft_killer_end (src/frameworks/gib/server/aftermath.js): the Hound is not placed where the death left it | bpp_aftermath differs
+CAUGHT  aft_boom_revive (src/frameworks/gib/server/aftermath.js): an admin revive also cancels a NEW RUN blast | bpp_aftermath differs
+CAUGHT  aft_revive_end (src/frameworks/overseer/server/admin.js): a revived death is not ended on the other screens | bpp_aftermath differs
+B++ golden mutants: 18/18 caught

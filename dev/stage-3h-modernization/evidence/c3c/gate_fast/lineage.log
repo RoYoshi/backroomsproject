@@ -1,0 +1,6 @@
+$ node dev/tools/lineage/lineage.js verify --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em3/c3c/gate_fast2/lineage.json
+PASS bundle: 40/40 steps replayed from src/core/client/bundle/original-v11/dist/assets/index-DKbV5Nv9.js; working tree public/assets/index-DKbV5Nv9.js identical
+PASS css: 8/8 steps replayed from src/core/client/bundle/original-v11/dist/assets/index-D7hdwmUU.css; working tree public/assets/index-D7hdwmUU.css identical
+PASS html: 35/35 steps replayed from src/core/client/bundle/original-v11/dist/index.html; working tree public/index.html identical (reported, not enforced)
+PASS blame: blame.json is what the ledger gives
+LINEAGE: PASS

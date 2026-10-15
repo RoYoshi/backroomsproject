@@ -1,0 +1,496 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/m8_served_identity.js",
+ "frozen3H2": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+ "acceptedBpp": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "files": [
+  {
+   "file": "public/assets/BufferResource-B-thlpip.js",
+   "oldPath": "assets/BufferResource-B-thlpip.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/Cache-DDo62lBW.js",
+   "oldPath": "assets/Cache-DDo62lBW.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/CanvasPool-DecUtJxW.js",
+   "oldPath": "assets/CanvasPool-DecUtJxW.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/Filter-DzecrWg_.js",
+   "oldPath": "assets/Filter-DzecrWg_.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/GCManagedHash-Bz2ZMBJN.js",
+   "oldPath": "assets/GCManagedHash-Bz2ZMBJN.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/GraphicsContext-vm7TDg_M.js",
+   "oldPath": "assets/GraphicsContext-vm7TDg_M.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/MAIN_MENU_LOGO_USER_SUPPLIED.png",
+   "oldPath": "assets/MAIN_MENU_LOGO_USER_SUPPLIED.png",
+   "built": false,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/MainTheme_MenuIntro.wav",
+   "oldPath": "assets/MainTheme_MenuIntro.wav",
+   "built": false,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/MainTheme_MenuLoop.wav",
+   "oldPath": "assets/MainTheme_MenuLoop.wav",
+   "built": false,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/RenderTargetSystem-CgUxHIsn.js",
+   "oldPath": "assets/RenderTargetSystem-CgUxHIsn.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/br-role.js",
+   "oldPath": "assets/br-role.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/browserAll-B-iwy0YI.js",
+   "oldPath": "assets/browserAll-B-iwy0YI.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/canvasUtils-CxYPZET9.js",
+   "oldPath": "assets/canvasUtils-CxYPZET9.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/carpet.png",
+   "oldPath": "assets/carpet.png",
+   "built": false,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/credits_data.js",
+   "oldPath": "assets/credits_data.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/getTextureBatchBindGroup-DBCrgHVb.js",
+   "oldPath": "assets/getTextureBatchBindGroup-DBCrgHVb.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/index-D7hdwmUU.css",
+   "oldPath": "assets/index-D7hdwmUU.css",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/index-DKbV5Nv9.js",
+   "oldPath": "assets/index-DKbV5Nv9.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/init-Cn1_BCi0.js",
+   "oldPath": "assets/init-Cn1_BCi0.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/l0-remaster.js",
+   "oldPath": "assets/l0-remaster.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/level0_visuals.js",
+   "oldPath": "assets/level0_visuals.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/manifest.webmanifest",
+   "oldPath": "assets/manifest.webmanifest",
+   "built": false,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/mp-hum.js",
+   "oldPath": "assets/mp-hum.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": false,
+   "inBpp": false
+  },
+  {
+   "file": "public/assets/net-interp.js",
+   "oldPath": "assets/net-interp.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/net-newrun.js",
+   "oldPath": "assets/net-newrun.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": false,
+   "inBpp": false
+  },
+  {
+   "file": "public/assets/net-wire.js",
+   "oldPath": "assets/net-wire.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/shadows-2d.js",
+   "oldPath": "assets/shadows-2d.js",
+   "built": false,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/ui.css",
+   "oldPath": "assets/ui.css",
+   "built": false,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/assets/ui.js",
+   "oldPath": "assets/ui.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/camcorder.js",
+   "oldPath": "camcorder.js",
+   "built": true,
+   "modules": true,
+   "same3H2": false,
+   "sameBpp": false,
+   "inBpp": true
+  },
+  {
+   "file": "public/camera_policy.js",
+   "oldPath": "camera_policy.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/dphys.js",
+   "oldPath": "dphys.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/ents.js",
+   "oldPath": "ents.js",
+   "built": true,
+   "modules": true,
+   "same3H2": false,
+   "sameBpp": false,
+   "inBpp": true
+  },
+  {
+   "file": "public/favicon.ico",
+   "oldPath": "favicon.ico",
+   "built": false,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/glitch.js",
+   "oldPath": "glitch.js",
+   "built": true,
+   "modules": true,
+   "same3H2": false,
+   "sameBpp": false,
+   "inBpp": true
+  },
+  {
+   "file": "public/gore.js",
+   "oldPath": "gore.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/hud.js",
+   "oldPath": "hud.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/index.html",
+   "oldPath": "index.html",
+   "built": false,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": false,
+   "inBpp": true
+  },
+  {
+   "file": "public/inventory.js",
+   "oldPath": "inventory.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/light.js",
+   "oldPath": "light.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/move.js",
+   "oldPath": "move.js",
+   "built": true,
+   "modules": true,
+   "same3H2": false,
+   "sameBpp": false,
+   "inBpp": true
+  },
+  {
+   "file": "public/mp.js",
+   "oldPath": "mp.js",
+   "built": true,
+   "modules": true,
+   "same3H2": false,
+   "sameBpp": false,
+   "inBpp": true
+  },
+  {
+   "file": "public/sfx.js",
+   "oldPath": "sfx.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/sounds/README.txt",
+   "oldPath": "sounds/README.txt",
+   "built": false,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/sounds/sting copy.mp3",
+   "oldPath": "sounds/sting copy.mp3",
+   "built": false,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/sounds/sting.mp3",
+   "oldPath": "sounds/sting.mp3",
+   "built": false,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/timing_policy.js",
+   "oldPath": "timing_policy.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "public/world.js",
+   "oldPath": "world.js",
+   "built": true,
+   "modules": true,
+   "same3H2": false,
+   "sameBpp": false,
+   "inBpp": true
+  },
+  {
+   "file": "generated/server/ai.js",
+   "oldPath": "ai.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  },
+  {
+   "file": "generated/server/world.js",
+   "oldPath": "world.js",
+   "built": true,
+   "modules": true,
+   "same3H2": false,
+   "sameBpp": false,
+   "inBpp": true
+  },
+  {
+   "file": "generated/server/dphys.js",
+   "oldPath": "dphys.js",
+   "built": true,
+   "modules": false,
+   "same3H2": true,
+   "sameBpp": true,
+   "inBpp": true
+  }
+ ],
+ "ok": true,
+ "counts": {
+  "public": 48,
+  "publicBuilt": 36,
+  "publicStatic": 12,
+  "serverBuilt": 3,
+  "identicalTo3H2": 44,
+  "of": 51,
+  "rebuiltAsModules": [
+   "public/camcorder.js",
+   "public/ents.js",
+   "public/glitch.js",
+   "public/move.js",
+   "public/mp.js",
+   "public/world.js",
+   "generated/server/world.js"
+  ],
+  "differFromBpp": [
+   "assets/mp-hum.js (added)",
+   "assets/net-newrun.js (added)",
+   "camcorder.js (changed)",
+   "ents.js (changed)",
+   "glitch.js (changed)",
+   "index.html (changed)",
+   "move.js (changed)",
+   "mp.js (changed)",
+   "world.js (changed)",
+   "world.js (changed)"
+  ]
+ }
+}

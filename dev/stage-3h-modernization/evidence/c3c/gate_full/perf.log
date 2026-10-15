@@ -1,0 +1,11 @@
+$ node dev/tools/gate/golden/perf_det.js --old-ref 143b63ff42b88c6780c5043e0f61d64100f81f40 --rounds 7 --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em3/c3c/gate_full1/perf_det.json
+server lifecycle: cpu ms old 1499.521 new 1494.152 (-0.36 %, tol 221.109) ok
+server deaths: cpu ms old 1830.925 new 1745.934 (-4.64 %, tol 436.352) ok
+server admin: cpu ms old 1628.681 new 1573.975 (-3.36 %, tol 224.945) ok
+server schedule: cpu ms old 461.827 new 445.058 (-3.63 %, tol 107.057) ok
+client menu_online: hook ms old 20.3 new 22.6 (11.33 %) ok; handler ms old 2.5 new 2.5 (0 %) ok
+client run_online: hook ms old 66.6 new 67.7 (1.65 %) ok; handler ms old 6.7 new 6.6 (-1.49 %) ok
+client interp: hook ms old 84.4 new 77.7 (-7.94 %) ok; handler ms old 7.1 new 6.4 (-9.86 %) ok
+client fx_bodies: hook ms old 137.4 new 137.4 (0 %) ok; handler ms old 13.1 new 13.3 (1.53 %) ok
+client hum_dread: hook ms old 50.2 new 50.6 (0.8 %) ok; handler ms old 0.3 new 0.2 (-33.33 %) ok
+deterministic performance: within the predeclared tolerance

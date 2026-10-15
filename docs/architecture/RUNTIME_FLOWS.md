@@ -22,11 +22,13 @@ Paths are under `src/` unless they start with `public/`. A function name in a pa
 `public/index.html` loads 23 classic scripts in order (the camera and timing policies, `world.js`, `move.js`, the camcorder, the sounds,
 `gore.js`, `dphys.js`, `light.js`, `ents.js`, `glitch.js`, the network layer's helpers, `mp.js`, the menus, the HUD, the inventory,
 BR-RoLE, the Level 0 visuals and remaster). Each registers what it offers on `window` (`window.__net`, `window.__mp`, `window.__ents`,
-`window.__brRole`, ...). Five of them are modules inside their wrapper (continuation C3b): as the script runs, its composition makes
-each owner's module in the order the parts ran (for `ents.js`: the head and its `window.__ents`, then the Hound, the Smiler, the death
-scenes, the sounds, the debug overlay), and each module registers what it offers at the same moment as before. The compiled bundle (`public/assets/index-DKbV5Nv9.js`) is an ES module, so it runs once the page is parsed:
+`window.__brRole`, ...). Six of them are modules inside their wrapper (continuation C3b; `mp.js` since C3c): as the script runs, its
+composition makes each owner's module in order (for `ents.js`: the head and its `window.__ents`, then the Hound, the Smiler, the death
+scenes, the sounds, the debug overlay), and each module registers what it offers at the same moment as before. `mp.js`'s composition
+makes the session (B++) right after core, so its WebSocket is made where it always was, and hands the session the later modules at the
+end (`wire`). The compiled bundle (`public/assets/index-DKbV5Nv9.js`) is an ES module, so it runs once the page is parsed:
 it builds the PixiJS scene, the Level 0 map, the camera and the game loop, publishes `window.__api`, and from then on calls the classic
-scripts' hooks. `mp.js` connects (`frameworks/bpp/client/mp.transport.js`: `connect()`); without a server the game runs alone.
+scripts' hooks. `mp.js` connects (`frameworks/bpp/client/mp.session.js`: `connect()`); without a server the game runs alone.
 
 ## One server tick (every 25 ms)
 
@@ -60,10 +62,11 @@ Field values are checked first (`frameworks/ward/server/fields.js`). Anything el
 ## One frame on the page
 
 The bundle's game loop runs the player's movement (`move.js`'s per-tick step, through `window.__api`), calls `window.__net.tick()` from its
-fixed-step loop (`frameworks/bpp/client/mp.net.js`: starts our death when the server made one), and once per frame calls `window.__mp(...)`
-(`core/client/mp.frame.js`). That hook: applies the server's state (the monsters, `mp.monsters.js`), plays the entities' sounds, the hum and
-the glitched walls; sends our pose (every 50 ms, or 25 with the fresher poses: `{t:'p', x, y, ...}`); draws the other wanderers; drives
-the dread (the vignette, the drone, the heartbeat).
+fixed-step loop (`frameworks/bpp/client/mp.session.js`: the soft correction's step, and our death started when the server made one), and
+once per frame calls `window.__mp(...)` (`core/client/mp.frame.js`). That hook asks each owner in turn: applies the server's state (the
+monsters, `mp.monsters.js`), plays the entities' sounds, the hum and the glitched walls; the session sends our pose (every 50 ms, or 25
+with the fresher poses: `{t:'p', x, y, ...}`, `sendPose`); G.I.B. draws the other wanderers (`mp.deaths.js`); it drives the dread (the
+vignette, the drone through Spacious Audio's `setDrone`, the heartbeat).
 
 ## How a Hound comes to know where you are
 
@@ -79,20 +82,20 @@ adapter in `sim.ai.js`. The admin's DEBUG overlay (`frameworks/overseer/client/e
    (`core/server/rooms.js`), which opens one aftermath event (`aftStart`, G.I.B.'s `aftermath.js`): a death id, the kill record, the
    replay message.
 2. **The victim's page plays it** from the kill record the snapshot carries (`mk`), through `window.__dvic`
-   (`frameworks/gib/client/mp.owndeath.js`) and the bundle's death class.
-3. **Every other page replays it** once (`aftSend` sends `{t:'fx'}`; `frameworks/gib/client/mp.replays.js`), in line of sight.
+   (`frameworks/gib/client/mp.deaths.js`) and the bundle's death class.
+3. **Every other page replays it** once (`aftSend` sends `{t:'fx'}`; `frameworks/gib/client/mp.deaths.js`), in line of sight.
 4. **The server finishes it**: its own physics run (`death_srv.js` on `dphys.js`, the same file the pages run), and at the end the body
-   (`aftTick` puts it in the world: `sim.setBody`); every page gets the bodies (`{t:'bodies'}`, `mp.bodies.js`). A body stays until the
+   (`aftTick` puts it in the world: `sim.setBody`); every page gets the bodies (`{t:'bodies'}`, `mp.deaths.js`). A body stays until the
    world resets or its player dies again (or `BODY_TTL` seconds).
 
 ## NEW RUN
 
-1. The pause dialog's button calls `window.__net.nr(ok)` (`mp.net.js`): online, it only sends an intent, `{t:'nr', q, w}`.
+1. The pause dialog's button calls `window.__net.nr(ok)` (`mp.session.js`): online, it only sends an intent, `{t:'nr', q, w}`.
 2. The server decides (`nrIntent`, `frameworks/bpp/server/newrun.js`): a flood is dropped (250 ms); each press number gets one answer;
    the rules are the world's (`nrWhy` in `frameworks/space/server/sim.players.js`: not in the menu, not dead, not held, the 30 s wait
    unless the admin's own UNLIMITED NEW RUN).
 3. Approved: the player leaves the world (`sim.newRun`) and the blast starts, an aftermath like a death (`boomStart`). The answer
-   (`{t:'nra'}`) reaches the page (`nrAnswer`, `mp.newrun.js`): the bundle's short beat, then the run menu. Refused: the button says why
+   (`{t:'nra'}`) reaches the page (`nrAnswer`, `mp.session.js`): the bundle's short beat, then the run menu. Refused: the button says why
    (`net-newrun.js`'s words), and nothing else happens.
 
 ## The files the page loads

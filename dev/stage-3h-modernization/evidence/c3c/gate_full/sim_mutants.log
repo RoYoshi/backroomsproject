@@ -1,0 +1,17 @@
+$ node dev/tools/gate/golden/bpp_mutants.js --scenarios /home/claude/backrooms-modern/dev/stage-3h0/golden/srv_scenarios.js --mutants dev/tools/gate/golden/sim_mutants.js --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em3/c3c/gate_full1/sim_mutants.json
+CAUGHT  run_freeze_ignored (src/core/server/sim.step.js): the admin's freeze no longer reaches the run | admin differs
+CAUGHT  run_speed_ignored (src/core/server/sim.step.js): the admin's speed no longer reaches the run | admin differs
+CAUGHT  run_blackout_ignored (src/core/server/sim.step.js): the admin's blackout mode no longer reaches the run | admin differs
+CAUGHT  blackout_forced_wrong (src/frameworks/lost/server/sim.level0.js): a forced blackout set the wrong way | admin differs
+CAUGHT  reset_items_first (src/core/server/sim.step.js): the world reset places the cartograph before the walls (the random stream in another order) | lifecycle differs, admin differs
+CAUGHT  reset_bodies_kept (src/core/server/sim.step.js): the world reset keeps the bodies | deaths differs, admin differs
+CAUGHT  clock_double (src/frameworks/gib/server/sim.bodies.js): the sim's clock runs at twice the step | lifecycle differs
+CAUGHT  walls_stale (src/frameworks/lost/server/sim.glitches.js): the walls read once, when the module was made (a stale copy instead of the current list) | exit_glitch differs, lifecycle differs
+CAUGHT  items_stale (src/frameworks/pocket/server/sim.items.js): the cartograph read once, when the module was made | lifecycle differs, admin differs
+MISSED  debug_never (src/frameworks/overseer/server/sim.admin.js): the admin's debug switch never reaches the sim's getter | admin same
+MISSED  run_time_zero (src/core/server/sim.step.js): the run's clock read as zero outside the run | exit_glitch same, admin same
+CAUGHT  world_count_one (src/core/server/sim.step.js): the world count read as one outside the run | deaths differs, admin differs, lifecycle differs
+CAUGHT  body_version_one (src/frameworks/gib/server/sim.bodies.js): the bodies' version read as one outside G.I.B. | deaths differs
+CAUGHT  roster_copied (src/core/server/sim.js): the AI given a copy of the roster (it would never see a player join) | lifecycle same, deaths same, admin differs
+CAUGHT  cap_run_time_61 (src/frameworks/overseer/server/sim.admin.js): the admin's monster reset caps the run's clock at 61 s | admin differs
+B++ golden mutants: 13/15 caught

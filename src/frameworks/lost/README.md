@@ -23,14 +23,14 @@ Levels should be data, not code, with the server and the page agreeing. Today th
 | [`client/glitch.draw.js`](client/glitch.draw.js) | L.O.S.T.: the glitched walls drawn; a module: glitchDraw | `public/glitch.js` (a part) |
 | [`client/glitch.js`](client/glitch.js) | L.O.S.T.: the glitched walls on the page: their canvas; a module: glitchWalls | `public/glitch.js` (a part) |
 | [`client/level0_visuals.js`](client/level0_visuals.js) | level0_visuals.js - Stage 3B: the Level 0 presentation authority (visual metadata only). | `public/assets/level0_visuals.js` |
-| [`client/mp.glitch.js`](client/mp.glitch.js) | L.O.S.T.: the glitched walls: touching one takes you out of Level 0 | `public/mp.js` (a part) |
+| [`client/mp.glitch.js`](client/mp.glitch.js) | L.O.S.T.: the glitched walls: touching one takes you out of Level 0; a module: lostGlitch | `public/mp.js` (a part) |
 | [`server/sim.glitches.js`](server/sim.glitches.js) | src/frameworks/lost/server/sim.glitches.js - L.O.S.T.: the glitched walls, the way out of Level 0; a module of the sim | a module of the sim: `src/core/server/sim.js` requires it |
 | [`server/sim.level0.js`](server/sim.level0.js) | src/frameworks/lost/server/sim.level0.js - L.O.S.T., with S.P.A.C.E.'s collision: Level 0 as the server builds it for one world - the | a module of the sim: `src/core/server/sim.js` requires it |
 | [`shared/world.lamps.js`](shared/world.lamps.js) | L.O.S.T.: Level 0's working ceiling fixtures (W.lamps), for the client and the server alike; a module: worldLamps | `public/world.js`, `generated/server/world.js` (a part) |
 | [`shared/world.surfaces.js`](shared/world.surfaces.js) | L.O.S.T.: the floor surfaces (carpet, concrete, wet tile); a module: worldSurfaces | `public/world.js`, `generated/server/world.js` (a part) |
 <!-- end of generated block -->
 
-A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header. Since continuation C3b a part of `world.js`, `move.js`, `camcorder.js`, `glitch.js` or `ents.js` is a module: one factory, given what it uses of the modules made before it; its header also lists its `imports` and `exports`, and the script's `*.compose.js` part makes the modules in order (`docs/architecture/CONTRACTS.md` section 4; `node dev/tools/checks/modules.js` proves the boundaries).
+A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header. Since continuation C3b a part of `world.js`, `move.js`, `camcorder.js`, `glitch.js` or `ents.js` is a module, and since C3c a part of `mp.js` too: one factory, given what it uses of the modules made before it; its header also lists its `imports` and `exports` (and, for `mp.js`'s session, the names it is given `late`), and the script's `*.compose.js` part makes the modules in order (`docs/architecture/CONTRACTS.md` section 4; `node dev/tools/checks/modules.js` proves the boundaries).
 
 ## How it connects
 
@@ -48,4 +48,4 @@ There is no level format yet, so a new level is not something to add here: it ne
 ## Known debt
 
 - The map exists twice (M-003). `sim.level0.js` is minified bundle code, kept whole (M-025): since continuation C3a a module of the sim, its two code lines unchanged.
-- `glitch.js` (its walls, its drawing; `glitch.compose.js` makes them) and `world.js`'s lamps and surfaces are modules since continuation C3b. The page's glitched walls and cartograph in `mp.js` still share that script's closure (C3c).
+- `glitch.js` (its walls, its drawing; `glitch.compose.js` makes them) and `world.js`'s lamps and surfaces are modules since continuation C3b. The page's glitched walls in `mp.js` (`client/mp.glitch.js`) are a module since continuation C3c: the exit flag and the walls' globals are its own, and the session and N.A.N.I.'s mirror ask for their changes (`resetExit`, `soloOff`, `noGlitches`, `glitchesFrom`).

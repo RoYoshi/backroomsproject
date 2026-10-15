@@ -1,9 +1,18 @@
-/** @part public/mp.js - L.O.S.T.: the glitched walls: touching one takes you out of Level 0
- * provides: doExit, soloGlitches
- * uses: N, exited
- * writes: exited
+/** @part public/mp.js - L.O.S.T.: the glitched walls: touching one takes you out of Level 0; a module: lostGlitch
+ * A module (continuation C3c, M-024): M8's part in its factory, with the walls' state made its own: the exit flag (exited, core's at
+ * M8: the session's join now calls resetExit) and every write of the walls' globals (window.__glitches, window.__glitchSolo), which the
+ * session (join, a closed connection) and N.A.N.I.'s mirror of the server's state made themselves at M8 and now ask for (noGlitches,
+ * soloOff, glitchesFrom). OVERSEER's place-finder reads the walls through glitches(). It still adds N.exitLocal to the session's
+ * window.__net, at the same moment as before.
+ * imports: session { N }
+ * exports: doExit, exited, glitches, glitchesFrom, noGlitches, resetExit, soloGlitches, soloOff
+ * provides: lostGlitch
+ * uses: -
+ * writes: -
  */
+function lostGlitch({ session: { N } }) {
 /* ---------- glitched walls: touching one takes you out of Level 0 ---------- */
+let exited = false;                                   // (C3c) out through a glitched wall (core's at M8; the session's join puts it back)
 function doExit(secs) {
   const A = window.__api; if (!A || exited) return; exited = true;
   const box = document.getElementById('wonStats'); if (box) box.textContent = 'Time in Level 0 · ' + Math.floor((secs || 0) / 60) + ':' + String((secs || 0) % 60).padStart(2, '0');
@@ -29,4 +38,10 @@ function soloGlitches(p) {
   }
   for (const g of window.__glitches) if (Math.hypot(p.x - g[0], p.y - g[1]) < 54) { N.exitLocal(); break; }
 }
-
+/* (C3c) the walls' state is this module's: the others read it and ask for its changes */
+const resetExit = () => { exited = false; };
+const soloOff = () => { window.__glitchSolo = false; };
+const noGlitches = () => { window.__glitches = []; };
+const glitchesFrom = gw => { window.__glitches = gw || []; };          // the server's walls, from each snapshot (N.A.N.I.'s mirror)
+return { doExit, exited: () => exited, glitches: () => window.__glitches, glitchesFrom, noGlitches, resetExit, soloGlitches, soloOff };
+}

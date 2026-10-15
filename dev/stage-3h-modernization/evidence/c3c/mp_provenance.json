@@ -1,0 +1,156 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c3c_mp_provenance.js",
+ "m8": "c34f0c22bbacc5ac2813d173bc0591b67af7169f",
+ "m8Parts": [
+  "src/core/client/mp.js",
+  "src/frameworks/bpp/client/mp.net.js",
+  "src/frameworks/gib/client/mp.owndeath.js",
+  "src/frameworks/bpp/client/mp.newrun.js",
+  "src/frameworks/space/client/mp.peers.js",
+  "src/frameworks/bpp/client/mp.transport.js",
+  "src/frameworks/nani/client/mp.monsters.js",
+  "src/frameworks/lost/client/mp.glitch.js",
+  "src/frameworks/pocket/client/mp.cartograph.js",
+  "src/frameworks/gib/client/mp.bodies.js",
+  "src/frameworks/spacious-audio/client/mp.dread.js",
+  "src/frameworks/br-r/client/mp.wanderers.js",
+  "src/frameworks/gib/client/mp.replays.js",
+  "src/frameworks/overseer/client/mp.admin.js",
+  "src/frameworks/overseer/client/mp.deathlab.js",
+  "src/core/client/mp.frame.js"
+ ],
+ "parts": [
+  "src/core/client/mp.js",
+  "src/frameworks/bpp/client/mp.session.js",
+  "src/frameworks/lost/client/mp.glitch.js",
+  "src/frameworks/pocket/client/mp.cartograph.js",
+  "src/frameworks/nani/client/mp.monsters.js",
+  "src/frameworks/space/client/mp.peers.js",
+  "src/frameworks/spacious-audio/client/mp.dread.js",
+  "src/frameworks/br-r/client/mp.wanderers.js",
+  "src/frameworks/gib/client/mp.deaths.js",
+  "src/frameworks/overseer/client/mp.admin.js",
+  "src/core/client/mp.frame.js",
+  "src/core/client/mp.compose.js"
+ ],
+ "m8Lines": 921,
+ "lines": 1054,
+ "m8LinesKept": 863,
+ "groups": [
+  {
+   "id": "modules",
+   "why": "the modules themselves: each factory's first line (its parameter: what it imports, by giver), what it returns (its exports, and a reader for each changing value: me() is `() => me`), the closing braces of the factories and of the owners' new functions, and the composition that makes them in order and wires the session; no M8 line",
+   "old": 0,
+   "new": 53
+  },
+  {
+   "id": "late",
+   "why": "the session's late wiring (rule 12 of dev/tools/checks/modules.js): the functions it calls of the modules made after it, declared without a value and given once by wire(), when every module is made",
+   "old": 0,
+   "new": 17
+  },
+  {
+   "id": "owners_state",
+   "why": "state declared by its owner (ADR-005: ownership follows meaning): the status line's element is the session's (it writes it); the exit flag L.O.S.T.'s; the soft corrections' count S.P.A.C.E.'s; the heartbeat's timer the per-frame hook's (the only code using it); the last view G.I.B.'s (likewise); the admin panel's state OVERSEER's - each declaration line split or moved with a note, the values as at M8",
+   "old": 6,
+   "new": 10
+  },
+  {
+   "id": "readers",
+   "why": "a read of another owner's changing value is a call of the reader its owner gives (me -> me(), snap -> snap(), exited -> exited(), nrLast -> nrLast(), mx -> mx(), window.__glitches -> glitches(), ws && ws.readyState === 1 -> connected(), the S.P.A.C.E. counts in window.__epochDebug): the same value, read at the same moment",
+   "old": 14,
+   "new": 14
+  },
+  {
+   "id": "calls",
+   "why": "a change of another owner's state is a call of that owner's function, in the same place (the narrow contract): the session's tick, join, respawn, world epoch, hello, every admin, body, replay, kill and debug message and the closed connection; N.A.N.I.'s mirror of the walls and items; G.I.B.'s bodies (the session tells the game our id) and hover; the per-frame hook's offline hold, cartograph, online note, drone, hit flash and network send; B+'s fresher poses (S.P.A.C.E.'s bodies follow)",
+   "old": 38,
+   "new": 43
+  },
+  {
+   "id": "owner_functions",
+   "why": "the owners' new functions: what the other modules now ask of each owner, each holding the lines M8's other modules ran on its state (the M8 lines they hold are matched as M8's above), with a note where a group of them begins",
+   "old": 0,
+   "new": 54
+  }
+ ],
+ "unlistedOld": [],
+ "unlistedNew": [],
+ "listedNotChangedOld": [],
+ "listedNotChangedNew": [],
+ "ok": true,
+ "modules": [
+  {
+   "part": "src/core/client/mp.js",
+   "lines": 27,
+   "m8": 24,
+   "c3c": 3
+  },
+  {
+   "part": "src/frameworks/bpp/client/mp.session.js",
+   "lines": 195,
+   "m8": 135,
+   "c3c": 60
+  },
+  {
+   "part": "src/frameworks/lost/client/mp.glitch.js",
+   "lines": 35,
+   "m8": 27,
+   "c3c": 8
+  },
+  {
+   "part": "src/frameworks/pocket/client/mp.cartograph.js",
+   "lines": 31,
+   "m8": 25,
+   "c3c": 6
+  },
+  {
+   "part": "src/frameworks/nani/client/mp.monsters.js",
+   "lines": 81,
+   "m8": 66,
+   "c3c": 15
+  },
+  {
+   "part": "src/frameworks/space/client/mp.peers.js",
+   "lines": 41,
+   "m8": 31,
+   "c3c": 10
+  },
+  {
+   "part": "src/frameworks/spacious-audio/client/mp.dread.js",
+   "lines": 42,
+   "m8": 36,
+   "c3c": 6
+  },
+  {
+   "part": "src/frameworks/br-r/client/mp.wanderers.js",
+   "lines": 17,
+   "m8": 13,
+   "c3c": 4
+  },
+  {
+   "part": "src/frameworks/gib/client/mp.deaths.js",
+   "lines": 251,
+   "m8": 232,
+   "c3c": 19
+  },
+  {
+   "part": "src/frameworks/overseer/client/mp.admin.js",
+   "lines": 279,
+   "m8": 245,
+   "c3c": 34
+  },
+  {
+   "part": "src/core/client/mp.frame.js",
+   "lines": 41,
+   "m8": 28,
+   "c3c": 13
+  },
+  {
+   "part": "src/core/client/mp.compose.js",
+   "lines": 14,
+   "m8": 1,
+   "c3c": 13
+  }
+ ]
+}

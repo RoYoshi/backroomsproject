@@ -1,0 +1,443 @@
+{
+ "tool": "dev/tools/gate/golden/bpp_mutants.js",
+ "source": "working tree",
+ "files": [
+  "generated/server/ai.js",
+  "generated/server/dphys.js",
+  "generated/server/world.js",
+  "server.js",
+  "src/core/server/loop.js",
+  "src/core/server/rooms.js",
+  "src/core/server/sim.js",
+  "src/core/server/sim.step.js",
+  "src/frameworks/bpp/server/newrun.js",
+  "src/frameworks/bpp/server/poses.js",
+  "src/frameworks/bpp/server/session.js",
+  "src/frameworks/bpp/server/ws.js",
+  "src/frameworks/gib/server/aftermath.js",
+  "src/frameworks/gib/server/death_srv.js",
+  "src/frameworks/gib/server/sim.bodies.js",
+  "src/frameworks/lost/server/sim.glitches.js",
+  "src/frameworks/lost/server/sim.level0.js",
+  "src/frameworks/nani/server/sim.ai.js",
+  "src/frameworks/nani/server/sim.feed.js",
+  "src/frameworks/overseer/server/admin.js",
+  "src/frameworks/overseer/server/sim.admin.js",
+  "src/frameworks/pocket/server/sim.items.js",
+  "src/frameworks/space/server/movement.js",
+  "src/frameworks/space/server/peers.js",
+  "src/frameworks/space/server/sim.movement.js",
+  "src/frameworks/space/server/sim.players.js",
+  "src/frameworks/ward/server/admin_login.js",
+  "src/frameworks/ward/server/fields.js",
+  "src/frameworks/ward/server/static.js"
+ ],
+ "node": "v22.22.2",
+ "reference": {
+  "admin": {
+   "ok": true,
+   "sha256": "883bc47df9d600973559108ca29bdfee5f4b5daa65e9361ac8dccc570bb047ee",
+   "lines": 17310,
+   "stderr": "ok admin 17310 lines"
+  },
+  "lifecycle": {
+   "ok": true,
+   "sha256": "74b5cd464ee130744fb75ade04aa1fda85201bea62c89d203d2f2b3419e11108",
+   "lines": 11100,
+   "stderr": "ok lifecycle 11100 lines"
+  },
+  "deaths": {
+   "ok": true,
+   "sha256": "65329c9f4bb61c7d8a4997a3791f3ef883d31d709dcad7b9997eac444c79e403",
+   "lines": 15158,
+   "stderr": "ok deaths 15158 lines"
+  },
+  "exit_glitch": {
+   "ok": true,
+   "sha256": "985ad1296b0635842826bb370f2dc1ae4f691739543736d30e93574ca1d0b59f",
+   "lines": 706,
+   "stderr": "ok exit_glitch 706 lines"
+  }
+ },
+ "mutants": [
+  {
+   "id": "run_freeze_ignored",
+   "why": "the admin's freeze no longer reaches the run",
+   "find": "freeze:on=>{frozen=on}",
+   "repl": "freeze:on=>{}",
+   "foundIn": [
+    "src/core/server/sim.step.js"
+   ],
+   "scenarios": {
+    "admin": {
+     "ok": true,
+     "sha256": "bdb88f2e80702144ed58b7f2eea3d302d6449de9ae9ec2f1246fbb681c847ece",
+     "lines": 17310,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/core/server/sim.step.js",
+   "caught": true
+  },
+  {
+   "id": "run_speed_ignored",
+   "why": "the admin's speed no longer reaches the run",
+   "find": "setSpeed:v=>{speed=v}",
+   "repl": "setSpeed:v=>{}",
+   "foundIn": [
+    "src/core/server/sim.step.js"
+   ],
+   "scenarios": {
+    "admin": {
+     "ok": true,
+     "sha256": "22795ed13f6bd543057bd5f2e1adf6f77201ac44cad6b63251c9090c71e04fcc",
+     "lines": 17310,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/core/server/sim.step.js",
+   "caught": true
+  },
+  {
+   "id": "run_blackout_ignored",
+   "why": "the admin's blackout mode no longer reaches the run",
+   "find": "setBlackout:m=>{bmode=m}",
+   "repl": "setBlackout:m=>{}",
+   "foundIn": [
+    "src/core/server/sim.step.js"
+   ],
+   "scenarios": {
+    "admin": {
+     "ok": true,
+     "sha256": "de6ad35b918795c16aed3c4dbeb761d4aa7e64e5a587e7f078b27278e253aa21",
+     "lines": 17310,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/core/server/sim.step.js",
+   "caught": true
+  },
+  {
+   "id": "blackout_forced_wrong",
+   "why": "a forced blackout set the wrong way",
+   "find": "const forceBlackout = on => { V.blackout = on; };",
+   "repl": "const forceBlackout = on => { V.blackout = !on; };",
+   "foundIn": [
+    "src/frameworks/lost/server/sim.level0.js"
+   ],
+   "scenarios": {
+    "admin": {
+     "ok": true,
+     "sha256": "b77dffa1a4f203061d18df3a47b36d62fca4545fa7120593075d393de769a3e6",
+     "lines": 17310,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/lost/server/sim.level0.js",
+   "caught": true
+  },
+  {
+   "id": "reset_items_first",
+   "why": "the world reset places the cartograph before the walls (the random stream in another order)",
+   "find": "placeGlitches();placeItems();",
+   "repl": "placeItems();placeGlitches();",
+   "foundIn": [
+    "src/core/server/sim.step.js"
+   ],
+   "scenarios": {
+    "lifecycle": {
+     "ok": true,
+     "sha256": "6ded3f8acaf3e2ac97a47788aa1a3cc36eda7cab05bda44db2bc2e9a96f10f85",
+     "lines": 11100,
+     "differs": true,
+     "stderr": ""
+    },
+    "admin": {
+     "ok": true,
+     "sha256": "c27112be5bf35e732f28e31183d8f4b8bab0bf159ce1e06c1bfb180546acd2e9",
+     "lines": 17310,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/core/server/sim.step.js",
+   "caught": true
+  },
+  {
+   "id": "reset_bodies_kept",
+   "why": "the world reset keeps the bodies",
+   "find": "  clearBodies();\n}",
+   "repl": "\n}",
+   "foundIn": [
+    "src/core/server/sim.step.js"
+   ],
+   "scenarios": {
+    "deaths": {
+     "ok": true,
+     "sha256": "cf005c1a60a1a445bbade28bc4aedacfc906a3718baac98cd3c89e0493ec7fc0",
+     "lines": 15158,
+     "differs": true,
+     "stderr": ""
+    },
+    "admin": {
+     "ok": true,
+     "sha256": "7c3e28a75f6937f2a87c63f4a3185369c52330ea6338e03792ebc41bc273eafb",
+     "lines": 17307,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/core/server/sim.step.js",
+   "caught": true
+  },
+  {
+   "id": "clock_double",
+   "why": "the sim's clock runs at twice the step",
+   "find": "function tick(dt){clockT+=dt;",
+   "repl": "function tick(dt){clockT+=2*dt;",
+   "foundIn": [
+    "src/frameworks/gib/server/sim.bodies.js"
+   ],
+   "scenarios": {
+    "lifecycle": {
+     "ok": true,
+     "sha256": "cba22bfaa672241157ca6cb30df100eee0db9ca2a86e0177fa9dfc972bceb8b6",
+     "lines": 11100,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/gib/server/sim.bodies.js",
+   "caught": true
+  },
+  {
+   "id": "walls_stale",
+   "why": "the walls read once, when the module was made (a stale copy instead of the current list)",
+   "find": "return { glitches: () => glitches, placeGlitches };",
+   "repl": "return { glitches: (g => () => g)(glitches), placeGlitches };",
+   "foundIn": [
+    "src/frameworks/lost/server/sim.glitches.js"
+   ],
+   "scenarios": {
+    "exit_glitch": {
+     "ok": true,
+     "sha256": "118b7132582097267ee7c9b160810c4068754adbd2cce295832858af96d61406",
+     "lines": 704,
+     "differs": true,
+     "stderr": ""
+    },
+    "lifecycle": {
+     "ok": true,
+     "sha256": "36577ae2a23421ca82847c0c40ce5b62df9f240833c2b513ccce43f4589fffa1",
+     "lines": 11100,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/lost/server/sim.glitches.js",
+   "caught": true
+  },
+  {
+   "id": "items_stale",
+   "why": "the cartograph read once, when the module was made",
+   "find": "return { items: () => items, placeItems, takeItem };",
+   "repl": "return { items: (i => () => i)(items), placeItems, takeItem };",
+   "foundIn": [
+    "src/frameworks/pocket/server/sim.items.js"
+   ],
+   "scenarios": {
+    "lifecycle": {
+     "ok": true,
+     "sha256": "409a6330e87c77f6eab2ecaa397908f0c1b438d62ed7fd2e87574f419eb690f8",
+     "lines": 11100,
+     "differs": true,
+     "stderr": ""
+    },
+    "admin": {
+     "ok": true,
+     "sha256": "2ffd6dd0ab9ac528e833e868e12a6f9c6ef3925cbd2e14167530dc88c0295cde",
+     "lines": 17228,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/pocket/server/sim.items.js",
+   "caught": true
+  },
+  {
+   "id": "debug_never",
+   "why": "the admin's debug switch never reaches the sim's getter",
+   "find": "return { admin, debugOn: () => debugOn };",
+   "repl": "return { admin, debugOn: () => false };",
+   "foundIn": [
+    "src/frameworks/overseer/server/sim.admin.js"
+   ],
+   "scenarios": {
+    "admin": {
+     "ok": true,
+     "sha256": "883bc47df9d600973559108ca29bdfee5f4b5daa65e9361ac8dccc570bb047ee",
+     "lines": 17310,
+     "differs": false,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/overseer/server/sim.admin.js",
+   "caught": false
+  },
+  {
+   "id": "run_time_zero",
+   "why": "the run's clock read as zero outside the run",
+   "find": "runT: () => runT,",
+   "repl": "runT: () => 0,",
+   "foundIn": [
+    "src/core/server/sim.step.js"
+   ],
+   "scenarios": {
+    "exit_glitch": {
+     "ok": true,
+     "sha256": "985ad1296b0635842826bb370f2dc1ae4f691739543736d30e93574ca1d0b59f",
+     "lines": 706,
+     "differs": false,
+     "stderr": ""
+    },
+    "admin": {
+     "ok": true,
+     "sha256": "883bc47df9d600973559108ca29bdfee5f4b5daa65e9361ac8dccc570bb047ee",
+     "lines": 17310,
+     "differs": false,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/core/server/sim.step.js",
+   "caught": false
+  },
+  {
+   "id": "world_count_one",
+   "why": "the world count read as one outside the run",
+   "find": "worldSeq: () => worldSeq }",
+   "repl": "worldSeq: () => 1 }",
+   "foundIn": [
+    "src/core/server/sim.step.js"
+   ],
+   "scenarios": {
+    "deaths": {
+     "ok": true,
+     "sha256": "a7cf19047032ead7b412778ed96faea2b2800b6c27bcf46ef2f7666b9b0cc570",
+     "lines": 15158,
+     "differs": true,
+     "stderr": ""
+    },
+    "admin": {
+     "ok": true,
+     "sha256": "39babbc35a837fe2e487a1ae196babfa5ddc7364b9def1b6955ac3a3bd51c308",
+     "lines": 17310,
+     "differs": true,
+     "stderr": ""
+    },
+    "lifecycle": {
+     "ok": true,
+     "sha256": "f6e3571a14ca1d4820f3fa01e792ef548ec93ecec6129a354d266d1daa4cc0ca",
+     "lines": 11100,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/core/server/sim.step.js",
+   "caught": true
+  },
+  {
+   "id": "body_version_one",
+   "why": "the bodies' version read as one outside G.I.B.",
+   "find": "bodyVer: () => bodyVer }",
+   "repl": "bodyVer: () => 1 }",
+   "foundIn": [
+    "src/frameworks/gib/server/sim.bodies.js"
+   ],
+   "scenarios": {
+    "deaths": {
+     "ok": true,
+     "sha256": "ffbe54df1a211547e37975a4f1df3a7e05ae0d7d0b1acdd5b1eeed2ef46d4de4",
+     "lines": 15138,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/gib/server/sim.bodies.js",
+   "caught": true
+  },
+  {
+   "id": "roster_copied",
+   "why": "the AI given a copy of the roster (it would never see a player join)",
+   "find": "const ai=simAi({AI,WORLD,opts,players,level});",
+   "repl": "const ai=simAi({AI,WORLD,opts,players:players.slice(),level});",
+   "foundIn": [
+    "src/core/server/sim.js"
+   ],
+   "scenarios": {
+    "lifecycle": {
+     "ok": true,
+     "sha256": "74b5cd464ee130744fb75ade04aa1fda85201bea62c89d203d2f2b3419e11108",
+     "lines": 11100,
+     "differs": false,
+     "stderr": ""
+    },
+    "deaths": {
+     "ok": true,
+     "sha256": "65329c9f4bb61c7d8a4997a3791f3ef883d31d709dcad7b9997eac444c79e403",
+     "lines": 15158,
+     "differs": false,
+     "stderr": ""
+    },
+    "admin": {
+     "ok": true,
+     "sha256": "fe2876c5a88ea7f6f8afdad4454883a5035e60dd5ebe52894ebeb329f16e5dc1",
+     "lines": 17310,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/core/server/sim.js",
+   "caught": true
+  },
+  {
+   "id": "cap_run_time_61",
+   "why": "the admin's monster reset caps the run's clock at 61 s",
+   "find": "controls.capRunTime(60)",
+   "repl": "controls.capRunTime(61)",
+   "foundIn": [
+    "src/frameworks/overseer/server/sim.admin.js"
+   ],
+   "scenarios": {
+    "admin": {
+     "ok": true,
+     "sha256": "4572c7bbf1254629127c8f4a02de43316365580ccbaa65663ad14ad3299d282d",
+     "lines": 17310,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/overseer/server/sim.admin.js",
+   "caught": true
+  }
+ ],
+ "ok": false
+}

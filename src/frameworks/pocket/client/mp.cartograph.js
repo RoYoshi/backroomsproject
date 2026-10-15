@@ -1,8 +1,15 @@
-/** @part public/mp.js - P.O.C.K.E.T.: the cartograph, one rare item per world
- * provides: giveItem, itemsFrame, soloItem
- * uses: N, tx
+/** @part public/mp.js - P.O.C.K.E.T.: the cartograph, one rare item per world; a module: pocketCartograph
+ * A module (continuation C3c, M-024): M8's part in its factory, with every write of the items' globals made its own (window.__items,
+ * window.__itemSolo): the session (join, a closed connection) and N.A.N.I.'s mirror of the server's state wrote window.__items
+ * themselves at M8 and now ask for it (noItems, itemsFrom); the per-frame hook's offline test - drop one when there is none - is
+ * soloItems() here. It uses the session's N and tx.
+ * imports: session { N tx }
+ * exports: giveItem, itemsFrame, itemsFrom, noItems, soloItems
+ * provides: pocketCartograph
+ * uses: -
  * writes: -
  */
+function pocketCartograph({ session: { N, tx } }) {
 /* ---------- the cartograph: one rare item per world, lying on the floor until somebody walks over it ---------- */
 let lastPick = 0;
 function giveItem(id) { if (window.__inv) window.__inv.give(id, true); }
@@ -27,4 +34,9 @@ function soloItem() {                                                    // offl
     window.__items = [[Math.round(x), Math.round(y), 'cartograph']]; return;
   }
 }
-
+/* (C3c) the items' state is this module's: the others ask for its changes */
+function soloItems() { if (!(window.__items && window.__items.length) && window.__itemSolo !== true) soloItem(); }   // offline, when there is none (the per-frame hook's test at M8)
+const noItems = () => { window.__items = []; };
+const itemsFrom = it => { window.__items = it || []; };              // the server's items, from each snapshot (N.A.N.I.'s mirror)
+return { giveItem, itemsFrame, itemsFrom, noItems, soloItems };
+}

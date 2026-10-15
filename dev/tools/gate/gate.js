@@ -22,10 +22,14 @@
  *     function on both sides; the server's copy byte for byte the page's) and golden/page_scripts.js (move.js, camcorder.js, glitch.js,
  *     ents.js, each in the same closed Chromium page, driven by golden/page_scenes.js: equal traces, each scene reaching its script by
  *     V8's coverage); and the seam mutants (golden/page_mutants.js), each caught;
+ *   - cli_golden (continuation C3c): also golden/cli_golden_c3c.js - every client scene (3H0's 9, 3H2's 3 and C3c's 6, golden/
+ *     cli_scenes_c3c.js) in one page, B++'s mp.js against this tree's, byte for byte, the C3c scenes against their stored traces
+ *     (evidence/c3c/golden/cli_traces), and together they must run every function of mp.js (V8's coverage); cli_mutants also runs the
+ *     C3c seam mutants (golden/cli_mutants_c3c.js), each caught;
  *   - scope: dev/tools/gate/scope_m.js (every file outside dev/ is B++'s, moved where the layout says, or a declared change listed in
  *     dev/tools/gate/declared_changes.json; it replaces --allow-prod);
  *   - the harnesses that read runtime files by path are the layout-aware copies in dev/tools/gate/golden/ and checks/ (srv_harness,
- *     srv_golden, bpp_golden, bpp_mutants, cli_lib, cli_golden, cli_lib_h2, cli_golden_h2, raw_live, perf_det, proto_check); each says
+ *     srv_golden, bpp_golden, bpp_mutants, cli_lib, cli_golden, cli_lib_h2, cli_golden_h2, cli_lib_c3c, cli_golden_c3c, raw_live, perf_det, proto_check); each says
  *     what it changed from its original;
  *   - the browser checks are given the candidate's files where its layout keeps them (public/assets/...); gameplay_smoke is run once more
  *     when its first run's player was killed before the check's admin removed the monsters (its world is random: that run proves
@@ -82,6 +86,7 @@ const G = (...p) => path.join('dev', 'tools', 'gate', ...p);                    
 const BPP = '143b63ff42b88c6780c5043e0f61d64100f81f40';
 const OUT = path.resolve(ARG.out || fs.mkdtempSync(path.join(os.tmpdir(), 'mgate-'))); fs.mkdirSync(OUT, { recursive: true });
 const E1 = path.join(REPO, 'dev', 'stage-3h', 'evidence', 'h1', 'golden'), E2 = path.join(REPO, 'dev', 'stage-3h', 'evidence', 'h2', 'golden');
+const E3 = path.join(REPO, 'dev', 'stage-3h-modernization', 'evidence', 'c3c', 'golden');                                     // (C3c) the C3c client scenes' stored traces
 const EC2 = path.join(REPO, 'dev', 'stage-3h-modernization', 'evidence', 'c2', 'golden');                 // (C2) the session scenarios' B++ traces
 const o = (...p) => path.join(OUT, ...p);
 const J = f => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch (e) { return null; } };
@@ -154,6 +159,12 @@ const STEPS = {
       const r2 = run('cli_golden_h2', ['node', G('golden', 'cli_golden_h2.js'), '--old-ref', BPP, '--baseline', path.join(E2, 'cli_traces'), '--out', o('cli_h2'), '--keep', o('cli_h2_keep')]); const j2 = J(o('cli_h2', 'cli_golden_report.json'));
       const n2 = j2 ? j2.scenes.length : 0; ok = ok && r2.exit === 0 && j2 && j2.ok && n2 > 0; cases += n2; note = `B++ client scenes ${n2}`;
     }
+    {                                                                                      // (C3c) every client scene in one page, and what they reach of mp.js
+      const r3 = run('cli_golden_c3c', ['node', G('golden', 'cli_golden_c3c.js'), '--old-ref', BPP, '--baseline', path.join(E3, 'cli_traces'), '--out', o('cli_c3c'), '--keep', o('cli_c3c_keep')]); const j3 = J(o('cli_c3c', 'cli_golden_c3c_report.json'));
+      const n3 = j3 ? j3.scenes.length : 0, rn = j3 && j3.reach ? j3.reach.new : null;
+      ok = ok && r3.exit === 0 && !!j3 && j3.ok && j3.reached === true && n3 === 18; cases += n3;
+      note += `; all ${n3} scenes in one page${rn ? `, running ${rn.ran} of mp.js's ${rn.functions} functions` : ''}`;
+    }
     return { ok, cases, note, r }; },
   protocol: () => {
     const self = run('protocol_selftest', ['node', 'dev/stage-3h/gate/protocol_v2.js', 'selftest']);
@@ -170,7 +181,11 @@ const STEPS = {
   /* the client goldens' own sensitivity: 22 one-line changes of NEW RUN's client code and of the fluorescent hum, wherever their text now
    * lives (mp.js or a helper script); each must change a client trace */
   cli_mutants: () => { const r = run('cli_mutants', ['node', G('golden', 'cli_golden_h2.js'), '--mutants', '1', '--out', o('cli_mutants.json')]); const j = J(o('cli_mutants.json'));
-    const n = j ? j.mutants.length : 0; return { ok: r.exit === 0 && j && j.ok && n >= 22, cases: n, note: j ? j.mutants.filter(m => m.file && m.file !== 'mp.js').map(m => m.file).filter((f, i, a) => a.indexOf(f) === i).map(f => `${j.mutants.filter(m => m.file === f).length} in ${f}`).join(', ') || 'all in mp.js' : '', r }; },
+    const n = j ? j.mutants.length : 0;
+    const r2 = run('cli_mutants_c3c', ['node', G('golden', 'cli_golden_c3c.js'), '--mutants', G('golden', 'cli_mutants_c3c.js'), '--out', o('cli_mutants_c3c.json')]), j2 = J(o('cli_mutants_c3c.json'));   // (C3c) mp.js's module seams
+    const n2 = j2 ? j2.mutants.length : 0, c2 = j2 ? j2.mutants.filter(m => m.caught).length : 0;
+    return { ok: r.exit === 0 && j && j.ok && n >= 22 && r2.exit === 0 && !!j2 && j2.ok && n2 > 0 && c2 === n2, cases: n + c2,
+      note: (j ? j.mutants.filter(m => m.file && m.file !== 'mp.js').map(m => m.file).filter((f, i, a) => a.indexOf(f) === i).map(f => `${j.mutants.filter(m => m.file === f).length} in ${f}`).join(', ') || 'all in mp.js' : '') + `; mp.js's module seams: ${c2} of ${n2} caught`, r }; },
   static: () => { const g = wtGame(); const r = run('static', ['node', 'dev/stage-3e-0/static_check.js', '--game', g, '--ico', path.join(bppGame(), 'favicon.ico'), '--out', o('static.json')]); const j = J(o('static.json'));
     return { ok: r.exit === 0 && j && j.ok, cases: j && j.checks ? Object.keys(j.checks).length : 0, r }; },
   raw_live: () => { const r = run('raw_live', ['node', G('golden', 'raw_live.js'), '--old-ref', BPP, '--new-dir', wtGame(), '--out', o('raw_live.json')]); const j = J(o('raw_live.json'));
@@ -256,7 +271,7 @@ for (const s of steps) {
 R.finishedAt = new Date().toISOString();
 /* the bulky intermediates (two game copies, the kept traces: about 350 MB a run) are removed once every step has used them, unless
  * --keep-heavy 1; the reports and logs stay */
-if (!ARG['keep-heavy']) { R.removed = []; for (const d of ['game_bpp', 'game_candidate', 'srv_keep', 'bpp_keep', 'cli_keep', 'cli_h2_keep']) { const p = o(d); if (p.startsWith(OUT + path.sep) && fs.existsSync(p)) { fs.rmSync(p, { recursive: true, force: true }); R.removed.push(d); } } }
+if (!ARG['keep-heavy']) { R.removed = []; for (const d of ['game_bpp', 'game_candidate', 'srv_keep', 'bpp_keep', 'cli_keep', 'cli_h2_keep', 'cli_c3c_keep']) { const p = o(d); if (p.startsWith(OUT + path.sep) && fs.existsSync(p)) { fs.rmSync(p, { recursive: true, force: true }); R.removed.push(d); } } }
 fs.writeFileSync(o('gate_report.json'), JSON.stringify(R, null, 1) + '\n');
 console.log(`MODERNIZATION GATE (${ARG.tier}${ARG.only ? ': ' + ARG.only : ''}): ${R.ok ? 'PASS' : 'FAIL'}  - report ${o('gate_report.json')}`);
 process.exitCode = R.ok ? 0 : 1;

@@ -1,0 +1,120 @@
+# Stage 3H continuation, wave C3c (M-024): mp.js made of modules
+# $SP is the session's scratch folder. The parent is C3b = 7eb6d6a (tree 21c0f01). B++ = 143b63f. M8 = c34f0c2 (mp.js's parts at M8 are
+# those of C3b: C0, C2, C3a and C3b changed none of them).
+
+## first, the scenes (before any change: what mp.js does, recorded where 3H0's and 3H2's scenes do not reach)
+dev/tools/gate/golden/cli_scenes_c3c.js, cli_lib_c3c.js, cli_golden_c3c.js (new)
+  Six scenes (c3c_poses, c3c_epoch, c3c_deathlight, c3c_misc, c3c_mode_a, c3c_mode_b; the file's header lists what each drives), run
+  after 3H0's 9 and 3H2's 3 in one Chromium page (3H0's harness: fake clock and timers, seeded randomness, recording Web Audio, recorded
+  listeners and calls into the bundle's stand-ins), B++'s mp.js (from Git) against this tree's public/mp.js.  V8's function and block
+  coverage of mp.js over all 18 scenes: a function never run is a FAIL unless listed (none is).
+node dev/tools/gate/golden/cli_golden_c3c.js --old-ref 143b63f      (on C3b's tree, before the change)
+  all 18 scenes identical; B++'s mp.js 169 of 169 functions run, C3b's (M8's parts) 159 of 159 (M8's mp.js has fewer: NEW RUN's client
+  code and the hum moved to assets/net-newrun.js and assets/mp-hum.js at Stage 3H2, C-3 and C-4)
+
+## the modules (by hand, from M8's parts: what moved where is in the module headers, docs/architecture/CONTRACTS.md section 4 and ADR-005)
+  mp.js's 16 parts at M8 became 11 modules and a composition (src/core/client/mp.compose.js), one module per owner, the parts of one
+  owner that shared state merged (B++'s net, newrun and transport: mp.session.js; G.I.B.'s own death, bodies and replays: mp.deaths.js;
+  OVERSEER's admin and death lab: mp.admin.js); src/build-recipes.json lists the 12 parts in the order they run:
+    core = mpCore(); session = bppSession({ core }); glitch = lostGlitch({ session }); cartograph = pocketCartograph({ session });
+    monsters = naniMonsters({ core, session, glitch, cartograph }); space = spacePeers({ session, glitch }); audio = audioDread();
+    wanderers = brrWanderers({ session }); deaths = gibDeaths({ core, session, monsters, wanderers });
+    admin = overseerAdmin({ core, session, glitch, cartograph });
+    mpFrame({ core, session, glitch, cartograph, monsters, audio, deaths, admin });
+    session.wire({ glitch, cartograph, monsters, space, wanderers, deaths, admin });
+  State declared by the owner its meaning gives (the session's state from core to B++; the entity slots, the kill record and killer, the
+  held state and the fails to N.A.N.I.; the exit flag to L.O.S.T.; the cartograph's globals to P.O.C.K.E.T.; the admin panel's state to
+  OVERSEER; the last view to G.I.B.; the heartbeat's timer to the per-frame hook; the status line and the network send to B++; the peers'
+  network record and the world epoch from S.P.A.C.E.'s part to B++).  Every write across owners is a call of the owner's function, in the
+  same place; every read of a changing value a reader the owner gives (me(), snap(), exited() ...): the same value at the same moment.
+  The session handles every message and so calls functions of modules made after it: those are its late names (rule 12), declared
+  without a value and given once by wire(), which the composition calls when every module is made.  Construction keeps M8's order of
+  load effects (ents' onFail, the WebSocket, the dread's listeners, the wanderers' pointer listener and interval, the admin panel's DOM,
+  listeners and intervals) and window.__net's keys in M8's order.
+npm run build                                                          39 outputs; public/mp.js rewritten
+npm run build:check                                                    BUILD CHECK: PASS
+node dev/tools/checks/parts.js                                         PARTS CHECK: PASS (8 outputs, 55 parts)
+node dev/stage-3h-modernization/tools/c3c_mp_provenance.js --report mp_provenance.txt --out mp_provenance.json    exit 0
+  C3C MP PROVENANCE: PASS (863 of 921 M8 lines kept as they were; 58 gone and 191 new, every one listed with its reason).  M8's 16 parts
+  and the 12 now, compared as multisets of lines (each without the white space at its ends: a line moved into a factory keeps its text,
+  not its indentation); the difference must be exactly what tools/c3c_mp_edits.js lists, group by group (modules, late, owners_state,
+  readers, calls, owner_functions), each with its reason.  mp_provenance.txt lists every line, M8's and the new.
+
+## the module boundaries (dev/tools/checks/modules.js, extended: the gate's modules step)
+node dev/tools/checks/modules.js --out modules.json                    exit 0  (modules.json, modules.txt)
+  MODULES CHECK: PASS (26 server files, 21 factories; the sim: 10 modules, wired in order; the page: 6 scripts, 32 modules).  Added at
+  C3c, for every page script: a mutating call (set, delete, clear, add, push, pop, shift, unshift, splice, fill, sort, reverse,
+  copyWithin) is a write like an assignment; an object a module reaches through the global object (window.X, or a name given its value
+  from one) is written, property by property, by one module, and only by X's owner; one module assigns each global name; rule 12, late
+  wiring: a module may take names of modules made after it only through one function, wire, whose parameter names the givers as the
+  factory's does, whose body only destructures them into names the factory declares without a value at its top, never assigns
+  elsewhere and never uses while it is being made; the composition calls it once, after the last module is made, with modules made
+  after the one it wires, each name one its giver returns; the header's late list is the code's; no module imports wire.  modules.txt
+  now also prints, for mp.js, the session's wiring and what is written through window (modules.json has each module's late names).
+  The tool's text output gained those two items after the full gate ran; its checks did not change (the final fast gate runs it).
+node dev/stage-3h-modernization/tools/c3_modules_mutants.js --out modules_mutants.json   exit 0  (modules_mutants.*)
+  MODULES CHECK MUTANTS: PASS (38 of 38 broken boundaries refused, each for its own reason): the 20 of C3a and C3b, and 18 on mp.js's
+  modules.  M8's kinds of coupling put back: another owner's object written, or changed in place (peers.delete); an entry of
+  window.__net written by a second module; window.__kill assigned by two modules; window.__mv's held state written by two; what another
+  module put on window changed in place through window; net-interp.js's NET.onEpoch (N.A.N.I.'s registration) written by a second
+  module.
+  The late wiring broken: a late name used while its module is made, directly or in a function called then; assigned outside wire;
+  wire doing something else too; wire called before the last module is made, never called, without a key it takes, or given a module
+  made before; a late name its giver does not return; the header's late list not the code's; wire imported by another module
+  (modules_mutants.txt lists each, with the reason it was refused).
+
+## mp.js against B++'s (the gate's cli_golden and cli_mutants steps)
+node dev/tools/gate/golden/cli_golden.js --old-ref 143b63f ...          3H0's 9 scenes: identical to B++'s and to the stored baselines
+node dev/tools/gate/golden/cli_golden_h2.js --old-ref 143b63f ...       3H2's 3 scenes: identical to B++'s and to the stored baselines
+node dev/tools/gate/golden/cli_golden_c3c.js --old-ref 143b63f --write-baseline   once the scenes were final: golden/cli_traces/, the
+  6 C3c scenes only (188 KB; the 12 others have their baselines in Stage 3H's evidence, h1 and h2)
+node dev/tools/gate/golden/cli_golden_c3c.js --old-ref 143b63f --baseline golden/cli_traces --out cli_c3c   exit 0  (cli_golden_c3c.*)
+  CLIENT SCENES (all, C3c): ALL IDENTICAL, mp.js reached.  All 18 scenes one after another in one page: every trace equal to B++'s, the
+  6 C3c scenes equal to their baselines; B++'s mp.js runs 169 of its 169 functions, this tree's 232 of 232 (its factories, readers and
+  the owners' new functions included).
+node dev/tools/gate/golden/cli_golden_c3c.js --mutants dev/tools/gate/golden/cli_mutants_c3c.js --out cli_mutants_c3c.json   exit 0
+  35 of 35 seam mutants caught (cli_mutants_c3c.*): the late wiring not called or given another function; a message handed to the wrong
+  owner or not handed on; an owner's function the session, the world epoch, the closed connection or the per-frame hook no longer calls;
+  a reader given the wrong value.  One candidate was not a seam the scenes can see, and was replaced: the closed connection's clearSlots
+  (netReset, just before it, clears the slots through NET.onEpoch, as at M8); close_keeps_kill tests the closed connection instead.
+node dev/tools/gate/golden/cli_golden_h2.js --mutants 1                22 of 22 page mutants caught: 3H2's mutant texts are all still in
+  mp.js or a helper, verbatim, and each still changes a trace
+  The scenes' messages against the B++ protocol contract: 3H0's and 3H2's are checked by the gate's protocol step (52,740 messages, as
+  before).  The C3c scenes' messages are equal to B++'s one by one; checked against the contract too ($SP/em3/c3c/protocol_c3c_try.json),
+  one message fails it on both sides alike: c3c_misc presses NEW RUN on a connection that has had no world yet, and B++'s mp.js sends
+  w: null (the contract, derived from B++'s own traces, saw only numbers; the server refuses such a press as 'epoch').  Not a change.
+node dev/stage-3h-modernization/tools/m8_served_identity.js            SERVED IDENTITY: PASS (served_identity.*): 44 of 51 files identical to
+  3H2's; rebuilt as modules (behaviour compared instead): public/mp.js (C3c), and C3b's camcorder.js, ents.js, glitch.js, move.js,
+  world.js and generated/server/world.js; every difference from B++ declared (dev/tools/gate/declared_changes.json: mp.js's reason gains C3c)
+
+## the gate
+node dev/tools/gate/gate.js --tier full --out $SP/em3/c3c/gate_full1            exit 0  (gate_full/: the reports and logs; screenshots
+  and the contact lab's images left out; the live wire's raw frames gzipped)          24 of 24 steps PASS at the first run, in 43.3 min:
+  build 39, lineage 83, parts 55, modules 58 (26 server files; the page: 6 scripts, 32 modules), docs 23, scope 210 (mp.js declared),
+  srv_golden 11 (http_base's lines about the files changed on purpose: 3H2's index.html and mp.js, C3b's five), bpp_golden 7,
+  session 18, sim 20,065, page 1,255,007, cli_golden 30 (3H0's 9 and 3H2's 3 scenes; all 18 in one page, running 232 of mp.js's 232
+  functions), protocol 52,740, mutants 18, static 4, raw_live 173 (responses for changed files: index.html, mp.js), quick_suites 23,
+  cli_mutants 57 (3H2's 22: 8 in mp.js, 3 in assets/net-newrun.js, 11 in assets/mp-hum.js; and C3c's 35 seam mutants), live_wire 65
+  (structurally identical), bpp_checks 36 (as on B++), browsers 116 (two_browser 101, col_head 5, col_aside 5, gameplay_smoke 5),
+  contact_lab 23 images identical pixel for pixel, suites 293 (npm_test 149/162, s_humanqa_hotfix 5/6, s_ir 3/3, test_shadows 43/48,
+  test_br_role 29/32, interp_test 3, test_3bn 7/7, audit_net 13/17, audit_net2 8/11, ir_net 4/4: only the known B++ failures fail),
+  perf 9 (B++'s code against this tree's, interleaved, 7 rounds): the server's lifecycle -0.36 %, deaths -4.64 %, admin -3.36 %,
+  schedule -3.63 %; the page (mp.js's per-frame hook and message handler, where the modules' readers and calls now run), hook / handler:
+  menu_online +11.33 % / 0 % (the hook's median 22.6 ms against 20.3, within its tolerance of 7.7 ms: B++'s own seven runs span 18.3
+  to 26.0), run_online +1.65 % / -1.49 %, interp -7.94 % / -9.86 %, fx_bodies 0 % / +1.53 %, hum_dread +0.80 % / -33 % (0.2 ms
+  against 0.3): every one within its rule.
+  After it, only documents, comments, evidence and two dev tools' outputs changed: the documents (PARITY_MATRIX.md, QUICKSTART.md),
+  the C3c scenes' header comment, the module check's text output (above), and the gate's clean-up, which now also removes the kept C3c
+  traces (cli_c3c_keep, 18 MB) at the end like the other kept traces.  The fast gate below runs on that final tree.
+node dev/tools/gate/gate.js --tier fast --out $SP/em3/c3c/gate_fast2             exit 0  PASS, 17 of 17 steps (gate_fast/), 7.3 min, on the
+  final tree (the documents and this evidence included): build 39, lineage 83, parts 55, modules 58, docs 23, scope 210, srv_golden 11,
+  bpp_golden 7, session 18, sim 20,065, page 1,255,007, cli_golden 30 (all 18 scenes in one page, 232 of mp.js's 232 functions run),
+  protocol 52,740, mutants 18, static 4, raw_live 173, quick_suites 23; the kept traces, cli_c3c_keep among them, removed at the end
+
+## the secret scans
+  C3c's changes, before the commit: secret_scan.* (CLEAN).  C3b's committed revision, after its commit: secret_scan_c3b_after_commit.txt
+  (CLEAN).  The scan includes the owner's private extra strings (not in this repository).
+
+## the remote
+  C3b's receipt is copied into evidence/remote/verify_c3b_7eb6d6a.json.  C3c's receipt is written after the push (verify_remote_m.py
+  C3c) and copied in by the next checkpoint.

@@ -9,16 +9,16 @@ JSON over one WebSocket (`/ws?room=NAME`), framed by `src/frameworks/bpp/server/
 
 | From the page | Handled by | | From the server | Handled on the page by |
 |---|---|---|---|---|
-| `p`: pose, light, look, movement (in a run every 50 ms, or 25 with the fresher poses; in the menu every 250 ms) | the session: `mvCheck` (S.P.A.C.E.) | | `hi`: your id | `mp.transport.js` |
-| `join`, `respawn`, `leave` | the session: the world's lifecycle (S.P.A.C.E.) | | `s`: the snapshot (20 a second) | `mp.transport.js`, then the parts it names |
-| `nr`: a NEW RUN press | `nrIntent` (B++) | | `q`: fresher poses (B+) | `peerPoses` (`mp.peers.js`) |
-| `pick` | `sim.takeItem` (P.O.C.K.E.T.) | | `tp`: where you really are | `mp.transport.js`, `softTp` (`mp.peers.js`) |
-| `admin`: the passcode | `adminLogin` (W.A.R.D., `admin_login.js`) | | `world`: a new world epoch | `worldNew` (`mp.peers.js`) |
-| `a`: an admin command | `adminCommand` (OVERSEER) | | `fx`: a death's or a blast's replay, or its end | `startFx` (`mp.replays.js`) |
-| `caps`: ask for the fresher poses | the session | | `bodies`: everyone's bodies | `mp.bodies.js` |
-| `ping` | the session (`pong`) | | `nra`: NEW RUN's answer; `nrf`: UNLIMITED NEW RUN's state | `nrAnswer` (`mp.newrun.js`), the admin menu |
+| `p`: pose, light, look, movement (in a run every 50 ms, or 25 with the fresher poses; in the menu every 250 ms) | the session: `mvCheck` (S.P.A.C.E.) | | `hi`: your id | the session (`mp.session.js`) |
+| `join`, `respawn`, `leave` | the session: the world's lifecycle (S.P.A.C.E.) | | `s`: the snapshot (20 a second) | the session (`mp.session.js`), then the owners' functions it calls |
+| `nr`: a NEW RUN press | `nrIntent` (B++) | | `q`: fresher poses (B+) | `peerPoses` (`mp.session.js`), then `resolid` (`mp.peers.js`) |
+| `pick` | `sim.takeItem` (P.O.C.K.E.T.) | | `tp`: where you really are | `mp.session.js`, `softTp` (`mp.peers.js`) |
+| `admin`: the passcode | `adminLogin` (W.A.R.D., `admin_login.js`) | | `world`: a new world epoch | `worldNew` (`mp.session.js`), then each owner's end of the old world |
+| `a`: an admin command | `adminCommand` (OVERSEER) | | `fx`: a death's or a blast's replay, or its end | `fxMsg`, `startFx` (`mp.deaths.js`) |
+| `caps`: ask for the fresher poses | the session | | `bodies`: everyone's bodies | `takeBodies` (`mp.deaths.js`) |
+| `ping` | the session (`pong`) | | `nra`: NEW RUN's answer; `nrf`: UNLIMITED NEW RUN's state | `nrAnswer` (`mp.session.js`); `nrfAnswer` (`mp.admin.js`) |
 | | | | `exit`, `got`: through a glitched wall; the cartograph taken | `mp.glitch.js`, `mp.cartograph.js` |
-| | | | `admin`, `ares`, `kick`, `revive`, `msg`, `caps`, `pong` | `mp.admin.js`, `mp.transport.js` |
+| | | | `admin`, `ares`, `kick`, `revive`, `msg`, `caps`, `pong` | `mp.session.js`; the admin panel's own (`loginAnswer`, `aresAnswer`, `kickedShow`, `showMsg`, `pong`: `mp.admin.js`) |
 
 The messages' fields are listed in the Stage 3H0 protocol inventory
 (`dev/archive/stage-3h0/3H0_PROTOCOL_INVENTORY.md`). The gate's protocol step checks every message of its runs against the accepted
@@ -150,7 +150,7 @@ roster, is made by `sim.js`; only S.P.A.C.E.'s `sim.players.js` adds and removes
 
 ## 4. The page's scripts made of modules
 
-Since continuation C3b, `world.js`, `move.js`, `camcorder.js`, `glitch.js` and `ents.js` are modules. Each owner's part is one factory
+Since continuation C3b, `world.js`, `move.js`, `camcorder.js`, `glitch.js` and `ents.js` are modules, and since C3c `mp.js`. Each owner's part is one factory
 inside the script's wrapper (the browser still loads one classic script, so the load order and timing are as before). The factory is
 given what it uses of the modules made before it, by giver, and returns what later modules use of it. A last part, the composition
 (`*.compose.js`, owned by the script's lead owner), makes them in the order the parts ran:
@@ -162,6 +162,7 @@ given what it uses of the modules made before it, by giver, and returns what lat
 | `camcorder.js` | `core = camcorderCore()`; `audio = camcorderAudio({ core })`; `camcorderView({ core, audio })` | (`window.__cam` is the view's own object) |
 | `glitch.js` | `walls = glitchWalls()`; `audio = glitchAudio()`; `glitchDraw({ walls, audio })` | - |
 | `ents.js` | `head = entsHead()`; `entsHound({ head })`; `smiler = entsSmiler({ head })`; `entsDeath({ head, smiler })`; `entsAudio({ head })`; `entsDebug({ head })` | `E` (`window.__ents`) |
+| `mp.js` (C3c) | `core = mpCore()`; `session = bppSession({ core })`; `glitch = lostGlitch({ session })`; `cartograph = pocketCartograph({ session })`; `monsters = naniMonsters({ core, session, glitch, cartograph })`; `space = spacePeers({ session, glitch })`; `audio = audioDread()`; `wanderers = brrWanderers({ session })`; `deaths = gibDeaths({ core, session, monsters, wanderers })`; `admin = overseerAdmin({ core, session, glitch, cartograph })`; `mpFrame({ ... })`; then `session.wire({ glitch, cartograph, monsters, space, wanderers, deaths, admin })` | `N` (`window.__net`, the session's) |
 
 Each part's header lists its `imports` (giver { names }) and `exports`; the code agrees (the gate's `modules` step checks it). The
 rules, proved from the code by `node dev/tools/checks/modules.js`:
@@ -174,6 +175,35 @@ rules, proved from the code by `node dev/tools/checks/modules.js`:
   put on another module's object: it imports the function from the module that made it;
 - a module never reads, through the global object, a name another module of the same script puts there.
 
+And since C3c (`mp.js`), also:
+- a module changes another owner's object in place (`set`, `delete`, `clear`, `add`, `push`, `splice`, `fill` ...) only through a function
+  that owner gives, as for its properties;
+- each name is put on the global object by one module, and what is written through it (`window.X.p = ...`, `window.X.add(...)`) has one
+  module that writes it: the one that put `X` there, when this script does (`window.__mv`'s held state, which `move.js` reads, is
+  N.A.N.I.'s `unhold`); what this script writes of another script's object (`NET.onEpoch`, net-interp.js's) has one module that writes it;
+- a module that calls modules made after it is given them late: names it declares with `let` and no value, assigned only by its own
+  `wire({ key, ... })` (nothing but `({ name, ... } = key)` statements), used only in its functions, never while it is being made; the
+  composition calls each `wire` once, after the last module is made, with modules made after it. Only the session (B++) has a `wire`:
+  it handles every message the server sends and calls the owners' functions, and they use it. Its header's `late:` line lists them.
+
+`mp.js`'s state, owner by owner (each changes only its own; the others call its functions or read it through a reader such as `me()`):
+- B++'s session (`mp.session.js`): the WebSocket and the connection, the snapshot, our id, the kill counters and the spawn grace, NEW
+  RUN's state, the world epoch, B+'s counters, the other players' map (`peers`), the status line, `window.__net`;
+- L.O.S.T. (`mp.glitch.js`): the exit flag, `window.__glitches`, `window.__glitchSolo`; P.O.C.K.E.T. (`mp.cartograph.js`):
+  `window.__items`, `window.__itemSolo`;
+- N.A.N.I. (`mp.monsters.js`): the entity slots (`window.__hounds`), the kill record and the killer's slot (`window.__kill`,
+  `window.__killer`), the held state handed to `move.js`, the hit flash, `NET.onEpoch`;
+- S.P.A.C.E. (`mp.peers.js`): the solid peers (`window.__peerBodies`), the soft correction;
+- G.I.B. (`mp.deaths.js`): our own death's record (`window.__dvic`), the bodies, the replays (`window.__fxs`, `window.__fxKill`,
+  `window.__fxKillS`), the corpses hidden (`window.__hideBodies`), the light timeline (`window.__deathLight`), `window.__peerLights`,
+  the wall stains' clock, the last view;
+- OVERSEER (`mp.admin.js`): the admin panel's state (`adm`, with the passcode, in memory only), the death lab (`window.__dlab`);
+- Spacious Audio (`mp.dread.js`): the dread's audio and the online note; BR-R (`mp.wanderers.js`): the hover tip and the mouse;
+- core (`mp.frame.js`): the dread's level, its heartbeat and sting timers, `window.__mp`.
+The other players' records in the session's `peers` map are the page's shared data model, as at M8 (like the server's players): the
+session writes the server's fields and the fresher poses' targets, G.I.B.'s drawing eases the drawn position and keeps the avatar,
+BR-R drops an avatar.
+
 Three couplings that M8 hid are explicit since C3b, each by a listed edit (`dev/stage-3h-modernization/tools/c3_client_modules.js`):
 - `move.js`: S.P.A.C.E.'s movement code called Spacious Audio's movement sounds through `window.__mvSfx`. The sound module now hands
   them to the movement module (`useSound`, the movement module's own function) when it is made. `window.__mvSfx` is still registered.
@@ -183,13 +213,13 @@ Three couplings that M8 hid are explicit since C3b, each by a listed edit (`dev/
   gives `setWhine`, and the sound module calls it: the same value in the same slot.
 
 `window.__name` contracts between scripts (section 2) are unchanged: what a module registers on window it still registers itself, at the
-same moment. The gate's `page` step runs B++'s scripts and these side by side ([`PARITY_MATRIX.md`](PARITY_MATRIX.md), the page scripts'
-proof).
+same moment. The gate's `page` step runs B++'s scripts and these side by side, and its `cli_golden` step B++'s `mp.js` and this one
+([`PARITY_MATRIX.md`](PARITY_MATRIX.md), the page scripts' proof).
 
 ## 5. The parts of one script
 
-The parts of `mp.js` and `ai.js` still share their script's closure (`sim.js` was built from parts too until continuation C3a, and the
-five scripts of section 4 until C3b). `ai.js` has one owner, N.A.N.I., and no part uses another's name across owners: it stays one
+The parts of `ai.js` still share its closure (`sim.js` was built from parts too until continuation C3a, the five scripts of section 4
+until C3b, and `mp.js` until C3c). `ai.js` has one owner, N.A.N.I., and no part uses another's name across owners: it stays one
 cohesive file. Each part's header lists what it provides, uses and writes; `node dev/tools/checks/parts.js` (the gate's `parts` step)
 proves every list against the code. Those lists are the contracts between the parts: a name in another part's `uses` cannot be renamed
 alone. (For the module scripts the lists are short: a module provides its factory, and only the composition uses factories.)

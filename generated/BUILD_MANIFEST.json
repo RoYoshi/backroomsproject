@@ -1,7 +1,7 @@
 {
  "note": "Written by dev/tools/build/build.js. Every built output, its parts in order and their SHA-256. Do not edit: run npm run build.",
  "recipes": "src/build-recipes.json",
- "recipesSha256": "8fb7fb68fe21733876633d2262532194e7d9a53750d948d1bb7d1de33fcae93a",
+ "recipesSha256": "0138e88b07f307096289cff6a77e195608f00225d028ccdec2a278c825600701",
  "tool": "dev/tools/build/build.js",
  "toolSha256": "7e9808dcac2039f6cba90c2ef73af846b837705488de0f5bd03fcf163774feb9",
  "outputs": [
@@ -714,88 +714,68 @@
   },
   {
    "out": "public/mp.js",
-   "bytes": 88802,
-   "sha256": "9243aafb1e17a66d9ca03936c3e10b70341ec99732fafec588a44b0fe3075be4",
+   "bytes": 100255,
+   "sha256": "7c05570a744b4fb94532e438ea01c01edd9961ce0de8be949d6b9eb44d7d480c",
    "parts": [
     {
      "path": "src/core/client/mp.js",
-     "sha256": "e0df64652bbea1dfbf45d7da654270d96c4a1e897293356b5ae08275d48adb9a",
-     "headerBytes": 582
+     "sha256": "13caff82035a53de50773f9d34a38c73fc4aabc39c6473b256ed394036fc4e65",
+     "headerBytes": 1120
     },
     {
-     "path": "src/frameworks/bpp/client/mp.net.js",
-     "sha256": "c86b1d10cd88bc9b9cca90594b6e0ceb9c8e1825a427edcb4b0b1ab922bfab3b",
-     "headerBytes": 542
-    },
-    {
-     "path": "src/frameworks/gib/client/mp.owndeath.js",
-     "sha256": "75e44596ed2dcd87f4938e6d3d755b1e00237bd50853b279c3d4ec6b3ce8c18d",
-     "headerBytes": 150
-    },
-    {
-     "path": "src/frameworks/bpp/client/mp.newrun.js",
-     "sha256": "1c4f7e01d8ab957e3fbc048d98a189fddee3055c6f45e01590b5b3deeb8e6de2",
-     "headerBytes": 223
-    },
-    {
-     "path": "src/frameworks/space/client/mp.peers.js",
-     "sha256": "f7bd9e3bffdf5174788345bc8c1704fcb071bf4ca45cc4c5cdd39bd0a27c774a",
-     "headerBytes": 550
-    },
-    {
-     "path": "src/frameworks/bpp/client/mp.transport.js",
-     "sha256": "cfa6c312f4d09ea9bf5071792662dbc66a53978869e382a0116c3a3dfa2e67b1",
-     "headerBytes": 859
-    },
-    {
-     "path": "src/frameworks/nani/client/mp.monsters.js",
-     "sha256": "0aa132c17fbbcbe0ae066d9b419c847d22fa41e27d0522ef3f9cf1301cea63a2",
-     "headerBytes": 264
+     "path": "src/frameworks/bpp/client/mp.session.js",
+     "sha256": "f82f3dca2e08e701709ff6a0ee92ace307b369c71783d9f15bb682a72d368408",
+     "headerBytes": 2500
     },
     {
      "path": "src/frameworks/lost/client/mp.glitch.js",
-     "sha256": "50a9772615b8fd1eb457b854531b93e4a305064c3ab86aa128d4ffcbab55eabf",
-     "headerBytes": 168
+     "sha256": "b994237a35c22184263f817c52a70e791d5676fdd5259974e3b47cee48bd6387",
+     "headerBytes": 872
     },
     {
      "path": "src/frameworks/pocket/client/mp.cartograph.js",
-     "sha256": "41a98a3b1977f387bf13e18cbe5ec8e4d61476be096a279f027821f6e4d24386",
-     "headerBytes": 155
+     "sha256": "00a86dc35526aeee0e4b4a841632f232342b117579b579805e56fb98dcd39f92",
+     "headerBytes": 703
     },
     {
-     "path": "src/frameworks/gib/client/mp.bodies.js",
-     "sha256": "6cb3fbd674180ec1821b2a06b73b01c07093a8d4e558f86a0ed046707f82ff4a",
-     "headerBytes": 151
+     "path": "src/frameworks/nani/client/mp.monsters.js",
+     "sha256": "c87c16d98100d9415fd6cb79ba611748a5b8a7edd09c2bc454beb8ee887881c4",
+     "headerBytes": 1272
+    },
+    {
+     "path": "src/frameworks/space/client/mp.peers.js",
+     "sha256": "4c8746d4e19a4359d3ebabab6e0f7b4e773a7194385d6df2ebefb30ee69f3eb2",
+     "headerBytes": 1075
     },
     {
      "path": "src/frameworks/spacious-audio/client/mp.dread.js",
-     "sha256": "4cd028e7017aa99863f75d7f852e7b2e8fb287d93776ad592367254d50d94f08",
-     "headerBytes": 167
+     "sha256": "ab7ea280ffc668971f6e0e3d45abdfd1c6fbcaaf5bc75c9e586b9c20834f4f5a",
+     "headerBytes": 556
     },
     {
      "path": "src/frameworks/br-r/client/mp.wanderers.js",
-     "sha256": "19c978a47909158a578643ab6774e5b9e201a6a13755e441662e3ebb5ceb00d0",
-     "headerBytes": 167
+     "sha256": "cf683ee1bbf13940691efc045d28760c3bb8a078d4673ac88e6e35120cebc4b2",
+     "headerBytes": 600
     },
     {
-     "path": "src/frameworks/gib/client/mp.replays.js",
-     "sha256": "6f22c9a04edbf15c6dc3c511b2e81c0bbacb80237228edd89f3b8165fc35751d",
-     "headerBytes": 341
+     "path": "src/frameworks/gib/client/mp.deaths.js",
+     "sha256": "2cba57e4d6a9d2fe4fde724a37629a438423e9be9d25bc427177da4c6d4a26e1",
+     "headerBytes": 1565
     },
     {
      "path": "src/frameworks/overseer/client/mp.admin.js",
-     "sha256": "00930d47d956d2625fd0f10a5ee400b1b40f45887740dc029243a5241126ca4b",
-     "headerBytes": 190
-    },
-    {
-     "path": "src/frameworks/overseer/client/mp.deathlab.js",
-     "sha256": "385e427ca2cc32ed90561cdcaa8973512950f19ecfd75915be190c23068ecde3",
-     "headerBytes": 348
+     "sha256": "2a1eeb6e82849b9f2aca11397898bb339376a0578f28a58025d3a08641fc2050",
+     "headerBytes": 1341
     },
     {
      "path": "src/core/client/mp.frame.js",
-     "sha256": "a8ea149e3661af8dde7172e2fa8e307bc817e2ac628f458499a482eb936a26c5",
-     "headerBytes": 512
+     "sha256": "5bd51efdae0a9b8d2a400275a279aa46b69388c2bcdb3a1d2cff9045b5b9dac3",
+     "headerBytes": 1345
+    },
+    {
+     "path": "src/core/client/mp.compose.js",
+     "sha256": "297809bea4c4da911bd418c128701b8c692ceb6d98eb3f5030f62494d607629a",
+     "headerBytes": 1401
     }
    ]
   },

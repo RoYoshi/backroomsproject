@@ -1,11 +1,11 @@
 # ADR-005: Code that shared one closure becomes modules: factories given what they use, composed in the order the code ran
 
-- **Status:** accepted for the Stage 3H continuation (C3, M-024). Carried out for the server's sim at C3a, and for the page's
-  `world.js`, `move.js`, `camcorder.js`, `glitch.js` and `ents.js` at C3b. `mp.js` follows (C3c); until then its parts share their
-  closure (ADR-004). `ai.js` has one owner and stays one cohesive file of parts.
-- **Supersedes:** ADR-004 for `sim.js` (no longer built from parts) and for the five page scripts (built from parts that are modules).
-- **Evidence:** `dev/stage-3h-modernization/evidence/c3a/`, `evidence/c3b/`; `dev/tools/checks/modules.js`; the gate's `modules`, `sim`
-  and `page` steps.
+- **Status:** accepted for the Stage 3H continuation (C3, M-024). Carried out for the server's sim at C3a, for the page's `world.js`,
+  `move.js`, `camcorder.js`, `glitch.js` and `ents.js` at C3b, and for `mp.js` at C3c. `ai.js` has one owner and stays one cohesive
+  file of parts (ADR-004).
+- **Supersedes:** ADR-004 for `sim.js` (no longer built from parts) and for the six page scripts (built from parts that are modules).
+- **Evidence:** `dev/stage-3h-modernization/evidence/c3a/`, `evidence/c3b/`, `evidence/c3c/`; `dev/tools/checks/modules.js`; the gate's
+  `modules`, `sim`, `page` and `cli_golden` steps.
 
 ## Context
 
@@ -108,6 +108,34 @@
       tree's into the same closed Chromium page and drives them the same way (`golden/page_scenes.js`): equal traces, and each scene
       runs every function of its script but a listed few; 12 seam mutants (`golden/page_mutants.js`) are each caught.
 
+12. **`mp.js` (C3c): a module per owner, and an owner's parts merged where they shared state.** M8 cut `mp.js` into 16 parts by line
+    range, so one owner's code sat in several parts and other owners' code in between. Its modules follow meaning instead:
+    - B++'s three parts (`mp.net.js`, `mp.newrun.js`, `mp.transport.js`) are one module, the session (`mp.session.js`): the WebSocket
+      and every message, `window.__net`, NEW RUN, sharing their state as plain variables (Stage 3H2's client mutants still name those
+      lines). With it moved what is the session's: the connection, the snapshot and B+'s counters (core's at M8), B+'s fresher poses and
+      the world epoch (in S.P.A.C.E.'s part at M8), the status line's element, and the frame's network send (`sendPose`).
+    - G.I.B.'s three parts are one module (`mp.deaths.js`), OVERSEER's two are one (`mp.admin.js`); the others stay one module each.
+    - State moved to the owner that changes it: the entity slots, the kill record and the killer's slot to N.A.N.I.; the exit flag to
+      L.O.S.T.; the items' globals to P.O.C.K.E.T.; the admin panel's state `adm` (with the passcode) to OVERSEER; the last view to G.I.B.;
+      the heartbeat's timer to the frame hook. Every write another module made of that state is now a call of the owner's function
+      (`clearKill`, `resetExit`, `noItems`, `loginAnswer` ...), every read of a changing value a call of its reader (`me()`, `snap()`).
+    - The composition keeps every moment the page can see: the lamp-failure sound registered, then the WebSocket made, then the dread's
+      listeners, the hover tip and its timer, the admin panel; `window.__net`'s entries in M8's order. S.P.A.C.E.'s module is made after
+      L.O.S.T.'s (it reads the exit flag); at M8 its part came before, and it registers nothing the page sees.
+13. **The session is given the modules made after it, late (C3c).** The session must be made first (its WebSocket is made where it always
+    was), it handles every message the server sends by calling the owners' functions, and those owners use the session (`tx`, `myId()`
+    ...). The cycle is explicit and checked: the session declares the functions it calls with `let` and no value, its `wire({ key, ... })`
+    assigns them and does nothing else, the composition calls it once after the last module is made, and none is used while the session
+    is being made (rule 12 of `modules.js`).
+14. **Writes that are not assignments count (C3c).** Changing another owner's object in place (`set`, `delete`, `clear`, `push`, `splice`,
+    `fill` ...) is a write. Each name on the global object has one module that puts it there, and what is written through it
+    (`window.X.p = ...`, `window.X.add(...)`) one module that writes it; another script's object (`NET`) likewise.
+15. **Proof for `mp.js` (C3c):** `tools/c3c_mp_provenance.js` proves 863 of M8's 921 lines are in the modules as they were and lists
+    every other line with its reason (`tools/c3c_mp_edits.js`); `modules.js` proves the boundaries (38 broken boundaries refused,
+    `tools/c3_modules_mutants.js`); the gate's `cli_golden` step runs all 18 client scenes - 3H0's 9, 3H2's 3 and 6 new ones
+    (`golden/cli_scenes_c3c.js`) - on B++'s `mp.js` and this one, byte for byte, and together they run every one of its functions;
+    35 seam mutants (`golden/cli_mutants_c3c.js`) are each caught.
+
 ## Consequences
 
 - **`sim.js` is ten modules and a composition.** There are no part headers and no shared closure. 0 writes cross owners: what was 18
@@ -120,6 +148,12 @@
   measures it.
 - **Five page scripts changed bytes (C3b).** Their byte comparison with 3H2 is retired; `m8_served_identity.js` names them as rebuilt
   as modules, and the `page` step compares their behaviour with B++'s. Every other served file is still 3H2's bytes.
+- **`mp.js` changed bytes (C3c).** Its byte comparison with 3H2 is retired too; `m8_served_identity.js` names it, and the gate's
+  `cli_golden` step compares its behaviour with B++'s. 3H0's and 3H2's client baselines still hold, and 3H2's 22 client mutants are still
+  caught where their lines now live.
+- **The other players' records are a shared data model (C3c).** The records in the session's `peers` map are written by the session
+  (the server's fields, the fresher poses' targets), by G.I.B.'s drawing (the eased position, the avatar) and by BR-R (an avatar
+  dropped), as at M8 - like the server's `players` (item 6). The checks see objects the modules made, not every record inside them.
 - **A module's lines keep their indentation.** The code inside a factory is M8's text, so it reads one level less indented than its
   `function` line; the first module of each script also keeps the opening of the script's wrapper (comments and `(() => {`), and the
   composition closes it.
@@ -133,5 +167,9 @@
   code, checked by a tool, not a list in a comment.
 - **ES modules or a bundler for the page (C3b).** Deferred module scripts would change when each script runs, and the v11 toolchain
   is not reproducible here yet (C1). Factories inside the classic script keep the load order and timing exactly.
+- **An event bus for the session (C3c).** Each owner subscribing to "the connection closed" or "a new world" would run in the order
+  they subscribed, not in M8's interleaved order, and the page can see that order (sounds, the debug overlay, `move.js`'s held state).
+- **A dispatcher module made last (C3c).** The message handlers change the session's own state (`me`, `mseq`, NEW RUN's press); in
+  another module they would need setters for all of it: one big shared object by another name.
 - **Rewriting `sim.level0.js` as readable code now.** It is the bundle's own minified level code, and the page's copy lives in the
   bundle (M-003, blocked by C1). It moved as it was, a module of its own.
