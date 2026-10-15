@@ -47,7 +47,7 @@
  *     builds), dev/stage-3h-modernization/tools/c4_alpha_all.mjs (every top-level statement of the shipped app code, rebuilt from the
  *     lineage, compared with the port, modulo names and a normal form), c4_css_check.mjs (the built stylesheet against the shipped one)
  *     c4_port_ledger.mjs --check (where each lineage step's text is now: src/core/client/game/PORT_LEDGER.md) and c4_port_mutants.mjs
- *     (the alpha and stylesheet checks catch each of 23 one-place edits of a copy of the port, and pass its unchanged copies);
+ *     (the alpha and stylesheet checks catch each of 25 one-place edits of a copy of the port or of the one definition of Level 0 and the lights, and pass the unchanged copies);
  *   - bundle (added at continuation C4): golden/bundle_diff.js --ref-lineage --cand-assets: the port step's build against the client
  *     the lineage records (what the page was served up to C4a), both in the real page, frame by frame (state, randomness, the document,
  *     2D canvas and audio calls, the shared window objects, pixels, computed styles): fast, the title and a walk; full, every scene of
@@ -133,9 +133,10 @@ const STEPS = {
   port: () => {
     const pk = ARG.packages || process.env.TFB_CLIENT_PACKAGES;
     if (!pk) return { ok: false, cases: 0, note: 'NOT RUN: the client build needs the 31 locked npm packages (--packages DIR or TFB_CLIENT_PACKAGES=DIR: the tarballs of TFB_V11_LINUX_X64_PACKAGES.zip)' };
-    const work = o('client_work'), stage = o('client_stage'), rd = path.join(work, 'tree', 'node_modules', 'rolldown');
+    const work = o('client_work'), stage = o('client_stage');
     fs.rmSync(stage, { recursive: true, force: true });
     const b = run('client_build', ['node', 'dev/tools/build/client.js', '--packages', path.resolve(pk), '--stage', stage, '--work', work, '--out', o('client_build.json')]), jb = J(o('client_build.json'));
+    const rd = path.join(jb && jb.work ? jb.work.project : path.join(work, 'tree'), 'node_modules', 'rolldown');   // the build's install (C4c: <work>/repo/src/core/client/game)
     const recF = path.join(REPO, 'generated', 'CLIENT_BUILD.json'), shipped = fs.existsSync(recF), stRec = path.join(stage, 'CLIENT_BUILD.json');
     const sameRecord = shipped ? fs.existsSync(stRec) && fs.readFileSync(stRec).equals(fs.readFileSync(recF)) : null;
     const a = run('port_alpha', ['node', 'dev/stage-3h-modernization/tools/c4_alpha_all.mjs', '--rolldown', rd, '--out', o('port_alpha.json')]), ja = J(o('port_alpha.json'));

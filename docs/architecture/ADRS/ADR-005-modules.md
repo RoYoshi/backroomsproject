@@ -171,5 +171,7 @@
   they subscribed, not in M8's interleaved order, and the page can see that order (sounds, the debug overlay, `move.js`'s held state).
 - **A dispatcher module made last (C3c).** The message handlers change the session's own state (`me`, `mseq`, NEW RUN's press); in
   another module they would need setters for all of it: one big shared object by another name.
-- **Rewriting `sim.level0.js` as readable code now.** It is the bundle's own minified level code, and the page's copy lives in the
-  bundle (M-003, blocked by C1). It moved as it was, a module of its own.
+- **Rewriting `sim.level0.js` as readable code now.** It is the bundle's own minified level code, and the page's copy lived in the
+  bundle (M-003, then blocked by C1). It moved as it was, a module of its own. At C4c its data moved out instead: it reads the one
+  definition of Level 0 (`src/frameworks/lost/shared/level0.json`) and of the lights (`src/frameworks/pocket/shared/lights.json`),
+  given by the composition (`level0(WORLD, DEFS)`); its code is otherwise as extracted.

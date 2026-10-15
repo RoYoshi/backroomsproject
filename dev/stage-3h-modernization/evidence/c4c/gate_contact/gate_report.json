@@ -1,0 +1,24 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "5e11af2a679fe90effda186c9431bd8e02f823ab",
+ "startedAt": "2026-10-15T19:47:53.570Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4c/gate_contact",
+ "steps": {
+  "contact_lab": {
+   "ok": true,
+   "cases": 23,
+   "note": "23 images byte-identical in pixels",
+   "exit": null,
+   "seconds": 650
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-15T19:58:44.055Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate"
+ ]
+}

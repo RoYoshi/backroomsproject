@@ -1,0 +1,86 @@
+Stage 3H continuation C4c (M-003, ADR-002): one Level 0 - its map and the carried lights defined once, as data, for the server and the page
+================================================================================================================================
+
+Base: C4b 5e11af2a679fe90effda186c9431bd8e02f823ab (tree 0810555ddf9c4663bed718a6a80a789159cb6859), verified on GitHub
+(evidence/remote/verify_c4b_5e11af2.json); its after-commit secret scan is secret_scan_c4b_after_commit.txt here.
+
+1. The one definition
+   - src/frameworks/lost/shared/level0.json (L.O.S.T.; version 3, lineage B02's refinement): the map's size in cells (96 x 72), the
+     twelve rooms, the 17 corridors, 45 partitions and 39 doorways, the 10 pits, the PILLAR HALL's pillars, the spawn cell, the open
+     cell beside it that the server checks reachability from (the anchor), the blackout timer. Its "note" says what each field is.
+   - src/frameworks/pocket/shared/lights.json (P.O.C.K.E.T.; version 1, lineage B11): the four carried lights (reach, spread, strength,
+     spill, all-around, night vision) and their labels.
+   - Until C4c the server's level module (src/frameworks/lost/server/sim.level0.js, the bundle's minified code) wrote all of it, and the
+     compiled client's shared/world.ts and shared/equipment.ts wrote it again; the anchor was a literal in N.A.N.I.'s sim.ai.js.
+
+2. The server reads it
+   - src/core/server/sim.js requires the two files and gives them to the level: level0(WORLD, { level0, lights }). The level copies
+     them for each world (JSON.parse(JSON.stringify(...))): no world can change another's. Each literal of that data in the extracted
+     line became its read (L, its blackouts B, LIGHTS); the factory returns the anchor (ANCHOR) with the other primitives, and
+     sim.ai.js takes it from the level instead of writing {x:1056,y:3264}. Nothing else changed.
+   - tools/c4c_level0_check.js (level0_check.json): the level module at C1 (00b0c7f, the C3a module the gate's sim step proves against
+     B++'s sim) and this one, each built with a fresh copy of the server's world.js, compared on everything the level gives the sim:
+     the data (the map's size, the rooms, the lamps, the spawn, the anchor against sim.ai.js's literal, the blackout state, the walkable
+     grid, the light table), zc and Hc on every cell and a ring outside, Bc and sl on a 48 px lattice, Uc on 6,000 rays, fl on 400
+     routes, qc for every light kind on and off at 3,000 places, the blackout timer through 30 minutes with its resets and the admin's
+     controls: SAME, 198,648 comparisons. Two declared differences: the light table's camcorder is labelled as the page labels it
+     ("Camcorder", nv: true; the server's said "Night Vision Camcorder" and no server code reads either), and the anchor is new in the
+     level's return. --mutants 1 (level0_mutants.json): 10 one-place edits of the definitions (a corridor, a partition, a pit, a pillar,
+     the spawn, the blackouts' gap, a room, the anchor, the lantern's range, the flashlight's power), each DIFFERENT; the control SAME.
+
+3. The compiled client is built with it
+   - src/core/client/game/level-data.cjs names the two files (INPUTS) and the build's constants made of them (LEVEL0_COLS ...
+     LIGHT_KINDS); vite.config.ts defines each as its value (Vite's define), shared/level-data.d.ts types them; shared/world.ts and
+     shared/equipment.ts name the constants where they wrote the values (the dead export "arrival" of world.ts removed).
+   - dev/tools/build/client.js copies the two inputs into its work folder and records them with the sources
+     (generated/CLIENT_BUILD.json: 36 sources); build.js --check and client.js --record-check refuse an edited input until the client is
+     built again.
+   - The bundle (bundle_token.json): C4b's but for one token - the lantern's spread, written Math.PI*2 in the source, is now the JSON
+     number 6.283185307179586, the same double (Math.PI*2 === 6.283185307179586). 336,630 bytes, SHA-256 9624ba47...; the stylesheet
+     unchanged (b5a19c27...).
+   - The alpha check (gate_full/port_alpha.json) puts the definitions' values in place of the constants' names (22 in world.ts, 1 in
+     equipment.ts) and compares the port with the shipped bundle: SAME, 22 of 22 entries, 195 of 197 statements. The port's mutants
+     (gate_full/port_mutants.json): 25 of 25 caught, 3 of them edits of the definitions (a corridor, the first blackout, the headlamp's range);
+     10 controls SAME.
+
+4. The gate (gate_full/): node dev/tools/gate/gate.js --tier full --packages <the 31 tarballs>, on this checkpoint's working tree,
+   against B++ (143b63f):
+   26 of its 27 steps PASS at the first run, in 74 minutes:
+   - port 410: the build's record is generated/CLIENT_BUILD.json byte for byte; the alpha check SAME (22 entries, 195 of the shipped
+     app's 197 statements compared, 2 reviewed); the stylesheet the shipped one; the port ledger current; 25 of 25 mutants caught;
+   - bundle 4,265: the served build against the client the lineage records (B++'s bytes), in Chromium, frame by frame: 9 of 9 scenes
+     identical (4,239 frames, 26 captures), and the harness's 5 mutants caught in their record;
+   - sim 20,065 (20,050 calls give B++'s results; 15 of 15 seam mutants caught), page 1,255,007 (world.js 2,295 comparisons; move,
+     camcorder, glitch, ents 1,252,700 trace lines), srv_golden 11, bpp_golden 7, session 18 (15 mutants), cli_golden 30 (232 of mp.js's
+     232 functions run), protocol 52,740 messages, mutants 18, static 4, raw_live 173, cli_mutants 57;
+   - build 39, lineage 83, parts 55, modules 58, docs 23, scope 212 (the runtime files added and changed, each declared);
+   - live_wire 65 (two real Chromium players through the game's own buttons: structurally identical), bpp_checks 36, browsers 118
+     (two_browser 103, col_head 5, col_aside 5, gameplay_smoke 5: its first run's player was killed before the monsters were removed,
+     and the gate ran it again, as it does), workflow 30 (the developer round trip 22 of 22 with the compiled client's; the browser
+     contracts on B++ and here: the 52-member facade, refusals, a phone);
+   - quick_suites 23 and suites 293: only B++'s known failures fail (npm_test 149/162, s_humanqa_hotfix 5/6, test_shadows 43/48,
+     test_br_role 29/32, audit_net 13/17, audit_net2 8/11);
+   - perf: the server's scenarios lifecycle +0.39 %, deaths +1.35 %, admin -0.18 %, schedule -0.88 %; the page's hooks menu_online
+     +1.87 %, run_online -32.7 %, interp -4.94 %, fx_bodies +4.75 %, hum_dread +4.88 % (each within the rule);
+   and contact_lab DIFFERENT once: peers_visible.png, 133 of its 90,000 pixels, each by one level, around the other player; the other 22
+   images identical. The lab's own variance (FINDINGS M-036): BR-RoLE eases a light's weight on a body 20 % a frame, and the lab
+   captures after a wait in real time, so the other player's cast alpha was 0.56666558 on B++'s side and 0.56666655 on this one (in the
+   gates since M1, B++'s side alone has given 0.56666531 to 0.56666611; until now every pair rounded to the same pixels). Both images
+   and both results are in gate_full/contact/.
+   Run again (gate_contact/: --tier full --only contact_lab, on the same tree): PASS, 23 images byte-identical in pixels (the cast
+   alpha 0.56666558 on B++'s side, 0.56666580 on this one).
+
+5. Also in this checkpoint
+   - Documentation: FINDINGS M-003 (handled), M-025, M-028, M-034 (new: the server's level still builds v11's eight evidence traces,
+     which nothing reads); CONTINUATION (M-003 DONE; M-020's row brought up to date with C4b); the L.O.S.T. and P.O.C.K.E.T. READMEs
+     (what each owns, how both sides read it, how to change it, what a level format would still need), the client's READMEs,
+     BUILD_PIPELINE (the client's inputs; the outputs table names them), CONTRACTS (the level's inputs and the anchor), FRAMEWORKS
+     ("How do I change Level 0's map?"), ADR-002, ADR-004, ADR-005, PARITY_MATRIX (its "two facts" section was C5b's: the bundle
+     and its stylesheet have been built from the port since C4b, and 40 of the 48 files under public/ are 3H2's bytes, not 42).
+   - The tools that read the level take the definitions: world_diff.js, page_scripts.js and page_env.js, sim_diff.js (its mutant copy),
+     layout.js (simData), modules.js (only .js files are server modules), docs.js (a definition's row), dev_workflow.js (its compiled
+     client edit), c4_alpha*.mjs (the constants), c4_port_mutants.mjs (3 data mutants), gate.js (the alpha check finds Rolldown in the
+     client build's own work folder).
+
+What changed for players: nothing any check here can see. The server's level is the same level (every primitive, every cell); the
+bundle is the same program; the gate's goldens, the browsers, the live wire and the contact lab's pixels say the same.

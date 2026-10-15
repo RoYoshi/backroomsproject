@@ -37,7 +37,7 @@
  *   rewrites (c4_alpha_all.mjs; each one a reviewed change of structure, listed with its reason in c4_alpha_modules.json): a shipped
  *   module-level variable the port keeps as an object's property (members: FL = arrival.fall), or passes in as a function's last
  *   parameter (params: au = lightOn, with callArgs: the calls of that function pass it).
- * The rules are tested by their mutants (c4_port_mutants.mjs: each of 23 one-place edits of a copy of the port is caught).
+ * The rules are tested by their mutants (c4_port_mutants.mjs: each of 25 one-place edits of a copy of the port or of the one definition it is built with is caught).
  * The first difference of each pair is printed with its path and both sides' code.  Exit 0 only when every pair is equal. */
 import fs from 'fs'; import path from 'path';
 const ARG = {}; for (let i = 2; i < process.argv.length; i += 2) ARG[process.argv[i].replace(/^--/, '')] = process.argv[i + 1];
@@ -45,6 +45,30 @@ const RD = ARG.rolldown || process.env.TFB_ROLLDOWN;
 if (!RD) { console.error('C4 ALPHA: NOT RUN - needs rolldown (the client build\'s packages installed): --rolldown <its folder> or TFB_ROLLDOWN (dev/tools/build/client.js --work DIR leaves it in DIR/tree/node_modules/rolldown)'); process.exit(2); }
 const { parseSync, transformSync, minifySync } = await import(path.join(RD, 'dist', 'utils-index.mjs'));
 
+/* (C4c) the build's constants (src/core/client/game/level-data.cjs: each name the build defines as its value) put in place in a parsed
+   port: every read of a name in values becomes the value's literal (as the build writes it).  Refused: such a name declared in the
+   module, or assigned; a shorthand property of one. */
+export function substitute(program, values) {
+  const names = new Set(Object.keys(values)), lit = v => parseJs('x=' + JSON.stringify(v), 'value.js').body[0].expression.right;
+  let n = 0;
+  const visit = (node, parent, key) => {
+    if (Array.isArray(node)) { node.forEach((x, i) => visit(x, node, i)); return; }
+    if (!node || typeof node !== 'object' || typeof node.type !== 'string') return;
+    if ((node.type === 'VariableDeclarator' && node.id.type === 'Identifier' && names.has(node.id.name)) || ((node.type === 'FunctionDeclaration' || node.type === 'ClassDeclaration') && node.id && names.has(node.id.name)))
+      throw new Error(`the build constant ${node.id.name} is declared in the port`);
+    if (node.type === 'AssignmentExpression' && node.left.type === 'Identifier' && names.has(node.left.name)) throw new Error(`the build constant ${node.left.name} is assigned`);
+    if (node.type === 'UpdateExpression' && node.argument.type === 'Identifier' && names.has(node.argument.name)) throw new Error(`the build constant ${node.argument.name} is assigned`);
+    if (node.type === 'Property' && node.shorthand && node.value.type === 'Identifier' && names.has(node.value.name)) throw new Error(`the build constant ${node.value.name} is a shorthand property`);
+    if (node.type === 'Identifier' && names.has(node.name)) { parent[key] = lit(values[node.name]); n++; return; }
+    for (const [k, v] of Object.entries(node)) {
+      if (k === 'type' || k === 'start' || k === 'end' || k === 'range' || k === 'loc') continue;
+      if ((node.type === 'MemberExpression' && k === 'property' && !node.computed) || ((node.type === 'Property' || node.type === 'MethodDefinition' || node.type === 'PropertyDefinition') && k === 'key' && !node.computed)) continue;
+      visit(v, node, k);
+    }
+  };
+  visit(program, null, null);
+  return n;
+}
 export function parseJs(code, file = 'x.js') {
   const r = parseSync(file, code); if (r.errors && r.errors.length) throw new Error(file + ': ' + r.errors.map(e => e.message).join('; '));
   return r.program;
@@ -202,6 +226,8 @@ function mergeBlocks(list) {
    once in the rest of the list, outside any nested function, never assigned, and nothing between the declaration and that statement
    assigns a name the initializer reads. */
 const PURE_OPS = new Set(['UnaryExpression', 'BinaryExpression', 'LogicalExpression', 'ConditionalExpression', 'MemberExpression', 'Literal', 'Identifier', 'TemplateLiteral', 'Prop']);
+/* (C4c) Math's constants, read-only properties of the global Math: Math.PI * 2 in the shipped code is the number a JSON file holds */
+const MATH_CONSTANTS = { PI: Math.PI, E: Math.E, LN2: Math.LN2, LN10: Math.LN10, LOG2E: Math.LOG2E, LOG10E: Math.LOG10E, SQRT2: Math.SQRT2, SQRT1_2: Math.SQRT1_2 };
 export const PURE_FNS = new Set();                               // module functions known to have no effect (--pure): angleDelta ...
 function pure(e) {
   if (!e || typeof e !== 'object') return true;
@@ -410,6 +436,7 @@ export class Alpha {
     if (!n || typeof n !== 'object') return undefined;
     if (n.type === 'Literal') return typeof n.value === 'number' ? n.value : undefined;
     if (n.type === 'Identifier') return side === 1 && !resolve(n.name, chain) && Object.prototype.hasOwnProperty.call(this.consts, n.name) ? this.consts[n.name] : undefined;
+    if (n.type === 'MemberExpression' && !n.computed && n.object && n.object.type === 'Identifier' && n.object.name === 'Math' && !resolve('Math', chain) && n.property && Object.prototype.hasOwnProperty.call(MATH_CONSTANTS, n.property.name)) return MATH_CONSTANTS[n.property.name];   // (C4c) Math.PI ...
     if (n.type === 'UnaryExpression' && n.operator === '-') { const v = this.cval(n.argument, chain, side); return v === undefined ? undefined : -v; }
     if (n.type === 'BinaryExpression' && '+-*/%'.includes(n.operator) && n.operator.length === 1) { const l = this.cval(n.left, chain, side), r = this.cval(n.right, chain, side); if (l === undefined || r === undefined) return undefined;
       return n.operator === '+' ? l + r : n.operator === '-' ? l - r : n.operator === '*' ? l * r : n.operator === '/' ? l / r : l % r; }

@@ -53,7 +53,7 @@ against the lockfile, then installed offline) builds `../game/` and writes:
 
 | Served file | Made from |
 |---|---|
-| `public/assets/index-DKbV5Nv9.js` | `../game/` (`client/main.ts` and every module it imports), built by Vite |
+| `public/assets/index-DKbV5Nv9.js` | `../game/` (`client/main.ts` and every module it imports), built by Vite with the one definition of Level 0 and of the carried lights (`src/frameworks/lost/shared/level0.json`, `src/frameworks/pocket/shared/lights.json`; continuation C4c) |
 | `public/assets/index-D7hdwmUU.css` | `../game/client/style.css` (v11's, minified as v11 built it), then `client/style-after-v11.css` (the eight later steps' rules, appended as they are) |
 | the 11 PixiJS chunks (`BufferResource-…`, `Cache-…`, … `init-…`) | PixiJS, from the lockfile: the same bytes as v11's `dist/` (the build recipes copy those) |
 
@@ -113,3 +113,4 @@ compare the build with the recorded client). `lineage.js record` refuses the sup
 | A fresh `npm ci && npm run build` of `original-v11/` (in a copy, never in place) | DONE at continuation C1, offline from the owner's verified packages: 17 of 17 `dist/` files byte-identical (M-017, `dev/stage-3h-modernization/evidence/c1/`) |
 | The 40 later edits ported into readable TypeScript (`../game/`), built offline and proven the same program | DONE at continuation C4a (`dev/stage-3h-modernization/evidence/c4a/`) |
 | The served bundle and stylesheet built from `../game/` (the replay retired, its chains kept as history) | DONE at continuation C4b |
+| One Level 0: the map and the lights one definition, for the server and the bundle (M-003) | DONE at continuation C4c (`dev/stage-3h-modernization/evidence/c4c/`) |

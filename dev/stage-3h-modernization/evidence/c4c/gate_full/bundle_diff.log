@@ -1,0 +1,11 @@
+$ node dev/tools/gate/golden/bundle_diff.js --ref-lineage 1 --cand-assets /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4c/gate_full/client_stage/assets --scenes bare_walk,menu,solo_walk,death_hound,death_smiler,newrun,gear,blackout_win,customize --viewport 640x360 --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4c/gate_full/bundle
+SAME  bare_walk: 502 frames, 2 checkpoints (239 s)
+SAME  menu: 154 frames, 1 checkpoints (26 s)
+SAME  solo_walk: 666 frames, 3 checkpoints (154 s)
+SAME  death_hound: 690 frames, 4 checkpoints (189 s)
+SAME  death_smiler: 573 frames, 3 checkpoints (160 s)
+SAME  newrun: 468 frames, 4 checkpoints (112 s)
+SAME  gear: 496 frames, 5 checkpoints (135 s)
+SAME  blackout_win: 586 frames, 2 checkpoints (136 s)
+SAME  customize: 104 frames, 2 checkpoints (29 s)
+BUNDLE DIFF: SAME (9 of 9 scenes identical)

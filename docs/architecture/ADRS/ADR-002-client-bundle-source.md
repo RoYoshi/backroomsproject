@@ -122,7 +122,9 @@
   lineage still replays them to the file they produced, and the port is proven against that file). Until C4a this was a
   COMPATIBILITY ISLAND WITH COMPLETE LINEAGE.
 - **The duplicated Level 0 map remained after the swap** (the server's `sim.level0.js` and the client's `shared/world.ts`; M-003).
-  Unifying it is B02's concern, done after the port so that the client side is readable source, with both sides proven.
+  Unifying it was B02's concern, done after the port so that the client side was readable source: since C4c Level 0 is one
+  definition, as data (L.O.S.T.'s `level0.json`, P.O.C.K.E.T.'s `lights.json`), which the server reads and the client is built with
+  (`src/core/client/game/level-data.cjs`: Vite `define`s, so the bundle kept its program), both sides proven.
 - **The recovered original carpet texture is not swapped in.** The shipped `carpet.png` is the placeholder the HAR recovery generated
   (M-013), and changing it would change what players see. That is the owner's decision.
 

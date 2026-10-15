@@ -27,7 +27,7 @@ const MODERN = (() => { try { execFileSync('git', ['-C', REPO, 'cat-file', '-e',
 for (const f of ['sim', 'ai', 'world']) fs.writeFileSync(path.join(tmp, f + '.js'), execFileSync('git', ['-C', REPO, 'show', `${ARG['old-ref']}:${MODERN ? 'generated/server/' : ''}${f}.js`]));
 /* --mutants: this file runs itself once per mutant, on a copy of the sim's files with that mutant applied (--tree), and reports */
 if (ARG.mutants) {
-  const files = LAYOUT.simFiles().concat([LAYOUT.rel('ai.js'), LAYOUT.rel('world.js')]);
+  const files = LAYOUT.simFiles().concat(LAYOUT.simData(), [LAYOUT.rel('ai.js'), LAYOUT.rel('world.js')]);   // (C4c) and the data the composition requires
   const M = require(path.resolve(ARG.mutants)), out = { tool: R.tool, mutants: [], ok: true };
   for (const m of M) {
     const dir = path.join(tmp, 'm_' + m.id), hits = [];

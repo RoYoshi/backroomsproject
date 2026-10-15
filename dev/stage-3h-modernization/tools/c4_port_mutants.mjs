@@ -9,7 +9,9 @@
  * edit of a COPY of one port file, in a scratch folder (the tree is never written), of a kind a port could get wrong: a number, a
  * comparison, && for ||, two statements in the other order, a statement dropped, another variable read, two arguments swapped, a
  * property's name, == for === where the normal form must keep them apart; most of them where the continuation pack asks for care
- * (B02 stamina, B07 the capture sound, B10-B11 the lights, B12 NEW RUN's fall, B28-B30 the walls' receivers).  c4_alpha_all.mjs runs
+ * (B02 stamina, B07 the capture sound, B10-B11 the lights, B12 NEW RUN's fall, B28-B30 the walls' receivers).  Since C4c also edits of a
+ * copy of the one definition of Level 0 and of the lights (a corridor, the first blackout, the headlamp's range), given to the entries
+ * that read it.  c4_alpha_all.mjs runs
  * with its config's entries for that file pointed at the copy, and must call them DIFFERENT; before that, the same run on an unchanged
  * copy must call them SAME (the control: else the copying, not the edit, could be what is caught).  The stylesheet's mutants (a value,
  * a declaration dropped, a selector, two rules in the other order, !important dropped, an @media condition, a custom property's value):
@@ -29,7 +31,6 @@ const CODE = [
     now: ' let sprinting=!!(sprint&&moving&&!player.exhausted&&player.stamina>.1);\n if(player.exhausted&&player.stamina>=32)player.exhausted=false;', what: 'two statements in the other order: the sprint test before the recovery' },
   { id: 'B07-hits', file: 'client/death.ts', old: 'Hound:[.24,.74,1.2,1.7]', now: 'Hound:[.24,.74,1.25,1.7]', what: "a time in the Hound's capture: its third hit 50 ms later" },
   { id: 'B07-compressor', file: 'client/audio.ts', old: 'bus.ratio.value=5;', now: 'bus.ratio.value=6;', what: "the capture sound's compressor ratio" },
-  { id: 'B10-B11-headlamp', file: 'shared/equipment.ts', old: "headlamp:{label:'Headlamp',range:262,", now: "headlamp:{label:'Headlamp',range:263,", what: "the headlamp's range" },
   { id: 'B12-landing', file: 'client/arrival.ts', old: 'landing=.62', now: 'landing=.63', what: "the moment a fall lands" },
   { id: 'B12-dropped', file: 'client/arrival.ts', old: 'person.gear.visible=false;', now: '', what: "a statement dropped: a vanishing wanderer's light would stay drawn" },
   { id: 'B12-binding', file: 'client/arrival.ts', old: 'const u=(p-landing)/(1-landing),b=', now: 'const u=(t-landing)/(1-landing),b=', what: 'another variable in scope read (t for p)' },
@@ -39,6 +40,13 @@ const CODE = [
   { id: 'hud-label', file: 'client/main.ts', old: "'SPRINTING'", now: "'SPRINTlNG'", what: 'a string: the pace label' },
   { id: 'loose-equality', file: 'client/main.ts', old: "if(customizing){if(e.code==='Escape')", now: "if(customizing){if(e.code=='Escape')", what: "=== became == with a string: the normal form makes them one only when an operand is a number" },
   { id: 'corpse-owner', file: 'client/render.ts', old: 'addCorpse({ownerId:player.id,', now: 'addCorpse({ownerId:player.name,', what: "a corpse recorded under the wanderer's name, not its id" },
+];
+/* (C4c) the one definition of Level 0 and of the lights, which the port reads through the build's constants (level-data.cjs): a copy
+   edited, given to the entries that read it (c4_alpha_modules.json "data") */
+const DATA = [
+  { id: 'B02-corridor', file: 'src/frameworks/lost/shared/level0.json', old: '[43,34,7,4]', now: '[43,34,7,5]', what: 'the level: one corridor a cell longer' },
+  { id: 'B02-blackout', file: 'src/frameworks/lost/shared/level0.json', old: '"first": 36', now: '"first": 37', what: 'the level: the first blackout a second later' },
+  { id: 'B10-B11-headlamp', file: 'src/frameworks/pocket/shared/lights.json', old: '"headlamp": {"label": "Headlamp", "range": 262,', now: '"headlamp": {"label": "Headlamp", "range": 263,', what: "the headlamp's range" },
 ];
 const LATER = 'client/style-after-v11.css';
 const CSS = [
@@ -68,6 +76,17 @@ function alpha(file, text, tag) {
   const j = fs.existsSync(out) ? JSON.parse(fs.readFileSync(out, 'utf8')) : null, rows = j ? j.modules.filter(m => m.port === copy) : [];
   return { rows: rows.length, same: rows.length > 0 && rows.every(m => m.ok), problem: (rows.find(m => !m.ok) || { problems: [] }).problems[0] || (j ? null : r.text.slice(-300)) };
 }
+/* (C4c) the alpha check of the entries that read the build's constants, with one definition file replaced by a copy (its text given) */
+function data(file, text, tag) {
+  const dir = path.join(TMP, tag); fs.mkdirSync(dir, { recursive: true });
+  const copy = path.join(dir, path.basename(file)); fs.writeFileSync(copy, text);
+  const cfg = { ...CFG, modules: CFG.modules.filter(m => m.data).map(m => ({ ...m, data: { module: typeof m.data === 'string' ? m.data : m.data.module, files: { [file]: copy } } })) };
+  if (!cfg.modules.length) throw new Error('no entry of c4_alpha_modules.json reads the build constants');
+  const cf = path.join(dir, 'config.json'), out = path.join(dir, 'alpha.json'); fs.writeFileSync(cf, JSON.stringify(cfg));
+  const r = node([path.join(HERE, 'c4_alpha_all.mjs'), '--config', cf, '--rolldown', RD, '--out', out]); runs++;
+  const j = fs.existsSync(out) ? JSON.parse(fs.readFileSync(out, 'utf8')) : null, rows = j ? j.modules : [];
+  return { rows: rows.length, same: rows.length > 0 && rows.every(m => m.ok), problem: (rows.find(m => !m.ok) || { problems: [] }).problems[0] || (j ? null : r.text.slice(-300)) };
+}
 function css(text, tag) {
   const dir = path.join(TMP, tag); fs.mkdirSync(dir, { recursive: true });
   const copy = path.join(dir, 'later.css'), out = path.join(dir, 'css.json'); fs.writeFileSync(copy, text);
@@ -86,6 +105,17 @@ try {
       once(text, m.old, m.id);
       const r = alpha(file, text.replace(m.old, () => m.now), m.id), caught = r.rows > 0 && !r.same;
       R.mutants.push({ id: m.id, check: 'c4_alpha_all.mjs', file: GAME + file, what: m.what, caught, first: r.problem ? String(r.problem).slice(0, 300) : null }); if (!caught) R.ok = false;
+      console.log(`${caught ? 'CAUGHT ' : 'MISSED '} ${m.id}: ${m.what}${caught && r.problem ? '\n           ' + String(r.problem).slice(0, 200) : ''}`);
+    }
+  }
+  for (const file of [...new Set(DATA.map(m => m.file))]) {
+    const text = fs.readFileSync(path.join(REPO, file), 'utf8'), c = data(file, text, 'control-' + file.replace(/\W/g, '_'));
+    R.controls.push({ check: 'c4_alpha_all.mjs', file, rows: c.rows, same: c.same }); if (!c.same) R.ok = false;
+    console.log(`${c.same ? 'SAME     ' : 'DIFFERENT'} control: an unchanged copy of ${file} (${c.rows} config entries read it)${c.same ? '' : ': ' + c.problem}`);
+    for (const m of DATA.filter(x => x.file === file)) {
+      once(text, m.old, m.id);
+      const r = data(file, text.replace(m.old, () => m.now), m.id), caught = r.rows > 0 && !r.same;
+      R.mutants.push({ id: m.id, check: 'c4_alpha_all.mjs', file, what: m.what, caught, first: r.problem ? String(r.problem).slice(0, 300) : null }); if (!caught) R.ok = false;
       console.log(`${caught ? 'CAUGHT ' : 'MISSED '} ${m.id}: ${m.what}${caught && r.problem ? '\n           ' + String(r.problem).slice(0, 200) : ''}`);
     }
   }

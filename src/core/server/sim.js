@@ -9,7 +9,8 @@
  * a factory given what it uses, by owner, returning what it gives.  This file makes them in the order the one function ran (the level;
  * the seed and the AI engine; the plain declarations; the first world reset) and returns the same object, key for key.  No module keeps
  * state outside its factory, so every world has its own.
- *   level   L.O.S.T.      src/frameworks/lost/server/sim.level0.js     the map, the collision, the ray cast and the light (from the bundle)
+ *   level   L.O.S.T.      src/frameworks/lost/server/sim.level0.js     the map, the collision, the ray cast and the light (from the bundle;
+ *                                                                       its data, since C4c, the one definition: level0.json, lights.json)
  *   ai      N.A.N.I.      src/frameworks/nani/server/sim.ai.js         the world's seed, the AI engine, spawning, the director's caps
  *   walls   L.O.S.T.      src/frameworks/lost/server/sim.glitches.js   the glitched walls
  *   items   P.O.C.K.E.T.  src/frameworks/pocket/server/sim.items.js    the cartograph
@@ -24,13 +25,15 @@
 'use strict';
 const WORLD=require('../../../generated/server/world.js');
 const AI=require('../../../generated/server/ai.js');
+/* (C4c, M-003) Level 0 and the carried lights, defined once for the server and the page (the compiled client is built with them) */
+const LEVEL0=require('../../frameworks/lost/shared/level0.json'),LIGHTS=require('../../frameworks/pocket/shared/lights.json');
 const level0=require('../../frameworks/lost/server/sim.level0.js'),simAi=require('../../frameworks/nani/server/sim.ai.js'),
   simGlitches=require('../../frameworks/lost/server/sim.glitches.js'),simItems=require('../../frameworks/pocket/server/sim.items.js'),
   simBodies=require('../../frameworks/gib/server/sim.bodies.js'),simFeed=require('../../frameworks/nani/server/sim.feed.js'),
   simStep=require('./sim.step.js'),simPlayers=require('../../frameworks/space/server/sim.players.js'),
   simMovement=require('../../frameworks/space/server/sim.movement.js'),simAdmin=require('../../frameworks/overseer/server/sim.admin.js');
 module.exports=function createSim(options){const opts=options||{};
-  const level=level0(WORLD);
+  const level=level0(WORLD,{level0:LEVEL0,lights:LIGHTS});
   const players=[];
   const ai=simAi({AI,WORLD,opts,players,level});
   const walls=simGlitches({ai,level}),items=simItems({ai,walls}),bodies=simBodies({opts,ai}),feed=simFeed({WORLD,opts,players,level,ai});

@@ -6,15 +6,18 @@
  * run, debugOn to the admin); navCmd and killerEnd, which sat among G.I.B.'s lines, are here, with the engine they call.
  *   simAi({ AI, WORLD, opts, players, level })   makes the world's random stream (RND, from opts.seed or 4 random bytes) and its AI
  *     engine (eng) on the level's primitives, and returns them with the director's caps and what spawns and places the monsters.
- *     players is the roster, read only (alive). */
+ *     players is the roster, read only (alive).
+ * Continuation C4c (M-003): the reachability anchor (ANCHOR) is the level's, read from the one definition of Level 0 and given with
+ * the level; this module returns it as before. */
 'use strict';
-module.exports = function simAi({ AI, WORLD, opts, players, level: { Bc, FBH, FBW, Fc, Gc, Ic, Oc, Uc, V, W, al, fl, il, ll, qc, sl, ul, zc } }) {
+module.exports = function simAi({ AI, WORLD, opts, players, level: { ANCHOR, Bc, FBH, FBW, Fc, Gc, Ic, Oc, Uc, V, W, al, fl, il, ll, qc, sl, ul, zc } }) {
 /* ---------- multiplayer glue (v16): the shared AI engine (ai.js) drives every Hound and Smiler.
    The old single-hound / single-smiler code that used to sit above this line has been replaced by that engine;
    everything the entities know about players reaches them through perception (see ai.js). ---------- */
 const SIM_SEED=(opts.seed??require('crypto').randomBytes(4).readUInt32LE(0))>>>0;
 const RND=AI.mkRng(SIM_SEED);
-const ANCHOR={x:1056,y:3264};   // spawn is hard against a wall; this open spot next to it is used for reachability checks
+/* (C4c) ANCHOR, the open spot next to the spawn (which is hard against a wall) that reachability is checked from, is the level's:
+   L.O.S.T.'s src/frameworks/lost/shared/level0.json (its anchor cell), given with the level; it was written here as {x:1056,y:3264} */
 // Shipped/director population remains intentionally small.  Human-QA/stress tools get a much higher ceiling without silently changing normal balance.
 const DIRECTOR_MAX_HOUNDS=3,ADMIN_MAX_HOUNDS=64,ADMIN_MAX_SMILERS=64,MAX_BODIES=24;
 const adminCap=k=>k===`hound`?ADMIN_MAX_HOUNDS:ADMIN_MAX_SMILERS;

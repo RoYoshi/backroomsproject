@@ -64,5 +64,5 @@
   H.dom = () => [document.body.className].concat([...document.body.querySelectorAll('*')].filter(e => !e.closest('[data-harness]') && e.tagName !== 'SCRIPT')
     .map(e => [e.tagName, e.id, e.className && typeof e.className === 'string' ? e.className : '', e.getAttribute('style') || '', e.width !== undefined && e.tagName === 'CANVAS' ? e.width + 'x' + e.height : '', e.childElementCount ? '' : (e.textContent || '').slice(0, 60)]));
   /* Level 0, from L.O.S.T.'s server module (the same text on both sides), with this page's WORLD */
-  if (window.__level0) H.level = window.__level0(window.WORLD);
+  if (window.__level0) H.level = window.__level0(window.WORLD, window.__level0Defs);   // (C4c) with the level's one definition
 })();

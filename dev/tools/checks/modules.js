@@ -81,7 +81,7 @@ function exportsOf(fn) {
 }
 const R = { tool: 'dev/tools/checks/modules.js', typescript: ts.version, tree: TREE === REPO ? 'this repository' : TREE, files: {}, sim: null, problems: [], ok: true };
 const problem = (f, m) => { R.problems.push(`${f}: ${m}`); R.ok = false; };
-const SERVER = LAYOUT.serverFiles().filter(f => !f.startsWith('generated/'));
+const SERVER = LAYOUT.serverFiles().filter(f => !f.startsWith('generated/') && f.endsWith('.js'));   // (C4c) not the definitions the sim requires (JSON data, no code)
 const SIM = new Set(LAYOUT.simFiles()), SIM_ROOT = LAYOUT.rel('sim.js');
 const factories = {};
 for (const f of SERVER) {

@@ -131,7 +131,7 @@ what it gives. `core/server/sim.js` makes them in this order (the order the one 
 
 | Module (its name in `sim.js`) | Owner | Given | Returns |
 |---|---|---|---|
-| `frameworks/lost/server/sim.level0.js` (`level`) | L.O.S.T. | `WORLD` | the map, collision, ray cast and light primitives (`FBW`, `FBH`, `Oc`, `Ic`, `Fc`, `W`, `al`, `il`, `ll`, `ul`, `zc`, `Hc`, `Bc`, `sl`, `Uc`, `fl`, `Gc`, `qc`), the blackout `V` with `Lc`, `Rc`, and its controls `forceBlackout`, `restartBlackout` |
+| `frameworks/lost/server/sim.level0.js` (`level`) | L.O.S.T. | `WORLD`, and (C4c) the definitions `{ level0, lights }`: `frameworks/lost/shared/level0.json` and `frameworks/pocket/shared/lights.json`, which the composition requires | the map, collision, ray cast and light primitives (`FBW`, `FBH`, `Oc`, `Ic`, `ANCHOR` (since C4c), `Fc`, `W`, `al`, `il`, `ll`, `ul`, `zc`, `Hc`, `Bc`, `sl`, `Uc`, `fl`, `Gc`, `qc`), the blackout `V` with `Lc`, `Rc`, and its controls `forceBlackout`, `restartBlackout` |
 | `frameworks/nani/server/sim.ai.js` (`ai`) | N.A.N.I. | `AI`, `WORLD`, `opts`, `players`, `level` | the seed's stream `RND`, `rnd`, the engine `eng` and its `adapter`, the caps, `alive`, `isAlive`, `ents`, `randomSpot`, `newHound`, `spawnMonsters`, `adminSpawn`, `adminCap`, `ANCHOR`, `SNn`, `navCmd`, `killerEnd` |
 | `frameworks/lost/server/sim.glitches.js` (`walls`) | L.O.S.T. | `ai`, `level` | `glitches()` (the current walls), `placeGlitches()` |
 | `frameworks/pocket/server/sim.items.js` (`items`) | P.O.C.K.E.T. | `ai`, `walls` | `items()` (the current cartograph), `placeItems()`, `takeItem(p)` |

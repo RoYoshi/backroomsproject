@@ -25,6 +25,8 @@ const oldText = execFileSync('git', ['-C', REPO, 'show', `${ARG['old-ref']}:${MO
 const serverCopy = LAYOUT.at('world.js'), serverSame = serverCopy === newFile || fs.readFileSync(serverCopy, 'utf8') === newText;   // the server's copy must be the page's, byte for byte
 const level0Text = fs.readFileSync(path.join(REPO, 'src', 'frameworks', 'lost', 'server', 'sim.level0.js'), 'utf8');
 const level0 = load(level0Text);
+/* (C4c, M-003) the level's one definition, which the server's level module is given since C4c (an older module takes only WORLD) */
+const DEFS = { level0: JSON.parse(fs.readFileSync(path.join(REPO, 'src', 'frameworks', 'lost', 'shared', 'level0.json'), 'utf8')), lights: JSON.parse(fs.readFileSync(path.join(REPO, 'src', 'frameworks', 'pocket', 'shared', 'lights.json'), 'utf8')) };
 const SIDES = [load(oldText), load(newText)];
 const R = { tool: 'dev/tools/gate/golden/world_diff.js', old: `${ARG['old-ref'].slice(0, 7)}:world.js`, new: path.relative(TREE, newFile), serverCopy: path.relative(TREE, serverCopy), serverCopySame: serverSame, comparisons: 0, differences: 0, first: [], reached: {}, ok: serverSame };
 const J = v => JSON.stringify(v, (k, x) => typeof x === 'function' ? 'fn:' + x.length : x instanceof Uint8Array ? 'u8:' + Buffer.from(x).toString('base64').length + ':' + require('crypto').createHash('sha1').update(Buffer.from(x)).digest('hex') : x);
@@ -38,7 +40,7 @@ same('keys', W => Object.keys(W));
 same('types', W => Object.keys(W).map(k => [k, typeof W[k]]));
 same('data', W => Object.fromEntries(Object.entries(W).filter(([, v]) => typeof v !== 'function')));
 /* each side's own Level 0, built with its WORLD (the server's level module, unchanged) */
-const LV = SIDES.map(W => level0(W));
+const LV = SIDES.map(W => level0(W, DEFS));
 same('level', (W, i) => { const L = LV[i]; return { FBW: L.FBW, FBH: L.FBH, Oc: L.Oc, Ic: L.Ic, Fc: L.Fc, al: L.al, W: L.W, ll: L.ll }; });
 /* points across Level 0, with pads and type filters */
 const pts = []; for (let y = 50; y < 72 * 96; y += 97) for (let x = 30; x < 96 * 96; x += 113) pts.push([x, y]);

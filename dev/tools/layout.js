@@ -16,6 +16,8 @@
  *   L.serverFiles()        the server-side runtime files (relative paths); L.serverSource() the server's own code as one text
  *   L.simFiles()           (C3) the sim's own files: its composition and the modules it requires (relative paths); L.simSource() their
  *                          text, for the tests that read the sim's code (s_ir I1, light_test)
+ *   L.simData()            (C4c) the data files the sim's composition requires (the one definition of Level 0 and of the lights,
+ *                          src/frameworks/<owner>/shared/<name>.json): runtime files of the server, listed by serverFiles() too
  * A name the map does not know is returned as <root>/<name> (an unmoved file such as server.js or a dev/ path). */
 'use strict';
 const fs = require('fs'), path = require('path');
@@ -60,7 +62,7 @@ function forTree(dir) {
     const recipes = JSON.parse(fs.readFileSync(path.join(dir, 'src', 'build-recipes.json'), 'utf8')), parts = new Set(recipes.outputs.flatMap(o => o.parts || []));
     const gen = walk(path.join('generated', 'server')).map(f => f.split(path.sep).join('/')).filter(f => f.endsWith('.js'));
     const mods = walk('src').map(f => f.split(path.sep).join('/')).filter(f => /\/server\/[^/]+\.js$/.test(f) && !parts.has(f));
-    return ['server.js', ...gen, ...mods];
+    return ['server.js', ...gen, ...mods, ...simData()];
   };
   /* (C3) the sim's own files, relative paths: on the modern layout its composition (src/core/server/sim.js) and every module the
    * composition requires from src/, in the composition's order; on the old layout sim.js alone */
@@ -68,6 +70,16 @@ function forTree(dir) {
     if (!modern) return ['sim.js'];
     const root = rel('sim.js'), out = [root];
     for (const m of fs.readFileSync(path.join(dir, root), 'utf8').matchAll(/require\('(\.{1,2}\/[^']+)'\)/g)) {
+      const f = path.posix.normalize(path.posix.join(path.posix.dirname(root), m[1]));
+      if (f.startsWith('src/') && f.endsWith('.js') && !out.includes(f)) out.push(f);
+    }
+    return out;
+  };
+  /* (C4c) the data the sim's composition requires from src/ (JSON), in its order: none before C4c */
+  const simData = () => {
+    if (!modern) return [];
+    const root = rel('sim.js'), out = [];
+    for (const m of fs.readFileSync(path.join(dir, root), 'utf8').matchAll(/require\('(\.{1,2}\/[^']+\.json)'\)/g)) {
       const f = path.posix.normalize(path.posix.join(path.posix.dirname(root), m[1]));
       if (f.startsWith('src/') && !out.includes(f)) out.push(f);
     }
@@ -77,13 +89,13 @@ function forTree(dir) {
   /* (H3M-2) the server's own code as one text: server.js and every module split out of it (Stage 3H0, 3H2, H3M-2), on either layout, for
    * the tests that read the server's code (s_ir I1, s_humanqa_hotfix X02).  The world's files (sim.js and, since C3, its modules; ai.js,
    * world.js, dphys.js) are not server.js's code and are left out. */
-  const serverSource = () => { const sim = new Set(simFiles()); return serverFiles().filter(f => !f.startsWith('generated/') && !sim.has(f) && !['sim.js', 'ai.js', 'world.js', 'dphys.js'].includes(f))
+  const serverSource = () => { const sim = new Set(simFiles()); return serverFiles().filter(f => !f.startsWith('generated/') && !sim.has(f) && !f.endsWith('.json') && !['sim.js', 'ai.js', 'world.js', 'dphys.js'].includes(f))
     .sort((a, b) => a === 'server.js' ? -1 : b === 'server.js' ? 1 : a < b ? -1 : a > b ? 1 : 0).map(f => fs.readFileSync(path.join(dir, f), 'utf8')).join('\n'); };
   return {
     root: dir, modern, rel,
     at: name => path.join(dir, rel(name)),
     webRoot: () => modern ? path.join(dir, 'public') : dir,
-    serverFiles, serverSource, simFiles, simSource,
+    serverFiles, serverSource, simFiles, simSource, simData,
   };
 }
 /* The runtime of a tree under its old (root-relative) names: [old name, absolute path] for every file the game serves or the server loads.
@@ -138,7 +150,7 @@ function projectOld(dir, outDir) {
   return [...R.keys()].sort();
 }
 const self = forTree(path.resolve(__dirname, '..', '..'));
-module.exports = Object.assign({ forTree, isModern, MAP, PATH_EDITS, runtimeOf, projectOld, webRoot: dir => forTree(dir).webRoot() }, { root: self.root, at: self.at, rel: self.rel, modern: self.modern, serverFiles: self.serverFiles, serverSource: self.serverSource, simFiles: self.simFiles, simSource: self.simSource });
+module.exports = Object.assign({ forTree, isModern, MAP, PATH_EDITS, runtimeOf, projectOld, webRoot: dir => forTree(dir).webRoot() }, { root: self.root, at: self.at, rel: self.rel, modern: self.modern, serverFiles: self.serverFiles, serverSource: self.serverSource, simFiles: self.simFiles, simSource: self.simSource, simData: self.simData });
 /* command line, for tools in other languages:  node dev/tools/layout.js at <old name> [--dir <tree>]   prints the absolute path;
  * sim-files [--dir <tree>]   prints the absolute path of each of the sim's files, one per line (C3) */
 if (require.main === module) {

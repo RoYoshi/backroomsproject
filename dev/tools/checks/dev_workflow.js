@@ -22,7 +22,8 @@
  *      stylesheet: only dev/tools/build/client.js, with the packages, makes them), build.js writes them all again, byte for byte what
  *      they were in 1;
  *   7. (continuation C4b; with --packages, or TFB_CLIENT_PACKAGES: the 31 locked npm packages) the compiled client: a TypeScript source
- *      of src/core/client/game/ is edited (the flashlight's label); build.js --check now fails (the client is not its record's build);
+ *      of src/core/client/game/ is edited (the label of the flashlight's first part); build.js --check now fails (the client is not its
+ *      record's build);
  *      client.js --write builds it (offline, from the verified packages) and build.js writes the manifest: the bundle, its record and the
  *      manifest are written, nothing else, and --check passes; the copy's server serves the new bundle and a real Chromium page sees the
  *      new label through window.__api; the edit undone and built again: every output, the record included, byte for byte what it was,
@@ -40,7 +41,7 @@ const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const PASS = 'c5-synthetic-admin';                                       // a synthetic passcode for the copy's server (never a real one)
 const CLIENT = { file: 'src/frameworks/bpp/client/mp.session.js', find: "' · SHARED MONSTERS'", repl: "' · SHARED MONSTERS · DEV WORKFLOW CHECK'", mark: 'DEV WORKFLOW CHECK' };
 const PARTS = ['server.js', 'package.json', 'public', 'generated', 'src', 'dev/tools/build'];   // what plays and builds (the rest of dev/ is not needed)
-const GAME = { file: 'src/core/client/game/shared/equipment.ts', find: "flashlight:{label:'Flashlight',", repl: "flashlight:{label:'Flashlight - DEV WORKFLOW CHECK',", mark: 'Flashlight - DEV WORKFLOW CHECK', orig: 'Flashlight' };
+const GAME = { file: 'src/core/client/game/shared/equipment.ts', find: "flashlight:[['body','Body',", repl: "flashlight:[['body','Body - DEV WORKFLOW CHECK',", mark: 'Body - DEV WORKFLOW CHECK', orig: 'Body' };
 const PACKAGES = ARG.packages || process.env.TFB_CLIENT_PACKAGES;      // (C4b) the client build's packages: step 7
 const SERVER = { file: 'src/frameworks/ward/server/static.js', find: "'Vary': 'Accept-Encoding' }", repl: "'Vary': 'Accept-Encoding', 'X-Dev-Workflow-Check': '1' }", header: 'x-dev-workflow-check' };
 
@@ -60,14 +61,15 @@ async function serve(port) {
   try { process.kill(p.pid); } catch (e) { } throw new Error('the copy\'s server did not start');
 }
 const stop = async p => { if (!p) return; try { process.kill(p.pid); } catch (e) { } for (let i = 0; i < 50 && p.exitCode === null && p.signalCode === null; i++) await sleep(50); };
-/* (C4b) the flashlight's label as the page's compiled client publishes it (window.__api.Gc), once it is `want` (or the last value seen) */
+/* (C4b) the label of the flashlight's first part as the page's compiled client publishes it (window.__api.gear.defs), once it is `want`
+   (or the last value seen) */
 async function apiLabel(browser, port, want, ms = 30000) {
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 720 } }), P = await ctx.newPage(), errs = [];
   P.on('pageerror', e => errs.push(String(e).slice(0, 200)));
   try {
     await P.goto(`http://127.0.0.1:${port}/?room=workflow${port}`, { timeout: 90000 });
     const t0 = Date.now(); let value = null;
-    while (Date.now() - t0 < ms) { value = await P.evaluate(() => (window.__api && window.__api.Gc && window.__api.Gc.flashlight ? window.__api.Gc.flashlight.label : null)).catch(() => null); if (value === want) break; await sleep(200); }
+    while (Date.now() - t0 < ms) { value = await P.evaluate(() => (window.__api && window.__api.gear && window.__api.gear.defs ? window.__api.gear.defs.flashlight[0][1] : null)).catch(() => null); if (value === want) break; await sleep(200); }
     return { value, errors: errs };
   } finally { await ctx.close(); }
 }
@@ -148,7 +150,7 @@ async function statusLine(browser, port, want, ms = 30000) {               // th
       const cbuild = () => spawnSync(process.execPath, ['dev/tools/build/client.js', '--packages', path.resolve(PACKAGES), '--write', '--work', CW], { cwd: T, encoding: 'utf8', maxBuffer: 64 << 20 });
       try {
         const all = outs.concat('generated/CLIENT_BUILD.json'), B0 = hashes(all), BUNDLE = 'public/assets/index-DKbV5Nv9.js';
-        const origGame = edit(GAME); step('7a a client source edited', origGame !== null, { note: `${GAME.file}: the flashlight's label` });
+        const origGame = edit(GAME); step('7a a client source edited', origGame !== null, { note: `${GAME.file}: the label of the flashlight's first part` });
         c = build('--check'); step('7b --check sees the client is not its record\'s build', c.status !== 0 && (c.stdout + c.stderr).includes(GAME.file), { note: ((c.stdout + c.stderr).trim().split('\n').find(l => l.includes(GAME.file)) || '').slice(0, 160) });
         let k = cbuild(), m = build(); const B1 = hashes(all), written7 = Object.keys(B1).filter(f => B1[f] !== B0[f]).sort();
         step('7c client.js --write and build.js write the bundle, its record and the manifest, nothing else', k.status === 0 && m.status === 0 && JSON.stringify(written7) === JSON.stringify(['generated/BUILD_MANIFEST.json', 'generated/CLIENT_BUILD.json', BUNDLE]) && build('--check').status === 0,
@@ -157,12 +159,12 @@ async function statusLine(browser, port, want, ms = 30000) {               // th
         const port7 = await freePort(); srv = await serve(port7);
         if (!browser) browser = await pw.chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
         g = await get(port7, '/assets/index-DKbV5Nv9.js'); let a = await apiLabel(browser, port7, GAME.mark);
-        step('7e the server serves the new bundle, and a real page sees the edit', g.status === 200 && sha(g.body) === B1[BUNDLE] && a.value === GAME.mark && !a.errors.length, { note: `GET ${g.status}; window.__api.Gc.flashlight.label ${JSON.stringify(a.value)}${a.errors.length ? '; page errors: ' + a.errors.join(' | ') : ''}` });
+        step('7e the server serves the new bundle, and a real page sees the edit', g.status === 200 && sha(g.body) === B1[BUNDLE] && a.value === GAME.mark && !a.errors.length, { note: `GET ${g.status}; window.__api.gear.defs.flashlight[0][1] ${JSON.stringify(a.value)}${a.errors.length ? '; page errors: ' + a.errors.join(' | ') : ''}` });
         await stop(srv); srv = null;
         edit(GAME, origGame); k = cbuild(); m = build(); const B2 = hashes(all), diff7 = Object.keys(B0).filter(f => B0[f] !== B2[f]);
         step('7f the edit undone and built again: every output and the record, byte for byte what they were', k.status === 0 && m.status === 0 && !diff7.length && build('--check').status === 0, { note: diff7.length ? 'differ: ' + diff7.join(', ') : `${Object.keys(B0).length} files identical` });
         srv = await serve(port7); g = await get(port7, '/assets/index-DKbV5Nv9.js'); a = await apiLabel(browser, port7, GAME.orig);
-        step('7g the server serves the original bundle, and the page sees the original label', g.status === 200 && sha(g.body) === B0[BUNDLE] && a.value === GAME.orig && !a.errors.length, { note: `GET ${g.status}; window.__api.Gc.flashlight.label ${JSON.stringify(a.value)}` });
+        step('7g the server serves the original bundle, and the page sees the original label', g.status === 200 && sha(g.body) === B0[BUNDLE] && a.value === GAME.orig && !a.errors.length, { note: `GET ${g.status}; window.__api.gear.defs.flashlight[0][1] ${JSON.stringify(a.value)}` });
         await stop(srv); srv = null;
         R.client = R.steps.filter(x => /^7/.test(x.id)).every(x => x.ok) ? 'checked' : 'FAILED';
       } finally { if (!ARG['client-work']) fs.rmSync(CW, { recursive: true, force: true }); }

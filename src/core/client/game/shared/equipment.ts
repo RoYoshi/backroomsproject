@@ -22,14 +22,11 @@ export function partsFor(saved:SavedLight,kind:LightKind):LightParts{
  return out;
 }
 // Base gear leaves room for a future powerbulb upgrade. These are gameplay values. (B11: the four kinds' reach and spread)
+// (Stage 3H continuation C4c, M-003) defined once for the server and the page: P.O.C.K.E.T.'s src/frameworks/pocket/shared/lights.json
+// (LIGHT_KINDS: level-data.cjs; the build writes the table here)
 /* a light's reach (range, px), spread (arc, rad), strength (power), spill; omni: all around; nv: night vision, no light (the camcorder) */
 export type LightSpec={readonly label:string;readonly range:number;readonly arc:number;readonly power:number;readonly spill:number;readonly omni:boolean;readonly nv?:boolean};
-export const LIGHT_SPECS:Record<LightKind,LightSpec>={
- flashlight:{label:'Flashlight',range:390,arc:.92,power:.58,spill:56,omni:false},
- headlamp:{label:'Headlamp',range:262,arc:1.95,power:.5,spill:82,omni:false},
- lantern:{label:'Lantern',range:228,arc:Math.PI*2,power:.5,spill:200,omni:true},
- camcorder:{label:'Camcorder',range:1,arc:.1,power:0,spill:1,omni:false,nv:true}
-};
+export const LIGHT_SPECS:Record<LightKind,LightSpec>=LIGHT_KINDS;
 const smooth=(a:number,b:number,v:number)=>{const t=Math.max(0,Math.min(1,(v-a)/(b-a)));return t*t*(3-2*t);};
 export function carriedLightAt(source:{x:number;y:number;angle:number;equipment?:LightEquipment},target:{x:number;y:number},on:boolean){
  if(!on)return 0;const spec=LIGHT_SPECS[source.equipment?.kind??'flashlight'];

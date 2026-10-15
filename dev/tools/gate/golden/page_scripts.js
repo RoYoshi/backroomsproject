@@ -86,10 +86,12 @@ function debugFixture() {
   } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
 }
 const FIX = debugFixture();
+const LEVEL0_DEFS = { level0: JSON.parse(fs.readFileSync(path.join(REPO, 'src', 'frameworks', 'lost', 'shared', 'level0.json'), 'utf8')), lights: JSON.parse(fs.readFileSync(path.join(REPO, 'src', 'frameworks', 'pocket', 'shared', 'lights.json'), 'utf8')) };
 const FILES = {
   'env.js': fs.readFileSync(path.join(H0, 'cli_env.js')), 'page_env.js': fs.readFileSync(path.join(HERE, 'page_env.js')), 'scenes.js': fs.readFileSync(path.join(HERE, 'page_scenes.js')),
   'world.js': git('world.js'), 'dphys.js': git('dphys.js'), 'fix.js': Buffer.from('window.__FIX = ' + JSON.stringify(FIX) + ';\n'),
-  'level0.js': Buffer.from(`window.__level0 = (function () { const module = { exports: {} };\n${level0}\nreturn module.exports; })();\n`),
+  'level0.js': Buffer.from(`window.__level0 = (function () { const module = { exports: {} };\n${level0}\nreturn module.exports; })();\n` +
+    `window.__level0Defs = ${JSON.stringify(LEVEL0_DEFS)};\n`),   // (C4c, M-003) the level's one definition, which the server's level module is given
 };
 const page = name => `<!doctype html><html><head><meta charset="utf-8"><title>c3b</title></head><body><canvas id="mp"></canvas><div id="dread"></div><div id="game"></div>` +
   `<div id="light"></div><div id="dialog"><p class="lore-credit">credit line</p></div><div id="sound">SOUND: ON</div><div id="touch"></div>` +

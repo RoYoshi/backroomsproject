@@ -1,0 +1,38 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c4c_level0_check.js",
+ "oldRef": "00b0c7f66985870af44ef5779696eff75502b295",
+ "comparisons": 198648,
+ "counts": {
+  "names": 1,
+  "data ANCHOR": 1,
+  "data FBW": 1,
+  "data FBH": 1,
+  "data W": 1,
+  "data al": 1,
+  "data il": 1,
+  "data Ic": 1,
+  "data Oc": 1,
+  "data Fc": 1,
+  "data V": 1,
+  "data ll": 1,
+  "data Gc": 1,
+  "zc": 7600,
+  "Hc": 7600,
+  "Bc": 27648,
+  "sl": 82944,
+  "Uc": 6000,
+  "fl": 400,
+  "qc": 3000,
+  "Rc": 31720,
+  "V": 31720,
+  "V after Lc": 1,
+  "V forced": 1,
+  "V restarted": 1
+ },
+ "declared": [
+  "ANCHOR: the level's since C4c (level0.json's anchor cell); until then sim.ai.js's {x:1056,y:3264}",
+  "Gc.camcorder: label \"Night Vision Camcorder\" -> \"Camcorder\", nv: true (the page's; no server code reads either)"
+ ],
+ "differences": [],
+ "ok": true
+}

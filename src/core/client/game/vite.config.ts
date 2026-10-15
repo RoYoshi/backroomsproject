@@ -9,10 +9,18 @@
  * The stylesheet: style.css (v11's own source) is built and minified as v11's build did it; client/style-after-v11.css, the rules the
  * steps after v11 added (readable), is appended to it as it is (appendLaterStyles; the file says why it skips the minifier).
  * Nothing from a public folder is copied: the textures the page loads (assets/carpet.png) are served from public/assets/ as they are.
+ * (C4c, M-003) Level 0 and the carried lights are defined once, outside this folder, for the server and the page (level-data.cjs): each
+ * of their constants is `define`d as its value, so the source names them and the built client holds the values, as before.
  * Built by dev/tools/build/client.js, which installs the locked packages offline and copies the outputs where they belong. */
 import { defineConfig, type Plugin } from 'vite';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+import { join } from 'node:path';
+
+const levelData = createRequire(import.meta.url)('./level-data.cjs') as { INPUTS: string[]; constants: (read: (p: string) => unknown) => Record<string, unknown> };
+const REPO = fileURLToPath(new URL('../../../../', import.meta.url));      // the repository (or client.js's copy of it)
+const DEFINE = Object.fromEntries(Object.entries(levelData.constants(p => JSON.parse(readFileSync(join(REPO, p), 'utf8')))).map(([k, v]) => [k, JSON.stringify(v)]));
 
 const V11_CHUNKS: Record<string, string> = { browserAll: 'assets/browserAll-B-iwy0YI.js', webworkerAll: 'assets/webworkerAll-ByhiNG9W.js' };
 const STYLESHEET = 'assets/index-D7hdwmUU.css';
@@ -32,6 +40,8 @@ function appendLaterStyles(): Plugin {
 
 export default defineConfig({
   publicDir: false,
+  define: DEFINE,
+  server: { fs: { allow: ['.', ...levelData.INPUTS.map(p => join(REPO, p))] } },   // (the dev server: the definitions outside this folder)
   plugins: [appendLaterStyles()],
   build: {
     rolldownOptions: {

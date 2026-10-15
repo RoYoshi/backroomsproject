@@ -32,6 +32,7 @@ const walk = d => fs.existsSync(d) ? fs.readdirSync(d, { withFileTypes: true }).
 const intoOf = p => recipes.filter(o => (o.parts || []).includes(p)).map(o => o.out);
 const HEADER = /^\/\*\* @part (\S+) - (.*)$/m;
 function whatIs(p) {
+  if (p.endsWith('.json')) { try { const n = JSON.parse(fs.readFileSync(path.join(REPO, p), 'utf8')).note; return n ? n.split('. ')[0].replace(/\.$/, '') : ''; } catch (e) { return ''; } }   // (C4c) a definition: its note's first sentence
   const t = fs.readFileSync(path.join(REPO, p), 'utf8'), m = t.slice(0, 600).match(HEADER);
   if (m && t.startsWith('/** @part')) return m[2].trim();
   const c = /^\s*(\/\*[\s\S]*?\*\/|(?:\/\/[^\n]*\n)+)/.exec(t);                           // a whole file: the first line of text in its first comment
@@ -40,10 +41,13 @@ function whatIs(p) {
   return line || '';
 }
 const SIM = require(path.join(REPO, 'dev', 'tools', 'layout.js')).simFiles();   // (C3) the sim's composition and its modules
+const SIM_DATA = require(path.join(REPO, 'dev', 'tools', 'layout.js')).simData();   // (C4c) the definitions the sim's composition requires
+const CLIENT_INPUTS = (() => { const f = path.join(REPO, 'src', 'core', 'client', 'game', 'level-data.cjs'); return fs.existsSync(f) ? require(f).INPUTS : []; })();   // (C4c) built into the compiled client
 function goesInto(p) {
   const into = intoOf(p);
   if (into.length) return into.map(o => '`' + o + '`').join(', ') + (into.length && fs.readFileSync(path.join(REPO, p), 'latin1').startsWith('/** @part') ? ' (a part)' : '');
   if (SIM.includes(p)) return p === SIM[0] ? 'the sim\'s composition: `server.js` requires it' : 'a module of the sim: `src/core/server/sim.js` requires it';
+  if (SIM_DATA.includes(p) || CLIENT_INPUTS.includes(p)) return [SIM_DATA.includes(p) ? 'the sim: `src/core/server/sim.js` requires it' : '', CLIENT_INPUTS.includes(p) ? 'the compiled client: built in (`core/client/game/level-data.cjs`)' : ''].filter(Boolean).join('; ');   // (C4c)
   if (/\/server\/[^/]+\.js$/.test(p)) return 'a server module: `server.js` requires it';
   return '-';
 }
@@ -54,7 +58,8 @@ const blocks = {};
   const L = ['| Output | How | From |', '|---|---|---|'];
   for (const o of recipes) {
     const how = o.client ? 'the client build (TypeScript and Vite: `dev/tools/build/client.js`), checked against its record' : o.replay ? 'a replay of the lineage ledger' : o.parts.length > 1 ? `${o.parts.length} parts, joined in order` : /original-v11/.test(o.parts[0]) ? 'a copy of the v11 build output' : 'one source file';
-    const from = o.client ? `\`core/client/game/\` (record \`${o.client}\`)` : o.replay ? `\`${o.replay.ledger}\` (chain \`${o.replay.chain}\`)` : o.parts.map(p => '`' + p.replace(/^src\//, '') + '`').join('<br>');
+    const from = o.client ? `\`core/client/game/\`${/\.js$/.test(o.out) && CLIENT_INPUTS.length ? ', with ' + CLIENT_INPUTS.map(p => '`' + p.replace(/^src\//, '') + '`').join(' and ') : ''} (record \`${o.client}\`)` :   // (C4c) the bundle is built with the definitions too
+                o.replay ? `\`${o.replay.ledger}\` (chain \`${o.replay.chain}\`)` : o.parts.map(p => '`' + p.replace(/^src\//, '') + '`').join('<br>');
     L.push(`| \`${o.out}\` | ${how} | ${from} |`);
   }
   blocks['outputs'] = L.join('\n');

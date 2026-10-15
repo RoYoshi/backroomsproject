@@ -14,8 +14,7 @@
     "TILE": 96
    },
    "skipNew": [
-    "TILE",
-    "arrival"
+    "TILE"
    ],
    "free": {
     "FBW": "COLS",
@@ -37,7 +36,8 @@
     "Vc": "pits",
     "Hc": "blocksSight",
     "Uc": "rayDistance"
-   }
+   },
+   "data": "src/core/client/game/level-data.cjs"
   },
   {
    "port": "src/core/client/game/shared/equipment.ts",
@@ -56,7 +56,8 @@
     "Kc": "smooth",
     "qc": "carriedLightAt",
     "Jc": "validLight"
-   }
+   },
+   "data": "src/core/client/game/level-data.cjs"
   },
   {
    "port": "src/core/client/game/client/gear-art.ts",

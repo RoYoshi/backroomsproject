@@ -48,7 +48,8 @@
 4. **Ownership follows contiguous lines.** Lines are never reordered, because reordering would change bytes. A few interleaved lines
    stay in a neighbour's part, named in its notes.
 5. **A script with one owner stays whole** (M-025): `dphys.js`, `gore.js`, `inventory.js`, `ui.js`, `hud.js`. `sim.level0.js` stays
-   one part, because it is the bundle's own minified level code.
+   one part, because it is the bundle's own minified level code (since continuation C4c it reads the level's data from
+   `src/frameworks/lost/shared/level0.json` and `src/frameworks/pocket/shared/lights.json`: M-003).
 
 ## Consequences
 

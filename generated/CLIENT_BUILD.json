@@ -13,7 +13,7 @@
   },
   {
    "path": "src/core/client/game/README.md",
-   "sha256": "bb216be1521c15f5db41ab6428d482eefe2c970cc4fdc408c34d14eae3fa51c8"
+   "sha256": "18f0bdeca98b870bb358e667b94c9238602c1ad7f7d7ac2f0712021bb22d3d08"
   },
   {
    "path": "src/core/client/game/client/appearance.ts",
@@ -80,6 +80,10 @@
    "sha256": "8d9a97d393d52abaca9f4eb419d1294d54b179e47ff3d88d559a62a9e3a7b313"
   },
   {
+   "path": "src/core/client/game/level-data.cjs",
+   "sha256": "99ae2f09bd0f4174f93a188274a6c29effec2dbabd566fdabbe2335362acbb1f"
+  },
+  {
    "path": "src/core/client/game/package-lock.json",
    "sha256": "329ef9ecea4042130a2c0bf0e90ba3afb289b279be7c6a57aaa148be99a07c27"
   },
@@ -97,11 +101,15 @@
   },
   {
    "path": "src/core/client/game/shared/equipment.ts",
-   "sha256": "7801be345fbadb4e3e26a39154ba66b83bf45114e3f750a005e478803d5b301b"
+   "sha256": "a4972be199abd51570e71ad1d0c15ff88e0894d909dc9089bd931803f64b2560"
   },
   {
    "path": "src/core/client/game/shared/evidence.ts",
    "sha256": "a43efb2aad0feb6ab0af0baa4c1bf4dc18b275aec36384e99a1a8055907bf390"
+  },
+  {
+   "path": "src/core/client/game/shared/level-data.d.ts",
+   "sha256": "23e620580d5e4090c11778de4b86c3124f040dcf4c3b7d8529802caf2d6df625"
   },
   {
    "path": "src/core/client/game/shared/movement.ts",
@@ -121,7 +129,7 @@
   },
   {
    "path": "src/core/client/game/shared/world.ts",
-   "sha256": "29d19e83d8dfa2e04ff7b1db2547fc496389a728e4aaaae256e07c5f54c6ec3f"
+   "sha256": "7cfd5eb59f413b18108446279f978b5d8e886247bbe178492ce935551586321a"
   },
   {
    "path": "src/core/client/game/tsconfig.json",
@@ -129,7 +137,15 @@
   },
   {
    "path": "src/core/client/game/vite.config.ts",
-   "sha256": "1d192cf2ee84f50027567d6cf63c04e418c036c74c6b898b1f4b984a2464002a"
+   "sha256": "05a4dc832647e0b4d30047c5cdca27b29c6fb4451bff8ef787370098ea435e00"
+  },
+  {
+   "path": "src/frameworks/lost/shared/level0.json",
+   "sha256": "9b75a982c2912de630963a855743cb0a257e5f56e2e7cf0208c37b9850e6fc3b"
+  },
+  {
+   "path": "src/frameworks/pocket/shared/lights.json",
+   "sha256": "40f6f62fe367b188618370e81b83bee6253f17218a11b692742ab48f55e79a08"
   }
  ],
  "outputs": [
@@ -190,8 +206,8 @@
   },
   {
    "path": "public/assets/index-DKbV5Nv9.js",
-   "bytes": 336622,
-   "sha256": "e9a81b057d76777471d046d66f13f03156298ad5b28a268276e9ed55bfc99bc5"
+   "bytes": 336630,
+   "sha256": "9624ba4799775597bb3adc36c1e79c147728359d1f04dc243929faedf7ad3c6f"
   },
   {
    "path": "public/assets/init-Cn1_BCi0.js",

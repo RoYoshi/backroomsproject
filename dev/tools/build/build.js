@@ -20,9 +20,10 @@
  *   { "out": "public/assets/index-DKbV5Nv9.js", "client": "generated/CLIENT_BUILD.json" }
  * Those are built from the maintained TypeScript and CSS in src/core/client/game/ by dev/tools/build/client.js, which needs the locked
  * npm packages (TypeScript, Vite, PixiJS: installed offline from verified tarballs).  This tool has no dependencies, so it does not
- * build them: it checks them against client.js's record, as `client.js --record-check` does.  Every source file of the tree must be the
- * one the record lists (a source edited and not rebuilt fails, and so does a new one) and the output on disk the one it lists (an output
- * edited by hand fails); then the output counts as built, and its manifest entry names the record.  --clean leaves them (only client.js
+ * build them: it checks them against client.js's record, as `client.js --record-check` does.  Every source file of the tree, and every
+ * input outside it the record lists (continuation C4c: the one definition of Level 0 and of the lights), must be the one the record lists
+ * (a source edited and not rebuilt fails, and so does a new one), and the output on disk the one it lists (an output edited by hand
+ * fails); then the output counts as built, and its manifest entry names the record.  --clean leaves them (only client.js
  * can make them again).  The bundle's PixiJS chunks are parts outputs whose one part is the v11 build output's own file (the client
  * build gives the same bytes).
  * A parts output is the concatenation of its parts' text.  A part's text is its file's bytes, less one leading part header if the file begins
@@ -108,7 +109,11 @@ function client(o) {
     walk(tree);
     const was = new Map(R.sources.map(x => [x.path, x.sha256]));
     for (const f of files) if (!was.has(f)) problems.push(`${f}: a source the record does not list`); else if (was.get(f) !== sha(rd(f))) problems.push(`${f}: changed since the client was built`);
-    for (const f of was.keys()) if (!files.includes(f)) problems.push(`${f}: listed in the record, no longer in the tree`);
+    for (const [f, h] of was) if (!files.includes(f)) {                    // (C4c) a source outside the tree is an input of the build (level-data.cjs)
+      if (f.startsWith(tree + '/')) problems.push(`${f}: listed in the record, no longer in the tree`);
+      else if (!fs.existsSync(path.join(REPO, f))) problems.push(`${f}: an input of the client build, missing`);
+      else if (sha(rd(f)) !== h) problems.push(`${f}: an input of the client build, changed since the client was built`);
+    }
     recordChecked.set(o.client, { R, problems });
   }
   const { R, problems } = recordChecked.get(o.client), entry = R.outputs.find(x => x.path === o.out);

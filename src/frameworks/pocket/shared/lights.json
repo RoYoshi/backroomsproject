@@ -1,0 +1,10 @@
+{
+ "note": "The carried lights (P.O.C.K.E.T.; lineage B10 and B11: four kinds). One table: the server reads it (src/frameworks/lost/server/sim.level0.js: the light a player's equipment gives, which the monsters perceive) and the page's compiled client is built with it (src/core/client/game/shared/equipment.ts: LIGHT_SPECS, through level-data.cjs). range: reach, px; arc: spread, rad (the lantern's 6.283185307179586 is 2 pi, the double Math.PI * 2 gives); power: strength; spill: px; omni: lights all around; nv: night vision, no light (the camcorder). The labels are the page's (the server never read its own; until C4c it labelled the camcorder \"Night Vision Camcorder\").",
+ "version": "1 (lineage B11; Stage 3H continuation C4c: one table for the server and the page)",
+ "kinds": {
+  "flashlight": {"label": "Flashlight", "range": 390, "arc": 0.92, "power": 0.58, "spill": 56, "omni": false},
+  "headlamp": {"label": "Headlamp", "range": 262, "arc": 1.95, "power": 0.5, "spill": 82, "omni": false},
+  "lantern": {"label": "Lantern", "range": 228, "arc": 6.283185307179586, "power": 0.5, "spill": 200, "omni": true},
+  "camcorder": {"label": "Camcorder", "range": 1, "arc": 0.1, "power": 0, "spill": 1, "omni": false, "nv": true}
+ }
+}

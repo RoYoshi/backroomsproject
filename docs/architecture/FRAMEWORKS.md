@@ -19,13 +19,13 @@ names the lineage step it ports and that step's owners (`core/client/game/PORT_L
 | [N.A.N.I.](../../src/frameworks/nani/README.md) | `src/frameworks/nani/` | entity intelligence | 1 client, 12 server | page: `mp.js`; server: `ai.js`; 2 server modules |
 | [S.P.A.C.E.](../../src/frameworks/space/README.md) | `src/frameworks/space/` | movement, collision, placement | 3 client, 4 server, 5 shared | page: `move.js`, `mp.js`, `timing_policy.js`, `world.js`; server: `world.js`; 4 server modules |
 | [G.I.B.](../../src/frameworks/gib/README.md) | `src/frameworks/gib/` | deaths, gibs and corpses | 3 client, 3 server, 1 shared | page: `dphys.js`, `ents.js`, `gore.js`, `mp.js`; server: `dphys.js`; 3 server modules |
-| [L.O.S.T.](../../src/frameworks/lost/README.md) | `src/frameworks/lost/` | level definition and transitions | 5 client, 2 server, 2 shared | page: `assets/level0_visuals.js`, `glitch.js`, `mp.js`, `world.js`; server: `world.js`; 2 server modules |
+| [L.O.S.T.](../../src/frameworks/lost/README.md) | `src/frameworks/lost/` | level definition and transitions | 5 client, 2 server, 3 shared | page: `assets/level0_visuals.js`, `glitch.js`, `mp.js`, `world.js`; server: `world.js`; 2 server modules |
 | [P.U.L.S.E.](../../src/frameworks/pulse/README.md) | `src/frameworks/pulse/` | diagnostics and performance | none: a README only | - |
 | [OVERSEER](../../src/frameworks/overseer/README.md) | `src/frameworks/overseer/` | administration and QA controls | 2 client, 2 server | page: `ents.js`, `mp.js`; 2 server modules |
 | [E.C.H.O.](../../src/frameworks/echo/README.md) | `src/frameworks/echo/` | environmental sound occlusion (future) | none: a README only | - |
 | [CASHIER](../../src/frameworks/cashier/README.md) | `src/frameworks/cashier/` | cache ownership and budgets | none: a README only | - |
 | [LogicZ](../../src/frameworks/logicz/README.md) | `src/frameworks/logicz/` | vertical world rules (future) | none: a README only | - |
-| [P.O.C.K.E.T.](../../src/frameworks/pocket/README.md) | `src/frameworks/pocket/` | inventory and usable items | 2 client, 1 server | page: `inventory.js`, `mp.js`; 1 server module |
+| [P.O.C.K.E.T.](../../src/frameworks/pocket/README.md) | `src/frameworks/pocket/` | inventory and usable items | 2 client, 1 server, 1 shared | page: `inventory.js`, `mp.js`; 1 server module |
 | [F.R.O.N.T.](../../src/frameworks/front/README.md) | `src/frameworks/front/` | menus and HUD | 4 client | page: `assets/credits_data.js`, `assets/net-newrun.js`, `assets/ui.js`, `hud.js` |
 | [W.A.R.D.](../../src/frameworks/ward/README.md) | `src/frameworks/ward/` | trust and deployment security | 3 server | 3 server modules |
 | [A.T.L.A.S.](../../src/frameworks/atlas/README.md) | `src/frameworks/atlas/` | asset provenance and packaging | none: a README only | - |
@@ -49,7 +49,8 @@ is out of date. Each framework's README lists its files the same way, with what 
 | Why does a corpse stay? | G.I.B.: `gib/server/aftermath.js` (one event per death, finished by the server), `gib/server/sim.bodies.js` (one body per player; `BODY_TTL`), `gib/client/mp.deaths.js` (the page's copy) |
 | Where is the headlamp? | Carried: BR-RoLE (`br-role.js`, the `CARRY` heights) and the compiled client's light gear (`core/client/game/client/gear-art.ts` and `shared/equipment.ts`: lineage steps B10 and B11, P.O.C.K.E.T.'s). On a dead body: G.I.B. (`gib/shared/dphys.js`, the dying light) |
 | How do I fix a wall collision? | S.P.A.C.E.: the page's `space/client/move.js` (collision), the server's `space/server/movement.js` (`mvCheck`) and `sim.movement.js` (`moveRoute`, `moveOk`), the props in `space/shared/world.js` |
-| How do I add a level? | Not yet possible: Level 0 is code (L.O.S.T.'s `lost/server/sim.level0.js`, and the compiled client's `core/client/game/shared/world.ts`). `lost/README.md` says what a level format would need |
+| How do I add a level? | Not yet possible. Since continuation C4c Level 0's map is data, one file both sides read (L.O.S.T.'s `lost/shared/level0.json`; the lights in `pocket/shared/lights.json`), but the code still knows Level 0 by name in places (`lost/README.md` lists them and what a level format would need) |
+| How do I change Level 0's map? | Edit `lost/shared/level0.json`, rebuild the compiled client (`node dev/tools/build/client.js --packages <folder> --write`, then `npm run build`); the server reads the file when it starts. It is a gameplay change: the gate's `port`, `sim`, `page` and `bundle` steps report it, and the world's size is written elsewhere too (M-028) |
 | How will verticality work? | It does not: `logicz/README.md` |
 | How do I change a key binding? | F.R.O.N.T.: `front/client/ui.js`, its keybinds section. H.A.N.D.S. is a name only |
 | Where are the settings kept? | In the browser's storage, written by F.R.O.N.T. (`front/client/ui.js`: settings, keybinds, name; `hud.js`), BR-RoLE (`br-role.js`: the lighting quality), OVERSEER (`overseer/client/mp.admin.js`) and the compiled bundle (the appearance and the light). V.A.U.L.T. is a name only: `vault/README.md` |

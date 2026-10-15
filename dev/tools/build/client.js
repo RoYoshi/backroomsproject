@@ -13,13 +13,15 @@
  *      SHA-512 the lockfile's integrity; exactly what Linux x64 needs).  The tree's lockfile must be the recovered v11 project's,
  *      byte for byte (ORIGINAL_V11_PROVENANCE.json): a change of dependency is its own, separately approved step, never a side effect;
  *   2. copies the tree (without node_modules/ and dist/) into the work folder and installs the packages there, offline
- *      (`npm ci --offline --ignore-scripts`, a private cache, an empty npmrc);
+ *      (`npm ci --offline --ignore-scripts`, a private cache, an empty npmrc); with it (continuation C4c) the files outside the tree the
+ *      build reads, the tree's level-data.cjs INPUTS (the one definition of Level 0 and of the carried lights), each at its own path:
+ *      the work folder holds them as the repository does (<work>/repo/src/...), so a path from the tree to them is the same there;
  *   3. runs the tree's own `npm run build` (tsc --noEmit && vite build);
  *   4. takes dist/assets/*.js and *.css: the bundle (assets/index-DKbV5Nv9.js), its stylesheet (assets/index-D7hdwmUU.css) and the
  *      PixiJS chunks, but PixiJS's web-worker entry, which the page has never been served (NOT_SHIPPED).  Never a source map, never an
  *      HTML page (public/index.html is the page's own source), never a texture.
- * The record, generated/CLIENT_BUILD.json, lists every file of the tree with its SHA-256 and every output with its size and SHA-256 (and
- * nothing machine-specific).  --record-check needs no packages: every file of the tree must be the one recorded (a source edited and not
+ * The record, generated/CLIENT_BUILD.json, lists every file of the tree and every input outside it with its SHA-256, and every output
+ * with its size and SHA-256 (and nothing machine-specific).  --record-check needs no packages: every file of the tree must be the one recorded (a source edited and not
  * built fails) and every output in public/assets/ the one recorded (an output edited by hand fails).  --write removes an output of the
  * previous record that the new build no longer makes. */
 'use strict';
@@ -35,6 +37,9 @@ const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const ARG = {}; for (let i = 2; i < process.argv.length; i++) { const k = process.argv[i].replace(/^--/, ''); if (['check', 'write', 'record-check'].includes(k)) ARG[k] = true; else ARG[k] = process.argv[++i]; }
 
 /* every file of the tree, but what a build or an install leaves there */
+/* (C4c) the files outside the tree the build reads: the tree's level-data.cjs INPUTS (none in a tree without it) */
+function inputs() { const f = path.join(REPO, TREE, 'level-data.cjs'); if (!fs.existsSync(f)) return []; delete require.cache[require.resolve(f)]; return require(f).INPUTS.slice(); }
+const sources = () => treeFiles().concat(inputs());
 function treeFiles() {
   const out = [], walk = rel => { for (const e of fs.readdirSync(path.join(REPO, rel), { withFileTypes: true }).sort((a, b) => (a.name < b.name ? -1 : 1))) {
     const r = rel + '/' + e.name; if (e.isDirectory()) { if (e.name !== 'node_modules' && e.name !== 'dist') walk(r); } else out.push(r); } };
@@ -43,15 +48,15 @@ function treeFiles() {
 const record = (outputs) => ({
   note: 'Written by dev/tools/build/client.js. The compiled client: every file of its source tree and every file the build gives, with SHA-256. Do not edit: build with dev/tools/build/client.js --write.',
   tree: TREE, tool: 'dev/tools/build/client.js',
-  sources: treeFiles().map(p => ({ path: p, sha256: sha(fs.readFileSync(path.join(REPO, p))) })),
+  sources: sources().map(p => ({ path: p, sha256: sha(fs.readFileSync(path.join(REPO, p))) })),
   outputs,
 });
 
 function recordCheck() {
   const f = path.join(REPO, RECORD); if (!fs.existsSync(f)) return { ok: false, problems: [`${RECORD} does not exist`] };
   const R = JSON.parse(fs.readFileSync(f, 'utf8')), problems = [];
-  const now = new Map(treeFiles().map(p => [p, sha(fs.readFileSync(path.join(REPO, p)))])), was = new Map(R.sources.map(s => [s.path, s.sha256]));
-  for (const [p, h] of now) if (!was.has(p)) problems.push(`${p}: a source the record does not list (built?)`); else if (was.get(p) !== h) problems.push(`${p}: changed since the build`);
+  const now = new Map(sources().map(p => [p, fs.existsSync(path.join(REPO, p)) ? sha(fs.readFileSync(path.join(REPO, p))) : null])), was = new Map(R.sources.map(s => [s.path, s.sha256]));
+  for (const [p, h] of now) if (h === null) problems.push(`${p}: missing`); else if (!was.has(p)) problems.push(`${p}: a source the record does not list (built?)`); else if (was.get(p) !== h) problems.push(`${p}: changed since the build`);
   for (const p of was.keys()) if (!now.has(p)) problems.push(`${p}: listed in the record, no longer in the tree`);
   for (const o of R.outputs) { const g = path.join(REPO, o.path); if (!fs.existsSync(g)) problems.push(`${o.path}: missing`); else if (sha(fs.readFileSync(g)) !== o.sha256) problems.push(`${o.path}: not the file the build gave`); }
   return { ok: !problems.length, problems, sources: now.size, outputs: R.outputs.length };
@@ -71,11 +76,13 @@ function build() {
   /* 2. the work folder: the tree copied; the install kept and reused while the lockfile and the packages are the same */
   const work = ARG.work ? path.resolve(ARG.work) : fs.mkdtempSync(path.join(os.tmpdir(), 'tfb-client-'));
   if ((work + path.sep).startsWith(REPO + path.sep)) throw new Error('--work must be outside the repository');
-  const proj = path.join(work, 'tree'), stamp = path.join(work, 'install.stamp'), want = sha(lockGame) + ' ' + V.packages.map(p => p.sha256).join(',');
+  const proj = path.join(work, 'repo', TREE), stamp = path.join(work, 'install.stamp'), want = sha(lockGame) + ' ' + V.packages.map(p => p.sha256).join(',');
   const reuse = fs.existsSync(stamp) && fs.readFileSync(stamp, 'utf8') === want && fs.existsSync(path.join(proj, 'node_modules'));
   if (fs.existsSync(proj)) for (const e of fs.readdirSync(proj)) if (e !== 'node_modules' || !reuse) fs.rmSync(path.join(proj, e), { recursive: true, force: true });
   fs.mkdirSync(proj, { recursive: true });
   for (const p of treeFiles()) { const to = path.join(proj, path.relative(TREE, p)); fs.mkdirSync(path.dirname(to), { recursive: true }); fs.copyFileSync(path.join(REPO, p), to); }
+  for (const p of inputs()) { const to = path.join(work, 'repo', p); fs.mkdirSync(path.dirname(to), { recursive: true }); fs.copyFileSync(path.join(REPO, p), to); }   // (C4c) at its own path
+  R.work = { project: proj };
   let env = process.env;
   if (!reuse) { const I = P.install({ project: proj, dir: ARG.packages, work, verified: V }); env = I.env; fs.writeFileSync(stamp, want); R.install = { packages: I.packages, log: I.log }; }
   else { R.install = { reused: true }; env = { ...process.env, npm_config_userconfig: path.join(work, 'npmrc'), npm_config_offline: 'true', npm_config_update_notifier: 'false' }; }

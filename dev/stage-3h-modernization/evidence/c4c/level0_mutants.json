@@ -1,0 +1,77 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c4c_level0_check.js --mutants",
+ "control": "SAME",
+ "mutants": [
+  {
+   "id": "corridor",
+   "file": "src/frameworks/lost/shared/level0.json",
+   "from": "[43,34,7,4]",
+   "to": "[43,34,7,5]",
+   "caught": true
+  },
+  {
+   "id": "partition",
+   "file": "src/frameworks/lost/shared/level0.json",
+   "from": "[9,38,1,6]",
+   "to": "[9,38,1,5]",
+   "caught": true
+  },
+  {
+   "id": "pit",
+   "file": "src/frameworks/lost/shared/level0.json",
+   "from": "{\"x\":53,\"y\":9}",
+   "to": "{\"x\":53,\"y\":10}",
+   "caught": true
+  },
+  {
+   "id": "pillar",
+   "file": "src/frameworks/lost/shared/level0.json",
+   "from": "\"half\": 28",
+   "to": "\"half\": 27",
+   "caught": true
+  },
+  {
+   "id": "spawn",
+   "file": "src/frameworks/lost/shared/level0.json",
+   "from": "\"spawn\": {\"x\": 10",
+   "to": "\"spawn\": {\"x\": 11",
+   "caught": true
+  },
+  {
+   "id": "blackout gap",
+   "file": "src/frameworks/lost/shared/level0.json",
+   "from": "\"gapStep\": 10",
+   "to": "\"gapStep\": 11",
+   "caught": true
+  },
+  {
+   "id": "room",
+   "file": "src/frameworks/lost/shared/level0.json",
+   "from": "\"x\": 49, \"y\": 28",
+   "to": "\"x\": 49, \"y\": 29",
+   "caught": true
+  },
+  {
+   "id": "anchor",
+   "file": "src/frameworks/lost/shared/level0.json",
+   "from": "\"anchor\": {\"x\": 11",
+   "to": "\"anchor\": {\"x\": 12",
+   "caught": true
+  },
+  {
+   "id": "lantern range",
+   "file": "src/frameworks/pocket/shared/lights.json",
+   "from": "\"range\": 228",
+   "to": "\"range\": 229",
+   "caught": true
+  },
+  {
+   "id": "flashlight power",
+   "file": "src/frameworks/pocket/shared/lights.json",
+   "from": "\"power\": 0.58",
+   "to": "\"power\": 0.59",
+   "caught": true
+  }
+ ],
+ "ok": true
+}
