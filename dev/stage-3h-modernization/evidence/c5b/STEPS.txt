@@ -1,0 +1,96 @@
+# Stage 3H continuation, wave C5b: the final gate, the package, the report, the Human QA page (no runtime file changed)
+# $SP is the session's scratch folder. The parent is C5a = da1fb88 (tree 8e6f340). The last runtime change is C3c = 722113f. B++ = 143b63f;
+# M8 = c34f0c2; frozen 3H2 = 22751bb. Stopped after this checkpoint for the owner's decision.
+
+## the build from a clean checkout (tools/m7_clean_rebuild.js --ref)
+node dev/stage-3h-modernization/tools/m7_clean_rebuild.js --work $SP/c5/clean_checkout_work --ref da1fb88    exit 0  (clean_checkout.*)
+  a fresh clone, C5a checked out: build:check PASS; --clean removed 40 of 40 built files and touched no other; npm run build wrote 40
+  (39 outputs and the manifest); 40 of 40 identical to the commit's blobs; git status clean; build:check PASS.  Node only: no npm
+  install, no network.
+
+## the final full gate (on a fresh clone of C5a, so that no edit in the working tree could reach it)
+git clone --no-hardlinks <the worktree> $SP/c5/final_tree; git checkout --detach da1fb88   (B++ and M8 are its ancestors)
+node dev/tools/gate/gate.js --tier full --out $SP/c5/gate_full_final      exit 0  MODERNIZATION GATE (full): PASS, 25 of 25 steps at the
+  first run, 46.2 min (gate_full/: the reports and logs; the screenshots, the contact lab's images and the game copies left out; the
+  live wire's raw frames gzipped):
+  build 39, lineage 83 (the __api contract and its pages current), parts 55, modules 58 (26 server files, 21 factories; the sim: 10
+  modules; the page: 6 scripts, 32 modules), docs 23, scope 210, srv_golden 11, bpp_golden 7, session 18, sim 20,065 (20,050 calls;
+  15 of 15 seam mutants), page 1,255,007 (world.js 2,295 comparisons; 1,252,700 trace lines; 12 of 12 seam mutants), cli_golden 30
+  (3H0's 9, 3H2's 3, all 18 in one page running 232 of mp.js's 232 functions), protocol 52,740, mutants 18, static 4, raw_live 173,
+  quick_suites 23, cli_mutants 57 (3H2's 22 and C3c's 35 seams), live_wire 65 (structurally identical), bpp_checks 36 (as on B++),
+  browsers 104 (two_browser 89, col_head 5, col_aside 5, gameplay_smoke 5), workflow 23 (dev workflow 15 of 15 steps; browser contracts
+  PASS on B++ and this tree, the sides agreeing on 3 of 3), contact_lab 23 images identical pixel for pixel, suites 293 (npm_test
+  149/162, s_humanqa_hotfix 5/6, s_ir 3/3, test_shadows 43/48, test_br_role 29/32, interp_test 3, test_3bn 7/7, audit_net 13/17,
+  audit_net2 8/11, ir_net 4/4: only the known B++ failures fail), perf 9 (server: lifecycle -4.59 %, deaths +0.71 %, admin -0.91 %,
+  schedule -6.52 %; the page's 5 scenes within the rule, in a noisy run: the old side's own spread up to 58 ms a scene).
+node dev/tools/gate/golden/perf_det.js --only client --rounds 21 (in the worktree, the machine otherwise idle)    within the rule
+  The page against B++ again, quiet (evidence/c5/perf/ab_bpp_21.*, summary.txt): hook medians -11.2 % to +12.4 % by scene.  Across
+  all five timings of this code (C3c's gate, the final gate, the 7- and 21-round runs against M8, this one), hum_dread's hook was slower
+  every time (+0.8 % to +22.7 %) and menu_online's four times out of five (-10.0 % to +12.4 %); the other scenes went both ways; in the
+  21-round runs the largest median difference is about 24 us per call.  A V8 sampling profile of menu_online, 10 rounds a side
+  (evidence/c5/perf/profile_menu.*): this tree faster in both stored runs, under the profiler; no function stands out.
+
+## every file the game runs, against M8/3H2 and B++ (tools/m8_served_identity.js)
+node dev/stage-3h-modernization/tools/m8_served_identity.js              exit 0  SERVED IDENTITY: PASS (served_identity.*): public/: 48
+  files (36 built, 12 static) and the server's 3 built files; 44 of 51 identical to 3H2's (and so to M8's); rebuilt as modules (their
+  behaviour compared instead): public/mp.js, world.js, move.js, camcorder.js, glitch.js, ents.js and generated/server/world.js
+
+## the audit for other duplicated authoritative definitions (the pack's Phase 4; finding M-028)
+  Read-only: a separate agent read and searched the runtime, and its list was sampled by hand (evidence/c5/duplicated_definitions.txt,
+  the items marked [checked]): eleven facts written on both the server and the page besides Level 0 (M-003), all B++'s, two of them in
+  disagreement (the spawn protection, 3 s and 4 s; the movement floors for an unclaimed state).  Recorded, not changed: each change is
+  one the owner approves on its own, and the bundle's copies wait for C4.
+
+## the documents
+  REPORT.md (the final report: the definition of done item by item; the unfinished items returned: C1, C4), HUMAN_QA.md (the targeted
+  final Human QA page: A/B against M8, the areas rebuilt and how a mistake would show), CONTINUATION.md (the debt matrix: DONE,
+  PARTIAL, BLOCKED or kept, row by row), CHECKPOINTS.md (the C5a and C5b rows; the live status), FINDINGS.md (M-028),
+  PARITY_MATRIX.md (M8 as a direct reference; the C5b row).
+
+## the rest of the comparisons with M8 (tools/c5_vs_m8.js --only raw_live,browser_contracts; vs_m8_more/)
+node dev/stage-3h-modernization/tools/c5_vs_m8.js --only raw_live,browser_contracts --out $SP/c5/vs_m8_more   THIS TREE AGAINST M8: SAME
+  (2 of 2 pass; the same runtime files, sha256 4687f0013eb31070): real HTTP and raw TCP, 173 exchanges, mp.js's body differing as
+  declared; the browser contracts on M8's folder and this tree's, 8 checks, the sides agreeing on the facade, the refusals and the phone.
+  With C5a's nine, every comparison that can take M8 as its old side has: 11, all pass (10 equal; mp.js's time within its rule).
+
+## an independent review of the documents
+  A separate agent, which had not written them, checked the claims of REPORT.md, HUMAN_QA.md, CONTINUATION.md (the live status, M-020,
+  M-021, M-005, M-002/M-014, C5), CHECKPOINTS.md (the live status, C3c, C5a, C5b), FINDINGS.md (M-027, M-028), PARITY_MATRIX.md,
+  QUICKSTART.md, the gate's README and the C5 and C5b steps against the repository and the evidence (read-only).  It confirmed the gate's
+  counts, the hashes and receipts, the clean checkout, the served identity, the M8 comparisons, the C3c and C5a evidence, the admin
+  panel's words and the lockout.  Corrected from its findings:
+  - the page's time: the claim that only menu_online's hook was slower in every comparison was wrong (the final gate had it at -10 %;
+    hum_dread's hook was the one slower in all five timings): REPORT.md, these steps and evidence/c5/perf/summary.txt now give every scene;
+  - HUMAN_QA.md: PLACE moves to the spot kind you pick, away from glitched walls (GLITCHED WALLS · GO TO NEAREST is the button that goes
+    to one); COPY REPORT says COULD NOT COPY: CLIPBOARD BLOCKED when refused (no text is offered); the status line shows only when paused
+    (the menu says Online / Reconnecting and the room); two real players are compared by their WebSocket frames, not by what they see;
+    two pairs of facts disagree (M-028), not one;
+  - PARITY_MATRIX.md: m1_relocate.js --verify applies to the checkouts M1-P to M8 (it expects every output unchanged); the re-run list
+    names m8_served_identity.js instead;
+  - QUICKSTART.md: the build's example line (38 files up to date, not 37); TypeScript is needed by the modules and __api contract checks
+    too, Playwright by the page scripts' comparison and dev_workflow.js; a page scene's perf miss is measured with more rounds of
+    perf_det.js (m1_perf_paired.js times server scenarios); api_contract.js now finds TypeScript where the checkers do ($TYPESCRIPT too);
+  - FINDINGS.md M-027 and the C5 steps: the contract was written at M1-R, not M6a;
+  - "every comparison that can take M8" had left out raw_live.js and the browser contracts: both were run (above);
+  - "9 of 9 equal": the time is within its rule, not equal; "byte for byte the same stored B++ baselines": both M8 and this tree differ
+    from them in http_base's declared lines (2 files at M8, 7 here);
+  - REPORT.md: 38 deliberate breaks refused, six of them M8's couplings put back (not "every coupling M8 had"); the package is DONE at
+    delivery (a commit cannot hold its own archive); the files "served or built"; the receipts since M8 record the untouched refs; where
+    the after-commit secret scans are filed; the lineage step's 83 cases are the replayed steps;
+  - CONTINUATION.md: the states' legend (PARTIAL, recorded, kept, tracked privately) and an M-028 row.
+
+## the gate on the final tree
+node dev/tools/gate/gate.js --tier fast --out $SP/c5/gate_fast_c5b          exit 0  PASS, 17 of 17 steps (gate_fast/), 6.2 min, on the
+  final tree (the documents and this evidence included): build 39, lineage 83 (the __api contract and its pages current), parts 55,
+  modules 58, docs 23, scope 210, srv_golden 11, bpp_golden 7, session 18, sim 20,065, page 1,255,007, cli_golden 30, protocol 52,740,
+  mutants 18, static 4, raw_live 173, quick_suites 23.  No runtime file changed after the final full gate's clone (C5a): only documents,
+  evidence and two dev tools (api_contract.js's TypeScript lookup; c5_vs_m8.js's two added comparisons).
+
+## the secret scans
+  C5b's changes, before the commit: secret_scan.* (CLEAN).  C5a's committed revision, after its commit: secret_scan_c5a_after_commit.txt
+  (CLEAN).  The scan includes the owner's private extra strings (not in this repository).
+
+## the remote, and the stop
+  C5a's receipt is copied into evidence/remote/verify_c5a_da1fb88.json.  C5b's receipt is written after the push (verify_remote_m.py C5b)
+  and goes with the delivery, with the package (tools/m8_package.js --ref <C5b>: the ZIP, its manifest, receipts and SHA256SUMS).
+  Stopped here: only the owner can issue PASS, NEEDS CHANGES or ROLL BACK.

@@ -1,0 +1,26 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c5_vs_m8.js",
+ "m8": "c34f0c22bbacc5ac2813d173bc0591b67af7169f",
+ "head": "da1fb887a472c8a5bd95b269d84ae0f815b69d0c",
+ "runtimeTree": {
+  "files": 302,
+  "sha256": "4687f0013eb310701c3389a63a040a60668b1017a0106f673bc07320da8bf9e8"
+ },
+ "startedAt": "2026-10-15T11:07:20.474Z",
+ "comparisons": [
+  {
+   "id": "real HTTP and raw TCP, every response and WebSocket check (raw_live.js)",
+   "ok": true,
+   "compared": 173,
+   "note": "bodies differ, as declared, for: mp.js"
+  },
+  {
+   "id": "the facade, unauthorized access refused, a phone, in a real Chromium (browser_contracts.js)",
+   "ok": true,
+   "compared": 8,
+   "note": "the sides agree: facade yes, unauthorized yes, phone yes"
+  }
+ ],
+ "ok": true,
+ "finishedAt": "2026-10-15T11:10:59.925Z"
+}

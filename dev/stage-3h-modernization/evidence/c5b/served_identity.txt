@@ -1,0 +1,4 @@
+public/: 48 files (36 built, 12 static), and the server's 3 built files
+identical to the frozen 3H2 (22751bb): 44 of 51; rebuilt as modules (continuation C3b, C3c; their behaviour is compared instead: the gate's page step, and its cli_golden step for mp.js): public/camcorder.js, public/ents.js, public/glitch.js, public/move.js, public/mp.js, public/world.js, generated/server/world.js
+different from B++ (143b63f): assets/mp-hum.js (added), assets/net-newrun.js (added), camcorder.js (changed), ents.js (changed), glitch.js (changed), index.html (changed), move.js (changed), mp.js (changed), world.js (changed), world.js (changed) (each declared in dev/tools/gate/declared_changes.json)
+SERVED IDENTITY: PASS

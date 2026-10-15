@@ -1,0 +1,185 @@
+{
+ "tool": "dev/tools/gate/golden/bpp_golden.js",
+ "scenarios": [
+  {
+   "scenario": "bpp_caps_q",
+   "old": {
+    "ok": true,
+    "lines": 2605,
+    "sha256": "72e775b7ead4177188625e85ab209e95f4455d3a410729042a2b782822004de7",
+    "ms": 871,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 2605,
+    "sha256": "72e775b7ead4177188625e85ab209e95f4455d3a410729042a2b782822004de7",
+    "ms": 805,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [],
+   "baseline": {
+    "expected": "72e775b7ead4177188625e85ab209e95f4455d3a410729042a2b782822004de7",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "bpp_place_guard",
+   "old": {
+    "ok": true,
+    "lines": 2171,
+    "sha256": "896ccf6dbbb18074279021d60fa032fe27567f6d93ff56394c4d92ba9c3a47f8",
+    "ms": 506,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 2171,
+    "sha256": "896ccf6dbbb18074279021d60fa032fe27567f6d93ff56394c4d92ba9c3a47f8",
+    "ms": 510,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [],
+   "baseline": {
+    "expected": "896ccf6dbbb18074279021d60fa032fe27567f6d93ff56394c4d92ba9c3a47f8",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "bpp_world_guard",
+   "old": {
+    "ok": true,
+    "lines": 1170,
+    "sha256": "a96718d201f18721517e61b81076dcde2212381bd2afa34087f5275038c2357e",
+    "ms": 531,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 1170,
+    "sha256": "a96718d201f18721517e61b81076dcde2212381bd2afa34087f5275038c2357e",
+    "ms": 572,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [],
+   "baseline": {
+    "expected": "a96718d201f18721517e61b81076dcde2212381bd2afa34087f5275038c2357e",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "bpp_known_limits",
+   "old": {
+    "ok": true,
+    "lines": 2681,
+    "sha256": "35bda07236971e938931624220e38d0694b77624b44c7508181f45bf76e59775",
+    "ms": 961,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 2681,
+    "sha256": "35bda07236971e938931624220e38d0694b77624b44c7508181f45bf76e59775",
+    "ms": 840,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [],
+   "baseline": {
+    "expected": "35bda07236971e938931624220e38d0694b77624b44c7508181f45bf76e59775",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "bpp_new_run",
+   "old": {
+    "ok": true,
+    "lines": 8172,
+    "sha256": "a61b01e2cc0bcc0a26c7b5406f4bde35d73a5090dd3e3d9fd8b33a11b7de014d",
+    "ms": 905,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 8172,
+    "sha256": "a61b01e2cc0bcc0a26c7b5406f4bde35d73a5090dd3e3d9fd8b33a11b7de014d",
+    "ms": 1008,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [],
+   "baseline": {
+    "expected": "a61b01e2cc0bcc0a26c7b5406f4bde35d73a5090dd3e3d9fd8b33a11b7de014d",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "bpp_new_run_held",
+   "old": {
+    "ok": true,
+    "lines": 9310,
+    "sha256": "a6b7c6dc9f847fe1fb2b038ce29cff213c45a57381f92be083b80df96197d5d9",
+    "ms": 984,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 9310,
+    "sha256": "a6b7c6dc9f847fe1fb2b038ce29cff213c45a57381f92be083b80df96197d5d9",
+    "ms": 997,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [],
+   "baseline": {
+    "expected": "a6b7c6dc9f847fe1fb2b038ce29cff213c45a57381f92be083b80df96197d5d9",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "bpp_aftermath",
+   "old": {
+    "ok": true,
+    "lines": 54498,
+    "sha256": "3ba6305b668cf8125bcfeb6e1739ee85e62d1df098b5905104d146fc3124e82e",
+    "ms": 2731,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 54498,
+    "sha256": "3ba6305b668cf8125bcfeb6e1739ee85e62d1df098b5905104d146fc3124e82e",
+    "ms": 2377,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [],
+   "baseline": {
+    "expected": "3ba6305b668cf8125bcfeb6e1739ee85e62d1df098b5905104d146fc3124e82e",
+    "equal": true
+   },
+   "ok": true
+  }
+ ],
+ "oldRef": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "newSide": "working tree",
+ "oldDir": "the working tree's runtime under its old names (76 files)",
+ "node": "v22.22.2",
+ "ok": true
+}

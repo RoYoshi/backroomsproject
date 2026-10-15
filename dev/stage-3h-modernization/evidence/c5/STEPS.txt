@@ -2,7 +2,7 @@
 # $SP is the session's scratch folder. The parent is C3c = 722113f (tree 000fdc4). B++ = 143b63f. M8 = c34f0c2.
 
 ## the window.__api contract (M-020, finding M-027)
-node dev/stage-3h-modernization/tools/api_contract.js --check 1        before: API CONTRACT: STALE.  The committed contract (M6a) was never
+node dev/stage-3h-modernization/tools/api_contract.js --check 1        before: API CONTRACT: STALE.  The committed contract (M1-R) was never
   compared with the code again, and the tool, run on this tree, counted 17 reads fewer (12 in ents.js, 3 in move.js, 2 in mp.js): since
   C3b the readers' modules take their name for __api from the module that holds it (entsHound({ head: { API } })), which it did not follow.
   The tool now follows a module script's imports (the composition says which module gives each key; the giver's return says what each
@@ -65,7 +65,10 @@ node dev/stage-3h-modernization/tools/c5_vs_m8.js --out $SP/c5/vs_m8      THIS T
     two real players (live_wire_h2.js, M8's game folder and this tree's)      65 phases, structurally identical
     BR-RoLE's contact lab (contact_lab.py on both folders)                     23 images identical, pixel for pixel
   The server traces have no M8 side to run (srv_golden.js runs an old server.js over this tree's files, and M8's server.js needs its
-  own src/): M8's and this tree's are each byte for byte the same stored B++ baselines (M8: evidence/m8/gate_full; this tree: the gate).
+  own src/): M8's and this tree's each equal the same stored B++ baselines, but for http_base's lines about the files changed on purpose
+  (2 files at M8, 7 here), whose bodies are checked against the files (M8: evidence/m8/gate_full; this tree: the gate).
+  (The tool's summary line said "equal" for all nine at the time; the time is compared by its rule, not for equality.  At C5b the tool
+  says "pass", and raw_live.js and the browser contracts were run against M8 too: evidence/c5b/vs_m8_more/.)
 
 ## the page's time against M8, more closely (perf/)
 node dev/tools/gate/golden/perf_det.js --old-ref c34f0c2 --only client --rounds 21      within the rule

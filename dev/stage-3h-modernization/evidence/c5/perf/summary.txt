@@ -15,3 +15,18 @@ A/A (the same code):
   hum_dread    old   46.1 ms  new   45.2 ms   -1.95 %  P(new>old) 0.46  per hook call  -1.5 us (600 calls)  handler  +0.00 %  rule ok
 Reading: against M8, two scenes are faster and three slower, none beyond what 21 rounds can tell apart (P at most 0.64; the same test
 on the same code gives 0.41 to 0.53); the largest median difference is about 13 us per hook call, against a 60 Hz frame of 16,700 us.
+
+Added after the final full gate (C5b), whose perf step passed within the rule in a noisy run (the old side's own spread up to
+58 ms a scene): the same 21-round comparison against B++ (perf_det.js --only client --rounds 21), the machine otherwise idle.
+A/B against B++:
+  menu_online  old   25.1 ms  new   28.2 ms  +12.35 %  P(new>old) 0.63  per hook call +23.8 us (130 calls)  handler  -7.41 %  rule ok
+  run_online   old   79.1 ms  new   71.0 ms  -10.24 %  P(new>old) 0.43  per hook call -19.3 us (420 calls)  handler -12.66 %  rule ok
+  interp       old   88.4 ms  new   83.8 ms   -5.20 %  P(new>old) 0.51  per hook call  -6.2 us (740 calls)  handler  -4.41 %  rule ok
+  fx_bodies    old  146.9 ms  new  130.4 ms  -11.23 %  P(new>old) 0.41  per hook call -23.6 us (700 calls)  handler  -6.62 %  rule ok
+  hum_dread    old   47.6 ms  new   48.7 ms   +2.31 %  P(new>old) 0.53  per hook call  +1.8 us (600 calls)  handler -50.00 %  rule ok
+Reading: across all five timings of this code (C3c's gate, the final gate, these two 21-round runs and the 7-round run against M8),
+hum_dread's hook was slower every time (+0.8 % to +22.7 %) and menu_online's four times out of five (-10.0 % to +12.4 %); run_online,
+interp and fx_bodies went both ways.  In the 21-round runs the largest median difference is about 24 us per call, against a 60 Hz
+frame of 16,700 us; against M8 no scene is distinguishable from the noise the same code shows against itself.  A V8 sampling profile
+of menu_online, 10 rounds a side (profile_menu.js; profile_menu.txt): in the two stored runs this tree's mp.js was the faster under the
+profiler (32.3 against 35.9 ms, 36.3 against 42.6); two earlier runs, not kept, went one each way.  No function stands out.

@@ -1,0 +1,7 @@
+source: clone at da1fb887a472c8a5bd95b269d84ae0f815b69d0c (da1fb887a472c8a5bd95b269d84ae0f815b69d0c, tree 8e6f34033780fea2bef4e5be09749ee5c1d3c2ff); node v22.22.2
+build:check before: BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)
+--clean: 40 of 40 built files removed; other files touched: 0
+build: built 39 outputs (40 files written, 0 already up to date)
+compare: 40 of 40 identical to the source; git status clean
+build:check after: BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)
+CLEAN REBUILD: PASS

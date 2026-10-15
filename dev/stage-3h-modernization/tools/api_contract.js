@@ -21,7 +21,9 @@ const fs = require('fs'), path = require('path');
 const ARG = {}; for (let i = 2; i < process.argv.length; i += 2) ARG[process.argv[i].replace(/^--/, '')] = process.argv[i + 1];
 const REPO = ARG.repo ? path.resolve(ARG.repo) : path.resolve(__dirname, '..', '..', '..');
 const LIN = path.resolve(REPO, ARG.lineage || 'src/core/client/bundle/lineage');
-const ts = require(ARG.typescript || path.join(path.dirname(process.execPath), '..', 'lib', 'node_modules', 'typescript'));
+/* TypeScript's parser: --typescript DIR, or (C5) where dev/tools/checks/parts.js and modules.js find it: $TYPESCRIPT, the package, Node's global copy */
+const ts = (() => { for (const t of [ARG.typescript, process.env.TYPESCRIPT, 'typescript', path.join(path.dirname(process.execPath), '..', 'lib', 'node_modules', 'typescript'), path.join(path.dirname(process.execPath), 'node_modules', 'typescript')].filter(Boolean)) { try { return require(t); } catch (e) { /* the next */ } }
+  console.error('API CONTRACT: NOT RUN - TypeScript is not installed (npm i -g typescript, or set TYPESCRIPT=<its folder>)'); process.exit(2); })();
 const BUNDLE = path.join(REPO, 'public', 'assets', 'index-DKbV5Nv9.js');
 const text = fs.readFileSync(BUNDLE, 'utf8'), buf = Buffer.from(text, 'utf8');
 const toByte = i => Buffer.byteLength(text.slice(0, i));

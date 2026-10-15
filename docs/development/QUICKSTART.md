@@ -6,7 +6,7 @@
 |---|---|
 | Run the game | Node.js 18 or later. No `npm install`: the game has no dependencies |
 | Build, check the build, run the scenario suite | the same |
-| Run the gate (`npm run gate`) | Git with this repository's full history (the gate reads the accepted build, `143b63f`, from it: a shallow clone will not do); TypeScript installed globally (`npm i -g typescript`) for the parts check; Playwright for Node installed globally, with Chromium (`npm i -g playwright`, then `npx playwright install chromium`), for the client goldens |
+| Run the gate (`npm run gate`) | Git with this repository's full history (the gate reads the accepted build, `143b63f`, from it: a shallow clone will not do); TypeScript installed globally (`npm i -g typescript`, or `TYPESCRIPT=<its folder>`) for the parts, modules and `__api` contract checks; Playwright for Node installed globally, with Chromium (`npm i -g playwright`, then `npx playwright install chromium`), for the client goldens, the page scripts' comparison and `dev/tools/checks/dev_workflow.js` |
 | Run the full gate (`npm run gate:full`) | also Python 3 with Playwright for Python, Pillow and NumPy (`pip install playwright pillow numpy`) for the browser checks and the contact lab |
 
 Everything here was run on Linux with Node 22 (the gate's evidence says which machine). On Windows, use `node <script>` rather
@@ -35,7 +35,7 @@ backquote key; give the server a passcode with `ADMIN_PASSCODE=... node server.j
 3. **Build.** `npm run build` rewrites what changed (a change to a server module needs no build):
 
    ```text
-   built 39 outputs (2 files written, 37 already up to date)
+   built 39 outputs (2 files written, 38 already up to date)
    ```
 
 4. **Check.** `npm run build:check` must say `BUILD CHECK: PASS`. If you edited a part,
@@ -81,8 +81,9 @@ step and what it cannot see.
 - **`PARTS CHECK: FAIL`**: a part's header lists names its code does not have, or misses some. `--fix <output>` rewrites the lists.
   "a statement ... straddles two parts" means a split cuts a statement in two: move the boundary.
 - **The gate's `perf` step fails once**: on a small machine its seven rounds can miss by chance (FINDINGS M-021). Measure before anything
-  else: `node dev/stage-3h-modernization/tools/m1_perf_paired.js --work <empty folder> --scenario <the failing one>`, then run the step
-  again (`node dev/tools/gate/gate.js --only perf`).
+  else: for a server scenario, `node dev/stage-3h-modernization/tools/m1_perf_paired.js --work <empty folder> --scenario <the failing
+  one>`; for a page scene, more rounds of the same comparison (`node dev/tools/gate/golden/perf_det.js --only client --rounds 21`). Then
+  run the step again (`node dev/tools/gate/gate.js --only perf`).
 - **`place_replay` fails one case**: a glitched wall can land on its walk by chance, in about 7 % of runs (3H finding F-036). If the
   failing case sent no stale pose, got no correction and its track stops early, that is it: run the step again
   (`dev/stage-3h/gate/README.md`).

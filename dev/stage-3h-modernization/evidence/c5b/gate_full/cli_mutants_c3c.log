@@ -1,0 +1,37 @@
+$ node dev/tools/gate/golden/cli_golden_c3c.js --mutants dev/tools/gate/golden/cli_mutants_c3c.js --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5/gate_full_final/cli_mutants_c3c.json
+CAUGHT  wire_not_called | run_online differs - the composition never hands the session its later modules (every message that reaches one of them fails)
+CAUGHT  wire_swapped | c3c_poses differs - the session's solidPeers is wired to another S.P.A.C.E. function
+CAUGHT  login_to_wrong_owner | admin differs - the login's answer is handed to the command answer's function
+CAUGHT  bodies_not_handed | fx_bodies differs - the corpses the server sends are not handed to G.I.B.
+CAUGHT  fx_skips_timeline | c3c_deathlight differs - a death's message skips G.I.B.'s light timeline (only the replay starts)
+CAUGHT  st_not_flushed | c3c_deathlight differs - the snapshot's server clock is not handed to G.I.B.'s timeline
+CAUGHT  kill_not_noted | c3c_deathlight differs - our kill record's arrival is not noted by G.I.B. (its death id and moment)
+CAUGHT  killer_by_nobody | run_online differs - N.A.N.I. is not told who killed us (the Hound's slot is never marked)
+CAUGHT  corpse_not_hidden | run_online differs - our corpse is not hidden while we are still dying
+CAUGHT  join_keeps_exit | c3c_poses differs - joining again does not bring us back from L.O.S.T.'s exit (we stay not solid)
+CAUGHT  close_keeps_solid | c3c_poses differs - a closed connection leaves the solid peers in place
+CAUGHT  close_keeps_kill | facade differs - a closed connection leaves N.A.N.I.'s kill record (its clearSlots is not a seam the page can see: netReset, just before, clears the slots through NET.onEpoch, as at M8)
+CAUGHT  close_keeps_hold | reconnect_solo differs - a closed connection leaves move.js's held state
+CAUGHT  close_keeps_admin | reconnect_solo differs - a closed connection leaves the admin panel unlocked
+CAUGHT  no_relogin | reconnect_solo differs - a new connection does not ask the panel to send the passcode again
+CAUGHT  epoch_keeps_fx | c3c_epoch differs - the world epoch leaves G.I.B.'s replays playing
+CAUGHT  epoch_keeps_lights | c3c_epoch differs - the world epoch leaves the old world's dying lights and wall stains
+CAUGHT  epoch_keeps_own_death | c3c_epoch differs - the world epoch leaves our own death's record
+CAUGHT  epoch_keeps_killer | c3c_epoch differs - the world epoch leaves N.A.N.I.'s killer slot
+CAUGHT  reader_snap | run_online differs - N.A.N.I. reads no snapshot (the monsters are not mirrored)
+CAUGHT  reader_grace | run_online differs - N.A.N.I. reads no spawn grace
+CAUGHT  reader_exited | c3c_poses differs - S.P.A.C.E. no longer reads L.O.S.T.'s exit flag (we stay solid after leaving)
+CAUGHT  reader_kill_state | facade differs - the per-frame hook misreads the session's handled kill (the pause screen no longer gives way)
+CAUGHT  reader_nr_last | c3c_misc differs - the admin panel no longer reads the session's last NEW RUN answer
+CAUGHT  reader_connected | admin differs - the admin panel no longer reads whether the session is connected
+CAUGHT  reader_mouse | menu_online differs - G.I.B.'s drawing reads BR-R's mouse the wrong way round
+CAUGHT  frame_no_send | menu_online differs - the per-frame hook tells the session we are in a run while in the menu (the menu's pose rate)
+CAUGHT  frame_no_drone | hum_dread differs - the per-frame hook no longer hands Spacious Audio the dread's level
+CAUGHT  frame_no_fade | run_online differs - the per-frame hook no longer fades N.A.N.I.'s hit flash
+CAUGHT  frame_no_note | load same, reconnect_solo differs - the per-frame hook shows the online note offline too
+CAUGHT  frame_no_solo_item | reconnect_solo differs - the per-frame hook no longer asks P.O.C.K.E.T. for the offline cartograph
+CAUGHT  mirror_swapped | run_online differs - N.A.N.I. hands the server's walls and items to the wrong owners
+CAUGHT  bodies_no_id | c3c_misc differs - G.I.B. hands the game the bodies without the session telling it our id first
+CAUGHT  poses_not_solid | c3c_poses differs - B+'s fresher poses no longer move the bodies S.P.A.C.E. steers us round
+CAUGHT  hover_not_shown | menu_online differs - G.I.B.'s drawing no longer hands BR-R the wanderer under the mouse
+C3C CLIENT MUTANTS: PASS (35 of 35 seam mutants caught)

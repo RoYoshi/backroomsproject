@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Stage 3H continuation C5 - this tree against M8 directly, wherever a comparison tool can take M8 as its old side (development only).
  *
- *   node dev/stage-3h-modernization/tools/c5_vs_m8.js --out <empty folder> [--only cli,page,sim,perf,live_wire,contact_lab]
+ *   node dev/stage-3h-modernization/tools/c5_vs_m8.js --out <empty folder> [--only cli,page,sim,perf,raw_live,live_wire,browser_contracts,contact_lab]
  *
  * M8 (c34f0c2) is the gameplay-parity reference and the rollback point.  The gate compares every checkpoint with B++, and M8 passed the
  * same gate; this runs the same comparisons with M8 itself as the old side, where the tool reads M8's files (its public/ and
@@ -13,11 +13,13 @@
  *   sim         sim_diff.js: M8's built sim (generated/server/sim.js and its ai.js, world.js) and this tree's modules, on the same 20,050 calls
  *   perf        perf_det.js --only client: mp.js's per-frame hook and message handler, M8's against this tree's, interleaved, 7 rounds
  *               (its server half runs an old server.js on this tree's files, which M8's server.js, needing its own src/, cannot do)
+ *   raw_live    raw_live.js: real HTTP and raw TCP against M8's game folder and this tree's: every response and WebSocket check
  *   live_wire   live_wire_h2.js: two real Chromium players through the game's own buttons, on M8's game folder and on this tree's
+ *   browser_contracts  dev/tools/gate/checks/browser_contracts.js on M8's folder and this tree's: the facade, refusals, a phone
  *   contact_lab BR-RoLE's contact lab on both folders: the geometry, lights and peers scenes, compared pixel for pixel
  * The server traces have no M8 side to run (srv_golden.js runs an old server.js over this tree's files): M8's and this tree's are each
  * byte-identical to the same stored B++ baselines (M8's evidence/m8/gate_full; this tree's gate), which is the same comparison.
- * Writes <out>/report.json and each tool's report and log.  Exit 0 only when every comparison run is equal. */
+ * Writes <out>/report.json and each tool's report and log.  Exit 0 only when every comparison passes: equal, or (the time) within its rule. */
 'use strict';
 const fs = require('fs'), path = require('path');
 const { spawnSync, execFileSync } = require('child_process');
@@ -33,7 +35,7 @@ function run(name, cmd, ms = 3600000) {
   fs.writeFileSync(o(name + '.log'), '$ ' + cmd.join(' ') + '\n' + (r.stdout || '') + (r.stderr || ''));
   return { exit: r.status, text: (r.stdout || '') + (r.stderr || ''), s: Math.round((Date.now() - t0) / 1000) };
 }
-const only = ARG.only ? ARG.only.split(',') : ['cli', 'page', 'sim', 'perf', 'live_wire', 'contact_lab'];
+const only = ARG.only ? ARG.only.split(',') : ['cli', 'page', 'sim', 'perf', 'raw_live', 'live_wire', 'browser_contracts', 'contact_lab'];
 const R = { tool: 'dev/stage-3h-modernization/tools/c5_vs_m8.js', m8: M8, head: execFileSync('git', ['-C', REPO, 'rev-parse', 'HEAD']).toString().trim(),
   runtimeTree: null, startedAt: new Date().toISOString(), comparisons: [], ok: true };
 /* what the comparisons are of: the runtime files as on disk (their SHA-256 together), so a report names the tree it ran on */
@@ -83,6 +85,16 @@ if (only.includes('live_wire')) {
   if (r.exit === 2) { note = 'first run ERROR, run again; '; r = go('_again'); j = J(o('live_wire_again.json')); }
   add('two real players, every WebSocket frame by structure (live_wire_h2.js)', r.exit === 0 && j && j.ok, j && j.phases ? j.phases.length : 0, note + (j && j.ok ? 'structurally identical' : j && j.diffs ? j.diffs.length + ' structural differences' : 'no comparison'));
 }
+if (only.includes('raw_live')) {
+  const r = run('raw_live', ['node', G('raw_live.js'), '--old-ref', M8, '--new-dir', wtGame(), '--out', o('raw_live.json')]), j = J(o('raw_live.json'));
+  add('real HTTP and raw TCP, every response and WebSocket check (raw_live.js)', r.exit === 0 && j && j.ok, j ? j.httpCases + j.wsChecks : 0,
+    j && j.expectedContentChanges.length ? 'bodies differ, as declared, for: ' + [...new Set(j.expectedContentChanges.map(e => e.file))].join(', ') : 'byte for byte, but the Date header');
+}
+if (only.includes('browser_contracts')) {
+  const r = run('browser_contracts', ['node', 'dev/tools/gate/checks/browser_contracts.js', '--old-dir', m8Game(), '--new-dir', wtGame(), '--out', o('browser_contracts.json')]), j = J(o('browser_contracts.json'));
+  const n = j ? j.sides.reduce((a, s) => a + Object.values(s.checks || {}).filter(Boolean).length, 0) : 0;
+  add('the facade, unauthorized access refused, a phone, in a real Chromium (browser_contracts.js)', r.exit === 0 && j && j.ok, n, j && j.agree ? 'the sides agree: ' + Object.entries(j.agree).map(([k, v]) => `${k} ${v ? 'yes' : 'NO'}`).join(', ') : 'no report');
+}
 if (only.includes('contact_lab')) {
   const L = require(path.join(REPO, 'dev', 'tools', 'layout.js')), res = [];
   for (const [label, g] of [['m8', m8Game()], ['cand', wtGame()]]) {
@@ -97,5 +109,5 @@ for (const d of [m8Dir, wtDir]) if (d && d.startsWith(OUT + path.sep)) fs.rmSync
 for (const d of ['live_wire_raw', 'live_wire_raw_again']) if (fs.existsSync(o(d))) execFileSync('sh', ['-c', 'cd "$1" && for f in *.json; do gzip -9 "$f"; done', 'sh', o(d)]);
 R.finishedAt = new Date().toISOString();
 fs.writeFileSync(o('report.json'), JSON.stringify(R, null, 1) + '\n');
-console.log(`THIS TREE AGAINST M8: ${R.ok ? 'SAME' : 'DIFFERENT'} (${R.comparisons.filter(c => c.ok).length} of ${R.comparisons.length} comparisons equal; runtime files ${R.runtimeTree.files}, sha256 ${R.runtimeTree.sha256.slice(0, 16)})`);
+console.log(`THIS TREE AGAINST M8: ${R.ok ? 'SAME' : 'DIFFERENT'} (${R.comparisons.filter(c => c.ok).length} of ${R.comparisons.length} comparisons pass; runtime files ${R.runtimeTree.files}, sha256 ${R.runtimeTree.sha256.slice(0, 16)})`);
 process.exitCode = R.ok ? 0 : 1;

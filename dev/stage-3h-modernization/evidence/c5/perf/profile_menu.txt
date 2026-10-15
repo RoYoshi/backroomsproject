@@ -1,0 +1,68 @@
+== run 1
+menu_online: mp hook ms median old 35.9 new 32.3; sampled total us old 923955 new 890320
+-- old: mp.js self time (us, summed over 10 rounds)
+      53550  window.__mp @mp.js:891
+      38662  drawPeers @mp.js:576
+      34226  (anon) @mp.js:278
+      23930  applyServerState @mp.js:252
+      20807  ws.onmessage @mp.js:174
+       2156  wallStains @mp.js:549
+       2120  bodyLights @mp.js:492
+       1897  updateFx @mp.js:453
+       1804  renderStatus @mp.js:780
+       1638  peerMv @mp.js:482
+       1476  entitySignals @mp.js:245
+       1147  solidPeers @mp.js:103
+        904  applyCaught @mp.js:287
+        685  previewTick @mp.js:822
+   total in mp.js: 187449
+-- new: mp.js self time (us, summed over 10 rounds)
+      47390  window.__mp @mp.js:1012
+      34311  drawPeers @mp.js:661
+      31142  (anon) @mp.js:337
+      27675  applyServerState @mp.js:311
+      16243  ws.onmessage @mp.js:150
+       6263  hoverTip @mp.js:465
+       5958  sendPose @mp.js:204
+       5079  bodyLights @mp.js:576
+       1772  renderStatus @mp.js:879
+       1722  wallStains @mp.js:633
+       1644  onlineNote @mp.js:453
+       1627  previewTick @mp.js:921
+       1421  entitySignals @mp.js:304
+       1348  peerMv @mp.js:566
+   total in mp.js: 193283
+== run 2
+menu_online: mp hook ms median old 42.6 new 36.3; sampled total us old 1011245 new 1053684
+-- old: mp.js self time (us, summed over 10 rounds)
+      69627  window.__mp @mp.js:891
+      46834  drawPeers @mp.js:576
+      42003  (anon) @mp.js:278
+      22954  applyServerState @mp.js:252
+      22027  ws.onmessage @mp.js:174
+       2917  bodyLights @mp.js:492
+       2573  solidPeers @mp.js:103
+       2464  wallStains @mp.js:549
+       1832  peerMv @mp.js:482
+       1641  previewTick @mp.js:822
+       1547  updateFx @mp.js:453
+       1491  entitySignals @mp.js:245
+       1477  applyCaught @mp.js:287
+       1210  angDiff @mp.js:238
+   total in mp.js: 226316
+-- new: mp.js self time (us, summed over 10 rounds)
+      48958  window.__mp @mp.js:1012
+      38048  drawPeers @mp.js:661
+      31138  (anon) @mp.js:337
+      29468  applyServerState @mp.js:311
+      18376  ws.onmessage @mp.js:150
+      12062  hoverTip @mp.js:465
+       6087  sendPose @mp.js:204
+       3330  wallStains @mp.js:633
+       3003  applyBodies @mp.js:485
+       2374  bodyLights @mp.js:576
+       1926  entitySignals @mp.js:304
+       1815  ws.onopen @mp.js:142
+       1752  previewTick @mp.js:921
+       1599  peerMv @mp.js:566
+   total in mp.js: 211141

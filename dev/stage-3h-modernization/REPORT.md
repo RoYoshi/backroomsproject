@@ -1,154 +1,212 @@
-# Stage 3H engine modernization: the milestone report
+# Stage 3H engine modernization: the final report
 
-## STAGE 3H ENGINE MODERNIZATION — HUMAN QA PENDING
+## STAGE 3H — HUMAN QA CANDIDATE, WITH UNFINISHED ITEMS (NEEDS WORK)
 
-**Status: HUMAN QA CANDIDATE.** Only the owner can accept it. Nothing is merged, deployed or promoted.
+**Only the owner can decide: PASS, NEEDS CHANGES or ROLL BACK.** Nothing is merged, deployed or promoted.
+
+This report covers the whole stage. M8 (H3M-0 to H3M-8) was the first Human QA candidate; its milestone report is
+`git show c34f0c2:dev/stage-3h-modernization/REPORT.md`. The owner then asked to close the architectural debt M8 had left (the
+continuation pack of 2026-10-14): waves C0 to C5. M8 stays the gameplay-parity reference and the rollback point.
 
 | | |
 |---|---|
 | Branch | `stage-3h-engine-modernization` (public repository `RoYoshi/backroomsproject`) |
-| Parent | the frozen Stage 3H2 `22751bbc39c91f3e54e3305638b2ef2c9dd12c68`, never modified |
+| Final commit | C5b. It adds this report, the Human QA page, the final evidence and the ledgers; it changes no runtime file. A commit cannot name its own hash, so the delivery message names it |
+| Last runtime change | C3c `722113ff533c315effd6a15b9fafd019a53e0703` (tree `000fdc4…`): `mp.js` made of modules. C5a `da1fb887a472c8a5bd95b269d84ae0f815b69d0c` (tree `8e6f340…`) added proofs only |
+| Gameplay-parity reference | M8 `c34f0c22bbacc5ac2813d173bc0591b67af7169f` |
 | Behaviour oracle | the accepted B++ `143b63ff42b88c6780c5043e0f61d64100f81f40`, never modified |
+| Frozen Stage 3H2 | `22751bbc39c91f3e54e3305638b2ef2c9dd12c68`, never modified |
 | Production | `main` (`7781e1a`), never touched |
-| Last runtime checkpoint | M7 `14ac44616ccd20225a7b9ae1ec882ce145f140cc`, tree `b3a7a5644ac8accd3c80821db968427f9ece65f1`, verified on GitHub (`evidence/remote/verify_m7_14ac446.json`) |
-| Final commit | M8. It adds this report, the Human QA page, the final evidence and two tools, and corrects details in the documentation. It changes no runtime file. A commit cannot name its own hash, so the delivery message names it |
 
 The rule was: **the engine may change, the experience may not.**
-- Every file the browser loads, and the server's built world, is byte-identical to the frozen 3H2's.
-- B++'s server and this one, given the same 18 scripted scenarios, send the same bytes.
-- The final full gate passed against B++ (below).
+- The server's sim, the WebSocket session and six of the page's scripts are now modules with explicit boundaries.
+- Their behaviour was compared with B++'s, and directly with M8's, instead of their bytes: the same traces, the same pixels, the same
+  answers.
+- Every other file the browser loads is byte-identical to M8's.
+- The final full gate passed against B++ on a fresh clone (below).
 
-What no machine check here can judge is Human QA's: [`HUMAN_QA.md`](HUMAN_QA.md).
+**Unfinished, and returned as Stage 3H work (NEEDS WORK).** These are blocked by one thing: this environment cannot reach the npm
+registry, so the recovered v11 toolchain cannot be installed.
+- **C1** (M-017): the v11 Vite/TypeScript build, rebuilt from its locked packages.
+- **C4** (M-001, M-012, M-019, ADR-002): the bundle's 40 post-v11 edits as readable, owned TypeScript.
+- **C4** (M-003): one Level 0 definition instead of two.
+- The bundle's side of the `window` contracts (M-005).
 
-## What changed, wave by wave
+`tools/c1_fetch_locked_packages.js` lets the owner fetch the 31 locked packages on a machine with internet access. Each tarball is
+checked against the lockfile before use, and C1 and C4 can then go ahead. What no machine check here can judge is Human QA's:
+[`HUMAN_QA.md`](HUMAN_QA.md).
 
-| Wave | What changed for developers | Checkpoint (commit) | Why players cannot see it |
+## What changed after M8, wave by wave
+
+| Wave | What changed for developers | Checkpoint | Why players cannot see it |
 |---|---|---|---|
-| H3M-0 | Preflight, inventories, plans | M0 `fe8f9b4` | nothing outside `dev/` |
-| H3M-1 | `public/` is the only web root; the canonical sources live in `src/` by owner; the server's built files are in `generated/`; one zero-dependency build (`npm run build`, `build:check`); the tests and the gate run on the new layout | M1-P `a895c07`, M1 `6356d53` | Every served file is byte-identical. The full gate at M1 passed 16 of 17 steps at once; perf passed when re-run (M-021) |
-| Resumption | The recovered original source was authenticated. Every post-original client change was reconciled (bundle 40 steps, stylesheet 8, page 35). The `window.__api` contract (52 members) was recorded | M1-R `589681c` | no runtime file changed |
-| H3M-6 | The recovered v11 project is an isolated input (`src/core/client/bundle/original-v11/`). The bundle and its stylesheet are built by replaying the lineage ledger, and the PixiJS chunks are copies of the v11 output | M6a `f2db9d8` | The build writes the same bytes. The snapshot is never served |
-| H3M-2 | `server.js` (385 lines) split into five owned factory modules: S.P.A.C.E.'s movement authority, core's rooms and loop, OVERSEER's admin commands, B++'s fresher poses. `server.js` is now the 141-line composition root | M2 `527dc35` | Every moved line is verbatim (move proof). The server traces equal B++'s. Full gate PASS, 18 of 18 steps |
-| H3M-3 to H3M-5 | The multi-owner scripts (`sim.js`, `mp.js`, `ai.js`, `ents.js`, `world.js`, `move.js`, `camcorder.js`, `glitch.js`) are built from 58 owned part files with checked interface headers | M3 `2aac0b1` | every built output byte-identical |
-| H3M-7 | 129 root files moved to `dev/archive/` (ledger, index); a short README; `docs/` (quickstart, frameworks, flows, build, contracts, parity, ADR-001 to ADR-004); a README in each of the 20 framework folders; generated tables checked by the gate | M7 `14ac446` | no runtime file changed |
-| H3M-8 | The final full gate, the clean-checkout build, the package, this report, the Human QA page | M8 (the delivery names it) | no runtime file changed |
+| C0 | The post-M8 audit: the debt ledger (`CONTINUATION.md`), the inventories (`inventory/c0_*`: the bundle's 40 steps and their port targets; 312 uses and 49 writes across owners in the parts), the owner-side package fetcher. C1 found BLOCKED | `8041b61` | no runtime file changed |
+| C2 | The WebSocket session to B++'s `src/frameworks/bpp/server/session.js`, the admin login and lockout to W.A.R.D.'s `admin_login.js`, every line verbatim, with the owner's approval to move them (M-023). `server.js` is 65 lines of configuration and wiring | `8abf81a` | The server traces and three new session scenarios (the login over time, the lockout per identity and its source, one connection's life) equal B++'s; 15 session mutants caught |
+| C3a | The sim: ten modules and a composition (`src/core/server/sim.js`), each a factory given what it uses. The 18 writes across owners became calls of the owner's functions | `2bc4569` | B++'s `sim.js` and the modules give the same results to 20,050 calls; 15 seam mutants caught |
+| C3b | The page's `world.js`, `move.js`, `camcorder.js`, `glitch.js` and `ents.js`: a factory per owner's part and a composition per script. Three hidden couplings made explicit | `7eb6d6a` | Every function of `world.js`, and the four others in the same closed Chromium page (1.25 million trace lines), equal to B++'s; 12 seam mutants caught |
+| C3c | `mp.js`: 11 modules, one per owner, and a composition. Every write across owners is a call of the owner's function, every read of a changing value a reader; the session gets the modules made after it once, through its `wire()` | `722113f` | All 18 client scenes equal to B++'s, running every one of `mp.js`'s 232 functions; 35 seam mutants caught; every line M8's unless listed with its reason |
+| C5a | The final verification's new proofs: the `window.__api` contract checked by the gate; a developer round trip and three browser contracts in a new gate step; the comparison tools read M8 as an old side | `da1fb88` | no runtime file changed |
+| C5b | The final full gate on a fresh clone, the clean-checkout build, the package, this report and the Human QA page | this commit | no runtime file changed |
 
-Each checkpoint was pushed normally and verified on GitHub, and has a rollback (`CHECKPOINTS.md`, `evidence/remote/`).
+`dev/tools/checks/modules.js` checks every module boundary from the code on each gate run (ADR-005): a write into another owner's
+state, a hidden closure, a global back-channel, a late binding used too early. It refuses each of 38 deliberate breaks, six of them
+couplings M8 had, put back. Each checkpoint was pushed normally and verified on GitHub (`evidence/remote/`); `CHECKPOINTS.md` has each one's gate and its
+rollback.
 
-## Where each part of the engine stands
+## The definition of done, item by item
 
-| Area | Label | Detail |
+| The owner's item | State | Evidence |
 |---|---|---|
-| Layout: web root, sources by owner, generated files | DONE | ADR-001. `server.js`, `src/`, `generated/`, `dev/` and `docs/` answer 404 |
-| Build and reproducibility | DONE | `npm run build` and `build:check`, with Node only. A fresh clone of M7 rebuilt 41 of 41 files byte for byte, and `git status` stayed clean (`evidence/m8/clean_checkout.*`) |
-| Server decomposition | DONE, with one PARTIAL | Five factory modules join the seven that existed (ADR-003): `death_srv.js` and `peers.js`, written as modules before Stage 3H; `static.js`, `ws.js` and `fields.js`, moved out by 3H0; `newrun.js` and `aftermath.js`, moved out by 3H2. **PARTIAL:** the WebSocket session, which holds the passcode check and its lockout, stays in `server.js` until the owner decides (M-023) |
-| Classic scripts | DONE, as parts | Owned parts with checked headers (ADR-004). They still share their script's closure (M-024). Five single-owner scripts stay whole (M-025) |
-| Compiled client bundle | COMPATIBILITY ISLAND WITH COMPLETE LINEAGE | Built from the recovered v11 TypeScript output plus 40 recorded steps. Every byte is traced to a step, its date, its source and its owner (ADR-002). **PLANNED, not started:** the TypeScript port of those steps (P0 to P4) |
-| Fresh `npm ci && npm run build` of the v11 project | NOT TESTED | No package registry access here (M-017). The recovery's receipt and the byte identity of its `dist/` are the evidence |
-| Root and archive | DONE | 141 root entries became 13. 129 files moved byte for byte; reference audit PASS (M-026) |
-| Documentation | DONE | `docs/` and 20 framework READMEs. The tables are generated, and the gate's `docs` step checks them |
-| Frameworks | 12 with code; 8 reserved | P.U.L.S.E., E.C.H.O., CASHIER, LogicZ, A.T.L.A.S., S.T.A.G.E., V.A.U.L.T. and H.A.N.D.S. are names with a README: reserved, not implemented |
-| The gate | DONE | `npm run gate` (13 steps) and `npm run gate:full` (20 steps), always against B++ |
-| Human QA | PENDING | the owner's |
+| The 40 post-v11 ledger concerns owned by readable source, with no replay of minified patches | **BLOCKED (C1, C4)** | Each step is traced byte for byte (`src/core/client/bundle/lineage/`) and mapped to its concern, owner and port target (`inventory/c0_bundle_steps.csv`). The port needs the toolchain |
+| The 52-member `window.__api` still works | **DONE** | The bundle that makes it is B++'s, byte for byte. The contract (who reads each member) is counted from the code and checked by the gate's `lineage` step; it is M8's but for two reads moved behind a parameter (M-027). In a real Chromium the facade is the same on B++ and on this tree (`workflow` step) |
+| Every cross-framework closure dependency an explicit module boundary; no shared cross-owner mutable lexical state | **DONE** for the server and the classic scripts (M-024) | `modules.js` on every gate run. One shared data model is documented, not hidden: the session's peer records, whose fields each owner writes (CONTRACTS.md). The bundle is one minified closure until C4 |
+| The WebSocket session moved, its authenticated semantics proven | **DONE** (C2) | B++'s traces on the session scenarios and on 3H0's server scenarios; no auth behaviour changed |
+| The duplicated Level 0 eliminated | **BLOCKED (C1, C4)** | The page's copy is inside the bundle. The audit also found eleven other facts written on both sides (M-028, `evidence/c5/duplicated_definitions.txt`); each is B++'s and pinned by the goldens |
+| The full reproducible build | **PARTIAL** | The project's build (Node only, zero dependencies) gives back every output byte for byte from a clean checkout (`evidence/c5b/clean_checkout.*`). The v11 project's own `npm ci && npm run build` is BLOCKED (C1, M-017) |
+| Documentation, findings and the parity matrix truthful | **DONE** | Updated at every wave. A separate agent, which had not written them, checked the final documents' claims against the repository and the evidence; its findings were corrected (`evidence/c5b/STEPS.txt`) |
+| Behavioural and performance parity with B++ and M8 | **DONE** | Below |
+| Blockers closed or returned as unfinished Stage 3H items | **DONE** | This report; `CONTINUATION.md`'s debt matrix |
+| A complete source ZIP, checksums, receipts, the commit and tree, rollback, a targeted Human QA page | **DONE at delivery** | `HUMAN_QA.md` and the rollback are here. The package is made from this commit and checked by `tools/m8_package.js` (below). A commit cannot hold its own archive, so the ZIP, its receipts and SHA-256, and this commit's hash and tree come with the delivery message |
 
 ## Parity
 
-- **Bytes.** Every file under `public/` (48: 36 built, 12 static) and the server's four built files are byte-identical to the frozen
-  3H2's (`tools/m8_served_identity.js`, `evidence/m8/served_identity.*`). They differ from B++ in exactly the four files Stage 3H2
-  changed or added on purpose: `index.html`, `mp.js`, `assets/net-newrun.js` and `assets/mp-hum.js`.
-- **The final full gate,** on a fresh clone of M7, against B++: **PASS, 20 of 20 steps, in 34.8 minutes**
-  (`evidence/m8/gate_full/`):
+**Against B++: the final full gate, on a fresh clone of C5a: PASS, 25 of 25 steps at the first run, in 46.2 minutes**
+(`evidence/c5b/gate_full/`). These are M8's 20 steps and five the continuation added: `session` (C2), `modules` and `sim` (C3a), `page`
+(C3b), `workflow` (C5).
 
-  | Step | Cases |
-  |---|---|
-  | build | 40 |
-  | lineage | 83 |
-  | parts | 64 |
-  | docs | 23 |
-  | scope | 198 |
-  | srv_golden | 11 |
-  | bpp_golden | 7 |
-  | cli_golden | 12 |
-  | protocol | 52,740 messages |
-  | mutants | 18 |
-  | static | 4 |
-  | raw_live | 173 |
-  | quick_suites | 23 |
-  | cli_mutants | 22 |
-  | live_wire | 65 |
-  | bpp_checks | 36 |
-  | browsers | 123 |
-  | contact_lab | 23 images, identical pixel for pixel |
-  | suites | 293 |
-  | perf | 9 |
+| Step | Cases | Step | Cases |
+|---|---|---|---|
+| build | 39 | raw_live | 173 |
+| lineage | 83 (the replayed steps; the `__api` contract checked too) | quick_suites | 23 |
+| parts | 55 | cli_mutants | 57 (22 and 35 seams) |
+| modules | 58 | live_wire | 65 |
+| docs | 23 | bpp_checks | 36 |
+| scope | 210 | browsers | 104 |
+| srv_golden | 11 | workflow | 23 (15 round-trip steps, 8 browser checks) |
+| bpp_golden | 7 | contact_lab | 23 images, identical pixel for pixel |
+| session | 18 | suites | 293 |
+| sim | 20,065 | perf | 9 |
+| page | 1,255,007 | | |
+| cli_golden | 30 (18 scenes, every one of `mp.js`'s 232 functions run) | | |
+| protocol | 52,740 messages | | |
+| mutants | 18 | | |
+| static | 4 | | |
 
-  The server traces equal B++'s stored traces, except for 10 lines of `http_base`: the responses that carry `index.html` and `mp.js`,
-  the two served files 3H2 changed. Their bodies are checked against the files themselves.
-- **Suites: no delta.** Each suite is checked against B++'s own record:
+The server traces equal B++'s stored traces, with one allowed difference: `http_base`'s lines about the files changed on purpose (3H2's
+`index.html` and `mp.js`, and the five page scripts rebuilt at C3b). Their bodies are checked against the files.
 
-  | Suite | B++ (recorded) | Candidate |
-  |---|---|---|
-  | `npm test` | 149 of 162 | 149 of 162 |
-  | `s_humanqa_hotfix` | 5 of 6 | 5 of 6 |
-  | `s_ir` | 3 of 3 | 3 of 3 |
-  | `test_shadows` | 43 of 48 | 43 of 48 |
-  | `test_br_role` | 29 of 32 | 29 of 32 |
-  | `interp_test` | 3 | 3 |
-  | `test_3bn` | 7 of 7 | 7 of 7 |
-  | `audit_net` | 13 of 17 | 13 of 17 |
-  | `audit_net2` | 8 of 11 (LC1 can fail by chance) | 8 of 11 |
-  | `ir_net` | 4 of 4 | 4 of 4 |
+**Against M8, directly** (`tools/c5_vs_m8.js`; `evidence/c5/vs_m8/`, `evidence/c5b/vs_m8_more/`). M8 was the old side wherever a tool
+can read M8's layout.
+- The page traces: 3H0's 9 scenes, 3H2's 3, and all 18 in one page. M8's `mp.js` runs 159 of its 159 functions there, this tree's
+  232 of 232.
+- `world.js`: 2,295 comparisons.
+- The four page scripts: 1,252,700 trace lines.
+- The sim: 20,050 calls.
+- Real HTTP and raw TCP: 173 exchanges. `mp.js`'s body differs, as declared.
+- Two real players: 65 phases, by structure.
+- The browser contracts: 8 checks, and the sides agree.
+- The contact lab: 23 images, pixel for pixel.
+- `mp.js`'s time.
 
-  Only the cases that fail on B++ fail. They are inherited and were not fixed, as the rules require.
-- **Performance.** B++ against this build, interleaved, 7 rounds, with 3H0's rule.
-  - **Server** (median change, within tolerance): `lifecycle` −2.19 %, `deaths` +2.10 %, `admin` +5.36 % (tolerance 9.97 %, the old
-    side's spread), `schedule` −1.44 %.
-  - **Page** (`mp.js`'s frame hook and message handler in 5 scenes): all within tolerance. The largest change is `menu_online`'s hook,
-    +8.5 %, against a tolerance of 25 %, the old side's own spread.
-  - The changes go both ways and stay within the rule. On this 2-CPU machine, the rule's own noise floor is several per cent (M-021).
-- **What the checks cannot see:**
-  - the sound as heard;
-  - real-browser timing and feel;
-  - pixels outside the 23 contact-lab images;
-  - phones, and real networks.
+All eleven pass: the ten comparisons are equal, and the time is within its rule.
 
-  `docs/architecture/PARITY_MATRIX.md` maps each area of the game to its proofs and to what is left for a person.
-- **Findings of this stage:** `FINDINGS.md`, M-001 to M-026. None changes the game. These need a decision or remain debt:
+The server traces have no M8 side to run. M8's and this tree's each equal the same stored B++ baselines, except for `http_base`'s lines
+about the files changed on purpose (2 files at M8, 7 here). Those responses' bodies are checked against the files.
+
+**Bytes.** 44 of the 51 files the game serves or builds (48 under `public/`, the server's 3 built files) are byte-identical to M8's and
+3H2's.
+- The 7 others were rebuilt as modules, and their behaviour is compared instead: `mp.js`, `world.js` (page and server), `move.js`,
+  `camcorder.js`, `glitch.js`, `ents.js`.
+- The bundle, its stylesheet, the PixiJS chunks, `index.html` and every asset are untouched.
+
+**Suites: no delta.** Only the cases that fail on B++ fail:
+- `npm test` 13;
+- `s_humanqa_hotfix` X03;
+- `test_shadows` 5;
+- `test_br_role` 3;
+- `audit_net` 4;
+- `audit_net2` 3.
+
+They are inherited, and were not fixed, as the rules require.
+
+**Performance.** Each gate interleaves B++'s code with this tree's, 7 rounds, under 3H0's A/A rule.
+- In the final gate:
+  - the server's four scenarios moved from −6.5 % to +0.7 %;
+  - the page's hooks moved from −10 % to +31 %, in a noisy run (the old side's own spread up to 58 ms a scene);
+  - all within the rule.
+- Over 21 rounds, on a quiet machine (`evidence/c5/perf/`):
+  - against B++: from −11.2 % to +12.4 % by scene;
+  - against M8: from −5.4 % to +7.6 %, with no scene distinguishable from the noise of the same code against itself.
+- Across all five timings of this code (C3c's gate, the final gate, and the three comparisons with M8 and B++):
+  - `hum_dread`'s hook was slower every time, by +0.8 % to +22.7 %;
+  - `menu_online`'s hook was slower four times out of five, from −10.0 % to +12.4 %;
+  - the other three scenes went both ways.
+  - In the 21-round runs, the largest median difference is about 24 µs per call, against a 60 Hz frame's 16,700 µs.
+- The server's own A/B against M8 cannot run: the tool runs an old `server.js` over this tree's files.
+- This machine has 2 CPUs and no physical GPU. Real hardware is Human QA's.
+
+**How the browser checks ran.** They are real Chromium pages with real input: keys, clicks, touch through Chromium's touch events.
+They ran headless, drawing with SwiftShader, a software renderer, so no physical GPU and no real phone was involved. The client traces
+are recorded in a closed page with a fake clock; they are traces, not a player's view.
+
+**What the checks cannot see:**
+- the sound as heard;
+- real-hardware timing and feel;
+- pixels outside the 23 contact-lab images;
+- phones and real networks.
+
+`docs/architecture/PARITY_MATRIX.md` maps each area of the game to its proofs, and to what is left for a person.
+
+## The debt matrix
+
+`CONTINUATION.md` holds it row by row. In short:
+- **DONE:**
+  - M-020: the `__api` contract and facade, for this candidate;
+  - M-021: perf, as far as this machine goes;
   - M-023: the session;
-  - M-024: shared closures;
-  - M-017: the v11 rebuild, not tested;
+  - M-024: shared closures.
+- **PARTIAL:** M-005, the `window` contracts. The classic scripts' side is done; the bundle's side waits for C4.
+- **BLOCKED** (all on the npm registry, C1):
+  - M-017: the v11 toolchain;
+  - M-001, M-012, M-019: the 40 ports;
+  - M-003: one Level 0.
+- **Kept, not debt:**
   - M-013: the carpet placeholder;
-  - M-003: Level 0, defined twice;
-  - M-021: the perf step's noise on a small machine.
+  - the eight reserved, README-only frameworks.
+- **Recorded:**
+  - M-002 and M-014: the PixiJS chunks;
+  - M-028: the facts written on both sides.
+
+Findings M-001 to M-028 are in `FINDINGS.md`. None changes the game.
 
 ## What will still be hard to maintain
 
-- **The bundle's post-v11 code is minified.** It is about 44 KB in 40 steps. Changing it means recording a new lineage step, until
-  the TypeScript port. Examples:
+- **The bundle's post-v11 code is minified:** about 44 KB in 40 steps. Changing it means recording a new lineage step, until C4.
+  Examples:
   - B02: the 96×72 Level 0 and stamina;
   - B07: the capture sounds;
   - B10 and B11: the light gear;
   - B12: NEW RUN's fall;
   - B28 to B30: BR-RoLE's corner receivers.
-- **Level 0 is defined twice:** in `sim.level0.js` for the server, and in the bundle for the page.
-- **Parts are not modules.** For example, `mp.js`'s transport uses 59 names of the other parts and writes 20. The headers make this
-  visible and checked; they do not make it small.
-- **The session and the passcode check are still in `server.js`.**
+- **Level 0 is defined twice,** and eleven smaller facts are too (M-003, M-028). A change to one copy alone breaks the game silently.
+- **The classic scripts still talk through `window`** (63 names, documented in CONTRACTS.md). Inside each script the modules are
+  explicit; between scripts and the bundle the contracts are as they were.
 - **The gate needs more than Node:**
   - Git with full history;
   - TypeScript;
   - Playwright with Chromium;
   - for the full tier, Python with Playwright, Pillow and NumPy.
 
-  A full run takes about 35 minutes on 2 CPUs.
+  The full tier takes about 50 minutes on 2 CPUs.
 
 ## Rollback
 
-- **One step back on this branch:** each row of `CHECKPOINTS.md` names its commit.
-- **Back to before this modernization:** the frozen 3H2 `22751bb`.
-- **Back to the accepted game:** B++ `143b63f`.
-- Both of those are untouched, and every remote receipt records them. `main` was never touched, so production has nothing to roll
-  back.
+- **One step back:** each row of `CHECKPOINTS.md` names its commit. C5a and C5b change no runtime file, so the game of this candidate
+  is C3c's.
+- **The gameplay-parity reference:** M8 `c34f0c2`.
+- **Before the modernization:** the frozen 3H2 `22751bb`.
+- **The accepted game:** B++ `143b63f`.
+- Those three are untouched, and every remote receipt since M8 records them (the earlier ones record B++, 3H2 and `main`). `main` was never touched, so production has nothing to roll back.
 
 ## The package
 
@@ -163,15 +221,18 @@ It comes with `SOURCE_MANIFEST.json`, `BUILD_RECEIPT.json`, `PACKAGE_RECEIPT.jso
 The tool checks:
 - every CRC, and that the ZIP holds exactly the commit's files;
 - the build, the lineage, the documentation tables and the parts, on the extracted copy;
-- the server started from that copy: every served file compared, the forbidden paths refused, a WebSocket greeted.
+- a server started from that copy: every served file compared, the forbidden paths refused, a WebSocket greeted.
 
-The ZIP's SHA-256 is in the delivery message, because a commit cannot hold the hash of its own archive. The whole tree, with its
-history and the gate, is the branch.
+The ZIP's SHA-256 is in the delivery message. The whole tree, with its history, the tests, the gate and the evidence, is the branch.
 
 ## Security
 
-- No change was made to the admin passcode's default, the authentication, the lockout, the CORS/Origin handling or credentials.
-- The gate compares the passcode line with B++'s by hash on every run.
-- From M1-R on, each checkpoint's changes passed the secret scan before the commit (`evidence/<checkpoint>/secret_scan.*`). M7's
-  committed revision was scanned again after its commit (`evidence/m8/secret_scan_m7_after_commit.txt`).
+- No change was made to the admin passcode's default, the authentication, the lockout, the client identity it counts by, CORS/Origin
+  handling, credentials, deployment or the repository's visibility.
+- The session and the login moved verbatim (C2), with the owner's approval to move them, not to change them.
+- The gate compares the passcode line and the deploy workflow with B++'s by hash on every run.
+- The new browser checks use a synthetic passcode of their own. They show that refusals still hold: a visitor's admin command is
+  ignored, a wrong passcode is refused, and the lockout refuses even the right passcode.
+- Each checkpoint's changes passed the secret scan before the commit (`evidence/<checkpoint>/secret_scan.*`). Each committed revision
+  was scanned again after its commit; that scan is filed with the next checkpoint (`secret_scan_<checkpoint>_after_commit.txt`).
 - Security observations go to the owner privately, never into this public repository.

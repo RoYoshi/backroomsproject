@@ -1,0 +1,24 @@
+$ node dev/stage-3e-0-bpp/place_replay.js --game /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5/gate_full_final/game_candidate --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5/gate_full_final/place_replay.json
+{"name":"bring545_bp_s0","staleMs":0,"placedDistance":545,"staleSent":0,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1178,690],"pageEnd":[1178,690]}
+{"name":"bring545_bp_s30","staleMs":30,"placedDistance":545,"staleSent":1,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1177,690],"pageEnd":[1177,690]}
+{"name":"bring545_bp_s80","staleMs":80,"placedDistance":545,"staleSent":3,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1179,690],"pageEnd":[1179,690]}
+{"name":"bring545_bp_s150","staleMs":150,"placedDistance":545,"staleSent":6,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1173,690],"pageEnd":[1173,690]}
+{"name":"bring545_bp_jit0","staleMs":10,"placedDistance":545,"staleSent":0,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":31,"serverEnd":[1178,690],"pageEnd":[1178,690]}
+{"name":"bring545_bp_jit1","staleMs":89,"placedDistance":545,"staleSent":4,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":34,"serverEnd":[1177,690],"pageEnd":[1177,690]}
+{"name":"bring545_bp_jit2","staleMs":20,"placedDistance":545,"staleSent":1,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":35,"serverEnd":[1175,690],"pageEnd":[1175,690]}
+{"name":"world545_bp_s30","staleMs":30,"placedDistance":545,"staleSent":1,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1121,3264],"pageEnd":[1121,3264]}
+{"name":"world545_bp_s80","staleMs":80,"placedDistance":545,"staleSent":3,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":30,"serverEnd":[1123,3264],"pageEnd":[1123,3264]}
+{"name":"bring60_bp_s80","staleMs":80,"placedDistance":60,"staleSent":3,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1174,690],"pageEnd":[1174,690]}
+{"name":"bringFar_bp_s80","staleMs":80,"placedDistance":2071,"staleSent":3,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1177,690],"pageEnd":[1177,690]}
+{"name":"bring545_old_s0","staleMs":0,"placedDistance":545,"staleSent":0,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1171,690],"pageEnd":[1171,690]}
+{"name":"bring545_old_s30","staleMs":30,"placedDistance":545,"staleSent":1,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1176,690],"pageEnd":[1176,690]}
+{"name":"bring545_old_s80","staleMs":80,"placedDistance":545,"staleSent":2,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1177,690],"pageEnd":[1177,690]}
+{"name":"bring545_old_s150","staleMs":150,"placedDistance":545,"staleSent":3,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1170,690],"pageEnd":[1170,690]}
+{"name":"bring545_old_jit0","staleMs":136,"placedDistance":545,"staleSent":3,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":33,"serverEnd":[1171,690],"pageEnd":[1171,690]}
+{"name":"bring545_old_jit1","staleMs":112,"placedDistance":545,"staleSent":2,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":33,"serverEnd":[1173,690],"pageEnd":[1173,690]}
+{"name":"bring545_old_jit2","staleMs":47,"placedDistance":545,"staleSent":1,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":41,"serverEnd":[1167,690],"pageEnd":[1167,690]}
+{"name":"world545_old_s30","staleMs":30,"placedDistance":545,"staleSent":0,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1120,3264],"pageEnd":[1120,3264]}
+{"name":"world545_old_s80","staleMs":80,"placedDistance":545,"staleSent":2,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1125,3264],"pageEnd":[1125,3264]}
+{"name":"bring60_old_s80","staleMs":80,"placedDistance":60,"staleSent":2,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1175,690],"pageEnd":[1175,690]}
+{"name":"bringFar_old_s80","staleMs":80,"placedDistance":2071,"staleSent":2,"kept":true,"backAtOld":0,"corrections":0,"walkFollowPx":29,"serverEnd":[1178,690],"pageEnd":[1178,690]}
+{"summary":{"bring545_bp":{"kept":7,"of":7,"maxWalkFollowPx":35},"bring545_old":{"kept":7,"of":7,"maxWalkFollowPx":41},"world545_bp":{"kept":2,"of":2,"maxWalkFollowPx":30},"world545_old":{"kept":2,"of":2,"maxWalkFollowPx":29},"bring60_bp":{"kept":1,"of":1,"maxWalkFollowPx":29},"bring60_old":{"kept":1,"of":1,"maxWalkFollowPx":29},"bringFar_bp":{"kept":1,"of":1,"maxWalkFollowPx":29},"bringFar_old":{"kept":1,"of":1,"maxWalkFollowPx":29}},"serverErrors":[]}

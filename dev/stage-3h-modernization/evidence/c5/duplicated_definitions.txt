@@ -1,0 +1,57 @@
+Stage 3H continuation C5 - the runtime audited for duplicated authoritative definitions (the master pack's Phase 4: "audit the runtime for
+other demonstrable duplicated authoritative definitions").  Read-only: the code was read and searched (by a separate agent, then sampled
+by hand: the items marked [checked] were confirmed line by line).  Paths are the sources under src/ (each basename is unique there); B is
+the compiled bundle public/assets/index-DKbV5Nv9.js.  Every item below is inherited from B++ (the modernization moved these lines without
+changing them; the goldens pin their behaviour); none is fixed here: a change to any of them changes code the gate compares with B++, and
+the bundle's copies can only change with C4 (BLOCKED by C1).  Finding M-028.
+
+Not duplicates (one source at build time): world.js's parts build public/world.js and generated/server/world.js, byte-identical (W.MOVE,
+W.S, the props, the lamps); dphys.js is the same bytes on both sides; the bundle's offline AI is a separate single-player implementation,
+skipped online.
+
+THE KNOWN ONE
+  M-003 Level 0: sim.level0.js:19 and B (FBW=96, FBH=72, the rooms, the spawn {960, 3264}, the blackout timer, the light table Gc, the nav
+  grid).  Already drifted in a label: the camcorder is "Night Vision Camcorder" on the server and "Camcorder" with nv:true in the bundle.
+
+TWO HAND-WRITTEN COPIES OF ONE FACT (they agree)
+  1. Entity state and action codes: the page's ents.head.js:26-28 (tab.s, h, m) and the server's ai.head.js:35-40 (S, numbered into SCODE),
+     ai.hound.js:10 (HACT), ai.smiler.js:42 (SACT).  The wire sends indexes, so the order must match.  ents.head.js's setTables(t) is
+     never called: the hello message (session.js:37) does not carry the tables its comment expects [checked: setTables has no caller].
+  2. The distance between living players: the server's peers.js:25 D_BODY = 36 (authoritative) and the page's move.js:55 PEER_D = 36.75
+     (its prediction, with a margin) [checked].
+  3. How long a Hound stays on its kill: ai.capture.js:89 KILL_DUR {A:4.5, B:4.7, C:4.3, D:4.5}, a copy of dphys.js's DURS.Hound (the
+     shared file); the fallbacks differ (4.5 and 4.4).
+  4. Movement event codes: move.js (21+q, 24+q, 30) and the server's ai.engine.js EV_NOISE; the cap of 6 events a packet in move.js:45 and
+     sim.movement.js:41.
+  5. A lamp's light falloff: ai.geo.js:31-32 (what monsters perceive), light.js:51-54 and B (what players see): r < 380, (1 - ss(40, 380,
+     r)) * .43; a failing lamp's dimming .06 (server) and .94 with flicker (page).
+  6. The entity ceiling of 64: sim.ai.js:19 (ADMIN_MAX_HOUNDS, ADMIN_MAX_SMILERS) and the page's mp.monsters.js:17 CLIENT_ENTITY_SLOTS,
+     B's 64-slot arrays, mp.admin.js:81's fallback.
+  7. What clients may send: the light kinds, hats, textures, backpacks, the default look and the colour test (fields.js:13-20, net-wire.js,
+     B); the name's 20 characters (session.js:63, mp.session.js, index.html); the infrared level 0-2 (session.js:61, camcorder.view.js).
+  8. The fixed step: 60 Hz, 15 catch-up steps, a 0.25 s cap: timing_policy.js:15-18 (page), B's fallback, loop.js:16-19 (server).
+     timing_policy.js is written to load on the server too, but only public/ gets it.
+  9. The world's size outside M-003 (96 x 72 tiles of 96 px): session.js:47's position clamp, mp.glitch.js, mp.cartograph.js, move.js,
+     l0-remaster.js's fallback.
+  Offline copies, which matter only for offline play matching online: the glitched walls (sim.glitches.js and mp.glitch.js: 3 walls, 2600,
+  48, the exit under 54) and the cartograph's distance from the spawn (1800: sim.items.js and mp.cartograph.js).
+
+TWO COPIES THAT DO NOT AGREE (both B++'s)
+  10. The spawn protection: 3 s on the server (sim.players.js:16 safe:3) and 4 s on the page (mp.session.js:63-64, graceUntil + 4) [checked,
+      and the same at B++].  Online the page's value only shapes the presentation (the threat indicator, the encounter hint); the server's
+      decides.
+  11. The movement floors the server applies to a client that makes no claim (sim.movement.js:51-54: 106, 150, 225 px/s) were derived by
+      hand from W.MOVE; move.js's sprint at low stamina (walk + (run - walk) x 0.42: about 220 px/s) and its 0.83 deep-carpet factor are not
+      in them [checked: the formula and the floors].  The page claims its state in every pose during a run (mp.session.js's sendPose: mv), and a claimed state is only raised by them.
+
+NUMBERS THAT DIFFER BY DESIGN (coupled, not copies): the pose rates (page 25/50/250 ms, server 16/30 ms gaps), NEW RUN's gaps (page 300 ms
+and a 2.5 s wait, server 250 ms; the 30 s cooldown exists only on the server), the cartograph's pick-up (page asks within 46 px, the server
+accepts 110), the spawn spot (page 1500/900 px from monsters, the server accepts 1100/600), the soft correction (page 600 px, the server's
+568 px budget).
+
+INSIDE THE SERVER: the route check's 120 (movement.js:80, sim.movement.js:20); movement state codes written as numbers (sim.feed.js:14,
+sim.movement.js, ai.engine.js, ai.hound.js); "exhausted" below 22 stamina (ai.hound.js:644, aftermath.js:31).
+
+What one source for each would take: the server's constants are module-level in their owners' modules now (C3), so a shared table under
+src/frameworks/<owner>/shared/ built for both sides (as world.js is) is a mechanical step for the classic scripts; every copy inside the
+bundle waits for C4.  Each is a change the owner should approve on its own, with the goldens proving no behaviour moved.
