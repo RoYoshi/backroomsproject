@@ -1,0 +1,23 @@
+lockfile: the snapshot's own (blob 56e639b5009d, sha256 329ef9ecea40); needed on linux x64: 31
+the accompanying MANIFEST.json: agrees (31 entries, linux x64 glibc, fetched 2026-10-15T12:13:52.414Z)
+C1 PACKAGES: VERIFIED (31 of 31 tarballs equal to the lockfile's integrity, by their own package.json; missing 0, extra 0)
+added 31 packages in 6s
+identical  assets/BufferResource-B-thlpip.js  11068 bytes
+identical  assets/Cache-DDo62lBW.js  1100 bytes
+identical  assets/CanvasPool-DecUtJxW.js  68480 bytes
+identical  assets/Filter-DzecrWg_.js  42012 bytes
+identical  assets/GCManagedHash-Bz2ZMBJN.js  19356 bytes
+identical  assets/GraphicsContext-vm7TDg_M.js  61700 bytes
+identical  assets/RenderTargetSystem-CgUxHIsn.js  58779 bytes
+identical  assets/browserAll-B-iwy0YI.js  42676 bytes
+identical  assets/canvasUtils-CxYPZET9.js  6054 bytes
+identical  assets/carpet.png  3403023 bytes
+identical  assets/concrete.webp  101200 bytes
+identical  assets/getTextureBatchBindGroup-DBCrgHVb.js  344 bytes
+identical  assets/index-D7hdwmUU.css  9899 bytes
+identical  assets/index-DKbV5Nv9.js  304183 bytes
+identical  assets/init-Cn1_BCi0.js  15753 bytes
+identical  assets/webworkerAll-ByhiNG9W.js  55 bytes
+identical  index.html  6483 bytes
+toolchain: Node v22.22.2, npm 10.9.7, Version 7.0.2, vite/8.3.1 linux-x64 node-v22.22.2
+C1 REBUILD: PASS (17 of 17 dist files byte-identical to the recovered dist/)

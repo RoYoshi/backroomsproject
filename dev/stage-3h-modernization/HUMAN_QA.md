@@ -1,5 +1,8 @@
 # STAGE 3H ENGINE MODERNIZATION — FINAL HUMAN QA PENDING
 
+> **This page is the C5b candidate's.** C1 and C4 resumed on 2026-10-15 (`CHECKPOINTS.md`); a new candidate and its page will replace
+> it.
+
 **Only the owner can accept this build.** It is a candidate, not a release.
 
 - Nothing is merged, deployed or promoted.

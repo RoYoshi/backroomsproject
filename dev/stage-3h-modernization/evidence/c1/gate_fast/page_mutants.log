@@ -1,0 +1,14 @@
+$ node dev/tools/gate/golden/page_scripts.js --mutants dev/tools/gate/golden/page_mutants.js --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c1/gate_fast/page_mutants.json
+caught  move_sound_not_handed: the sound module does not hand its sounds to the movement module (vaults and slides fall silent)
+caught  move_poses_not_made: the composition does not make the poses module (window.__pose is missing)
+caught  camcorder_whine_lost: the camera's state does not keep the whine's nodes (the sound module builds them again and again)
+caught  camcorder_view_wrong_audio: the view is given a silent whine instead of the sound module's
+caught  glitch_draw_wrong_walls: the drawing module is given another near distance than the walls module's
+caught  glitch_draw_silent: the drawing module is given a silent sound module
+caught  ents_smiler_gives_hound: the Smiler module gives the Hound's drawing (the death scene draws the wrong creature)
+caught  ents_audio_other_E: the sound module is given another public object (its voices never reach window.__ents)
+caught  ents_debug_not_made: the composition does not make the debug module
+caught  world_order_swapped: two modules made out of order (the world's keys in another order)
+caught  world_returns_copy: the script returns a copy of the object its modules built (setMode no longer shows in WORLD.mode)
+caught  world_surfaces_not_made: the composition does not make the surfaces module (no surfaceAt)
+PAGE MUTANTS: PASS (12 of 12 seam mutants caught)

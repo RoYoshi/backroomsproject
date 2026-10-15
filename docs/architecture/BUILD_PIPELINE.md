@@ -108,5 +108,7 @@ the working tree, or on a fresh clone of a commit. It was run on the working tre
 The page's core, `public/assets/index-DKbV5Nv9.js`, is the build output of the recovered original Vite + TypeScript project
 (`src/core/client/bundle/original-v11/`, version 11), plus forty recorded in-place edits. That project builds by itself with its own
 toolchain (Vite 8.3.1, TypeScript 7.0.2, PixiJS 8.21.0, its lockfile), in a copy and never into this repository: `npm ci && npm run build`.
-That rebuild was **not tested** in Stage 3H (no package registry access); the recovery's own receipt and the byte identity of its `dist/`
-are the evidence. ADR-002 explains the decision and the TypeScript port that would make the bundle compiled from readable source.
+That rebuild was reproduced at continuation C1, offline: the owner supplied the 31 locked packages, each was checked against the
+lockfile, and `npm ci --offline --ignore-scripts && npm run build` gave its `dist/` byte for byte
+(`dev/stage-3h-modernization/tools/c1_rebuild_v11.js`). ADR-002 explains the decision and the TypeScript port that would make the
+bundle compiled from readable source.

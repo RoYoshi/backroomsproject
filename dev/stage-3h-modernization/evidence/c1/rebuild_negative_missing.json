@@ -1,0 +1,31 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c1_rebuild_v11.js",
+ "at": "2026-10-15T12:32:17.606Z",
+ "packages": {
+  "dir": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c1/neg_missing",
+  "verified": 30,
+  "needed": 31,
+  "missing": [
+   "vite"
+  ],
+  "extra": [],
+  "lockfile": {
+   "path": "src/core/client/bundle/original-v11/package-lock.json",
+   "blob": "56e639b5009d103c04a387cb59057f8f666d7819",
+   "sha256": "329ef9ecea4042130a2c0bf0e90ba3afb289b279be7c6a57aaa148be99a07c27",
+   "provenance": {
+    "blob": "56e639b5009d103c04a387cb59057f8f666d7819",
+    "sha256": "329ef9ecea4042130a2c0bf0e90ba3afb289b279be7c6a57aaa148be99a07c27"
+   },
+   "snapshotTree": "b80323b0ee9c9124453e2d0a62c5f894c8f41db7",
+   "authentic": true
+  },
+  "ok": false
+ },
+ "toolchain": {},
+ "install": {},
+ "build": {},
+ "dist": {},
+ "ok": false,
+ "problem": "the packages did not verify; nothing was installed"
+}

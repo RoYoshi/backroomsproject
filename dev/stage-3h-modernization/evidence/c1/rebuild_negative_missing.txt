@@ -1,0 +1,4 @@
+PROBLEM missing: vite@8.3.1
+lockfile: the snapshot's own (blob 56e639b5009d, sha256 329ef9ecea40); needed on linux x64: 31
+C1 PACKAGES: FAIL (30 of 31 tarballs equal to the lockfile's integrity, by their own package.json; missing 1, extra 0)
+FAIL the packages did not verify; nothing was installed

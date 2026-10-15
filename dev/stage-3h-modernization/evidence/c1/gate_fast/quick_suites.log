@@ -1,0 +1,7 @@
+$ node dev/stage-3h/gate/suites.js run --only s_humanqa_hotfix,s_ir,interp_test,test_3bn,ir_net --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c1/gate_fast/quick_suites
+PASS s_humanqa_hotfix: 5/6; known failures 1 (2 s)
+PASS s_ir: 3/3; known failures 0 (2 s)
+PASS interp_test: 3 cases; known failures 0 (0 s)
+PASS test_3bn: 7/7; known failures 0 (0 s)
+PASS ir_net: 4/4; known failures 0 (5 s)
+SUITES: PASS (only the known B++ failures)

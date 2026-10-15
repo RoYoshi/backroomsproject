@@ -1,5 +1,8 @@
 # Stage 3H engine modernization: the final report
 
+> **Since this report (C5b):** the owner supplied the locked npm packages on 2026-10-15. C1 is done (the v11 toolchain reproduced
+> offline, byte for byte: `CHECKPOINTS.md`, `evidence/c1/`), and C4 is in progress. The new candidate's report will replace this one.
+
 ## STAGE 3H — HUMAN QA CANDIDATE, WITH UNFINISHED ITEMS (NEEDS WORK)
 
 **Only the owner can decide: PASS, NEEDS CHANGES or ROLL BACK.** Nothing is merged, deployed or promoted.

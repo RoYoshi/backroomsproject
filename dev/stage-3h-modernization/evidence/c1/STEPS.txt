@@ -1,0 +1,41 @@
+Stage 3H continuation C1 (M-017): the v11 toolchain, offline, from verified packages - what was run and what it gave
+====================================================================================================================
+
+Base: C5b 1d2a213e91aab2c40463bd7007a1087c83ac413e (tree 35012fb873085d5af62c87f621ec07a32e541146), verified on GitHub
+(evidence/remote/verify_c5b_1d2a213.json) and clean in the worktree before C1 began.
+
+1. The owner's package archive (2026-10-15), handled as untrusted data
+   - TFB_V11_LINUX_X64_PACKAGES.zip: 57,150,873 bytes, SHA-256 de38a4cd8a44674ade92254d918eed12cc3444452996b1c616fb19f42cb4585c.
+   - 33 entries: one folder (tfb-v11-packages/), 31 .tgz and its MANIFEST.json; no absolute path, no "..". It was listed first, then
+     extracted into its own new, empty scratch folder outside the repository (intake.json lists every entry).
+   - (An earlier upload that day was this stage's own C5b Human QA ZIP, not the packages; it was recognised by its content and not used.)
+
+2. Every package checked against the snapshot's own lockfile before anything was installed
+   node dev/stage-3h-modernization/tools/c1_verify_packages.js --dir <the extracted folder> --out packages_verified.json
+   - The lockfile (src/core/client/bundle/original-v11/package-lock.json) is first checked against ORIGINAL_V11_PROVENANCE.json:
+     blob 56e639b5009d..., SHA-256 329ef9ecea40... (the snapshot's own; the snapshot's tree id is what `lineage.js tree-id` proves).
+   - Each tarball's name and version are read from the package.json inside it, never from its file name; its SHA-512 must equal the
+     lockfile's "integrity" for that package at that version; the set must be exactly what the build needs on Linux x64 (31: the
+     non-optional packages and the optional ones whose os and cpu fit; the lockfile records no libc, so both gnu and musl variants).
+   - Result: VERIFIED, 31 of 31, missing 0, extra 0. The MANIFEST.json that came with them agrees (read only to report).
+   - The verifier's refusals (tools/c1_packages_mutants.js, packages_mutants.*): 9 of 9 as expected - a package missing; a byte changed;
+     the same files packed again (valid, other bytes); another version inside; a package the lockfile does not have; the same package
+     twice; two files' names swapped (still VERIFIED: the name is never trusted); a forged MANIFEST.json (still VERIFIED, reported as
+     DISAGREES: the manifest is never trusted); a lockfile that is not the snapshot's (refused even with every tarball intact).
+
+3. The v11 build, reproduced offline (tools/c1_rebuild_v11.js, rebuild_v11.*)
+   node dev/stage-3h-modernization/tools/c1_rebuild_v11.js --packages <the extracted folder> --work <new scratch folder> --out rebuild_v11.json
+   - verify (step 2 again), then a copy of original-v11/ without dist/ in the work folder (the snapshot is never written to);
+   - the 31 tarballs into a private npm cache (npm cache add), then `npm ci --offline --ignore-scripts --no-audit --no-fund` with an
+     empty user npmrc: added 31 packages, each at the lockfile's version; no registry asked, no install script run;
+   - `npm run build` (the project's own script: tsc --noEmit && vite build): vite v8.3.1, 731 modules transformed;
+   - the new dist/ against the recovered dist/: 17 of 17 files byte-identical, no extra file.
+   - Toolchain: Node v22.22.2, npm 10.9.7, tsc "Version 7.0.2", vite/8.3.1 linux-x64. (The recovery's receipt was Node 24.19.0 and
+     npm 11.9.0; the output is the same bytes.)
+   - Negative: with one tarball (vite) missing, the tool stops at the verification and installs nothing
+     (rebuild_negative_missing.*).
+
+4. What this does not change
+   - No runtime file, no served file, no build output of this repository changed. The packages are not committed (57 MB of third-party
+     tarballs; the tools take their folder as an argument).
+   - The shipped bundle is still the lineage replay (ADR-002); C4 builds the maintained client tree on this toolchain.

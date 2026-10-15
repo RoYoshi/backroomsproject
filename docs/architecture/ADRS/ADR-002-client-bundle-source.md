@@ -4,8 +4,9 @@
   - The lineage was recorded at checkpoint M1-R.
   - Decisions 1 to 3 were carried out at checkpoint M6a (H3M-6): `original-v11/` and its provenance, the replay recipes, the
     `lineage` step of the gate, and `lineage.js record`. The served files did not change.
-  - The fresh `npm ci && npm run build` of decision 1 is NOT TESTED in this stage (no registry access, M-017).
-  - The TypeScript port is PLANNED (not started).
+  - The fresh `npm ci && npm run build` of decision 1 (P0) is DONE at continuation C1: the owner supplied the 31 locked packages,
+    each was verified against the lockfile, and the offline build gave the v11 `dist/` byte for byte (M-017, `evidence/c1/`).
+  - The TypeScript port (P1 to P4) is PLANNED for continuation C4.
 - **Supersedes:** `PLAN.md` §6 as written at H3M-0 ("the compiled bundle has no source … a compatibility island").
 - **Evidence:**
   - `dev/stage-3h-modernization/SOURCE_RECOVERY_INTAKE.md`;
@@ -38,7 +39,8 @@
   oracle; the v11 build is not.
 - **A minifier makes byte parity impossible after any source change.** The same TypeScript compiled again gives the same bytes. But
   once the source changes, minified names and layout move, and a patch made on the old bytes no longer applies.
-- **This session cannot install the v11 toolchain:** it has no npm registry access.
+- **This session cannot reach the npm registry.** The v11 toolchain is installed offline from packages the owner supplies, each checked
+  against the lockfile first (continuation C1).
 
 ## Decision
 

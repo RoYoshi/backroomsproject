@@ -1,0 +1,115 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c1_packages_mutants.js",
+ "dir": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c1/pkgs/tfb-v11-packages",
+ "cases": [
+  {
+   "id": "P1",
+   "what": "one package missing (vite)",
+   "expected": "FAIL, missing: vite@8\\.3\\.1",
+   "verdict": "FAIL",
+   "exit": 1,
+   "problems": [
+    "missing: vite@8.3.1"
+   ],
+   "manifest": "DISAGREES",
+   "pass": true
+  },
+  {
+   "id": "P2",
+   "what": "one byte of a tarball changed (gzip no longer valid)",
+   "expected": "FAIL, picocolors-1\\.1\\.1\\.tgz: (no package\\/package\\.json inside|.*sha512)",
+   "verdict": "FAIL",
+   "exit": 1,
+   "problems": [
+    "picocolors-1.1.1.tgz: no package/package.json inside",
+    "missing: picocolors@1.1.1"
+   ],
+   "manifest": "DISAGREES",
+   "pass": true
+  },
+  {
+   "id": "P3",
+   "what": "the same files packed again (a valid tarball, other bytes)",
+   "expected": "FAIL, nanoid@3\\.3\\.19: its sha512 is not the lockfile's integrity",
+   "verdict": "FAIL",
+   "exit": 1,
+   "problems": [
+    "nanoid-3.3.19.tgz: nanoid@3.3.19: its sha512 is not the lockfile's integrity",
+    "missing: nanoid@3.3.19"
+   ],
+   "manifest": "DISAGREES",
+   "pass": true
+  },
+  {
+   "id": "P4",
+   "what": "another version inside (package.json says 1.1.9)",
+   "expected": "FAIL, picocolors@1\\.1\\.9, the lockfile has 1\\.1\\.1",
+   "verdict": "FAIL",
+   "exit": 1,
+   "problems": [
+    "picocolors-1.1.1.tgz: picocolors@1.1.9, the lockfile has 1.1.1",
+    "missing: picocolors@1.1.1"
+   ],
+   "manifest": "DISAGREES",
+   "pass": true
+  },
+  {
+   "id": "P5",
+   "what": "a package the lockfile does not have (renamed inside)",
+   "expected": "FAIL, picocolorz is not in the lockfile",
+   "verdict": "FAIL",
+   "exit": 1,
+   "problems": [
+    "picocolors-1.1.1.tgz: picocolorz is not in the lockfile",
+    "missing: picocolors@1.1.1"
+   ],
+   "manifest": "DISAGREES",
+   "pass": true
+  },
+  {
+   "id": "P6",
+   "what": "the same package twice (a second file name)",
+   "expected": "FAIL, earcut given twice",
+   "verdict": "FAIL",
+   "exit": 1,
+   "problems": [
+    "zz-earcut-copy.tgz: earcut given twice"
+   ],
+   "manifest": "DISAGREES",
+   "pass": true
+  },
+  {
+   "id": "P7",
+   "what": "a file renamed to another package's name (the verifier reads the package inside, not the name)",
+   "expected": "VERIFIED",
+   "verdict": "VERIFIED",
+   "exit": 0,
+   "problems": [],
+   "manifest": "DISAGREES",
+   "pass": true
+  },
+  {
+   "id": "P8",
+   "what": "a forged MANIFEST.json (the manifest is reported, never trusted)",
+   "expected": "VERIFIED, manifest DISAGREES",
+   "verdict": "VERIFIED",
+   "exit": 0,
+   "problems": [],
+   "manifest": "DISAGREES",
+   "pass": true
+  },
+  {
+   "id": "P9",
+   "what": "the lockfile is not the snapshot's (one byte added), every tarball intact",
+   "expected": "FAIL, the lockfile is not the one the snapshot's provenance records",
+   "verdict": "FAIL",
+   "exit": 1,
+   "problems": [
+    "the lockfile is not the one the snapshot's provenance records"
+   ],
+   "manifest": "agrees",
+   "pass": true
+  }
+ ],
+ "ok": true
+}
