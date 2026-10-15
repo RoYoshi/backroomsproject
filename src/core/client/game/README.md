@@ -31,7 +31,8 @@ either is refused by `--record-check` and `build.js --check` until the client is
 ## What must stay true
 
 The port is the shipped program, not a new one: `dev/stage-3h-modernization/tools/c4_alpha_all.mjs` compares every top-level
-statement of the shipped app code with it (modulo names and a stated normal form; the deliberate changes of structure are listed
+statement of the shipped app code with it (195 of 197 directly, NEW RUN's fall and vanish state through their every read and write;
+modulo names and a stated normal form; the deliberate changes of structure are listed
 with their reasons in `c4_alpha_modules.json`; since C4c with the definitions' values in place of the constants' names),
 `c4_css_check.mjs` the stylesheet, and `dev/tools/gate/golden/bundle_diff.js` the
 built client against the recorded one in Chromium, frame by frame. The gate's `port` and `bundle` steps run them.

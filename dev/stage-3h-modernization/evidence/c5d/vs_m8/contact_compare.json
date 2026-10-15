@@ -1,0 +1,240 @@
+{
+ "tool": "dev/stage-3h0/golden/compare_captures.py",
+ "old": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5d/vs_m8/contact/m8",
+ "new": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5d/vs_m8/contact/cand",
+ "images": 23,
+ "missing": [],
+ "rows": [
+  {
+   "image": "geo_000.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "geo_000_contact_off.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "geo_000_diagnostic_x3.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "geo_000_swing_+3.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "geo_000_swing_-3.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "geo_090.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "geo_090_contact_off.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "geo_180.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "geo_180_contact_off.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "geo_270.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "geo_270_contact_off.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "lights_all.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "lights_all_contact_off.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "lights_blackout.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "lights_blackout_contact_off.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "lights_both.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "lights_both_contact_off.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "lights_first.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "lights_second.png",
+   "size": [
+    220,
+    220
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "peers_hidden.png",
+   "size": [
+    440,
+    440
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "peers_hidden_contact_off.png",
+   "size": [
+    440,
+    440
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "peers_visible.png",
+   "size": [
+    300,
+    300
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  },
+  {
+   "image": "peers_visible_contact_off.png",
+   "size": [
+    300,
+    300
+   ],
+   "changedShare": 0.0,
+   "meanAbs": 0.0,
+   "max": 0
+  }
+ ],
+ "largestChangedShare": 0.0
+}

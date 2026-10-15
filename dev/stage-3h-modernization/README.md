@@ -5,8 +5,8 @@ Development only. Nothing here is served or loaded by the game.
 | File | What it is |
 |---|---|
 | `CONTINUATION.md` | **Read first.** The continuation after M8 (owner's authorization of 2026-10-14): the debt ledger, its states and the waves C0 to C5 |
-| `REPORT.md` | The M8 milestone report: what changed, where each part stood, parity, what remained hard, rollback, the package |
-| `HUMAN_QA.md` | The owner's one-page Human QA guide (STAGE 3H ENGINE MODERNIZATION — HUMAN QA PENDING) |
+| `REPORT.md` | The stage's final report (M8 and the continuation, to C5d): what changed wave by wave, the definition of done item by item, parity with B++ and M8, the debt matrix, what remains hard, rollback, the package. M8's own report is `git show c34f0c2:dev/stage-3h-modernization/REPORT.md` |
+| `HUMAN_QA.md` | The owner's targeted Human QA page for the final candidate (STAGE 3H ENGINE MODERNIZATION — FINAL HUMAN QA PENDING) |
 | `CHECKPOINTS.md` | Every pushed checkpoint and the live status |
 | `PRESERVATION_HOLD.md` | The owner's hold (2026-10-14, since resumed): what was done and verified, the bundle untouched |
 | `SOURCE_RECOVERY_INTAKE.md` | The recovered original source: what was received, how it was authenticated, the v11 output against the served files, the lineage of every post-original client change, the decisions |

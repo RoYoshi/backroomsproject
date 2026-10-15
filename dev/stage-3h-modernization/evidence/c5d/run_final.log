@@ -1,0 +1,7 @@
+21:24:48 start: 2830dacc2ca102d5e7b235d6d30bebcef281a6c2
+21:25:30 clone: 2830dacc2ca102d5e7b235d6d30bebcef281a6c2 tree 60637a755851ffaf810a1fc978359b54f744db2a; status: 0 changes
+22:35:01 gate: exit 1 - MODERNIZATION GATE (full): FAIL  - report /tmp/claude-0/-home-claude-backroomspr
+22:55:33 vs_m8: exit 0 - THIS TREE AGAINST M8: SAME (11 of 11 comparisons pass; runtime files 339, sha256
+22:56:06 clean rebuild: exit 0 - CLEAN REBUILD: PASS
+22:56:06 served identity: exit 0 - SERVED IDENTITY: PASS
+22:56:06 done

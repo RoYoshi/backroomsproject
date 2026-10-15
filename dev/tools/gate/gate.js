@@ -45,7 +45,8 @@
  *     client.js --stage (installed offline from the verified packages into a scratch folder; once the build is what the page is served,
  *     its record must be generated/CLIENT_BUILD.json byte for byte, so the served bundle, stylesheet and PixiJS chunks are what the tree
  *     builds), dev/stage-3h-modernization/tools/c4_alpha_all.mjs (every top-level statement of the shipped app code, rebuilt from the
- *     lineage, compared with the port, modulo names and a normal form), c4_css_check.mjs (the built stylesheet against the shipped one)
+ *     lineage, compared with the port, modulo names and a normal form: 195 of 197 directly, NEW RUN's fall and vanish state through
+ *     their uses), c4_css_check.mjs (the built stylesheet against the shipped one)
  *     c4_port_ledger.mjs --check (where each lineage step's text is now: src/core/client/game/PORT_LEDGER.md) and c4_port_mutants.mjs
  *     (the alpha and stylesheet checks catch each of 25 one-place edits of a copy of the port or of the one definition of Level 0 and the lights, and pass the unchanged copies);
  *   - bundle (added at continuation C4): golden/bundle_diff.js --ref-lineage --cand-assets: the port step's build against the client
@@ -55,9 +56,9 @@
  * The tools that never read a runtime file by path (protocol_v2, suites, static_check, live_wire_h2, place_replay, place_guard_check,
  * two_browser, col_browser, gameplay_smoke, contact_lab, compare_captures) are used where they are.
  *
- *   --tier fast   (default, a few minutes) build, port, lineage, parts, modules, docs, scope, srv_golden, bpp_golden, session, sim, page,
+ *   --tier fast   (default, about 12 minutes) build, port, lineage, parts, modules, contracts, docs, scope, srv_golden, bpp_golden, session, sim, page,
  *                 cli_golden, protocol, mutants, static, raw_live, quick_suites, bundle
- *   --tier full   (the final candidate; about 50 minutes on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, workflow,
+ *   --tier full   (the final candidate; about 75 minutes on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, workflow,
  *                 contact_lab, suites, perf
  * Everything is written under --out (default: a scratch folder): gate_report.json plus each tool's log and report.
  *

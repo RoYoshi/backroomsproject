@@ -65,7 +65,7 @@ Base: C4b 5e11af2a679fe90effda186c9431bd8e02f823ab (tree 0810555ddf9c4663bed718a
    and contact_lab DIFFERENT once: peers_visible.png, 133 of its 90,000 pixels, each by one level, around the other player; the other 22
    images identical. The lab's own variance (FINDINGS M-036): BR-RoLE eases a light's weight on a body 20 % a frame, and the lab
    captures after a wait in real time, so the other player's cast alpha was 0.56666558 on B++'s side and 0.56666655 on this one (in the
-   gates since M1, B++'s side alone has given 0.56666531 to 0.56666611; until now every pair rounded to the same pixels). Both images
+   gates since M1, B++'s side alone has given 0.56666531 to 0.56666622 (corrected at C5d: C3a's run had been left out); until now every pair rounded to the same pixels). Both images
    and both results are in gate_full/contact/.
    Run again (gate_contact/: --tier full --only contact_lab, on the same tree): PASS, 23 images byte-identical in pixels (the cast
    alpha 0.56666558 on B++'s side, 0.56666580 on this one).

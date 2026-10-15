@@ -1,0 +1,77 @@
+{
+ "tool": "dev/tools/checks/window_contract.js --mutants",
+ "control": "PASS",
+ "mutants": [
+  {
+   "id": "1: an undeclared member read",
+   "rule": 1,
+   "caught": true,
+   "problems": [
+    "rule 1: __mutantUndeclared: used by the client (src/core/client/game/client/main.ts:270) and not declared in src/core/client/game/client/contracts.d.ts",
+    "rule 3: __mutantUndeclared: the client reads it and no page script writes it",
+    "rule 5: __mutantUndeclared: the source reads it; the built bundle does neither"
+   ]
+  },
+  {
+   "id": "2: a declaration nobody uses",
+   "rule": 2,
+   "caught": true,
+   "problems": [
+    "rule 2: __mutantUnused: declared and never used by the client",
+    "rule 4: __mutantUnused: its declaration names assets/ui.js first, which does not write it"
+   ]
+  },
+  {
+   "id": "3: a read of a name no page script writes",
+   "rule": 3,
+   "caught": true,
+   "problems": [
+    "rule 3: __mutantOrphan: the client reads it and no page script writes it",
+    "rule 4: __mutantOrphan: its declaration names mutant.js first, which does not write it",
+    "rule 5: __mutantOrphan: the source reads it; the built bundle does neither"
+   ]
+  },
+  {
+   "id": "4: a declaration that loses its script",
+   "rule": 4,
+   "caught": true,
+   "problems": [
+    "rule 4: __cam: camcorder.js writes it and its declaration does not name it",
+    "rule 4: __cam: its declaration names no script"
+   ]
+  },
+  {
+   "id": "4: a page script that starts writing a member the client reads",
+   "rule": 4,
+   "caught": true,
+   "problems": [
+    "rule 4: __mv: hud.js writes it and its declaration does not name it"
+   ]
+  },
+  {
+   "id": "5: the built bundle reaches a name its source does not",
+   "rule": 5,
+   "caught": true,
+   "problems": [
+    "rule 5: __mutantBuilt: the built bundle writes it and its source does not"
+   ]
+  },
+  {
+   "id": "5: the built bundle stops writing a member its source writes",
+   "rule": 5,
+   "caught": true,
+   "problems": [
+    "rule 5: __lastCause: the source writes and reads it; the built bundle reads"
+   ]
+  },
+  {
+   "id": "1: an untyped use of window",
+   "rule": 1,
+   "caught": true,
+   "problems": [
+    "rule 1: window: an untyped use at src/core/client/game/client/main.ts:270 (a cast of window escapes the declarations)"
+   ]
+  }
+ ],
+ "ok": true
+}

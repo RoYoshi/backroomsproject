@@ -9,8 +9,8 @@
  * SwiftShader's drawing, done on the CPU outside the timed callbacks, takes most of a round's time): the old side is the repository's public/ with the bundle and the stylesheet the client lineage records (B++'s bytes, shipped until
  * continuation C4a), the new side public/ as it is (the build of the port, since C4b).  Its --perf mode keeps no text records and no pixel
  * digests, and steps the two pages one after the other at every batch of frames (the order swapped every round), so that neither page
- * runs while the other is timed.  The time is the real time a page spends in its frames' timers and animation-frame callbacks
- * (bundle_env.js's BD.prof.raf: the compiled client's frame and the classic scripts' hooks), from the start of the run to the end of
+ * runs while the other is timed.  The time is the real time a page spends in its frames' animation-frame callbacks (bundle_env.js's
+ * BD.prof.raf: the compiled client's frame and the classic scripts' hooks; the timers, which fire just before, are not in it), from the start of the run to the end of
  * the scene (the title and the joining are not timed), divided by the frames.  Every frame is still compared: a difference fails.
  * The pass rule is perf_det.js's for the page, fixed before this measured anything: new passes when its median is at most old's median
  * + max(old's spread across rounds, 10 % of old's median).  --aa 1: the old side against itself, the noise floor the rule lives with.

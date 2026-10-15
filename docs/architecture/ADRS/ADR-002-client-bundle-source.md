@@ -116,7 +116,7 @@
 ## Consequences
 
 - **The bundle stops being an opaque blob.**
-  - Its 296,552 v11 bytes are source-proven (PixiJS from the lockfile, the game from the TypeScript).
+  - The recorded bundle's 296,552 v11 bytes are source-proven (PixiJS from the lockfile, the game from the TypeScript).
   - Its 44,271 later bytes are each traceable to a step, a date, a source and an owning framework.
 - **Since C4b the post-v11 code is readable, owned TypeScript** built with v11's toolchain; the minified edits are history (the
   lineage still replays them to the file they produced, and the port is proven against that file). Until C4a this was a

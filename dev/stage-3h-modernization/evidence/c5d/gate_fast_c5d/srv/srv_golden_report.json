@@ -1,0 +1,826 @@
+{
+ "tool": "dev/tools/gate/golden/srv_golden.js",
+ "oldRef": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "newSrc": "server.js (working tree)",
+ "dir": "/home/claude/backrooms-modern",
+ "oldDir": "the working tree's runtime under its old names (78 files)",
+ "node": "v22.22.2",
+ "startedAt": "2026-10-15T23:28:12.986Z",
+ "scenarios": [
+  {
+   "scenario": "boot",
+   "old": {
+    "ok": true,
+    "lines": 19,
+    "bytes": 516,
+    "sha256": "03be5f62f2dc6a108a60b899c93784e09c929c47c70a7551d1afce7f34420d14",
+    "ms": 111
+   },
+   "new": {
+    "ok": true,
+    "lines": 19,
+    "bytes": 516,
+    "sha256": "03be5f62f2dc6a108a60b899c93784e09c929c47c70a7551d1afce7f34420d14",
+    "ms": 125
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./src/frameworks/ward/server/static.js",
+     "./src/frameworks/space/server/peers.js",
+     "./src/frameworks/bpp/server/ws.js",
+     "./src/frameworks/ward/server/fields.js",
+     "./src/frameworks/space/server/movement.js",
+     "./src/frameworks/gib/server/aftermath.js",
+     "./src/frameworks/bpp/server/newrun.js",
+     "./src/core/server/rooms.js",
+     "./src/frameworks/overseer/server/admin.js",
+     "./src/frameworks/ward/server/admin_login.js",
+     "./src/frameworks/bpp/server/session.js",
+     "./src/frameworks/bpp/server/poses.js",
+     "./src/core/server/loop.js"
+    ]
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./server/static.js",
+     "./server/peers.js",
+     "./server/ws.js",
+     "./server/fields.js"
+    ]
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "03be5f62f2dc6a108a60b899c93784e09c929c47c70a7551d1afce7f34420d14",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "http_base",
+   "old": {
+    "ok": true,
+    "lines": 267,
+    "bytes": 24556,
+    "sha256": "4eed631dbfe7a47b095cbffa98f6ba4d2325ff1a1604926881adf4cb8501b89f",
+    "ms": 508
+   },
+   "new": {
+    "ok": true,
+    "lines": 267,
+    "bytes": 24556,
+    "sha256": "4eed631dbfe7a47b095cbffa98f6ba4d2325ff1a1604926881adf4cb8501b89f",
+    "ms": 509
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./src/frameworks/ward/server/static.js",
+     "./src/frameworks/space/server/peers.js",
+     "./src/frameworks/bpp/server/ws.js",
+     "./src/frameworks/ward/server/fields.js",
+     "./src/frameworks/space/server/movement.js",
+     "./src/frameworks/gib/server/aftermath.js",
+     "./src/frameworks/bpp/server/newrun.js",
+     "./src/core/server/rooms.js",
+     "./src/frameworks/overseer/server/admin.js",
+     "./src/frameworks/ward/server/admin_login.js",
+     "./src/frameworks/bpp/server/session.js",
+     "./src/frameworks/bpp/server/poses.js",
+     "./src/core/server/loop.js"
+    ]
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./server/static.js",
+     "./server/peers.js",
+     "./server/ws.js",
+     "./server/fields.js"
+    ]
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "8504f68e4bdc39a0a61a1d2972b9e7bffb47d4ba0e55a6b6235254cda8318546",
+    "equal": false,
+    "expectedContentChanges": [
+     {
+      "line": 17,
+      "file": "index.html"
+     },
+     {
+      "line": 20,
+      "file": "index.html"
+     },
+     {
+      "line": 23,
+      "file": "index.html"
+     },
+     {
+      "line": 26,
+      "file": "index.html"
+     },
+     {
+      "line": 29,
+      "file": "index.html"
+     },
+     {
+      "line": 32,
+      "file": "index.html"
+     },
+     {
+      "line": 35,
+      "file": "mp.js"
+     },
+     {
+      "line": 38,
+      "file": "mp.js"
+     },
+     {
+      "line": 50,
+      "file": "world.js"
+     },
+     {
+      "line": 53,
+      "file": "move.js"
+     },
+     {
+      "line": 56,
+      "file": "ents.js"
+     },
+     {
+      "line": 68,
+      "file": "glitch.js"
+     },
+     {
+      "line": 71,
+      "file": "camcorder.js"
+     },
+     {
+      "line": 104,
+      "file": "assets/index-DKbV5Nv9.js"
+     },
+     {
+      "line": 107,
+      "file": "assets/index-DKbV5Nv9.js"
+     },
+     {
+      "line": 110,
+      "file": "assets/index-D7hdwmUU.css"
+     },
+     {
+      "line": 260,
+      "file": "index.html"
+     },
+     {
+      "line": 263,
+      "file": "mp.js"
+     }
+    ],
+    "unexpected": [],
+    "equalExceptChangedFiles": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "http_h0",
+   "old": {
+    "ok": true,
+    "lines": 72,
+    "bytes": 6404,
+    "sha256": "2f353cbee53792fe673a7319bf707b16e6ddb2cacaab1c7d7f801d4294606332",
+    "ms": 133
+   },
+   "new": {
+    "ok": true,
+    "lines": 72,
+    "bytes": 6404,
+    "sha256": "2f353cbee53792fe673a7319bf707b16e6ddb2cacaab1c7d7f801d4294606332",
+    "ms": 177
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./src/frameworks/ward/server/static.js",
+     "./src/frameworks/space/server/peers.js",
+     "./src/frameworks/bpp/server/ws.js",
+     "./src/frameworks/ward/server/fields.js",
+     "./src/frameworks/space/server/movement.js",
+     "./src/frameworks/gib/server/aftermath.js",
+     "./src/frameworks/bpp/server/newrun.js",
+     "./src/core/server/rooms.js",
+     "./src/frameworks/overseer/server/admin.js",
+     "./src/frameworks/ward/server/admin_login.js",
+     "./src/frameworks/bpp/server/session.js",
+     "./src/frameworks/bpp/server/poses.js",
+     "./src/core/server/loop.js"
+    ]
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./server/static.js",
+     "./server/peers.js",
+     "./server/ws.js",
+     "./server/fields.js"
+    ]
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "2f353cbee53792fe673a7319bf707b16e6ddb2cacaab1c7d7f801d4294606332",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "ws_upgrade",
+   "old": {
+    "ok": true,
+    "lines": 624,
+    "bytes": 135294,
+    "sha256": "309a80c43001a22752cc4368d66d73125d30defe8db7ecdec2ce8dfb7b49e84a",
+    "ms": 699
+   },
+   "new": {
+    "ok": true,
+    "lines": 624,
+    "bytes": 135294,
+    "sha256": "309a80c43001a22752cc4368d66d73125d30defe8db7ecdec2ce8dfb7b49e84a",
+    "ms": 672
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./src/frameworks/ward/server/static.js",
+     "./src/frameworks/space/server/peers.js",
+     "./src/frameworks/bpp/server/ws.js",
+     "./src/frameworks/ward/server/fields.js",
+     "./src/frameworks/space/server/movement.js",
+     "./src/frameworks/gib/server/aftermath.js",
+     "./src/frameworks/bpp/server/newrun.js",
+     "./src/core/server/rooms.js",
+     "./src/frameworks/overseer/server/admin.js",
+     "./src/frameworks/ward/server/admin_login.js",
+     "./src/frameworks/bpp/server/session.js",
+     "./src/frameworks/bpp/server/poses.js",
+     "./src/core/server/loop.js"
+    ]
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./server/static.js",
+     "./server/peers.js",
+     "./server/ws.js",
+     "./server/fields.js"
+    ]
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "309a80c43001a22752cc4368d66d73125d30defe8db7ecdec2ce8dfb7b49e84a",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "ws_frames",
+   "old": {
+    "ok": true,
+    "lines": 1120,
+    "bytes": 148047,
+    "sha256": "463376e1763a9e7da464c74963fecdc70ed65a0643ac2e46aecdd124427b7b19",
+    "ms": 344
+   },
+   "new": {
+    "ok": true,
+    "lines": 1120,
+    "bytes": 148047,
+    "sha256": "463376e1763a9e7da464c74963fecdc70ed65a0643ac2e46aecdd124427b7b19",
+    "ms": 339
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./src/frameworks/ward/server/static.js",
+     "./src/frameworks/space/server/peers.js",
+     "./src/frameworks/bpp/server/ws.js",
+     "./src/frameworks/ward/server/fields.js",
+     "./src/frameworks/space/server/movement.js",
+     "./src/frameworks/gib/server/aftermath.js",
+     "./src/frameworks/bpp/server/newrun.js",
+     "./src/core/server/rooms.js",
+     "./src/frameworks/overseer/server/admin.js",
+     "./src/frameworks/ward/server/admin_login.js",
+     "./src/frameworks/bpp/server/session.js",
+     "./src/frameworks/bpp/server/poses.js",
+     "./src/core/server/loop.js"
+    ]
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./server/static.js",
+     "./server/peers.js",
+     "./server/ws.js",
+     "./server/fields.js"
+    ]
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "463376e1763a9e7da464c74963fecdc70ed65a0643ac2e46aecdd124427b7b19",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "lifecycle",
+   "old": {
+    "ok": true,
+    "lines": 11100,
+    "bytes": 6658364,
+    "sha256": "74b5cd464ee130744fb75ade04aa1fda85201bea62c89d203d2f2b3419e11108",
+    "ms": 961
+   },
+   "new": {
+    "ok": true,
+    "lines": 11100,
+    "bytes": 6658364,
+    "sha256": "74b5cd464ee130744fb75ade04aa1fda85201bea62c89d203d2f2b3419e11108",
+    "ms": 916
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./src/frameworks/ward/server/static.js",
+     "./src/frameworks/space/server/peers.js",
+     "./src/frameworks/bpp/server/ws.js",
+     "./src/frameworks/ward/server/fields.js",
+     "./src/frameworks/space/server/movement.js",
+     "./src/frameworks/gib/server/aftermath.js",
+     "./src/frameworks/bpp/server/newrun.js",
+     "./src/core/server/rooms.js",
+     "./src/frameworks/overseer/server/admin.js",
+     "./src/frameworks/ward/server/admin_login.js",
+     "./src/frameworks/bpp/server/session.js",
+     "./src/frameworks/bpp/server/poses.js",
+     "./src/core/server/loop.js"
+    ]
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./server/static.js",
+     "./server/peers.js",
+     "./server/ws.js",
+     "./server/fields.js"
+    ]
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "74b5cd464ee130744fb75ade04aa1fda85201bea62c89d203d2f2b3419e11108",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "deaths",
+   "old": {
+    "ok": true,
+    "lines": 15158,
+    "bytes": 10278875,
+    "sha256": "65329c9f4bb61c7d8a4997a3791f3ef883d31d709dcad7b9997eac444c79e403",
+    "ms": 1116
+   },
+   "new": {
+    "ok": true,
+    "lines": 15158,
+    "bytes": 10278875,
+    "sha256": "65329c9f4bb61c7d8a4997a3791f3ef883d31d709dcad7b9997eac444c79e403",
+    "ms": 1126
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./src/frameworks/ward/server/static.js",
+     "./src/frameworks/space/server/peers.js",
+     "./src/frameworks/bpp/server/ws.js",
+     "./src/frameworks/ward/server/fields.js",
+     "./src/frameworks/space/server/movement.js",
+     "./src/frameworks/gib/server/aftermath.js",
+     "./src/frameworks/bpp/server/newrun.js",
+     "./src/core/server/rooms.js",
+     "./src/frameworks/overseer/server/admin.js",
+     "./src/frameworks/ward/server/admin_login.js",
+     "./src/frameworks/bpp/server/session.js",
+     "./src/frameworks/bpp/server/poses.js",
+     "./src/core/server/loop.js"
+    ]
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./server/static.js",
+     "./server/peers.js",
+     "./server/ws.js",
+     "./server/fields.js"
+    ]
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "65329c9f4bb61c7d8a4997a3791f3ef883d31d709dcad7b9997eac444c79e403",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "admin",
+   "old": {
+    "ok": true,
+    "lines": 17310,
+    "bytes": 7890091,
+    "sha256": "883bc47df9d600973559108ca29bdfee5f4b5daa65e9361ac8dccc570bb047ee",
+    "ms": 1116
+   },
+   "new": {
+    "ok": true,
+    "lines": 17310,
+    "bytes": 7890091,
+    "sha256": "883bc47df9d600973559108ca29bdfee5f4b5daa65e9361ac8dccc570bb047ee",
+    "ms": 1176
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./src/frameworks/ward/server/static.js",
+     "./src/frameworks/space/server/peers.js",
+     "./src/frameworks/bpp/server/ws.js",
+     "./src/frameworks/ward/server/fields.js",
+     "./src/frameworks/space/server/movement.js",
+     "./src/frameworks/gib/server/aftermath.js",
+     "./src/frameworks/bpp/server/newrun.js",
+     "./src/core/server/rooms.js",
+     "./src/frameworks/overseer/server/admin.js",
+     "./src/frameworks/ward/server/admin_login.js",
+     "./src/frameworks/bpp/server/session.js",
+     "./src/frameworks/bpp/server/poses.js",
+     "./src/core/server/loop.js"
+    ]
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./server/static.js",
+     "./server/peers.js",
+     "./server/ws.js",
+     "./server/fields.js"
+    ]
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "883bc47df9d600973559108ca29bdfee5f4b5daa65e9361ac8dccc570bb047ee",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "schedule",
+   "old": {
+    "ok": true,
+    "lines": 1165,
+    "bytes": 648253,
+    "sha256": "d5bc813470eb36e3d8a2856c0dbb66cb174350f32ab06b30d19534b2c30131f7",
+    "ms": 416
+   },
+   "new": {
+    "ok": true,
+    "lines": 1165,
+    "bytes": 648253,
+    "sha256": "d5bc813470eb36e3d8a2856c0dbb66cb174350f32ab06b30d19534b2c30131f7",
+    "ms": 385
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./src/frameworks/ward/server/static.js",
+     "./src/frameworks/space/server/peers.js",
+     "./src/frameworks/bpp/server/ws.js",
+     "./src/frameworks/ward/server/fields.js",
+     "./src/frameworks/space/server/movement.js",
+     "./src/frameworks/gib/server/aftermath.js",
+     "./src/frameworks/bpp/server/newrun.js",
+     "./src/core/server/rooms.js",
+     "./src/frameworks/overseer/server/admin.js",
+     "./src/frameworks/ward/server/admin_login.js",
+     "./src/frameworks/bpp/server/session.js",
+     "./src/frameworks/bpp/server/poses.js",
+     "./src/core/server/loop.js"
+    ]
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./server/static.js",
+     "./server/peers.js",
+     "./server/ws.js",
+     "./server/fields.js"
+    ]
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "d5bc813470eb36e3d8a2856c0dbb66cb174350f32ab06b30d19534b2c30131f7",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "p_fields",
+   "old": {
+    "ok": true,
+    "lines": 1026,
+    "bytes": 255953,
+    "sha256": "436ad950b0a5362dcbec5c3aeb696478e78970ac796fca8e6c12dc2dbfec7160",
+    "ms": 361
+   },
+   "new": {
+    "ok": true,
+    "lines": 1026,
+    "bytes": 255953,
+    "sha256": "436ad950b0a5362dcbec5c3aeb696478e78970ac796fca8e6c12dc2dbfec7160",
+    "ms": 378
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./src/frameworks/ward/server/static.js",
+     "./src/frameworks/space/server/peers.js",
+     "./src/frameworks/bpp/server/ws.js",
+     "./src/frameworks/ward/server/fields.js",
+     "./src/frameworks/space/server/movement.js",
+     "./src/frameworks/gib/server/aftermath.js",
+     "./src/frameworks/bpp/server/newrun.js",
+     "./src/core/server/rooms.js",
+     "./src/frameworks/overseer/server/admin.js",
+     "./src/frameworks/ward/server/admin_login.js",
+     "./src/frameworks/bpp/server/session.js",
+     "./src/frameworks/bpp/server/poses.js",
+     "./src/core/server/loop.js"
+    ]
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./server/static.js",
+     "./server/peers.js",
+     "./server/ws.js",
+     "./server/fields.js"
+    ]
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "436ad950b0a5362dcbec5c3aeb696478e78970ac796fca8e6c12dc2dbfec7160",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "exit_glitch",
+   "old": {
+    "ok": true,
+    "lines": 706,
+    "bytes": 200064,
+    "sha256": "985ad1296b0635842826bb370f2dc1ae4f691739543736d30e93574ca1d0b59f",
+    "ms": 392
+   },
+   "new": {
+    "ok": true,
+    "lines": 706,
+    "bytes": 200064,
+    "sha256": "985ad1296b0635842826bb370f2dc1ae4f691739543736d30e93574ca1d0b59f",
+    "ms": 369
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./src/frameworks/ward/server/static.js",
+     "./src/frameworks/space/server/peers.js",
+     "./src/frameworks/bpp/server/ws.js",
+     "./src/frameworks/ward/server/fields.js",
+     "./src/frameworks/space/server/movement.js",
+     "./src/frameworks/gib/server/aftermath.js",
+     "./src/frameworks/bpp/server/newrun.js",
+     "./src/core/server/rooms.js",
+     "./src/frameworks/overseer/server/admin.js",
+     "./src/frameworks/ward/server/admin_login.js",
+     "./src/frameworks/bpp/server/session.js",
+     "./src/frameworks/bpp/server/poses.js",
+     "./src/core/server/loop.js"
+    ]
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": [
+     "./server/static.js",
+     "./server/peers.js",
+     "./server/ws.js",
+     "./server/fields.js"
+    ]
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "985ad1296b0635842826bb370f2dc1ae4f691739543736d30e93574ca1d0b59f",
+    "equal": true
+   },
+   "ok": true
+  }
+ ],
+ "ok": true,
+ "finishedAt": "2026-10-15T23:28:25.784Z"
+}

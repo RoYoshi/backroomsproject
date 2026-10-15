@@ -70,8 +70,8 @@ interface Window {
     bodyMade?(record: TFB.Corpse): void; deathStart?(death: TFB.DeathSequence): void; vanish?(at: { x: number; y: number; a: number }): void;
     nr?(approved: () => void): boolean;
   };
-  /* mp.js (B03): the multiplayer seam, called every frame; assets/shadows-2d.js (BR-RoLE) wraps it, to draw its shadows after mp.js's
-     hook (FINDINGS M-035) */
+  /* mp.js (B03): the multiplayer seam, called every frame; assets/shadows-2d.js (BR-RoLE's earlier 2D shadows) wraps it to draw after
+     mp.js's hook, where a page loads it: index.html has not since lineage step H18, only the shadows tests do (FINDINGS M-035) */
   __mp?(frame: { p: TFB.Wanderer; cam: TFB.Point; sc: number; run: boolean; started: boolean; light: boolean; G: unknown; q: TFB.Smiler[]; los: unknown; t: number }): void;
   /* mp.js: the other players' lights (B06), the server's Hounds (B09), the Hound killing (B09) and the Hounds and Smilers the page
      hides (B12), the bodies it hides (B12), the recorded kill (B14), the victim a kill record names (B33), the death lab (B18, B34) */

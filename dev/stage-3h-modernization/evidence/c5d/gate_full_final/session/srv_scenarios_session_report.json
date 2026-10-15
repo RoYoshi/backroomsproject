@@ -1,0 +1,85 @@
+{
+ "tool": "dev/tools/gate/golden/bpp_golden.js",
+ "scenarios": [
+  {
+   "scenario": "session_login",
+   "old": {
+    "ok": true,
+    "lines": 35229,
+    "sha256": "df8d880c6e948f74b93ea2a40c5ec44db45e401399cfe9dde48fa4646f1a752a",
+    "ms": 1556,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 35229,
+    "sha256": "df8d880c6e948f74b93ea2a40c5ec44db45e401399cfe9dde48fa4646f1a752a",
+    "ms": 1483,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [],
+   "baseline": {
+    "expected": "df8d880c6e948f74b93ea2a40c5ec44db45e401399cfe9dde48fa4646f1a752a",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "session_identity",
+   "old": {
+    "ok": true,
+    "lines": 16311,
+    "sha256": "e0e1e5b0d394b23768c1871d9463aa458d83281fd79e9d947e26937e4c1332f7",
+    "ms": 654,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 16311,
+    "sha256": "e0e1e5b0d394b23768c1871d9463aa458d83281fd79e9d947e26937e4c1332f7",
+    "ms": 639,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [],
+   "baseline": {
+    "expected": "e0e1e5b0d394b23768c1871d9463aa458d83281fd79e9d947e26937e4c1332f7",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scenario": "session_wire",
+   "old": {
+    "ok": true,
+    "lines": 813,
+    "sha256": "03756fe463bd91ee95cf2d55a35436cbaf0eeb2dc7428eaac71a91d05c4522fb",
+    "ms": 685,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 813,
+    "sha256": "03756fe463bd91ee95cf2d55a35436cbaf0eeb2dc7428eaac71a91d05c4522fb",
+    "ms": 600,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [],
+   "baseline": {
+    "expected": "03756fe463bd91ee95cf2d55a35436cbaf0eeb2dc7428eaac71a91d05c4522fb",
+    "equal": true
+   },
+   "ok": true
+  }
+ ],
+ "oldRef": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "newSide": "working tree",
+ "oldDir": "the working tree's runtime under its old names (78 files)",
+ "node": "v22.22.2",
+ "ok": true
+}

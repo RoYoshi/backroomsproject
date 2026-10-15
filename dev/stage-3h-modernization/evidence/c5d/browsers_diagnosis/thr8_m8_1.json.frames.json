@@ -1,0 +1,44 @@
+{
+ "frames": 66,
+ "withAliceMismatch": [
+  {
+   "i": 21,
+   "gap": 345.6,
+   "off": 113.24,
+   "avatar": [
+    861.76,
+    720
+   ],
+   "drawnPose": [
+    975,
+    720
+   ],
+   "target": [
+    975,
+    720
+   ],
+   "phase": "back off, sprint into him, stop dead"
+  },
+  {
+   "i": 56,
+   "gap": 336.1,
+   "off": 102.11,
+   "avatar": [
+    875.11,
+    720
+   ],
+   "drawnPose": [
+    773,
+    720
+   ],
+   "target": [
+    773,
+    720
+   ],
+   "phase": "run west and slide"
+  }
+ ],
+ "gapMedian": 302.1,
+ "gapMax": 458.1,
+ "throttle": 8.0
+}

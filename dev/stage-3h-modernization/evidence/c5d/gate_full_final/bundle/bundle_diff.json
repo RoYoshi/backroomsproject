@@ -1,0 +1,718 @@
+{
+ "tool": "dev/tools/gate/golden/bundle_diff.js",
+ "chromium": "141.0.7390.37",
+ "ref": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5d/gate_full_final/bundle/ref_lineage_root",
+ "cand": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5d/gate_full_final/bundle/cand_root",
+ "scenes": [
+  {
+   "scene": "bare_walk",
+   "frames": 502,
+   "steps": 17,
+   "checkpoints": [
+    {
+     "name": "run",
+     "frame": 152,
+     "png": [
+      "bb2cb6a628901a0a547155dec7ae7a4e46946f43d294c077e170bf66ff0e2e53",
+      "bb2cb6a628901a0a547155dec7ae7a4e46946f43d294c077e170bf66ff0e2e53"
+     ],
+     "css": [
+      "01a83cd7fd30585b",
+      "01a83cd7fd30585b"
+     ],
+     "same": true
+    },
+    {
+     "name": "end",
+     "frame": 502,
+     "png": [
+      "3ef0a9d6cc918d7305567bad75f88804e3a85c08475ba9b76852081b328915b4",
+      "3ef0a9d6cc918d7305567bad75f88804e3a85c08475ba9b76852081b328915b4"
+     ],
+     "css": [
+      "078bf3296f945dac",
+      "078bf3296f945dac"
+     ],
+     "same": true
+    }
+   ],
+   "ok": true,
+   "evals": [
+    [
+     "__api.started() + \" \" + __api.fall()",
+     "true -1"
+    ]
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "pageErrors": [
+    [],
+    []
+   ],
+   "fr": [
+    502,
+    502
+   ],
+   "seconds": 217
+  },
+  {
+   "scene": "menu",
+   "frames": 154,
+   "steps": 5,
+   "checkpoints": [
+    {
+     "name": "menu",
+     "frame": 34,
+     "png": [
+      "ea81224842b02eda9405cb83f67d74120d5515c50412e49d93c4e4f9e1fc4f04",
+      "ea81224842b02eda9405cb83f67d74120d5515c50412e49d93c4e4f9e1fc4f04"
+     ],
+     "css": [
+      "bb701ff8ef254a14",
+      "bb701ff8ef254a14"
+     ],
+     "same": true
+    }
+   ],
+   "ok": true,
+   "evals": [
+    [
+     "window.__boot && __boot.state()",
+     "menu"
+    ]
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "pageErrors": [
+    [],
+    []
+   ],
+   "fr": [
+    154,
+    154
+   ],
+   "seconds": 25
+  },
+  {
+   "scene": "solo_walk",
+   "frames": 666,
+   "steps": 37,
+   "checkpoints": [
+    {
+     "name": "run",
+     "frame": 146,
+     "png": [
+      "b27da34cff8069e2f2ff8b442758f4aa3120050335d38f459c7b170964d2d5eb",
+      "b27da34cff8069e2f2ff8b442758f4aa3120050335d38f459c7b170964d2d5eb"
+     ],
+     "css": [
+      "d1f976f15d62283a",
+      "d1f976f15d62283a"
+     ],
+     "same": true
+    },
+    {
+     "name": "map",
+     "frame": 466,
+     "png": [
+      "45d67cda508ae5dcf08d4b108cd2eb3d9379beb227c4749701ff1583aec6a77d",
+      "45d67cda508ae5dcf08d4b108cd2eb3d9379beb227c4749701ff1583aec6a77d"
+     ],
+     "css": [
+      "1549ebdbfb91064e",
+      "1549ebdbfb91064e"
+     ],
+     "same": true
+    },
+    {
+     "name": "end",
+     "frame": 666,
+     "png": [
+      "6a6098fa7d0f6f4337e79a4e3ce2be869c1236890e6b7e990298821aca87a35f",
+      "6a6098fa7d0f6f4337e79a4e3ce2be869c1236890e6b7e990298821aca87a35f"
+     ],
+     "css": [
+      "8a494141c331b5e6",
+      "8a494141c331b5e6"
+     ],
+     "same": true
+    }
+   ],
+   "ok": true,
+   "evals": [
+    [
+     "window.__boot && __boot.state()",
+     "menu"
+    ],
+    [
+     "window.__ui && __ui.go('play'), 'go'",
+     "go"
+    ],
+    [
+     "__api.started() + \" \" + __boot.state() + \" \" + __api.fall()",
+     "true playing -1"
+    ]
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "pageErrors": [
+    [],
+    []
+   ],
+   "fr": [
+    666,
+    666
+   ],
+   "seconds": 146
+  },
+  {
+   "scene": "death_hound",
+   "frames": 690,
+   "steps": 29,
+   "checkpoints": [
+    {
+     "name": "struggle",
+     "frame": 237,
+     "png": [
+      "982106e575cf4449f24f6d1f7d8f5a6503a318565848be89dc1108eba4d177db",
+      "982106e575cf4449f24f6d1f7d8f5a6503a318565848be89dc1108eba4d177db"
+     ],
+     "css": [
+      "445f57781b9760bb",
+      "445f57781b9760bb"
+     ],
+     "same": true
+    },
+    {
+     "name": "caught",
+     "frame": 449,
+     "png": [
+      "119538540a3d78ca0d8b617377600cf5341ffd62fea649ed94757f43dcb54ace",
+      "119538540a3d78ca0d8b617377600cf5341ffd62fea649ed94757f43dcb54ace"
+     ],
+     "css": [
+      "6f8e5bf58271a7b9",
+      "6f8e5bf58271a7b9"
+     ],
+     "same": true
+    },
+    {
+     "name": "respawn",
+     "frame": 569,
+     "png": [
+      "1cd3e37cba7779485ee4e90dab1f07f74b998396e2bbfe085c2c4b3ed0bec6e1",
+      "1cd3e37cba7779485ee4e90dab1f07f74b998396e2bbfe085c2c4b3ed0bec6e1"
+     ],
+     "css": [
+      "5c2d84f8ec85b6ed",
+      "5c2d84f8ec85b6ed"
+     ],
+     "same": true
+    },
+    {
+     "name": "world_end",
+     "frame": 690,
+     "png": [
+      "efcb3b84bd17a0bad4dafcd47524c86d21707bd826a8647ab760182d3f416e58",
+      "efcb3b84bd17a0bad4dafcd47524c86d21707bd826a8647ab760182d3f416e58"
+     ],
+     "css": [
+      "308d7e8094618902",
+      "308d7e8094618902"
+     ],
+     "same": true
+    }
+   ],
+   "ok": true,
+   "evals": [
+    [
+     "window.__boot && __boot.state()",
+     "menu"
+    ],
+    [
+     "window.__ui && __ui.go('play'), 'go'",
+     "go"
+    ],
+    [
+     "__api.started() + \" \" + __boot.state() + \" \" + __api.fall()",
+     "true playing -1"
+    ],
+    [
+     "__api.G.grace = 0, (() => { const s = __api.G; for (const [dx, dy] of [[30,0],[-",
+     "7822.41788937477,3270.4576246562638"
+    ],
+    [
+     "__api.G.caught + \" \" + __api.G.caughtBy",
+     "true Hound"
+    ],
+    [
+     "__api.bodyCount()",
+     "1"
+    ],
+    [
+     "__api.G.caught + \" \" + __api.bodyCount()",
+     "false 1"
+    ],
+    [
+     "__api.G.grace = 0, (() => { const s = __api.G; for (const [dx, dy] of [[30,0],[-",
+     "7869.588705804156,3265.592028435565"
+    ],
+    [
+     "__api.worldEnd(__api.Ic.x, __api.Ic.y) + \" \" + __api.bodyCount()",
+     "true 0"
+    ]
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "pageErrors": [
+    [],
+    []
+   ],
+   "fr": [
+    690,
+    690
+   ],
+   "seconds": 191
+  },
+  {
+   "scene": "death_smiler",
+   "frames": 573,
+   "steps": 21,
+   "checkpoints": [
+    {
+     "name": "struggle",
+     "frame": 316,
+     "png": [
+      "62db6b608f9938a4c65780e605a0c42d3462f03c29739f8ada2e758e010daaa3",
+      "62db6b608f9938a4c65780e605a0c42d3462f03c29739f8ada2e758e010daaa3"
+     ],
+     "css": [
+      "61b625a736bd8bfa",
+      "61b625a736bd8bfa"
+     ],
+     "same": true
+    },
+    {
+     "name": "caught",
+     "frame": 483,
+     "png": [
+      "9aa85acf4d4ddfcd3bac90cb0aee44077c9d62bddd92db25a16ac7dea0a782ca",
+      "9aa85acf4d4ddfcd3bac90cb0aee44077c9d62bddd92db25a16ac7dea0a782ca"
+     ],
+     "css": [
+      "f8eacc9ed1a62246",
+      "f8eacc9ed1a62246"
+     ],
+     "same": true
+    },
+    {
+     "name": "respawn",
+     "frame": 573,
+     "png": [
+      "afe8d80537b463b75847545576cf88abd43c11c71e3902c48108d3645e43eb59",
+      "afe8d80537b463b75847545576cf88abd43c11c71e3902c48108d3645e43eb59"
+     ],
+     "css": [
+      "3284af0ce16577f0",
+      "3284af0ce16577f0"
+     ],
+     "same": true
+    }
+   ],
+   "ok": true,
+   "evals": [
+    [
+     "window.__boot && __boot.state()",
+     "menu"
+    ],
+    [
+     "window.__ui && __ui.go('play'), 'go'",
+     "go"
+    ],
+    [
+     "__api.started() + \" \" + __boot.state() + \" \" + __api.fall()",
+     "true playing -1"
+    ],
+    [
+     "__api.G.grace = 0, (() => { const s = __api.q[0]; for (const [dx, dy] of [[60,0]",
+     "6492,1152"
+    ],
+    [
+     "__api.G.caught + \" \" + __api.G.caughtBy",
+     "true Smiler"
+    ]
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "pageErrors": [
+    [],
+    []
+   ],
+   "fr": [
+    573,
+    573
+   ],
+   "seconds": 155
+  },
+  {
+   "scene": "newrun",
+   "frames": 468,
+   "steps": 23,
+   "checkpoints": [
+    {
+     "name": "vanishing",
+     "frame": 236,
+     "png": [
+      "03a6dbcfcd97a4e01b866efa97cc26cae0800a317828fbda1862c9f33a9d7dc0",
+      "03a6dbcfcd97a4e01b866efa97cc26cae0800a317828fbda1862c9f33a9d7dc0"
+     ],
+     "css": [
+      "ccb75229e6706ce4",
+      "ccb75229e6706ce4"
+     ],
+     "same": true
+    },
+    {
+     "name": "run_menu",
+     "frame": 348,
+     "png": [
+      "078d6eea593421b31716c198c23b4af5e21fa4710357ba1c4df919f7acb19df8",
+      "078d6eea593421b31716c198c23b4af5e21fa4710357ba1c4df919f7acb19df8"
+     ],
+     "css": [
+      "dcb690a71ad1dd53",
+      "dcb690a71ad1dd53"
+     ],
+     "same": true
+    },
+    {
+     "name": "falling",
+     "frame": 388,
+     "png": [
+      "fe3004b2caf5fd50d8cdc4c6a65ee27c155704c6cdcdf4c2fe7c9a5f6e1fb047",
+      "fe3004b2caf5fd50d8cdc4c6a65ee27c155704c6cdcdf4c2fe7c9a5f6e1fb047"
+     ],
+     "css": [
+      "1a69a368af0240a4",
+      "1a69a368af0240a4"
+     ],
+     "same": true
+    },
+    {
+     "name": "landed",
+     "frame": 468,
+     "png": [
+      "f1a512501af520a4439c636d79ccb694f1db72fb0471cce4525d8f400b0e6a4f",
+      "f1a512501af520a4439c636d79ccb694f1db72fb0471cce4525d8f400b0e6a4f"
+     ],
+     "css": [
+      "95783c2e08ceb2d2",
+      "95783c2e08ceb2d2"
+     ],
+     "same": true
+    }
+   ],
+   "ok": true,
+   "evals": [
+    [
+     "window.__boot && __boot.state()",
+     "menu"
+    ],
+    [
+     "window.__ui && __ui.go('play'), 'go'",
+     "go"
+    ],
+    [
+     "__api.started() + \" \" + __boot.state() + \" \" + __api.fall()",
+     "true playing -1"
+    ],
+    [
+     "__api.fall() + \" \" + __api.bodyCount()",
+     "-1 0"
+    ]
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "pageErrors": [
+    [],
+    []
+   ],
+   "fr": [
+    468,
+    468
+   ],
+   "seconds": 111
+  },
+  {
+   "scene": "gear",
+   "frames": 496,
+   "steps": 37,
+   "checkpoints": [
+    {
+     "name": "map",
+     "frame": 176,
+     "png": [
+      "87495790d4465dd322514dc75a2f56879037952191cd3671b9488a87f36edbc5",
+      "87495790d4465dd322514dc75a2f56879037952191cd3671b9488a87f36edbc5"
+     ],
+     "css": [
+      "be04aeaa53a4288d",
+      "be04aeaa53a4288d"
+     ],
+     "same": true
+    },
+    {
+     "name": "lantern",
+     "frame": 246,
+     "png": [
+      "9906f78f03172e87eca64b259d9498c063ade4539ed4d098fbc8e5fd689e9c71",
+      "9906f78f03172e87eca64b259d9498c063ade4539ed4d098fbc8e5fd689e9c71"
+     ],
+     "css": [
+      "4e73ed2400655491",
+      "4e73ed2400655491"
+     ],
+     "same": true
+    },
+    {
+     "name": "headlamp",
+     "frame": 306,
+     "png": [
+      "3f8a0bba2f95fb38aad2c3efe4efa90f18064c7f29f434fae21f5f9fe0fa6de8",
+      "3f8a0bba2f95fb38aad2c3efe4efa90f18064c7f29f434fae21f5f9fe0fa6de8"
+     ],
+     "css": [
+      "487d47dfdecdbf03",
+      "487d47dfdecdbf03"
+     ],
+     "same": true
+    },
+    {
+     "name": "camcorder",
+     "frame": 396,
+     "png": [
+      "1bca2396c26763455694e7daf0a6035c0136566790f72f0711d6745f6c7ffe0a",
+      "1bca2396c26763455694e7daf0a6035c0136566790f72f0711d6745f6c7ffe0a"
+     ],
+     "css": [
+      "cbb24bc6736ac192",
+      "cbb24bc6736ac192"
+     ],
+     "same": true
+    },
+    {
+     "name": "night_vision",
+     "frame": 456,
+     "png": [
+      "727a371e88b43fed60e89fcf4e0d12e5bcac5d4438555ef02c58450b37d19bce",
+      "727a371e88b43fed60e89fcf4e0d12e5bcac5d4438555ef02c58450b37d19bce"
+     ],
+     "css": [
+      "6b8804dc1741d110",
+      "6b8804dc1741d110"
+     ],
+     "same": true
+    }
+   ],
+   "ok": true,
+   "evals": [
+    [
+     "window.__boot && __boot.state()",
+     "menu"
+    ],
+    [
+     "window.__ui && __ui.go('play'), 'go'",
+     "go"
+    ],
+    [
+     "__api.started() + \" \" + __boot.state() + \" \" + __api.fall()",
+     "true playing -1"
+    ],
+    [
+     "__api.map(), __api.mapOpen()",
+     "true"
+    ],
+    [
+     "__api.map(), __api.mapOpen()",
+     "false"
+    ],
+    [
+     "(() => { const e = document.getElementById('lightKind'); e.value = 'lantern'; e.",
+     "lantern true"
+    ],
+    [
+     "(() => { const e = document.getElementById('lightKind'); e.value = 'headlamp'; e",
+     "headlamp true"
+    ],
+    [
+     "(() => { const e = document.getElementById('lightKind'); e.value = 'camcorder'; ",
+     "camcorder false"
+    ],
+    [
+     "(() => { const e = document.getElementById('lightKind'); e.value = 'flashlight';",
+     "flashlight true"
+    ]
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "pageErrors": [
+    [],
+    []
+   ],
+   "fr": [
+    496,
+    496
+   ],
+   "seconds": 130
+  },
+  {
+   "scene": "blackout_win",
+   "frames": 586,
+   "steps": 21,
+   "checkpoints": [
+    {
+     "name": "blackout",
+     "frame": 206,
+     "png": [
+      "b18decb0a1e86e4114e0f60cac55bde185900006e1339e50b6ab038cc7e374e5",
+      "b18decb0a1e86e4114e0f60cac55bde185900006e1339e50b6ab038cc7e374e5"
+     ],
+     "css": [
+      "8f88e843d60b02e8",
+      "8f88e843d60b02e8"
+     ],
+     "same": true
+    },
+    {
+     "name": "won",
+     "frame": 566,
+     "png": [
+      "2507a92352894b0fcd2166146e5700db791e8e18521a56cce5185504dc1ea979",
+      "2507a92352894b0fcd2166146e5700db791e8e18521a56cce5185504dc1ea979"
+     ],
+     "css": [
+      "f2ad7a5b8d87f8e9",
+      "f2ad7a5b8d87f8e9"
+     ],
+     "same": true
+    }
+   ],
+   "ok": true,
+   "evals": [
+    [
+     "window.__boot && __boot.state()",
+     "menu"
+    ],
+    [
+     "window.__ui && __ui.go('play'), 'go'",
+     "go"
+    ],
+    [
+     "__api.started() + \" \" + __boot.state() + \" \" + __api.fall()",
+     "true playing -1"
+    ],
+    [
+     "__api.V.next = __api.V.elapsed + .3, __api.V.next",
+     "1.8333333333333328"
+    ],
+    [
+     "__api.V.blackout",
+     "true"
+    ],
+    [
+     "__api.V.blackout",
+     "false"
+    ],
+    [
+     "__api.win(), \"won\"",
+     "won"
+    ],
+    [
+     "__api.unwin(), \"on\"",
+     "on"
+    ]
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "pageErrors": [
+    [],
+    []
+   ],
+   "fr": [
+    586,
+    586
+   ],
+   "seconds": 121
+  },
+  {
+   "scene": "customize",
+   "frames": 104,
+   "steps": 15,
+   "checkpoints": [
+    {
+     "name": "customize",
+     "frame": 84,
+     "png": [
+      "50ba9bfea4a3f13c2d0f00defae266c308c6a7a1a480deacbe23a78f271651bf",
+      "50ba9bfea4a3f13c2d0f00defae266c308c6a7a1a480deacbe23a78f271651bf"
+     ],
+     "css": [
+      "3e55c5271396ecc1",
+      "3e55c5271396ecc1"
+     ],
+     "same": true
+    },
+    {
+     "name": "closed",
+     "frame": 104,
+     "png": [
+      "4f6651ad6edb66ca0d89b7d3d1bd095b69bd447fff18b156475b56cceb9327b6",
+      "4f6651ad6edb66ca0d89b7d3d1bd095b69bd447fff18b156475b56cceb9327b6"
+     ],
+     "css": [
+      "93570232773893ba",
+      "93570232773893ba"
+     ],
+     "same": true
+    }
+   ],
+   "ok": true,
+   "evals": [
+    [
+     "window.__boot && __boot.state()",
+     "menu"
+    ]
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "pageErrors": [
+    [],
+    []
+   ],
+   "fr": [
+    104,
+    104
+   ],
+   "seconds": 26
+  }
+ ],
+ "ok": true
+}

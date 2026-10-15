@@ -1,0 +1,4 @@
+$ node /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5d/final_tree/dev/tools/gate/golden/raw_live.js --old-ref c34f0c22bbacc5ac2813d173bc0591b67af7169f --new-dir /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5d/vs_m8/game_candidate --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5d/vs_m8/raw_live.json
+HTTP wall time (reported only): old 543 ms, new 582 ms
+raw live (the old ref against a folder): 148 HTTP exchanges, 25 WebSocket checks: identical except 5 responses for changed files (mp.js, assets/index-DKbV5Nv9.js)
+RAW LIVE: PASS

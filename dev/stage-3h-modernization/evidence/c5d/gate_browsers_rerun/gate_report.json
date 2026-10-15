@@ -1,0 +1,23 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "2830dacc2ca102d5e7b235d6d30bebcef281a6c2",
+ "startedAt": "2026-10-15T22:57:41.995Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5d/gate_browsers_rerun",
+ "steps": {
+  "browsers": {
+   "ok": true,
+   "cases": 127,
+   "note": "two_browser ok (112), col_head ok (5), col_aside ok (5), gameplay_smoke ok (5)",
+   "exit": null,
+   "seconds": 211
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-15T23:01:13.449Z",
+ "removed": [
+  "game_candidate"
+ ]
+}

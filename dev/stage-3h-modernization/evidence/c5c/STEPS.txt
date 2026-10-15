@@ -12,8 +12,8 @@ Base: C4d af1481854f965356775dab324d4cd0e36888ba28 (tree b2b5fa07cb27b66528623e1
      the bundle M8 and B++ serve) and this tree's (the build, since C4b) in one headless Chromium (SwiftShader), each page
      deterministic as in the bundle step; no text records and no pixel digests; the two pages stepped one after the other at every batch
      of 30 frames (--serial), the order swapped every round; every frame still compared (a difference fails the round). The time is the
-     real time each page spends in its frames' timers and animation-frame callbacks (bundle_env.js's profile: the compiled client's
-     frame and the classic scripts' hooks), from the start of the run to the scene's end, per frame. Scenes (bundle_perf_scenes.js, the
+     real time each page spends in its frames' animation-frame callbacks (bundle_env.js's profile: the compiled client's frame and
+     the classic scripts' hooks; the timers, which fire just before, are not in it; worded so at C5d, after the review), from the start of the run to the scene's end, per frame. Scenes (bundle_perf_scenes.js, the
      bundle step's own without their captures): walk (solo_walk: 520 timed frames) and hound (death_hound: a Hound's capture, the death
      sequence, RETRY's fall, a second capture, the world's end: 544 timed frames). A 640 x 360 window: SwiftShader's drawing, done on the
      CPU, takes most of a round's wall time.

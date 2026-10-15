@@ -43,8 +43,8 @@ came from and how it is proven: the recovered v11 project, the lineage of every 
 - 251,140 of them are PixiJS;
 - 45,412 are the game's own code compiled from the TypeScript.
 
-The other 44,271 bytes were written by the 40 later steps. The bundle built from `../game/` is 336,622 bytes: the same program
-(below), minified again as a whole.
+The other 44,271 bytes were written by the 40 later steps. The bundle built from `../game/` is 336,630 bytes (336,622 at C4b; C4c
+writes the lantern's spread as a number): the same program (below), minified again as a whole.
 
 ## How the build makes the served files
 
@@ -68,7 +68,7 @@ replay is still checked: `lineage.js verify` replays every chain to its recorded
 
 | Check | What it compares |
 |---|---|
-| `dev/stage-3h-modernization/tools/c4_alpha_all.mjs` | every top-level statement of the recorded bundle's app code (rebuilt in memory from the lineage) with the port, modulo the names of bindings and a stated normal form (`c4_alpha.mjs`'s header); the deliberate changes of structure are listed with their reasons in `c4_alpha_modules.json` |
+| `dev/stage-3h-modernization/tools/c4_alpha_all.mjs` | every top-level statement of the recorded bundle's app code (rebuilt in memory from the lineage) with the port, modulo the names of bindings and a stated normal form (`c4_alpha.mjs`'s header; 195 of 197 directly; the other 2, NEW RUN's fall and vanish state, through their every read and write); the deliberate changes of structure are listed with their reasons in `c4_alpha_modules.json` |
 | `dev/stage-3h-modernization/tools/c4_css_check.mjs` | the built stylesheet with the recorded one: v11's part byte for byte, then the same statements |
 | `dev/tools/gate/golden/bundle_diff.js` | the built client and the recorded one in Chromium, frame by frame: randomness, game state, the document, every 2D canvas and audio call, the shared window objects, pixels, computed styles |
 | `dev/stage-3h-modernization/tools/api_contract.js` | the served bundle publishes the same 52 `window.__api` members in the same order, and reads the same ones |

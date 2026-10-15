@@ -1,0 +1,80 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c5_vs_m8.js",
+ "m8": "c34f0c22bbacc5ac2813d173bc0591b67af7169f",
+ "head": "2830dacc2ca102d5e7b235d6d30bebcef281a6c2",
+ "runtimeTree": {
+  "files": 339,
+  "sha256": "63e32b144a9e75f567cd7363fd01f7456f5ed7a2446c59f3adc43e98a722eeb7"
+ },
+ "startedAt": "2026-10-15T22:35:01.417Z",
+ "comparisons": [
+  {
+   "id": "page traces, 3H0's scenes (cli_golden.js)",
+   "ok": true,
+   "compared": 9,
+   "note": "load menu_online run_online interp fx_bodies facade admin reconnect_solo hum_dread"
+  },
+  {
+   "id": "page traces, 3H2's scenes (cli_golden_h2.js)",
+   "ok": true,
+   "compared": 3,
+   "note": "nr_answers nr_reconnect hum_fixtures"
+  },
+  {
+   "id": "page traces, all 18 scenes in one page (cli_golden_c3c.js)",
+   "ok": true,
+   "compared": 18,
+   "note": "M8's mp.js 159 of 159 functions run, this tree's 232 of 232"
+  },
+  {
+   "id": "world.js, every function (world_diff.js)",
+   "ok": true,
+   "compared": 2295,
+   "note": "WORLD DIFF: SAME - 2295 comparisons, 0 differences; the server's copy is the page's, byte for byte"
+  },
+  {
+   "id": "move.js, camcorder.js, glitch.js, ents.js (page_scripts.js)",
+   "ok": true,
+   "compared": 1252700,
+   "note": "move.js 15215 lines, camcorder.js 11336 lines, glitch.js 21927 lines, ents.js 1204222 lines"
+  },
+  {
+   "id": "the sim (sim_diff.js)",
+   "ok": true,
+   "compared": 20050,
+   "note": "SIM DIFF: SAME - 20050 comparisons over 5 seeds, 0 differences"
+  },
+  {
+   "id": "mp.js's frame hook and message handler, time (perf_det.js --only client)",
+   "ok": true,
+   "compared": 5,
+   "note": "menu_online hook +12.63% handler -17.39%; run_online hook -0.18% handler +8.33%; interp hook +6.47% handler -8.77%; fx_bodies hook +6.06% handler +9.28%; hum_dread hook +4.16% handler -50%"
+  },
+  {
+   "id": "two real players, every WebSocket frame by structure (live_wire_h2.js)",
+   "ok": true,
+   "compared": 65,
+   "note": "structurally identical"
+  },
+  {
+   "id": "real HTTP and raw TCP, every response and WebSocket check (raw_live.js)",
+   "ok": true,
+   "compared": 173,
+   "note": "bodies differ, as declared, for: mp.js, assets/index-DKbV5Nv9.js"
+  },
+  {
+   "id": "the facade, unauthorized access refused, a phone, in a real Chromium (browser_contracts.js)",
+   "ok": true,
+   "compared": 8,
+   "note": "the sides agree: facade yes, unauthorized yes, phone yes"
+  },
+  {
+   "id": "BR-RoLE's contact lab, pixel for pixel (contact_lab.py)",
+   "ok": true,
+   "compared": 23,
+   "note": "23 images identical"
+  }
+ ],
+ "ok": true,
+ "finishedAt": "2026-10-15T22:55:33.710Z"
+}

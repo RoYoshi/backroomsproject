@@ -1,0 +1,4 @@
+PASS steady packets, 60-100 ms latency with jitter: drawn speed varies 6.6 % frame to frame (was 24.8 %), mean 291.667 px/s (true 292; was 291.333), biggest single-frame move 7.9 px (was 8), biggest facing change per frame 0.099 rad (was 0.101)
+PASS plus a 100 ms late packet every 10th: drawn speed varies 7.6 % frame to frame (was 45.3 %), mean 291 px/s (true 292; was 290.333), biggest single-frame move 8.2 px (was 11.2), biggest facing change per frame 0.099 rad (was 0.107)
+PASS new world with a lower clock and a reused id: drawn in the new world 0 ms after its first snapshot, at x 1532 after 2 s (new world truth 1560), timeline resets 1; 200 jittered / reordered snapshots in one world: resets 0, history kept (8 samples)
+interpolation checks passed

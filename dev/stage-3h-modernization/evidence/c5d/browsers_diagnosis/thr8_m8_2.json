@@ -1,0 +1,289 @@
+{
+ "tool": "dev/stage-3e-0/two_browser.py",
+ "mode": "bplus",
+ "lag": 0,
+ "expect": "same",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5d/diag/game_m8",
+ "phases": [
+  {
+   "name": "walk into Bob",
+   "t0": 15802.60000000149,
+   "t1": 19220.60000000149
+  },
+  {
+   "name": "back off, sprint into him, stop dead",
+   "t0": 19467.19999999553,
+   "t1": 23144
+  },
+  {
+   "name": "turn a full circle fast",
+   "t0": 23420.39999999851,
+   "t1": 27755.10000000149
+  },
+  {
+   "name": "crouch, walk back, stand",
+   "t0": 27943.29999999702,
+   "t1": 30590
+  },
+  {
+   "name": "run west and slide",
+   "t0": 30890.69999999553,
+   "t1": 33672.89999999851
+  }
+ ],
+ "ids": {
+  "alice": 1,
+  "bob": 3
+ },
+ "bobPeerNet0": {
+  "mode": "bplus",
+  "fast": true
+ },
+ "throttle": 8.0,
+ "beforeReload": {
+  "bobPeerNet": {
+   "mode": "bplus",
+   "fast": true,
+   "sendMs": 25,
+   "lastK": 1610,
+   "counts": {
+    "s": 653,
+    "q": 26,
+    "qApplied": 26,
+    "qStale": 0,
+    "qUnknown": 0
+   },
+   "peers": [
+    {
+     "id": 1,
+     "x": 633,
+     "y": 720,
+     "tx": 633,
+     "ty": 720,
+     "a": -0.39,
+     "ang": 5.8932,
+     "d": 0
+    }
+   ]
+  },
+  "bobSpy": {
+   "n": {
+    "hi": 1,
+    "bodies": 1,
+    "s": 659,
+    "caps": 1,
+    "tp": 1,
+    "q": 26
+   },
+   "sent": {
+    "caps": 1,
+    "p": 113,
+    "join": 1
+   }
+  },
+  "aliceSpy": {
+   "n": {
+    "hi": 1,
+    "caps": 1,
+    "bodies": 2,
+    "s": 811,
+    "tp": 1
+   },
+   "sent": {
+    "caps": 1,
+    "p": 220,
+    "join": 1
+   }
+  },
+  "alicePeerNet": {
+   "mode": "bplus",
+   "fast": true,
+   "counts": {
+    "s": 820,
+    "q": 0,
+    "qApplied": 0,
+    "qStale": 0,
+    "qUnknown": 0
+   }
+  }
+ },
+ "afterReload": {
+  "aliceNewId": 5,
+  "bobPeers": [
+   5
+  ],
+  "bobAvatars": 1
+ },
+ "worldReset": "{\"ok\":true,\"msg\":\"WORLD RESET FOR EVERYONE \u00b7 NOBODY BLOWN UP \u00b7 NO COOLDOWNS\"}",
+ "afterReset": {
+  "bobPeers": [
+   5
+  ],
+  "bobPeerNet": {
+   "counts": {
+    "s": 968,
+    "q": 28,
+    "qApplied": 28,
+    "qStale": 0,
+    "qUnknown": 0
+   },
+   "lastK": 2240
+  },
+  "bobAvatars": 1,
+  "bobEpoch": {
+   "w": 3,
+   "ends": 1,
+   "at": 1792106166.69,
+   "oldDropped": 0,
+   "softTp": 0,
+   "peers": 1
+  }
+ },
+ "injected": {
+  "before": {
+   "tx": 960,
+   "ty": 3264,
+   "counts": {
+    "s": 992,
+    "q": 28,
+    "qApplied": 28,
+    "qStale": 0,
+    "qUnknown": 0
+   }
+  },
+  "after": {
+   "tx": 960,
+   "ty": 3264,
+   "counts": {
+    "s": 992,
+    "q": 32,
+    "qApplied": 28,
+    "qStale": 2,
+    "qUnknown": 2
+   }
+  },
+  "peers": [
+   5
+  ],
+  "avatars": 1
+ },
+ "frames": 65,
+ "diag": [
+  {
+   "i": 19,
+   "t": 21638.2,
+   "gap": 327.7,
+   "phase": "back off, sprint into him, stop dead",
+   "avatar": [
+    815.0,
+    720
+   ],
+   "drawnPose": [
+    917,
+    720
+   ],
+   "target": [
+    917,
+    720
+   ],
+   "prevAvatar": [
+    815.06,
+    720
+   ],
+   "prevDrawnPose": [
+    815.06,
+    720
+   ],
+   "me": [
+    1012,
+    720
+   ]
+  }
+ ],
+ "frameGaps": [
+  280.9,
+  348.8,
+  310.5,
+  287.3,
+  340.3,
+  395.8,
+  366.1,
+  289.4,
+  391.4,
+  349.3,
+  338.7,
+  287.5,
+  267.8,
+  228.8,
+  396.2,
+  213.2,
+  286.1,
+  341.7,
+  327.7,
+  382.4,
+  445.6,
+  397.7,
+  326.0,
+  332.1,
+  358.5,
+  301.0,
+  315.8,
+  282.9,
+  213.7,
+  257.2,
+  262.1,
+  255.1,
+  282.3,
+  211.8,
+  300.7,
+  287.5,
+  249.0,
+  263.0,
+  212.3,
+  230.9,
+  163.2,
+  300,
+  316.1,
+  262.7,
+  302.0,
+  356.1,
+  272.8,
+  291.1,
+  413.5,
+  188.7,
+  300.7,
+  326.1,
+  248.9,
+  262.0,
+  280.1,
+  320.2,
+  288.5,
+  195.3,
+  281.6,
+  247.9,
+  302.4,
+  287.1,
+  253.2,
+  243.6
+ ],
+ "checks": {
+  "framesWithAlice": 65,
+  "avatarIsDrawnPose": 64,
+  "castJobAtAvatar": 65,
+  "contactJobAtAvatar": 54,
+  "lightAtBeam": 65,
+  "bodiesAreServerTarget": 65,
+  "bodiesDifferFromDrawn": 19,
+  "worst": {
+   "av": 101.9997,
+   "job": 0,
+   "light": 0,
+   "pb": 0
+  },
+  "drawnDistanceToBobMin": 37.0,
+  "hookErrors": []
+ },
+ "bobFrameMsMedian": 288.5,
+ "pageErrors": [],
+ "ok": false
+}

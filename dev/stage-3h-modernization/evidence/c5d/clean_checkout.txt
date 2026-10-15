@@ -1,0 +1,8 @@
+source: clone at 2830dacc2ca102d5e7b235d6d30bebcef281a6c2 (2830dacc2ca102d5e7b235d6d30bebcef281a6c2, tree 60637a755851ffaf810a1fc978359b54f744db2a); node v22.22.2
+build:check before: BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)
+--clean: 38 of 38 built files removed (the compiled client's 2 kept); other files touched: 0
+build: built 39 outputs (38 files written, 2 already up to date)
+compare: 40 of 40 identical to the source; git status clean
+build:check after: BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)
+the compiled client from nothing: 3 of 3 files identical to the source
+CLEAN REBUILD: PASS

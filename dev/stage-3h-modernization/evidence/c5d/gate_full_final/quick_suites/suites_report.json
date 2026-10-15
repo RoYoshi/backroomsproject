@@ -1,0 +1,86 @@
+{
+ "tool": "dev/stage-3h/gate/suites.js",
+ "known": "dev/stage-3h/gate/known_failures_bpp.json",
+ "suites": {
+  "s_humanqa_hotfix": {
+   "ran": 6,
+   "summary": {
+    "passed": 5,
+    "total": 6
+   },
+   "failing": [
+    "HQA X03 dead hover and switched-off physical-light QOL are present in shipped client"
+   ],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 1719,
+   "ok": true
+  },
+  "s_ir": {
+   "ran": 3,
+   "summary": {
+    "passed": 3,
+    "total": 3
+   },
+   "failing": [],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 0,
+   "ms": 1765,
+   "ok": true
+  },
+  "interp_test": {
+   "ran": 3,
+   "summary": null,
+   "failing": [],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 0,
+   "ms": 56,
+   "ok": true
+  },
+  "test_3bn": {
+   "ran": 7,
+   "summary": {
+    "passed": 7,
+    "total": 7
+   },
+   "failing": [],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 0,
+   "ms": 440,
+   "ok": true
+  },
+  "ir_net": {
+   "ran": 4,
+   "summary": {
+    "passed": 4,
+    "total": 4
+   },
+   "failing": [],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 0,
+   "ms": 4832,
+   "ok": true
+  }
+ },
+ "ok": true
+}

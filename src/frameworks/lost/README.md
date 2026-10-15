@@ -12,8 +12,8 @@ Rewriting Level 0, or needing height (LogicZ) to make a level.
 
 ## Its rule
 
-Levels should be data, not code, with the server and the page agreeing. Since continuation C4c Level 0's map is (below); the code still
-knows Level 0 by name in places.
+Levels should be data, not code, with the server and the page agreeing. Since continuation C4c Level 0's map is data (below); the code
+still knows Level 0 by name in places.
 
 ## Its files
 
@@ -48,7 +48,8 @@ A file marked "(a part)" is one part of a bigger script: its `/** @part` header 
 
 Level 0's map: edit `shared/level0.json` (its `note` says what each field is), then rebuild the compiled client (`node
 dev/tools/build/client.js --packages <folder> --write`, then `npm run build`); the server reads the file when it starts. A change of
-the map is a gameplay change: the gate's `port`, `sim`, `page` and `bundle` steps report it (they compare with B++).
+the map is a gameplay change: the gate's `port`, `sim` and `bundle` steps report it (they compare with B++; the `page` step builds both
+sides' level from this tree's definition, so it does not).
 
 A new level is still not something to add here: it needs a design first. The map is data now, but the code knows Level 0 by name: the
 compiled client finds rooms by their index or name (the deep carpet's slower walk in `shared/movement.ts`; the tints of the blackout

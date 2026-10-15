@@ -1,0 +1,3 @@
+$ node dev/stage-3h/gate/protocol_v2.js check --srv  --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5d/gate_fast_c5d/protocol_1.json --cli /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5d/gate_fast_c5d/cli_h2_keep
+read 0 server and 874 client messages; violations 0
+PROTOCOL V2: PASS

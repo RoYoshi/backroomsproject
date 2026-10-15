@@ -1,0 +1,109 @@
+Stage 3H continuation C5d: the final verification and the new Human QA candidate (no runtime behaviour changed)
+=================================================================================================================
+
+Base: C5c 2830dacc2ca102d5e7b235d6d30bebcef281a6c2 (tree 60637a755851ffaf810a1fc978359b54f744db2a), verified on GitHub
+(evidence/remote/verify_c5c_2830dac.json); its after-commit secret scan is secret_scan_c5c_after_commit.txt here.  C5c's runtime files
+are C4c's: C4d and C5c changed checks, comments and documents only.
+
+The run (tools/run_final.sh, run_final.log; one step after another, never two heavy runs at once by design):
+  a fresh clone of the repository, C5c checked out (0 changes); the final full gate in it; this tree against M8 in it; the build from a
+  clean checkout of C5c; every served file against 3H2 and B++.
+
+1. The final full gate against B++, on the fresh clone of C5c (gate_full_final/, gate_full_final.log)
+   node dev/tools/gate/gate.js --tier full --packages <the 31 packages>: 21:25:30 to 22:34:59 UTC, 69.5 minutes.  27 of 28 steps PASS;
+   browsers FAIL (item 2).
+     build 39, port 410 (the compiled client built offline, its record the shipped one byte for byte; 195 of the shipped app's 197
+     top-level statements compared directly, 2 through their every read and write; the stylesheet the same; the port ledger current; 25
+     of 25 mutants caught), lineage 83, parts 55, modules 58, contracts 381 (the window contract: 35 members, every rule, 8 of 8 breaks
+     refused; 41 facts, 169 copies agree, 169 of 169 lone changes caught), docs 23, scope 212, srv_golden 11, bpp_golden 7, session 18
+     (15 of 15 session mutants), sim 20,065 (15 of 15 seam mutants), page 1,255,007 (12 of 12 seam mutants), cli_golden 30 (18 scenes,
+     232 of 232 of mp.js's functions run), protocol 52,740, mutants 18, static 4, raw_live 173, quick_suites 23, bundle 4,265 (9 of 9
+     scenes identical to the recorded client: 4,239 frames, 26 captures; 5 of 5 harness mutants caught in their record), cli_mutants 57,
+     live_wire 65 (structurally identical), bpp_checks 36, browsers 94 (FAIL), workflow 30 (the developer round trip 22 of 22 steps,
+     with the compiled client's; the browser contracts 8 checks on B++ and this tree, which agree), contact_lab 23 images identical pixel
+     for pixel, suites 293 (only the known B++ failures fail), perf 9 (server: lifecycle -2.18 %, deaths -0.12 %, admin -0.65 %,
+     schedule -6.01 %; mp.js's hook: menu_online +12.43 %, run_online +2.99 %, interp +2.55 %, fx_bodies +0.36 %, hum_dread +21.51 %,
+     each within its rule).
+   In the browsers step, gameplay_smoke's first player was killed by a Smiler before the check's admin connection removed the monsters;
+   the gate ran it again, as it does for that case, and it passed (the known case, PARITY_MATRIX "Recorded limits").
+
+2. The browsers step's failure: two_browser.py, 3 of 79 frames.  The cause was mine, and it is the check's sensitivity, not the code.
+   - What failed: two_browser checks, in every frame Bob's page draws, that his drawing of Alice (her avatar) is exactly where mp.js
+     draws her (its drawn pose).  In 3 of 79 frames it was not, by up to 128 px.  Every other check of the step held (the cast and the
+     contact jobs at the avatar, her light at the beam, the bodies at the server's poses, never inside Bob, the reload, the reset, the
+     four crafted 'q' dropped, 0 page errors), and col_head, col_aside and gameplay_smoke passed.
+   - Why: while it ran, I built the compiled client beside it on the same 2 CPUs (client.js --write, from 22:05:56 to about 22:06:50
+     UTC, to refresh the client's record after a comment edit), against this stage's own rule to run nothing heavy beside the browser
+     steps.  Bob's frames took 234 ms (median), against 132 to 197 ms in the 15 earlier runs of the check kept in this stage's evidence
+     (M1 to C5b), all of which passed.
+   - Run again, the machine otherwise idle (gate_browsers_rerun/; 22:57:42 to 23:01:13 UTC): PASS, 127 cases: two_browser 112 of 112
+     frames (worst 0.0049 px, Bob's frames 130 ms), col_head, col_aside, gameplay_smoke (at its first run).
+   - The mechanism (browsers_diagnosis/; the scripts in its tools/ run a copy of two_browser.py that also writes each mismatched frame;
+     never part of the gate): the compiled client calls BR-RoLE's draw, where the check samples (inside renderer.frame), before mp.js's
+     per-frame hook, which moves the avatar to the drawn pose; mp.js's message handler moves the drawn pose at once, between frames,
+     when a newer pose is more than 96 px away (PEER_SNAP, B++'s since Stage 3E-0, the same line in M8's and B++'s mp.js).  A sprint or
+     a run carries the newest pose that far from the drawn one only when Bob's frames are long; then, for one frame, the check sees the
+     drawn pose already on the newest pose and the avatar one frame behind (the next hook moves it).  Every mismatched frame below is
+     that: in a sprint or a run (the check's phases 2 and 5), the drawn pose equal to the newest pose, the offset above 96 px.
+   - The same code, the same failure, on M8's game (M8's mp.js, B++'s compiled client) and on C5c's, each its own server:
+       quiet:                                         M8 PASS (108 of 108, 134 ms); C5c PASS (109 of 109, 131.5 ms)
+       two CPU-bound processes beside it (nice 10):    M8 PASS (77 of 77, 254 ms); C5c FAIL (2 of 86 frames, up to 121 px, 228 ms);
+                                                       the second run of each ended in the harness's own 30 s wait for Alice's
+                                                       reload, before any check (load10_*_2.log)
+       Bob's page alone slowed by Chromium's CPU throttling (DevTools' Emulation.setCPUThrottlingRate; the server and Alice's page at
+       full speed):
+         x4 (frames about 215 ms):                     M8 PASS (0 of 83); C5c PASS (0 of 88)
+         x8 (frames about 270 to 300 ms), 2 runs a side: M8 FAIL in both (2 and 1 frames, 102 to 113 px);
+                                                         C5c FAIL in both (1 and 2 frames, 100 to 107 px)
+     FINDINGS M-037 records it; the check is kept as it is.  When two_browser fails with long frames, offsets above 96 px in a sprint
+     and the drawn pose on the newest one, the step is run again alone and both runs are reported (the gate's README).
+
+3. This tree against M8 directly, in the same clone (vs_m8/, vs_m8.log; tools/c5_vs_m8.js, 22:35:01 to 22:55:33 UTC): SAME, 11 of 11
+   comparisons pass.
+     the page traces: 3H0's 9 scenes, 3H2's 3, all 18 in one page (M8's mp.js 159 of 159 functions run, this tree's 232 of 232);
+     world.js 2,295 comparisons; move.js, camcorder.js, glitch.js, ents.js 1,252,700 trace lines; the sim 20,050 calls over 5 seeds;
+     mp.js's hook and handler time (7 rounds, within the rule: hooks menu_online +12.63 %, run_online -0.18 %, interp +6.47 %,
+     fx_bodies +6.06 %, hum_dread +4.16 %); two real players 65 phases, structurally identical; real HTTP and raw TCP 173 exchanges (the
+     bodies of mp.js and the compiled client's bundle differ, as declared); the browser contracts 8 checks, the sides agreeing (facade,
+     unauthorized access refused, a phone); the contact lab 23 images identical pixel for pixel.
+   The runtime files compared: 339, SHA-256 together 63e32b144a9e75f5... (report.json).
+
+4. The build from a clean checkout of C5c (clean_checkout.json, .txt; tools/m7_clean_rebuild.js --ref --packages): PASS.
+     build:check passes; build.js --clean removes 38 of 38 built files (the compiled client's 2 kept: build.js checks them against its
+     record); npm run build writes them again; 40 of 40 outputs and the manifest identical to the commit's; git status clean; and the
+     compiled client from nothing: its bundle, stylesheet and record deleted, client.js --write (the 31 packages checked and installed
+     offline) gives back 3 of 3 files byte for byte.
+
+5. Every file the game serves or builds (served_identity.json, .txt; tools/m8_served_identity.js): PASS.
+     51 files (48 under public/: 36 built, 12 static; the server's 3 built files).  42 identical to the frozen 3H2's, and to M8's (git
+     diff M8..C5c over public/ and generated/server/ lists only the 9 below and the sim M8 still built); 7 rebuilt as modules (C3b,
+     C3c: camcorder.js, ents.js, glitch.js, move.js, mp.js, world.js and the server's world.js); 2 built from the port (C4b: the bundle
+     and its stylesheet).  Every difference from B++ is declared.
+
+6. The independent review of the documents, by a separate agent that had not written them, against the repository and the evidence.
+   Its findings are corrected in this commit (49 edits), among them:
+     "every top-level statement" stated as 195 of 197 directly and 2 through their every read and write, wherever it was claimed;
+     the package checker's own cases (9 as expected: 7 refusals and 2 tampered copies it must still verify); the port mutants' count
+     (23 at C4a, 25 since C4c); the http_base lines (18, 9 files); shadows-2d.js, served but not loaded by index.html since lineage step
+     H18 (M-035, in the finding and in contracts.d.ts's comment); a map change is reported by the port, sim and bundle steps, not the
+     page step, which builds both sides' level from this tree's definition (FRAMEWORKS, the L.O.S.T. README, level0.json's note); the
+     contact lab's result path and alpha range (M-036); the documents' gate durations and tiers; the tools' README (client.js,
+     packages.js, recorded.js, the developer round trip with the compiled client).
+   Two of the corrections are comments the compiled client is built from (level0.json's note, contracts.d.ts), so its record
+   (generated/CLIENT_BUILD.json) and the build manifest were written again: the bundle and the stylesheet are the same bytes.
+
+7. The fast gate on this commit's tree: PASS, 20 of 20 steps, 9.5 minutes (gate_fast_c5d/, gate_fast_c5d.log), on the working
+   tree that became this commit (C5c and the changes above).
+     build 39, port 410 (the client built again from its TypeScript with the edited comments: its record is the one committed here,
+     the bundle and the stylesheet C4c's bytes), lineage 83, parts 55, modules 58, contracts 381, docs 23, scope 212, srv_golden 11,
+     bpp_golden 7, session 18, sim 20,065, page 1,255,007, cli_golden 30, protocol 52,740, mutants 18, static 4, raw_live 173,
+     quick_suites 23, bundle 824 (the fast tier's 2 scenes: 820 frames, 4 captures, identical).
+   After the last edits of documents (this file's item 7, the report's and the ledgers' sentences about the fast gate, the stage
+   folder's README), the steps that read documents and files ran again on the final tree: build, lineage, parts, modules,
+   contracts, docs, scope: PASS (gate_quick_final/, gate_quick_final.log).
+
+8. Documents: REPORT.md (the final report) and HUMAN_QA.md (the targeted Human QA page) replace C5b's; CHECKPOINTS (C5c's row filled,
+   C5d's), PARITY_MATRIX (the M8 comparison, the real browsers, the recorded limits, the checkpoints), CONTINUATION (the live status),
+   FINDINGS (M-037; M-035 and M-036 corrected), the gate's README (two_browser's long frames).
+
+What this does not change: no runtime behaviour.  The served files are C4c's bytes; the server reads the same values.

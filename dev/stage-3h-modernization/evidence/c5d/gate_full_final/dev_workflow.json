@@ -1,0 +1,123 @@
+{
+ "tool": "dev/tools/checks/dev_workflow.js",
+ "ref": "the working tree (2830dac and its changes)",
+ "node": "v22.22.2",
+ "steps": [
+  {
+   "id": "1 the copy builds as committed",
+   "ok": true,
+   "note": "39 outputs; BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)"
+  },
+  {
+   "id": "2a a page module edited",
+   "ok": true,
+   "note": "src/frameworks/bpp/client/mp.session.js: ' · SHARED MONSTERS' -> ' · SHARED MONSTERS · DEV WORKFLOW CHECK'"
+  },
+  {
+   "id": "2b --check sees the outputs no longer match",
+   "ok": true,
+   "note": "NOT BUILT: public/mp.js: differs from what its sources build"
+  },
+  {
+   "id": "2c the build writes public/mp.js and the manifest, nothing else",
+   "ok": true,
+   "note": "written: generated/BUILD_MANIFEST.json, public/mp.js"
+  },
+  {
+   "id": "2d the new public/mp.js holds the edit, and --check passes",
+   "ok": true,
+   "note": "public/mp.js 7c05570a744b -> 3f2f588f0a01"
+  },
+  {
+   "id": "3a the server serves the new mp.js",
+   "ok": true,
+   "note": "GET /mp.js 200, 100277 bytes"
+  },
+  {
+   "id": "3b a real page shows the edit",
+   "ok": true,
+   "note": "#net: \"ONLINE · ROOM WORKFLOW35693 · 1 WANDERER · SHARED MONSTERS · DEV WORKFLOW CHECK\""
+  },
+  {
+   "id": "4a a server module edited",
+   "ok": true,
+   "note": "src/frameworks/ward/server/static.js: one more response header"
+  },
+  {
+   "id": "4b a server module is not built: --check passes, nothing written",
+   "ok": true,
+   "note": "BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)"
+  },
+  {
+   "id": "4c the restarted server answers with the new header",
+   "ok": true,
+   "note": "GET /index.html 200 x-dev-workflow-check: 1"
+  },
+  {
+   "id": "5a both edits undone: every output is byte for byte what it was",
+   "ok": true,
+   "note": "40 files identical"
+  },
+  {
+   "id": "5b the restarted server serves the original bytes, without the header",
+   "ok": true,
+   "note": "GET /mp.js 200, sha256 7c05570a744b"
+  },
+  {
+   "id": "5c the page's status line is the original's",
+   "ok": true,
+   "note": "#net: \"ONLINE · ROOM WORKFLOW35693 · 1 WANDERER · SHARED MONSTERS\""
+  },
+  {
+   "id": "6a build.js --clean deletes every output it builds",
+   "ok": true,
+   "note": "37 of 39 outputs gone; the compiled client's 2 stay (client.js makes them)"
+  },
+  {
+   "id": "6b a clean rebuild gives every output back, byte for byte",
+   "ok": true,
+   "note": "40 files identical; built 39 outputs (38 files written, 2 already up to date)"
+  },
+  {
+   "id": "7a a client source edited",
+   "ok": true,
+   "note": "src/core/client/game/shared/equipment.ts: the label of the flashlight's first part"
+  },
+  {
+   "id": "7b --check sees the client is not its record's build",
+   "ok": true,
+   "note": "BUILD ERROR: public/assets/index-D7hdwmUU.css: the client's sources are not the recorded build's (src/core/client/game/shared/equipment.ts: changed since the cl"
+  },
+  {
+   "id": "7c client.js --write and build.js write the bundle, its record and the manifest, nothing else",
+   "ok": true,
+   "note": "written: generated/BUILD_MANIFEST.json, generated/CLIENT_BUILD.json, public/assets/index-DKbV5Nv9.js"
+  },
+  {
+   "id": "7d the new bundle holds the edit",
+   "ok": true,
+   "note": "public/assets/index-DKbV5Nv9.js 9624ba479977 -> 7ef3442bd555"
+  },
+  {
+   "id": "7e the server serves the new bundle, and a real page sees the edit",
+   "ok": true,
+   "note": "GET 200; window.__api.gear.defs.flashlight[0][1] \"Body - DEV WORKFLOW CHECK\""
+  },
+  {
+   "id": "7f the edit undone and built again: every output and the record, byte for byte what they were",
+   "ok": true,
+   "note": "41 files identical"
+  },
+  {
+   "id": "7g the server serves the original bundle, and the page sees the original label",
+   "ok": true,
+   "note": "GET 200; window.__api.gear.defs.flashlight[0][1] \"Body\""
+  }
+ ],
+ "ok": true,
+ "copy": {
+  "files": 342
+ },
+ "chromium": "141.0.7390.37",
+ "client": "checked"
+}
