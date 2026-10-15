@@ -1,0 +1,38 @@
+# Stage 3H continuation, wave C0: the post-M8 audit (no runtime change)
+# The owner's continuation pack (2026-10-14) was checked against its SHA256SUMS.txt: 7 of 7 files OK, and its CLAUDE_EXECUTION_PROMPT.md
+# is the one attached to the request, byte for byte.  Its private security notes are not copied into this repository.
+
+## the anchor, before any change
+git ls-remote origin (stage-3h-engine-modernization, main, stage-3e-0-bplusplus, stage-3h)
+  stage-3h-engine-modernization  c34f0c22bbacc5ac2813d173bc0591b67af7169f  (M8: nothing pushed after it)
+  main                           7781e1ac34aa09970df57fae3fc107a873fa2731
+  stage-3e-0-bplusplus (B++)     143b63ff42b88c6780c5043e0f61d64100f81f40
+  stage-3h (frozen 3H2)          22751bbc39c91f3e54e3305638b2ef2c9dd12c68
+the worktree: HEAD c34f0c2, tree dfd11d402f1aed7ff049a3655667f6ae946b9afe, nothing modified or untracked; no other worktree on this branch
+
+## the toolchain (C1): can the recovered v11 project be installed here?
+npm view vite@8.3.1 version                                   ENOTFOUND: the session resolves no DNS for registry.npmjs.org directly
+npm view vite@8.3.1 version, through the session's proxy     HTTP 403 Forbidden: the network policy denies the registry
+  (the proxy's guidance: a 403 is a policy decision, reported, never routed around)
+local npm caches and global modules                          no Vite, Rolldown, PixiJS or TypeScript 7; only TypeScript 6.0.x
+the lockfile (src/core/client/bundle/original-v11/package-lock.json, v3): 73 packages; 31 needed on Linux x64
+  (vite 8.3.1, rolldown 1.2.11 with its Linux binding, typescript 7.0.2 with its Linux binary, lightningcss 1.33.0, pixi.js 8.21.0 and
+  their dependencies)
+=> C1 BLOCKED.  dev/stage-3h-modernization/tools/c1_fetch_locked_packages.js fetches and checks them on a machine with internet access.
+
+## the inventories
+node dev/stage-3h-modernization/tools/c0_audit.js                             exit 0
+  bundle steps: 40 (no net effect: B13, B17, B18)                  -> inventory/c0_bundle_steps.csv
+  public/camcorder.js    3 parts; cross-owner uses 3, writes 0     -> inventory/c0_parts_coupling.csv
+  public/ents.js         6 parts; cross-owner uses 16, writes 0
+  public/glitch.js       3 parts; cross-owner uses 1, writes 0
+  public/move.js         3 parts; cross-owner uses 5, writes 0
+  public/mp.js          16 parts; cross-owner uses 147, writes 31
+  public/world.js        6 parts; cross-owner uses 6, writes 0     (and generated/server/world.js: the same parts)
+  generated/server/ai.js 10 parts, one owner (N.A.N.I.); cross-owner uses 0
+  generated/server/sim.js 11 parts; cross-owner uses 134, writes 18
+  parts, world.js counted once: 58; cross-owner uses 312; cross-owner writes 49   -> inventory/c0_summary.json
+
+## the proof (no runtime file changed)
+node dev/tools/gate/gate.js --tier fast --out $SP/em3/work/gate_c0_fast   (gate_fast/)
+python3 -I -B dev/stage-3h-modernization/tools/secret_scan_m.py --extra <private list>   (secret_scan.*)

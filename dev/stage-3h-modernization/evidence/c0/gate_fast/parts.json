@@ -1,0 +1,2356 @@
+{
+ "tool": "dev/tools/checks/parts.js",
+ "typescript": "6.0.3",
+ "outputs": [
+  {
+   "out": "public/camcorder.js",
+   "closure": "ArrowFunction at character 4028",
+   "closureNames": 41,
+   "parts": [
+    {
+     "path": "src/frameworks/br-r/client/camcorder.js",
+     "statements": 5,
+     "provides": [
+      "CFG",
+      "FX",
+      "S",
+      "clamp"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/camcorder.audio.js",
+     "statements": 5,
+     "provides": [
+      "snd",
+      "whine"
+     ],
+     "uses": [
+      "S"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "S": "src/frameworks/br-r/client/camcorder.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/client/camcorder.view.js",
+     "statements": 46,
+     "provides": [],
+     "uses": [
+      "CFG",
+      "FX",
+      "S",
+      "clamp",
+      "snd",
+      "whine"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "S": "src/frameworks/br-r/client/camcorder.js",
+      "CFG": "src/frameworks/br-r/client/camcorder.js",
+      "clamp": "src/frameworks/br-r/client/camcorder.js",
+      "snd": "src/frameworks/spacious-audio/client/camcorder.audio.js",
+      "FX": "src/frameworks/br-r/client/camcorder.js",
+      "whine": "src/frameworks/spacious-audio/client/camcorder.audio.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "public/ents.js",
+   "closure": "ArrowFunction at character 325",
+   "closureNames": 63,
+   "parts": [
+    {
+     "path": "src/frameworks/br-r/client/ents.head.js",
+     "statements": 13,
+     "provides": [
+      "API",
+      "E",
+      "TAU",
+      "angDiff",
+      "clamp",
+      "lerp",
+      "rnd",
+      "sm"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/client/ents.hound.js",
+     "statements": 17,
+     "provides": [],
+     "uses": [
+      "E",
+      "TAU",
+      "clamp",
+      "lerp",
+      "rnd",
+      "sm"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "lerp": "src/frameworks/br-r/client/ents.head.js",
+      "rnd": "src/frameworks/br-r/client/ents.head.js",
+      "E": "src/frameworks/br-r/client/ents.head.js",
+      "clamp": "src/frameworks/br-r/client/ents.head.js",
+      "sm": "src/frameworks/br-r/client/ents.head.js",
+      "TAU": "src/frameworks/br-r/client/ents.head.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/client/ents.smiler.js",
+     "statements": 7,
+     "provides": [],
+     "uses": [
+      "E",
+      "TAU",
+      "clamp",
+      "sm"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "E": "src/frameworks/br-r/client/ents.head.js",
+      "TAU": "src/frameworks/br-r/client/ents.head.js",
+      "clamp": "src/frameworks/br-r/client/ents.head.js",
+      "sm": "src/frameworks/br-r/client/ents.head.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/gib/client/ents.death.js",
+     "statements": 8,
+     "provides": [],
+     "uses": [
+      "API",
+      "E",
+      "TAU",
+      "angDiff",
+      "clamp",
+      "sm"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "E": "src/frameworks/br-r/client/ents.head.js",
+      "sm": "src/frameworks/br-r/client/ents.head.js",
+      "clamp": "src/frameworks/br-r/client/ents.head.js",
+      "TAU": "src/frameworks/br-r/client/ents.head.js",
+      "API": "src/frameworks/br-r/client/ents.head.js",
+      "angDiff": "src/frameworks/br-r/client/ents.head.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/ents.audio.js",
+     "statements": 25,
+     "provides": [],
+     "uses": [
+      "API",
+      "E",
+      "clamp",
+      "lerp",
+      "rnd",
+      "sm"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "API": "src/frameworks/br-r/client/ents.head.js",
+      "sm": "src/frameworks/br-r/client/ents.head.js",
+      "clamp": "src/frameworks/br-r/client/ents.head.js",
+      "E": "src/frameworks/br-r/client/ents.head.js",
+      "rnd": "src/frameworks/br-r/client/ents.head.js",
+      "lerp": "src/frameworks/br-r/client/ents.head.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/overseer/client/ents.debug.js",
+     "statements": 31,
+     "provides": [],
+     "uses": [
+      "E",
+      "TAU",
+      "clamp",
+      "sm"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "E": "src/frameworks/br-r/client/ents.head.js",
+      "TAU": "src/frameworks/br-r/client/ents.head.js",
+      "clamp": "src/frameworks/br-r/client/ents.head.js",
+      "sm": "src/frameworks/br-r/client/ents.head.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "public/glitch.js",
+   "closure": "ArrowFunction at character 389",
+   "closureNames": 15,
+   "parts": [
+    {
+     "path": "src/frameworks/lost/client/glitch.js",
+     "statements": 6,
+     "provides": [
+      "NEAR",
+      "cv",
+      "cx",
+      "fx",
+      "rnd"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/glitch.audio.js",
+     "statements": 5,
+     "provides": [
+      "updateSnd"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/client/glitch.draw.js",
+     "statements": 4,
+     "provides": [],
+     "uses": [
+      "NEAR",
+      "cv",
+      "cx",
+      "fx",
+      "rnd",
+      "updateSnd"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "NEAR": "src/frameworks/lost/client/glitch.js",
+      "rnd": "src/frameworks/lost/client/glitch.js",
+      "cx": "src/frameworks/lost/client/glitch.js",
+      "cv": "src/frameworks/lost/client/glitch.js",
+      "updateSnd": "src/frameworks/spacious-audio/client/glitch.audio.js",
+      "fx": "src/frameworks/lost/client/glitch.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "public/move.js",
+   "closure": "ArrowFunction at character 697",
+   "closureNames": 35,
+   "parts": [
+    {
+     "path": "src/frameworks/space/client/move.js",
+     "statements": 29,
+     "provides": [
+      "A",
+      "SURF",
+      "clamp",
+      "mv"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/client/move.poses.js",
+     "statements": 1,
+     "provides": [],
+     "uses": [
+      "clamp"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "clamp": "src/frameworks/space/client/move.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/move.sound.js",
+     "statements": 8,
+     "provides": [],
+     "uses": [
+      "A",
+      "SURF",
+      "clamp",
+      "mv"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "A": "src/frameworks/space/client/move.js",
+      "clamp": "src/frameworks/space/client/move.js",
+      "SURF": "src/frameworks/space/client/move.js",
+      "mv": "src/frameworks/space/client/move.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "public/mp.js",
+   "closure": "ArrowFunction at character 388",
+   "closureNames": 170,
+   "parts": [
+    {
+     "path": "src/core/client/mp.js",
+     "statements": 21,
+     "provides": [
+      "EN",
+      "NET",
+      "PEER_MODE",
+      "PEER_SNAP",
+      "PN",
+      "bodiesList",
+      "buildHum",
+      "cpNow",
+      "cv",
+      "cx",
+      "dread",
+      "everConnected",
+      "exited",
+      "fastAck",
+      "game",
+      "graceUntil",
+      "hMap",
+      "hSlots",
+      "handled",
+      "humUpdate",
+      "kicked",
+      "killSeq",
+      "lastK",
+      "lastSend",
+      "light",
+      "lookStr",
+      "me",
+      "mseq",
+      "myId",
+      "net",
+      "netHist",
+      "netPose",
+      "netReset",
+      "nrButton",
+      "parseLook",
+      "partList",
+      "partObj",
+      "peersN",
+      "retry",
+      "room",
+      "runMenuWords",
+      "sSlot",
+      "snap",
+      "toRec",
+      "ws"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/bpp/client/mp.net.js",
+     "statements": 3,
+     "provides": [
+      "N",
+      "adm",
+      "peers"
+     ],
+     "uses": [
+      "applyBodies",
+      "blend",
+      "blendStep",
+      "exited",
+      "graceUntil",
+      "hMap",
+      "handled",
+      "me",
+      "mseq",
+      "myId",
+      "nrBusy",
+      "nrBusyAt",
+      "nrButton",
+      "nrQ",
+      "nrSent",
+      "nrWaitT",
+      "runMenuWords",
+      "startFx",
+      "tx",
+      "worldW",
+      "ws"
+     ],
+     "writes": [
+      "exited",
+      "graceUntil",
+      "handled",
+      "nrBusy",
+      "nrBusyAt",
+      "nrQ",
+      "nrWaitT"
+     ],
+     "usesFrom": {
+      "blend": "src/frameworks/space/client/mp.peers.js",
+      "blendStep": "src/frameworks/space/client/mp.peers.js",
+      "me": "src/core/client/mp.js",
+      "mseq": "src/core/client/mp.js",
+      "handled": "src/core/client/mp.js",
+      "myId": "src/core/client/mp.js",
+      "hMap": "src/core/client/mp.js",
+      "nrBusy": "src/frameworks/bpp/client/mp.newrun.js",
+      "runMenuWords": "src/core/client/mp.js",
+      "exited": "src/core/client/mp.js",
+      "graceUntil": "src/core/client/mp.js",
+      "tx": "src/frameworks/bpp/client/mp.transport.js",
+      "applyBodies": "src/frameworks/gib/client/mp.bodies.js",
+      "startFx": "src/frameworks/gib/client/mp.replays.js",
+      "ws": "src/core/client/mp.js",
+      "nrBusyAt": "src/frameworks/bpp/client/mp.newrun.js",
+      "nrQ": "src/frameworks/bpp/client/mp.newrun.js",
+      "nrSent": "src/frameworks/bpp/client/mp.newrun.js",
+      "nrButton": "src/core/client/mp.js",
+      "worldW": "src/frameworks/bpp/client/mp.newrun.js",
+      "nrWaitT": "src/frameworks/bpp/client/mp.newrun.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/gib/client/mp.owndeath.js",
+     "statements": 2,
+     "provides": [
+      "mkAt",
+      "ownDeath"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/bpp/client/mp.newrun.js",
+     "statements": 4,
+     "provides": [
+      "nrAnswer",
+      "nrBusy",
+      "nrBusyAt",
+      "nrLast",
+      "nrQ",
+      "nrSent",
+      "nrWaitT",
+      "worldW"
+     ],
+     "uses": [
+      "nrButton",
+      "runMenuWords"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "nrButton": "src/core/client/mp.js",
+      "runMenuWords": "src/core/client/mp.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/client/mp.peers.js",
+     "statements": 14,
+     "provides": [
+      "blend",
+      "blendStep",
+      "oldWorld",
+      "peerPoses",
+      "softTp",
+      "solidHeld",
+      "solidPeers",
+      "worldNew"
+     ],
+     "uses": [
+      "PEER_MODE",
+      "PEER_SNAP",
+      "PN",
+      "cpNow",
+      "exited",
+      "fastAck",
+      "fxs",
+      "handled",
+      "killFx",
+      "lastK",
+      "me",
+      "mkAt",
+      "mseq",
+      "myId",
+      "nrBusy",
+      "ownDeath",
+      "peers",
+      "stainAt",
+      "worldW"
+     ],
+     "writes": [
+      "handled",
+      "lastK",
+      "mkAt",
+      "ownDeath",
+      "stainAt",
+      "worldW"
+     ],
+     "usesFrom": {
+      "me": "src/core/client/mp.js",
+      "cpNow": "src/core/client/mp.js",
+      "nrBusy": "src/frameworks/bpp/client/mp.newrun.js",
+      "exited": "src/core/client/mp.js",
+      "PN": "src/core/client/mp.js",
+      "PEER_MODE": "src/core/client/mp.js",
+      "worldW": "src/frameworks/bpp/client/mp.newrun.js",
+      "lastK": "src/core/client/mp.js",
+      "peers": "src/frameworks/bpp/client/mp.net.js",
+      "PEER_SNAP": "src/core/client/mp.js",
+      "fastAck": "src/core/client/mp.js",
+      "fxs": "src/frameworks/gib/client/mp.replays.js",
+      "killFx": "src/frameworks/gib/client/mp.replays.js",
+      "handled": "src/core/client/mp.js",
+      "mseq": "src/core/client/mp.js",
+      "ownDeath": "src/frameworks/gib/client/mp.owndeath.js",
+      "mkAt": "src/frameworks/gib/client/mp.owndeath.js",
+      "myId": "src/core/client/mp.js",
+      "stainAt": "src/frameworks/gib/client/mp.replays.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/bpp/client/mp.transport.js",
+     "statements": 3,
+     "provides": [
+      "tx"
+     ],
+     "uses": [
+      "EN",
+      "N",
+      "PEER_MODE",
+      "PEER_SNAP",
+      "PN",
+      "adm",
+      "announceKill",
+      "applyBodies",
+      "blend",
+      "bodiesList",
+      "cpNow",
+      "doExit",
+      "dropAvatar",
+      "entitySignals",
+      "everConnected",
+      "fastAck",
+      "fxs",
+      "giveItem",
+      "hMap",
+      "hSlots",
+      "handled",
+      "kicked",
+      "killFx",
+      "killSeq",
+      "lastK",
+      "me",
+      "mkAt",
+      "mseq",
+      "myId",
+      "net",
+      "netHist",
+      "netReset",
+      "nrAnswer",
+      "nrBusy",
+      "nrButton",
+      "nrSent",
+      "nrWaitT",
+      "oldWorld",
+      "peerPoses",
+      "peers",
+      "peersN",
+      "pendSt",
+      "relOf",
+      "renderAdmin",
+      "renderAdminData",
+      "renderStatus",
+      "retry",
+      "room",
+      "sSlot",
+      "showMsg",
+      "snap",
+      "softTp",
+      "solidHeld",
+      "solidPeers",
+      "stNote",
+      "startFx",
+      "worldNew",
+      "worldW",
+      "ws"
+     ],
+     "writes": [
+      "blend",
+      "bodiesList",
+      "cpNow",
+      "everConnected",
+      "fastAck",
+      "handled",
+      "kicked",
+      "killSeq",
+      "lastK",
+      "me",
+      "mkAt",
+      "mseq",
+      "myId",
+      "nrBusy",
+      "peersN",
+      "retry",
+      "snap",
+      "solidHeld",
+      "worldW",
+      "ws"
+     ],
+     "usesFrom": {
+      "ws": "src/core/client/mp.js",
+      "room": "src/core/client/mp.js",
+      "netReset": "src/core/client/mp.js",
+      "fastAck": "src/core/client/mp.js",
+      "lastK": "src/core/client/mp.js",
+      "PEER_MODE": "src/core/client/mp.js",
+      "retry": "src/core/client/mp.js",
+      "handled": "src/core/client/mp.js",
+      "mseq": "src/core/client/mp.js",
+      "me": "src/core/client/mp.js",
+      "everConnected": "src/core/client/mp.js",
+      "adm": "src/frameworks/bpp/client/mp.net.js",
+      "N": "src/frameworks/bpp/client/mp.net.js",
+      "myId": "src/core/client/mp.js",
+      "renderAdmin": "src/frameworks/overseer/client/mp.deathlab.js",
+      "softTp": "src/frameworks/space/client/mp.peers.js",
+      "blend": "src/frameworks/space/client/mp.peers.js",
+      "peerPoses": "src/frameworks/space/client/mp.peers.js",
+      "worldNew": "src/frameworks/space/client/mp.peers.js",
+      "showMsg": "src/frameworks/overseer/client/mp.admin.js",
+      "renderAdminData": "src/frameworks/overseer/client/mp.deathlab.js",
+      "renderStatus": "src/frameworks/overseer/client/mp.deathlab.js",
+      "EN": "src/core/client/mp.js",
+      "kicked": "src/core/client/mp.js",
+      "oldWorld": "src/frameworks/space/client/mp.peers.js",
+      "bodiesList": "src/core/client/mp.js",
+      "relOf": "src/frameworks/gib/client/mp.replays.js",
+      "pendSt": "src/frameworks/gib/client/mp.replays.js",
+      "applyBodies": "src/frameworks/gib/client/mp.bodies.js",
+      "startFx": "src/frameworks/gib/client/mp.replays.js",
+      "doExit": "src/frameworks/lost/client/mp.glitch.js",
+      "nrAnswer": "src/frameworks/bpp/client/mp.newrun.js",
+      "giveItem": "src/frameworks/pocket/client/mp.cartograph.js",
+      "PN": "src/core/client/mp.js",
+      "peers": "src/frameworks/bpp/client/mp.net.js",
+      "PEER_SNAP": "src/core/client/mp.js",
+      "dropAvatar": "src/frameworks/br-r/client/mp.wanderers.js",
+      "peersN": "src/core/client/mp.js",
+      "cpNow": "src/core/client/mp.js",
+      "worldW": "src/frameworks/bpp/client/mp.newrun.js",
+      "solidPeers": "src/frameworks/space/client/mp.peers.js",
+      "killSeq": "src/core/client/mp.js",
+      "mkAt": "src/frameworks/gib/client/mp.owndeath.js",
+      "stNote": "src/frameworks/gib/client/mp.replays.js",
+      "announceKill": "src/frameworks/nani/client/mp.monsters.js",
+      "snap": "src/core/client/mp.js",
+      "entitySignals": "src/frameworks/nani/client/mp.monsters.js",
+      "netHist": "src/core/client/mp.js",
+      "nrSent": "src/frameworks/bpp/client/mp.newrun.js",
+      "nrBusy": "src/frameworks/bpp/client/mp.newrun.js",
+      "nrWaitT": "src/frameworks/bpp/client/mp.newrun.js",
+      "nrButton": "src/core/client/mp.js",
+      "solidHeld": "src/frameworks/space/client/mp.peers.js",
+      "fxs": "src/frameworks/gib/client/mp.replays.js",
+      "killFx": "src/frameworks/gib/client/mp.replays.js",
+      "hMap": "src/core/client/mp.js",
+      "hSlots": "src/core/client/mp.js",
+      "sSlot": "src/core/client/mp.js",
+      "net": "src/core/client/mp.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/client/mp.monsters.js",
+     "statements": 9,
+     "provides": [
+      "angDiff",
+      "announceKill",
+      "applyCaught",
+      "applyServerState",
+      "entitySignals",
+      "hitFlash"
+     ],
+     "uses": [
+      "EN",
+      "N",
+      "NET",
+      "cpNow",
+      "graceUntil",
+      "hMap",
+      "hSlots",
+      "netPose",
+      "sSlot",
+      "snap"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "hMap": "src/core/client/mp.js",
+      "sSlot": "src/core/client/mp.js",
+      "EN": "src/core/client/mp.js",
+      "netPose": "src/core/client/mp.js",
+      "NET": "src/core/client/mp.js",
+      "hSlots": "src/core/client/mp.js",
+      "snap": "src/core/client/mp.js",
+      "graceUntil": "src/core/client/mp.js",
+      "N": "src/frameworks/bpp/client/mp.net.js",
+      "cpNow": "src/core/client/mp.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/client/mp.glitch.js",
+     "statements": 3,
+     "provides": [
+      "doExit",
+      "soloGlitches"
+     ],
+     "uses": [
+      "N",
+      "exited"
+     ],
+     "writes": [
+      "exited"
+     ],
+     "usesFrom": {
+      "exited": "src/core/client/mp.js",
+      "N": "src/frameworks/bpp/client/mp.net.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/pocket/client/mp.cartograph.js",
+     "statements": 4,
+     "provides": [
+      "giveItem",
+      "itemsFrame",
+      "soloItem"
+     ],
+     "uses": [
+      "N",
+      "tx"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "N": "src/frameworks/bpp/client/mp.net.js",
+      "tx": "src/frameworks/bpp/client/mp.transport.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/gib/client/mp.bodies.js",
+     "statements": 2,
+     "provides": [
+      "applyBodies",
+      "hasBody"
+     ],
+     "uses": [
+      "bodiesList",
+      "myId",
+      "toRec"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "bodiesList": "src/core/client/mp.js",
+      "myId": "src/core/client/mp.js",
+      "toRec": "src/core/client/mp.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/mp.dread.js",
+     "statements": 10,
+     "provides": [
+      "ac",
+      "beatT",
+      "burst",
+      "dg",
+      "soundOn",
+      "thump"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/client/mp.wanderers.js",
+     "statements": 7,
+     "provides": [
+      "dropAvatar",
+      "mx",
+      "my",
+      "tip",
+      "view"
+     ],
+     "uses": [
+      "peers"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "peers": "src/frameworks/bpp/client/mp.net.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/gib/client/mp.replays.js",
+     "statements": 31,
+     "provides": [
+      "drawPeers",
+      "fxs",
+      "killFx",
+      "pendSt",
+      "relOf",
+      "stNote",
+      "stainAt",
+      "startFx"
+     ],
+     "uses": [
+      "EN",
+      "N",
+      "NET",
+      "PEER_MODE",
+      "angDiff",
+      "bodiesList",
+      "cx",
+      "hMap",
+      "hasBody",
+      "mx",
+      "my",
+      "myId",
+      "ownDeath",
+      "parseLook",
+      "partObj",
+      "peers",
+      "tip",
+      "view"
+     ],
+     "writes": [
+      "view"
+     ],
+     "usesFrom": {
+      "myId": "src/core/client/mp.js",
+      "parseLook": "src/core/client/mp.js",
+      "partObj": "src/core/client/mp.js",
+      "peers": "src/frameworks/bpp/client/mp.net.js",
+      "bodiesList": "src/core/client/mp.js",
+      "EN": "src/core/client/mp.js",
+      "hMap": "src/core/client/mp.js",
+      "NET": "src/core/client/mp.js",
+      "ownDeath": "src/frameworks/gib/client/mp.owndeath.js",
+      "view": "src/frameworks/br-r/client/mp.wanderers.js",
+      "PEER_MODE": "src/core/client/mp.js",
+      "angDiff": "src/frameworks/nani/client/mp.monsters.js",
+      "hasBody": "src/frameworks/gib/client/mp.bodies.js",
+      "mx": "src/frameworks/br-r/client/mp.wanderers.js",
+      "my": "src/frameworks/br-r/client/mp.wanderers.js",
+      "N": "src/frameworks/bpp/client/mp.net.js",
+      "cx": "src/core/client/mp.js",
+      "tip": "src/frameworks/br-r/client/mp.wanderers.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/overseer/client/mp.admin.js",
+     "statements": 33,
+     "provides": [
+      "$a",
+      "LS",
+      "TABS",
+      "bodyMonsters",
+      "bodyPlayers",
+      "btn",
+      "live",
+      "liveMap",
+      "panel",
+      "rowW",
+      "sec",
+      "showMsg"
+     ],
+     "uses": [
+      "adm"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "adm": "src/frameworks/bpp/client/mp.net.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/overseer/client/mp.deathlab.js",
+     "statements": 24,
+     "provides": [
+      "previewTick",
+      "renderAdmin",
+      "renderAdminData",
+      "renderStatus"
+     ],
+     "uses": [
+      "$a",
+      "EN",
+      "LS",
+      "N",
+      "TABS",
+      "adm",
+      "bodyMonsters",
+      "bodyPlayers",
+      "btn",
+      "buildHum",
+      "giveItem",
+      "live",
+      "liveMap",
+      "myId",
+      "nrLast",
+      "panel",
+      "room",
+      "rowW",
+      "sec",
+      "tx",
+      "ws"
+     ],
+     "writes": [
+      "liveMap"
+     ],
+     "usesFrom": {
+      "btn": "src/frameworks/overseer/client/mp.admin.js",
+      "adm": "src/frameworks/bpp/client/mp.net.js",
+      "sec": "src/frameworks/overseer/client/mp.admin.js",
+      "rowW": "src/frameworks/overseer/client/mp.admin.js",
+      "nrLast": "src/frameworks/bpp/client/mp.newrun.js",
+      "live": "src/frameworks/overseer/client/mp.admin.js",
+      "bodyPlayers": "src/frameworks/overseer/client/mp.admin.js",
+      "bodyMonsters": "src/frameworks/overseer/client/mp.admin.js",
+      "$a": "src/frameworks/overseer/client/mp.admin.js",
+      "TABS": "src/frameworks/overseer/client/mp.admin.js",
+      "panel": "src/frameworks/overseer/client/mp.admin.js",
+      "ws": "src/core/client/mp.js",
+      "room": "src/core/client/mp.js",
+      "liveMap": "src/frameworks/overseer/client/mp.admin.js",
+      "tx": "src/frameworks/bpp/client/mp.transport.js",
+      "EN": "src/core/client/mp.js",
+      "LS": "src/frameworks/overseer/client/mp.admin.js",
+      "myId": "src/core/client/mp.js",
+      "giveItem": "src/frameworks/pocket/client/mp.cartograph.js",
+      "N": "src/frameworks/bpp/client/mp.net.js",
+      "buildHum": "src/core/client/mp.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/core/client/mp.frame.js",
+     "statements": 2,
+     "provides": [],
+     "uses": [
+      "EN",
+      "N",
+      "ac",
+      "adm",
+      "applyCaught",
+      "applyServerState",
+      "beatT",
+      "burst",
+      "cv",
+      "cx",
+      "dg",
+      "drawPeers",
+      "dread",
+      "exited",
+      "fastAck",
+      "game",
+      "hSlots",
+      "handled",
+      "hitFlash",
+      "humUpdate",
+      "itemsFrame",
+      "lastSend",
+      "light",
+      "lookStr",
+      "me",
+      "mseq",
+      "net",
+      "partList",
+      "peersN",
+      "previewTick",
+      "room",
+      "soloGlitches",
+      "soloItem",
+      "soundOn",
+      "thump",
+      "ws"
+     ],
+     "writes": [
+      "beatT",
+      "hitFlash",
+      "lastSend"
+     ],
+     "usesFrom": {
+      "cv": "src/core/client/mp.js",
+      "cx": "src/core/client/mp.js",
+      "N": "src/frameworks/bpp/client/mp.net.js",
+      "me": "src/core/client/mp.js",
+      "mseq": "src/core/client/mp.js",
+      "handled": "src/core/client/mp.js",
+      "previewTick": "src/frameworks/overseer/client/mp.deathlab.js",
+      "applyServerState": "src/frameworks/nani/client/mp.monsters.js",
+      "applyCaught": "src/frameworks/nani/client/mp.monsters.js",
+      "EN": "src/core/client/mp.js",
+      "hSlots": "src/core/client/mp.js",
+      "exited": "src/core/client/mp.js",
+      "soloGlitches": "src/frameworks/lost/client/mp.glitch.js",
+      "soloItem": "src/frameworks/pocket/client/mp.cartograph.js",
+      "itemsFrame": "src/frameworks/pocket/client/mp.cartograph.js",
+      "humUpdate": "src/core/client/mp.js",
+      "ws": "src/core/client/mp.js",
+      "lastSend": "src/core/client/mp.js",
+      "fastAck": "src/core/client/mp.js",
+      "partList": "src/core/client/mp.js",
+      "lookStr": "src/core/client/mp.js",
+      "net": "src/core/client/mp.js",
+      "room": "src/core/client/mp.js",
+      "peersN": "src/core/client/mp.js",
+      "adm": "src/frameworks/bpp/client/mp.net.js",
+      "drawPeers": "src/frameworks/gib/client/mp.replays.js",
+      "dg": "src/frameworks/spacious-audio/client/mp.dread.js",
+      "ac": "src/frameworks/spacious-audio/client/mp.dread.js",
+      "soundOn": "src/frameworks/spacious-audio/client/mp.dread.js",
+      "beatT": "src/frameworks/spacious-audio/client/mp.dread.js",
+      "thump": "src/frameworks/spacious-audio/client/mp.dread.js",
+      "hitFlash": "src/frameworks/nani/client/mp.monsters.js",
+      "dread": "src/core/client/mp.js",
+      "game": "src/core/client/mp.js",
+      "light": "src/core/client/mp.js",
+      "burst": "src/frameworks/spacious-audio/client/mp.dread.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "public/world.js",
+   "closure": "FunctionExpression at character 779",
+   "closureNames": 12,
+   "parts": [
+    {
+     "path": "src/frameworks/space/shared/world.js",
+     "statements": 12,
+     "provides": [
+      "LOW",
+      "PROPS",
+      "T",
+      "W"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/shared/world.lamps.js",
+     "statements": 4,
+     "provides": [],
+     "uses": [
+      "T",
+      "W"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "W": "src/frameworks/space/shared/world.js",
+      "T": "src/frameworks/space/shared/world.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/shared/world.crawl.js",
+     "statements": 7,
+     "provides": [],
+     "uses": [
+      "LOW",
+      "PROPS",
+      "W"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "W": "src/frameworks/space/shared/world.js",
+      "PROPS": "src/frameworks/space/shared/world.js",
+      "LOW": "src/frameworks/space/shared/world.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/shared/world.surfaces.js",
+     "statements": 3,
+     "provides": [],
+     "uses": [
+      "T",
+      "W"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "W": "src/frameworks/space/shared/world.js",
+      "T": "src/frameworks/space/shared/world.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/shared/world.move.js",
+     "statements": 5,
+     "provides": [],
+     "uses": [
+      "W"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "W": "src/frameworks/space/shared/world.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/shared/world.art.js",
+     "statements": 5,
+     "provides": [],
+     "uses": [
+      "PROPS",
+      "W"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "W": "src/frameworks/space/shared/world.js",
+      "PROPS": "src/frameworks/space/shared/world.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "generated/server/ai.js",
+   "closure": "FunctionExpression at character 976",
+   "closureNames": 201,
+   "parts": [
+    {
+     "path": "src/frameworks/nani/server/ai.head.js",
+     "statements": 15,
+     "provides": [
+      "Hash",
+      "S",
+      "SCODE",
+      "SNAMES",
+      "TAU",
+      "TRAITS",
+      "WORLD",
+      "angDiff",
+      "clamp",
+      "deriveSeed",
+      "dist",
+      "entityStreams",
+      "lerp",
+      "mkRng",
+      "sm"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.geo.js",
+     "statements": 6,
+     "provides": [
+      "Geo",
+      "OL"
+     ],
+     "uses": [
+      "WORLD",
+      "sm"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "WORLD": "src/frameworks/nani/server/ai.head.js",
+      "sm": "src/frameworks/nani/server/ai.head.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.senses.js",
+     "statements": 27,
+     "provides": [
+      "LEAD_MAXAGE",
+      "W_SN",
+      "addLead",
+      "bestAnonLead",
+      "bestLead",
+      "decayMemory",
+      "estimate",
+      "facedBy",
+      "hearEvent",
+      "memAge",
+      "memHalfLife",
+      "newMemory",
+      "noteEv",
+      "perc",
+      "rec",
+      "setTarget",
+      "tgtGone",
+      "threatsAround",
+      "touching",
+      "updateVision",
+      "visualObservation"
+     ],
+     "uses": [
+      "INTEL",
+      "S",
+      "TAU",
+      "WORLD",
+      "angDiff",
+      "clamp",
+      "evidenceModality",
+      "forgetIdentity",
+      "habitObserve",
+      "identifySound",
+      "lerp",
+      "observationScore"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "INTEL": "src/frameworks/nani/server/ai.intelligence.js",
+      "forgetIdentity": "src/frameworks/nani/server/ai.intelligence.js",
+      "evidenceModality": "src/frameworks/nani/server/ai.intelligence.js",
+      "observationScore": "src/frameworks/nani/server/ai.intelligence.js",
+      "angDiff": "src/frameworks/nani/server/ai.head.js",
+      "lerp": "src/frameworks/nani/server/ai.head.js",
+      "clamp": "src/frameworks/nani/server/ai.head.js",
+      "WORLD": "src/frameworks/nani/server/ai.head.js",
+      "habitObserve": "src/frameworks/nani/server/ai.intelligence.js",
+      "identifySound": "src/frameworks/nani/server/ai.intelligence.js",
+      "S": "src/frameworks/nani/server/ai.head.js",
+      "TAU": "src/frameworks/nani/server/ai.head.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.intelligence.js",
+     "statements": 14,
+     "provides": [
+      "INTEL",
+      "arbitrateEvidence",
+      "cleanHabits",
+      "cleanupKnowledge",
+      "evidenceCandidates",
+      "evidenceModality",
+      "forgetIdentity",
+      "habitBias",
+      "habitObserve",
+      "identifySound",
+      "intelligenceDebug",
+      "observationScore"
+     ],
+     "uses": [
+      "LEAD_MAXAGE",
+      "S",
+      "SM_DWELL",
+      "clamp",
+      "hDwell",
+      "hMaySwitch",
+      "houndTargetScore",
+      "memHalfLife",
+      "sScore",
+      "tgtGone",
+      "visualObservation"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "clamp": "src/frameworks/nani/server/ai.head.js",
+      "memHalfLife": "src/frameworks/nani/server/ai.senses.js",
+      "LEAD_MAXAGE": "src/frameworks/nani/server/ai.senses.js",
+      "visualObservation": "src/frameworks/nani/server/ai.senses.js",
+      "S": "src/frameworks/nani/server/ai.head.js",
+      "houndTargetScore": "src/frameworks/nani/server/ai.hound.js",
+      "sScore": "src/frameworks/nani/server/ai.smiler.js",
+      "tgtGone": "src/frameworks/nani/server/ai.senses.js",
+      "hMaySwitch": "src/frameworks/nani/server/ai.hound.js",
+      "hDwell": "src/frameworks/nani/server/ai.hound.js",
+      "SM_DWELL": "src/frameworks/nani/server/ai.smiler.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.light.js",
+     "statements": 8,
+     "provides": [
+      "lightSense"
+     ],
+     "uses": [
+      "TAU",
+      "addLead",
+      "angDiff",
+      "bestAnonLead",
+      "clamp",
+      "noteEv",
+      "observationScore",
+      "sm"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "TAU": "src/frameworks/nani/server/ai.head.js",
+      "sm": "src/frameworks/nani/server/ai.head.js",
+      "angDiff": "src/frameworks/nani/server/ai.head.js",
+      "clamp": "src/frameworks/nani/server/ai.head.js",
+      "noteEv": "src/frameworks/nani/server/ai.senses.js",
+      "addLead": "src/frameworks/nani/server/ai.senses.js",
+      "bestAnonLead": "src/frameworks/nani/server/ai.senses.js",
+      "observationScore": "src/frameworks/nani/server/ai.intelligence.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.entity.js",
+     "statements": 29,
+     "provides": [
+      "approach",
+      "coarseMove",
+      "directOk",
+      "directTo",
+      "faceToward",
+      "follow",
+      "goTo",
+      "mkEntity",
+      "moodTick",
+      "moveCollide",
+      "navOf",
+      "plan",
+      "randomFloor",
+      "setAct",
+      "setState",
+      "steerTo",
+      "stopMoving",
+      "tierOf",
+      "turnTo"
+     ],
+     "uses": [
+      "OL",
+      "S",
+      "SPECIES",
+      "TAU",
+      "TRAITS",
+      "angDiff",
+      "clamp",
+      "entityStreams",
+      "lerp",
+      "newMemory"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "TRAITS": "src/frameworks/nani/server/ai.head.js",
+      "clamp": "src/frameworks/nani/server/ai.head.js",
+      "SPECIES": "src/frameworks/nani/server/ai.engine.js",
+      "entityStreams": "src/frameworks/nani/server/ai.head.js",
+      "TAU": "src/frameworks/nani/server/ai.head.js",
+      "OL": "src/frameworks/nani/server/ai.geo.js",
+      "S": "src/frameworks/nani/server/ai.head.js",
+      "newMemory": "src/frameworks/nani/server/ai.senses.js",
+      "angDiff": "src/frameworks/nani/server/ai.head.js",
+      "lerp": "src/frameworks/nani/server/ai.head.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.capture.js",
+     "statements": 17,
+     "provides": [
+      "beginCapture",
+      "capStep",
+      "commitEnd",
+      "commitTick",
+      "finishCapture",
+      "killNow",
+      "pickW",
+      "previewKill",
+      "rand"
+     ],
+     "uses": [
+      "TAU",
+      "angDiff",
+      "clamp",
+      "setAct",
+      "stopMoving",
+      "threatsAround"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "TAU": "src/frameworks/nani/server/ai.head.js",
+      "threatsAround": "src/frameworks/nani/server/ai.senses.js",
+      "clamp": "src/frameworks/nani/server/ai.head.js",
+      "angDiff": "src/frameworks/nani/server/ai.head.js",
+      "setAct": "src/frameworks/nani/server/ai.entity.js",
+      "stopMoving": "src/frameworks/nani/server/ai.entity.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.hound.js",
+     "statements": 45,
+     "provides": [
+      "HACT",
+      "HOUND",
+      "beginHunt",
+      "beginSearch",
+      "hDebug",
+      "hDwell",
+      "hMaySwitch",
+      "houndTargetScore"
+     ],
+     "uses": [
+      "S",
+      "SCODE",
+      "TAU",
+      "WORLD",
+      "angDiff",
+      "approach",
+      "bestAnonLead",
+      "clamp",
+      "commitTick",
+      "directOk",
+      "directTo",
+      "dist",
+      "estimate",
+      "faceToward",
+      "facedBy",
+      "follow",
+      "goTo",
+      "habitBias",
+      "lerp",
+      "memAge",
+      "moveCollide",
+      "pickW",
+      "plan",
+      "rand",
+      "randomFloor",
+      "rec",
+      "setAct",
+      "setState",
+      "setTarget",
+      "steerTo",
+      "stopMoving",
+      "tgtGone",
+      "turnTo"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "S": "src/frameworks/nani/server/ai.head.js",
+      "rand": "src/frameworks/nani/server/ai.capture.js",
+      "setAct": "src/frameworks/nani/server/ai.entity.js",
+      "facedBy": "src/frameworks/nani/server/ai.senses.js",
+      "faceToward": "src/frameworks/nani/server/ai.entity.js",
+      "estimate": "src/frameworks/nani/server/ai.senses.js",
+      "bestAnonLead": "src/frameworks/nani/server/ai.senses.js",
+      "setState": "src/frameworks/nani/server/ai.entity.js",
+      "stopMoving": "src/frameworks/nani/server/ai.entity.js",
+      "goTo": "src/frameworks/nani/server/ai.entity.js",
+      "follow": "src/frameworks/nani/server/ai.entity.js",
+      "dist": "src/frameworks/nani/server/ai.head.js",
+      "memAge": "src/frameworks/nani/server/ai.senses.js",
+      "tgtGone": "src/frameworks/nani/server/ai.senses.js",
+      "randomFloor": "src/frameworks/nani/server/ai.entity.js",
+      "plan": "src/frameworks/nani/server/ai.entity.js",
+      "clamp": "src/frameworks/nani/server/ai.head.js",
+      "lerp": "src/frameworks/nani/server/ai.head.js",
+      "habitBias": "src/frameworks/nani/server/ai.intelligence.js",
+      "TAU": "src/frameworks/nani/server/ai.head.js",
+      "angDiff": "src/frameworks/nani/server/ai.head.js",
+      "WORLD": "src/frameworks/nani/server/ai.head.js",
+      "setTarget": "src/frameworks/nani/server/ai.senses.js",
+      "turnTo": "src/frameworks/nani/server/ai.entity.js",
+      "approach": "src/frameworks/nani/server/ai.entity.js",
+      "moveCollide": "src/frameworks/nani/server/ai.entity.js",
+      "directOk": "src/frameworks/nani/server/ai.entity.js",
+      "directTo": "src/frameworks/nani/server/ai.entity.js",
+      "commitTick": "src/frameworks/nani/server/ai.capture.js",
+      "steerTo": "src/frameworks/nani/server/ai.entity.js",
+      "rec": "src/frameworks/nani/server/ai.senses.js",
+      "pickW": "src/frameworks/nani/server/ai.capture.js",
+      "SCODE": "src/frameworks/nani/server/ai.head.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.smiler.js",
+     "statements": 36,
+     "provides": [
+      "SACT",
+      "SMILER",
+      "SM_DWELL",
+      "beginDrawn",
+      "beginHidden",
+      "beginStalk",
+      "sScore"
+     ],
+     "uses": [
+      "S",
+      "SCODE",
+      "TAU",
+      "angDiff",
+      "approach",
+      "clamp",
+      "directOk",
+      "directTo",
+      "dist",
+      "estimate",
+      "faceToward",
+      "facedBy",
+      "follow",
+      "goTo",
+      "habitBias",
+      "lerp",
+      "moveCollide",
+      "perc",
+      "pickW",
+      "plan",
+      "rand",
+      "rec",
+      "setAct",
+      "setState",
+      "setTarget",
+      "stopMoving",
+      "tgtGone",
+      "touching"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "S": "src/frameworks/nani/server/ai.head.js",
+      "clamp": "src/frameworks/nani/server/ai.head.js",
+      "lerp": "src/frameworks/nani/server/ai.head.js",
+      "TAU": "src/frameworks/nani/server/ai.head.js",
+      "setState": "src/frameworks/nani/server/ai.entity.js",
+      "plan": "src/frameworks/nani/server/ai.entity.js",
+      "setTarget": "src/frameworks/nani/server/ai.senses.js",
+      "facedBy": "src/frameworks/nani/server/ai.senses.js",
+      "perc": "src/frameworks/nani/server/ai.senses.js",
+      "tgtGone": "src/frameworks/nani/server/ai.senses.js",
+      "estimate": "src/frameworks/nani/server/ai.senses.js",
+      "stopMoving": "src/frameworks/nani/server/ai.entity.js",
+      "follow": "src/frameworks/nani/server/ai.entity.js",
+      "setAct": "src/frameworks/nani/server/ai.entity.js",
+      "angDiff": "src/frameworks/nani/server/ai.head.js",
+      "habitBias": "src/frameworks/nani/server/ai.intelligence.js",
+      "faceToward": "src/frameworks/nani/server/ai.entity.js",
+      "goTo": "src/frameworks/nani/server/ai.entity.js",
+      "rand": "src/frameworks/nani/server/ai.capture.js",
+      "moveCollide": "src/frameworks/nani/server/ai.entity.js",
+      "directOk": "src/frameworks/nani/server/ai.entity.js",
+      "directTo": "src/frameworks/nani/server/ai.entity.js",
+      "touching": "src/frameworks/nani/server/ai.senses.js",
+      "dist": "src/frameworks/nani/server/ai.head.js",
+      "pickW": "src/frameworks/nani/server/ai.capture.js",
+      "approach": "src/frameworks/nani/server/ai.entity.js",
+      "rec": "src/frameworks/nani/server/ai.senses.js",
+      "SCODE": "src/frameworks/nani/server/ai.head.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.engine.js",
+     "statements": 6,
+     "provides": [
+      "SPECIES"
+     ],
+     "uses": [
+      "Geo",
+      "HACT",
+      "HOUND",
+      "Hash",
+      "INTEL",
+      "S",
+      "SACT",
+      "SCODE",
+      "SMILER",
+      "SNAMES",
+      "TRAITS",
+      "WORLD",
+      "W_SN",
+      "angDiff",
+      "arbitrateEvidence",
+      "beginCapture",
+      "beginDrawn",
+      "beginHidden",
+      "beginHunt",
+      "beginSearch",
+      "beginStalk",
+      "bestLead",
+      "capStep",
+      "cleanHabits",
+      "cleanupKnowledge",
+      "coarseMove",
+      "commitEnd",
+      "decayMemory",
+      "deriveSeed",
+      "directOk",
+      "directTo",
+      "estimate",
+      "evidenceCandidates",
+      "facedBy",
+      "finishCapture",
+      "follow",
+      "forgetIdentity",
+      "goTo",
+      "hDebug",
+      "habitBias",
+      "habitObserve",
+      "hearEvent",
+      "intelligenceDebug",
+      "killNow",
+      "lightSense",
+      "mkEntity",
+      "mkRng",
+      "moodTick",
+      "moveCollide",
+      "navOf",
+      "observationScore",
+      "plan",
+      "previewKill",
+      "rand",
+      "randomFloor",
+      "rec",
+      "setAct",
+      "setState",
+      "tierOf",
+      "updateVision"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "HOUND": "src/frameworks/nani/server/ai.hound.js",
+      "SMILER": "src/frameworks/nani/server/ai.smiler.js",
+      "mkRng": "src/frameworks/nani/server/ai.head.js",
+      "deriveSeed": "src/frameworks/nani/server/ai.head.js",
+      "Geo": "src/frameworks/nani/server/ai.geo.js",
+      "Hash": "src/frameworks/nani/server/ai.head.js",
+      "forgetIdentity": "src/frameworks/nani/server/ai.intelligence.js",
+      "angDiff": "src/frameworks/nani/server/ai.head.js",
+      "commitEnd": "src/frameworks/nani/server/ai.capture.js",
+      "hearEvent": "src/frameworks/nani/server/ai.senses.js",
+      "WORLD": "src/frameworks/nani/server/ai.head.js",
+      "W_SN": "src/frameworks/nani/server/ai.senses.js",
+      "mkEntity": "src/frameworks/nani/server/ai.entity.js",
+      "finishCapture": "src/frameworks/nani/server/ai.capture.js",
+      "updateVision": "src/frameworks/nani/server/ai.senses.js",
+      "lightSense": "src/frameworks/nani/server/ai.light.js",
+      "decayMemory": "src/frameworks/nani/server/ai.senses.js",
+      "cleanupKnowledge": "src/frameworks/nani/server/ai.intelligence.js",
+      "arbitrateEvidence": "src/frameworks/nani/server/ai.intelligence.js",
+      "moodTick": "src/frameworks/nani/server/ai.entity.js",
+      "S": "src/frameworks/nani/server/ai.head.js",
+      "setState": "src/frameworks/nani/server/ai.entity.js",
+      "beginHidden": "src/frameworks/nani/server/ai.smiler.js",
+      "randomFloor": "src/frameworks/nani/server/ai.entity.js",
+      "plan": "src/frameworks/nani/server/ai.entity.js",
+      "rand": "src/frameworks/nani/server/ai.capture.js",
+      "coarseMove": "src/frameworks/nani/server/ai.entity.js",
+      "navOf": "src/frameworks/nani/server/ai.entity.js",
+      "tierOf": "src/frameworks/nani/server/ai.entity.js",
+      "beginCapture": "src/frameworks/nani/server/ai.capture.js",
+      "capStep": "src/frameworks/nani/server/ai.capture.js",
+      "moveCollide": "src/frameworks/nani/server/ai.entity.js",
+      "directOk": "src/frameworks/nani/server/ai.entity.js",
+      "directTo": "src/frameworks/nani/server/ai.entity.js",
+      "goTo": "src/frameworks/nani/server/ai.entity.js",
+      "follow": "src/frameworks/nani/server/ai.entity.js",
+      "rec": "src/frameworks/nani/server/ai.senses.js",
+      "beginHunt": "src/frameworks/nani/server/ai.hound.js",
+      "beginStalk": "src/frameworks/nani/server/ai.smiler.js",
+      "previewKill": "src/frameworks/nani/server/ai.capture.js",
+      "killNow": "src/frameworks/nani/server/ai.capture.js",
+      "beginSearch": "src/frameworks/nani/server/ai.hound.js",
+      "setAct": "src/frameworks/nani/server/ai.entity.js",
+      "beginDrawn": "src/frameworks/nani/server/ai.smiler.js",
+      "bestLead": "src/frameworks/nani/server/ai.senses.js",
+      "estimate": "src/frameworks/nani/server/ai.senses.js",
+      "facedBy": "src/frameworks/nani/server/ai.senses.js",
+      "hDebug": "src/frameworks/nani/server/ai.hound.js",
+      "intelligenceDebug": "src/frameworks/nani/server/ai.intelligence.js",
+      "SNAMES": "src/frameworks/nani/server/ai.head.js",
+      "SCODE": "src/frameworks/nani/server/ai.head.js",
+      "HACT": "src/frameworks/nani/server/ai.hound.js",
+      "SACT": "src/frameworks/nani/server/ai.smiler.js",
+      "TRAITS": "src/frameworks/nani/server/ai.head.js",
+      "INTEL": "src/frameworks/nani/server/ai.intelligence.js",
+      "evidenceCandidates": "src/frameworks/nani/server/ai.intelligence.js",
+      "observationScore": "src/frameworks/nani/server/ai.intelligence.js",
+      "habitObserve": "src/frameworks/nani/server/ai.intelligence.js",
+      "cleanHabits": "src/frameworks/nani/server/ai.intelligence.js",
+      "habitBias": "src/frameworks/nani/server/ai.intelligence.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "generated/server/sim.js",
+   "closure": "FunctionExpression at character 386",
+   "closureNames": 114,
+   "parts": [
+    {
+     "path": "src/core/server/sim.header.js",
+     "statements": 0,
+     "provides": [],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/server/sim.level0.js",
+     "statements": 35,
+     "provides": [
+      "Bc",
+      "FBH",
+      "FBW",
+      "Fc",
+      "Gc",
+      "Hc",
+      "Ic",
+      "Lc",
+      "Oc",
+      "Rc",
+      "Uc",
+      "V",
+      "W",
+      "al",
+      "fl",
+      "il",
+      "ll",
+      "opts",
+      "qc",
+      "sl",
+      "ul",
+      "zc"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/sim.ai.js",
+     "statements": 23,
+     "provides": [
+      "ADMIN_MAX_HOUNDS",
+      "ADMIN_MAX_SMILERS",
+      "ANCHOR",
+      "DIRECTOR_MAX_HOUNDS",
+      "MAX_BODIES",
+      "PR",
+      "RND",
+      "SNn",
+      "adapter",
+      "adminCap",
+      "adminSpawn",
+      "alive",
+      "bmode",
+      "debugOn",
+      "eng",
+      "ents",
+      "frozen",
+      "isAlive",
+      "newHound",
+      "players",
+      "randomSpot",
+      "rnd",
+      "runT",
+      "spawnMonsters",
+      "spawnT",
+      "speed",
+      "worldSeq"
+     ],
+     "uses": [
+      "Bc",
+      "FBH",
+      "FBW",
+      "Fc",
+      "Gc",
+      "Ic",
+      "Oc",
+      "Uc",
+      "V",
+      "W",
+      "al",
+      "fl",
+      "il",
+      "ll",
+      "opts",
+      "qc",
+      "sl",
+      "ul",
+      "zc"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "opts": "src/frameworks/lost/server/sim.level0.js",
+      "W": "src/frameworks/lost/server/sim.level0.js",
+      "al": "src/frameworks/lost/server/sim.level0.js",
+      "il": "src/frameworks/lost/server/sim.level0.js",
+      "FBW": "src/frameworks/lost/server/sim.level0.js",
+      "FBH": "src/frameworks/lost/server/sim.level0.js",
+      "Oc": "src/frameworks/lost/server/sim.level0.js",
+      "Fc": "src/frameworks/lost/server/sim.level0.js",
+      "zc": "src/frameworks/lost/server/sim.level0.js",
+      "sl": "src/frameworks/lost/server/sim.level0.js",
+      "Bc": "src/frameworks/lost/server/sim.level0.js",
+      "Uc": "src/frameworks/lost/server/sim.level0.js",
+      "V": "src/frameworks/lost/server/sim.level0.js",
+      "qc": "src/frameworks/lost/server/sim.level0.js",
+      "Gc": "src/frameworks/lost/server/sim.level0.js",
+      "ll": "src/frameworks/lost/server/sim.level0.js",
+      "ul": "src/frameworks/lost/server/sim.level0.js",
+      "Ic": "src/frameworks/lost/server/sim.level0.js",
+      "fl": "src/frameworks/lost/server/sim.level0.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/server/sim.glitches.js",
+     "statements": 4,
+     "provides": [
+      "glitches",
+      "items",
+      "makeGlitches",
+      "makeItems"
+     ],
+     "uses": [
+      "ANCHOR",
+      "FBH",
+      "FBW",
+      "Hc",
+      "Ic",
+      "RND",
+      "fl",
+      "randomSpot",
+      "sl",
+      "zc"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "randomSpot": "src/frameworks/nani/server/sim.ai.js",
+      "RND": "src/frameworks/nani/server/sim.ai.js",
+      "FBW": "src/frameworks/lost/server/sim.level0.js",
+      "FBH": "src/frameworks/lost/server/sim.level0.js",
+      "zc": "src/frameworks/lost/server/sim.level0.js",
+      "Hc": "src/frameworks/lost/server/sim.level0.js",
+      "sl": "src/frameworks/lost/server/sim.level0.js",
+      "Ic": "src/frameworks/lost/server/sim.level0.js",
+      "fl": "src/frameworks/lost/server/sim.level0.js",
+      "ANCHOR": "src/frameworks/nani/server/sim.ai.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/gib/server/sim.bodies.js",
+     "statements": 7,
+     "provides": [
+      "bodies",
+      "bodyT",
+      "bodyVer",
+      "clockT",
+      "killerEnd",
+      "navCmd",
+      "pruneBodies",
+      "setBody"
+     ],
+     "uses": [
+      "MAX_BODIES",
+      "eng",
+      "opts"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "opts": "src/frameworks/lost/server/sim.level0.js",
+      "eng": "src/frameworks/nani/server/sim.ai.js",
+      "MAX_BODIES": "src/frameworks/nani/server/sim.ai.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/server/sim.players.js",
+     "statements": 14,
+     "provides": [
+      "NR_CD",
+      "addPlayer",
+      "canRespawn",
+      "forfeit",
+      "join",
+      "leave",
+      "lifeOf",
+      "newRun",
+      "nrWait",
+      "nrWhy",
+      "removePlayer",
+      "resetWorld",
+      "respawn",
+      "spawn"
+     ],
+     "uses": [
+      "Ic",
+      "Lc",
+      "PR",
+      "RND",
+      "bodies",
+      "bodyT",
+      "bodyVer",
+      "eng",
+      "glitches",
+      "items",
+      "makeGlitches",
+      "makeItems",
+      "players",
+      "processEvents",
+      "rnd",
+      "runT",
+      "spawnMonsters",
+      "spawnT",
+      "worldSeq"
+     ],
+     "writes": [
+      "PR",
+      "bodyVer",
+      "glitches",
+      "items",
+      "runT",
+      "spawnT",
+      "worldSeq"
+     ],
+     "usesFrom": {
+      "worldSeq": "src/frameworks/nani/server/sim.ai.js",
+      "Lc": "src/frameworks/lost/server/sim.level0.js",
+      "runT": "src/frameworks/nani/server/sim.ai.js",
+      "PR": "src/frameworks/nani/server/sim.ai.js",
+      "eng": "src/frameworks/nani/server/sim.ai.js",
+      "spawnT": "src/frameworks/nani/server/sim.ai.js",
+      "rnd": "src/frameworks/nani/server/sim.ai.js",
+      "spawnMonsters": "src/frameworks/nani/server/sim.ai.js",
+      "RND": "src/frameworks/nani/server/sim.ai.js",
+      "glitches": "src/frameworks/lost/server/sim.glitches.js",
+      "makeGlitches": "src/frameworks/lost/server/sim.glitches.js",
+      "items": "src/frameworks/lost/server/sim.glitches.js",
+      "makeItems": "src/frameworks/lost/server/sim.glitches.js",
+      "bodies": "src/frameworks/gib/server/sim.bodies.js",
+      "bodyT": "src/frameworks/gib/server/sim.bodies.js",
+      "bodyVer": "src/frameworks/gib/server/sim.bodies.js",
+      "Ic": "src/frameworks/lost/server/sim.level0.js",
+      "players": "src/frameworks/nani/server/sim.ai.js",
+      "processEvents": "src/frameworks/nani/server/sim.feed.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/server/sim.movement.js",
+     "statements": 5,
+     "provides": [
+      "gaitFloor",
+      "hearMove",
+      "moveOk",
+      "moveRoute",
+      "spawnOk"
+     ],
+     "uses": [
+      "eng",
+      "sl"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "sl": "src/frameworks/lost/server/sim.level0.js",
+      "eng": "src/frameworks/nani/server/sim.ai.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/sim.feed.js",
+     "statements": 3,
+     "provides": [
+      "capInfo",
+      "feed",
+      "processEvents"
+     ],
+     "uses": [
+      "Gc",
+      "SNn",
+      "eng",
+      "isAlive",
+      "opts",
+      "players"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "players": "src/frameworks/nani/server/sim.ai.js",
+      "isAlive": "src/frameworks/nani/server/sim.ai.js",
+      "Gc": "src/frameworks/lost/server/sim.level0.js",
+      "SNn": "src/frameworks/nani/server/sim.ai.js",
+      "eng": "src/frameworks/nani/server/sim.ai.js",
+      "opts": "src/frameworks/lost/server/sim.level0.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/core/server/sim.step.js",
+     "statements": 4,
+     "provides": [
+      "entities",
+      "ofKind",
+      "step"
+     ],
+     "uses": [
+      "DIRECTOR_MAX_HOUNDS",
+      "PR",
+      "RND",
+      "Rc",
+      "V",
+      "alive",
+      "bmode",
+      "clockT",
+      "eng",
+      "ents",
+      "feed",
+      "frozen",
+      "glitches",
+      "items",
+      "newHound",
+      "opts",
+      "players",
+      "processEvents",
+      "pruneBodies",
+      "rnd",
+      "runT",
+      "spawnT",
+      "speed"
+     ],
+     "writes": [
+      "PR",
+      "clockT",
+      "runT",
+      "spawnT"
+     ],
+     "usesFrom": {
+      "clockT": "src/frameworks/gib/server/sim.bodies.js",
+      "pruneBodies": "src/frameworks/gib/server/sim.bodies.js",
+      "players": "src/frameworks/nani/server/sim.ai.js",
+      "glitches": "src/frameworks/lost/server/sim.glitches.js",
+      "runT": "src/frameworks/nani/server/sim.ai.js",
+      "frozen": "src/frameworks/nani/server/sim.ai.js",
+      "speed": "src/frameworks/nani/server/sim.ai.js",
+      "bmode": "src/frameworks/nani/server/sim.ai.js",
+      "Rc": "src/frameworks/lost/server/sim.level0.js",
+      "V": "src/frameworks/lost/server/sim.level0.js",
+      "PR": "src/frameworks/nani/server/sim.ai.js",
+      "eng": "src/frameworks/nani/server/sim.ai.js",
+      "opts": "src/frameworks/lost/server/sim.level0.js",
+      "DIRECTOR_MAX_HOUNDS": "src/frameworks/nani/server/sim.ai.js",
+      "spawnT": "src/frameworks/nani/server/sim.ai.js",
+      "rnd": "src/frameworks/nani/server/sim.ai.js",
+      "RND": "src/frameworks/nani/server/sim.ai.js",
+      "newHound": "src/frameworks/nani/server/sim.ai.js",
+      "alive": "src/frameworks/nani/server/sim.ai.js",
+      "feed": "src/frameworks/nani/server/sim.feed.js",
+      "processEvents": "src/frameworks/nani/server/sim.feed.js",
+      "items": "src/frameworks/lost/server/sim.glitches.js",
+      "ents": "src/frameworks/nani/server/sim.ai.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/overseer/server/sim.admin.js",
+     "statements": 2,
+     "provides": [
+      "admin"
+     ],
+     "uses": [
+      "ADMIN_MAX_HOUNDS",
+      "ADMIN_MAX_SMILERS",
+      "DIRECTOR_MAX_HOUNDS",
+      "RND",
+      "V",
+      "adminCap",
+      "adminSpawn",
+      "bmode",
+      "debugOn",
+      "eng",
+      "ents",
+      "feed",
+      "frozen",
+      "glitches",
+      "items",
+      "makeGlitches",
+      "makeItems",
+      "ofKind",
+      "players",
+      "processEvents",
+      "resetWorld",
+      "runT",
+      "sl",
+      "spawn",
+      "spawnMonsters",
+      "speed"
+     ],
+     "writes": [
+      "bmode",
+      "debugOn",
+      "frozen",
+      "glitches",
+      "items",
+      "runT",
+      "speed"
+     ],
+     "usesFrom": {
+      "RND": "src/frameworks/nani/server/sim.ai.js",
+      "eng": "src/frameworks/nani/server/sim.ai.js",
+      "frozen": "src/frameworks/nani/server/sim.ai.js",
+      "speed": "src/frameworks/nani/server/sim.ai.js",
+      "bmode": "src/frameworks/nani/server/sim.ai.js",
+      "V": "src/frameworks/lost/server/sim.level0.js",
+      "debugOn": "src/frameworks/nani/server/sim.ai.js",
+      "spawnMonsters": "src/frameworks/nani/server/sim.ai.js",
+      "runT": "src/frameworks/nani/server/sim.ai.js",
+      "resetWorld": "src/frameworks/space/server/sim.players.js",
+      "players": "src/frameworks/nani/server/sim.ai.js",
+      "spawn": "src/frameworks/space/server/sim.players.js",
+      "glitches": "src/frameworks/lost/server/sim.glitches.js",
+      "makeGlitches": "src/frameworks/lost/server/sim.glitches.js",
+      "items": "src/frameworks/lost/server/sim.glitches.js",
+      "makeItems": "src/frameworks/lost/server/sim.glitches.js",
+      "adminSpawn": "src/frameworks/nani/server/sim.ai.js",
+      "ofKind": "src/core/server/sim.step.js",
+      "adminCap": "src/frameworks/nani/server/sim.ai.js",
+      "feed": "src/frameworks/nani/server/sim.feed.js",
+      "processEvents": "src/frameworks/nani/server/sim.feed.js",
+      "sl": "src/frameworks/lost/server/sim.level0.js",
+      "ents": "src/frameworks/nani/server/sim.ai.js",
+      "ADMIN_MAX_HOUNDS": "src/frameworks/nani/server/sim.ai.js",
+      "ADMIN_MAX_SMILERS": "src/frameworks/nani/server/sim.ai.js",
+      "DIRECTOR_MAX_HOUNDS": "src/frameworks/nani/server/sim.ai.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/core/server/sim.glue.js",
+     "statements": 3,
+     "provides": [],
+     "uses": [
+      "Bc",
+      "Ic",
+      "NR_CD",
+      "V",
+      "adapter",
+      "addPlayer",
+      "admin",
+      "bodies",
+      "bodyVer",
+      "canRespawn",
+      "capInfo",
+      "debugOn",
+      "eng",
+      "entities",
+      "forfeit",
+      "gaitFloor",
+      "glitches",
+      "hearMove",
+      "items",
+      "join",
+      "killerEnd",
+      "leave",
+      "lifeOf",
+      "moveOk",
+      "moveRoute",
+      "navCmd",
+      "newRun",
+      "nrWait",
+      "nrWhy",
+      "players",
+      "removePlayer",
+      "resetWorld",
+      "respawn",
+      "runT",
+      "setBody",
+      "sl",
+      "spawnOk",
+      "step",
+      "worldSeq"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "items": "src/frameworks/lost/server/sim.glitches.js",
+      "eng": "src/frameworks/nani/server/sim.ai.js",
+      "resetWorld": "src/frameworks/space/server/sim.players.js",
+      "players": "src/frameworks/nani/server/sim.ai.js",
+      "addPlayer": "src/frameworks/space/server/sim.players.js",
+      "removePlayer": "src/frameworks/space/server/sim.players.js",
+      "join": "src/frameworks/space/server/sim.players.js",
+      "respawn": "src/frameworks/space/server/sim.players.js",
+      "canRespawn": "src/frameworks/space/server/sim.players.js",
+      "moveOk": "src/frameworks/space/server/sim.movement.js",
+      "moveRoute": "src/frameworks/space/server/sim.movement.js",
+      "spawnOk": "src/frameworks/space/server/sim.movement.js",
+      "leave": "src/frameworks/space/server/sim.players.js",
+      "newRun": "src/frameworks/space/server/sim.players.js",
+      "nrWhy": "src/frameworks/space/server/sim.players.js",
+      "nrWait": "src/frameworks/space/server/sim.players.js",
+      "NR_CD": "src/frameworks/space/server/sim.players.js",
+      "forfeit": "src/frameworks/space/server/sim.players.js",
+      "gaitFloor": "src/frameworks/space/server/sim.movement.js",
+      "lifeOf": "src/frameworks/space/server/sim.players.js",
+      "sl": "src/frameworks/lost/server/sim.level0.js",
+      "Bc": "src/frameworks/lost/server/sim.level0.js",
+      "step": "src/core/server/sim.step.js",
+      "entities": "src/core/server/sim.step.js",
+      "admin": "src/frameworks/overseer/server/sim.admin.js",
+      "setBody": "src/frameworks/gib/server/sim.bodies.js",
+      "killerEnd": "src/frameworks/gib/server/sim.bodies.js",
+      "navCmd": "src/frameworks/gib/server/sim.bodies.js",
+      "hearMove": "src/frameworks/space/server/sim.movement.js",
+      "capInfo": "src/frameworks/nani/server/sim.feed.js",
+      "debugOn": "src/frameworks/nani/server/sim.ai.js",
+      "adapter": "src/frameworks/nani/server/sim.ai.js",
+      "bodies": "src/frameworks/gib/server/sim.bodies.js",
+      "bodyVer": "src/frameworks/gib/server/sim.bodies.js",
+      "glitches": "src/frameworks/lost/server/sim.glitches.js",
+      "runT": "src/frameworks/nani/server/sim.ai.js",
+      "worldSeq": "src/frameworks/nani/server/sim.ai.js",
+      "V": "src/frameworks/lost/server/sim.level0.js",
+      "Ic": "src/frameworks/lost/server/sim.level0.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "generated/server/world.js",
+   "closure": "FunctionExpression at character 779",
+   "closureNames": 12,
+   "parts": [
+    {
+     "path": "src/frameworks/space/shared/world.js",
+     "statements": 12,
+     "provides": [
+      "LOW",
+      "PROPS",
+      "T",
+      "W"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/shared/world.lamps.js",
+     "statements": 4,
+     "provides": [],
+     "uses": [
+      "T",
+      "W"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "W": "src/frameworks/space/shared/world.js",
+      "T": "src/frameworks/space/shared/world.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/shared/world.crawl.js",
+     "statements": 7,
+     "provides": [],
+     "uses": [
+      "LOW",
+      "PROPS",
+      "W"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "W": "src/frameworks/space/shared/world.js",
+      "PROPS": "src/frameworks/space/shared/world.js",
+      "LOW": "src/frameworks/space/shared/world.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/shared/world.surfaces.js",
+     "statements": 3,
+     "provides": [],
+     "uses": [
+      "T",
+      "W"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "W": "src/frameworks/space/shared/world.js",
+      "T": "src/frameworks/space/shared/world.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/shared/world.move.js",
+     "statements": 5,
+     "provides": [],
+     "uses": [
+      "W"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "W": "src/frameworks/space/shared/world.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/shared/world.art.js",
+     "statements": 5,
+     "provides": [],
+     "uses": [
+      "PROPS",
+      "W"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "W": "src/frameworks/space/shared/world.js",
+      "PROPS": "src/frameworks/space/shared/world.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  }
+ ],
+ "ok": true
+}

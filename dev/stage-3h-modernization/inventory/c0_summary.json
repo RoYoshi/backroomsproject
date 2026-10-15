@@ -1,0 +1,116 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c0_audit.js",
+ "typescript": "6.0.3",
+ "bundleSteps": 40,
+ "stepsWithNoNetEffect": [
+  "B13",
+  "B17",
+  "B18"
+ ],
+ "parts": {
+  "outputs": 9,
+  "parts": 58,
+  "crossUses": 312,
+  "crossWrites": 49,
+  "byOutput": {
+   "public/camcorder.js": {
+    "parts": 3,
+    "crossUses": 3,
+    "crossWrites": 0,
+    "owners": [
+     "br-r",
+     "spacious-audio"
+    ]
+   },
+   "public/ents.js": {
+    "parts": 6,
+    "crossUses": 16,
+    "crossWrites": 0,
+    "owners": [
+     "br-r",
+     "gib",
+     "spacious-audio",
+     "overseer"
+    ]
+   },
+   "public/glitch.js": {
+    "parts": 3,
+    "crossUses": 1,
+    "crossWrites": 0,
+    "owners": [
+     "lost",
+     "spacious-audio"
+    ]
+   },
+   "public/move.js": {
+    "parts": 3,
+    "crossUses": 5,
+    "crossWrites": 0,
+    "owners": [
+     "space",
+     "br-r",
+     "spacious-audio"
+    ]
+   },
+   "public/mp.js": {
+    "parts": 16,
+    "crossUses": 147,
+    "crossWrites": 31,
+    "owners": [
+     "core",
+     "bpp",
+     "gib",
+     "space",
+     "nani",
+     "lost",
+     "pocket",
+     "spacious-audio",
+     "br-r",
+     "overseer"
+    ]
+   },
+   "public/world.js": {
+    "parts": 6,
+    "crossUses": 6,
+    "crossWrites": 0,
+    "owners": [
+     "space",
+     "lost",
+     "br-r"
+    ]
+   },
+   "generated/server/ai.js": {
+    "parts": 10,
+    "crossUses": 0,
+    "crossWrites": 0,
+    "owners": [
+     "nani"
+    ]
+   },
+   "generated/server/sim.js": {
+    "parts": 11,
+    "crossUses": 134,
+    "crossWrites": 18,
+    "owners": [
+     "core",
+     "lost",
+     "nani",
+     "gib",
+     "space",
+     "overseer"
+    ]
+   },
+   "generated/server/world.js": {
+    "parts": 6,
+    "crossUses": 6,
+    "crossWrites": 0,
+    "owners": [
+     "space",
+     "lost",
+     "br-r"
+    ]
+   }
+  }
+ },
+ "note": "world.js is built twice (public/ and generated/server/) from the same parts; its parts are counted once in the totals"
+}
