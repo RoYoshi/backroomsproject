@@ -1,0 +1,9 @@
+$ node dev/tools/gate/golden/bpp_golden.js --old-ref 143b63ff42b88c6780c5043e0f61d64100f81f40 --repeat 0 --baseline /home/claude/backrooms-modern/dev/stage-3h/evidence/h2/golden/bpp_traces --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4d/gate_fast/bpp --keep /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4d/gate_fast/bpp_keep
+PASS bpp_caps_q: old 2605 lines 72e775b7ead4 | new 2605 lines 72e775b7ead4 | identical | repeats same | baseline equal
+PASS bpp_place_guard: old 2171 lines 896ccf6dbbb1 | new 2171 lines 896ccf6dbbb1 | identical | repeats same | baseline equal
+PASS bpp_world_guard: old 1170 lines a96718d201f1 | new 1170 lines a96718d201f1 | identical | repeats same | baseline equal
+PASS bpp_known_limits: old 2681 lines 35bda0723697 | new 2681 lines 35bda0723697 | identical | repeats same | baseline equal
+PASS bpp_new_run: old 8172 lines a61b01e2cc0b | new 8172 lines a61b01e2cc0b | identical | repeats same | baseline equal
+PASS bpp_new_run_held: old 9310 lines a6b7c6dc9f84 | new 9310 lines a6b7c6dc9f84 | identical | repeats same | baseline equal
+PASS bpp_aftermath: old 54498 lines 3ba6305b668c | new 54498 lines 3ba6305b668c | identical | repeats same | baseline equal
+B++ golden traces: ALL IDENTICAL

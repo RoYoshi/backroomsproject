@@ -1,0 +1,3 @@
+$ node dev/tools/gate/golden/world_diff.js --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4d/gate_fast/world_diff.json
+reached: keys 1, types 1, data 1, level 1, propAt 3, propAt-typed 3, lowZone 3, crawlAt 3, near-prop 1458, concealedBy 400, segRect 400, mode 1, blocks 4, addNear 4, level-collision 4, carve 1, surfaceAt 1, lamps 1, canCrawl 1, ray 1, route 1, verify 1, drawProps 1
+WORLD DIFF: SAME - 2295 comparisons, 0 differences; the server's copy is the page's, byte for byte

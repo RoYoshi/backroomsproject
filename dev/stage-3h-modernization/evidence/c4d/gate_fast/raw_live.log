@@ -1,0 +1,4 @@
+$ node dev/tools/gate/golden/raw_live.js --old-ref 143b63ff42b88c6780c5043e0f61d64100f81f40 --new-dir /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4d/gate_fast/game_candidate --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4d/gate_fast/raw_live.json
+HTTP wall time (reported only): old 542 ms, new 668 ms
+raw live (the old ref against a folder): 148 HTTP exchanges, 25 WebSocket checks: identical except 17 responses for changed files (index.html, mp.js, assets/index-DKbV5Nv9.js)
+RAW LIVE: PASS

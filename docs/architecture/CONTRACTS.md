@@ -102,6 +102,13 @@ renaming one breaks the others silently.
 `window.__api` is the bundle's facade. Its 52 members (some of them minified names) are their own contract, with each member's
 TypeScript origin and its readers: [`src/core/client/bundle/API_CONTRACT.md`](../../src/core/client/bundle/API_CONTRACT.md).
 
+**The compiled client's side** (continuation C4d, FINDINGS M-005): every window member the client uses is declared in
+`src/core/client/game/client/contracts.d.ts`, with its type, the script that defines it and the lineage step that started using it, so
+TypeScript checks every use at every build. `node dev/tools/checks/window_contract.js` (the gate's `contracts` step) holds those
+declarations to the code: every member the client reads or writes is declared, and every declaration used; window is never cast to
+escape them; no member the client reads is left undefined by the page; every script that writes a member is named in its declaration,
+the first one named writing it; and the built bundle reaches the same names as its source.
+
 ## 3. The server's modules
 
 Each module is a factory: `server.js` calls it with what it uses, and it returns what it provides. None requires `server.js` or another
@@ -224,7 +231,18 @@ cohesive file. Each part's header lists what it provides, uses and writes; `node
 proves every list against the code. Those lists are the contracts between the parts: a name in another part's `uses` cannot be renamed
 alone. (For the module scripts the lists are short: a module provides its factory, and only the composition uses factories.)
 
-## 6. Files and URLs
+## 6. Facts written in more than one place
+
+Some of the game's facts are written by hand in several files: on the server and on the page, in the compiled client and a classic
+script (the entity codes the wire sends as indexes, the distance between players, the light kinds a client may send, a lamp's reach,
+the fixed step, the world's size ...; FINDINGS M-028). Each copy is B++'s code and stays where it is. `dev/tools/checks/facts.json`
+lists every copy (file and pattern) and the fact's value, and `node dev/tools/checks/facts.js` (the gate's `contracts` step) fails
+unless each copy holds it. Where the copies differ on purpose (the spawn protection: 3 s on the server, 4 s on the page), each copy's
+value is recorded. Level 0's own map is one file (`frameworks/lost/shared/level0.json`, continuation C4c); the code that names its
+rooms by index or by name, and the world's size outside it, are listed there too. To change a fact, change every copy and its value
+in `facts.json`; to move a copy, follow it there (the check fails with "N matches, not 1" until then).
+
+## 7. Files and URLs
 
 - Every URL the page loads is a contract between `index.html`, the server's allowlist (`frameworks/ward/server/static.js`, `SERVE`) and
   the build's output paths. The bundle's and the stylesheet's names (`index-DKbV5Nv9.js`, `index-D7hdwmUU.css`) are fixed: they are

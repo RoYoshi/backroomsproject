@@ -1,6 +1,8 @@
 /* The window members the compiled client uses: what each one is, which page script defines it (public/*.js and public/assets/*.js,
  * loaded before the bundle; world.js is the server's too), and the lineage step that started using it (src/core/client/bundle/lineage/
- * STEPS.md). Types only: nothing here exists at run time, and a member may be absent (the bundle checks before each use, as the shipped
+ * STEPS.md).  A comment names the script that defines the members below it, first; every script that writes one of them is named
+ * (dev/tools/checks/window_contract.js checks it against the served scripts, and every use in the client against these declarations:
+ * the gate's contracts step; FINDINGS M-005). Types only: nothing here exists at run time, and a member may be absent (the bundle checks before each use, as the shipped
  * bundle did). The other direction, window.__api (the bundle's facade for those scripts), is made in main.ts; its readers are listed in
  * src/core/client/bundle/API_CONTRACT.md. */
 /* the types the members are described with (a namespace, so that no global type name is added) */
@@ -68,7 +70,8 @@ interface Window {
     bodyMade?(record: TFB.Corpse): void; deathStart?(death: TFB.DeathSequence): void; vanish?(at: { x: number; y: number; a: number }): void;
     nr?(approved: () => void): boolean;
   };
-  /* mp.js (B03): the multiplayer seam, called every frame */
+  /* mp.js (B03): the multiplayer seam, called every frame; assets/shadows-2d.js (BR-RoLE) wraps it, to draw its shadows after mp.js's
+     hook (FINDINGS M-035) */
   __mp?(frame: { p: TFB.Wanderer; cam: TFB.Point; sc: number; run: boolean; started: boolean; light: boolean; G: unknown; q: TFB.Smiler[]; los: unknown; t: number }): void;
   /* mp.js: the other players' lights (B06), the server's Hounds (B09), the Hound killing (B09) and the Hounds and Smilers the page
      hides (B12), the bodies it hides (B12), the recorded kill (B14), the victim a kill record names (B33), the death lab (B18, B34) */

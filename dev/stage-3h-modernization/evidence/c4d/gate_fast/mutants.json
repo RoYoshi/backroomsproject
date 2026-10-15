@@ -1,0 +1,470 @@
+{
+ "tool": "dev/tools/gate/golden/bpp_mutants.js",
+ "source": "working tree",
+ "files": [
+  "generated/server/ai.js",
+  "generated/server/dphys.js",
+  "generated/server/world.js",
+  "server.js",
+  "src/core/server/loop.js",
+  "src/core/server/rooms.js",
+  "src/core/server/sim.js",
+  "src/core/server/sim.step.js",
+  "src/frameworks/bpp/server/newrun.js",
+  "src/frameworks/bpp/server/poses.js",
+  "src/frameworks/bpp/server/session.js",
+  "src/frameworks/bpp/server/ws.js",
+  "src/frameworks/gib/server/aftermath.js",
+  "src/frameworks/gib/server/death_srv.js",
+  "src/frameworks/gib/server/sim.bodies.js",
+  "src/frameworks/lost/server/sim.glitches.js",
+  "src/frameworks/lost/server/sim.level0.js",
+  "src/frameworks/lost/shared/level0.json",
+  "src/frameworks/nani/server/sim.ai.js",
+  "src/frameworks/nani/server/sim.feed.js",
+  "src/frameworks/overseer/server/admin.js",
+  "src/frameworks/overseer/server/sim.admin.js",
+  "src/frameworks/pocket/server/sim.items.js",
+  "src/frameworks/pocket/shared/lights.json",
+  "src/frameworks/space/server/movement.js",
+  "src/frameworks/space/server/peers.js",
+  "src/frameworks/space/server/sim.movement.js",
+  "src/frameworks/space/server/sim.players.js",
+  "src/frameworks/ward/server/admin_login.js",
+  "src/frameworks/ward/server/fields.js",
+  "src/frameworks/ward/server/static.js"
+ ],
+ "node": "v22.22.2",
+ "reference": {
+  "bpp_place_guard": {
+   "ok": true,
+   "sha256": "896ccf6dbbb18074279021d60fa032fe27567f6d93ff56394c4d92ba9c3a47f8",
+   "lines": 2171,
+   "stderr": "ok bpp_place_guard 2171 lines"
+  },
+  "bpp_world_guard": {
+   "ok": true,
+   "sha256": "a96718d201f18721517e61b81076dcde2212381bd2afa34087f5275038c2357e",
+   "lines": 1170,
+   "stderr": "ok bpp_world_guard 1170 lines"
+  },
+  "bpp_known_limits": {
+   "ok": true,
+   "sha256": "35bda07236971e938931624220e38d0694b77624b44c7508181f45bf76e59775",
+   "lines": 2681,
+   "stderr": "ok bpp_known_limits 2681 lines"
+  },
+  "bpp_caps_q": {
+   "ok": true,
+   "sha256": "72e775b7ead4177188625e85ab209e95f4455d3a410729042a2b782822004de7",
+   "lines": 2605,
+   "stderr": "ok bpp_caps_q 2605 lines"
+  },
+  "bpp_new_run": {
+   "ok": true,
+   "sha256": "a61b01e2cc0bcc0a26c7b5406f4bde35d73a5090dd3e3d9fd8b33a11b7de014d",
+   "lines": 8172,
+   "stderr": "ok bpp_new_run 8172 lines"
+  },
+  "bpp_new_run_held": {
+   "ok": true,
+   "sha256": "a6b7c6dc9f847fe1fb2b038ce29cff213c45a57381f92be083b80df96197d5d9",
+   "lines": 9310,
+   "stderr": "ok bpp_new_run_held 9310 lines"
+  },
+  "bpp_aftermath": {
+   "ok": true,
+   "sha256": "3ba6305b668cf8125bcfeb6e1739ee85e62d1df098b5905104d146fc3124e82e",
+   "lines": 54498,
+   "stderr": "ok bpp_aftermath 54498 lines"
+  }
+ },
+ "mutants": [
+  {
+   "id": "guard_off",
+   "why": "B++-0's placement guard removed (B+'s behaviour)",
+   "find": "if (pl && now < v.grace && now - pl[2] < MV.GRACE",
+   "repl": "if (false && pl && now < v.grace && now - pl[2] < MV.GRACE",
+   "foundIn": [
+    "src/frameworks/space/server/movement.js"
+   ],
+   "scenarios": {
+    "bpp_place_guard": {
+     "ok": true,
+     "sha256": "cbfd64130337161332bff789f2318335f7d9d1802336b4c00b0b1a7962e6b891",
+     "lines": 2155,
+     "differs": true,
+     "stderr": ""
+    },
+    "bpp_world_guard": {
+     "ok": true,
+     "sha256": "39312bda39bdad3a814976b1d9d08735d26dda37a0160a176810ef5cc054c714",
+     "lines": 1153,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/space/server/movement.js",
+   "caught": true
+  },
+  {
+   "id": "grace_1000",
+   "why": "the grace after a placement 100 ms longer",
+   "find": "SNAP: 220, GRACE: 900 }",
+   "repl": "SNAP: 220, GRACE: 1000 }",
+   "foundIn": [
+    "src/frameworks/space/server/movement.js"
+   ],
+   "scenarios": {
+    "bpp_known_limits": {
+     "ok": true,
+     "sha256": "63d01276184cf752fa8701a1a5efba2671c1f40c99ec9bed251b9c7458463839",
+     "lines": 2678,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/space/server/movement.js",
+   "caught": true
+  },
+  {
+   "id": "admin_checked",
+   "why": "an admin's own poses checked like anyone's",
+   "find": "if (me.admin) { if (!me.mv) mvReset(me, false); adminMove(",
+   "repl": "if (me.admin && false) { if (!me.mv) mvReset(me, false); adminMove(",
+   "foundIn": [
+    "src/frameworks/bpp/server/session.js"
+   ],
+   "scenarios": {
+    "bpp_known_limits": {
+     "ok": true,
+     "sha256": "2934265041ea1ba439bcb38f1608cd0585ab8251b24137a854c35e5d9774dece",
+     "lines": 2680,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/bpp/server/session.js",
+   "caught": true
+  },
+  {
+   "id": "fast_gap_30",
+   "why": "B+'s faster pose intake off",
+   "find": "const FAST_GAP = 16;",
+   "repl": "const FAST_GAP = 30;",
+   "foundIn": [
+    "server.js"
+   ],
+   "scenarios": {
+    "bpp_caps_q": {
+     "ok": true,
+     "sha256": "de39c796ef43caed9f6b059cbf8ca14c36828ddab7b4a05947a089afa915219c",
+     "lines": 2565,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "server.js",
+   "caught": true
+  },
+  {
+   "id": "q_self",
+   "why": "'q' also carries the receiver's own pose",
+   "find": "const p = ch.filter(q => q[0] !== c.id);",
+   "repl": "const p = ch;",
+   "foundIn": [
+    "src/frameworks/bpp/server/poses.js"
+   ],
+   "scenarios": {
+    "bpp_caps_q": {
+     "ok": true,
+     "sha256": "737a5997a389b238f47be46ba64702a2af8c270dd777ac51b7b05f0a416177b0",
+     "lines": 2623,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/bpp/server/poses.js",
+   "caught": true
+  },
+  {
+   "id": "nr_gap_200",
+   "why": "NEW RUN's flood gap 50 ms shorter",
+   "find": "const NR_GAP = 250;",
+   "repl": "const NR_GAP = 200;",
+   "foundIn": [
+    "src/frameworks/bpp/server/newrun.js"
+   ],
+   "scenarios": {
+    "bpp_new_run": {
+     "ok": true,
+     "sha256": "32dcfae6a12577c1c2d69bcbf0d91c2d4a85b77db2b40a8c55ddf225cfddb9cf",
+     "lines": 8174,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/bpp/server/newrun.js",
+   "caught": true
+  },
+  {
+   "id": "nr_wait_round",
+   "why": "the cooldown wait rounded instead of rounded up",
+   "find": "ans.wait = Math.ceil(sim.nrWait(p, t) * 10) / 10;",
+   "repl": "ans.wait = Math.round(sim.nrWait(p, t) * 10) / 10;",
+   "foundIn": [
+    "src/frameworks/bpp/server/newrun.js"
+   ],
+   "scenarios": {
+    "bpp_new_run": {
+     "ok": true,
+     "sha256": "030932030bc4ecda130ab000462391ae431b36d5364fa48f0d9b5ef1b3776cc3",
+     "lines": 8172,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/bpp/server/newrun.js",
+   "caught": true
+  },
+  {
+   "id": "nr_no_memory",
+   "why": "a repeated press decided again instead of answered again",
+   "find": "me.nr = { q, ans }; send(me, ans);",
+   "repl": "send(me, ans);",
+   "foundIn": [
+    "src/frameworks/bpp/server/newrun.js"
+   ],
+   "scenarios": {
+    "bpp_new_run": {
+     "ok": true,
+     "sha256": "1ec325c6be0ed20d15fbeb3acccaaf0bc37960b29c7e40902622f1c5abaa34c9",
+     "lines": 8175,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/bpp/server/newrun.js",
+   "caught": true
+  },
+  {
+   "id": "nr_free_off",
+   "why": "an admin's UNLIMITED NEW RUN ignored",
+   "find": "free = !!(me.admin && me.nrFree);",
+   "repl": "free = false;",
+   "foundIn": [
+    "src/frameworks/bpp/server/newrun.js"
+   ],
+   "scenarios": {
+    "bpp_new_run": {
+     "ok": true,
+     "sha256": "7ede126ab204cd16ade430590429596cb36e5dd223c3cc65bcd821ed18f7bcf8",
+     "lines": 8123,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/bpp/server/newrun.js",
+   "caught": true
+  },
+  {
+   "id": "nr_held_free",
+   "why": "a NEW RUN pressed while held is no longer refused (sim.nrWhy)",
+   "find": "if(L===`held`)return`held`;",
+   "repl": "if(L===`held`)return``;",
+   "foundIn": [
+    "src/frameworks/space/server/sim.players.js"
+   ],
+   "scenarios": {
+    "bpp_new_run_held": {
+     "ok": true,
+     "sha256": "e604a40420db4e70091bd72600ffb0013322be4c8e2b9a0b55a8b29eb6216a97",
+     "lines": 9343,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/space/server/sim.players.js",
+   "caught": true
+  },
+  {
+   "id": "aft_el_half",
+   "why": "a late joiner's replay says how far it has run only after 0.5 s instead of 0.25 s",
+   "find": "send(c, el > .25 ?",
+   "repl": "send(c, el > .5 ?",
+   "foundIn": [
+    "src/frameworks/gib/server/aftermath.js"
+   ],
+   "scenarios": {
+    "bpp_aftermath": {
+     "ok": true,
+     "sha256": "0c1cd28a5eede9fe26cc3bdc16aa83d21e07c9586f7cb7182b0f646fe78f4294",
+     "lines": 54498,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/gib/server/aftermath.js",
+   "caught": true
+  },
+  {
+   "id": "aft_every_tick",
+   "why": "the replay sent on every snapshot tick instead of once to each client",
+   "find": "if (!a.sent.has(c.id)) { a.sent.add(c.id); send(c, el",
+   "repl": "if (!a.sent.has(c.id)) { send(c, el",
+   "foundIn": [
+    "src/frameworks/gib/server/aftermath.js"
+   ],
+   "scenarios": {
+    "bpp_aftermath": {
+     "ok": true,
+     "sha256": "c03a87b6ce30aba5d22810b9b4dd93fb2e08dec2c9d84e382f45062793e4ef72",
+     "lines": 56043,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/gib/server/aftermath.js",
+   "caught": true
+  },
+  {
+   "id": "aft_victim_replay",
+   "why": "the victim is sent its own death replay too",
+   "find": "sent: new Set([c.id]), body: false, info, run });",
+   "repl": "sent: new Set(), body: false, info, run });",
+   "foundIn": [
+    "src/frameworks/gib/server/aftermath.js"
+   ],
+   "scenarios": {
+    "bpp_aftermath": {
+     "ok": true,
+     "sha256": "624be981fb912af7ca8ec09d73ba06349869931240fdcee6756923e0f4f608fb",
+     "lines": 54506,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/gib/server/aftermath.js",
+   "caught": true
+  },
+  {
+   "id": "aft_one_per_player",
+   "why": "a player's second death no longer drops its first",
+   "find": "room.afts = (room.afts || []).filter(a => a.id !== c.id);",
+   "repl": "room.afts = (room.afts || []);",
+   "foundIn": [
+    "src/frameworks/gib/server/aftermath.js"
+   ],
+   "scenarios": {
+    "bpp_aftermath": {
+     "ok": true,
+     "sha256": "1e801bffa04dad08988731e429fe4fa429ec1b40efb5e5cf6cfb9860cf58450e",
+     "lines": 54510,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/gib/server/aftermath.js",
+   "caught": true
+  },
+  {
+   "id": "aft_world_tick",
+   "why": "a death from a world that is gone plays on and leaves a corpse",
+   "find": "if (room.sim.worldSeq !== a.world) { a.body = true; a.dropped = 'world reset'; continue; }",
+   "repl": "if (false) { a.body = true; a.dropped = 'world reset'; continue; }",
+   "foundIn": [
+    "src/frameworks/gib/server/aftermath.js"
+   ],
+   "scenarios": {
+    "bpp_aftermath": {
+     "ok": true,
+     "sha256": "e845349ff2c431ac6c9996fa4faa16947e7b57de62d364673a56866fe8b75341",
+     "lines": 54504,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/gib/server/aftermath.js",
+   "caught": true
+  },
+  {
+   "id": "aft_killer_end",
+   "why": "the Hound is not placed where the death left it",
+   "find": "if (a.kill.k === 'Hound' && room.sim.killerEnd)",
+   "repl": "if (false && a.kill.k === 'Hound' && room.sim.killerEnd)",
+   "foundIn": [
+    "src/frameworks/gib/server/aftermath.js"
+   ],
+   "scenarios": {
+    "bpp_aftermath": {
+     "ok": true,
+     "sha256": "ca930c31d04908c7015c99ba8f8ea2956681ee37cba90ff9737a39aad14002dc",
+     "lines": 54494,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/gib/server/aftermath.js",
+   "caught": true
+  },
+  {
+   "id": "aft_boom_revive",
+   "why": "an admin revive also cancels a NEW RUN blast",
+   "find": "(room.afts || []).find(a => a.id === id && !a.body && !a.boom)",
+   "repl": "(room.afts || []).find(a => a.id === id && !a.body)",
+   "foundIn": [
+    "src/frameworks/gib/server/aftermath.js"
+   ],
+   "scenarios": {
+    "bpp_aftermath": {
+     "ok": true,
+     "sha256": "3e607114f6319eecc749e6e5cce7e8dfa112007797f8b3a7ada8cdff02242eba",
+     "lines": 54484,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/gib/server/aftermath.js",
+   "caught": true
+  },
+  {
+   "id": "aft_revive_end",
+   "why": "a revived death is not ended on the other screens",
+   "find": "if (c !== target) send(c, { t: 'fx', k: 'end', id: target.id, de: a.de });",
+   "repl": "if (false) send(c, { t: 'fx', k: 'end', id: target.id, de: a.de });",
+   "foundIn": [
+    "src/frameworks/overseer/server/admin.js"
+   ],
+   "scenarios": {
+    "bpp_aftermath": {
+     "ok": true,
+     "sha256": "ca6b77c093a303a2c511214dd665cbdf223d427efc4c04c3d32196d1c7a454b6",
+     "lines": 54495,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/overseer/server/admin.js",
+   "caught": true
+  }
+ ],
+ "ok": true
+}

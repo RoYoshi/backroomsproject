@@ -7,7 +7,8 @@ then the served files were the lineage's replay, `../bundle/lineage/`, which sta
 
 - `shared/`: the level, movement, the lights, the entities and their navigation, vision and the walls' receivers, the remains.
 - `client/`: the PixiJS views, the renderer, the audio, NEW RUN's arrival and departure (`arrival.ts`), the frame loop and the
-  page's controls (`main.ts`), what the page's other scripts publish on `window` (`contracts.d.ts`).
+  page's controls (`main.ts`), what the page's other scripts publish on `window` (`contracts.d.ts`: each member, its type and the script that defines it;
+  `dev/tools/checks/window_contract.js` holds it to the code on both sides).
 - `client/style.css` is v11's own stylesheet; `client/style-after-v11.css` holds the rules the eight stylesheet steps added (the
   build appends it as it is: the file says why).
 - `PORT_LEDGER.md` (generated) says, for each of the forty steps, what it did, its owners and where its text is now. The source's

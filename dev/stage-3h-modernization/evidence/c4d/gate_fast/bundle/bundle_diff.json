@@ -1,0 +1,123 @@
+{
+ "tool": "dev/tools/gate/golden/bundle_diff.js",
+ "chromium": "141.0.7390.37",
+ "ref": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4d/gate_fast/bundle/ref_lineage_root",
+ "cand": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4d/gate_fast/bundle/cand_root",
+ "scenes": [
+  {
+   "scene": "menu",
+   "frames": 154,
+   "steps": 5,
+   "checkpoints": [
+    {
+     "name": "menu",
+     "frame": 34,
+     "png": [
+      "ea81224842b02eda9405cb83f67d74120d5515c50412e49d93c4e4f9e1fc4f04",
+      "ea81224842b02eda9405cb83f67d74120d5515c50412e49d93c4e4f9e1fc4f04"
+     ],
+     "css": [
+      "bb701ff8ef254a14",
+      "bb701ff8ef254a14"
+     ],
+     "same": true
+    }
+   ],
+   "ok": true,
+   "evals": [
+    [
+     "window.__boot && __boot.state()",
+     "menu"
+    ]
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "pageErrors": [
+    [],
+    []
+   ],
+   "fr": [
+    154,
+    154
+   ],
+   "seconds": 26
+  },
+  {
+   "scene": "solo_walk",
+   "frames": 666,
+   "steps": 37,
+   "checkpoints": [
+    {
+     "name": "run",
+     "frame": 146,
+     "png": [
+      "b27da34cff8069e2f2ff8b442758f4aa3120050335d38f459c7b170964d2d5eb",
+      "b27da34cff8069e2f2ff8b442758f4aa3120050335d38f459c7b170964d2d5eb"
+     ],
+     "css": [
+      "d1f976f15d62283a",
+      "d1f976f15d62283a"
+     ],
+     "same": true
+    },
+    {
+     "name": "map",
+     "frame": 466,
+     "png": [
+      "45d67cda508ae5dcf08d4b108cd2eb3d9379beb227c4749701ff1583aec6a77d",
+      "45d67cda508ae5dcf08d4b108cd2eb3d9379beb227c4749701ff1583aec6a77d"
+     ],
+     "css": [
+      "1549ebdbfb91064e",
+      "1549ebdbfb91064e"
+     ],
+     "same": true
+    },
+    {
+     "name": "end",
+     "frame": 666,
+     "png": [
+      "6a6098fa7d0f6f4337e79a4e3ce2be869c1236890e6b7e990298821aca87a35f",
+      "6a6098fa7d0f6f4337e79a4e3ce2be869c1236890e6b7e990298821aca87a35f"
+     ],
+     "css": [
+      "8a494141c331b5e6",
+      "8a494141c331b5e6"
+     ],
+     "same": true
+    }
+   ],
+   "ok": true,
+   "evals": [
+    [
+     "window.__boot && __boot.state()",
+     "menu"
+    ],
+    [
+     "window.__ui && __ui.go('play'), 'go'",
+     "go"
+    ],
+    [
+     "__api.started() + \" \" + __boot.state() + \" \" + __api.fall()",
+     "true playing -1"
+    ]
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "pageErrors": [
+    [],
+    []
+   ],
+   "fr": [
+    666,
+    666
+   ],
+   "seconds": 152
+  }
+ ],
+ "ok": true
+}

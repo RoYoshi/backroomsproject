@@ -61,6 +61,8 @@ backquote key; give the server a passcode with `ADMIN_PASSCODE=... node server.j
 | `npm run build:check` | every built file is what `src/` builds | seconds |
 | `node dev/tools/checks/parts.js` | every part's header agrees with its code | seconds |
 | `node dev/tools/checks/modules.js` | the module boundaries of every server file, the sim's wiring and the page's module scripts | seconds |
+| `node dev/tools/checks/window_contract.js` | the compiled client's window members: each declared in `contracts.d.ts`, each defined by the page's scripts, the declarations naming them | seconds |
+| `node dev/tools/checks/facts.js` | every fact written in more than one place holds its value in every copy (`dev/tools/checks/facts.json`) | seconds |
 | `node dev/tools/gate/golden/sim_diff.js` | the sim against B++'s `sim.js`: the same calls give the same results | ~30 s |
 | `node dev/tools/gate/golden/world_diff.js` | `world.js` against B++'s: every function, the same answers | seconds |
 | `node dev/tools/gate/golden/page_scripts.js` | `move.js`, `camcorder.js`, `glitch.js`, `ents.js` against B++'s, in the same closed Chromium page: equal traces | ~20 s |

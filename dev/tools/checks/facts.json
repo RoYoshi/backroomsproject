@@ -1,0 +1,1274 @@
+{
+ "note": "The game's facts that are written in more than one place, and where each copy is: dev/tools/checks/facts.js reads every copy and fails unless it holds the fact's value (FINDINGS M-028, M-003; each copy is B++'s accepted code). A fact is changed on purpose by changing every copy and its value here; a copy that moves is followed here. The fields of a copy are described in the tool's header. Written by C4d's generator, kept by hand since.",
+ "facts": [
+  {
+   "id": "level0-columns",
+   "finding": "M-003, M-028 (9)",
+   "owners": "L.O.S.T. (the map); B++ (the session), BR-R (the remaster), P.O.C.K.E.T., L.O.S.T. (offline)",
+   "what": "Level 0's width in cells: level0.json's, which the server's level and the compiled client read; written again where a script needs the world's size",
+   "copies": [
+    {
+     "file": "src/frameworks/lost/shared/level0.json",
+     "json": "cols",
+     "source": true
+    },
+    {
+     "file": "src/frameworks/bpp/server/session.js",
+     "find": "num\\(m\\.x, 0, (\\d+) \\* (\\d+)\\), y = num\\(m\\.y, 0, (\\d+) \\* (\\d+)\\)",
+     "group": 1,
+     "note": "the position clamp: the world is cols x 96 px wide"
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "find": "const tx = Math\\.random\\(\\) \\* (\\d+) \\| 0, ty",
+     "note": "offline glitched walls: a random cell"
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "find": "if \\(nx < 1 \\|\\| ny < 1 \\|\\| nx > (\\d+) \\|\\|",
+     "as": "plus:2",
+     "note": "offline glitched walls: inside the outer ring (cols - 2)"
+    },
+    {
+     "file": "src/frameworks/pocket/client/mp.cartograph.js",
+     "find": "const tx0 = Math\\.random\\(\\) \\* (\\d+) \\| 0, ty0",
+     "note": "offline cartograph: a random cell"
+    },
+    {
+     "file": "src/frameworks/br-r/client/l0-remaster.js",
+     "find": "FBW: (\\d+), FBH: \\d+, chunks",
+     "note": "the remaster's state before it measures the map"
+    },
+    {
+     "file": "src/frameworks/br-r/client/l0-remaster.js",
+     "find": "S\\.FBW = carpet \\? Math\\.round\\(carpet\\.width / T\\) : (\\d+);",
+     "note": "the remaster's fallback when the carpet is not there"
+    }
+   ]
+  },
+  {
+   "id": "level0-rows",
+   "finding": "M-003, M-028 (9)",
+   "owners": "as level0-columns",
+   "what": "Level 0's height in cells",
+   "copies": [
+    {
+     "file": "src/frameworks/lost/shared/level0.json",
+     "json": "rows",
+     "source": true
+    },
+    {
+     "file": "src/frameworks/bpp/server/session.js",
+     "find": "num\\(m\\.x, 0, (\\d+) \\* (\\d+)\\), y = num\\(m\\.y, 0, (\\d+) \\* (\\d+)\\)",
+     "group": 3,
+     "note": "the position clamp: the world is rows x 96 px high"
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "find": ", ty = Math\\.random\\(\\) \\* (\\d+) \\| 0; if \\(!A\\.zc\\(tx, ty\\)\\)",
+     "note": "offline glitched walls"
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "find": "nx > \\d+ \\|\\| ny > (\\d+) \\|\\| !A\\.Hc",
+     "as": "plus:2",
+     "note": "offline glitched walls: inside the outer ring (rows - 2)"
+    },
+    {
+     "file": "src/frameworks/pocket/client/mp.cartograph.js",
+     "find": ", ty0 = Math\\.random\\(\\) \\* (\\d+) \\| 0; if \\(!A\\.zc\\(tx0, ty0\\)\\)",
+     "note": "offline cartograph"
+    },
+    {
+     "file": "src/frameworks/br-r/client/l0-remaster.js",
+     "find": "FBW: \\d+, FBH: (\\d+), chunks",
+     "note": "the remaster's state before it measures the map"
+    },
+    {
+     "file": "src/frameworks/br-r/client/l0-remaster.js",
+     "find": "S\\.FBH = carpet \\? Math\\.round\\(carpet\\.height / T\\) : (\\d+);",
+     "note": "the remaster's fallback"
+    }
+   ]
+  },
+  {
+   "id": "cell-px",
+   "finding": "M-003, M-028 (9)",
+   "owners": "the engine: S.P.A.C.E. (world.js), L.O.S.T. (the server level), the compiled client, BR-R, BR-RoLE, N.A.N.I., B++",
+   "what": "a cell's size in px: every map cell is a square of it (the engine's unit; every level would share it)",
+   "value": 96,
+   "copies": [
+    {
+     "file": "src/core/client/game/shared/world.ts",
+     "find": "export const TILE=(\\d+), COLS=",
+     "note": "the compiled client's TILE"
+    },
+    {
+     "file": "src/frameworks/space/shared/world.js",
+     "find": "const T = (\\d+);",
+     "note": "world.js (both sides)"
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.level0.js",
+     "find": "(?<![\\w.$])(96)(?![\\w.$])",
+     "count": 28,
+     "note": "the server's level: every 96 in it is a cell's size (26 in the extracted code, 2 in C4c's anchor)"
+    },
+    {
+     "file": "src/frameworks/nani/server/sim.ai.js",
+     "find": "W:FBW\\*(\\d+),H:FBH\\*\\d+",
+     "note": "the AI's view of the world's size"
+    },
+    {
+     "file": "src/frameworks/nani/server/sim.ai.js",
+     "find": "W:FBW\\*\\d+,H:FBH\\*(\\d+)"
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.geo.js",
+     "find": "a\\.floor\\(Math\\.floor\\(cx\\(i\\) / (\\d+)\\), Math\\.floor\\(cy\\(i\\) / \\d+\\)\\)",
+     "note": "the AI's light grid"
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.geo.js",
+     "find": "a\\.floor\\(Math\\.floor\\(cx\\(i\\) / \\d+\\), Math\\.floor\\(cy\\(i\\) / (\\d+)\\)\\)"
+    },
+    {
+     "file": "src/frameworks/bpp/server/session.js",
+     "find": "num\\(m\\.x, 0, (\\d+) \\* (\\d+)\\), y = num\\(m\\.y, 0, (\\d+) \\* (\\d+)\\)",
+     "group": 2
+    },
+    {
+     "file": "src/frameworks/bpp/server/session.js",
+     "find": "num\\(m\\.x, 0, (\\d+) \\* (\\d+)\\), y = num\\(m\\.y, 0, (\\d+) \\* (\\d+)\\)",
+     "group": 4
+    },
+    {
+     "file": "src/frameworks/br-role/client/br-role.js",
+     "find": "const T = (\\d+), CHUNK = ",
+     "note": "BR-RoLE's level cell"
+    },
+    {
+     "file": "src/frameworks/br-r/client/l0-remaster.js",
+     "find": "\\n  const T = (\\d+);",
+     "note": "the remaster's cell"
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "find": "const cx = \\(tx \\+ \\.5\\) \\* (\\d+), cy = \\(ty \\+ \\.5\\) \\* (\\d+);",
+     "count": 1,
+     "note": "offline glitched walls: a cell centre"
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "find": "const cx = \\(tx \\+ \\.5\\) \\* \\d+, cy = \\(ty \\+ \\.5\\) \\* (\\d+);"
+    },
+    {
+     "file": "src/frameworks/pocket/client/mp.cartograph.js",
+     "find": "const x = \\(tx0 \\+ \\.5\\) \\* (\\d+), y = \\(ty0 \\+ \\.5\\) \\* \\d+;",
+     "note": "offline cartograph: a cell centre"
+    },
+    {
+     "file": "src/frameworks/pocket/client/mp.cartograph.js",
+     "find": "const x = \\(tx0 \\+ \\.5\\) \\* \\d+, y = \\(ty0 \\+ \\.5\\) \\* (\\d+);"
+    },
+    {
+     "file": "src/frameworks/space/client/move.js",
+     "find": "(?<=const inRoom12 = [^\\n]*)\\* (\\d+)",
+     "count": 4,
+     "note": "move.js: the deep carpet's bounds in px"
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "find": "const cx=\\(tx\\+\\.5\\)\\*(\\d+),cy=\\(ty\\+\\.5\\)\\*\\d+;",
+     "note": "the server glitched walls: a cell centre"
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "find": "const cx=\\(tx\\+\\.5\\)\\*\\d+,cy=\\(ty\\+\\.5\\)\\*(\\d+);"
+    }
+   ]
+  },
+  {
+   "id": "path-grid-subdivision",
+   "finding": "M-003",
+   "owners": "the engine: L.O.S.T. (the server level), the compiled client (navigation)",
+   "what": "the path grid's cells per map cell, along each side: the grid is (cols x it) by (rows x it) cells of (96 / it) px",
+   "value": 2,
+   "copies": [
+    {
+     "file": "src/core/client/game/shared/navigation.ts",
+     "find": "export const CELL=TILE/(\\d+), W=COLS\\*\\d+,H=ROWS\\*\\d+,"
+    },
+    {
+     "file": "src/core/client/game/shared/navigation.ts",
+     "find": "export const CELL=TILE/\\d+, W=COLS\\*(\\d+),H=ROWS\\*\\d+,"
+    },
+    {
+     "file": "src/core/client/game/shared/navigation.ts",
+     "find": "export const CELL=TILE/\\d+, W=COLS\\*\\d+,H=ROWS\\*(\\d+),"
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.level0.js",
+     "find": "var il=(\\d+),W=FBW\\*\\d+,al=FBH\\*\\d+,ol=",
+     "as": "into:96",
+     "note": "the server writes the cell: 96 / 2 = 48 px"
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.level0.js",
+     "find": "var il=\\d+,W=FBW\\*(\\d+),al=FBH\\*\\d+,ol="
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.level0.js",
+     "find": "var il=\\d+,W=FBW\\*\\d+,al=FBH\\*(\\d+),ol="
+    }
+   ]
+  },
+  {
+   "id": "path-clearance",
+   "finding": "M-003",
+   "owners": "the engine: L.O.S.T. (the server level), the compiled client (navigation), N.A.N.I. (the monsters)",
+   "what": "the room a body needs around it on the path grid, px: a path cell is open when a circle of it fits; the Hound's and the Smiler's clearance",
+   "value": 21,
+   "copies": [
+    {
+     "file": "src/core/client/game/shared/navigation.ts",
+     "find": ",H=ROWS\\*\\d+,RADIUS=(\\d+);"
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.level0.js",
+     "find": ",al=FBH\\*\\d+,ol=(\\d+);"
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.hound.js",
+     "find": "kind: 'hound', initial: S\\.ROAMING, radius: \\d+, clearance: (\\d+),"
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.smiler.js",
+     "find": "kind: 'smiler', initial: S\\.HIDDEN, radius: \\d+, clearance: (\\d+),"
+    }
+   ]
+  },
+  {
+   "id": "level0-rooms-by-index",
+   "finding": "M-003",
+   "owners": "L.O.S.T. (the map); the compiled client, S.P.A.C.E. (move.js), L.O.S.T. (world.js)",
+   "what": "code that takes a room of level0.json by its place in the list: the room it means (each copy's own value). Reordering the rooms moves them",
+   "copies": [
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "find": "const dim=rooms\\[(\\d+)\\],",
+     "as": "roomName",
+     "value": "BLACKOUT ZONE",
+     "note": "tinted"
+    },
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "find": ",redRoom=rooms\\[(\\d+)\\],",
+     "as": "roomName",
+     "value": "RED ROOMS",
+     "note": "tinted"
+    },
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "find": ",deep=rooms\\[(\\d+)\\],",
+     "as": "roomName",
+     "value": "DEEP CARPET",
+     "note": "tinted"
+    },
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "find": ",damp=rooms\\[(\\d+)\\],",
+     "as": "roomName",
+     "value": "DAMP ROOMS",
+     "note": "tinted"
+    },
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "find": ",arches=rooms\\[(\\d+)\\];",
+     "as": "roomName",
+     "value": "ARCH GALLERY",
+     "note": "its arches"
+    },
+    {
+     "file": "src/core/client/game/shared/movement.ts",
+     "find": "const deep=rooms\\[(\\d+)\\],onDeepCarpet",
+     "as": "roomName",
+     "value": "DEEP CARPET",
+     "note": "the slower walk"
+    },
+    {
+     "file": "src/frameworks/space/client/move.js",
+     "find": "const c = a\\.Oc\\[(\\d+)\\];",
+     "as": "roomName",
+     "value": "DEEP CARPET",
+     "note": "move.js's deep carpet (inRoom12)"
+    },
+    {
+     "file": "src/frameworks/lost/shared/world.lamps.js",
+     "find": ", bo = rooms\\[(\\d+)\\],",
+     "as": "roomName",
+     "value": "BLACKOUT ZONE",
+     "note": "its own lamp rule"
+    }
+   ]
+  },
+  {
+   "id": "level0-room-names",
+   "finding": "M-003",
+   "owners": "L.O.S.T. (the map, the visual metadata, the lamps, the surfaces), BR-RoLE, the compiled client",
+   "what": "the names of Level 0's rooms, which code looks up: each name used must be a room of level0.json; the visual metadata lists every room by its code",
+   "copies": [
+    {
+     "file": "src/frameworks/lost/shared/level0.json",
+     "json": "rooms",
+     "as": "names",
+     "source": true,
+     "mutant": [
+      "\"DAMP ROOMS\"",
+      "\"DAMP ROOMZ\""
+     ],
+     "note": "--mutants renames a room the code names"
+    },
+    {
+     "file": "src/frameworks/br-role/client/br-role.js",
+     "find": "wall: (\\{[^}]*\\}), floor:",
+     "as": "keys",
+     "drop": [
+      ""
+     ],
+     "check": "subset",
+     "note": "the walls' albedo by room"
+    },
+    {
+     "file": "src/frameworks/br-role/client/br-role.js",
+     "find": "\\}, floor: (\\{[^}]*\\})",
+     "as": "keys",
+     "drop": [
+      ""
+     ],
+     "check": "subset",
+     "note": "the floors' albedo by room"
+    },
+    {
+     "file": "src/frameworks/lost/shared/world.lamps.js",
+     "find": "gaps: (\\{[^}]*\\}),",
+     "as": "keys",
+     "check": "subset",
+     "note": "the lamps' gaps by room"
+    },
+    {
+     "file": "src/frameworks/lost/shared/world.surfaces.js",
+     "find": "if \\(r\\.name === '([A-Z ]+)'\\) return 'wet';",
+     "as": "string",
+     "check": "subset",
+     "note": "the wet floor"
+    },
+    {
+     "file": "src/core/client/game/client/main.ts",
+     "find": "room\\?\\.name==='([A-Z ]+)'",
+     "count": 2,
+     "as": "string",
+     "check": "subset",
+     "note": "the footsteps' surface by room"
+    }
+   ]
+  },
+  {
+   "id": "level0-room-codes",
+   "finding": "M-003",
+   "owners": "L.O.S.T.",
+   "what": "each room's two-digit code and name, as level0.json and the visual metadata (level0_visuals.js) give them",
+   "copies": [
+    {
+     "file": "src/frameworks/lost/shared/level0.json",
+     "json": "rooms",
+     "as": "pairs:code:name",
+     "source": true
+    },
+    {
+     "file": "src/frameworks/lost/client/level0_visuals.js",
+     "find": "\\{ id: 'room:(\\d+)', code: '(\\d+)', name: '([A-Z0-9 ]+)', surface:",
+     "count": 12,
+     "groups": [
+      2,
+      3
+     ],
+     "join": ":",
+     "as": "string",
+     "check": "subset",
+     "note": "its twelve rooms"
+    }
+   ]
+  },
+  {
+   "id": "light-kinds",
+   "finding": "M-028 (7)",
+   "owners": "P.O.C.K.E.T. (the table); W.A.R.D. (what the server accepts); the compiled client (the loadout it reads back)",
+   "what": "the carried lights a player can have, in their order",
+   "copies": [
+    {
+     "file": "src/frameworks/pocket/shared/lights.json",
+     "json": "kinds",
+     "as": "keys",
+     "source": true
+    },
+    {
+     "file": "src/frameworks/ward/server/fields.js",
+     "find": "const KINDS = (\\[[^\\]]*\\])",
+     "as": "literal",
+     "note": "what the server accepts (kindOf)"
+    },
+    {
+     "file": "src/core/client/game/shared/equipment.ts",
+     "find": "migrateKind\\(v\\.kind\\)&&(\\[[^\\]]*\\])\\.includes",
+     "as": "literal",
+     "note": "the stored loadout read back"
+    }
+   ]
+  },
+  {
+   "id": "hats",
+   "finding": "M-028 (7)",
+   "owners": "W.A.R.D. (the server); the compiled client",
+   "what": "the hats a look may have",
+   "value": [
+    "none",
+    "cap",
+    "beanie",
+    "hardhat"
+   ],
+   "copies": [
+    {
+     "file": "src/frameworks/ward/server/fields.js",
+     "find": "return (\\[[^\\]]*\\])\\.includes\\(h\\)",
+     "as": "literal"
+    },
+    {
+     "file": "src/core/client/game/client/appearance.ts",
+     "find": "\\{hat:(\\[[^\\]]*\\]),texture:",
+     "as": "literal",
+     "note": "the compiled client's choices (a stored look read back)"
+    }
+   ]
+  },
+  {
+   "id": "textures",
+   "finding": "M-028 (7)",
+   "owners": "as hats",
+   "what": "the skin textures a look may have",
+   "value": [
+    "plain",
+    "freckles",
+    "stripes",
+    "patched"
+   ],
+   "copies": [
+    {
+     "file": "src/frameworks/ward/server/fields.js",
+     "find": "&& (\\[[^\\]]*\\])\\.includes\\(t\\)",
+     "as": "literal"
+    },
+    {
+     "file": "src/core/client/game/client/appearance.ts",
+     "find": ",texture:(\\[[^\\]]*\\]),backpack:",
+     "as": "literal"
+    }
+   ]
+  },
+  {
+   "id": "backpacks",
+   "finding": "M-028 (7)",
+   "owners": "as hats",
+   "what": "the backpacks a look may have",
+   "value": [
+    "none",
+    "canvas",
+    "utility"
+   ],
+   "copies": [
+    {
+     "file": "src/frameworks/ward/server/fields.js",
+     "find": "HEX\\.test\\(m\\) && (\\[[^\\]]*\\])\\.includes\\(b\\)",
+     "as": "literal"
+    },
+    {
+     "file": "src/core/client/game/client/appearance.ts",
+     "find": ",backpack:(\\[[^\\]]*\\])\\}\\)\\)",
+     "as": "literal"
+    }
+   ]
+  },
+  {
+   "id": "default-look",
+   "finding": "M-028 (7)",
+   "owners": "W.A.R.D., B++ (net-wire.js), the compiled client",
+   "what": "the look a player has until it sends one: hat|texture|hands|main|backpack",
+   "value": "none|plain|#e6bb76|#ffcc77|none",
+   "copies": [
+    {
+     "file": "src/frameworks/ward/server/fields.js",
+     "find": "DEFAULT_LOOK = '([^']*)'",
+     "as": "string"
+    },
+    {
+     "file": "src/frameworks/bpp/client/net-wire.js",
+     "find": "String\\(s \\|\\| '([^']*)'\\)\\.split\\('\\|'\\)",
+     "as": "string",
+     "note": "a peer's look before it sends one"
+    },
+    {
+     "file": "src/core/client/game/shared/avatar.ts",
+     "find": "defaults:Appearance=\\{hat:'([^']*)',texture:'([^']*)',hands:'([^']*)',main:'([^']*)',backpack:'([^']*)'\\}",
+     "as": "string",
+     "groups": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "join": "|",
+     "note": "the compiled client's defaults"
+    }
+   ]
+  },
+  {
+   "id": "name-length",
+   "finding": "M-028 (7)",
+   "owners": "B++ (the session, both sides), F.R.O.N.T. (the page)",
+   "what": "a player's name: at most this many characters",
+   "value": 20,
+   "copies": [
+    {
+     "file": "src/frameworks/bpp/server/session.js",
+     "find": "me\\.name = String\\(m\\.n \\|\\| 'WANDERER'\\)\\.slice\\(0, (\\d+)\\);",
+     "note": "the server keeps"
+    },
+    {
+     "file": "src/frameworks/bpp/client/mp.session.js",
+     "find": "\\|\\| 'WANDERER'\\)\\.slice\\(0, (\\d+)\\)",
+     "note": "the page sends"
+    },
+    {
+     "file": "src/frameworks/front/client/ui.js",
+     "find": "nm\\.value = v\\.slice\\(0, (\\d+)\\);",
+     "note": "the stored name"
+    },
+    {
+     "file": "public/index.html",
+     "find": "<input id=\"name\" maxlength=\"(\\d+)\"",
+     "note": "the field"
+    }
+   ]
+  },
+  {
+   "id": "colour-test",
+   "finding": "M-028 (7)",
+   "owners": "W.A.R.D. (the server), F.R.O.N.T. (hud.js), the compiled client, BR-RoLE, G.I.B. (gore.js)",
+   "what": "a colour a client may send: # and six hex digits",
+   "value": "^#[0-9a-f]{6}$",
+   "copies": [
+    {
+     "file": "src/frameworks/ward/server/fields.js",
+     "find": "/(\\^#\\[0-9a-f\\]\\{6\\}\\$)/i",
+     "count": 2,
+     "as": "string",
+     "note": "HEX and cleanParts"
+    },
+    {
+     "file": "src/frameworks/front/client/hud.js",
+     "find": "/(\\^#\\[0-9a-f\\]\\{6\\}\\$)/i",
+     "as": "string"
+    },
+    {
+     "file": "src/core/client/game/shared/equipment.ts",
+     "find": "/(\\^#\\[0-9a-f\\]\\{6\\}\\$)/i",
+     "count": 2,
+     "as": "string"
+    },
+    {
+     "file": "src/core/client/game/client/appearance.ts",
+     "find": "/(\\^#\\[0-9a-f\\]\\{6\\}\\$)/i",
+     "as": "string"
+    },
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "find": "/(\\^#\\[0-9a-f\\]\\{6\\}\\$)/i",
+     "as": "string"
+    },
+    {
+     "file": "src/frameworks/br-role/client/br-role.js",
+     "find": "/(\\^#\\[0-9a-f\\]\\{6\\}\\$)/i",
+     "count": 2,
+     "as": "string"
+    },
+    {
+     "file": "src/frameworks/gib/client/gore.js",
+     "find": "/(\\^#\\[0-9a-f\\]\\{6\\}\\$)/i",
+     "as": "string"
+    }
+   ]
+  },
+  {
+   "id": "infrared-levels",
+   "finding": "M-028 (7)",
+   "owners": "B++ (the session), BR-R (the camcorder)",
+   "what": "the camcorder's infrared levels: off, low, high (the highest is 2)",
+   "copies": [
+    {
+     "file": "src/frameworks/bpp/server/session.js",
+     "find": "Math\\.max\\(0, Math\\.min\\((\\d+), m\\.ir \\| 0\\)\\)",
+     "value": 2,
+     "note": "the server keeps 0 to 2"
+    },
+    {
+     "file": "src/frameworks/br-r/client/camcorder.view.js",
+     "find": "S\\.ir = \\(S\\.ir \\+ 1\\) % (\\d+);",
+     "value": 3,
+     "note": "the page cycles through 3"
+    }
+   ]
+  },
+  {
+   "id": "entity-states",
+   "finding": "M-028 (1)",
+   "owners": "N.A.N.I. (the server), BR-R (ents.js)",
+   "what": "the entities' states, by the index the wire sends",
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.head.js",
+     "find": "const S = (\\{[\\s\\S]*?\\});",
+     "as": "keys",
+     "note": "S, numbered into SCODE"
+    },
+    {
+     "file": "src/frameworks/br-r/client/ents.head.js",
+     "find": "\\n    s: (\\[[^\\]]*\\]),",
+     "as": "literal",
+     "note": "ents.js's tab.s"
+    }
+   ]
+  },
+  {
+   "id": "hound-actions",
+   "finding": "M-028 (1)",
+   "owners": "as entity-states",
+   "what": "the Hound's actions, by the index the wire sends",
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.hound.js",
+     "find": "const HACT = (\\{[^}]*\\});",
+     "as": "byIndex"
+    },
+    {
+     "file": "src/frameworks/br-r/client/ents.head.js",
+     "find": "\\n    h: (\\[[^\\]]*\\]),",
+     "as": "literal",
+     "note": "ents.js's tab.h"
+    }
+   ]
+  },
+  {
+   "id": "smiler-actions",
+   "finding": "M-028 (1)",
+   "owners": "as entity-states",
+   "what": "the Smiler's actions, by the index the wire sends",
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.smiler.js",
+     "find": "const SACT = (\\{[^}]*\\});",
+     "as": "byIndex"
+    },
+    {
+     "file": "src/frameworks/br-r/client/ents.head.js",
+     "find": "\\n    m: (\\[[^\\]]*\\]),",
+     "as": "literal",
+     "note": "ents.js's tab.m"
+    }
+   ]
+  },
+  {
+   "id": "movement-events",
+   "finding": "M-028 (4)",
+   "owners": "S.P.A.C.E. (move.js), N.A.N.I. (the noise each makes)",
+   "what": "the movement events the page reports: a vault (21 + its speed 0 to 2), a landing (24 + 0 to 2), a slide (30)",
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.engine.js",
+     "find": "const EV_NOISE = (\\{[\\s\\S]*?\\n\\});",
+     "as": "numericKeys",
+     "value": [
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      30
+     ],
+     "note": "each code the server hears"
+    },
+    {
+     "file": "src/frameworks/space/client/move.js",
+     "find": "mv\\.event\\((\\d+) \\+ q, q === 2",
+     "value": 21,
+     "note": "a vault"
+    },
+    {
+     "file": "src/frameworks/space/client/move.js",
+     "find": "mv\\.event\\((\\d+) \\+ v\\.q, v\\.q === 2",
+     "value": 24,
+     "note": "a landing"
+    },
+    {
+     "file": "src/frameworks/space/client/move.js",
+     "find": "mv\\.event\\((\\d+), \\.75\\)",
+     "value": 30,
+     "note": "a slide"
+    }
+   ]
+  },
+  {
+   "id": "movement-events-per-packet",
+   "finding": "M-028 (4)",
+   "owners": "S.P.A.C.E.",
+   "what": "the most movement events one pose carries",
+   "value": 6,
+   "copies": [
+    {
+     "file": "src/frameworks/space/client/move.js",
+     "find": "if \\(mv\\.ev\\.length < (\\d+)\\) mv\\.ev\\.push",
+     "note": "the page keeps"
+    },
+    {
+     "file": "src/frameworks/space/server/sim.movement.js",
+     "find": "for\\(const e of m\\.ev\\.slice\\(0,(\\d+)\\)\\)",
+     "note": "the server reads"
+    }
+   ]
+  },
+  {
+   "id": "body-distance",
+   "finding": "M-028 (2)",
+   "owners": "S.P.A.C.E.",
+   "what": "how close two living players come, px: the server's rule and the page's prediction, which keeps a margin (each recorded)",
+   "copies": [
+    {
+     "file": "src/frameworks/space/server/peers.js",
+     "find": "const D_BODY = ([\\d.]+), TOL",
+     "value": 36
+    },
+    {
+     "file": "src/frameworks/space/client/move.js",
+     "find": "const PEER_D = ([\\d.]+);",
+     "value": 36.75
+    }
+   ]
+  },
+  {
+   "id": "hound-kill-time",
+   "finding": "M-028 (3)",
+   "owners": "N.A.N.I. (the server holds the Hound on its kill), G.I.B. (dphys.js, the death)",
+   "what": "how long a Hound stays on its kill, s, by the death's variant; and each side's fallback (they differ: recorded)",
+   "copies": [
+    {
+     "file": "src/frameworks/gib/shared/dphys.js",
+     "find": "const DURS = \\{ Hound: (\\{[^}]*\\})",
+     "as": "literal",
+     "source": true
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.capture.js",
+     "find": "const KILL_DUR = (\\{[^}]*\\});",
+     "as": "literal"
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.capture.js",
+     "find": "\\(KILL_DUR\\[variant\\] \\|\\| ([\\d.]+)\\)",
+     "value": 4.5,
+     "note": "the server's fallback"
+    },
+    {
+     "file": "src/frameworks/gib/shared/dphys.js",
+     "find": "\\(DURS\\[kind\\] \\|\\| DURS\\.Hound\\)\\[v\\] \\|\\| ([\\d.]+)",
+     "count": 2,
+     "value": 4.4,
+     "note": "dphys.js's fallback (a death's plan and its duration)"
+    }
+   ]
+  },
+  {
+   "id": "entity-slots",
+   "finding": "M-028 (6)",
+   "owners": "N.A.N.I., OVERSEER, the compiled client",
+   "what": "the most Hounds and Smilers a world can hold (the admin and stress ceiling)",
+   "value": 64,
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/sim.ai.js",
+     "find": "ADMIN_MAX_HOUNDS=(\\d+),"
+    },
+    {
+     "file": "src/frameworks/nani/server/sim.ai.js",
+     "find": "ADMIN_MAX_SMILERS=(\\d+),"
+    },
+    {
+     "file": "src/frameworks/nani/client/mp.monsters.js",
+     "find": "const CLIENT_ENTITY_SLOTS = (\\d+);"
+    },
+    {
+     "file": "src/frameworks/overseer/client/mp.admin.js",
+     "find": "const mh = d\\.mh \\|\\| (\\d+), ms = d\\.ms \\|\\| \\d+;"
+    },
+    {
+     "file": "src/frameworks/overseer/client/mp.admin.js",
+     "find": "const mh = d\\.mh \\|\\| \\d+, ms = d\\.ms \\|\\| (\\d+);"
+    },
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "find": "hv=Array\\.from\\(\\{length:(\\d+)\\}",
+     "note": "the compiled client's Hound views"
+    },
+    {
+     "file": "src/core/client/game/shared/entity.ts",
+     "find": "for\\(let i=smilerOrigins\\.length;i<(\\d+);i\\+\\+\\)",
+     "note": "the compiled client's Smiler slots"
+    }
+   ]
+  },
+  {
+   "id": "spawn-protection",
+   "finding": "M-028 (10)",
+   "owners": "S.P.A.C.E. (the server), B++ (the page)",
+   "what": "a new player's grace, s: the server protects for 3, the page shows the grace for 4 (it only shapes the presentation; recorded, as on B++)",
+   "copies": [
+    {
+     "file": "src/frameworks/space/server/sim.players.js",
+     "find": "dead:``,safe:(\\d+),",
+     "value": 3
+    },
+    {
+     "file": "src/frameworks/bpp/client/mp.session.js",
+     "find": "graceUntil = performance\\.now\\(\\) / 1000 \\+ (\\d+);",
+     "count": 2,
+     "value": 4
+    }
+   ]
+  },
+  {
+   "id": "lamp-reach",
+   "finding": "M-028 (5)",
+   "owners": "N.A.N.I. (what monsters perceive), BR-RoLE (light.js), the compiled client (what players see)",
+   "what": "a ceiling lamp's reach, px",
+   "value": 380,
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.geo.js",
+     "find": "if \\(d >= (\\d+)\\) continue;"
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.geo.js",
+     "find": "best = Math\\.max\\(best, \\(1 - sm\\(\\d+, (\\d+), d\\)\\)"
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "find": "if \\(dx > (\\d+) \\|\\| dx < -\\d+ \\|\\| dy > \\d+ \\|\\| dy < -\\d+\\) continue;"
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "find": "if \\(dx > \\d+ \\|\\| dx < -(\\d+) \\|\\|"
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "find": "\\|\\| dy > (\\d+) \\|\\| dy < -\\d+\\) continue;"
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "find": "\\|\\| dy < -(\\d+)\\) continue;"
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "find": "if \\(r >= (\\d+)\\) continue;"
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "find": "v = \\(1 - ss\\(\\d+, (\\d+), r\\)\\)"
+    },
+    {
+     "file": "src/core/client/game/shared/vision.ts",
+     "find": "if\\(ld>=(\\d+)\\)continue;"
+    },
+    {
+     "file": "src/core/client/game/shared/vision.ts",
+     "find": "strength=Math\\.max\\(strength,\\(1-smooth\\(\\d+,(\\d+),ld\\)\\)"
+    },
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "find": "d=rayDistance\\(l\\.x,l\\.y,angle,(\\d+)\\);",
+     "note": "the lamp's lit shape, as drawn"
+    },
+    {
+     "file": "src/frameworks/br-role/client/br-role.js",
+     "find": "const LAMP = \\{ R: (\\d+),",
+     "note": "BR-RoLE's lamp radius"
+    }
+   ]
+  },
+  {
+   "id": "lamp-falloff",
+   "finding": "M-028 (5)",
+   "owners": "as lamp-reach",
+   "what": "a lamp's light: full to this many px, then a smooth fall to its reach",
+   "value": 40,
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.geo.js",
+     "find": "\\(1 - sm\\((\\d+), \\d+, d\\)\\)"
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "find": "v = \\(1 - ss\\((\\d+), \\d+, r\\)\\)"
+    },
+    {
+     "file": "src/core/client/game/shared/vision.ts",
+     "find": "\\(1-smooth\\((\\d+),\\d+,ld\\)\\)"
+    }
+   ]
+  },
+  {
+   "id": "lamp-strength",
+   "finding": "M-028 (5)",
+   "owners": "as lamp-reach",
+   "what": "a lamp's light at full",
+   "value": 0.43,
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.geo.js",
+     "find": "\\(1 - sm\\(\\d+, \\d+, d\\)\\) \\* ([\\d.]+)\\)"
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "find": "\\(1 - ss\\(\\d+, \\d+, r\\)\\) \\* ([\\d.]+) \\* f"
+    },
+    {
+     "file": "src/core/client/game/shared/vision.ts",
+     "find": "\\(1-smooth\\(\\d+,\\d+,ld\\)\\)\\*([\\d.]+)\\*"
+    }
+   ]
+  },
+  {
+   "id": "lamp-failure-dimming",
+   "finding": "M-028 (5)",
+   "owners": "N.A.N.I. (the server), OVERSEER (ents.js, the page)",
+   "what": "a failing lamp near its failure: the server keeps .06 of its light; the page takes .94 away, with a flicker (recorded: 1 - .94 = .06)",
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.geo.js",
+     "find": "< f\\.r\\) a \\*= ([\\d.]+);",
+     "value": 0.06
+    },
+    {
+     "file": "src/frameworks/overseer/client/ents.debug.js",
+     "find": "m \\*= 1 - k \\* \\(([\\d.]+) - fl \\* \\.5\\);",
+     "value": 0.94
+    }
+   ]
+  },
+  {
+   "id": "fixed-step-hz",
+   "finding": "M-028 (8)",
+   "owners": "S.P.A.C.E. (timing_policy.js), the compiled client (its fallback), core (the server loop)",
+   "what": "the simulation steps per second",
+   "value": 60,
+   "copies": [
+    {
+     "file": "src/frameworks/space/shared/timing_policy.js",
+     "find": "const FIXED_HZ = (\\d+);"
+    },
+    {
+     "file": "src/core/client/game/client/main.ts",
+     "find": "FIXED_DT:1/(\\d+),MAX_CATCHUP_STEPS"
+    },
+    {
+     "file": "src/core/server/loop.js",
+     "find": "while \\(room\\.acc >= 1 / (\\d+) && n\\+\\+ < \\d+\\)"
+    },
+    {
+     "file": "src/core/server/loop.js",
+     "find": "\\{ room\\.sim\\.step\\(1 / (\\d+)\\); room\\.acc -= 1 / \\d+; \\}"
+    },
+    {
+     "file": "src/core/server/loop.js",
+     "find": "room\\.acc -= 1 / (\\d+); \\}"
+    }
+   ]
+  },
+  {
+   "id": "catch-up-steps",
+   "finding": "M-028 (8)",
+   "owners": "as fixed-step-hz",
+   "what": "the most steps one frame or tick catches up",
+   "value": 15,
+   "copies": [
+    {
+     "file": "src/frameworks/space/shared/timing_policy.js",
+     "find": "const MAX_CATCHUP_STEPS = (\\d+);"
+    },
+    {
+     "file": "src/core/client/game/client/main.ts",
+     "find": ",MAX_CATCHUP_STEPS:(\\d+),frameDelta"
+    },
+    {
+     "file": "src/core/server/loop.js",
+     "find": "&& n\\+\\+ < (\\d+)\\)"
+    }
+   ]
+  },
+  {
+   "id": "frame-cap",
+   "finding": "M-028 (8)",
+   "owners": "as fixed-step-hz",
+   "what": "the longest time one frame or tick may account for, s (timing_policy.js gives it as 15 steps of 1/60 s)",
+   "value": 0.25,
+   "copies": [
+    {
+     "file": "src/core/client/game/client/main.ts",
+     "find": "frameDelta:\\(now:number,previous:number\\)=>Math\\.min\\(([\\d.]+),"
+    },
+    {
+     "file": "src/core/server/loop.js",
+     "find": "const dt = Math\\.min\\(([\\d.]+), \\(now - room\\.last\\) / 1000\\);"
+    }
+   ]
+  },
+  {
+   "id": "movement-floors",
+   "finding": "M-028 (11)",
+   "owners": "S.P.A.C.E.",
+   "what": "the speeds the server's floors for an unclaimed movement state were derived from by hand, and the floors (each recorded: a change of the speeds needs the floors looked at again)",
+   "copies": [
+    {
+     "file": "src/frameworks/space/shared/world.move.js",
+     "find": "walk: (\\d+), run: \\d+, crouch: \\d+, crawl: \\d+, exhaustedWalk: \\d+,",
+     "value": 172,
+     "note": "W.MOVE.walk"
+    },
+    {
+     "file": "src/frameworks/space/shared/world.move.js",
+     "find": "walk: \\d+, run: (\\d+), crouch: \\d+, crawl: \\d+, exhaustedWalk:",
+     "value": 285,
+     "note": "W.MOVE.run"
+    },
+    {
+     "file": "src/frameworks/space/shared/world.move.js",
+     "find": "crawl: \\d+, exhaustedWalk: (\\d+),",
+     "value": 148,
+     "note": "W.MOVE.exhaustedWalk"
+    },
+    {
+     "file": "src/frameworks/space/server/sim.movement.js",
+     "find": "else\\{st=(ov<\\d+\\?0:ov<=\\d+\\?3:ov<=\\d+\\?1:2);sp=ov\\}",
+     "as": "string",
+     "value": "ov<20?0:ov<=106?3:ov<=225?1:2",
+     "note": "the floors for an unclaimed state"
+    },
+    {
+     "file": "src/frameworks/space/server/sim.movement.js",
+     "find": "if\\(\\(st===0\\|\\|st===3\\|\\|st===4\\)&&ov>(\\d+)\\)st=ov>\\d+\\?2:1;",
+     "value": 150
+    },
+    {
+     "file": "src/frameworks/space/server/sim.movement.js",
+     "find": "\\)st=ov>(\\d+)\\?2:1;",
+     "value": 225
+    },
+    {
+     "file": "src/frameworks/space/server/sim.movement.js",
+     "find": "else if\\(st===1&&ov>(\\d+)\\)st=2;",
+     "value": 225
+    }
+   ]
+  },
+  {
+   "id": "movement-states",
+   "finding": "M-028 (inside the server)",
+   "owners": "S.P.A.C.E.",
+   "what": "the movement states' codes (world.js's W.S, which both sides load; the server's floors write some as numbers)",
+   "value": {
+    "stand": 0,
+    "walk": 1,
+    "run": 2,
+    "crouch": 3,
+    "crawl": 4,
+    "slide": 5,
+    "vault": 6,
+    "down": 7
+   },
+   "copies": [
+    {
+     "file": "src/frameworks/space/shared/world.move.js",
+     "find": "W\\.S = (\\{[^}]*\\});",
+     "as": "literal"
+    },
+    {
+     "file": "src/frameworks/space/shared/world.move.js",
+     "find": "W\\.SN = (\\[[^\\]]*\\]);",
+     "as": "literal",
+     "value": [
+      "stand",
+      "walk",
+      "run",
+      "crouch",
+      "crawl",
+      "slide",
+      "vault",
+      "down"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "route-check-distance",
+   "finding": "M-028 (inside the server)",
+   "owners": "S.P.A.C.E.",
+   "what": "a move this long or longer, px, is checked along a route (a jump is not swept)",
+   "value": 120,
+   "copies": [
+    {
+     "file": "src/frameworks/space/server/movement.js",
+     "find": "if \\(d >= (\\d+)\\) \\{ if \\(now - v\\.pathT"
+    },
+    {
+     "file": "src/frameworks/space/server/movement.js",
+     "find": "if \\(Math\\.hypot\\(x - p\\.x, y - p\\.y\\) < (\\d+)\\) \\{"
+    },
+    {
+     "file": "src/frameworks/space/server/sim.movement.js",
+     "find": "if\\(d<(\\d+)\\)return null;"
+    }
+   ]
+  },
+  {
+   "id": "exhausted-stamina",
+   "finding": "M-028 (inside the server)",
+   "owners": "N.A.N.I., G.I.B.",
+   "what": "a player below this stamina is exhausted (how a Hound kills; what the death records)",
+   "value": 22,
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.hound.js",
+     "find": "const exhausted = pv\\.stamina < (\\d+) \\|\\| pv\\.ex,"
+    },
+    {
+     "file": "src/frameworks/gib/server/aftermath.js",
+     "find": "\\bstamina < (\\d+)\\b"
+    }
+   ]
+  },
+  {
+   "id": "glitched-walls",
+   "finding": "M-028 (offline)",
+   "owners": "L.O.S.T.",
+   "what": "the glitched walls of a world: how many",
+   "value": 3,
+   "copies": [
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "find": "function makeGlitches\\(n=(\\d+)\\)"
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "find": "glitches=makeGlitches\\((\\d+)\\)"
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "find": "out\\.length < (\\d+); t\\+\\+"
+    }
+   ]
+  },
+  {
+   "id": "glitched-wall-spacing",
+   "finding": "M-028 (offline)",
+   "owners": "L.O.S.T.",
+   "what": "how far a glitched wall lies from the spawn and from another one, px",
+   "value": 2600,
+   "copies": [
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "find": "Math\\.hypot\\(x-Ic\\.x,y-Ic\\.y\\)<(\\d+)\\|\\|"
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "find": "Math\\.hypot\\(o\\.x-x,o\\.y-y\\)<(\\d+)\\)\\)continue;"
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "find": "Math\\.hypot\\(x - A\\.Ic\\.x, y - A\\.Ic\\.y\\) < (\\d+) \\|\\|"
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "find": "Math\\.hypot\\(o\\[0\\] - x, o\\[1\\] - y\\) < (\\d+)\\)\\) continue;"
+    }
+   ]
+  },
+  {
+   "id": "glitched-wall-face",
+   "finding": "M-028 (offline)",
+   "owners": "L.O.S.T.",
+   "what": "a glitched wall sits this far from its cell's centre, px (half a cell: on the wall's face)",
+   "value": 48,
+   "copies": [
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "find": "const x=cx\\+d\\[0\\]\\*(\\d+),y=cy\\+d\\[1\\]\\*\\d+;"
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "find": "const x=cx\\+d\\[0\\]\\*\\d+,y=cy\\+d\\[1\\]\\*(\\d+);"
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "find": "const x = cx \\+ d\\[0\\] \\* (\\d+), y = cy"
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "find": ", y = cy \\+ d\\[1\\] \\* (\\d+);"
+    }
+   ]
+  },
+  {
+   "id": "glitched-wall-reach",
+   "finding": "M-028 (offline)",
+   "owners": "core (the server step), L.O.S.T. (offline)",
+   "what": "a player this close to a glitched wall, px, goes through it",
+   "value": 54,
+   "copies": [
+    {
+     "file": "src/core/server/sim.step.js",
+     "find": "Math\\.hypot\\(p\\.x-g\\.x,p\\.y-g\\.y\\)<(\\d+)\\)\\{p\\.exited=true"
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "find": "Math\\.hypot\\(p\\.x - g\\[0\\], p\\.y - g\\[1\\]\\) < (\\d+)\\)"
+    }
+   ]
+  },
+  {
+   "id": "cartograph-distance",
+   "finding": "M-028 (offline)",
+   "owners": "P.O.C.K.E.T.",
+   "what": "the cartograph lies at least this far from the spawn, px",
+   "value": 1800,
+   "copies": [
+    {
+     "file": "src/frameworks/pocket/server/sim.items.js",
+     "find": "randomSpot\\((\\d+),glitches\\(\\)"
+    },
+    {
+     "file": "src/frameworks/pocket/client/mp.cartograph.js",
+     "find": "Math\\.hypot\\(x - A\\.Ic\\.x, y - A\\.Ic\\.y\\) < (\\d+)\\) continue;"
+    }
+   ]
+  }
+ ]
+}

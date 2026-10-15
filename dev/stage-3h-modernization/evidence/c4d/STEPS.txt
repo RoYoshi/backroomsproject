@@ -1,0 +1,71 @@
+Stage 3H continuation C4d (M-005, M-028): the compiled client's window contract checked; the facts written in more than one place guarded
+=====================================================================================================================================
+
+Base: C4c 3a3c12bbf542e5078b028b25d8329190772aaee0 (tree 4cd6faaa2bf5a913784ddee7eb3e811c59a33541), verified on GitHub
+(evidence/remote/verify_c4c_3a3c12b.json); its after-commit secret scan is secret_scan_c4c_after_commit.txt here.
+No runtime behaviour changes in this checkpoint: two checks, a gate step, comments, documentation (section 4).
+
+1. The compiled client's side of the window contracts (FINDINGS M-005)
+   The page's classic scripts and the compiled client talk through window. Since C4 the client is TypeScript and declares every window
+   member it uses in src/core/client/game/client/contracts.d.ts (its type, the script that defines it, the lineage step), so TypeScript
+   checks each use at every build. dev/tools/checks/window_contract.js (TypeScript 6.0.3, as the parts and modules checks) holds those
+   declarations to the code on both sides:
+     1. every window member the client's source reads or writes is declared, and window is never cast to escape the declarations;
+     2. every declaration is used;
+     3. no member the client reads is left undefined by the page's scripts;
+     4. every script that writes a member the client uses is named in the member's declaration, the first one named writing it;
+     5. the built bundle (public/assets/index-DKbV5Nv9.js) reaches the same window names as its source.
+   (A script's writes and reads are counted as docs.js counts them for CONTRACTS.md; the client's from its TypeScript.)
+   - First run: rule 4 found that assets/shadows-2d.js (BR-RoLE) writes window.__mp too - it wraps the per-frame hook mp.js defines, to
+     draw its shadows after it - and the declaration named only mp.js (FINDINGS M-035, as on B++). Its comment now names both; the
+     declarations are comments and types, and the built bundle is C4c's byte for byte (SHA-256 9624ba47...).
+   - On this tree (window_contract.json): 35 members declared and used, every rule holds.
+   - --mutants 1 (window_contract_mutants.json): 8 breaks, each refused by its rule and by nothing the control has: an undeclared member
+     read; a declaration nobody uses; a read of a name no page script writes; a declaration that loses its script; a page script that
+     starts writing a member the client reads (hud.js writing __mv); the built bundle reaching a name its source does not; the built
+     bundle no longer writing a member its source writes (__lastCause); window cast to any. The control PASS.
+
+2. The facts written in more than one place (FINDINGS M-028)
+   dev/tools/checks/facts.json lists 41 facts and every copy of each: 169 entries, 216 occurrences in 55 files (an entry is a file and a
+   pattern, which may occur several times, or a path into a .json file):
+   - the eleven of C5's audit (evidence/c5/duplicated_definitions.txt): the entity states and the Hound's and Smiler's actions (the wire's
+     indexes), the distance between living players, a Hound's time on its kill, the movement events and their cap, a lamp's reach,
+     falloff, strength and a failing lamp's dimming, the 64-entity ceiling, what clients may send (the light kinds, hats, textures,
+     backpacks, the default look, the colour test, the name's 20 characters, the infrared levels), the fixed step (60 Hz, 15 steps, a
+     0.25 s frame), the spawn protection, the movement floors and the speeds they were derived from;
+   - around Level 0's one definition (C4c): the map's columns and rows where other scripts write them (the session's clamp, the offline
+     glitched walls and cartograph, the remaster), the engine's units (a cell's 96 px: 48 occurrences in 12 files, the path grid's
+     subdivision and its 21 px clearance, which are the monsters' too), the code that takes a room by its place in level0.json's list (8 places: the tints,
+     the deep carpet's walk on both sides, the blackout zone's lamps) or by its name (BR-RoLE's albedo, the lamps' and the floors' rules,
+     the footsteps, the visual metadata's twelve rooms and codes);
+   - the offline copies (the glitched walls: how many, how far apart, on which face, how close is through; the cartograph's distance)
+     and three inside the server (the route check's 120 px, exhaustion below 22 stamina, the movement states' codes).
+   Where the copies differ on purpose, each copy's own value is recorded: the spawn protection (3 s / 4 s), the body distance (36 /
+   36.75), a Hound's fallback time (4.5 / 4.4), a failing lamp (.06 kept / .94 taken), the infrared levels (the highest 2 / 3 levels),
+   the movement floors and the speeds, the movement event codes. dev/tools/checks/facts.js (zero dependencies) fails unless every copy
+   is found where it is listed (as many times as listed) and holds its value.
+   - On this tree (facts_check.json): PASS, 41 facts, 169 copies.
+   - --mutants 1 (facts_mutants.json): each copy changed alone, as a developer might (a digit, a string, an object's key, a JSON value; for
+     the rooms' names, a room the code names renamed in level0.json): 169 of 169 caught; the control PASS.
+
+3. The gate: a new fast-tier step, contracts (window_contract.js and facts.js, each also with --mutants 1), after modules.
+   node dev/tools/gate/gate.js --tier fast --packages <the 31 tarballs> (gate_fast/), on this checkpoint's working tree, against B++:
+   PASS, 20 steps: build 39, port 410, lineage 83, parts 55, modules 58, contracts 381, docs 23, scope 212, srv_golden 11,
+   bpp_golden 7, session 18, sim 20,065, page 1,255,007, cli_golden 30, protocol 52,740, mutants 18, static 4, raw_live 173,
+   quick_suites 23, bundle 824.
+   The contracts step: the window contract (35 members, every rule holds; 8 of 8 breaks refused) and the facts (41 facts, 169
+   entries agree; 169 of 169 changed alone caught). The others as at C4c: the client's build record byte for byte, the alpha check
+   SAME, the sim's 20,050 calls B++'s results, the page traces, the server and session traces, the protocol, the bundle's two fast
+   scenes identical to the recorded client (820 frames).
+
+4. What changed in files the game loads, and why it changes nothing
+   - src/core/client/game/client/contracts.d.ts: comments (its header says what the check holds it to; __mp names shadows-2d.js).
+     Types and comments are not emitted: the built bundle and stylesheet are C4c's byte for byte.
+   - src/frameworks/lost/shared/level0.json: its note (the copies facts.json lists). The server reads the same values (the gate's sim
+     step: B++'s results); the client's build uses none of the note.
+   - generated/CLIENT_BUILD.json and generated/BUILD_MANIFEST.json: the new hashes of those two and of the client's README.
+
+5. Documentation: FINDINGS M-005 (the client's side checked), M-028 (guarded), M-035 (new); CONTINUATION (M-005 DONE, M-028 GUARDED,
+   the C4d wave); CONTRACTS (the compiled client's side; a new section 6, the facts written in more than one place); dev/tools/README,
+   QUICKSTART, the gate's README (the contracts step); PARITY_MATRIX (the proofs table); FRAMEWORKS, the L.O.S.T. README and level0.json's
+   note (the facts check follows a change of the map); the client's README.

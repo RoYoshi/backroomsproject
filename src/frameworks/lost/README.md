@@ -55,7 +55,9 @@ compiled client finds rooms by their index or name (the deep carpet's slower wal
 zone, the red rooms, the deep carpet and the damp rooms, and the arch gallery's arches, in `client/render.ts`; the floor's sound by
 room in `client/main.ts`), the offline Hound has its own patrol (`shared/entity.ts`), `world.js` holds Level 0's props, openings and
 lamp rules, the glitched walls and the cartograph are placed by rules of their own, and other scripts write the world's size (FINDINGS
-M-028). A level format would need those as data too, with a schema and a validator. None of that is in Stage 3H.
+M-028; since continuation C4d `dev/tools/checks/facts.js` fails while any of those disagrees with `level0.json`: the rooms taken by
+index or name, the world's size). A level format would need those as data too, with a schema and a validator. None of that is in
+Stage 3H.
 
 ## Tests
 

@@ -182,6 +182,15 @@ const STEPS = {
     const files = j ? Object.keys(j.files).length : 0, fac = j ? Object.values(j.files).filter(x => x.factory).length : 0;
     const pages = j && j.page ? Object.values(j.page) : [], pm = pages.reduce((a, x) => a + x.modules.length, 0);
     return { ok: r.exit === 0 && !!j && j.ok, cases: files + pm, note: j ? `${files} server files, ${fac} factories; the sim: ${j.sim ? j.sim.modules.length + ' modules, wired in order' : 'not modules'}; the page: ${pages.length} scripts, ${pm} modules (TypeScript ${j.typescript})` : (r.text.trim().split('\n').pop() || '').slice(0, 160), r }; },
+  contracts: () => {                                                      // (C4d) the compiled client's window contract (M-005) and the facts written in more than one place (M-028), each check with its own mutants
+    const a = run('window_contract', ['node', 'dev/tools/checks/window_contract.js', '--out', o('window_contract.json')]), aj = J(o('window_contract.json'));
+    const am = run('window_contract_mutants', ['node', 'dev/tools/checks/window_contract.js', '--mutants', '1', '--out', o('window_contract_mutants.json')]), amj = J(o('window_contract_mutants.json'));
+    const b = run('facts', ['node', 'dev/tools/checks/facts.js', '--out', o('facts.json')]), bj = J(o('facts.json'));
+    const bm = run('facts_mutants', ['node', 'dev/tools/checks/facts.js', '--mutants', '1', '--out', o('facts_mutants.json')]), bmj = J(o('facts_mutants.json'));
+    const members = aj ? Object.values(aj.members).filter(m => m.declared).length : 0, caught = j => (j ? j.mutants.filter(m => m.caught).length : 0);
+    const ok = [a, am, b, bm].every(x => x.exit === 0) && !!(aj && aj.ok && amj && amj.ok && bj && bj.ok && bmj && bmj.ok);
+    return { ok, cases: members + (amj ? amj.mutants.length : 0) + (bj ? bj.copies : 0) + (bmj ? bmj.mutants.length : 0),
+      note: `the window contract: ${members} members, ${aj && aj.ok ? 'every rule holds' : 'FAIL'}, ${caught(amj)} of ${amj ? amj.mutants.length : 0} breaks refused (TypeScript ${aj ? aj.typescript : '-'}); the facts: ${bj ? bj.facts.length + ' facts, ' + bj.copies + ' copies' : '-'} ${bj && bj.ok ? 'agree' : 'FAIL'}, ${caught(bmj)} of ${bmj ? bmj.mutants.length : 0} copies changed alone caught`, r: a }; },
   docs: () => {                                                           // (H3M-7) the documentation's generated tables are current
     const r = run('docs', ['node', 'dev/tools/docs/docs.js', '--check']), m = /\((\d+) generated blocks in (\d+) documents/.exec(r.text);
     return { ok: r.exit === 0 && /DOCS CHECK: PASS/.test(r.text), cases: m ? +m[1] : 0, note: (r.text.trim().split('\n').pop() || '').slice(0, 160), r }; },
@@ -331,7 +340,7 @@ const STEPS = {
 };
 const QUICK = ['s_humanqa_hotfix', 's_ir', 'interp_test', 'test_3bn', 'ir_net'];
 function suiteNote(j) { return Object.entries(j.suites).map(([n, x]) => `${n} ${x.summary ? x.summary.passed + '/' + x.summary.total : x.ran}${x.ok ? '' : ' FAIL'}`).join(', ') + ' (only the known B++ failures fail)'; }
-const FAST = ['build', 'port', 'lineage', 'parts', 'modules', 'docs', 'scope', 'srv_golden', 'bpp_golden', 'session', 'sim', 'page', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites', 'bundle'];
+const FAST = ['build', 'port', 'lineage', 'parts', 'modules', 'contracts', 'docs', 'scope', 'srv_golden', 'bpp_golden', 'session', 'sim', 'page', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites', 'bundle'];
 const FULL = FAST.concat(['cli_mutants', 'live_wire', 'bpp_checks', 'browsers', 'workflow', 'contact_lab', 'suites', 'perf']);
 const steps = ARG.only ? ARG.only.split(',') : ARG.tier === 'full' ? FULL : FAST;
 const R = { tool: 'dev/tools/gate/gate.js', tier: ARG.tier, declared: 'dev/tools/gate/declared_changes.json', base: BPP, head: execFileSync('git', ['-C', REPO, 'rev-parse', 'HEAD']).toString().trim(), startedAt: new Date().toISOString(), out: OUT, steps: {}, ok: true };
