@@ -1,0 +1,44 @@
+Stage 3H continuation C5c: the compiled client's frame time measured against B++'s bundle (A/A and A/B); the package tool brought up
+to date (no runtime file changed)
+=====================================================================================================================================
+
+Base: C4d af1481854f965356775dab324d4cd0e36888ba28 (tree b2b5fa07cb27b66528623e10a53fed32a82f1d8c), verified on GitHub
+(evidence/remote/verify_c4d_af14818.json); its after-commit secret scan is secret_scan_c4d_after_commit.txt here.
+
+1. The compiled client's frame time (the continuation pack's "performance A/A and A/B", for the recompiled client)
+   The gate's perf step times the server and mp.js's hooks; since C4b the compiled client itself is recompiled (the same program,
+   minified again by Vite 8.3.1 instead of the shipped file's patches), so its own frame time is measured here.
+   - dev/tools/gate/golden/bundle_perf.js (new) runs bundle_diff.js's new --perf mode: B++'s recorded client (the lineage's replay:
+     the bundle M8 and B++ serve) and this tree's (the build, since C4b) in one headless Chromium (SwiftShader), each page
+     deterministic as in the bundle step; no text records and no pixel digests; the two pages stepped one after the other at every batch
+     of 30 frames (--serial), the order swapped every round; every frame still compared (a difference fails the round). The time is the
+     real time each page spends in its frames' timers and animation-frame callbacks (bundle_env.js's profile: the compiled client's
+     frame and the classic scripts' hooks), from the start of the run to the scene's end, per frame. Scenes (bundle_perf_scenes.js, the
+     bundle step's own without their captures): walk (solo_walk: 520 timed frames) and hound (death_hound: a Hound's capture, the death
+     sequence, RETRY's fall, a second capture, the world's end: 544 timed frames). A 640 x 360 window: SwiftShader's drawing, done on the
+     CPU, takes most of a round's wall time.
+   - The rule, perf_det.js's for the page, fixed before any A/B was looked at: new passes when its median is at most old's median +
+     max(old's spread across rounds, 10 % of old's median).
+   - A/B, 5 rounds (bundle_perf_ab.json, .log): PASS. walk: old 12.947 ms a frame, new 12.966 (+0.15 %); hound: old 46.654, new 46.774
+     (+0.26 %). Every round's frames identical on both sides.
+     By the order the sides ran: the side stepped second was slower in every round (walk +0.74, +4.16, +4.84 % when the build ran
+     second, -2.95, -5.45 % when it ran first; hound +0.81, +4.09, +2.73 % and -2.41, -3.56 %); balanced over the order, walk -0.48 %,
+     hound -0.22 %.
+   - A/A, the bundle B++ shipped against itself, 5 rounds (bundle_perf_aa.json, .log): PASS. walk: 12.831 against 12.457 ms a frame
+     (-2.91 %); hound: 45.312 against 45.248 (-0.14 %). The same code differs by up to 5.8 % in a round (walk: -1.21, -4.60, +3.33,
+     -5.76, -2.80 %; hound: +2.46, -3.59, +1.83, -0.89, +4.49 %) and by 2.9 % in a median: more than the A/B's +0.15 % and +0.26 %.
+     On this machine the recompiled client's frame time cannot be told from the shipped one's.
+   - The bundle_diff.js modes (--perf, --serial, --cand ref) change nothing in its comparisons: run as the gate runs it, the menu scene
+     is SAME (bundle_diff_menu.json; the C5d final gate runs all nine).
+
+2. The package tool (tools/m8_package.js), for the final candidate
+   Its manifest was M8's: it called the compiled client's edits minified (now TypeScript, built by client.js), the session unmoved (C2
+   moved it), the v11 rebuild untested (C1), and its artifact list had no inputs for a client recipe. Now: the client build's tool and
+   what it needs (the 31 packages, not in the package), the lockfile, each output's inputs (the client tree, the level's definitions for
+   the bundle, the record), sim.level0.js as the one minified component (reading its data since C4c), and the limitations as they are.
+   On the extracted ZIP it also runs client.js --record-check (no packages), checks/facts.js and checks/window_contract.js.
+
+3. Documentation: the gate's README (the perf row: bundle_perf.js at checkpoints), PARITY_MATRIX (the proofs table and the areas table),
+   CONTINUATION (M-021), CHECKPOINTS (the C4d row filled; the C5c row).
+
+What this does not change: no runtime file, no served or built output.

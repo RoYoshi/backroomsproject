@@ -18,7 +18,8 @@
  * Checks:
  *   1. the ZIP: every entry's CRC read back (Python's zipfile), and its files are exactly COMMIT's files under the listed paths;
  *   2. extracted into a new empty folder (no Git, no npm install there): build.js --check, lineage.js verify, docs.js --check and
- *      checks/parts.js (TypeScript, Node's global copy) pass;
+ *      checks/parts.js (TypeScript, Node's global copy) pass; since continuation C5c also client.js --record-check (the compiled
+ *      client is its sources' recorded build; no packages needed), checks/facts.js and checks/window_contract.js (TypeScript);
  *   3. there, `node server.js PORT` (a synthetic admin passcode) starts.  The page, every built public script, every static file the
  *      allowlist serves and a sound answer 200 with COMMIT's bytes; server.js, src/, generated/, dev/, docs/, public/, package.json,
  *      README.md, traversal and encoded variants never answer 200; a WebSocket client in a room is greeted ({t:'hi'}).  The server is
@@ -79,6 +80,9 @@ if (fs.existsSync(G)) {
   want(run('docs_check', ['dev/tools/docs/docs.js', '--check']), /DOCS CHECK: PASS/);
   want(run('parts_check', ['dev/tools/checks/parts.js', '--out', 'parts_report.json']), /PARTS CHECK: PASS/);
   try { R.checks.extracted.parts_check.typescript = JSON.parse(fs.readFileSync(path.join(G, 'parts_report.json'), 'utf8')).typescript || null; } catch (e) {}
+  want(run('client_record_check', ['dev/tools/build/client.js', '--record-check']), /CLIENT RECORD: PASS/);                 // (C5c)
+  want(run('facts_check', ['dev/tools/checks/facts.js']), /FACTS CHECK: PASS/);
+  want(run('window_contract', ['dev/tools/checks/window_contract.js']), /WINDOW CONTRACT: PASS/);
   R.checks.extracted.gitPresent = fs.existsSync(path.join(G, '.git'));
 }
 
@@ -130,24 +134,25 @@ const get = (u, headers = {}) => new Promise(res => { const q = http.get({ host:
   const manifest = {
     revision: COMMIT, parent_sha: PARENT, tree_sha: TREE, committed_at: WHEN, node_version: process.version, node_required: JSON.parse(at('package.json')).engines,
     build_tool_versions: { build: { tool: 'dev/tools/build/build.js', sha256: sha(at('dev/tools/build/build.js')), dependencies: 'none' },
-      parts_check: { tool: 'dev/tools/checks/parts.js', needs: 'TypeScript (global); not needed to build or run' }, git: execFileSync('git', ['--version']).toString().trim() },
-    dependencies_locked: 'The game, its server and its build have no dependencies: no node_modules, no npm install. The recovered v11 project keeps its own lockfile (src/core/client/bundle/original-v11/package-lock.json) for its own toolchain (Vite, TypeScript, PixiJS); this build never installs or runs it.',
+      parts_check: { tool: 'dev/tools/checks/parts.js', needs: 'TypeScript (global); not needed to build or run' },
+      client: { tool: 'dev/tools/build/client.js', sha256: sha(at('dev/tools/build/client.js')), needs: 'to build the compiled client: the 31 locked npm packages of its lockfile (TypeScript 7.0.2, Vite 8.3.1, PixiJS 8.21.0; TFB_V11_LINUX_X64_PACKAGES.zip, not in this package), each checked against the lockfile and installed offline; --record-check needs none' },
+      git: execFileSync('git', ['--version']).toString().trim() },
+    dependencies_locked: 'The game, its server and the project build (build.js) have no dependencies: no node_modules, no npm install. The compiled client (src/core/client/game/: TypeScript, PixiJS, Vite) is built by dev/tools/build/client.js with its own lockfile, v11\'s (src/core/client/game/package-lock.json, the same as src/core/client/bundle/original-v11/package-lock.json), from 31 packages each checked against it; its outputs are committed with their record (generated/CLIENT_BUILD.json), which build.js --check checks without the packages.',
     source_files: FILES.filter(f => !built.has(f) && f !== 'generated/BUILD_MANIFEST.json').map(f => ({ path: f, sha256: sha(at(f)), framework: ownerOf(f), origin: originOf(f) })),
-    artifacts: [...built.values()].map(o => ({ path: o.out, sha256: sha(at(o.out)), inputs: o.replay ? [o.replay.ledger + ' (chain ' + o.replay.chain + ')'] : o.parts, public: o.out.startsWith('public/'), generated: true }))
+    artifacts: [...built.values()].map(o => ({ path: o.out, sha256: sha(at(o.out)), inputs: o.client ? ['src/core/client/game/ (TypeScript and CSS, built by dev/tools/build/client.js)'].concat(/\.js$/.test(o.out) ? ['src/frameworks/lost/shared/level0.json', 'src/frameworks/pocket/shared/lights.json'] : [], ['record ' + o.client]) : o.replay ? [o.replay.ledger + ' (chain ' + o.replay.chain + ')'] : o.parts, public: o.out.startsWith('public/'), generated: true }))
       .concat([{ path: 'generated/BUILD_MANIFEST.json', sha256: sha(at('generated/BUILD_MANIFEST.json')), inputs: ['every recipe input and output'], public: false, generated: true }]),
     entrypoints: { server: 'node server.js [port]  (npm start)', page: 'public/index.html', build: 'npm run build  (node dev/tools/build/build.js)', build_check: 'npm run build:check' },
     known_opaque_components: [
-      { component: "the compiled client bundle's post-v11 edits", where: 'public/assets/index-DKbV5Nv9.js (40 steps), public/assets/index-D7hdwmUU.css (8 steps)', status: 'COMPATIBILITY ISLAND WITH COMPLETE LINEAGE: each byte is the v11 build output or a recorded, dated, owned step (src/core/client/bundle/lineage/); the edits are minified code, not yet ported to TypeScript (ADR-002)' },
-      { component: 'sim.level0.js', where: 'src/frameworks/lost/server/sim.level0.js', status: "the bundle's own minified Level 0 code, kept as one part (FINDINGS M-003, M-025)" },
+      { component: 'sim.level0.js', where: 'src/frameworks/lost/server/sim.level0.js', status: "the bundle's own minified Level 0 code (collision, ray cast, routes, light), extracted and kept as one part (FINDINGS M-025); since continuation C4c it reads Level 0's data from its one definition (src/frameworks/lost/shared/level0.json, src/frameworks/pocket/shared/lights.json; M-003)" },
       { component: 'PixiJS 8.21.0', where: 'public/assets/*.js chunks and the bundle', status: 'third-party (MIT), from the v11 lockfile, copied from the v11 build output' }],
-    tests: { here: 'PACKAGE_RECEIPT.json: the build, the lineage, the documentation and the parts checked on the extracted ZIP; the server started from it, every served file compared, the refused paths, a WebSocket greeting',
-      repository: 'npm run gate:full on the branch (it needs the Git history, the dev/ folders, Playwright and Python): dev/stage-3h-modernization/evidence/m8/' },
+    tests: { here: 'PACKAGE_RECEIPT.json: the build, the compiled client\'s record, the lineage, the documentation, the parts, the facts written in more than one place and the client\'s window contract checked on the extracted ZIP; the server started from it, every served file compared, the refused paths, a WebSocket greeting',
+      repository: 'npm run gate:full on the branch (it needs the Git history, the dev/ folders, the 31 locked npm packages, Playwright and Python): dev/stage-3h-modernization/evidence/ (the final gate: CHECKPOINTS.md names it)' },
     limitations: [
-      'The WebSocket session, with the admin passcode check and its lockout, stays in server.js until the owner decides (FINDINGS M-023): PARTIAL.',
-      "The bundle's 40 post-v11 edits are still minified code with complete lineage; the TypeScript port (ADR-002, P0 to P4) is not started: PARTIAL.",
-      'The fresh npm rebuild of the recovered v11 project was not tested (no package registry access; FINDINGS M-017): NOT TESTED.',
+      'Building the compiled client needs the 31 locked npm packages (TFB_V11_LINUX_X64_PACKAGES.zip), which are not in this package; running, building the rest and checking need none.',
+      'The level\'s code exists twice: the compiled client\'s TypeScript and the server\'s sim.level0.js, the bundle\'s code extracted (FINDINGS M-025). Its data is one definition (M-003).',
+      'Some game facts are written in more than one file (FINDINGS M-028); dev/tools/checks/facts.js fails while a copy disagrees, but each is not one source.',
       'Eight frameworks are names with a README and no code: P.U.L.S.E., E.C.H.O., CASHIER, LogicZ, A.T.L.A.S., S.T.A.G.E., V.A.U.L.T., H.A.N.D.S.',
-      'Parts share their script\'s closure (FINDINGS M-024); five scripts stay whole (M-025).',
+      'ai.js keeps its parts in one closure (one owner, N.A.N.I.); five scripts stay whole (FINDINGS M-025).',
       'Sound as heard, real-browser timing and feel, pixels outside the contact lab, phones and real networks are Human QA\'s (docs/architecture/PARITY_MATRIX.md).'] };
   fs.writeFileSync(path.join(OUT, 'SOURCE_MANIFEST.json'), JSON.stringify(manifest, null, 1) + '\n');
   const receipt = { commit: COMMIT, tree: TREE, made_at: new Date().toISOString(), node: process.version, git: execFileSync('git', ['--version']).toString().trim(),

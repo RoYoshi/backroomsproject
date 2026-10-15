@@ -1,0 +1,8 @@
+round 1 of 5 (old first): walk old 12.98 new 12.82 ms/frame; hound old 43.00 new 44.06 ms/frame
+round 2 of 5 (new first): walk old 12.83 new 12.24 ms/frame; hound old 46.33 new 44.66 ms/frame
+round 3 of 5 (old first): walk old 12.06 new 12.46 ms/frame; hound old 45.31 new 46.14 ms/frame
+round 4 of 5 (new first): walk old 13.42 new 12.65 ms/frame; hound old 46.71 new 46.30 ms/frame
+round 5 of 5 (old first): walk old 12.34 new 11.99 ms/frame; hound old 43.30 new 45.25 ms/frame
+PASS walk: old 12.831 ms/frame, new 12.457 (-2.91 %), tolerance 1.363 (520 frames a round)
+PASS hound: old 45.312 ms/frame, new 45.248 (-0.14 %), tolerance 4.531 (544 frames a round)
+BUNDLE PERF (A/A): PASS

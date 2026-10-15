@@ -1,0 +1,57 @@
+{
+ "tool": "dev/tools/gate/golden/bundle_perf.js",
+ "viewport": "640x360",
+ "mode": "A/A: the bundle B++ shipped against itself",
+ "rounds": 5,
+ "node": "v22.22.2",
+ "cpus": 2,
+ "startedAt": "2026-10-15T20:53:38.183Z",
+ "scenes": {
+  "walk": {
+   "old": [
+    12.98,
+    12.831,
+    12.056,
+    13.419,
+    12.336
+   ],
+   "new": [
+    12.823,
+    12.241,
+    12.457,
+    12.646,
+    11.991
+   ],
+   "oldMedian": 12.831,
+   "newMedian": 12.457,
+   "tolerance": 1.363,
+   "changePct": -2.91,
+   "ok": true,
+   "frames": 520
+  },
+  "hound": {
+   "old": [
+    42.999,
+    46.328,
+    45.312,
+    46.712,
+    43.304
+   ],
+   "new": [
+    44.058,
+    44.663,
+    46.143,
+    46.295,
+    45.248
+   ],
+   "oldMedian": 45.312,
+   "newMedian": 45.248,
+   "tolerance": 4.531,
+   "changePct": -0.14,
+   "ok": true,
+   "frames": 544
+  }
+ },
+ "sameFrames": true,
+ "ok": true
+}

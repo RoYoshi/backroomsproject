@@ -5,6 +5,10 @@
  *   node dev/tools/gate/golden/bundle_diff.js --ref <web root> --cand <web root> [--scenes a,b,...] [--out DIR] [--pixels 1] [--batch 30]
  *        [--cand-assets <folder>]   the candidate is --ref with these files over its assets/ (a staged build: dev/tools/build/client.js --stage)
  *        [--repeat N]               the same side N times (the A/A control: --cand omitted compares --ref with itself)
+ *        [--cand ref]               the reference against itself, also with --ref-lineage (C5c: bundle_perf.js's A/A)
+ *        [--serial 1|reverse]       step the two pages one after the other at each batch (reverse: the candidate first), never at once
+ *        [--perf 1]                 for timing (C5c, bundle_perf.js): no text records; each scene's report holds each side's
+ *                                   bundle_env.js profile (BD.prof: the real time its frames took) as "prof"
  *        [--ref-lineage 1]          the reference is --ref (default: the repository's public/) with the bundle and the stylesheet the
  *                                   client lineage records (src/core/client/bundle/lineage/: v11's build and its recorded steps,
  *                                   replayed): the files the game shipped up to continuation C4a, before they were built from the port
@@ -125,7 +129,9 @@ async function runScene(browser, scene, roots) {
   const sides = [];
   try {
     for (let k = 0; k < roots.length; k++) sides.push(await open(browser, k === 0 ? 'ref' : 'cand', servers[k].port, scene));
-    const both = fn => Promise.all(sides.map(fn));
+    if (ARG.perf) for (const s of sides) await s.P.evaluate(() => { __BD.verbose = false; __BD.prof = null; });   // (C5c) timing: no text records
+    const both = ARG.serial ? async fn => { const order = ARG.serial === 'reverse' ? sides.slice().reverse() : sides, out = new Map(); for (const s of order) out.set(s, await fn(s)); return sides.map(s => out.get(s)); }   // (C5c) one page at a time
+      : fn => Promise.all(sides.map(fn));
     const batch = +ARG.batch, pixels = +ARG.pixels || 0;                    // the WebGL canvas's pixels every Nth frame (0: never)
     for (const st of scene.steps) {
       R.steps++;
@@ -169,6 +175,7 @@ async function runScene(browser, scene, roots) {
     R.errors = await both(s => s.P.evaluate(() => __BD.errors.slice(-20)));
     R.pageErrors = sides.map(s => s.pageErrors);
     R.fr = await both(s => s.P.evaluate(() => __BD.FR.length));
+    if (ARG.perf) R.prof = await both(s => s.P.evaluate(() => __BD.prof));   // (C5c) the real time each side's frames took
     return R;
   } finally {
     for (const s of sides) await s.ctx.close().catch(() => { });
@@ -179,7 +186,7 @@ async function runScene(browser, scene, roots) {
 (async () => {
   const base = path.resolve(ARG.ref || path.join(REPO, 'public')), ref = ARG['ref-lineage'] ? lineageRoot(base) : base; ARG.ref = base;
   if (ARG['ref-lineage'] && !ARG.cand && !ARG['cand-assets']) ARG.cand = base;                          // the served files against the recorded ones
-  const cand = candRoot();
+  const cand = ARG.cand === 'ref' ? ref : candRoot();                                                     // (C5c) --cand ref: A/A
   const roots = cand ? [ref, cand] : Array.from({ length: +(ARG.repeat || 2) }, () => ref);
   const names = (ARG.scenes || Object.keys(SCENES).join(',')).split(',');
   const browser = await pw.chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows'] });
