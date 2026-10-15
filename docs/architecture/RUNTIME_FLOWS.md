@@ -22,7 +22,9 @@ Paths are under `src/` unless they start with `public/`. A function name in a pa
 `public/index.html` loads 23 classic scripts in order (the camera and timing policies, `world.js`, `move.js`, the camcorder, the sounds,
 `gore.js`, `dphys.js`, `light.js`, `ents.js`, `glitch.js`, the network layer's helpers, `mp.js`, the menus, the HUD, the inventory,
 BR-RoLE, the Level 0 visuals and remaster). Each registers what it offers on `window` (`window.__net`, `window.__mp`, `window.__ents`,
-`window.__brRole`, ...). The compiled bundle (`public/assets/index-DKbV5Nv9.js`) is an ES module, so it runs once the page is parsed:
+`window.__brRole`, ...). Five of them are modules inside their wrapper (continuation C3b): as the script runs, its composition makes
+each owner's module in the order the parts ran (for `ents.js`: the head and its `window.__ents`, then the Hound, the Smiler, the death
+scenes, the sounds, the debug overlay), and each module registers what it offers at the same moment as before. The compiled bundle (`public/assets/index-DKbV5Nv9.js`) is an ES module, so it runs once the page is parsed:
 it builds the PixiJS scene, the Level 0 map, the camera and the game loop, publishes `window.__api`, and from then on calls the classic
 scripts' hooks. `mp.js` connects (`frameworks/bpp/client/mp.transport.js`: `connect()`); without a server the game runs alone.
 

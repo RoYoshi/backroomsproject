@@ -1,0 +1,3245 @@
+{
+ "tool": "dev/tools/gate/golden/raw_live.js",
+ "oldRef": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "newDir": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em3/c3b/gate_fast/game_candidate",
+ "mode": "the old ref against a folder",
+ "at": "2026-10-15T06:04:32.800Z",
+ "ms": 14444,
+ "httpCases": 148,
+ "wsChecks": 25,
+ "identical": false,
+ "expectedContentChanges": [
+  {
+   "case": "GET /",
+   "file": "index.html",
+   "old": {
+    "bodyLen": 24491,
+    "bodySha": "378edad9ef5b27686888606dfade9c7727c90c016915123822530bad64b989ac"
+   },
+   "new": {
+    "bodyLen": 24581,
+    "bodySha": "455944f022339354191504c292c0ffe0a2dd548f39cf3c75df19018cdeb05a7c"
+   }
+  },
+  {
+   "case": "GET / gzip",
+   "file": "index.html",
+   "old": {
+    "bodyLen": 8253,
+    "bodySha": "67a3e15c98f656b4ead3ee5a7a2c156b3e7cd4c7ebca1fcab89e3c5212abe0ab"
+   },
+   "new": {
+    "bodyLen": 8267,
+    "bodySha": "eef0a9c900588ce25acc78eee0a0c28a48bc1284ca28586119de548a75f21101"
+   }
+  },
+  {
+   "case": "GET /index.html",
+   "file": "index.html",
+   "old": {
+    "bodyLen": 24491,
+    "bodySha": "378edad9ef5b27686888606dfade9c7727c90c016915123822530bad64b989ac"
+   },
+   "new": {
+    "bodyLen": 24581,
+    "bodySha": "455944f022339354191504c292c0ffe0a2dd548f39cf3c75df19018cdeb05a7c"
+   }
+  },
+  {
+   "case": "GET /index.html gzip",
+   "file": "index.html",
+   "old": {
+    "bodyLen": 8253,
+    "bodySha": "67a3e15c98f656b4ead3ee5a7a2c156b3e7cd4c7ebca1fcab89e3c5212abe0ab"
+   },
+   "new": {
+    "bodyLen": 8267,
+    "bodySha": "eef0a9c900588ce25acc78eee0a0c28a48bc1284ca28586119de548a75f21101"
+   }
+  },
+  {
+   "case": "GET /index.html?x=1",
+   "file": "index.html",
+   "old": {
+    "bodyLen": 24491,
+    "bodySha": "378edad9ef5b27686888606dfade9c7727c90c016915123822530bad64b989ac"
+   },
+   "new": {
+    "bodyLen": 24581,
+    "bodySha": "455944f022339354191504c292c0ffe0a2dd548f39cf3c75df19018cdeb05a7c"
+   }
+  },
+  {
+   "case": "GET /index.html?x=1 gzip",
+   "file": "index.html",
+   "old": {
+    "bodyLen": 8253,
+    "bodySha": "67a3e15c98f656b4ead3ee5a7a2c156b3e7cd4c7ebca1fcab89e3c5212abe0ab"
+   },
+   "new": {
+    "bodyLen": 8267,
+    "bodySha": "eef0a9c900588ce25acc78eee0a0c28a48bc1284ca28586119de548a75f21101"
+   }
+  },
+  {
+   "case": "GET /?room=abc",
+   "file": "index.html",
+   "old": {
+    "bodyLen": 24491,
+    "bodySha": "378edad9ef5b27686888606dfade9c7727c90c016915123822530bad64b989ac"
+   },
+   "new": {
+    "bodyLen": 24581,
+    "bodySha": "455944f022339354191504c292c0ffe0a2dd548f39cf3c75df19018cdeb05a7c"
+   }
+  },
+  {
+   "case": "GET /?room=abc gzip",
+   "file": "index.html",
+   "old": {
+    "bodyLen": 8253,
+    "bodySha": "67a3e15c98f656b4ead3ee5a7a2c156b3e7cd4c7ebca1fcab89e3c5212abe0ab"
+   },
+   "new": {
+    "bodyLen": 8267,
+    "bodySha": "eef0a9c900588ce25acc78eee0a0c28a48bc1284ca28586119de548a75f21101"
+   }
+  },
+  {
+   "case": "GET /mp.js",
+   "file": "mp.js",
+   "old": {
+    "bodyLen": 96297,
+    "bodySha": "568f5a2dba0f460f9ef6c8e6fa05df299da3e4c17622717542d303435fced858"
+   },
+   "new": {
+    "bodyLen": 88816,
+    "bodySha": "90c58e7eb0f3d9b8f571d871cac1785558216f7f5fe691d9c81362a7b4616d09"
+   }
+  },
+  {
+   "case": "GET /mp.js gzip",
+   "file": "mp.js",
+   "old": {
+    "bodyLen": 34201,
+    "bodySha": "917f486a165cb182dbf56d396c933493d9498951cc129babbf95359f19d0d154"
+   },
+   "new": {
+    "bodyLen": 31830,
+    "bodySha": "9f4c5b60980880c7f0e4f820bf702155cd255c6887012c3c82b848fe3da131f5"
+   }
+  },
+  {
+   "case": "GET /index.html gzip (again, from the cache)",
+   "file": "index.html",
+   "old": {
+    "bodyLen": 8253,
+    "bodySha": "67a3e15c98f656b4ead3ee5a7a2c156b3e7cd4c7ebca1fcab89e3c5212abe0ab"
+   },
+   "new": {
+    "bodyLen": 8267,
+    "bodySha": "eef0a9c900588ce25acc78eee0a0c28a48bc1284ca28586119de548a75f21101"
+   }
+  },
+  {
+   "case": "GET /index.html gzip;q=0 (the rule is a word match)",
+   "file": "index.html",
+   "old": {
+    "bodyLen": 8253,
+    "bodySha": "67a3e15c98f656b4ead3ee5a7a2c156b3e7cd4c7ebca1fcab89e3c5212abe0ab"
+   },
+   "new": {
+    "bodyLen": 8267,
+    "bodySha": "eef0a9c900588ce25acc78eee0a0c28a48bc1284ca28586119de548a75f21101"
+   }
+  },
+  {
+   "case": "GET /index.html Accept-Encoding: xgzip",
+   "file": "index.html",
+   "old": {
+    "bodyLen": 24491,
+    "bodySha": "378edad9ef5b27686888606dfade9c7727c90c016915123822530bad64b989ac"
+   },
+   "new": {
+    "bodyLen": 24581,
+    "bodySha": "455944f022339354191504c292c0ffe0a2dd548f39cf3c75df19018cdeb05a7c"
+   }
+  },
+  {
+   "case": "POST /index.html",
+   "file": "index.html",
+   "old": {
+    "bodyLen": 24491,
+    "bodySha": "378edad9ef5b27686888606dfade9c7727c90c016915123822530bad64b989ac"
+   },
+   "new": {
+    "bodyLen": 24581,
+    "bodySha": "455944f022339354191504c292c0ffe0a2dd548f39cf3c75df19018cdeb05a7c"
+   }
+  },
+  {
+   "case": "two requests on one connection",
+   "file": "mp.js",
+   "old": {
+    "bodyLen": 96403,
+    "bodySha": "742db8d04027abbbc8218f0761b57174458af33904d5154e690236dca26c25e6"
+   },
+   "new": {
+    "bodyLen": 88922,
+    "bodySha": "eeeb54822124440703169e50c999aee7778fe9f8327cc8f9130804dc47796593"
+   }
+  }
+ ],
+ "diffs": [],
+ "ok": true,
+ "old": {
+  "console": "The Far Backrooms → http://localhost:PORT  (share  ?room=NAME  to group up)\n",
+  "http": {
+   "GET /": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 24491,
+    "bodySha": "378edad9ef5b27686888606dfade9c7727c90c016915123822530bad64b989ac",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET / gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 8253,
+    "bodySha": "67a3e15c98f656b4ead3ee5a7a2c156b3e7cd4c7ebca1fcab89e3c5212abe0ab",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /index.html": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 24491,
+    "bodySha": "378edad9ef5b27686888606dfade9c7727c90c016915123822530bad64b989ac",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /index.html gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 8253,
+    "bodySha": "67a3e15c98f656b4ead3ee5a7a2c156b3e7cd4c7ebca1fcab89e3c5212abe0ab",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /index.html?x=1": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 24491,
+    "bodySha": "378edad9ef5b27686888606dfade9c7727c90c016915123822530bad64b989ac",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /index.html?x=1 gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 8253,
+    "bodySha": "67a3e15c98f656b4ead3ee5a7a2c156b3e7cd4c7ebca1fcab89e3c5212abe0ab",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /?room=abc": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 24491,
+    "bodySha": "378edad9ef5b27686888606dfade9c7727c90c016915123822530bad64b989ac",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /?room=abc gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 8253,
+    "bodySha": "67a3e15c98f656b4ead3ee5a7a2c156b3e7cd4c7ebca1fcab89e3c5212abe0ab",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /mp.js": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 96297,
+    "bodySha": "568f5a2dba0f460f9ef6c8e6fa05df299da3e4c17622717542d303435fced858",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /mp.js gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 34201,
+    "bodySha": "917f486a165cb182dbf56d396c933493d9498951cc129babbf95359f19d0d154",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sim.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sim.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /ai.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /ai.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /death_srv.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /death_srv.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /package.json": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /package.json gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/net-wire.js": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 3729,
+    "bodySha": "823bcefce793ccae6d0358e6f6cec0e25e2e30a93328f8c0c6be7a45819d607e",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/net-wire.js gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 1740,
+    "bodySha": "1ab71ccd27ca1c57cec814c6591ad6d8c3eb4a77a7f1497397604a68667d73ce",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/net-interp.js": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 4176,
+    "bodySha": "f94da4f170ad02bbceb687a8ed8e56a19c93a47d68e5355cb455df39aa972a4b",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/net-interp.js gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 1917,
+    "bodySha": "2e823dc5c24f38d398a9ca53107682c05ca4b436ce89c77c7f3db6020d79a097",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/index-DKbV5Nv9.js": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 340837,
+    "bodySha": "8691dc068343ab4ac7a196d612401b63e87c44315f0b5b9eb2e8a488c34bc04c",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/index-DKbV5Nv9.js gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 105529,
+    "bodySha": "db6ff9f6138702d6fdf67b09ec0f8b28f1b8bb4c8c3c9396dd0ebf6a0c43aba3",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/ui.css": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/css\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 69538,
+    "bodySha": "f1a147e829a3dddf22abe11434cd0f2f6ec8cfa5cb931453ae431d4b4fe44b8b",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/ui.css gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/css\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 16639,
+    "bodySha": "0571eb655fc34fbcbe9aa12aceb2e7f56161360c34b9c498bda6c5c8b7fa9c56",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/manifest.webmanifest": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 417,
+    "bodySha": "b9a0a73fdf789eb8083450086c0b6b94718d964c5ed4f39f8e5726f80b58c942",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/manifest.webmanifest gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 261,
+    "bodySha": "0ba5f9a46d78274eff32e8226a84c1f4469df75a20ea4171c2ca7f9b6d117955",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/carpet.png": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nVary: Accept-Encoding\r\nCache-Control: public, max-age=86400\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 463341,
+    "bodySha": "0cc833ab6dd454542077175a96e0060d04f8c1cf8be7e97d192737436e86c871",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/carpet.png gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nVary: Accept-Encoding\r\nCache-Control: public, max-age=86400\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 463341,
+    "bodySha": "0cc833ab6dd454542077175a96e0060d04f8c1cf8be7e97d192737436e86c871",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/MAIN_MENU_LOGO_USER_SUPPLIED.png": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nVary: Accept-Encoding\r\nCache-Control: public, max-age=86400\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 814971,
+    "bodySha": "d90fefbf8701a236cb291c787070ae16229e1f6f86ded0ee1c958ea982a966ba",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/MAIN_MENU_LOGO_USER_SUPPLIED.png gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nVary: Accept-Encoding\r\nCache-Control: public, max-age=86400\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 814971,
+    "bodySha": "d90fefbf8701a236cb291c787070ae16229e1f6f86ded0ee1c958ea982a966ba",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/MainTheme_MenuIntro.wav": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 8147003,
+    "bodySha": "157de76c4357e039fcd34f1089eebd3a2c865ef9a4d959db5e7c9368328e201e",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/MainTheme_MenuIntro.wav gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 7866482,
+    "bodySha": "e8e20a6b5f99f7f66cc3198faeb76f133ffa45db231169a647bee6ff92b5b3c8",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/ gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /camera_policy.js": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 2076,
+    "bodySha": "73e80bc8b5b772e0ea581c894b57a1f43197cd1e714acb8ddea617529a53a71f",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /camera_policy.js gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 965,
+    "bodySha": "e3e66f1255c6c328aa5d8f9c34d1be1bcab05787a6e0d849bba9bc8249546fc9",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /timing_policy.js": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 1646,
+    "bodySha": "2be2c7f5a2206b583de686ed75e79ac13769094ddb0a6416ad243b21e1f3a597",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /timing_policy.js gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 801,
+    "bodySha": "f46540ae8353fb39b26153b91bd71bf88a152252d81bbf240a6766b074e2feab",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/ gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/ws.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/ws.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/static.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/static.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/fields.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/fields.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/peers.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/peers.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/newrun.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/newrun.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/aftermath.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/aftermath.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/movement.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/movement.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /dev/stage-3h0/README.md": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /dev/stage-3h0/README.md gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /dev/tests/live.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /dev/tests/live.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /.git/config": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /.git/config gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /%": {
+    "head": "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 21,
+    "bodySha": "a737d8d51f5f013dd6afb30eb9dfa14f295f9e250a7aa414d61bf8c2a0baf013",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /% gzip": {
+    "head": "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 21,
+    "bodySha": "a737d8d51f5f013dd6afb30eb9dfa14f295f9e250a7aa414d61bf8c2a0baf013",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /%00": {
+    "head": "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 21,
+    "bodySha": "a737d8d51f5f013dd6afb30eb9dfa14f295f9e250a7aa414d61bf8c2a0baf013",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /%00 gzip": {
+    "head": "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 21,
+    "bodySha": "a737d8d51f5f013dd6afb30eb9dfa14f295f9e250a7aa414d61bf8c2a0baf013",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /a%00b": {
+    "head": "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 21,
+    "bodySha": "a737d8d51f5f013dd6afb30eb9dfa14f295f9e250a7aa414d61bf8c2a0baf013",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /a%00b gzip": {
+    "head": "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 21,
+    "bodySha": "a737d8d51f5f013dd6afb30eb9dfa14f295f9e250a7aa414d61bf8c2a0baf013",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /..%2fserver.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /..%2fserver.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /%2e%2e/server.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /%2e%2e/server.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/../server.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/../server.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/..%2f..%2fserver.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/..%2f..%2fserver.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET //server.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET //server.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets//net-wire.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets//net-wire.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 41,
+    "bodySha": "cac7737027ee0c31db9afa54220a67c5c5b15bb86ae659ca92aa52ebebda009f",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 41,
+    "bodySha": "cac7737027ee0c31db9afa54220a67c5c5b15bb86ae659ca92aa52ebebda009f",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 41,
+    "bodySha": "cac7737027ee0c31db9afa54220a67c5c5b15bb86ae659ca92aa52ebebda009f",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/ gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 41,
+    "bodySha": "cac7737027ee0c31db9afa54220a67c5c5b15bb86ae659ca92aa52ebebda009f",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/sting.mp3": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: audio/mpeg\r\nCache-Control: public, max-age=300\r\nContent-Length: 113167\r\nDate: <date>\r\nConnection: close",
+    "dates": 1,
+    "bodyLen": 113167,
+    "bodySha": "1fb9e12378da45fadabccc8b57b46d45dd3739c93e1ebfd8e6ecb87d11f10406",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/sting.mp3 gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: audio/mpeg\r\nCache-Control: public, max-age=300\r\nContent-Length: 113167\r\nDate: <date>\r\nConnection: close",
+    "dates": 1,
+    "bodyLen": 113167,
+    "bodySha": "1fb9e12378da45fadabccc8b57b46d45dd3739c93e1ebfd8e6ecb87d11f10406",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/sting%20copy.mp3": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: audio/mpeg\r\nCache-Control: public, max-age=300\r\nContent-Length: 113167\r\nDate: <date>\r\nConnection: close",
+    "dates": 1,
+    "bodyLen": 113167,
+    "bodySha": "1fb9e12378da45fadabccc8b57b46d45dd3739c93e1ebfd8e6ecb87d11f10406",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/sting%20copy.mp3 gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: audio/mpeg\r\nCache-Control: public, max-age=300\r\nContent-Length: 113167\r\nDate: <date>\r\nConnection: close",
+    "dates": 1,
+    "bodyLen": 113167,
+    "bodySha": "1fb9e12378da45fadabccc8b57b46d45dd3739c93e1ebfd8e6ecb87d11f10406",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/none.mp3": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/none.mp3 gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/README.txt": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/README.txt gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/../server.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/../server.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/..%2fserver.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/..%2fserver.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /favicon.ico": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: image/x-icon\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 4771,
+    "bodySha": "7a72125b0f1d56a6a174fb55a6ac54598447d8de453aa6bd5f089c33093b1aab",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /favicon.ico gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: image/x-icon\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 4767,
+    "bodySha": "36c9bf78959996a16d09df3e8d0141c5e2d1227b97f6bb75a842f2661e61e519",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /ws": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /ws gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /nope": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /nope gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/ gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/core/server/sim.glue.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/core/server/sim.glue.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/frameworks/ward/server/static.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/frameworks/ward/server/static.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/build-recipes.json": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/build-recipes.json gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /generated/": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /generated/ gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /generated/server/sim.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /generated/server/sim.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /generated/BUILD_MANIFEST.json": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /generated/BUILD_MANIFEST.json gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /public/": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /public/ gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /public/index.html": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /public/index.html gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /public/mp.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /public/mp.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /docs/": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /docs/ gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /docs/architecture/ADRS/ADR-001-layout.md": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /docs/architecture/ADRS/ADR-001-layout.md gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /dev/tools/layout.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /dev/tools/layout.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/core/client/bundle/lineage/ledger.json": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/core/client/bundle/lineage/ledger.json gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/../../server.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/../../server.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/..%2f..%2fsrc/build-recipes.json": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/..%2f..%2fsrc/build-recipes.json gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /index.html gzip (again, from the cache)": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 8253,
+    "bodySha": "67a3e15c98f656b4ead3ee5a7a2c156b3e7cd4c7ebca1fcab89e3c5212abe0ab",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /index.html gzip;q=0 (the rule is a word match)": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 8253,
+    "bodySha": "67a3e15c98f656b4ead3ee5a7a2c156b3e7cd4c7ebca1fcab89e3c5212abe0ab",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /index.html Accept-Encoding: xgzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 24491,
+    "bodySha": "378edad9ef5b27686888606dfade9c7727c90c016915123822530bad64b989ac",
+    "ev": [
+     "close"
+    ]
+   },
+   "HEAD /index.html": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close",
+    "dates": 1,
+    "bodyLen": 0,
+    "bodySha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ev": [
+     "close"
+    ]
+   },
+   "POST /index.html": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 24491,
+    "bodySha": "378edad9ef5b27686888606dfade9c7727c90c016915123822530bad64b989ac",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET with an absolute URL": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "two requests on one connection": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\nTransfer-Encoding: chunked",
+    "dates": 2,
+    "bodyLen": 96403,
+    "bodySha": "742db8d04027abbbc8218f0761b57174458af33904d5154e690236dca26c25e6",
+    "ev": [
+     "close"
+    ]
+   },
+   "malformed request line": {
+    "head": "HTTP/1.1 400 Bad Request\r\nConnection: close",
+    "dates": 0,
+    "bodyLen": 0,
+    "bodySha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ev": [
+     "close"
+    ]
+   }
+  },
+  "httpMs": 574,
+  "ws": {
+   "handshake101": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=\r\n\r\n",
+   "firstFrame": "{\"t\":\"hi\",\"id\":1,\"sim\":1}",
+   "ping": {
+    "replies": [
+     {
+      "b0": 138,
+      "len": 0,
+      "hex": ""
+     }
+    ],
+    "events": []
+   },
+   "ping one byte per write": {
+    "replies": [
+     {
+      "b0": 138,
+      "len": 0,
+      "hex": ""
+     }
+    ],
+    "events": []
+   },
+   "two pings in one write": {
+    "replies": [
+     {
+      "b0": 138,
+      "len": 0,
+      "hex": ""
+     },
+     {
+      "b0": 138,
+      "len": 0,
+      "hex": ""
+     }
+    ],
+    "events": []
+   },
+   "json ping": {
+    "replies": [
+     {
+      "b0": 129,
+      "t": "pong",
+      "msg": "{\"t\":\"pong\",\"ts\":7}"
+     }
+    ],
+    "events": []
+   },
+   "two json pings in one write (the second within 400 ms is refused)": {
+    "replies": [
+     {
+      "b0": 129,
+      "t": "pong",
+      "msg": "{\"t\":\"pong\",\"ts\":8}"
+     }
+    ],
+    "events": []
+   },
+   "bad json, then a json ping": {
+    "replies": [
+     {
+      "b0": 129,
+      "t": "pong",
+      "msg": "{\"t\":\"pong\",\"ts\":10}"
+     }
+    ],
+    "events": []
+   },
+   "a 1,400-byte json ping (ignored), then a json ping": {
+    "replies": [
+     {
+      "b0": 129,
+      "t": "pong",
+      "msg": "{\"t\":\"pong\",\"ts\":12}"
+     }
+    ],
+    "events": []
+   },
+   "a 1,399-byte json ping": {
+    "replies": [
+     {
+      "b0": 129,
+      "t": "pong",
+      "msg": "{\"t\":\"pong\",\"ts\":13}"
+     }
+    ],
+    "events": []
+   },
+   "a binary frame and a pong frame (ignored)": {
+    "replies": [],
+    "events": []
+   },
+   "sizes": [
+    1400,
+    1399
+   ],
+   "close frame": {
+    "replies": [],
+    "events": [
+     "end",
+     "close"
+    ]
+   },
+   "snapshotTypes": [
+    "bodies",
+    "s"
+   ],
+   "len64": {
+    "events": [
+     "end",
+     "close"
+    ],
+    "replies": []
+   },
+   "refused: wrong path": {
+    "bytes": 0,
+    "text": "",
+    "ev": [
+     "end",
+     "close"
+    ]
+   },
+   "refused: no key": {
+    "bytes": 0,
+    "text": "",
+    "ev": [
+     "end",
+     "close"
+    ]
+   },
+   "refused: the root path": {
+    "bytes": 0,
+    "text": "",
+    "ev": [
+     "end",
+     "close"
+    ]
+   },
+   "cap8": [
+    "HTTP/1.1 101 Switching Protocols",
+    "HTTP/1.1 101 Switching Protocols",
+    "HTTP/1.1 101 Switching Protocols",
+    "HTTP/1.1 101 Switching Protocols",
+    "HTTP/1.1 101 Switching Protocols",
+    "HTTP/1.1 101 Switching Protocols",
+    "HTTP/1.1 101 Switching Protocols",
+    "HTTP/1.1 101 Switching Protocols"
+   ],
+   "cap8hi": [
+    "{\"t\":\"hi\",\"id\":3,\"sim\":1}",
+    "{\"t\":\"hi\",\"id\":4,\"sim\":1}",
+    "{\"t\":\"hi\",\"id\":5,\"sim\":1}",
+    "{\"t\":\"hi\",\"id\":6,\"sim\":1}",
+    "{\"t\":\"hi\",\"id\":7,\"sim\":1}",
+    "{\"t\":\"hi\",\"id\":8,\"sim\":1}",
+    "{\"t\":\"hi\",\"id\":9,\"sim\":1}",
+    "{\"t\":\"hi\",\"id\":10,\"sim\":1}"
+   ],
+   "cap9": {
+    "bytes": 0,
+    "ev": [
+     "end",
+     "close"
+    ]
+   },
+   "capAfterOneLeft": {
+    "head": "HTTP/1.1 101 Switching Protocols",
+    "hi": "{\"t\":\"hi\",\"id\":11,\"sim\":1}"
+   },
+   "upgrade /ws?room=rrrrrrrrrrrrrrrrrrrrr": {
+    "head": "HTTP/1.1 101 Switching Protocols",
+    "hi": "{\"t\":\"hi\",\"id\":12,\"sim\":1}"
+   },
+   "upgrade /ws?room=%3Cb%3E": {
+    "head": "HTTP/1.1 101 Switching Protocols",
+    "hi": "{\"t\":\"hi\",\"id\":13,\"sim\":1}"
+   },
+   "upgrade /ws": {
+    "head": "HTTP/1.1 101 Switching Protocols",
+    "hi": "{\"t\":\"hi\",\"id\":14,\"sim\":1}"
+   }
+  },
+  "consoleAfter": "The Far Backrooms → http://localhost:PORT  (share  ?room=NAME  to group up)\n",
+  "exit": {
+   "code": null,
+   "signal": "SIGTERM"
+  }
+ },
+ "new": {
+  "console": "The Far Backrooms → http://localhost:PORT  (share  ?room=NAME  to group up)\n",
+  "http": {
+   "GET /": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 24581,
+    "bodySha": "455944f022339354191504c292c0ffe0a2dd548f39cf3c75df19018cdeb05a7c",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET / gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 8267,
+    "bodySha": "eef0a9c900588ce25acc78eee0a0c28a48bc1284ca28586119de548a75f21101",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /index.html": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 24581,
+    "bodySha": "455944f022339354191504c292c0ffe0a2dd548f39cf3c75df19018cdeb05a7c",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /index.html gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 8267,
+    "bodySha": "eef0a9c900588ce25acc78eee0a0c28a48bc1284ca28586119de548a75f21101",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /index.html?x=1": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 24581,
+    "bodySha": "455944f022339354191504c292c0ffe0a2dd548f39cf3c75df19018cdeb05a7c",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /index.html?x=1 gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 8267,
+    "bodySha": "eef0a9c900588ce25acc78eee0a0c28a48bc1284ca28586119de548a75f21101",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /?room=abc": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 24581,
+    "bodySha": "455944f022339354191504c292c0ffe0a2dd548f39cf3c75df19018cdeb05a7c",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /?room=abc gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 8267,
+    "bodySha": "eef0a9c900588ce25acc78eee0a0c28a48bc1284ca28586119de548a75f21101",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /mp.js": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 88816,
+    "bodySha": "90c58e7eb0f3d9b8f571d871cac1785558216f7f5fe691d9c81362a7b4616d09",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /mp.js gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 31830,
+    "bodySha": "9f4c5b60980880c7f0e4f820bf702155cd255c6887012c3c82b848fe3da131f5",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sim.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sim.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /ai.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /ai.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /death_srv.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /death_srv.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /package.json": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /package.json gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/net-wire.js": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 3729,
+    "bodySha": "823bcefce793ccae6d0358e6f6cec0e25e2e30a93328f8c0c6be7a45819d607e",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/net-wire.js gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 1740,
+    "bodySha": "1ab71ccd27ca1c57cec814c6591ad6d8c3eb4a77a7f1497397604a68667d73ce",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/net-interp.js": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 4176,
+    "bodySha": "f94da4f170ad02bbceb687a8ed8e56a19c93a47d68e5355cb455df39aa972a4b",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/net-interp.js gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 1917,
+    "bodySha": "2e823dc5c24f38d398a9ca53107682c05ca4b436ce89c77c7f3db6020d79a097",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/index-DKbV5Nv9.js": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 340837,
+    "bodySha": "8691dc068343ab4ac7a196d612401b63e87c44315f0b5b9eb2e8a488c34bc04c",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/index-DKbV5Nv9.js gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 105529,
+    "bodySha": "db6ff9f6138702d6fdf67b09ec0f8b28f1b8bb4c8c3c9396dd0ebf6a0c43aba3",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/ui.css": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/css\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 69538,
+    "bodySha": "f1a147e829a3dddf22abe11434cd0f2f6ec8cfa5cb931453ae431d4b4fe44b8b",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/ui.css gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/css\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 16639,
+    "bodySha": "0571eb655fc34fbcbe9aa12aceb2e7f56161360c34b9c498bda6c5c8b7fa9c56",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/manifest.webmanifest": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 417,
+    "bodySha": "b9a0a73fdf789eb8083450086c0b6b94718d964c5ed4f39f8e5726f80b58c942",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/manifest.webmanifest gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 261,
+    "bodySha": "0ba5f9a46d78274eff32e8226a84c1f4469df75a20ea4171c2ca7f9b6d117955",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/carpet.png": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nVary: Accept-Encoding\r\nCache-Control: public, max-age=86400\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 463341,
+    "bodySha": "0cc833ab6dd454542077175a96e0060d04f8c1cf8be7e97d192737436e86c871",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/carpet.png gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nVary: Accept-Encoding\r\nCache-Control: public, max-age=86400\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 463341,
+    "bodySha": "0cc833ab6dd454542077175a96e0060d04f8c1cf8be7e97d192737436e86c871",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/MAIN_MENU_LOGO_USER_SUPPLIED.png": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nVary: Accept-Encoding\r\nCache-Control: public, max-age=86400\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 814971,
+    "bodySha": "d90fefbf8701a236cb291c787070ae16229e1f6f86ded0ee1c958ea982a966ba",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/MAIN_MENU_LOGO_USER_SUPPLIED.png gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nVary: Accept-Encoding\r\nCache-Control: public, max-age=86400\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 814971,
+    "bodySha": "d90fefbf8701a236cb291c787070ae16229e1f6f86ded0ee1c958ea982a966ba",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/MainTheme_MenuIntro.wav": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 8147003,
+    "bodySha": "157de76c4357e039fcd34f1089eebd3a2c865ef9a4d959db5e7c9368328e201e",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/MainTheme_MenuIntro.wav gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 7866482,
+    "bodySha": "e8e20a6b5f99f7f66cc3198faeb76f133ffa45db231169a647bee6ff92b5b3c8",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/ gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /camera_policy.js": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 2076,
+    "bodySha": "73e80bc8b5b772e0ea581c894b57a1f43197cd1e714acb8ddea617529a53a71f",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /camera_policy.js gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 965,
+    "bodySha": "e3e66f1255c6c328aa5d8f9c34d1be1bcab05787a6e0d849bba9bc8249546fc9",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /timing_policy.js": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 1646,
+    "bodySha": "2be2c7f5a2206b583de686ed75e79ac13769094ddb0a6416ad243b21e1f3a597",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /timing_policy.js gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 801,
+    "bodySha": "f46540ae8353fb39b26153b91bd71bf88a152252d81bbf240a6766b074e2feab",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/ gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/ws.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/ws.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/static.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/static.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/fields.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/fields.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/peers.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/peers.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/newrun.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/newrun.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/aftermath.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/aftermath.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/movement.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /server/movement.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /dev/stage-3h0/README.md": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /dev/stage-3h0/README.md gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /dev/tests/live.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /dev/tests/live.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /.git/config": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /.git/config gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /%": {
+    "head": "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 21,
+    "bodySha": "a737d8d51f5f013dd6afb30eb9dfa14f295f9e250a7aa414d61bf8c2a0baf013",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /% gzip": {
+    "head": "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 21,
+    "bodySha": "a737d8d51f5f013dd6afb30eb9dfa14f295f9e250a7aa414d61bf8c2a0baf013",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /%00": {
+    "head": "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 21,
+    "bodySha": "a737d8d51f5f013dd6afb30eb9dfa14f295f9e250a7aa414d61bf8c2a0baf013",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /%00 gzip": {
+    "head": "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 21,
+    "bodySha": "a737d8d51f5f013dd6afb30eb9dfa14f295f9e250a7aa414d61bf8c2a0baf013",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /a%00b": {
+    "head": "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 21,
+    "bodySha": "a737d8d51f5f013dd6afb30eb9dfa14f295f9e250a7aa414d61bf8c2a0baf013",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /a%00b gzip": {
+    "head": "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 21,
+    "bodySha": "a737d8d51f5f013dd6afb30eb9dfa14f295f9e250a7aa414d61bf8c2a0baf013",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /..%2fserver.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /..%2fserver.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /%2e%2e/server.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /%2e%2e/server.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/../server.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/../server.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/..%2f..%2fserver.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/..%2f..%2fserver.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET //server.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET //server.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets//net-wire.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets//net-wire.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 41,
+    "bodySha": "cac7737027ee0c31db9afa54220a67c5c5b15bb86ae659ca92aa52ebebda009f",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 41,
+    "bodySha": "cac7737027ee0c31db9afa54220a67c5c5b15bb86ae659ca92aa52ebebda009f",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 41,
+    "bodySha": "cac7737027ee0c31db9afa54220a67c5c5b15bb86ae659ca92aa52ebebda009f",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/ gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 41,
+    "bodySha": "cac7737027ee0c31db9afa54220a67c5c5b15bb86ae659ca92aa52ebebda009f",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/sting.mp3": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: audio/mpeg\r\nCache-Control: public, max-age=300\r\nContent-Length: 113167\r\nDate: <date>\r\nConnection: close",
+    "dates": 1,
+    "bodyLen": 113167,
+    "bodySha": "1fb9e12378da45fadabccc8b57b46d45dd3739c93e1ebfd8e6ecb87d11f10406",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/sting.mp3 gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: audio/mpeg\r\nCache-Control: public, max-age=300\r\nContent-Length: 113167\r\nDate: <date>\r\nConnection: close",
+    "dates": 1,
+    "bodyLen": 113167,
+    "bodySha": "1fb9e12378da45fadabccc8b57b46d45dd3739c93e1ebfd8e6ecb87d11f10406",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/sting%20copy.mp3": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: audio/mpeg\r\nCache-Control: public, max-age=300\r\nContent-Length: 113167\r\nDate: <date>\r\nConnection: close",
+    "dates": 1,
+    "bodyLen": 113167,
+    "bodySha": "1fb9e12378da45fadabccc8b57b46d45dd3739c93e1ebfd8e6ecb87d11f10406",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/sting%20copy.mp3 gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: audio/mpeg\r\nCache-Control: public, max-age=300\r\nContent-Length: 113167\r\nDate: <date>\r\nConnection: close",
+    "dates": 1,
+    "bodyLen": 113167,
+    "bodySha": "1fb9e12378da45fadabccc8b57b46d45dd3739c93e1ebfd8e6ecb87d11f10406",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/none.mp3": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/none.mp3 gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/README.txt": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/README.txt gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/../server.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/../server.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/..%2fserver.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /sounds/..%2fserver.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /favicon.ico": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: image/x-icon\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 4771,
+    "bodySha": "7a72125b0f1d56a6a174fb55a6ac54598447d8de453aa6bd5f089c33093b1aab",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /favicon.ico gzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: image/x-icon\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 4767,
+    "bodySha": "36c9bf78959996a16d09df3e8d0141c5e2d1227b97f6bb75a842f2661e61e519",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /ws": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /ws gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /nope": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /nope gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/ gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/core/server/sim.glue.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/core/server/sim.glue.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/frameworks/ward/server/static.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/frameworks/ward/server/static.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/build-recipes.json": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/build-recipes.json gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /generated/": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /generated/ gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /generated/server/sim.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /generated/server/sim.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /generated/BUILD_MANIFEST.json": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /generated/BUILD_MANIFEST.json gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /public/": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /public/ gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /public/index.html": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /public/index.html gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /public/mp.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /public/mp.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /docs/": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /docs/ gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /docs/architecture/ADRS/ADR-001-layout.md": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /docs/architecture/ADRS/ADR-001-layout.md gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /dev/tools/layout.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /dev/tools/layout.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/core/client/bundle/lineage/ledger.json": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /src/core/client/bundle/lineage/ledger.json gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/../../server.js": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/../../server.js gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/..%2f..%2fsrc/build-recipes.json": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /assets/..%2f..%2fsrc/build-recipes.json gzip": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /index.html gzip (again, from the cache)": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 8267,
+    "bodySha": "eef0a9c900588ce25acc78eee0a0c28a48bc1284ca28586119de548a75f21101",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /index.html gzip;q=0 (the rule is a word match)": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nContent-Encoding: gzip\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 8267,
+    "bodySha": "eef0a9c900588ce25acc78eee0a0c28a48bc1284ca28586119de548a75f21101",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET /index.html Accept-Encoding: xgzip": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 24581,
+    "bodySha": "455944f022339354191504c292c0ffe0a2dd548f39cf3c75df19018cdeb05a7c",
+    "ev": [
+     "close"
+    ]
+   },
+   "HEAD /index.html": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close",
+    "dates": 1,
+    "bodyLen": 0,
+    "bodySha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ev": [
+     "close"
+    ]
+   },
+   "POST /index.html": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 24581,
+    "bodySha": "455944f022339354191504c292c0ffe0a2dd548f39cf3c75df19018cdeb05a7c",
+    "ev": [
+     "close"
+    ]
+   },
+   "GET with an absolute URL": {
+    "head": "HTTP/1.1 404 Not Found\r\nDate: <date>\r\nConnection: close\r\nTransfer-Encoding: chunked",
+    "dates": 1,
+    "bodyLen": 19,
+    "bodySha": "50cea518672c0471fe6bbabf108f5465b9c2fa7f9fb479c453037c880d676a05",
+    "ev": [
+     "close"
+    ]
+   },
+   "two requests on one connection": {
+    "head": "HTTP/1.1 200 OK\r\nContent-Type: text/javascript\r\nVary: Accept-Encoding\r\nCache-Control: no-store\r\nDate: <date>\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\nTransfer-Encoding: chunked",
+    "dates": 2,
+    "bodyLen": 88922,
+    "bodySha": "eeeb54822124440703169e50c999aee7778fe9f8327cc8f9130804dc47796593",
+    "ev": [
+     "close"
+    ]
+   },
+   "malformed request line": {
+    "head": "HTTP/1.1 400 Bad Request\r\nConnection: close",
+    "dates": 0,
+    "bodyLen": 0,
+    "bodySha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ev": [
+     "close"
+    ]
+   }
+  },
+  "httpMs": 605,
+  "ws": {
+   "handshake101": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=\r\n\r\n",
+   "firstFrame": "{\"t\":\"hi\",\"id\":1,\"sim\":1}",
+   "ping": {
+    "replies": [
+     {
+      "b0": 138,
+      "len": 0,
+      "hex": ""
+     }
+    ],
+    "events": []
+   },
+   "ping one byte per write": {
+    "replies": [
+     {
+      "b0": 138,
+      "len": 0,
+      "hex": ""
+     }
+    ],
+    "events": []
+   },
+   "two pings in one write": {
+    "replies": [
+     {
+      "b0": 138,
+      "len": 0,
+      "hex": ""
+     },
+     {
+      "b0": 138,
+      "len": 0,
+      "hex": ""
+     }
+    ],
+    "events": []
+   },
+   "json ping": {
+    "replies": [
+     {
+      "b0": 129,
+      "t": "pong",
+      "msg": "{\"t\":\"pong\",\"ts\":7}"
+     }
+    ],
+    "events": []
+   },
+   "two json pings in one write (the second within 400 ms is refused)": {
+    "replies": [
+     {
+      "b0": 129,
+      "t": "pong",
+      "msg": "{\"t\":\"pong\",\"ts\":8}"
+     }
+    ],
+    "events": []
+   },
+   "bad json, then a json ping": {
+    "replies": [
+     {
+      "b0": 129,
+      "t": "pong",
+      "msg": "{\"t\":\"pong\",\"ts\":10}"
+     }
+    ],
+    "events": []
+   },
+   "a 1,400-byte json ping (ignored), then a json ping": {
+    "replies": [
+     {
+      "b0": 129,
+      "t": "pong",
+      "msg": "{\"t\":\"pong\",\"ts\":12}"
+     }
+    ],
+    "events": []
+   },
+   "a 1,399-byte json ping": {
+    "replies": [
+     {
+      "b0": 129,
+      "t": "pong",
+      "msg": "{\"t\":\"pong\",\"ts\":13}"
+     }
+    ],
+    "events": []
+   },
+   "a binary frame and a pong frame (ignored)": {
+    "replies": [],
+    "events": []
+   },
+   "sizes": [
+    1400,
+    1399
+   ],
+   "close frame": {
+    "replies": [],
+    "events": [
+     "end",
+     "close"
+    ]
+   },
+   "snapshotTypes": [
+    "bodies",
+    "s"
+   ],
+   "len64": {
+    "events": [
+     "end",
+     "close"
+    ],
+    "replies": []
+   },
+   "refused: wrong path": {
+    "bytes": 0,
+    "text": "",
+    "ev": [
+     "end",
+     "close"
+    ]
+   },
+   "refused: no key": {
+    "bytes": 0,
+    "text": "",
+    "ev": [
+     "end",
+     "close"
+    ]
+   },
+   "refused: the root path": {
+    "bytes": 0,
+    "text": "",
+    "ev": [
+     "end",
+     "close"
+    ]
+   },
+   "cap8": [
+    "HTTP/1.1 101 Switching Protocols",
+    "HTTP/1.1 101 Switching Protocols",
+    "HTTP/1.1 101 Switching Protocols",
+    "HTTP/1.1 101 Switching Protocols",
+    "HTTP/1.1 101 Switching Protocols",
+    "HTTP/1.1 101 Switching Protocols",
+    "HTTP/1.1 101 Switching Protocols",
+    "HTTP/1.1 101 Switching Protocols"
+   ],
+   "cap8hi": [
+    "{\"t\":\"hi\",\"id\":3,\"sim\":1}",
+    "{\"t\":\"hi\",\"id\":4,\"sim\":1}",
+    "{\"t\":\"hi\",\"id\":5,\"sim\":1}",
+    "{\"t\":\"hi\",\"id\":6,\"sim\":1}",
+    "{\"t\":\"hi\",\"id\":7,\"sim\":1}",
+    "{\"t\":\"hi\",\"id\":8,\"sim\":1}",
+    "{\"t\":\"hi\",\"id\":9,\"sim\":1}",
+    "{\"t\":\"hi\",\"id\":10,\"sim\":1}"
+   ],
+   "cap9": {
+    "bytes": 0,
+    "ev": [
+     "end",
+     "close"
+    ]
+   },
+   "capAfterOneLeft": {
+    "head": "HTTP/1.1 101 Switching Protocols",
+    "hi": "{\"t\":\"hi\",\"id\":11,\"sim\":1}"
+   },
+   "upgrade /ws?room=rrrrrrrrrrrrrrrrrrrrr": {
+    "head": "HTTP/1.1 101 Switching Protocols",
+    "hi": "{\"t\":\"hi\",\"id\":12,\"sim\":1}"
+   },
+   "upgrade /ws?room=%3Cb%3E": {
+    "head": "HTTP/1.1 101 Switching Protocols",
+    "hi": "{\"t\":\"hi\",\"id\":13,\"sim\":1}"
+   },
+   "upgrade /ws": {
+    "head": "HTTP/1.1 101 Switching Protocols",
+    "hi": "{\"t\":\"hi\",\"id\":14,\"sim\":1}"
+   }
+  },
+  "consoleAfter": "The Far Backrooms → http://localhost:PORT  (share  ?room=NAME  to group up)\n",
+  "exit": {
+   "code": null,
+   "signal": "SIGTERM"
+  }
+ }
+}

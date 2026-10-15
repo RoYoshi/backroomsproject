@@ -1,9 +1,11 @@
 # ADR-005: Code that shared one closure becomes modules: factories given what they use, composed in the order the code ran
 
-- **Status:** accepted for the Stage 3H continuation (C3, M-024). Carried out for the server's sim at C3a. The page's multi-owner
-  scripts follow in later waves of C3; until then they are owned parts (ADR-004).
-- **Supersedes:** ADR-004 for `sim.js` (it is no longer built from parts).
-- **Evidence:** `dev/stage-3h-modernization/evidence/c3a/`; `dev/tools/checks/modules.js`; the gate's `modules` and `sim` steps.
+- **Status:** accepted for the Stage 3H continuation (C3, M-024). Carried out for the server's sim at C3a, and for the page's
+  `world.js`, `move.js`, `camcorder.js`, `glitch.js` and `ents.js` at C3b. `mp.js` follows (C3c); until then its parts share their
+  closure (ADR-004). `ai.js` has one owner and stays one cohesive file of parts.
+- **Supersedes:** ADR-004 for `sim.js` (no longer built from parts) and for the five page scripts (built from parts that are modules).
+- **Evidence:** `dev/stage-3h-modernization/evidence/c3a/`, `evidence/c3b/`; `dev/tools/checks/modules.js`; the gate's `modules`, `sim`
+  and `page` steps.
 
 ## Context
 
@@ -69,6 +71,43 @@
    - The rest of the gate is unchanged: the server goldens against B++'s stored traces, the session scenarios, the mutants, the
      suites, the browsers, perf.
 
+9. **On the page, a module is a factory inside its script's wrapper (C3b).** The page loads classic scripts in order. An ES module
+   script (`type="module"`) is deferred until the page is parsed, so every script would run at another moment: a timing change a player
+   could meet. The browser therefore still loads one classic script per output, and the build still joins its parts. What changed is
+   inside: each owner's part is one factory function, given what it uses of the parts before it and returning what later parts use
+   of it, and the script's last part, its composition (`*.compose.js`, owned by the script's lead owner), makes them in the order the
+   parts ran:
+
+   ```js
+   const core = camcorderCore();
+   const audio = camcorderAudio({ core });
+   camcorderView({ core, audio });
+   ```
+
+   The script's public object (`W` for `world.js`, `E` = `window.__ents`, `mv` = `window.__mv`) is made by one module, the head;
+   each other module adds its own entries to it, at the same moment as before, and each entry has one module that writes it. What a
+   module registers on window it still registers itself. State belongs to its owner, the framework: two modules of one owner may
+   share it (BR-R's camcorder core and view share the camera's state `S`), and another owner changes it only through a function the
+   owner gives (rule 2).
+10. **Hidden couplings across owners become explicit (C3b).** Three of them, each a listed edit in
+    `tools/c3_client_modules.js`: the movement code called Spacious Audio's sounds through `window.__mvSfx` (now the sound module hands
+    them to the movement module with `useSound`); G.I.B.'s death scene called BR-R's `E.drawSmiler` through the public object (now it
+    imports `drawSmiler`); Spacious Audio wrote BR-R's camera state `S.whine` (now it calls `setWhine`, which BR-R's module gives).
+    Every other line is M8's: `tools/c3_client_modules.js --check` rebuilds every module from M8's parts and compares, and before
+    writing it proved from the code that the change is a re-wrapping (no forward use, no stale copy, no part-level `this`, the same
+    globals before and after, nothing resolving to another part's name).
+11. **Proof for the page, by the code and by behaviour (C3b):**
+    - `dev/tools/checks/modules.js` checks each page script as the build assembles it: nothing in the wrapper but the factories and
+      the composition; a factory uses only its own names, what it is given and the page's globals; nothing given is assigned, all of
+      it used; the composition makes each module once, in order, from earlier modules, under the keys its factory takes, each import
+      returned by its giver; the headers' `imports` and `exports` are the code's; no write into another owner's state except through
+      that owner's function; no call of a function a third module put on another's object; no global back-channel inside a script.
+      `tools/c3_modules_mutants.js` shows 12 page breaks refused, each for its own reason.
+    - The gate's `page` step: `golden/world_diff.js` gives B++'s `world.js` and this one the same calls (and checks the server's copy
+      is the page's, byte for byte); `golden/page_scripts.js` loads B++'s `move.js`, `camcorder.js`, `glitch.js`, `ents.js` and this
+      tree's into the same closed Chromium page and drives them the same way (`golden/page_scenes.js`): equal traces, and each scene
+      runs every function of its script but a listed few; 12 seam mutants (`golden/page_mutants.js`) are each caught.
+
 ## Consequences
 
 - **`sim.js` is ten modules and a composition.** There are no part headers and no shared closure. 0 writes cross owners: what was 18
@@ -79,6 +118,11 @@
 - **Tests that read the sim's code read all of it** (`layout.simFiles()`: s_ir I1, light_test).
 - **A read of a changing value is a function call** (`glitches()` instead of `glitches`). That costs a call, and the gate's perf step
   measures it.
+- **Five page scripts changed bytes (C3b).** Their byte comparison with 3H2 is retired; `m8_served_identity.js` names them as rebuilt
+  as modules, and the `page` step compares their behaviour with B++'s. Every other served file is still 3H2's bytes.
+- **A module's lines keep their indentation.** The code inside a factory is M8's text, so it reads one level less indented than its
+  `function` line; the first module of each script also keeps the opening of the script's wrapper (comments and `(() => {`), and the
+  composition closes it.
 
 ## Alternatives rejected
 
@@ -87,5 +131,7 @@
   the behaviour.
 - **Keeping the sim as built parts with stricter headers.** The closure would still be shared. Modules make the boundary a fact of the
   code, checked by a tool, not a list in a comment.
+- **ES modules or a bundler for the page (C3b).** Deferred module scripts would change when each script runs, and the v11 toolchain
+  is not reproducible here yet (C1). Factories inside the classic script keep the load order and timing exactly.
 - **Rewriting `sim.level0.js` as readable code now.** It is the bundle's own minified level code, and the page's copy lives in the
   bundle (M-003, blocked by C1). It moved as it was, a module of its own.

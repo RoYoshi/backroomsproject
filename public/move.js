@@ -8,6 +8,7 @@
  * The server hears what you do (state + speed + a few discrete events) - see sim.js. */
 (() => {
 'use strict';
+function moveCore() {
 const W = window.WORLD, M = W.MOVE, S = W.S, SN = W.SN, SURF = W.SURF;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const sm = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
@@ -20,6 +21,8 @@ const mv = {
   slideDist: 0, stamPrev: 100, hard: 0,
 };
 window.__mv = mv;
+let sfx = null;                         // (C3b) Spacious Audio's movement sounds: move.sound.js hands them over when it is made
+const useSound = s => { sfx = s; };
 
 /* ---------------------------------------------------------------- state helpers */
 function setState(s) { if (mv.s !== s) { mv.prev = mv.s; mv.s = s; mv.t = 0; } }
@@ -138,7 +141,7 @@ function tryVault(H, dirx, diry, speed, wantRun, dt) {
   mv.vault = { p, sx, sy, ex, ey, dur, t: 0, q, nx, ny, exitSpeed: q === 2 ? Math.min(speed * .9, 235) : q === 1 ? Math.min(speed * .62, 150) : Math.min(speed * .35, 90), heard: false };
   mv.push = 0; mv.q = q; setState('vault');
   mv.event(21 + q, q === 2 ? .8 : q === 1 ? .5 : .25);              // the scramble over the top (the landing is sent separately)
-  window.__mvSfx && window.__mvSfx.vaultStart(q);
+  sfx && sfx.vaultStart(q);
   return true;
 }
 function stepVault(H, dt) {
@@ -152,7 +155,7 @@ function stepVault(H, dt) {
     const dx = v.ex - v.sx, dy = v.ey - v.sy, d = Math.hypot(dx, dy) || 1;
     H.vx = dx / d * v.exitSpeed; H.vy = dy / d * v.exitSpeed;     // momentum carries over
     mv.event(24 + v.q, v.q === 2 ? .85 : v.q === 1 ? .55 : .25); // landing
-    window.__mvSfx && window.__mvSfx.vaultLand(v.q);
+    sfx && sfx.vaultLand(v.q);
     mv.vault = null; mv.vaultCd = .35; mv.recover = v.q === 0 ? .1 : 0;
     setState('walk');
   }
@@ -166,7 +169,7 @@ function startSlide(H) {
   mv.slide = { dx: H.vx / sp, dy: H.vy / sp, v: Math.min(sp, M.run * 1.02), k, t: 0, surf, dist: 0 };
   H.stamina = Math.max(0, H.stamina - M.slideCost); mv.crouch = false;
   setState('slide'); mv.event(30, .75);
-  window.__mvSfx && window.__mvSfx.slideStart(surf, mv.slide.v);
+  sfx && sfx.slideStart(surf, mv.slide.v);
   return true;
 }
 function stepSlide(H, dt, ix, iy) {
@@ -187,7 +190,7 @@ function stepSlide(H, dt, ix, iy) {
 function endSlide(H) {
   mv.slide = null; mv.slideCd = M.slideCd; mv.recover = .32;          // natural recovery: you're low for a moment
   mv.crouch = true; setState('crouch');
-  window.__mvSfx && window.__mvSfx.slideEnd();
+  sfx && sfx.slideEnd();
 }
 
 /* ---------------------------------------------------------------- the per-tick step (replaces the game's Yc) */
@@ -309,6 +312,10 @@ mv.net = () => {
   return { s: S[mv.s] | 0, q: mv.q | 0, st: Math.round(H.stamina), ex: H.exhausted ? 1 : 0, sp: Math.round(mv.speed), ev: mv.take() };
 };
 
+
+return { A, clamp, mv, SURF, useSound };
+}
+function movePoses({ move: { clamp } }) {
 /* ---------------------------------------------------------------- avatar poses (local player and everybody else) */
 window.__pose = {
   apply(av, S_, e, preview) {
@@ -326,6 +333,8 @@ window.__pose = {
   },
 };
 
+}
+function moveSound({ move: { A, clamp, mv, SURF, useSound } }) {
 /* ---------------------------------------------------------------- sound: footsteps by state and surface, slides, vaults, breathing */
 let ctx = null, out = null, noiseBuf = null;
 function audio() {
@@ -350,7 +359,7 @@ function thump(f0, f1, dur, vol, when = 0) {
   g.gain.setValueAtTime(.0001, t0); g.gain.linearRampToValueAtTime(vol, t0 + .006); g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
   o.connect(g); g.connect(out); o.start(t0); o.stop(t0 + dur + .02);
 }
-window.__mvSfx = {
+const mvSfx = window.__mvSfx = {
   slideStart(surf, v) {
     const vol = .05 + .06 * clamp(v / 285, 0, 1), dur = (SURF[surf].slide < 1 ? 1.6 : SURF[surf].slide < 2 ? .9 : .55);
     if (surf === 'wet') { noise(dur, 'bandpass', 1900, .7, vol * 1.5, .03, 0, 0, 900); noise(dur * .8, 'highpass', 3200, .5, vol * .55, .04); }
@@ -370,6 +379,7 @@ window.__mvSfx = {
     noise(dur * .9, 'bandpass', 800, .7, v * .8, dur * .25, -.05 + Math.random() * .1, dur * 1.05, 380);       // exhale
   },
 };
+useSound(mvSfx);                        // (C3b) hands them to the movement module, right after registering them
 let lastBreath = 0, stepDist = 0, lastStepPos = null;
 /* called every frame in place of Z.footstep */
 mv.foot = (Z, surface) => {
@@ -386,4 +396,9 @@ mv.foot = (Z, surface) => {
   const need = H.exhausted ? 1 : (recentRun && H.stamina < 55 ? .35 + (55 - H.stamina) / 90 : 0);
   if (need > 0 && now - lastBreath > 1.55 - .75 * need) { lastBreath = now; window.__mvSfx.breath(need); }
 };
+}
+/* (C3b) the modules, in the order the parts ran */
+const move = moveCore();
+movePoses({ move });
+moveSound({ move });
 })();

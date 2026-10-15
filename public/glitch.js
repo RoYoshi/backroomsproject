@@ -3,12 +3,17 @@
    in line of sight), adds a static-y audio cue that swells as you approach, and a screen tear when you get close.
    Positions come from mp.js (window.__glitches = [[x, y, nx, ny], ...] where (nx, ny) points into the wall). */
 (() => {
+  function glitchWalls() {
   const cv = Object.assign(document.createElement('canvas'), { id: 'glitchFx' }), cx = cv.getContext('2d');
   document.body.appendChild(cv);
   const fx = Object.assign(document.createElement('div'), { id: 'glitchTear' }); document.body.appendChild(fx);
   const rnd = (seed) => { let s = seed >>> 0 || 1; return () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967296; }; };
   const NEAR = 620, TOUCH = 54;
 
+
+  return { cv, cx, fx, NEAR, rnd };
+  }
+  function glitchAudio() {
   /* ---------- audio: crackling digital static, louder and more chaotic as you get close ---------- */
   let snd = null;
   function buildSnd(z) {
@@ -45,6 +50,10 @@
     if (near > .1 && now > snd.next) { zap(snd, false); snd.next = now + (.5 - near * .42) * (.4 + Math.random()); }
   }
 
+
+  return { updateSnd };
+  }
+  function glitchDraw({ walls: { cv, cx, fx, NEAR, rnd }, audio: { updateSnd } }) {
   /* ---------- drawing ---------- */
   let W = 0, H = 0, dpr = 1;
   function drawWall(g, p, cam, sc, t, los) {
@@ -118,4 +127,9 @@
     updateSnd(run ? near : 0, best ? Math.max(-.8, Math.min(.8, best.dx / 400)) : 0, t);
     fx.style.opacity = near > .45 ? Math.min(.9, (near - .45) * 1.6) : 0;
   };
+  }
+  /* (C3b) the modules, in the order the parts ran */
+  const walls = glitchWalls();
+  const audio = glitchAudio();
+  glitchDraw({ walls, audio });
 })();

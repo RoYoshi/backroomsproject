@@ -1,8 +1,13 @@
-/** @part public/world.js,generated/server/world.js - S.P.A.C.E.: props at a point, crawlspaces, concealment
- * provides: -
- * uses: LOW, PROPS, W
+/** @part public/world.js,generated/server/world.js - S.P.A.C.E.: props at a point, crawlspaces, concealment; a module: worldCrawl
+ * A module (continuation C3b, M-024): M8's part inside its factory, worldCrawl. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. world.compose.js makes it. Every line is M8's.
+ * imports: head { LOW PROPS W }
+ * exports: -
+ * provides: worldCrawl
+ * uses: -
  * writes: -
  */
+  function worldCrawl({ head: { LOW, PROPS, W } }) {
   /* props whose (padded) rect contains a point */
   W.propAt = function (x, y, pad = 0, types) {
     for (const p of PROPS) {
@@ -55,3 +60,4 @@
     return null;
   };
 
+  }

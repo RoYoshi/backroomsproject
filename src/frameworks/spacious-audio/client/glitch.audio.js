@@ -1,8 +1,13 @@
-/** @part public/glitch.js - Spacious Audio: the glitched walls' sound, crackling digital static
- * provides: updateSnd
+/** @part public/glitch.js - Spacious Audio: the glitched walls' sound, crackling digital static; a module: glitchAudio
+ * A module (continuation C3b, M-024): M8's part inside its factory, glitchAudio. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. glitch.compose.js makes it. Every line is M8's.
+ * imports: -
+ * exports: updateSnd
+ * provides: glitchAudio
  * uses: -
  * writes: -
  */
+  function glitchAudio() {
   /* ---------- audio: crackling digital static, louder and more chaotic as you get close ---------- */
   let snd = null;
   function buildSnd(z) {
@@ -39,3 +44,6 @@
     if (near > .1 && now > snd.next) { zap(snd, false); snd.next = now + (.5 - near * .42) * (.4 + Math.random()); }
   }
 
+
+  return { updateSnd };
+  }

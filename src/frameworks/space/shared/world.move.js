@@ -1,8 +1,13 @@
-/** @part public/world.js,generated/server/world.js - S.P.A.C.E.: the shared movement and noise constants (the client moves, the server listens)
- * provides: -
- * uses: W
+/** @part public/world.js,generated/server/world.js - S.P.A.C.E.: the shared movement and noise constants (the client moves, the server listens); a module: worldMove
+ * A module (continuation C3b, M-024): M8's part inside its factory, worldMove. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. world.compose.js makes it. Every line is M8's.
+ * imports: head { W }
+ * exports: -
+ * provides: worldMove
+ * uses: -
  * writes: -
  */
+  function worldMove({ head: { W } }) {
   /* shared movement / noise constants (the client moves, the server listens) */
   W.MOVE = {
     walk: 172, run: 285, crouch: 92, crawl: 54, exhaustedWalk: 148, radius: 15,
@@ -18,3 +23,4 @@
   /* how high a body is off the floor (1 = upright).  lunges pass over low profiles */
   W.PROFILE = { stand: 1, walk: 1, run: 1, crouch: .62, crawl: .4, slide: .42, vault: .9, down: .3 };
 
+  }

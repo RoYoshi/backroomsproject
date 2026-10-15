@@ -1,0 +1,22 @@
+ok   the unchanged copy passes
+ok   state_outside_factory: a sim module keeps a value at its top level (every room's world would share it)
+ok   import_assigned: a module assigns a name it was given
+ok   name_not_given: a module uses a name nobody gave it
+ok   import_unused: a module is given a name it never uses
+ok   import_not_exported: a module imports a name its giver does not return
+ok   made_after: a module is made from one made after it (a cycle, or the wrong order)
+ok   key_not_given: the composition does not give a module what its factory takes
+ok   global_backchannel: a module reaches a global back-channel
+ok   page_state_outside_factory: a page module keeps a value in the script's wrapper, outside its factory
+ok   page_hidden_closure: a page module uses a name of the wrapper (another factory): a hidden closure dependence
+ok   page_import_assigned: a page module assigns a name it was given
+ok   page_import_unused: a page module is given a name it never uses
+ok   page_not_exported: a page module imports a name its giver does not return
+ok   page_made_after: the composition makes a page module from one made after it
+ok   page_key_not_given: the composition does not give a page module what its factory takes
+ok   page_cross_owner_write: a page module writes another owner's state (M8's S.whine, before C3b gave it a setter)
+ok   page_hidden_call: a page module calls a function a third module put on the public object (M8's E.drawSmiler)
+ok   page_global_backchannel: a page module reads through the global object what another module of its script put there (M8's window.__mvSfx)
+ok   page_entry_twice: two page modules write the same entry of the public object
+ok   page_header_lies: a page module's header does not list what its factory takes
+MODULES CHECK MUTANTS: PASS (20 of 20 broken boundaries refused, each for its own reason)

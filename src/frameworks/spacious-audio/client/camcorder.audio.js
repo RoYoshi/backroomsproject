@@ -1,8 +1,15 @@
-/** @part public/camcorder.js - Spacious Audio: the camcorder's synthesised sound
- * provides: snd, whine
- * uses: S
+/** @part public/camcorder.js - Spacious Audio: the camcorder's synthesised sound; a module: camcorderAudio
+ * A module (continuation C3b, M-024): M8's part inside its factory, camcorderAudio. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. camcorder.compose.js makes it. Every line is M8's except 1 listed
+ * edit (dev/stage-3h-modernization/tools/c3_client_modules.js): the sound module sets the whine slot of the camera's state (BR-R's)
+ * through that function, not by writing it.
+ * imports: core { S setWhine }
+ * exports: snd, whine
+ * provides: camcorderAudio
+ * uses: -
  * writes: -
  */
+  function camcorderAudio({ core: { S, setWhine } }) {
   /* ---------------------------------------------------------------- audio (synthesised) */
   const A = () => { const z = window.__api && window.__api.audio && window.__api.audio(); return z && z.context && z.gain ? z : null; };
   function tone(o) {
@@ -40,8 +47,11 @@
       if (level <= 0) return;
       const c = z.context, o = c.createOscillator(), g = c.createGain(), lfo = c.createOscillator(), lg = c.createGain();
       o.type = 'sine'; o.frequency.value = 3600; g.gain.value = 0; lfo.frequency.value = 9; lg.gain.value = 140; lfo.connect(lg); lg.connect(o.frequency);
-      o.connect(g); g.connect(z.gain); o.start(); lfo.start(); S.whine = { c, o, g, lfo };
+      o.connect(g); g.connect(z.gain); o.start(); lfo.start(); setWhine({ c, o, g, lfo });
     }
     const w = S.whine, t = w.c.currentTime; w.g.gain.setTargetAtTime(level * .028, t, .12); w.o.frequency.setTargetAtTime(3200 + level * 1400, t, .2);
   }
 
+
+  return { snd, whine };
+  }

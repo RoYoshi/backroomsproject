@@ -11,23 +11,30 @@
  *   - parts (added at H3M-3): dev/tools/checks/parts.js (every part of a built output declares its interface; the code agrees);
  *   - modules (added at continuation C3): dev/tools/checks/modules.js (the module boundaries, from the code: every name a server file uses
  *     is given to it or its own; no import assigned; every import used; no global object; a world's state inside its factory; the sim's
- *     wiring in order, each imported name returned by its giver);
+ *     wiring in order, each imported name returned by its giver; from C3b the page's module scripts too: nothing in a script's wrapper
+ *     but the factories and the composition, no hidden closure dependence, no write into another owner's state, no global back-channel);
  *   - docs (added at H3M-7): dev/tools/docs/docs.js --check (the documentation's generated tables are what the repository gives today);
  *   - session (added at continuation C2): the session scenarios (golden/srv_scenarios_session.js) on B++'s server.js and this one, both
  *     equal to the B++ traces stored at C2 (dev/stage-3h-modernization/evidence/c2/golden/session_traces), and 15 session mutants;
  *   - sim (added at continuation C3a): golden/sim_diff.js, this tree's sim (its modules) and B++'s sim.js given the same calls, every
  *     result equal; and the seam mutants (golden/sim_mutants.js), each caught by 3H0's server scenarios or by that differential run;
+ *   - page (added at continuation C3b): the page's scripts made of modules against B++'s: golden/world_diff.js (world.js in Node, every
+ *     function on both sides; the server's copy byte for byte the page's) and golden/page_scripts.js (move.js, camcorder.js, glitch.js,
+ *     ents.js, each in the same closed Chromium page, driven by golden/page_scenes.js: equal traces, each scene reaching its script by
+ *     V8's coverage); and the seam mutants (golden/page_mutants.js), each caught;
  *   - scope: dev/tools/gate/scope_m.js (every file outside dev/ is B++'s, moved where the layout says, or a declared change listed in
  *     dev/tools/gate/declared_changes.json; it replaces --allow-prod);
  *   - the harnesses that read runtime files by path are the layout-aware copies in dev/tools/gate/golden/ and checks/ (srv_harness,
  *     srv_golden, bpp_golden, bpp_mutants, cli_lib, cli_golden, cli_lib_h2, cli_golden_h2, raw_live, perf_det, proto_check); each says
  *     what it changed from its original;
- *   - the browser checks are given the candidate's files where its layout keeps them (public/assets/...).
+ *   - the browser checks are given the candidate's files where its layout keeps them (public/assets/...); gameplay_smoke is run once more
+ *     when its first run's player was killed before the check's admin removed the monsters (its world is random: that run proves
+ *     nothing either way; added at continuation C3b);
  * The tools that never read a runtime file by path (protocol_v2, suites, static_check, live_wire_h2, place_replay, place_guard_check,
  * two_browser, col_browser, gameplay_smoke, contact_lab, compare_captures) are used where they are.
  *
- *   --tier fast   (default, a few minutes) build, lineage, parts, modules, docs, scope, srv_golden, bpp_golden, session, sim, cli_golden, protocol,
- *                 mutants, static, raw_live, quick_suites
+ *   --tier fast   (default, a few minutes) build, lineage, parts, modules, docs, scope, srv_golden, bpp_golden, session, sim, page, cli_golden,
+ *                 protocol, mutants, static, raw_live, quick_suites
  *   --tier full   (the final candidate; about 35 minutes on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, contact_lab,
  *                 suites, perf
  * Everything is written under --out (default: a scratch folder): gate_report.json plus each tool's log and report.
@@ -108,7 +115,8 @@ const STEPS = {
   modules: () => {                                                        // (C3) the module boundaries hold, from the code
     const r = run('modules', ['node', 'dev/tools/checks/modules.js', '--quiet', '--out', o('modules.json')]), j = J(o('modules.json'));
     const files = j ? Object.keys(j.files).length : 0, fac = j ? Object.values(j.files).filter(x => x.factory).length : 0;
-    return { ok: r.exit === 0 && !!j && j.ok, cases: files, note: j ? `${files} server files, ${fac} factories; the sim: ${j.sim ? j.sim.modules.length + ' modules, wired in order' : 'not modules'} (TypeScript ${j.typescript})` : (r.text.trim().split('\n').pop() || '').slice(0, 160), r }; },
+    const pages = j && j.page ? Object.values(j.page) : [], pm = pages.reduce((a, x) => a + x.modules.length, 0);
+    return { ok: r.exit === 0 && !!j && j.ok, cases: files + pm, note: j ? `${files} server files, ${fac} factories; the sim: ${j.sim ? j.sim.modules.length + ' modules, wired in order' : 'not modules'}; the page: ${pages.length} scripts, ${pm} modules (TypeScript ${j.typescript})` : (r.text.trim().split('\n').pop() || '').slice(0, 160), r }; },
   docs: () => {                                                           // (H3M-7) the documentation's generated tables are current
     const r = run('docs', ['node', 'dev/tools/docs/docs.js', '--check']), m = /\((\d+) generated blocks in (\d+) documents/.exec(r.text);
     return { ok: r.exit === 0 && /DOCS CHECK: PASS/.test(r.text), cases: m ? +m[1] : 0, note: (r.text.trim().split('\n').pop() || '').slice(0, 160), r }; },
@@ -132,6 +140,14 @@ const STEPS = {
     const ids = jm ? jm.mutants.map(x => x.id) : [], byG = new Set(refOk ? jg.mutants.filter(x => x.caught).map(x => x.id) : []), byD = new Set(jm ? jm.mutants.filter(x => x.caught).map(x => x.id) : []);
     const caught = ids.filter(i => byG.has(i) || byD.has(i)).length, n = jd ? jd.comparisons : 0;
     return { ok: d.exit === 0 && !!jd && jd.ok && refOk && ids.length > 0 && caught === ids.length, cases: n + caught, note: `${n} calls give B++'s results; ${caught} of ${ids.length} seam mutants caught (by the server scenarios ${byG.size}, by the differential run ${byD.size})`, r: d }; },
+  page: () => {                                                           // (C3b) the page's module scripts against B++'s: world.js in Node, the other four in Chromium; every seam mutant caught
+    const w = run('world_diff', ['node', G('golden', 'world_diff.js'), '--out', o('world_diff.json')]), jw = J(o('world_diff.json'));
+    const p = run('page_scripts', ['node', G('golden', 'page_scripts.js'), '--out', o('page_scripts.json')]), jp = J(o('page_scripts.json'));
+    const m = run('page_mutants', ['node', G('golden', 'page_scripts.js'), '--mutants', G('golden', 'page_mutants.js'), '--out', o('page_mutants.json')]), jm = J(o('page_mutants.json'));
+    const scripts = jp ? Object.keys(jp.scripts).length : 0, caught = jm ? jm.mutants.filter(x => x.caught).length : 0, of = jm ? jm.mutants.length : 0;
+    const lines = jp ? Object.values(jp.scripts).reduce((a, x) => a + x.lines[0], 0) : 0, nw = jw ? jw.comparisons : 0;
+    return { ok: w.exit === 0 && !!jw && jw.ok && nw > 0 && p.exit === 0 && !!jp && jp.ok && scripts === 4 && m.exit === 0 && !!jm && jm.ok && of > 0 && caught === of,
+      cases: nw + lines + caught, note: `world.js: ${nw} comparisons equal; move, camcorder, glitch, ents: ${lines} trace lines equal, each scene reaching its script; ${caught} of ${of} seam mutants caught`, r: p }; },
   cli_golden: () => { const r = run('cli_golden', ['node', G('golden', 'cli_golden.js'), '--old-ref', BPP, '--baseline', path.join(E1, 'cli_traces'), '--out', o('cli'), '--keep', o('cli_keep')]); const j = J(o('cli', 'cli_golden_report.json'));
     const n = j ? j.scenes.length : 0; let ok = r.exit === 0 && j && j.ok && n === 9, cases = n, note = '';
     {                                                                                      // the B++ client scenes (Stage 3H2's)
@@ -193,9 +209,16 @@ const STEPS = {
       r = run('col_' + c, ['python3', '-I', '-B', 'dev/stage-3d-hq2/col_browser.py', '--game', g, '--case', c, '--out', o(`col_${c}.json`)]); j = J(o(`col_${c}.json`));
       res.push(['col_' + c, r.exit === 0 && j && j.ok === true && j.total > 0 && j.passed === j.total, j ? j.total || 0 : 0]);
     }
-    const Lg = LAYOUT.forTree(g); r = run('gameplay_smoke', ['python3', '-I', '-B', 'dev/stage-3d-hq4/gameplay_smoke.py', '--game', g, '--variant', `cand=${Lg.at('assets/index-DKbV5Nv9.js')},${Lg.at('assets/br-role.js')}`, '--out', o('smoke')]); j = J(o('smoke', 'cand.json'));
-    res.push(['gameplay_smoke', r.exit === 0 && j && j.ok === true && !(j.pageErrors || []).length, j && j.checks ? Object.keys(j.checks).length : 0]);
-    return { ok: res.every(x => x[1]), cases: res.every(x => x[2] > 0) ? res.reduce((s, x) => s + x[2], 0) : 0, note: res.map(([n, k, c]) => `${n} ${k ? 'ok' : 'FAIL'} (${c})`).join(', ') };
+    /* (C3b) gameplay_smoke's world is random, and a monster can kill its player before the check's admin connection removes the monsters
+     * (C3a and C3b each saw it once). That run proves nothing either way, like a live-wire phase that times out: when the server's log
+     * shows a death before the admin's first command, the check is run once more, and the step says so. A second failure fails it. */
+    const Lg = LAYOUT.forTree(g), smoke = dir => { const x = run('gameplay_smoke' + (dir === 'smoke' ? '' : '_again'), ['python3', '-I', '-B', 'dev/stage-3d-hq4/gameplay_smoke.py', '--game', g, '--variant', `cand=${Lg.at('assets/index-DKbV5Nv9.js')},${Lg.at('assets/br-role.js')}`, '--out', o(dir)]), y = J(o(dir, 'cand.json'));
+      let early = null; try { const lines = fs.readFileSync(o(dir, 'cand.server.log'), 'utf8').split('\n'), a = lines.findIndex(l => l.startsWith('[admin]')), d = lines.findIndex(l => l.startsWith('[death]')); if (d >= 0 && (a < 0 || d < a)) early = lines[d].slice(0, 120); } catch (e) { /* no log */ }
+      return { ok: x.exit === 0 && y && y.ok === true && !(y.pageErrors || []).length, checks: y && y.checks ? Object.keys(y.checks).length : 0, early }; };
+    let sm = smoke('smoke'), smNote = '';
+    if (!sm.ok && sm.early) { smNote = ` (re-run: the first run's player died before the monsters were removed: ${sm.early})`; sm = smoke('smoke_again'); }
+    res.push(['gameplay_smoke', sm.ok, sm.checks, smNote]);
+    return { ok: res.every(x => x[1]), cases: res.every(x => x[2] > 0) ? res.reduce((s, x) => s + x[2], 0) : 0, note: res.map(([n, k, c, w]) => `${n} ${k ? 'ok' : 'FAIL'} (${c})${w || ''}`).join(', ') };
   },
   contact_lab: () => {
     const scenes = 'geometry,lights,peers', res = [];
@@ -218,7 +241,7 @@ const STEPS = {
 };
 const QUICK = ['s_humanqa_hotfix', 's_ir', 'interp_test', 'test_3bn', 'ir_net'];
 function suiteNote(j) { return Object.entries(j.suites).map(([n, x]) => `${n} ${x.summary ? x.summary.passed + '/' + x.summary.total : x.ran}${x.ok ? '' : ' FAIL'}`).join(', ') + ' (only the known B++ failures fail)'; }
-const FAST = ['build', 'lineage', 'parts', 'modules', 'docs', 'scope', 'srv_golden', 'bpp_golden', 'session', 'sim', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites'];
+const FAST = ['build', 'lineage', 'parts', 'modules', 'docs', 'scope', 'srv_golden', 'bpp_golden', 'session', 'sim', 'page', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites'];
 const FULL = FAST.concat(['cli_mutants', 'live_wire', 'bpp_checks', 'browsers', 'contact_lab', 'suites', 'perf']);
 const steps = ARG.only ? ARG.only.split(',') : ARG.tier === 'full' ? FULL : FAST;
 const R = { tool: 'dev/tools/gate/gate.js', tier: ARG.tier, declared: 'dev/tools/gate/declared_changes.json', base: BPP, head: execFileSync('git', ['-C', REPO, 'rev-parse', 'HEAD']).toString().trim(), startedAt: new Date().toISOString(), out: OUT, steps: {}, ok: true };

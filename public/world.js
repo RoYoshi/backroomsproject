@@ -9,6 +9,7 @@
   else root.WORLD = factory();
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
+  function worldHead() {
   const T = 96;
   /* type: low    - waist-high obstacle, vaulted (or walked around). conceal: a crouching player behind it is hidden
    *       under  - raised furniture: blocks standing/walking, a crouching player crawls beneath, a slider slips under
@@ -75,6 +76,10 @@
   /* open the wall cells that gaps and windows sit in */
   W.carve = function (kc, width) { for (const p of PROPS) if (p.type === 'gap' || p.type === 'window') kc[p.ty * width + p.tx] = 1; };
 
+
+  return { LOW, PROPS, T, W };
+  }
+  function worldLamps({ head: { T, W } }) {
   /* CEILING FIXTURES (Stage 3B-L QA1) - the one place that says where Level 0 has a working fluorescent fixture.  The game
    * bundle (its lamp list Fc: the fixture housings, BR-RoLE's light, light.js and Ul(), the lamp hum) and sim.js (the
    * server AI's lamp field and light level) both build their lamp list here, from the same map, so every fixture that
@@ -143,6 +148,8 @@
     return out;
   };
 
+  }
+  function worldCrawl({ head: { LOW, PROPS, W } }) {
   /* props whose (padded) rect contains a point */
   W.propAt = function (x, y, pad = 0, types) {
     for (const p of PROPS) {
@@ -195,6 +202,8 @@
     return null;
   };
 
+  }
+  function worldSurfaces({ head: { T, W } }) {
   /* floor surfaces: carpet (short slides), concrete (medium), wet tile (long).  rooms = the game's room table. */
   const SURF = {
     carpet: { slide: 2.5, step: 1, label: 'carpet' },
@@ -213,6 +222,8 @@
     return 'carpet';
   };
 
+  }
+  function worldMove({ head: { W } }) {
   /* shared movement / noise constants (the client moves, the server listens) */
   W.MOVE = {
     walk: 172, run: 285, crouch: 92, crawl: 54, exhaustedWalk: 148, radius: 15,
@@ -228,6 +239,8 @@
   /* how high a body is off the floor (1 = upright).  lunges pass over low profiles */
   W.PROFILE = { stand: 1, walk: 1, run: 1, crouch: .62, crawl: .4, slide: .42, vault: .9, down: .3 };
 
+  }
+  function worldArt({ head: { PROPS, W } }) {
   /* ---- art (drawn into the game's static Graphics; g is a PIXI.Graphics with the v8 chained API) ---- */
   const shade = (c, k) => { const r = Math.max(0, Math.min(255, (c >> 16 & 255) * k)) | 0, g = Math.max(0, Math.min(255, (c >> 8 & 255) * k)) | 0, b = Math.max(0, Math.min(255, (c & 255) * k)) | 0; return r << 16 | g << 8 | b; };
   function drawProp(g, p) {
@@ -302,5 +315,13 @@
     }
     return bad;
   };
-  return W;
+  }
+  /* (C3b) the modules, in the order the parts ran */
+  const head = worldHead();
+  worldLamps({ head });
+  worldCrawl({ head });
+  worldSurfaces({ head });
+  worldMove({ head });
+  worldArt({ head });
+  return head.W;
 });

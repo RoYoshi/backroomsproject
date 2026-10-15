@@ -1,0 +1,219 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c3_modules_mutants.js",
+ "cases": [
+  {
+   "id": "state_outside_factory",
+   "file": "src/frameworks/gib/server/sim.bodies.js",
+   "why": "a sim module keeps a value at its top level (every room's world would share it)",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/frameworks/gib/server/sim.bodies.js: a module of the sim with code outside its factory: let shared=0;"
+   ]
+  },
+  {
+   "id": "import_assigned",
+   "file": "src/frameworks/nani/server/sim.feed.js",
+   "why": "a module assigns a name it was given",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/frameworks/nani/server/sim.feed.js: assigns names it was given: eng"
+   ]
+  },
+  {
+   "id": "name_not_given",
+   "file": "src/frameworks/nani/server/sim.feed.js",
+   "why": "a module uses a name nobody gave it",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/frameworks/nani/server/sim.feed.js: names used and declared nowhere: isAlive"
+   ]
+  },
+  {
+   "id": "import_unused",
+   "file": "src/frameworks/nani/server/sim.feed.js",
+   "why": "a module is given a name it never uses",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/frameworks/nani/server/sim.feed.js: is given names it never uses: rnd"
+   ]
+  },
+  {
+   "id": "import_not_exported",
+   "file": "src/frameworks/pocket/server/sim.items.js",
+   "why": "a module imports a name its giver does not return",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/frameworks/pocket/server/sim.items.js: is given names it never uses: players",
+    "PROBLEM src/core/server/sim.js: items imports from ai names it does not return: players"
+   ]
+  },
+  {
+   "id": "made_after",
+   "file": "src/core/server/sim.js",
+   "why": "a module is made from one made after it (a cycle, or the wrong order)",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/core/server/sim.js: life uses run, made after it"
+   ]
+  },
+  {
+   "id": "key_not_given",
+   "file": "src/core/server/sim.js",
+   "why": "the composition does not give a module what its factory takes",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/core/server/sim.js: items = simItems(...): its factory takes walls, which the composition does not give"
+   ]
+  },
+  {
+   "id": "global_backchannel",
+   "file": "src/frameworks/overseer/server/sim.admin.js",
+   "why": "a module reaches a global back-channel",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM src/frameworks/overseer/server/sim.admin.js: reaches the global object: globalThis"
+   ]
+  },
+  {
+   "id": "page_state_outside_factory",
+   "file": "src/frameworks/spacious-audio/client/glitch.audio.js",
+   "why": "a page module keeps a value in the script's wrapper, outside its factory",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM public/glitch.js: src/frameworks/spacious-audio/client/glitch.audio.js: code outside its factory, in the script's wrapper: let shared = 0;"
+   ]
+  },
+  {
+   "id": "page_hidden_closure",
+   "file": "src/frameworks/br-r/client/camcorder.view.js",
+   "why": "a page module uses a name of the wrapper (another factory): a hidden closure dependence",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM public/camcorder.js: src/frameworks/br-r/client/camcorder.view.js: camcorderView uses camcorderAudio, declared outside its factory (src/frameworks/spacious-audio/client/camcorder.audio.js): a hidden closure dependence"
+   ]
+  },
+  {
+   "id": "page_import_assigned",
+   "file": "src/frameworks/lost/client/glitch.draw.js",
+   "why": "a page module assigns a name it was given",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM public/glitch.js: src/frameworks/lost/client/glitch.draw.js: glitchDraw assigns names it was given: rnd"
+   ]
+  },
+  {
+   "id": "page_import_unused",
+   "file": "src/frameworks/overseer/client/ents.debug.js",
+   "why": "a page module is given a name it never uses",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM public/ents.js: src/frameworks/overseer/client/ents.debug.js: entsDebug is given names it never uses: lerp",
+    "PROBLEM public/ents.js: src/frameworks/overseer/client/ents.debug.js: its header's imports (head { clamp E sm TAU }) are not what its factory takes (head { E TAU clamp lerp sm })"
+   ]
+  },
+  {
+   "id": "page_not_exported",
+   "file": "src/frameworks/gib/client/ents.death.js",
+   "why": "a page module imports a name its giver does not return",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM public/ents.js: src/frameworks/gib/client/ents.death.js: entsDeath is given names it never uses: initSmiler",
+    "PROBLEM public/ents.js: entsDeath imports from smiler (entsSmiler) names it does not return: initSmiler",
+    "PROBLEM public/ents.js: src/frameworks/gib/client/ents.death.js: its header's imports (head { angDiff API clamp E sm TAU }, smiler { drawSmiler }) are not what its factory takes (head { API E TAU angDiff clamp sm }, smiler { drawSmiler initSmiler })"
+   ]
+  },
+  {
+   "id": "page_made_after",
+   "file": "src/frameworks/br-r/client/ents.compose.js",
+   "why": "the composition makes a page module from one made after it",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM public/ents.js: entsDeath is given smiler: smiler, not a module made before it",
+    "PROBLEM public/ents.js: entsDeath takes smiler, which the composition does not give",
+    "PROBLEM public/ents.js: the composition makes entsHead, entsHound, entsDeath, entsSmiler, entsAudio, entsDebug; the parts run entsHead, entsHound, entsSmiler, entsDeath, entsAudio, entsDebug"
+   ]
+  },
+  {
+   "id": "page_key_not_given",
+   "file": "src/frameworks/br-r/client/camcorder.compose.js",
+   "why": "the composition does not give a page module what its factory takes",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM public/camcorder.js: camcorderView takes audio, which the composition does not give"
+   ]
+  },
+  {
+   "id": "page_cross_owner_write",
+   "file": "src/frameworks/spacious-audio/client/camcorder.audio.js",
+   "why": "a page module writes another owner's state (M8's S.whine, before C3b gave it a setter)",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM public/camcorder.js: src/frameworks/spacious-audio/client/camcorder.audio.js: camcorderAudio is given names it never uses: setWhine",
+    "PROBLEM public/camcorder.js: src/frameworks/spacious-audio/client/camcorder.audio.js: camcorderAudio (spacious-audio) writes S.whine, state of camcorderCore (br-r): another owner's state changes only through a function its owner gives"
+   ]
+  },
+  {
+   "id": "page_hidden_call",
+   "file": "src/frameworks/gib/client/ents.death.js",
+   "why": "a page module calls a function a third module put on the public object (M8's E.drawSmiler)",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM public/ents.js: src/frameworks/gib/client/ents.death.js: entsDeath is given names it never uses: drawSmiler",
+    "PROBLEM public/ents.js: src/frameworks/gib/client/ents.death.js: entsDeath calls E.drawSmiler (entsHead's object), which entsSmiler puts there: a dependence on entsSmiler its imports do not show; it imports the function from that module instead"
+   ]
+  },
+  {
+   "id": "page_global_backchannel",
+   "file": "src/frameworks/space/client/move.js",
+   "why": "a page module reads through the global object what another module of its script put there (M8's window.__mvSfx)",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM public/move.js: src/frameworks/space/client/move.js: moveCore reads __mvSfx through the global object, which moveSound of the same script put there: a global back-channel",
+    "PROBLEM public/move.js: src/frameworks/space/client/move.js: moveCore reads __mvSfx through the global object, which moveSound of the same script put there: a global back-channel"
+   ]
+  },
+  {
+   "id": "page_entry_twice",
+   "file": "src/frameworks/br-r/client/ents.hound.js",
+   "why": "two page modules write the same entry of the public object",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM public/ents.js: entsHead.E: the entry smilerGlow is written by entsHound and entsSmiler: an entry of a public object has one module that writes it"
+   ]
+  },
+  {
+   "id": "page_header_lies",
+   "file": "src/frameworks/spacious-audio/client/camcorder.audio.js",
+   "why": "a page module's header does not list what its factory takes",
+   "refused": true,
+   "named": true,
+   "problems": [
+    "PROBLEM public/camcorder.js: src/frameworks/spacious-audio/client/camcorder.audio.js: its header's imports (core { S }) are not what its factory takes (core { S setWhine })"
+   ]
+  }
+ ],
+ "ok": true,
+ "unchanged": {
+  "exit": 0,
+  "pass": true
+ }
+}

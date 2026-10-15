@@ -1,11 +1,13 @@
 /* Stage 3H continuation (C3) - the module-boundary audit refuses every broken boundary (development only; needs TypeScript, like the audit).
+ * The server's cases came with C3a; the page's (page_*) with C3b.
  *
  *   node dev/stage-3h-modernization/tools/c3_modules_mutants.js [--out FILE.json]
  *
  * dev/tools/checks/modules.js says what a module boundary is (names, read-only imports, every import used, a world's state inside its
- * factory, the sim's wiring).  This proves that it notices when one is broken: for each tampering below it copies the server's files
- * (server.js, src/, generated/) into a scratch folder, changes one thing, runs the audit on the copy with --dir, and expects it to FAIL
- * and to name the rule that was broken.  The unchanged copy must PASS first.  Nothing in this repository is touched. */
+ * factory, the sim's wiring; the page's modules, their composition, their owners' state and the global object).  This proves that it
+ * notices when one is broken: for each tampering below it copies the game's code (server.js, src/, generated/) into a scratch folder,
+ * changes one thing, runs the audit on the copy with --dir, and expects it to FAIL and to name the rule that was broken.  The unchanged
+ * copy must PASS first.  Nothing in this repository is touched. */
 'use strict';
 const fs = require('fs'), os = require('os'), path = require('path'), { spawnSync } = require('child_process');
 const REPO = path.resolve(__dirname, '..', '..', '..'), CHECK = path.join(REPO, 'dev', 'tools', 'checks', 'modules.js');
@@ -21,6 +23,19 @@ const CASES = [
     repl: '  const life=simPlayers({players,level,ai,feed,run}),move=simMovement({WORLD,level,ai});\n  const run=simStep({opts,players,level,ai,feed,walls,items,bodies});', expect: /life uses run, made after it/, why: 'a module is made from one made after it (a cycle, or the wrong order)' },
   { id: 'key_not_given', file: 'src/core/server/sim.js', find: 'items=simItems({ai,walls})', repl: 'items=simItems({ai})', expect: /takes walls, which the composition does not give/, why: 'the composition does not give a module what its factory takes' },
   { id: 'global_backchannel', file: `${F}/overseer/server/sim.admin.js`, find: 'debug(on){debugOn=!!on;return debugOn},', repl: 'debug(on){debugOn=!!on;globalThis.simDebug=debugOn;return debugOn},', expect: /reaches the global object: globalThis/, why: 'a module reaches a global back-channel' },
+  /* the page's scripts (continuation C3b) */
+  { id: 'page_state_outside_factory', file: `${F}/spacious-audio/client/glitch.audio.js`, find: '  function glitchAudio() {\n', repl: '  let shared = 0;\n  function glitchAudio() {\n', expect: /glitch\.audio\.js: code outside its factory/, why: "a page module keeps a value in the script's wrapper, outside its factory" },
+  { id: 'page_hidden_closure', file: `${F}/br-r/client/camcorder.view.js`, find: 'audio: { snd, whine } }) {\n', repl: 'audio: { snd, whine } }) {\n  const peek = () => camcorderAudio;\n', expect: /camcorderView uses camcorderAudio, declared outside its factory/, why: 'a page module uses a name of the wrapper (another factory): a hidden closure dependence' },
+  { id: 'page_import_assigned', file: `${F}/lost/client/glitch.draw.js`, find: 'audio: { updateSnd } }) {\n', repl: 'audio: { updateSnd } }) {\n  rnd = Math.random;\n', expect: /glitchDraw assigns names it was given: rnd/, why: 'a page module assigns a name it was given' },
+  { id: 'page_import_unused', file: `${F}/overseer/client/ents.debug.js`, find: 'function entsDebug({ head: { clamp, E, sm, TAU } }) {', repl: 'function entsDebug({ head: { clamp, E, lerp, sm, TAU } }) {', expect: /entsDebug is given names it never uses: lerp/, why: 'a page module is given a name it never uses' },
+  { id: 'page_not_exported', file: `${F}/gib/client/ents.death.js`, find: 'smiler: { drawSmiler } }) {', repl: 'smiler: { drawSmiler, initSmiler } }) {', expect: /entsDeath imports from smiler \(entsSmiler\) names it does not return: initSmiler/, why: 'a page module imports a name its giver does not return' },
+  { id: 'page_made_after', file: `${F}/br-r/client/ents.compose.js`, find: 'const smiler = entsSmiler({ head });\nentsDeath({ head, smiler });\n', repl: 'entsDeath({ head, smiler });\nconst smiler = entsSmiler({ head });\n', expect: /entsDeath is given smiler: smiler, not a module made before it/, why: 'the composition makes a page module from one made after it' },
+  { id: 'page_key_not_given', file: `${F}/br-r/client/camcorder.compose.js`, find: '  camcorderView({ core, audio });', repl: '  camcorderView({ core });', expect: /camcorderView takes audio, which the composition does not give/, why: 'the composition does not give a page module what its factory takes' },
+  { id: 'page_cross_owner_write', file: `${F}/spacious-audio/client/camcorder.audio.js`, find: ' setWhine({ c, o, g, lfo });\n', repl: ' S.whine = { c, o, g, lfo };\n', expect: /camcorderAudio \(spacious-audio\) writes S\.whine, state of camcorderCore \(br-r\)/, why: "a page module writes another owner's state (M8's S.whine, before C3b gave it a setter)" },
+  { id: 'page_hidden_call', file: `${F}/gib/client/ents.death.js`, find: "  drawSmiler(view, { state: 'ATTACKING'", repl: "  E.drawSmiler(view, { state: 'ATTACKING'", expect: /entsDeath calls E\.drawSmiler \(entsHead's object\), which entsSmiler puts there/, why: "a page module calls a function a third module put on the public object (M8's E.drawSmiler)" },
+  { id: 'page_global_backchannel', file: `${F}/space/client/move.js`, find: '  sfx && sfx.slideEnd();\n', repl: '  window.__mvSfx && window.__mvSfx.slideEnd();\n', expect: /moveCore reads __mvSfx through the global object, which moveSound of the same script put there/, why: "a page module reads through the global object what another module of its script put there (M8's window.__mvSfx)" },
+  { id: 'page_entry_twice', file: `${F}/br-r/client/ents.hound.js`, find: 'E.attackHound = function (view, grip, impact, variant, jl) {', repl: 'E.smilerGlow = null;\nE.attackHound = function (view, grip, impact, variant, jl) {', expect: /entry smilerGlow is written by/, why: 'two page modules write the same entry of the public object' },
+  { id: 'page_header_lies', file: `${F}/spacious-audio/client/camcorder.audio.js`, find: ' * imports: core { S setWhine }\n', repl: ' * imports: core { S }\n', expect: /camcorder\.audio\.js: its header's imports/, why: "a page module's header does not list what its factory takes" },
 ];
 const copyTree = dst => {
   for (const f of ['server.js', 'package.json']) fs.copyFileSync(path.join(REPO, f), path.join(dst, f));

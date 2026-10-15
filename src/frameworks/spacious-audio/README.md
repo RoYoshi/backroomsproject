@@ -19,20 +19,20 @@ No retuning in a refactor: a sound moves only with a listening check.
 <!-- generated: sources:spacious-audio (dev/tools/docs/docs.js) -->
 | File | What it is | Goes into |
 |---|---|---|
-| [`client/camcorder.audio.js`](client/camcorder.audio.js) | Spacious Audio: the camcorder's synthesised sound | `public/camcorder.js` (a part) |
-| [`client/ents.audio.js`](client/ents.audio.js) | Spacious Audio: the entities' sound (procedural, positional, muffled through walls) | `public/ents.js` (a part) |
-| [`client/glitch.audio.js`](client/glitch.audio.js) | Spacious Audio: the glitched walls' sound, crackling digital static | `public/glitch.js` (a part) |
-| [`client/move.sound.js`](client/move.sound.js) | Spacious Audio: footsteps by state and surface, slides, vaults, breathing; the IIFE closes here | `public/move.js` (a part) |
+| [`client/camcorder.audio.js`](client/camcorder.audio.js) | Spacious Audio: the camcorder's synthesised sound; a module: camcorderAudio | `public/camcorder.js` (a part) |
+| [`client/ents.audio.js`](client/ents.audio.js) | Spacious Audio: the entities' sound (procedural, positional, muffled through walls); a module: entsAudio | `public/ents.js` (a part) |
+| [`client/glitch.audio.js`](client/glitch.audio.js) | Spacious Audio: the glitched walls' sound, crackling digital static; a module: glitchAudio | `public/glitch.js` (a part) |
+| [`client/move.sound.js`](client/move.sound.js) | Spacious Audio: footsteps by state and surface, slides, vaults, breathing; a module: moveSound | `public/move.js` (a part) |
 | [`client/mp-hum.js`](client/mp-hum.js) | mp-hum.js - the fluorescent light hum of the multiplayer layer (mp.js): a synthesized magnetic ballast on the game's own audio context. | `public/assets/mp-hum.js` |
 | [`client/mp.dread.js`](client/mp.dread.js) | Spacious Audio: the dread's sound (the drone and the heartbeat) | `public/mp.js` (a part) |
 | [`client/sfx.js`](client/sfx.js) | Drop-in custom sounds. Put audio files in ./sounds (mp3 / ogg / wav / m4a / flac) named like: | `public/sfx.js` |
 <!-- end of generated block -->
 
-A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header.
+A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header. Since continuation C3b a part of `world.js`, `move.js`, `camcorder.js`, `glitch.js` or `ents.js` is a module: one factory, given what it uses of the modules made before it; its header also lists its `imports` and `exports`, and the script's `*.compose.js` part makes the modules in order (`docs/architecture/CONTRACTS.md` section 4; `node dev/tools/checks/modules.js` proves the boundaries).
 
 ## How it connects
 
-Five of its files are parts of other owners' scripts and share their closures: the camcorder's sound in `camcorder.js`, the entities' in `ents.js`, the walls' in `glitch.js`, the movement sounds in `move.js`, the dread in `mp.js`. Their headers list what they read of their hosts. `mp-hum.js` and `sfx.js` are whole files.
+Five of its files are parts of other owners' scripts. Four are modules since continuation C3b, each given what it uses of its host's modules: the camcorder's sound in `camcorder.js` (it sets the camera's whine slot through BR-R's `setWhine`), the entities' in `ents.js`, the walls' in `glitch.js`, the movement sounds in `move.js` (it hands them to the movement module with `useSound`; `window.__mvSfx` is still registered). The dread in `mp.js` still shares that script's closure (C3c). Their headers list what they take of their hosts. `mp-hum.js` and `sfx.js` are whole files.
 
 ## Changing it
 

@@ -1,5 +1,10 @@
-/** @part public/ents.js - BR-R: the entities' client head (the IIFE opens here): the API, the entity table, small math
- * provides: API, E, TAU, angDiff, clamp, lerp, rnd, sm
+/** @part public/ents.js - BR-R: the entities' client head: the API, the entity table, small math; a module: entsHead
+ * A module (continuation C3b, M-024): M8's part inside its factory, entsHead, after the opening of the script's wrapper, which this part
+ * keeps. Its parameter is what it takes from the modules made before it, by giver; its return is what later modules take from it.
+ * ents.compose.js makes it. Every line is M8's.
+ * imports: -
+ * exports: angDiff, API, clamp, E, lerp, rnd, sm, TAU
+ * provides: entsHead
  * uses: -
  * writes: -
  */
@@ -8,6 +13,7 @@
  * draws and voices what the snapshots say.  Loaded after the game bundle; mp.js feeds it. */
 (() => {
 'use strict';
+function entsHead() {
 const TAU = Math.PI * 2;
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const lerp = (a, b, t) => a + (b - a) * t;
@@ -49,3 +55,6 @@ E.slotS = function (o, t, dt, ip) {
   const sl = t.lh === undefined ? (t.h || 0) : t.lh; if (o.look === undefined) o.look = sl; else o.look += angDiff(sl, o.look) * (1 - Math.exp(-dt * 9));
   o.tg = t.tg; o.cp = t.cp; o.lit = t.lt; o.special = t.sp; o.net = 1; o.sid = t.i;
 };
+
+return { angDiff, API, clamp, E, lerp, rnd, sm, TAU };
+}

@@ -1,8 +1,15 @@
-/** @part public/move.js - Spacious Audio: footsteps by state and surface, slides, vaults, breathing; the IIFE closes here
- * provides: -
- * uses: A, SURF, clamp, mv
+/** @part public/move.js - Spacious Audio: footsteps by state and surface, slides, vaults, breathing; a module: moveSound
+ * A module (continuation C3b, M-024): M8's part inside its factory, moveSound. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. move.compose.js makes it. Every line is M8's except 2 listed edits
+ * (dev/stage-3h-modernization/tools/c3_client_modules.js): the sound module names its sounds (still registered on window, as before); and
+ * hands them to the movement module the moment they are registered.
+ * imports: move { A clamp mv SURF useSound }
+ * exports: -
+ * provides: moveSound
+ * uses: -
  * writes: -
  */
+function moveSound({ move: { A, clamp, mv, SURF, useSound } }) {
 /* ---------------------------------------------------------------- sound: footsteps by state and surface, slides, vaults, breathing */
 let ctx = null, out = null, noiseBuf = null;
 function audio() {
@@ -27,7 +34,7 @@ function thump(f0, f1, dur, vol, when = 0) {
   g.gain.setValueAtTime(.0001, t0); g.gain.linearRampToValueAtTime(vol, t0 + .006); g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
   o.connect(g); g.connect(out); o.start(t0); o.stop(t0 + dur + .02);
 }
-window.__mvSfx = {
+const mvSfx = window.__mvSfx = {
   slideStart(surf, v) {
     const vol = .05 + .06 * clamp(v / 285, 0, 1), dur = (SURF[surf].slide < 1 ? 1.6 : SURF[surf].slide < 2 ? .9 : .55);
     if (surf === 'wet') { noise(dur, 'bandpass', 1900, .7, vol * 1.5, .03, 0, 0, 900); noise(dur * .8, 'highpass', 3200, .5, vol * .55, .04); }
@@ -47,6 +54,7 @@ window.__mvSfx = {
     noise(dur * .9, 'bandpass', 800, .7, v * .8, dur * .25, -.05 + Math.random() * .1, dur * 1.05, 380);       // exhale
   },
 };
+useSound(mvSfx);                        // (C3b) hands them to the movement module, right after registering them
 let lastBreath = 0, stepDist = 0, lastStepPos = null;
 /* called every frame in place of Z.footstep */
 mv.foot = (Z, surface) => {
@@ -63,4 +71,4 @@ mv.foot = (Z, surface) => {
   const need = H.exhausted ? 1 : (recentRun && H.stamina < 55 ? .35 + (55 - H.stamina) / 90 : 0);
   if (need > 0 && now - lastBreath > 1.55 - .75 * need) { lastBreath = now; window.__mvSfx.breath(need); }
 };
-})();
+}

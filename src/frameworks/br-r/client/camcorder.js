@@ -1,5 +1,11 @@
-/** @part public/camcorder.js - BR-R: the night-vision camcorder (the IIFE opens here): its rules and its state
- * provides: CFG, FX, S, clamp
+/** @part public/camcorder.js - BR-R: the night-vision camcorder: its rules and its state; a module: camcorderCore
+ * A module (continuation C3b, M-024): M8's part inside its factory, camcorderCore, after the opening of the script's wrapper, which this
+ * part keeps. Its parameter is what it takes from the modules made before it, by giver; its return is what later modules take from it.
+ * camcorder.compose.js makes it. Every line is M8's except 1 listed edit (dev/stage-3h-modernization/tools/c3_client_modules.js): the
+ * camera's state gets a function that sets its whine slot.
+ * imports: -
+ * exports: CFG, clamp, FX, S, setWhine
+ * provides: camcorderCore
  * uses: -
  * writes: -
  */
@@ -49,6 +55,7 @@
    There are no batteries. Heat is the only resource.                                             */
 (() => {
   'use strict';
+  function camcorderCore() {
   const CFG = {
     NV_MAX_HEAT: 100,
     NV_HEAT_RATE: 100 / 35,
@@ -77,5 +84,9 @@
     shakeAmp: 0, interfere: 0, stat: 0, glitchT: 0, hint: 0, hints: 0,
     msg: '', msgT: 0, wasActive: false, lastWheel: 0, whine: null,
   };
+  const setWhine = w => { S.whine = w; };            // (C3b) the heat whine's sound nodes: Spacious Audio's module keeps them in the camera's state
   const FX = Object.create(null);
 
+
+  return { CFG, clamp, FX, S, setWhine };
+  }

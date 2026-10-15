@@ -140,7 +140,8 @@
    "parts": [
     "src/frameworks/br-r/client/camcorder.js",
     "src/frameworks/spacious-audio/client/camcorder.audio.js",
-    "src/frameworks/br-r/client/camcorder.view.js"
+    "src/frameworks/br-r/client/camcorder.view.js",
+    "src/frameworks/br-r/client/camcorder.compose.js"
    ]
   },
   {
@@ -163,7 +164,8 @@
     "src/frameworks/br-r/client/ents.smiler.js",
     "src/frameworks/gib/client/ents.death.js",
     "src/frameworks/spacious-audio/client/ents.audio.js",
-    "src/frameworks/overseer/client/ents.debug.js"
+    "src/frameworks/overseer/client/ents.debug.js",
+    "src/frameworks/br-r/client/ents.compose.js"
    ]
   },
   {
@@ -171,7 +173,8 @@
    "parts": [
     "src/frameworks/lost/client/glitch.js",
     "src/frameworks/spacious-audio/client/glitch.audio.js",
-    "src/frameworks/lost/client/glitch.draw.js"
+    "src/frameworks/lost/client/glitch.draw.js",
+    "src/frameworks/lost/client/glitch.compose.js"
    ]
   },
   {
@@ -203,7 +206,8 @@
    "parts": [
     "src/frameworks/space/client/move.js",
     "src/frameworks/br-r/client/move.poses.js",
-    "src/frameworks/spacious-audio/client/move.sound.js"
+    "src/frameworks/spacious-audio/client/move.sound.js",
+    "src/frameworks/space/client/move.compose.js"
    ]
   },
   {
@@ -247,7 +251,8 @@
     "src/frameworks/space/shared/world.crawl.js",
     "src/frameworks/lost/shared/world.surfaces.js",
     "src/frameworks/space/shared/world.move.js",
-    "src/frameworks/br-r/shared/world.art.js"
+    "src/frameworks/br-r/shared/world.art.js",
+    "src/frameworks/space/shared/world.compose.js"
    ]
   },
   {
@@ -279,7 +284,8 @@
     "src/frameworks/space/shared/world.crawl.js",
     "src/frameworks/lost/shared/world.surfaces.js",
     "src/frameworks/space/shared/world.move.js",
-    "src/frameworks/br-r/shared/world.art.js"
+    "src/frameworks/br-r/shared/world.art.js",
+    "src/frameworks/space/shared/world.compose.js"
    ]
   }
  ]

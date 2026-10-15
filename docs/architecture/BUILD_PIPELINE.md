@@ -15,9 +15,12 @@ their SHA-256, in `generated/BUILD_MANIFEST.json`. The outputs are committed, be
 | **A copy of the recovered v11 build** | One part: a file of `src/core/client/bundle/original-v11/dist/` | the 11 PixiJS chunks |
 | **A replay of the lineage ledger** | The v11 build output, then every recorded step's patch, each checked by its SHA-256 before and after | `public/assets/index-DKbV5Nv9.js`, `index-D7hdwmUU.css` |
 
-The parts of one script share one closure (an IIFE, a UMD factory). Each part's header says what it provides to the others, what it
-uses of theirs and which of their bindings it writes; `dev/tools/checks/parts.js` proves it against the code
-([`CONTRACTS.md`](CONTRACTS.md)).
+The parts of one script are joined inside one wrapper (an IIFE, a UMD factory). In `mp.js` and the server's `ai.js` they share that
+closure: each part's header says what it provides to the others, what it uses of theirs and which of their bindings it writes;
+`dev/tools/checks/parts.js` proves it against the code ([`CONTRACTS.md`](CONTRACTS.md)). In `world.js`, `move.js`, `camcorder.js`,
+`glitch.js` and `ents.js` (continuation C3b, ADR-005) each part is a module, one factory function, and the script's last part (its
+`*.compose.js`) makes the modules in order; the build still only joins the parts, so the browser loads one classic script as before.
+Those five outputs changed bytes on purpose: their behaviour is compared with B++'s by the gate's `page` step instead.
 
 The server's sim is not built any more (continuation C3a, ADR-005): it is modules the server loads from `src/` as they are, composed by
 `src/core/server/sim.js`. Until C3a it was `generated/server/sim.js`, joined from eleven parts.
@@ -52,23 +55,23 @@ sounds and web manifest, and the retired `assets/shadows-2d.js` (still served, u
 | `public/assets/net-newrun.js` | one source file | `frameworks/front/client/net-newrun.js` |
 | `public/assets/net-wire.js` | one source file | `frameworks/bpp/client/net-wire.js` |
 | `public/assets/ui.js` | one source file | `frameworks/front/client/ui.js` |
-| `public/camcorder.js` | 3 parts, joined in order | `frameworks/br-r/client/camcorder.js`<br>`frameworks/spacious-audio/client/camcorder.audio.js`<br>`frameworks/br-r/client/camcorder.view.js` |
+| `public/camcorder.js` | 4 parts, joined in order | `frameworks/br-r/client/camcorder.js`<br>`frameworks/spacious-audio/client/camcorder.audio.js`<br>`frameworks/br-r/client/camcorder.view.js`<br>`frameworks/br-r/client/camcorder.compose.js` |
 | `public/camera_policy.js` | one source file | `frameworks/br-r/client/camera_policy.js` |
 | `public/dphys.js` | one source file | `frameworks/gib/shared/dphys.js` |
-| `public/ents.js` | 6 parts, joined in order | `frameworks/br-r/client/ents.head.js`<br>`frameworks/br-r/client/ents.hound.js`<br>`frameworks/br-r/client/ents.smiler.js`<br>`frameworks/gib/client/ents.death.js`<br>`frameworks/spacious-audio/client/ents.audio.js`<br>`frameworks/overseer/client/ents.debug.js` |
-| `public/glitch.js` | 3 parts, joined in order | `frameworks/lost/client/glitch.js`<br>`frameworks/spacious-audio/client/glitch.audio.js`<br>`frameworks/lost/client/glitch.draw.js` |
+| `public/ents.js` | 7 parts, joined in order | `frameworks/br-r/client/ents.head.js`<br>`frameworks/br-r/client/ents.hound.js`<br>`frameworks/br-r/client/ents.smiler.js`<br>`frameworks/gib/client/ents.death.js`<br>`frameworks/spacious-audio/client/ents.audio.js`<br>`frameworks/overseer/client/ents.debug.js`<br>`frameworks/br-r/client/ents.compose.js` |
+| `public/glitch.js` | 4 parts, joined in order | `frameworks/lost/client/glitch.js`<br>`frameworks/spacious-audio/client/glitch.audio.js`<br>`frameworks/lost/client/glitch.draw.js`<br>`frameworks/lost/client/glitch.compose.js` |
 | `public/gore.js` | one source file | `frameworks/gib/client/gore.js` |
 | `public/hud.js` | one source file | `frameworks/front/client/hud.js` |
 | `public/inventory.js` | one source file | `frameworks/pocket/client/inventory.js` |
 | `public/light.js` | one source file | `frameworks/br-role/client/light.js` |
-| `public/move.js` | 3 parts, joined in order | `frameworks/space/client/move.js`<br>`frameworks/br-r/client/move.poses.js`<br>`frameworks/spacious-audio/client/move.sound.js` |
+| `public/move.js` | 4 parts, joined in order | `frameworks/space/client/move.js`<br>`frameworks/br-r/client/move.poses.js`<br>`frameworks/spacious-audio/client/move.sound.js`<br>`frameworks/space/client/move.compose.js` |
 | `public/mp.js` | 16 parts, joined in order | `core/client/mp.js`<br>`frameworks/bpp/client/mp.net.js`<br>`frameworks/gib/client/mp.owndeath.js`<br>`frameworks/bpp/client/mp.newrun.js`<br>`frameworks/space/client/mp.peers.js`<br>`frameworks/bpp/client/mp.transport.js`<br>`frameworks/nani/client/mp.monsters.js`<br>`frameworks/lost/client/mp.glitch.js`<br>`frameworks/pocket/client/mp.cartograph.js`<br>`frameworks/gib/client/mp.bodies.js`<br>`frameworks/spacious-audio/client/mp.dread.js`<br>`frameworks/br-r/client/mp.wanderers.js`<br>`frameworks/gib/client/mp.replays.js`<br>`frameworks/overseer/client/mp.admin.js`<br>`frameworks/overseer/client/mp.deathlab.js`<br>`core/client/mp.frame.js` |
 | `public/sfx.js` | one source file | `frameworks/spacious-audio/client/sfx.js` |
 | `public/timing_policy.js` | one source file | `frameworks/space/shared/timing_policy.js` |
-| `public/world.js` | 6 parts, joined in order | `frameworks/space/shared/world.js`<br>`frameworks/lost/shared/world.lamps.js`<br>`frameworks/space/shared/world.crawl.js`<br>`frameworks/lost/shared/world.surfaces.js`<br>`frameworks/space/shared/world.move.js`<br>`frameworks/br-r/shared/world.art.js` |
+| `public/world.js` | 7 parts, joined in order | `frameworks/space/shared/world.js`<br>`frameworks/lost/shared/world.lamps.js`<br>`frameworks/space/shared/world.crawl.js`<br>`frameworks/lost/shared/world.surfaces.js`<br>`frameworks/space/shared/world.move.js`<br>`frameworks/br-r/shared/world.art.js`<br>`frameworks/space/shared/world.compose.js` |
 | `generated/server/ai.js` | 10 parts, joined in order | `frameworks/nani/server/ai.head.js`<br>`frameworks/nani/server/ai.geo.js`<br>`frameworks/nani/server/ai.senses.js`<br>`frameworks/nani/server/ai.intelligence.js`<br>`frameworks/nani/server/ai.light.js`<br>`frameworks/nani/server/ai.entity.js`<br>`frameworks/nani/server/ai.capture.js`<br>`frameworks/nani/server/ai.hound.js`<br>`frameworks/nani/server/ai.smiler.js`<br>`frameworks/nani/server/ai.engine.js` |
 | `generated/server/dphys.js` | one source file | `frameworks/gib/shared/dphys.js` |
-| `generated/server/world.js` | 6 parts, joined in order | `frameworks/space/shared/world.js`<br>`frameworks/lost/shared/world.lamps.js`<br>`frameworks/space/shared/world.crawl.js`<br>`frameworks/lost/shared/world.surfaces.js`<br>`frameworks/space/shared/world.move.js`<br>`frameworks/br-r/shared/world.art.js` |
+| `generated/server/world.js` | 7 parts, joined in order | `frameworks/space/shared/world.js`<br>`frameworks/lost/shared/world.lamps.js`<br>`frameworks/space/shared/world.crawl.js`<br>`frameworks/lost/shared/world.surfaces.js`<br>`frameworks/space/shared/world.move.js`<br>`frameworks/br-r/shared/world.art.js`<br>`frameworks/space/shared/world.compose.js` |
 <!-- end of generated block -->
 
 `world.js` and `dphys.js` are built twice from the same sources: once for the page (`public/`) and once for the server

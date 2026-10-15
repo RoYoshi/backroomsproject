@@ -1,0 +1,336 @@
+{
+ "tool": "dev/tools/gate/scope_m.js",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "runtime": {
+  "identical": 43,
+  "changed": {
+   "camcorder.js": {
+    "declared": true,
+    "why": "Continuation C3b (M-024): the script is modules: each owner's part is one factory, given what it uses of the parts before it, and a composition part makes them in the order the parts ran. Every line is M8's, verbatim, except the edits dev/stage-3h-modernization/tools/c3_client_modules.js lists (Spacious Audio's module sets the whine slot of the camera's state through a function BR-R's module gives, instead of writing it). Behaviour: the gate's page step runs B++'s camcorder.js and this one in the same closed page; the traces (canvas, Web Audio, the page's elements) are equal.",
+    "at": "public/camcorder.js"
+   },
+   "death_srv.js": {
+    "declared": true,
+    "why": "H3M-1: its path to the built dphys.js (generated/server/dphys.js)",
+    "at": "src/frameworks/gib/server/death_srv.js"
+   },
+   "ents.js": {
+    "declared": true,
+    "why": "Continuation C3b (M-024): the script is modules: each owner's part is one factory, given what it uses of the parts before it, and a composition part makes them in the order the parts ran. Every line is M8's, verbatim, except the edits dev/stage-3h-modernization/tools/c3_client_modules.js lists (GIB's death scene imports the Smiler's drawing from BR-R's Smiler module instead of calling it through window.__ents). Behaviour: the gate's page step, B++'s ents.js against this one (the creatures, their deaths simulated by dphys.js, their sounds, the debug overlay on the server's own records): equal traces.",
+    "at": "public/ents.js"
+   },
+   "glitch.js": {
+    "declared": true,
+    "why": "Continuation C3b (M-024): the script is modules: each owner's part is one factory, given what it uses of the parts before it, and a composition part makes them in the order the parts ran. Every line is M8's, verbatim, except the edits dev/stage-3h-modernization/tools/c3_client_modules.js lists (none: a pure re-wrapping). Behaviour: the gate's page step, B++'s glitch.js against this one: equal traces.",
+    "at": "public/glitch.js"
+   },
+   "index.html": {
+    "declared": true,
+    "why": "3H2 C-3 and C-4: the two helper scripts are loaded",
+    "at": "public/index.html"
+   },
+   "move.js": {
+    "declared": true,
+    "why": "Continuation C3b (M-024): the script is modules: each owner's part is one factory, given what it uses of the parts before it, and a composition part makes them in the order the parts ran. Every line is M8's, verbatim, except the edits dev/stage-3h-modernization/tools/c3_client_modules.js lists (the movement module calls Spacious Audio's movement sounds through what the sound module hands it, not through window.__mvSfx, which is still registered). Behaviour: the gate's page step, B++'s move.js against this one: equal traces.",
+    "at": "public/move.js"
+   },
+   "mp.js": {
+    "declared": true,
+    "why": "3H2 C-3 and C-4: NEW RUN's button and run-menu words, and the fluorescent hum, moved to assets/net-newrun.js and assets/mp-hum.js",
+    "at": "public/mp.js"
+   },
+   "package.json": {
+    "declared": true,
+    "why": "H3M-1: the scripts build, build:check, gate and gate:full (no change to start, the engines or anything Node reads at run time)",
+    "at": "package.json"
+   },
+   "server.js": {
+    "declared": true,
+    "why": "3H2 C-1 and C-2: NEW RUN's decision and the death aftermath moved to modules (server/newrun.js, server/aftermath.js). H3M-1: the web root is public/; the moved modules and the generated sim.js are required from their new paths. H3M-2: the composition root; the movement authority, the rooms and the world reset, the admin panel's commands, the fresher poses and the loop moved to modules as they were (the move proof: dev/stage-3h-modernization/evidence/m2/); the configuration and the passcode's source stay. Continuation C2: the WebSocket session (src/frameworks/bpp/server/session.js) and the admin login with its lockout (src/frameworks/ward/server/admin_login.js) moved to modules as they were, with the owner's approval to relocate them (the move proof: dev/stage-3h-modernization/evidence/c2/) Continuation C3a: it requires the sim from src/core/server/sim.js (the composition of its owners' modules) instead of the built generated/server/sim.js.",
+    "at": "server.js"
+   },
+   "server/static.js": {
+    "declared": true,
+    "why": "H3M-1: one comment (the web root it is given is public/)",
+    "at": "src/frameworks/ward/server/static.js"
+   },
+   "sim.js": {
+    "declared": true,
+    "why": "Continuation C3a (M-024): the sim is modules. Its old name now names the composition, src/core/server/sim.js, which makes each owner's module in the order the one function ran and returns the same object; the code is M8's sim.js, every line verbatim except the edits dev/stage-3h-modernization/tools/c3_sim_modules.py lists (a write into another owner's state became a call to that owner's function). Behaviour: the server goldens, the session scenarios, the differential run and the suites, equal to B++.",
+    "at": "src/core/server/sim.js"
+   },
+   "world.js": {
+    "declared": true,
+    "why": "Continuation C3b (M-024): the script is modules: each owner's part is one factory, given what it uses of the parts before it, and a composition part makes them in the order the parts ran. Every line is M8's, verbatim, except the edits dev/stage-3h-modernization/tools/c3_client_modules.js lists (none: a pure re-wrapping); the server's copy, generated/server/world.js, is the page's byte for byte. Behaviour: the gate's page step (world_diff.js: every function on both sides, Level 0 built with each) and the sim step (B++'s sim with its world.js against this tree's sim and world.js): equal.",
+    "at": "generated/server/world.js"
+   }
+  },
+  "added": {
+   "assets/mp-hum.js": {
+    "declared": true,
+    "why": "3H2 C-4: the fluorescent hum, moved out of mp.js",
+    "at": "public/assets/mp-hum.js"
+   },
+   "assets/net-newrun.js": {
+    "declared": true,
+    "why": "3H2 C-3: NEW RUN's button and run-menu words, moved out of mp.js",
+    "at": "public/assets/net-newrun.js"
+   },
+   "server/aftermath.js": {
+    "declared": true,
+    "why": "3H2 C-2: the death aftermath and the NEW RUN blast, moved out of server.js",
+    "at": "src/frameworks/gib/server/aftermath.js"
+   },
+   "server/newrun.js": {
+    "declared": true,
+    "why": "3H2 C-1: NEW RUN's decision, moved out of server.js",
+    "at": "src/frameworks/bpp/server/newrun.js"
+   },
+   "src/core/server/loop.js": {
+    "declared": true,
+    "why": "H3M-2: core, the loop's tick (the body of server.js's setInterval callback), moved out of server.js as it was",
+    "at": "src/core/server/loop.js"
+   },
+   "src/core/server/rooms.js": {
+    "declared": true,
+    "why": "H3M-2: core, the rooms and the admin world reset, moved out of server.js as they were",
+    "at": "src/core/server/rooms.js"
+   },
+   "src/core/server/sim.step.js": {
+    "declared": true,
+    "why": "Continuation C3a: core's run of one world (its state, the world reset, one step, the snapshot's entities), a module of the sim",
+    "at": "src/core/server/sim.step.js"
+   },
+   "src/frameworks/bpp/server/poses.js": {
+    "declared": true,
+    "why": "H3M-2: B++, the fresher poses between two snapshots (Stage 3E-0 B+), moved out of server.js as it was",
+    "at": "src/frameworks/bpp/server/poses.js"
+   },
+   "src/frameworks/bpp/server/session.js": {
+    "declared": true,
+    "why": "Continuation C2: B++'s WebSocket session - the upgrade, each connection's state and messages, the leaving - moved out of server.js as it was",
+    "at": "src/frameworks/bpp/server/session.js"
+   },
+   "src/frameworks/gib/server/sim.bodies.js": {
+    "declared": true,
+    "why": "Continuation C3a: G.I.B.'s bodies and the sim's clock, a module of the sim",
+    "at": "src/frameworks/gib/server/sim.bodies.js"
+   },
+   "src/frameworks/lost/server/sim.glitches.js": {
+    "declared": true,
+    "why": "Continuation C3a: L.O.S.T.'s glitched walls, a module of the sim",
+    "at": "src/frameworks/lost/server/sim.glitches.js"
+   },
+   "src/frameworks/lost/server/sim.level0.js": {
+    "declared": true,
+    "why": "Continuation C3a: L.O.S.T.'s Level 0 for one world (the map, collision, ray cast and light code extracted from the bundle), a module of the sim; its two code lines are sim.js's, unchanged",
+    "at": "src/frameworks/lost/server/sim.level0.js"
+   },
+   "src/frameworks/nani/server/sim.ai.js": {
+    "declared": true,
+    "why": "Continuation C3a: N.A.N.I.'s AI engine wiring for one world (the seed, the engine, spawning, the director's caps, the nav command), a module of the sim",
+    "at": "src/frameworks/nani/server/sim.ai.js"
+   },
+   "src/frameworks/nani/server/sim.feed.js": {
+    "declared": true,
+    "why": "Continuation C3a: N.A.N.I.'s feed of the players to the AI and its events, a module of the sim",
+    "at": "src/frameworks/nani/server/sim.feed.js"
+   },
+   "src/frameworks/overseer/server/admin.js": {
+    "declared": true,
+    "why": "H3M-2: OVERSEER, the admin panel's commands, moved out of server.js as they were (the passcode check stays in server.js)",
+    "at": "src/frameworks/overseer/server/admin.js"
+   },
+   "src/frameworks/overseer/server/sim.admin.js": {
+    "declared": true,
+    "why": "Continuation C3a: OVERSEER's world side of the admin tools, a module of the sim",
+    "at": "src/frameworks/overseer/server/sim.admin.js"
+   },
+   "src/frameworks/pocket/server/sim.items.js": {
+    "declared": true,
+    "why": "Continuation C3a: P.O.C.K.E.T.'s cartograph on the server (where it lies, who picks it up), a module of the sim",
+    "at": "src/frameworks/pocket/server/sim.items.js"
+   },
+   "src/frameworks/space/server/movement.js": {
+    "declared": true,
+    "why": "H3M-2: S.P.A.C.E., the movement authority (server.js's budget, walls, other players and placements), moved out of server.js as it was",
+    "at": "src/frameworks/space/server/movement.js"
+   },
+   "src/frameworks/space/server/sim.movement.js": {
+    "declared": true,
+    "why": "Continuation C3a: S.P.A.C.E.'s movement checks and what the AI hears of movement, a module of the sim",
+    "at": "src/frameworks/space/server/sim.movement.js"
+   },
+   "src/frameworks/space/server/sim.players.js": {
+    "declared": true,
+    "why": "Continuation C3a: S.P.A.C.E.'s player lifecycle and the roster's changes, a module of the sim",
+    "at": "src/frameworks/space/server/sim.players.js"
+   },
+   "src/frameworks/ward/server/admin_login.js": {
+    "declared": true,
+    "why": "Continuation C2: W.A.R.D.'s admin login - the passcode's hash and constant-time check, the failure map and the lockout - moved out of server.js as it was",
+    "at": "src/frameworks/ward/server/admin_login.js"
+   }
+  },
+  "removed": {}
+ },
+ "other": {
+  "identical": 5,
+  "moved": {
+   "2D_SHADOWS_CHANGED_FILES.txt": "dev/archive/2d-shadows/2D_SHADOWS_CHANGED_FILES.txt",
+   "2D_SHADOWS_GIT_CHECKPOINTS.md": "dev/archive/2d-shadows/2D_SHADOWS_GIT_CHECKPOINTS.md",
+   "2D_SHADOWS_HUMAN_QA.md": "dev/archive/2d-shadows/2D_SHADOWS_HUMAN_QA.md",
+   "2D_SHADOWS_PERFORMANCE.md": "dev/archive/2d-shadows/2D_SHADOWS_PERFORMANCE.md",
+   "2D_SHADOWS_REPORT.md": "dev/archive/2d-shadows/2D_SHADOWS_REPORT.md",
+   "2D_SHADOWS_TEST_SUMMARY.md": "dev/archive/2d-shadows/2D_SHADOWS_TEST_SUMMARY.md",
+   "3H0_ARCHITECTURE_MAP.md": "dev/archive/stage-3h0/3H0_ARCHITECTURE_MAP.md",
+   "3H0_DEFERRED_FULL_3H.md": "dev/archive/stage-3h0/3H0_DEFERRED_FULL_3H.md",
+   "3H0_EQUIVALENCE_REPORT.md": "dev/archive/stage-3h0/3H0_EQUIVALENCE_REPORT.md",
+   "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md": "dev/archive/stage-3h0/3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+   "3H0_H0_1_BASELINE.md": "dev/archive/stage-3h0/3H0_H0_1_BASELINE.md",
+   "3H0_MP_API_LOCK.md": "dev/archive/stage-3h0/3H0_MP_API_LOCK.md",
+   "3H0_MP_OWNERSHIP_MAP.md": "dev/archive/stage-3h0/3H0_MP_OWNERSHIP_MAP.md",
+   "3H0_PROTOCOL_INVENTORY.md": "dev/archive/stage-3h0/3H0_PROTOCOL_INVENTORY.md",
+   "3H0_Q0_AUDIT.md": "dev/archive/stage-3h0/3H0_Q0_AUDIT.md",
+   "3H0_SERVER_API_LOCK.md": "dev/archive/stage-3h0/3H0_SERVER_API_LOCK.md",
+   "3H0_SERVER_OWNERSHIP_MAP.md": "dev/archive/stage-3h0/3H0_SERVER_OWNERSHIP_MAP.md",
+   "BR_ROLE_1_0_ARCHITECTURE.md": "dev/archive/br-role/BR_ROLE_1_0_ARCHITECTURE.md",
+   "BR_ROLE_1_0_CHANGED_FILES.md": "dev/archive/br-role/BR_ROLE_1_0_CHANGED_FILES.md",
+   "BR_ROLE_1_0_HUMAN_QA.md": "dev/archive/br-role/BR_ROLE_1_0_HUMAN_QA.md",
+   "BR_ROLE_1_0_PERFORMANCE.md": "dev/archive/br-role/BR_ROLE_1_0_PERFORMANCE.md",
+   "BR_ROLE_1_0_TEST_SUMMARY.md": "dev/archive/br-role/BR_ROLE_1_0_TEST_SUMMARY.md",
+   "BR_ROLE_BR0_AUDIT.md": "dev/archive/br-role/BR_ROLE_BR0_AUDIT.md",
+   "BR_ROLE_BR1_1_HUMAN_QA.md": "dev/archive/br-role/BR_ROLE_BR1_1_HUMAN_QA.md",
+   "BR_ROLE_BR1_HUMAN_QA.md": "dev/archive/br-role/BR_ROLE_BR1_HUMAN_QA.md",
+   "BR_ROLE_BR2_1_HUMAN_QA.md": "dev/archive/br-role/BR_ROLE_BR2_1_HUMAN_QA.md",
+   "BR_ROLE_BR2_HUMAN_QA.md": "dev/archive/br-role/BR_ROLE_BR2_HUMAN_QA.md",
+   "PART_2_AI01_CHANGED_FILES.txt": "dev/archive/part-2/PART_2_AI01_CHANGED_FILES.txt",
+   "PART_2_AI02_CHANGED_FILES.txt": "dev/archive/part-2/PART_2_AI02_CHANGED_FILES.txt",
+   "PART_2_CAMERA_FIX.md": "dev/archive/part-2/PART_2_CAMERA_FIX.md",
+   "PART_2_ENTITY_LOOK_REPORT.md": "dev/archive/part-2/PART_2_ENTITY_LOOK_REPORT.md",
+   "PART_2_FPS_CHANGED_FILES.txt": "dev/archive/part-2/PART_2_FPS_CHANGED_FILES.txt",
+   "PART_2_FPS_EQUALITY.md": "dev/archive/part-2/PART_2_FPS_EQUALITY.md",
+   "PART_2_HQA_AI01_SEARCH_REPORT.md": "dev/archive/part-2/PART_2_HQA_AI01_SEARCH_REPORT.md",
+   "PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md": "dev/archive/part-2/PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md",
+   "PART_2_HQA_CHANGED_FILES.txt": "dev/archive/part-2/PART_2_HQA_CHANGED_FILES.txt",
+   "PART_2_HQA_HOTFIX_REPORT.md": "dev/archive/part-2/PART_2_HQA_HOTFIX_REPORT.md",
+   "PART_2_HQA_TEST_SUMMARY.md": "dev/archive/part-2/PART_2_HQA_TEST_SUMMARY.md",
+   "PART_2_HUMAN_QA.md": "dev/archive/part-2/PART_2_HUMAN_QA.md",
+   "README.md": "dev/archive/readme-history/README_UNTIL_3H.md",
+   "STAGE_2E_REPORT.md": "dev/archive/stage-2e/STAGE_2E_REPORT.md",
+   "STAGE_2F_REPORT.md": "dev/archive/stage-2f/STAGE_2F_REPORT.md",
+   "STAGE_2F_TEST_SUMMARY.md": "dev/archive/stage-2f/STAGE_2F_TEST_SUMMARY.md",
+   "STAGE_3B_DONOR_LEDGER.md": "dev/archive/stage-3b/STAGE_3B_DONOR_LEDGER.md",
+   "STAGE_3B_FINAL_CHANGED_FILES.txt": "dev/archive/stage-3b/STAGE_3B_FINAL_CHANGED_FILES.txt",
+   "STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md": "dev/archive/stage-3b/STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md",
+   "STAGE_3B_FINAL_PERFORMANCE.md": "dev/archive/stage-3b/STAGE_3B_FINAL_PERFORMANCE.md",
+   "STAGE_3B_FINAL_POLISH_BR_ROLE_1_1_REPORT.md": "dev/archive/stage-3b/STAGE_3B_FINAL_POLISH_BR_ROLE_1_1_REPORT.md",
+   "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md": "dev/archive/stage-3b/STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+   "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt": "dev/archive/stage-3b/STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+   "STAGE_3B_FINAL_POLISH_HUMAN_QA.md": "dev/archive/stage-3b/STAGE_3B_FINAL_POLISH_HUMAN_QA.md",
+   "STAGE_3B_FINAL_POLISH_PERFORMANCE.md": "dev/archive/stage-3b/STAGE_3B_FINAL_POLISH_PERFORMANCE.md",
+   "STAGE_3B_FINAL_PROP_CANON_AUDIT.md": "dev/archive/stage-3b/STAGE_3B_FINAL_PROP_CANON_AUDIT.md",
+   "STAGE_3B_FINAL_RENDERING_OPTIMIZATION.md": "dev/archive/stage-3b/STAGE_3B_FINAL_RENDERING_OPTIMIZATION.md",
+   "STAGE_3B_FINAL_VISUAL_AUDIT.md": "dev/archive/stage-3b/STAGE_3B_FINAL_VISUAL_AUDIT.md",
+   "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt": "dev/archive/stage-3b/STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+   "STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md": "dev/archive/stage-3b/STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md",
+   "STAGE_3B_FINAL_VISUAL_POLISH_PERFORMANCE.md": "dev/archive/stage-3b/STAGE_3B_FINAL_VISUAL_POLISH_PERFORMANCE.md",
+   "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md": "dev/archive/stage-3b/STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+   "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt": "dev/archive/stage-3b/STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+   "STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md": "dev/archive/stage-3b/STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md",
+   "STAGE_3B_LIGHTING_QA_CORRECTION_HUMAN_QA.md": "dev/archive/stage-3b/STAGE_3B_LIGHTING_QA_CORRECTION_HUMAN_QA.md",
+   "STAGE_3B_LIGHTING_QA_CORRECTION_PERFORMANCE.md": "dev/archive/stage-3b/STAGE_3B_LIGHTING_QA_CORRECTION_PERFORMANCE.md",
+   "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md": "dev/archive/stage-3b/STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md",
+   "STAGE_3B_PROP_CANON_AUDIT.md": "dev/archive/stage-3b/STAGE_3B_PROP_CANON_AUDIT.md",
+   "STAGE_3B_QA2_CHANGED_FILES.txt": "dev/archive/stage-3b/STAGE_3B_QA2_CHANGED_FILES.txt",
+   "STAGE_3B_QA2_HUMAN_QA.md": "dev/archive/stage-3b/STAGE_3B_QA2_HUMAN_QA.md",
+   "STAGE_3B_QA2_PERFORMANCE.md": "dev/archive/stage-3b/STAGE_3B_QA2_PERFORMANCE.md",
+   "STAGE_3B_VISUAL_AUDIT.md": "dev/archive/stage-3b/STAGE_3B_VISUAL_AUDIT.md",
+   "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md": "dev/archive/stage-3b/STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+   "STAGE_3C_C0_UI_AUDIT.md": "dev/archive/stage-3c/STAGE_3C_C0_UI_AUDIT.md",
+   "STAGE_3C_CHANGED_FILES.txt": "dev/archive/stage-3c/STAGE_3C_CHANGED_FILES.txt",
+   "STAGE_3C_HUMAN_QA.md": "dev/archive/stage-3c/STAGE_3C_HUMAN_QA.md",
+   "STAGE_3C_PERFORMANCE.md": "dev/archive/stage-3c/STAGE_3C_PERFORMANCE.md",
+   "STAGE_3C_QA1_CHANGED_FILES.txt": "dev/archive/stage-3c/STAGE_3C_QA1_CHANGED_FILES.txt",
+   "STAGE_3C_QA1_HUMAN_QA.md": "dev/archive/stage-3c/STAGE_3C_QA1_HUMAN_QA.md",
+   "STAGE_3C_QA1_MENU_COMPARISON.jpg": "dev/archive/stage-3c/STAGE_3C_QA1_MENU_COMPARISON.jpg",
+   "STAGE_3C_QA1_PERFORMANCE.md": "dev/archive/stage-3c/STAGE_3C_QA1_PERFORMANCE.md",
+   "STAGE_3C_QA1_Q0_AUDIT.md": "dev/archive/stage-3c/STAGE_3C_QA1_Q0_AUDIT.md",
+   "STAGE_3C_QA1_REPORT.md": "dev/archive/stage-3c/STAGE_3C_QA1_REPORT.md",
+   "STAGE_3C_QA2_CHANGED_FILES.txt": "dev/archive/stage-3c/STAGE_3C_QA2_CHANGED_FILES.txt",
+   "STAGE_3C_QA2_HUMAN_QA.md": "dev/archive/stage-3c/STAGE_3C_QA2_HUMAN_QA.md",
+   "STAGE_3C_QA2_MENU_COMPARISON.jpg": "dev/archive/stage-3c/STAGE_3C_QA2_MENU_COMPARISON.jpg",
+   "STAGE_3C_QA2_PERFORMANCE.md": "dev/archive/stage-3c/STAGE_3C_QA2_PERFORMANCE.md",
+   "STAGE_3C_QA2_Q0_AUDIT.md": "dev/archive/stage-3c/STAGE_3C_QA2_Q0_AUDIT.md",
+   "STAGE_3C_QA2_REPORT.md": "dev/archive/stage-3c/STAGE_3C_QA2_REPORT.md",
+   "STAGE_3C_REPORT.md": "dev/archive/stage-3c/STAGE_3C_REPORT.md",
+   "STAGE_3D_CHANGED_FILES.txt": "dev/archive/stage-3d/STAGE_3D_CHANGED_FILES.txt",
+   "STAGE_3D_D0_AUDIT.md": "dev/archive/stage-3d/STAGE_3D_D0_AUDIT.md",
+   "STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md": "dev/archive/stage-3d/STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md",
+   "STAGE_3D_HQ1_AUDIT.md": "dev/archive/stage-3d/STAGE_3D_HQ1_AUDIT.md",
+   "STAGE_3D_HQ1_CHANGED_FILES.txt": "dev/archive/stage-3d/STAGE_3D_HQ1_CHANGED_FILES.txt",
+   "STAGE_3D_HQ1_DEATH_LIGHT_PROTOCOL.md": "dev/archive/stage-3d/STAGE_3D_HQ1_DEATH_LIGHT_PROTOCOL.md",
+   "STAGE_3D_HQ1_HUMAN_QA.md": "dev/archive/stage-3d/STAGE_3D_HQ1_HUMAN_QA.md",
+   "STAGE_3D_HQ1_PERFORMANCE.md": "dev/archive/stage-3d/STAGE_3D_HQ1_PERFORMANCE.md",
+   "STAGE_3D_HQ1_REPORT.md": "dev/archive/stage-3d/STAGE_3D_HQ1_REPORT.md",
+   "STAGE_3D_HQ1_VISUAL_EVIDENCE.md": "dev/archive/stage-3d/STAGE_3D_HQ1_VISUAL_EVIDENCE.md",
+   "STAGE_3D_HQ2_AUDIT.md": "dev/archive/stage-3d/STAGE_3D_HQ2_AUDIT.md",
+   "STAGE_3D_HQ2_CHANGED_FILES.txt": "dev/archive/stage-3d/STAGE_3D_HQ2_CHANGED_FILES.txt",
+   "STAGE_3D_HQ2_HUMAN_QA.md": "dev/archive/stage-3d/STAGE_3D_HQ2_HUMAN_QA.md",
+   "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md": "dev/archive/stage-3d/STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md",
+   "STAGE_3D_HQ2_PERFORMANCE.md": "dev/archive/stage-3d/STAGE_3D_HQ2_PERFORMANCE.md",
+   "STAGE_3D_HQ2_PLAYER_COLLISION.md": "dev/archive/stage-3d/STAGE_3D_HQ2_PLAYER_COLLISION.md",
+   "STAGE_3D_HQ2_REGRESSION.md": "dev/archive/stage-3d/STAGE_3D_HQ2_REGRESSION.md",
+   "STAGE_3D_HQ2_REPORT.md": "dev/archive/stage-3d/STAGE_3D_HQ2_REPORT.md",
+   "STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md": "dev/archive/stage-3d/STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md",
+   "STAGE_3D_HQ3_CHANGED_FILES.txt": "dev/archive/stage-3d/STAGE_3D_HQ3_CHANGED_FILES.txt",
+   "STAGE_3D_HQ3_HUMAN_QA.md": "dev/archive/stage-3d/STAGE_3D_HQ3_HUMAN_QA.md",
+   "STAGE_3D_HQ3_REPORT.md": "dev/archive/stage-3d/STAGE_3D_HQ3_REPORT.md",
+   "STAGE_3D_HQ4_CHANGED_FILES.txt": "dev/archive/stage-3d/STAGE_3D_HQ4_CHANGED_FILES.txt",
+   "STAGE_3D_HQ4_HUMAN_QA.md": "dev/archive/stage-3d/STAGE_3D_HQ4_HUMAN_QA.md",
+   "STAGE_3D_HQ4_REPORT.md": "dev/archive/stage-3d/STAGE_3D_HQ4_REPORT.md",
+   "STAGE_3D_HQ5_CHANGED_FILES.txt": "dev/archive/stage-3d/STAGE_3D_HQ5_CHANGED_FILES.txt",
+   "STAGE_3D_HQ5_HUMAN_QA.md": "dev/archive/stage-3d/STAGE_3D_HQ5_HUMAN_QA.md",
+   "STAGE_3D_HQ5_REPORT.md": "dev/archive/stage-3d/STAGE_3D_HQ5_REPORT.md",
+   "STAGE_3D_HUMAN_QA.md": "dev/archive/stage-3d/STAGE_3D_HUMAN_QA.md",
+   "STAGE_3D_PERFORMANCE.md": "dev/archive/stage-3d/STAGE_3D_PERFORMANCE.md",
+   "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md": "dev/archive/stage-3d/STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+   "STAGE_3D_REPORT.md": "dev/archive/stage-3d/STAGE_3D_REPORT.md",
+   "STAGE_3D_VARIANT_MATRIX.md": "dev/archive/stage-3d/STAGE_3D_VARIANT_MATRIX.md",
+   "STAGE_3E0_BPLUSPLUS_HUMAN_QA.md": "dev/archive/stage-3e-0/STAGE_3E0_BPLUSPLUS_HUMAN_QA.md",
+   "STAGE_3E0_BPLUSPLUS_REPORT.md": "dev/archive/stage-3e-0/STAGE_3E0_BPLUSPLUS_REPORT.md",
+   "STAGE_3E0_BPLUS_HUMAN_QA.md": "dev/archive/stage-3e-0/STAGE_3E0_BPLUS_HUMAN_QA.md",
+   "STAGE_3E0_BPLUS_REPORT.md": "dev/archive/stage-3e-0/STAGE_3E0_BPLUS_REPORT.md",
+   "STAGE_3E0_CHANGED_FILES.txt": "dev/archive/stage-3e-0/STAGE_3E0_CHANGED_FILES.txt",
+   "STAGE_3H0_CHANGED_FILES.txt": "dev/archive/stage-3h0/STAGE_3H0_CHANGED_FILES.txt",
+   "STAGE_3H0_HUMAN_QA.md": "dev/archive/stage-3h0/STAGE_3H0_HUMAN_QA.md",
+   "STAGE_3H0_PERFORMANCE.md": "dev/archive/stage-3h0/STAGE_3H0_PERFORMANCE.md",
+   "STAGE_3H0_REPORT.md": "dev/archive/stage-3h0/STAGE_3H0_REPORT.md"
+  },
+  "replaced": {
+   "README.md": "H3M-7: a short README (the product, how to run it, where the code and the documentation are); the one it replaces, the version history until Stage 3H, is dev/archive/readme-history/README_UNTIL_3H.md"
+  }
+ },
+ "newPaths": {
+  "source (src/)": 252,
+  "documentation (docs/)": 11,
+  "build output (generated/)": 4,
+  "runtime (public/)": 48
+ },
+ "problems": [],
+ "ok": true,
+ "passcodeLine": {
+  "present": true,
+  "sameAsBase": true
+ },
+ "counts": {
+  "runtimeIdentical": 43,
+  "runtimeChanged": 12,
+  "runtimeAdded": 21,
+  "runtimeRemoved": 0,
+  "otherIdentical": 5,
+  "otherMoved": 129,
+  "otherReplaced": 1,
+  "newPaths": 315
+ }
+}

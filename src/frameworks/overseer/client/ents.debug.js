@@ -1,8 +1,13 @@
-/** @part public/ents.js - OVERSEER: the admin-only DEBUG overlay (never drawn for ordinary players); the IIFE closes here
- * provides: -
- * uses: E, TAU, clamp, sm
+/** @part public/ents.js - OVERSEER: the admin-only DEBUG overlay (never drawn for ordinary players); a module: entsDebug
+ * A module (continuation C3b, M-024): M8's part inside its factory, entsDebug. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. ents.compose.js makes it. Every line is M8's.
+ * imports: head { clamp E sm TAU }
+ * exports: -
+ * provides: entsDebug
+ * uses: -
  * writes: -
  */
+function entsDebug({ head: { clamp, E, sm, TAU } }) {
 
 /* ---------------------------------------------------------------- admin-only DEBUG MODE overlay (never drawn for ordinary players)
  * Layers (each can be switched on its own in the admin panel's DEBUG tab):
@@ -284,4 +289,4 @@ E.lamp = function (x, y, t) {
   for (const f of E.fails) { if (f.until < now) continue; const d = Math.hypot(x - f.x, y - f.y); if (d > f.r) continue; const k = 1 - sm(f.r * .55, f.r, d); const fl = Math.sin(t * 61 + x * .07) > .65 ? .5 : 0; m *= 1 - k * (.94 - fl * .5); }
   return m;
 };
-})();
+}

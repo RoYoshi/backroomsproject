@@ -22,7 +22,7 @@ One server event per death, and one persistent, replicated aftermath. Eight enti
 <!-- generated: sources:gib (dev/tools/docs/docs.js) -->
 | File | What it is | Goes into |
 |---|---|---|
-| [`client/ents.death.js`](client/ents.death.js) | G.I.B.: how a death plays out on screen, four variants per killer | `public/ents.js` (a part) |
+| [`client/ents.death.js`](client/ents.death.js) | G.I.B.: how a death plays out on screen, four variants per killer; a module: entsDeath | `public/ents.js` (a part) |
 | [`client/gore.js`](client/gore.js) | Realistic wound / blood rendering for the death animation, corpses and dead peers. | `public/gore.js` |
 | [`client/mp.bodies.js`](client/mp.bodies.js) | G.I.B.: everyone's bodies, one per player | `public/mp.js` (a part) |
 | [`client/mp.owndeath.js`](client/mp.owndeath.js) | G.I.B.: our own death, from the server's kill record (window.__dvic) | `public/mp.js` (a part) |
@@ -33,7 +33,7 @@ One server event per death, and one persistent, replicated aftermath. Eight enti
 | [`shared/dphys.js`](shared/dphys.js) | dphys.js - lightweight procedural physics for the death animations (v18). | `public/dphys.js`, `generated/server/dphys.js` |
 <!-- end of generated block -->
 
-A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header.
+A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header. Since continuation C3b a part of `world.js`, `move.js`, `camcorder.js`, `glitch.js` or `ents.js` is a module: one factory, given what it uses of the modules made before it; its header also lists its `imports` and `exports`, and the script's `*.compose.js` part makes the modules in order (`docs/architecture/CONTRACTS.md` section 4; `node dev/tools/checks/modules.js` proves the boundaries).
 
 ## How it connects
 
@@ -52,3 +52,4 @@ Server modules are required directly (`sim.bodies.js` too, a module of the sim s
 ## Known debt
 
 - `dphys.js` and `gore.js` stay whole (one owner each; M-025).
+- How a death plays out on the page (`client/ents.death.js`) is a module of `ents.js` since continuation C3b: it draws the Smiler with `drawSmiler`, which it imports from BR-R's Smiler module (at M8 it called it through `window.__ents`). The page's other G.I.B. code still shares `mp.js`'s closure (C3c).

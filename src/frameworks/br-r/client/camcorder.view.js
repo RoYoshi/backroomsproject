@@ -1,8 +1,13 @@
-/** @part public/camcorder.js - BR-R: the camcorder's page elements, drawing, public API and input; the IIFE closes here
- * provides: -
- * uses: CFG, FX, S, clamp, snd, whine
+/** @part public/camcorder.js - BR-R: the camcorder's page elements, drawing, public API and input; a module: camcorderView
+ * A module (continuation C3b, M-024): M8's part inside its factory, camcorderView. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. camcorder.compose.js makes it. Every line is M8's.
+ * imports: core { CFG clamp FX S }, audio { snd whine }
+ * exports: -
+ * provides: camcorderView
+ * uses: -
  * writes: -
  */
+  function camcorderView({ core: { CFG, clamp, FX, S }, audio: { snd, whine } }) {
   /* ---------------------------------------------------------------- DOM */
   const css = document.createElement('style'); css.id = 'camCss';
   css.textContent = `
@@ -318,4 +323,4 @@ body.cam-kind #touch .camBtn{display:inline-block}
   }, { passive: false });
   window.addEventListener('contextmenu', e => { if (S.active && playing()) { e.preventDefault(); api.toggleNV(); } });
   window.addEventListener('blur', () => { whine(0); });
-})();
+  }

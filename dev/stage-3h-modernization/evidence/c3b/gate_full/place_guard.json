@@ -1,0 +1,266 @@
+{
+ "tool": "dev/stage-3e-0-bpp/place_guard_check.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em3/c3b/gate_full/game_candidate",
+ "checks": {
+  "join_spawn": {
+   "serverAtSpawn": [
+    504,
+    888
+   ],
+   "serverEnd": [
+    654,
+    888
+   ],
+   "pageEnd": [
+    654,
+    888
+   ],
+   "tpsDuringWalk": 0,
+   "track": [
+    [
+     23,
+     504,
+     888
+    ],
+    [
+     74,
+     516,
+     888
+    ],
+    [
+     124,
+     532,
+     888
+    ],
+    [
+     175,
+     548,
+     888
+    ],
+    [
+     225,
+     563,
+     888
+    ],
+    [
+     276,
+     579,
+     888
+    ],
+    [
+     327,
+     594,
+     888
+    ],
+    [
+     377,
+     609,
+     888
+    ],
+    [
+     427,
+     624,
+     888
+    ],
+    [
+     479,
+     641,
+     888
+    ],
+    [
+     529,
+     653,
+     888
+    ],
+    [
+     581,
+     654,
+     888
+    ],
+    [
+     631,
+     654,
+     888
+    ],
+    [
+     683,
+     654,
+     888
+    ],
+    [
+     733,
+     654,
+     888
+    ],
+    [
+     783,
+     654,
+     888
+    ]
+   ],
+   "ok": true
+  },
+  "join_nonspawn": {
+   "tps": [
+    [
+     960,
+     3264,
+     0
+    ]
+   ],
+   "serverAt": [
+    960,
+    3264
+   ],
+   "ok": true
+  },
+  "after_sprint": {
+   "placed": [
+    1012,
+    690
+   ],
+   "serverEnd": [
+    1162,
+    690
+   ],
+   "pageEnd": [
+    1162,
+    690
+   ],
+   "correctionsAfter": 0,
+   "serverBehindPageMaxPx": 9,
+   "track": [
+    [
+     46,
+     1018,
+     690
+    ],
+    [
+     96,
+     1033,
+     690
+    ],
+    [
+     146,
+     1048,
+     690
+    ],
+    [
+     195,
+     1064,
+     690
+    ],
+    [
+     245,
+     1080,
+     690
+    ],
+    [
+     296,
+     1095,
+     690
+    ],
+    [
+     347,
+     1110,
+     690
+    ],
+    [
+     397,
+     1126,
+     690
+    ],
+    [
+     449,
+     1138,
+     690
+    ],
+    [
+     501,
+     1154,
+     690
+    ],
+    [
+     552,
+     1162,
+     690
+    ],
+    [
+     600,
+     1162,
+     690
+    ],
+    [
+     651,
+     1162,
+     690
+    ],
+    [
+     701,
+     1162,
+     690
+    ],
+    [
+     751,
+     1162,
+     690
+    ],
+    [
+     802,
+     1162,
+     690
+    ]
+   ],
+   "ok": true
+  },
+  "grace_jump": {
+   "placed": [
+    1012,
+    690
+   ],
+   "claimMsAfterPlacement": 150,
+   "serverAfterClaim": [
+    1012,
+    690
+   ],
+   "tookTheJump": false,
+   "tpsAfterClaim": []
+  },
+  "later_jump": {
+   "placed": [
+    1012,
+    690
+   ],
+   "claimMsAfterPlacement": 1500,
+   "serverAfterClaim": [
+    1512,
+    690
+   ],
+   "tookTheJump": true,
+   "tpsAfterClaim": []
+  },
+  "crowd": {
+   "other": [
+    1012,
+    720
+   ],
+   "placed": [
+    1056,
+    720
+   ],
+   "placedFromOther": 44,
+   "minDistanceToOther": 44,
+   "serverEnd": [
+    1136,
+    720
+   ],
+   "pageEnd": [
+    1136,
+    720
+   ],
+   "correctionsAfter": [],
+   "ok": true
+  }
+ },
+ "serverErrors": []
+}

@@ -336,7 +336,10 @@ add('SM15 presentation: no limbs; the face glow is its own channel (not the gene
   // Check the actual draw call boundary and execute the overlay with debug off and no DOM.
   const overlay = txt('dev/ents_src/40_debug.js'), entry = overlay.slice(overlay.indexOf('E.drawDebug = function'));
   const label = overlay.indexOf('if (d.sm)'), draw = overlay.indexOf('function drawEntities('), end = overlay.indexOf('function drawEvidence(');
-  const probe = {}; require('vm').runInNewContext(overlay.replace(/\}\)\(\);\s*$/, ''), { E: probe, window: {}, performance: { now: () => 0 } }); // fragment closes the bundle's outer IIFE
+  let probe = {};
+  if (/\bfunction entsDebug\(/.test(overlay)) {                   // (continuation C3b) the overlay is a module of ents.js: run the built script, no DOM, and take its E
+    const win = {}; require('vm').runInNewContext(ents, { window: win, performance: { now: () => 0 } }); probe = win.__ents;
+  } else require('vm').runInNewContext(overlay.replace(/\}\)\(\);\s*$/, ''), { E: probe, window: {}, performance: { now: () => 0 } }); // fragment closes the bundle's outer IIFE
   probe.dbg = new Proxy([], { get() { throw Error('debug-off overlay read private entity data'); } });
   probe.drawDebug(null, { W: 100, H: 100 });
   const gated = label > draw && label < end && entry.indexOf('if (!on) return;') < entry.indexOf('drawEntities(cx, view, list, cfg, stale)') && /if \(cfg.ai && list && list.length\) drawEntities/.test(entry) && (overlay.match(/drawEntities\(/g) || []).length === 2;

@@ -1,0 +1,103 @@
+{
+ "variant": "cand",
+ "checks": {
+  "walk": {
+   "ok": false,
+   "path": [
+    [
+     5400,
+     5400
+    ],
+    [
+     5400,
+     5400
+    ],
+    [
+     5400,
+     5400
+    ],
+    [
+     5400,
+     5400
+    ],
+    [
+     5400,
+     5400
+    ]
+   ],
+   "settled": [
+    5400,
+    5400
+   ],
+   "movedPx": 0
+  },
+  "spin": {
+   "ok": false,
+   "quarters": [
+    1
+   ]
+  },
+  "light": {
+   "ok": false,
+   "states": [
+    true,
+    true,
+    true
+   ],
+   "carriedDrawn": {
+    "lightOn": 0,
+    "lightOff": 0
+   }
+  },
+  "frames": {
+   "ok": true,
+   "still": {
+    "frames": 13,
+    "meanMs": 470.49,
+    "p95Ms": 516.6,
+    "maxMs": 533.3
+   },
+   "walking": {
+    "frames": 14,
+    "meanMs": 461.89,
+    "p95Ms": 516.6,
+    "maxMs": 533.3
+   },
+   "brRoleFrameMs": {
+    "mean": 24.633,
+    "p95": 37.1,
+    "max": 37.8,
+    "frames": 177,
+    "sampled": 45
+   },
+   "brRoleErrors": 0
+  },
+  "newrun": {
+   "ok": false,
+   "answer": {
+    "ok": 0,
+    "why": "dead",
+    "de": null
+   },
+   "runMenu": false,
+   "bobSeesGibs": [],
+   "afterSpawn": {
+    "started": true,
+    "caught": false,
+    "menu": false
+   },
+   "walkAfterSpawn": [
+    [
+     7656,
+     1080
+    ],
+    [
+     7656,
+     1166
+    ]
+   ]
+  }
+ },
+ "pageErrors": [],
+ "ok": false
+}

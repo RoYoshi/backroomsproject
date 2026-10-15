@@ -148,14 +148,53 @@ changes it only by calling a function its owner returns (the run's `controls`, `
 roster, is made by `sim.js`; only S.P.A.C.E.'s `sim.players.js` adds and removes players. `node dev/tools/checks/modules.js` (the gate's
 `modules` step) proves these boundaries from the code, and the gate's `sim` step proves the behaviour against B++'s `sim.js`.
 
-## 4. The parts of one script
+## 4. The page's scripts made of modules
 
-The parts of `mp.js`, `ai.js`, `ents.js`, `world.js`, `move.js`, `camcorder.js` and `glitch.js` share their script's closure (`sim.js`
-was built from parts too, until continuation C3a made it modules: section 3).
-Each part's header lists what it provides, uses and writes; `node dev/tools/checks/parts.js` (the gate's `parts` step) proves every list
-against the code. Those lists are the contracts between the parts: a name in another part's `uses` cannot be renamed alone.
+Since continuation C3b, `world.js`, `move.js`, `camcorder.js`, `glitch.js` and `ents.js` are modules. Each owner's part is one factory
+inside the script's wrapper (the browser still loads one classic script, so the load order and timing are as before). The factory is
+given what it uses of the modules made before it, by giver, and returns what later modules use of it. A last part, the composition
+(`*.compose.js`, owned by the script's lead owner), makes them in the order the parts ran:
 
-## 5. Files and URLs
+| Script | The composition | Public object |
+|---|---|---|
+| `world.js` (also the server's copy) | `head = worldHead()`; `worldLamps({ head })`, `worldCrawl({ head })`, `worldSurfaces({ head })`, `worldMove({ head })`, `worldArt({ head })`; returns `head.W` | `W` (`window.WORLD`; `require` on the server) |
+| `move.js` | `move = moveCore()`; `movePoses({ move })`; `moveSound({ move })` | `mv` (`window.__mv`) |
+| `camcorder.js` | `core = camcorderCore()`; `audio = camcorderAudio({ core })`; `camcorderView({ core, audio })` | (`window.__cam` is the view's own object) |
+| `glitch.js` | `walls = glitchWalls()`; `audio = glitchAudio()`; `glitchDraw({ walls, audio })` | - |
+| `ents.js` | `head = entsHead()`; `entsHound({ head })`; `smiler = entsSmiler({ head })`; `entsDeath({ head, smiler })`; `entsAudio({ head })`; `entsDebug({ head })` | `E` (`window.__ents`) |
+
+Each part's header lists its `imports` (giver { names }) and `exports`; the code agrees (the gate's `modules` step checks it). The
+rules, proved from the code by `node dev/tools/checks/modules.js`:
+- the script's wrapper holds the factories and the composition, nothing else: no state outside a factory;
+- a factory uses its own names, what it is given, and the page's globals (`window`, `document`, `Math` ...): never another factory or a
+  module the composition made (no hidden closure dependence); it never assigns what it is given, and it uses all of it;
+- the composition makes each module once, in the order of the parts, each from modules made before it;
+- a module writes another owner's state only through a function that owner gives. It may add its own entries to the script's public
+  object (`W`, `E`, `mv`), and each entry has exactly one module that writes it. A module does not call a function that a third module
+  put on another module's object: it imports the function from the module that made it;
+- a module never reads, through the global object, a name another module of the same script puts there.
+
+Three couplings that M8 hid are explicit since C3b, each by a listed edit (`dev/stage-3h-modernization/tools/c3_client_modules.js`):
+- `move.js`: S.P.A.C.E.'s movement code called Spacious Audio's movement sounds through `window.__mvSfx`. The sound module now hands
+  them to the movement module (`useSound`, the movement module's own function) when it is made. `window.__mvSfx` is still registered.
+- `ents.js`: G.I.B.'s death scene drew the Smiler through `E.drawSmiler`, which BR-R's Smiler module puts on `E`. It now imports
+  `drawSmiler` from the Smiler module: the same function.
+- `camcorder.js`: Spacious Audio's module wrote the heat whine's sound nodes into the camera's state (`S.whine`, BR-R's). BR-R's module now
+  gives `setWhine`, and the sound module calls it: the same value in the same slot.
+
+`window.__name` contracts between scripts (section 2) are unchanged: what a module registers on window it still registers itself, at the
+same moment. The gate's `page` step runs B++'s scripts and these side by side ([`PARITY_MATRIX.md`](PARITY_MATRIX.md), the page scripts'
+proof).
+
+## 5. The parts of one script
+
+The parts of `mp.js` and `ai.js` still share their script's closure (`sim.js` was built from parts too until continuation C3a, and the
+five scripts of section 4 until C3b). `ai.js` has one owner, N.A.N.I., and no part uses another's name across owners: it stays one
+cohesive file. Each part's header lists what it provides, uses and writes; `node dev/tools/checks/parts.js` (the gate's `parts` step)
+proves every list against the code. Those lists are the contracts between the parts: a name in another part's `uses` cannot be renamed
+alone. (For the module scripts the lists are short: a module provides its factory, and only the composition uses factories.)
+
+## 6. Files and URLs
 
 - Every URL the page loads is a contract between `index.html`, the server's allowlist (`frameworks/ward/server/static.js`, `SERVE`) and
   the build's output paths. The bundle's and the stylesheet's names (`index-DKbV5Nv9.js`, `index-D7hdwmUU.css`) are fixed: they are

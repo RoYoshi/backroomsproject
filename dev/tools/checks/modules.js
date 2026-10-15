@@ -159,9 +159,176 @@ if (LAYOUT.modern && fs.existsSync(path.join(TREE, SIM_ROOT))) {
   })(root || sf);
   R.sim = S;
 }
+/* ---------------------------------------------------------------- the page's scripts made of modules (continuation C3b)
+ * A script whose last part is a composition (*.compose.js) is a set of modules inside the script's wrapper: each part but the last is one
+ * factory, the last makes them.  The script is checked as the build assembles it (dev/tools/build/build.js: the parts in order, less their
+ * headers), so what is checked is what the page runs:
+ *   6. wrapper    the wrapper holds nothing but the factories (one per part) and the composition: no state shared outside a factory;
+ *   7. closure    a factory uses only its own names, what it is given, and the page's globals: never a name of the wrapper (another
+ *                 factory, a module the composition made): no hidden closure dependence;
+ *   8. imports    as on the server: a factory never assigns what it is given, and uses all of it;
+ *   9. links      the composition makes each module once, in the order of the parts, each from modules made before it, under the keys its
+ *                 factory takes, and each imported name is one its giver returns; the part's header lists the same imports and exports;
+ *  10. owners     no module writes a property of an object another owner's module made, except to add its own entry to the script's
+ *                 public object (published on window, or returned by the script), and each entry of a public object has one module that
+ *                 writes it; no module calls a function that a third module put on another module's object (E.drawSmiler, put on the
+ *                 head's E by the Smiler's module): it imports the function from the module that made it;
+ *  11. window     no module reads, through the global object, a name another module of the same script puts there: no global back-channel.
+ * (A part's owner is its framework folder, src/frameworks/<owner>/.) */
+const PART_HEADER = /^\/\*\* @part [\s\S]*?\*\/\r?\n/;
+const RECIPES_FILE = path.join(TREE, 'src', 'build-recipes.json');
+R.page = {};
+if (LAYOUT.modern && fs.existsSync(RECIPES_FILE)) {
+  const seen = new Set();
+  for (const o of JSON.parse(fs.readFileSync(RECIPES_FILE, 'utf8')).outputs) {
+    if (!Array.isArray(o.parts) || o.parts.length < 2 || !o.parts[o.parts.length - 1].endsWith('.compose.js') || seen.has(o.parts.join('|'))) continue;
+    seen.add(o.parts.join('|'));
+    R.page[o.out] = pageScript(o);
+  }
+}
+function pageScript(o) {
+  const out = o.out, P = [], prob = m => problem(out, m);
+  let text = '';
+  for (const p of o.parts) {
+    const raw = fs.readFileSync(path.join(TREE, p), 'utf8'), h = (raw.match(PART_HEADER) || [''])[0], body = raw.slice(h.length);
+    const line = k => { const m = new RegExp('^ \\* ' + k + ': (.*)$', 'm').exec(h); return m ? m[1].trim() : null; };
+    P.push({ path: p, owner: (/^src\/frameworks\/([^/]+)\//.exec(p) || [, 'core'])[1], start: text.length, end: text.length + body.length, imports: line('imports'), exports: line('exports') });
+    text += body;
+  }
+  const name = out.replace(/[^\w.]/g, '_'), sf = ts.createSourceFile(name, text, ts.ScriptTarget.ES2022, true, ts.ScriptKind.JS);
+  const host = { getSourceFile: f => f === name ? sf : undefined, getDefaultLibFileName: () => 'lib.d.ts', writeFile() {}, getCurrentDirectory: () => '/', getDirectories: () => [],
+    fileExists: f => f === name, readFile: () => undefined, getCanonicalFileName: f => f, useCaseSensitiveFileNames: () => true, getNewLine: () => '\n' };
+  const checker = ts.createProgram([name], { allowJs: true, checkJs: false, noEmit: true, noLib: true, noResolve: true, target: ts.ScriptTarget.ES2022 }, host).getTypeChecker();
+  const partAt = pos => P.findIndex(p => pos >= p.start && pos < p.end), last = P.length - 1;
+  const isName = n => (ts.isPropertyAccessExpression(n.parent) && n.parent.name === n) || (ts.isPropertyAssignment(n.parent) && n.parent.name === n) || (ts.isMethodDeclaration(n.parent) && n.parent.name === n)
+    || (ts.isPropertyDeclaration(n.parent) && n.parent.name === n) || (ts.isGetAccessor(n.parent) && n.parent.name === n) || (ts.isSetAccessor(n.parent) && n.parent.name === n)
+    || (ts.isBindingElement(n.parent) && n.parent.propertyName === n) || ts.isLabeledStatement(n.parent) || ts.isBreakOrContinueStatement(n.parent);
+  const symOf = n => ts.isShorthandPropertyAssignment(n.parent) && n.parent.name === n ? checker.getShorthandAssignmentValueSymbol(n.parent) : checker.getSymbolAtLocation(n);
+  const declOf = n => { const s = symOf(n); return s && s.declarations && s.declarations.length ? s.declarations[0] : null; };
+  const isGlobal = n => ts.isIdentifier(n) && !declOf(n);
+  /* the wrapper: the function with the largest block body (as the parts check finds it) */
+  let wrap = null;
+  (function walk(n) { if ((ts.isFunctionExpression(n) || ts.isArrowFunction(n) || ts.isFunctionDeclaration(n)) && n.body && ts.isBlock(n.body) && (!wrap || n.body.end - n.body.pos > wrap.body.end - wrap.body.pos)) wrap = n; ts.forEachChild(n, walk); })(sf);
+  /* 6. the wrapper's own statements: a factory per module part; the composition's calls, consts and the script's return */
+  const M = P.slice(0, last).map(p => ({ path: p.path, owner: p.owner, fn: null })), first = l => l.getText(sf).split('\n')[0].slice(0, 70);
+  for (const s of wrap.body.statements) {
+    const k = partAt(s.getStart(sf));
+    if (k < 0) { prob(`a statement outside every part: ${first(s)}`); continue; }
+    if (k < last) {
+      if (ts.isFunctionDeclaration(s) && s.name && !M[k].fn) M[k].fn = s;
+      else if (!(k === 0 && ts.isExpressionStatement(s) && ts.isStringLiteral(s.expression) && s.expression.text === 'use strict')) prob(`${P[k].path}: code outside its factory, in the script's wrapper: ${first(s)}`);
+    }
+  }
+  M.forEach(m => { if (!m.fn) prob(`${m.path}: no factory`); else m.factory = m.fn.name.text; });
+  const byFactory = new Map(M.filter(m => m.fn).map(m => [m.factory, m]));
+  /* 7. closure, 8. imports: every name a factory uses is its own, given to it, or a global */
+  for (const m of M.filter(x => x.fn)) {
+    const fn = m.fn, inside = d => d.getSourceFile() === sf && d.pos >= fn.pos && d.end <= fn.end;
+    if (fn.parameters.length > 1) prob(`${m.path}: ${m.factory} takes more than one parameter`);
+    const B = fn.parameters.length ? bindings(fn.parameters[0]) : [], syms = new Map(B.map(([n, k, id]) => [checker.getSymbolAtLocation(id), { n, k, reads: 0, writes: 0 }]));
+    m.imports = {}; for (const [n, k] of B) (m.imports[k] = m.imports[k] || []).push(n);
+    m.globals = new Set(); m.paramSyms = syms;
+    (function walk(n) {
+      if (ts.isIdentifier(n) && !isName(n)) {
+        const s = symOf(n), d = s && s.declarations && s.declarations.length ? s.declarations[0] : null;
+        if (!d) m.globals.add(n.text);
+        else if (!inside(d)) prob(`${m.path}: ${m.factory} uses ${n.text}, declared outside its factory (${partAt(d.getStart(sf)) >= 0 ? P[partAt(d.getStart(sf))].path : 'the wrapper'}): a hidden closure dependence`);
+        const b = s && syms.get(s); if (b && !B.some(x => x[2] === n)) { if (isWrite(n)) b.writes++; else b.reads++; }
+      }
+      ts.forEachChild(n, walk);
+    })(fn);
+    const written = [...syms.values()].filter(b => b.writes).map(b => b.n), unused = [...syms.values()].filter(b => !b.reads && !b.writes).map(b => b.n);
+    if (written.length) prob(`${m.path}: ${m.factory} assigns names it was given: ${written.join(', ')}`);
+    if (unused.length) prob(`${m.path}: ${m.factory} is given names it never uses: ${unused.join(', ')}`);
+    m.exports = exportsOf(fn) || [];
+    m.locals = new Map(); for (const st of fn.body.statements) if (ts.isVariableStatement(st)) for (const d of st.declarationList.declarations) if (ts.isIdentifier(d.name)) m.locals.set(d.name.text, d);
+  }
+  /* 9. links: the composition */
+  const C = { made: [], ok: true }, consts = new Map();
+  const callOf = e => e && ts.isCallExpression(e) && ts.isIdentifier(e.expression) && byFactory.has(e.expression.text) ? e : null;
+  for (const s of wrap.body.statements.filter(x => partAt(x.getStart(sf)) === last)) {
+    let call = null, as = null;
+    if (ts.isVariableStatement(s) && s.declarationList.declarations.length === 1 && (s.declarationList.flags & ts.NodeFlags.Const) && ts.isIdentifier(s.declarationList.declarations[0].name)) { call = callOf(s.declarationList.declarations[0].initializer); as = s.declarationList.declarations[0].name.text; }
+    else if (ts.isExpressionStatement(s)) call = callOf(s.expression);
+    else if (ts.isReturnStatement(s) && s.expression && ts.isPropertyAccessExpression(s.expression) && ts.isIdentifier(s.expression.expression) && consts.has(s.expression.expression.text)) {
+      const g = consts.get(s.expression.expression.text), nm = s.expression.name.text;
+      if (!g.exports.includes(nm)) prob(`the composition returns ${s.expression.getText(sf)}, which ${g.factory} does not return`);
+      g.returned = nm; C.returns = s.expression.getText(sf); continue;
+    }
+    if (!call) { prob(`the composition holds something other than the modules' making: ${first(s)}`); continue; }
+    const m = byFactory.get(call.expression.text), given = {};
+    if (m.made) prob(`${m.factory} is made twice`); m.made = true;
+    const arg = call.arguments[0];
+    if (call.arguments.length > 1 || (arg && !ts.isObjectLiteralExpression(arg))) prob(`${m.factory} is not given one object of modules`);
+    else if (arg) for (const p of arg.properties) {
+      const key = p.name && p.name.getText(sf), val = ts.isShorthandPropertyAssignment(p) ? p.name.text : ts.isPropertyAssignment(p) && ts.isIdentifier(p.initializer) ? p.initializer.text : null;
+      if (!val || !consts.has(val)) { prob(`${m.factory} is given ${key}: ${val ? val + ', not a module made before it' : 'not a module'}`); continue; }
+      given[key] = consts.get(val);
+    }
+    const takes = Object.keys(m.imports || {}), keys = Object.keys(given);
+    for (const k of takes) if (!given[k]) prob(`${m.factory} takes ${k}, which the composition does not give`);
+    for (const k of keys) if (!takes.includes(k)) prob(`${m.factory} is given ${k}, which it does not take`);
+    for (const [k, g] of Object.entries(given)) { const missing = (m.imports[k] || []).filter(x => !g.exports.includes(x)); if (missing.length) prob(`${m.factory} imports from ${k} (${g.factory}) names it does not return: ${missing.join(', ')}`); }
+    m.givers = given;
+    if (as) consts.set(as, m);
+    C.made.push({ module: as || '-', factory: m.factory, from: Object.entries(given).map(([k, g]) => `${k}=${g.factory}`) });
+  }
+  const order = C.made.map(x => x.factory), expected = M.filter(m => m.fn).map(m => m.factory);
+  if (order.join() !== expected.join()) prob(`the composition makes ${order.join(', ')}; the parts run ${expected.join(', ')}`);
+  for (const m of M.filter(x => x.fn)) {                                                     // the header says what the code says
+    const want = Object.entries(m.imports || {}).map(([k, ns]) => `${k} { ${[...ns].sort().join(' ')} }`).sort().join(', ') || '-';
+    const said = (P[M.indexOf(m)].imports || '').split(/,\s*(?=[\w$]+ \{)/).map(x => x.replace(/\{\s*([^}]*)\}/, (a, ns) => '{ ' + ns.trim().split(/\s+/).sort().join(' ') + ' }').trim()).sort().join(', ') || '-';
+    if (P[M.indexOf(m)].imports === null || said !== want) prob(`${m.path}: its header's imports (${P[M.indexOf(m)].imports}) are not what its factory takes (${want})`);
+    const ex = [...m.exports].sort().join(', ') || '-', hx = (P[M.indexOf(m)].exports || '').split(/,\s*/).filter(x => x && x !== '-').sort().join(', ') || '-';
+    if (P[M.indexOf(m)].exports === null || hx !== ex) prob(`${m.path}: its header's exports (${P[M.indexOf(m)].exports}) are not what its factory returns (${ex})`);
+  }
+  /* 10. owners, 11. window: the objects modules share, and what they put on the global object */
+  const objOf = (m, id) => {                                                                   // the shared object an identifier names: [the module that made it, its name]
+    const s = symOf(id), b = s && m.paramSyms.get(s);
+    if (b) { const g = m.givers && m.givers[b.k]; return g ? [g, b.n] : null; }
+    const d = s && s.declarations && s.declarations[0];
+    return d && m.locals.get(id.text) === d && m.exports.includes(id.text) ? [m, id.text] : null;
+  };
+  const publicObj = new Set(), entries = new Map(), win = new Map(), calls = [], winReads = [];
+  const key = (g, n) => g.factory + '.' + n;
+  for (const m of M.filter(x => x.fn)) {
+    for (const [n, d] of m.locals) {                                                        // a module's export published on window, or returned by the script
+      let e = d.initializer; while (e && ts.isBinaryExpression(e) && e.operatorToken.kind === ts.SyntaxKind.EqualsToken) { if (ts.isPropertyAccessExpression(e.left) && isGlobal(e.left.expression) && e.left.expression.text === 'window' && m.exports.includes(n)) publicObj.add(key(m, n)); e = e.right; }
+      if (e && ts.isObjectLiteralExpression(e) && m.exports.includes(n)) for (const p of e.properties) if (p.name) { const k = key(m, n) + '|' + p.name.getText(sf); if (!entries.has(k)) entries.set(k, new Set()); entries.get(k).add(m); }
+    }
+    if (m.returned) publicObj.add(key(m, m.returned));
+    (function walk(n) {
+      if (ts.isBinaryExpression(n) && n.operatorToken.kind === ts.SyntaxKind.EqualsToken && ts.isPropertyAccessExpression(n.left) && isGlobal(n.left.expression) && ['window', 'self', 'globalThis'].includes(n.left.expression.text)) {
+        const nm = n.left.name.text; if (!win.has(nm)) win.set(nm, new Set()); win.get(nm).add(m);
+        if (ts.isIdentifier(n.right) && objOf(m, n.right) && objOf(m, n.right)[0] === m) publicObj.add(key(m, n.right.text));
+      }
+      if ((ts.isPropertyAccessExpression(n) || ts.isElementAccessExpression(n)) && ts.isIdentifier(n.expression)) {
+        if (isGlobal(n.expression) && ['window', 'self', 'globalThis'].includes(n.expression.text) && ts.isPropertyAccessExpression(n) && !(isWrite(n) && ts.isBinaryExpression(n.parent))) winReads.push([m, n.name.text]);
+        const ob = objOf(m, n.expression);
+        if (ob) {
+          const p = ts.isPropertyAccessExpression(n) ? n.name.text : '[' + n.argumentExpression.getText(sf) + ']', k = key(ob[0], ob[1]) + '|' + p;
+          const del = n.parent && ts.isDeleteExpression(n.parent);
+          if (isWrite(n) || del) { if (!entries.has(k)) entries.set(k, new Set()); entries.get(k).add(m); if (ob[0].owner !== m.owner) (m.crossWrites = m.crossWrites || []).push([ob, p]); }
+          else if (ts.isCallExpression(n.parent) && n.parent.expression === n) calls.push([m, ob, p]);
+        }
+      }
+      if (ts.isIdentifier(n) && !isName(n) && isGlobal(n)) winReads.push([m, n.text]);
+      ts.forEachChild(n, walk);
+    })(m.fn.body);
+  }
+  for (const m of M.filter(x => x.fn)) for (const [ob, p] of m.crossWrites || []) if (!publicObj.has(key(ob[0], ob[1]))) prob(`${m.path}: ${m.factory} (${m.owner}) writes ${ob[1]}.${p}, state of ${ob[0].factory} (${ob[0].owner}): another owner's state changes only through a function its owner gives`);
+  for (const [k, ms] of entries) if (publicObj.has(k.split('|')[0]) && ms.size > 1) prob(`${k.replace('|', ': the entry ')} is written by ${[...ms].map(x => x.factory).join(' and ')}: an entry of a public object has one module that writes it`);
+  for (const [m, ob, p] of calls) { const w = entries.get(key(ob[0], ob[1]) + '|' + p); if (w && w.size === 1 && !w.has(m) && !w.has(ob[0])) prob(`${m.path}: ${m.factory} calls ${ob[1]}.${p} (${ob[0].factory}'s object), which ${[...w][0].factory} puts there: a dependence on ${[...w][0].factory} its imports do not show; it imports the function from that module instead`); }
+  for (const [m, nm] of winReads) { const w = win.get(nm); if (w && !w.has(m)) prob(`${m.path}: ${m.factory} reads ${nm} through the global object, which ${[...w].map(x => x.factory).join(', ')} of the same script put there: a global back-channel`); }
+  return { modules: M.filter(x => x.fn).map(m => ({ path: m.path, owner: m.owner, factory: m.factory, imports: m.imports, exports: m.exports, globals: [...m.globals].sort() })), composition: C.made, returns: C.returns || null,
+    publicObjects: [...publicObj].sort(), windowNames: Object.fromEntries([...win].map(([k, v]) => [k, [...v].map(x => x.factory)])) };
+}
+
 if (ARG.out) fs.writeFileSync(ARG.out, JSON.stringify(R, null, 1) + '\n');
 if (!ARG.quiet) for (const [f, r] of Object.entries(R.files)) console.log(`${R.problems.some(p => p.startsWith(f + ':')) ? 'FAIL' : 'ok  '} ${f}${r.factory ? `: given ${Object.entries(r.imports).map(([k, v]) => k === v[0] && v.length === 1 ? k : `${k} {${v.join(' ')}}`).join(', ') || 'nothing'}` : ''}${r.exports ? `; returns ${r.exports.join(' ')}` : ''}`);
 if (R.sim && !ARG.quiet) console.log('the sim: ' + R.sim.modules.map(m => `${m.name}${m.uses.length ? ' <- ' + m.uses.join(' ') : ''}`).join('; '));
+if (!ARG.quiet) for (const [out, s] of Object.entries(R.page)) console.log(`${R.problems.some(p => p.startsWith(out + ':')) ? 'FAIL' : 'ok  '} ${out}: ${s.composition.map(c => `${c.module === '-' ? '' : c.module + ' = '}${c.factory}${c.from.length ? '(' + c.from.join(' ') + ')' : ''}`).join('; ')}${s.publicObjects.length ? '; public objects ' + s.publicObjects.join(' ') : ''}`);
 for (const p of R.problems) console.log('PROBLEM ' + p);
-console.log(`MODULES CHECK: ${R.ok ? 'PASS' : 'FAIL'} (${Object.keys(R.files).length} server files, ${Object.values(R.files).filter(r => r.factory).length} factories${R.sim ? `; the sim: ${R.sim.modules.length} modules, wired in order` : ''})`);
+const pageModules = Object.values(R.page).reduce((a, s) => a + s.modules.length, 0);
+console.log(`MODULES CHECK: ${R.ok ? 'PASS' : 'FAIL'} (${Object.keys(R.files).length} server files, ${Object.values(R.files).filter(r => r.factory).length} factories${R.sim ? `; the sim: ${R.sim.modules.length} modules, wired in order` : ''}; the page: ${Object.keys(R.page).length} scripts, ${pageModules} modules)`);
 process.exitCode = R.ok ? 0 : 1;

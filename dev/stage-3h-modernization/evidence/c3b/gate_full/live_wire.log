@@ -1,0 +1,5 @@
+$ node dev/stage-3h/golden/live_wire_h2.js --old-dir /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em3/c3b/gate_full/game_bpp --new-dir /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em3/c3b/gate_full/game_candidate --shots /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em3/c3b/gate_full/live_wire_shots --save-raw /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em3/c3b/gate_full/live_wire_raw --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em3/c3b/gate_full/live_wire.json
+old: 3702 + 3504 frames in 178301 ms; errors A 0 B 0; ui {"menuAfterFirst":true,"refusedLabel":"NEW RUN · WAIT N S","menuAfterRefused":false,"menuAfterAdmin":true}
+new: 3710 + 3586 frames in 181560 ms; errors A 0 B 0; ui {"menuAfterFirst":true,"refusedLabel":"NEW RUN · WAIT N S","menuAfterRefused":false,"menuAfterAdmin":true}
+live wire: structurally identical in every phase
+LIVE WIRE: PASS

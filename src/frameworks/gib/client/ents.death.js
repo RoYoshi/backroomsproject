@@ -1,8 +1,15 @@
-/** @part public/ents.js - G.I.B.: how a death plays out on screen, four variants per killer
- * provides: -
- * uses: API, E, TAU, angDiff, clamp, sm
+/** @part public/ents.js - G.I.B.: how a death plays out on screen, four variants per killer; a module: entsDeath
+ * A module (continuation C3b, M-024): M8's part inside its factory, entsDeath. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. ents.compose.js makes it. Every line is M8's except 1 listed edit
+ * (dev/stage-3h-modernization/tools/c3_client_modules.js): the death scene draws the Smiler with the function it imports, not through a
+ * property of E another module registered.
+ * imports: head { angDiff API clamp E sm TAU }, smiler { drawSmiler }
+ * exports: -
+ * provides: entsDeath
+ * uses: -
  * writes: -
  */
+function entsDeath({ head: { angDiff, API, clamp, E, sm, TAU }, smiler: { drawSmiler } }) {
 
 /* ---------------------------------------------------------------- how a death plays out: four variants per killer
  * The server decides which one (ai.js: variant A-D, and the real wall behind the victim for the hound's wall impact).  Here they only
@@ -43,7 +50,7 @@ E.deathExtras = function (g, jl, t) {
 
 /* the smiler that attacks in a death sequence: fully formed, arms reaching */
 E.attackSmiler = function (view, t, dt) {
-  E.drawSmiler(view, { state: 'ATTACKING', act: 'rush', face: 1, head: 0, special: 1 }, t, dt || .016, 1);
+  drawSmiler(view, { state: 'ATTACKING', act: 'rush', face: 1, head: 0, special: 1 }, t, dt || .016, 1);
 };
 
 /* ---------------------------------------------------------------- offline (no server): the same variety, chosen from the geometry around the victim */
@@ -72,3 +79,4 @@ E.localKill = function (kind, H, src) {
   hist.push(v); if (hist.length > 6) hist.shift();
   return { v, k: kind, w: v === 'C' && wall ? [wall.x, wall.y, wall.ang] : 0 };
 };
+}

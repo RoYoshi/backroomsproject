@@ -1,8 +1,13 @@
-/** @part public/move.js - BR-R: the avatar poses (window.__pose), for the local player and everybody else
- * provides: -
- * uses: clamp
+/** @part public/move.js - BR-R: the avatar poses (window.__pose), for the local player and everybody else; a module: movePoses
+ * A module (continuation C3b, M-024): M8's part inside its factory, movePoses. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. move.compose.js makes it. Every line is M8's.
+ * imports: move { clamp }
+ * exports: -
+ * provides: movePoses
+ * uses: -
  * writes: -
  */
+function movePoses({ move: { clamp } }) {
 /* ---------------------------------------------------------------- avatar poses (local player and everybody else) */
 window.__pose = {
   apply(av, S_, e, preview) {
@@ -20,3 +25,4 @@ window.__pose = {
   },
 };
 
+}

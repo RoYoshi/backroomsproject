@@ -1,8 +1,13 @@
-/** @part public/world.js,generated/server/world.js - L.O.S.T.: Level 0's working ceiling fixtures (W.lamps), for the client and the server alike
- * provides: -
- * uses: T, W
+/** @part public/world.js,generated/server/world.js - L.O.S.T.: Level 0's working ceiling fixtures (W.lamps), for the client and the server alike; a module: worldLamps
+ * A module (continuation C3b, M-024): M8's part inside its factory, worldLamps. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. world.compose.js makes it. Every line is M8's.
+ * imports: head { T W }
+ * exports: -
+ * provides: worldLamps
+ * uses: -
  * writes: -
  */
+  function worldLamps({ head: { T, W } }) {
   /* CEILING FIXTURES (Stage 3B-L QA1) - the one place that says where Level 0 has a working fluorescent fixture.  The game
    * bundle (its lamp list Fc: the fixture housings, BR-RoLE's light, light.js and Ul(), the lamp hum) and sim.js (the
    * server AI's lamp field and light level) both build their lamp list here, from the same map, so every fixture that
@@ -71,3 +76,4 @@
     return out;
   };
 
+  }

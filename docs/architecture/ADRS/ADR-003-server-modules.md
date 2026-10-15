@@ -62,7 +62,8 @@
   say what it depends on, and its return value says what it offers.
 - **The server answers the same.**
   - The 18 server scenarios' traces equal B++'s stored baselines. The one allowed exception is in `http_base`: its 10 lines about
-    `index.html` and `mp.js`, the two served files Stage 3H2 changed on purpose. Those bodies are checked against the files instead.
+    `index.html` and `mp.js`, the two served files Stage 3H2 changed on purpose (15 lines since continuation C3b, which rebuilt five
+    page scripts as modules: ADR-005). Those bodies are checked against the files instead.
   - The 18 server mutants each change a golden. Each is applied where its code now lives: a module, the built `sim.js`, or
     `server.js`.
   - The full gate passed at M2, 18 of 18 steps.

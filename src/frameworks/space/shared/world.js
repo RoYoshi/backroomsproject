@@ -1,6 +1,11 @@
-/** @part public/world.js,generated/server/world.js - S.P.A.C.E.: the shared world module (window.WORLD in the page, require on the server; the factory opens here): Level 0's props and how they block movement
+/** @part public/world.js,generated/server/world.js - S.P.A.C.E.: the shared world module (window.WORLD in the page, require on the server): Level 0's props and how they block movement; a module: worldHead
  * The props themselves (DEF: where Level 0's counters, shelves, benches, holes and windows are) are L.O.S.T.'s content; they are declared here, as they always were.
- * provides: LOW, PROPS, T, W
+ * A module (continuation C3b, M-024): M8's part inside its factory, worldHead, after the opening of the script's wrapper, which this part
+ * keeps. Its parameter is what it takes from the modules made before it, by giver; its return is what later modules take from it.
+ * world.compose.js makes it. Every line is M8's.
+ * imports: -
+ * exports: LOW, PROPS, T, W
+ * provides: worldHead
  * uses: -
  * writes: -
  */
@@ -15,6 +20,7 @@
   else root.WORLD = factory();
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
+  function worldHead() {
   const T = 96;
   /* type: low    - waist-high obstacle, vaulted (or walked around). conceal: a crouching player behind it is hidden
    *       under  - raised furniture: blocks standing/walking, a crouching player crawls beneath, a slider slips under
@@ -81,3 +87,6 @@
   /* open the wall cells that gaps and windows sit in */
   W.carve = function (kc, width) { for (const p of PROPS) if (p.type === 'gap' || p.type === 'window') kc[p.ty * width + p.tx] = 1; };
 
+
+  return { LOW, PROPS, T, W };
+  }

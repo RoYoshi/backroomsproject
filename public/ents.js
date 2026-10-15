@@ -3,6 +3,7 @@
  * draws and voices what the snapshots say.  Loaded after the game bundle; mp.js feeds it. */
 (() => {
 'use strict';
+function entsHead() {
 const TAU = Math.PI * 2;
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const lerp = (a, b, t) => a + (b - a) * t;
@@ -44,6 +45,10 @@ E.slotS = function (o, t, dt, ip) {
   const sl = t.lh === undefined ? (t.h || 0) : t.lh; if (o.look === undefined) o.look = sl; else o.look += angDiff(sl, o.look) * (1 - Math.exp(-dt * 9));
   o.tg = t.tg; o.cp = t.cp; o.lit = t.lt; o.special = t.sp; o.net = 1; o.sid = t.i;
 };
+
+return { angDiff, API, clamp, E, lerp, rnd, sm, TAU };
+}
+function entsHound({ head: { clamp, E, lerp, rnd, sm, TAU } }) {
 
 /* ---------------------------------------------------------------- HOUND: a distorted humanoid on all fours
  * Narrow torso, elongated limbs with real elbows and knees (two-bone IK), hands and feet planted on the floor, a head that
@@ -260,6 +265,8 @@ E.attackHound = function (view, grip, impact, variant, jl) {
   if (variant === 'D') { P.hand.fl = { x: -20, y: -64 }; P.hand.fr = { x: 20, y: -64 }; P.crouch = .7; P.hy = -42; }
   E.paintHound(view, P, t, .016);
 };
+}
+function entsSmiler({ head: { clamp, E, sm, TAU } }) {
 
 /* ---------------------------------------------------------------- SMILER: darkness with a face
  * Canon (Entity 3): "reflective eyes and teeth gleaming in the dark", "a long smile with multiple sharp teeth", "white glowing eyes"; the rest of
@@ -316,7 +323,7 @@ function paintFace(gfx, f, t, alpha, seed) {
  * Hounds and other physical entities do NOT use this: their opacity is material and only their brightness follows the light. */
 E.smilerPresence = function (read, view) { return read > .72 ? 1 : Math.max(.12, read); };
 
-E.drawSmiler = function (view, sm_, t, dt, vis, o) {
+const drawSmiler = E.drawSmiler = function (view, sm_, t, dt, vis, o) {
   if (!view.__smiler) E.initSmiler(view);
   const S = view.__s, f = clamp(sm_.face === undefined ? (sm_.state === 'watch' || sm_.state === 'pursue' ? 1 : .7) : sm_.face, 0, 1);
   /* EXPOSURE BUDGET: the face is always the readable part; the rest of the creature is an impression.  It is shown more only at commitment, at a very
@@ -381,6 +388,10 @@ E.smilerGlow = function (n, view, sm_, t, pl, k) {
   n.restore();
 };
 
+return { drawSmiler };
+}
+function entsDeath({ head: { angDiff, API, clamp, E, sm, TAU }, smiler: { drawSmiler } }) {
+
 /* ---------------------------------------------------------------- how a death plays out: four variants per killer
  * The server decides which one (ai.js: variant A-D, and the real wall behind the victim for the hound's wall impact).  Here they only
  * change the choreography of the death sequence: how far the body is knocked, whether it is dragged, when the blows land, whether
@@ -420,7 +431,7 @@ E.deathExtras = function (g, jl, t) {
 
 /* the smiler that attacks in a death sequence: fully formed, arms reaching */
 E.attackSmiler = function (view, t, dt) {
-  E.drawSmiler(view, { state: 'ATTACKING', act: 'rush', face: 1, head: 0, special: 1 }, t, dt || .016, 1);
+  drawSmiler(view, { state: 'ATTACKING', act: 'rush', face: 1, head: 0, special: 1 }, t, dt || .016, 1);
 };
 
 /* ---------------------------------------------------------------- offline (no server): the same variety, chosen from the geometry around the victim */
@@ -449,6 +460,8 @@ E.localKill = function (kind, H, src) {
   hist.push(v); if (hist.length > 6) hist.shift();
   return { v, k: kind, w: v === 'C' && wall ? [wall.x, wall.y, wall.ang] : 0 };
 };
+}
+function entsAudio({ head: { API, clamp, E, lerp, rnd, sm } }) {
 
 /* ---------------------------------------------------------------- entity sound (procedural, positional, muffled through walls) */
 let actx = null, aout = null, nbuf = null, lastZ = null;
@@ -621,6 +634,8 @@ E.entAudio = function (dt, hounds, smilers) {
 };
 /* touchdowns reported by the gait code */
 E.footfall = function (o, spd, limb) { const d = Math.hypot(o.x - API().H.x, o.y - API().H.y); if (d < 1100 && spd > 25) E.houndStep(o.x, o.y, spd, limb); };
+}
+function entsDebug({ head: { clamp, E, sm, TAU } }) {
 
 /* ---------------------------------------------------------------- admin-only DEBUG MODE overlay (never drawn for ordinary players)
  * Layers (each can be switched on its own in the admin panel's DEBUG tab):
@@ -902,4 +917,12 @@ E.lamp = function (x, y, t) {
   for (const f of E.fails) { if (f.until < now) continue; const d = Math.hypot(x - f.x, y - f.y); if (d > f.r) continue; const k = 1 - sm(f.r * .55, f.r, d); const fl = Math.sin(t * 61 + x * .07) > .65 ? .5 : 0; m *= 1 - k * (.94 - fl * .5); }
   return m;
 };
+}
+/* (C3b) the modules, in the order the parts ran */
+const head = entsHead();
+entsHound({ head });
+const smiler = entsSmiler({ head });
+entsDeath({ head, smiler });
+entsAudio({ head });
+entsDebug({ head });
 })();

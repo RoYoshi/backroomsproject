@@ -19,19 +19,21 @@ Presentation only. Its look is accepted: the contact lab and the browser checks 
 <!-- generated: sources:br-r (dev/tools/docs/docs.js) -->
 | File | What it is | Goes into |
 |---|---|---|
-| [`client/camcorder.js`](client/camcorder.js) | BR-R: the night-vision camcorder (the IIFE opens here): its rules and its state | `public/camcorder.js` (a part) |
-| [`client/camcorder.view.js`](client/camcorder.view.js) | BR-R: the camcorder's page elements, drawing, public API and input; the IIFE closes here | `public/camcorder.js` (a part) |
+| [`client/camcorder.compose.js`](client/camcorder.compose.js) | BR-R: camcorder.js's composition: it makes each owner's module in the order the parts ran, and closes the wrapper | `public/camcorder.js` (a part) |
+| [`client/camcorder.js`](client/camcorder.js) | BR-R: the night-vision camcorder: its rules and its state; a module: camcorderCore | `public/camcorder.js` (a part) |
+| [`client/camcorder.view.js`](client/camcorder.view.js) | BR-R: the camcorder's page elements, drawing, public API and input; a module: camcorderView | `public/camcorder.js` (a part) |
 | [`client/camera_policy.js`](client/camera_policy.js) | The Far Backrooms — fair gameplay camera policy | `public/camera_policy.js` |
-| [`client/ents.head.js`](client/ents.head.js) | BR-R: the entities' client head (the IIFE opens here): the API, the entity table, small math | `public/ents.js` (a part) |
-| [`client/ents.hound.js`](client/ents.hound.js) | BR-R: the Hound, drawn procedurally (a distorted humanoid on all fours) | `public/ents.js` (a part) |
-| [`client/ents.smiler.js`](client/ents.smiler.js) | BR-R: the Smiler (darkness with a face) | `public/ents.js` (a part) |
+| [`client/ents.compose.js`](client/ents.compose.js) | BR-R: ents.js's composition: it makes each owner's module in the order the parts ran, and closes the wrapper | `public/ents.js` (a part) |
+| [`client/ents.head.js`](client/ents.head.js) | BR-R: the entities' client head: the API, the entity table, small math; a module: entsHead | `public/ents.js` (a part) |
+| [`client/ents.hound.js`](client/ents.hound.js) | BR-R: the Hound, drawn procedurally (a distorted humanoid on all fours); a module: entsHound | `public/ents.js` (a part) |
+| [`client/ents.smiler.js`](client/ents.smiler.js) | BR-R: the Smiler (darkness with a face); a module: entsSmiler | `public/ents.js` (a part) |
 | [`client/l0-remaster.js`](client/l0-remaster.js) | l0-remaster.js - Stage 3B: the Level 0 visual remaster (presentation only, client only).  3B-F: the whole of Level 0. | `public/assets/l0-remaster.js` |
-| [`client/move.poses.js`](client/move.poses.js) | BR-R: the avatar poses (window.__pose), for the local player and everybody else | `public/move.js` (a part) |
+| [`client/move.poses.js`](client/move.poses.js) | BR-R: the avatar poses (window.__pose), for the local player and everybody else; a module: movePoses | `public/move.js` (a part) |
 | [`client/mp.wanderers.js`](client/mp.wanderers.js) | BR-R: the other Wanderers: their hover names and avatars' clean-up | `public/mp.js` (a part) |
-| [`shared/world.art.js`](shared/world.art.js) | BR-R: the props' art (drawProp, into the game's static Graphics); the factory closes here | `public/world.js`, `generated/server/world.js` (a part) |
+| [`shared/world.art.js`](shared/world.art.js) | BR-R: the props' art (drawProp, into the game's static Graphics); a module: worldArt | `public/world.js`, `generated/server/world.js` (a part) |
 <!-- end of generated block -->
 
-A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header.
+A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header. Since continuation C3b a part of `world.js`, `move.js`, `camcorder.js`, `glitch.js` or `ents.js` is a module: one factory, given what it uses of the modules made before it; its header also lists its `imports` and `exports`, and the script's `*.compose.js` part makes the modules in order (`docs/architecture/CONTRACTS.md` section 4; `node dev/tools/checks/modules.js` proves the boundaries).
 
 ## How it connects
 
@@ -50,4 +52,4 @@ Edit the source, `npm run build`, run `node dev/tools/checks/parts.js`, and look
 ## Known debt
 
 - The core renderer is the v11 bundle plus recorded patches (FINDINGS M-012, M-019); a TypeScript port is planned (ADR-002).
-- The camcorder and the entities share their scripts' closures with Spacious Audio's parts (M-024).
+- Since continuation C3b the camcorder, the entities, the avatar poses and the props' art are modules of their scripts (M-024): the camera's state `S` is BR-R's, and Spacious Audio's sound module sets its whine slot only through `setWhine`; the Smiler module gives `drawSmiler` to G.I.B.'s death scene; `ents.compose.js` and `camcorder.compose.js` (BR-R's) make the modules. The wanderers on the page (`client/mp.wanderers.js`) still share `mp.js`'s closure (C3c).

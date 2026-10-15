@@ -1,8 +1,13 @@
-/** @part public/world.js,generated/server/world.js - BR-R: the props' art (drawProp, into the game's static Graphics); the factory closes here
- * provides: -
- * uses: PROPS, W
+/** @part public/world.js,generated/server/world.js - BR-R: the props' art (drawProp, into the game's static Graphics); a module: worldArt
+ * A module (continuation C3b, M-024): M8's part inside its factory, worldArt. Its parameter is what it takes from the modules made before
+ * it, by giver; its return is what later modules take from it. world.compose.js makes it. Every line is M8's.
+ * imports: head { PROPS W }
+ * exports: -
+ * provides: worldArt
+ * uses: -
  * writes: -
  */
+  function worldArt({ head: { PROPS, W } }) {
   /* ---- art (drawn into the game's static Graphics; g is a PIXI.Graphics with the v8 chained API) ---- */
   const shade = (c, k) => { const r = Math.max(0, Math.min(255, (c >> 16 & 255) * k)) | 0, g = Math.max(0, Math.min(255, (c >> 8 & 255) * k)) | 0, b = Math.max(0, Math.min(255, (c & 255) * k)) | 0; return r << 16 | g << 8 | b; };
   function drawProp(g, p) {
@@ -77,5 +82,4 @@
     }
     return bad;
   };
-  return W;
-});
+  }

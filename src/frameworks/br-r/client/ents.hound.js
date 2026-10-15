@@ -1,8 +1,13 @@
-/** @part public/ents.js - BR-R: the Hound, drawn procedurally (a distorted humanoid on all fours)
- * provides: -
- * uses: E, TAU, clamp, lerp, rnd, sm
+/** @part public/ents.js - BR-R: the Hound, drawn procedurally (a distorted humanoid on all fours); a module: entsHound
+ * A module (continuation C3b, M-024): M8's part inside its factory, entsHound. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. ents.compose.js makes it. Every line is M8's.
+ * imports: head { clamp E lerp rnd sm TAU }
+ * exports: -
+ * provides: entsHound
+ * uses: -
  * writes: -
  */
+function entsHound({ head: { clamp, E, lerp, rnd, sm, TAU } }) {
 
 /* ---------------------------------------------------------------- HOUND: a distorted humanoid on all fours
  * Narrow torso, elongated limbs with real elbows and knees (two-bone IK), hands and feet planted on the floor, a head that
@@ -219,3 +224,4 @@ E.attackHound = function (view, grip, impact, variant, jl) {
   if (variant === 'D') { P.hand.fl = { x: -20, y: -64 }; P.hand.fr = { x: 20, y: -64 }; P.crouch = .7; P.hy = -42; }
   E.paintHound(view, P, t, .016);
 };
+}

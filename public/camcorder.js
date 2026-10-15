@@ -44,6 +44,7 @@
    There are no batteries. Heat is the only resource.                                             */
 (() => {
   'use strict';
+  function camcorderCore() {
   const CFG = {
     NV_MAX_HEAT: 100,
     NV_HEAT_RATE: 100 / 35,
@@ -72,8 +73,13 @@
     shakeAmp: 0, interfere: 0, stat: 0, glitchT: 0, hint: 0, hints: 0,
     msg: '', msgT: 0, wasActive: false, lastWheel: 0, whine: null,
   };
+  const setWhine = w => { S.whine = w; };            // (C3b) the heat whine's sound nodes: Spacious Audio's module keeps them in the camera's state
   const FX = Object.create(null);
 
+
+  return { CFG, clamp, FX, S, setWhine };
+  }
+  function camcorderAudio({ core: { S, setWhine } }) {
   /* ---------------------------------------------------------------- audio (synthesised) */
   const A = () => { const z = window.__api && window.__api.audio && window.__api.audio(); return z && z.context && z.gain ? z : null; };
   function tone(o) {
@@ -111,11 +117,15 @@
       if (level <= 0) return;
       const c = z.context, o = c.createOscillator(), g = c.createGain(), lfo = c.createOscillator(), lg = c.createGain();
       o.type = 'sine'; o.frequency.value = 3600; g.gain.value = 0; lfo.frequency.value = 9; lg.gain.value = 140; lfo.connect(lg); lg.connect(o.frequency);
-      o.connect(g); g.connect(z.gain); o.start(); lfo.start(); S.whine = { c, o, g, lfo };
+      o.connect(g); g.connect(z.gain); o.start(); lfo.start(); setWhine({ c, o, g, lfo });
     }
     const w = S.whine, t = w.c.currentTime; w.g.gain.setTargetAtTime(level * .028, t, .12); w.o.frequency.setTargetAtTime(3200 + level * 1400, t, .2);
   }
 
+
+  return { snd, whine };
+  }
+  function camcorderView({ core: { CFG, clamp, FX, S }, audio: { snd, whine } }) {
   /* ---------------------------------------------------------------- DOM */
   const css = document.createElement('style'); css.id = 'camCss';
   css.textContent = `
@@ -431,4 +441,9 @@ body.cam-kind #touch .camBtn{display:inline-block}
   }, { passive: false });
   window.addEventListener('contextmenu', e => { if (S.active && playing()) { e.preventDefault(); api.toggleNV(); } });
   window.addEventListener('blur', () => { whine(0); });
+  }
+  /* (C3b) the modules, in the order the parts ran */
+  const core = camcorderCore();
+  const audio = camcorderAudio({ core });
+  camcorderView({ core, audio });
 })();

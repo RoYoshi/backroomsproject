@@ -1,0 +1,37 @@
+{
+ "tool": "dev/tools/lineage/lineage.js verify",
+ "files": {
+  "bundle": {
+   "file": "public/assets/index-DKbV5Nv9.js",
+   "base": "src/core/client/bundle/original-v11/dist/assets/index-DKbV5Nv9.js",
+   "steps": 40,
+   "of": 40,
+   "replayed": true,
+   "resultSha256": "694bca01e75d8e1c70e9ec29ea5382da5bda40d22c6a4f043e6e53b251d7529b",
+   "workingTree": "identical",
+   "enforced": true
+  },
+  "css": {
+   "file": "public/assets/index-D7hdwmUU.css",
+   "base": "src/core/client/bundle/original-v11/dist/assets/index-D7hdwmUU.css",
+   "steps": 8,
+   "of": 8,
+   "replayed": true,
+   "resultSha256": "02d94e783642b454f9171090cc88d21745a7285bf64dbc143e73c297acaf6c1a",
+   "workingTree": "identical",
+   "enforced": true
+  },
+  "html": {
+   "file": "public/index.html",
+   "base": "src/core/client/bundle/original-v11/dist/index.html",
+   "steps": 35,
+   "of": 35,
+   "replayed": true,
+   "resultSha256": "ca02fd163bee6c2f9460f7f4e2af0c9cfa90b01f28c2a3d2db5f427913c428cf",
+   "workingTree": "identical",
+   "enforced": false
+  }
+ },
+ "ok": true,
+ "blame": "what the ledger gives"
+}

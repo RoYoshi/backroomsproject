@@ -19,14 +19,14 @@ Every privileged action is checked on the server: a command reaches `adminComman
 <!-- generated: sources:overseer (dev/tools/docs/docs.js) -->
 | File | What it is | Goes into |
 |---|---|---|
-| [`client/ents.debug.js`](client/ents.debug.js) | OVERSEER: the admin-only DEBUG overlay (never drawn for ordinary players); the IIFE closes here | `public/ents.js` (a part) |
+| [`client/ents.debug.js`](client/ents.debug.js) | OVERSEER: the admin-only DEBUG overlay (never drawn for ordinary players); a module: entsDebug | `public/ents.js` (a part) |
 | [`client/mp.admin.js`](client/mp.admin.js) | OVERSEER: the admin menu (press `) | `public/mp.js` (a part) |
 | [`client/mp.deathlab.js`](client/mp.deathlab.js) | OVERSEER: the death lab (window.__dlab: the clock, the x-ray, the overlay) | `public/mp.js` (a part) |
 | [`server/admin.js`](server/admin.js) | src/frameworks/overseer/server/admin.js - OVERSEER on the server: the admin panel's commands ({t:'a', c}), each answered on the panel's | a server module: `server.js` requires it |
 | [`server/sim.admin.js`](server/sim.admin.js) | src/frameworks/overseer/server/sim.admin.js - OVERSEER: the world side of the admin tools (placeNear, the admin API); a module of the | a module of the sim: `src/core/server/sim.js` requires it |
 <!-- end of generated block -->
 
-A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header.
+A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header. Since continuation C3b a part of `world.js`, `move.js`, `camcorder.js`, `glitch.js` or `ents.js` is a module: one factory, given what it uses of the modules made before it; its header also lists its `imports` and `exports`, and the script's `*.compose.js` part makes the modules in order (`docs/architecture/CONTRACTS.md` section 4; `node dev/tools/checks/modules.js` proves the boundaries).
 
 ## How it connects
 
@@ -43,4 +43,4 @@ A new command: its case in `server/admin.js`, its world side in `sim.admin.js` i
 
 ## Known debt
 
-- The admin panel's page code shares `mp.js`'s closure (M-024).
+- The admin panel's page code shares `mp.js`'s closure (M-024; C3c). The AI debug overlay (`client/ents.debug.js`) is a module of `ents.js` since continuation C3b: it adds its own entries to `window.__ents`; `mp.js` still sets two of them (`navSel`, `onFail`), a contract between scripts.

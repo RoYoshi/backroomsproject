@@ -1,8 +1,13 @@
-/** @part public/glitch.js - L.O.S.T.: the glitched walls drawn; the IIFE closes here
- * provides: -
- * uses: NEAR, cv, cx, fx, rnd, updateSnd
+/** @part public/glitch.js - L.O.S.T.: the glitched walls drawn; a module: glitchDraw
+ * A module (continuation C3b, M-024): M8's part inside its factory, glitchDraw. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. glitch.compose.js makes it. Every line is M8's.
+ * imports: walls { cv cx fx NEAR rnd }, audio { updateSnd }
+ * exports: -
+ * provides: glitchDraw
+ * uses: -
  * writes: -
  */
+  function glitchDraw({ walls: { cv, cx, fx, NEAR, rnd }, audio: { updateSnd } }) {
   /* ---------- drawing ---------- */
   let W = 0, H = 0, dpr = 1;
   function drawWall(g, p, cam, sc, t, los) {
@@ -76,4 +81,4 @@
     updateSnd(run ? near : 0, best ? Math.max(-.8, Math.min(.8, best.dx / 400)) : 0, t);
     fx.style.opacity = near > .45 ? Math.min(.9, (near - .45) * 1.6) : 0;
   };
-})();
+  }

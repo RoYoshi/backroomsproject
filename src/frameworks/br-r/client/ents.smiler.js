@@ -1,8 +1,14 @@
-/** @part public/ents.js - BR-R: the Smiler (darkness with a face)
- * provides: -
- * uses: E, TAU, clamp, sm
+/** @part public/ents.js - BR-R: the Smiler (darkness with a face); a module: entsSmiler
+ * A module (continuation C3b, M-024): M8's part inside its factory, entsSmiler. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. ents.compose.js makes it. Every line is M8's except 1 listed edit
+ * (dev/stage-3h-modernization/tools/c3_client_modules.js): the Smiler module names the drawing it registers on E, and gives it.
+ * imports: head { clamp E sm TAU }
+ * exports: drawSmiler
+ * provides: entsSmiler
+ * uses: -
  * writes: -
  */
+function entsSmiler({ head: { clamp, E, sm, TAU } }) {
 
 /* ---------------------------------------------------------------- SMILER: darkness with a face
  * Canon (Entity 3): "reflective eyes and teeth gleaming in the dark", "a long smile with multiple sharp teeth", "white glowing eyes"; the rest of
@@ -59,7 +65,7 @@ function paintFace(gfx, f, t, alpha, seed) {
  * Hounds and other physical entities do NOT use this: their opacity is material and only their brightness follows the light. */
 E.smilerPresence = function (read, view) { return read > .72 ? 1 : Math.max(.12, read); };
 
-E.drawSmiler = function (view, sm_, t, dt, vis, o) {
+const drawSmiler = E.drawSmiler = function (view, sm_, t, dt, vis, o) {
   if (!view.__smiler) E.initSmiler(view);
   const S = view.__s, f = clamp(sm_.face === undefined ? (sm_.state === 'watch' || sm_.state === 'pursue' ? 1 : .7) : sm_.face, 0, 1);
   /* EXPOSURE BUDGET: the face is always the readable part; the rest of the creature is an impression.  It is shown more only at commitment, at a very
@@ -123,3 +129,6 @@ E.smilerGlow = function (n, view, sm_, t, pl, k) {
   for (let q = 1; q < S.n; q++) { const x = -gw + q / S.n * 2 * gw; n.beginPath(); n.moveTo(x, top(x)); n.lineTo(x, bot(x)); n.stroke(); }
   n.restore();
 };
+
+return { drawSmiler };
+}

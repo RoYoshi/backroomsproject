@@ -1,0 +1,81 @@
+{
+ "tool": "dev/tools/gate/checks/proto_check.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em3/c3b/gate_full/game_candidate",
+ "checks": {
+  "caps": {
+   "fast": 1,
+   "old": null,
+   "ok": true
+  },
+  "still": {
+   "qWhileStill": 0,
+   "ok": true
+  },
+  "q": {
+   "fastQ": 32,
+   "oldQ": 0,
+   "fastSnapshotsWithK": 42,
+   "oldSnapshotsWithK": 0,
+   "ids": [
+    4
+   ],
+   "moverId": 4,
+   "w": [
+    2
+   ],
+   "shape": true,
+   "kRising": true,
+   "kRisingWithSnapshots": true,
+   "sample": {
+    "t": "q",
+    "w": 2,
+    "k": 103,
+    "p": [
+     [
+      4,
+      5594,
+      3290,
+      0.04
+     ]
+    ]
+   },
+   "stillGetsQ": 32,
+   "moverGetsOwn": 0,
+   "ok": true
+  },
+  "isolation": {
+   "elsewhereAnswered": 1,
+   "lobbyAnswered": 1,
+   "qElsewhere": 0,
+   "qLobby": 0,
+   "elsewhereSnapshotsNamingMover": 0,
+   "ok": true
+  },
+  "world": {
+   "worldMsg": 3,
+   "qEpochs": [
+    3
+   ],
+   "worldBeforeFirstQ": true,
+   "ok": true
+  },
+  "death": {
+   "moverDiedOnServer": true,
+   "qNamingHimAfterDeath": 0,
+   "ok": true
+  },
+  "disconnect": {
+   "qNamingHimAfterClose": 0,
+   "snapshotsNamingHimAfterClose": 0,
+   "ok": true
+  },
+  "moves": {
+   "fastJump500Refused": true,
+   "wallFound": true,
+   "fastThroughWallRefused": true,
+   "ok": true
+  }
+ },
+ "serverErrors": [],
+ "ok": true
+}

@@ -1,0 +1,127 @@
+# Stage 3H continuation, wave C3b (M-024): the page's five multi-owner scripts made of modules
+# $SP is the session's scratch folder. The parent is C3a = 2bc4569 (tree 23965f0). B++ = 143b63f. M8 = c34f0c2 (the parts of these
+# five scripts at M8 are those of C3a: C0, C2 and C3a changed none of them).
+
+## the modules (dev/stage-3h-modernization/tools/c3_client_modules.js, new at C3b)
+node dev/stage-3h-modernization/tools/c3_client_modules.js --apply     writes each script's modules and its composition from M8's parts
+                                                                       (read from Git) and adds each composition to src/build-recipes.json
+node dev/stage-3h-modernization/tools/c3_client_modules.js --check --report client_modules_report.txt   exit 0
+  C3b CLIENT MODULES CHECK: PASS.  Before writing anything the tool proved from the code, for each script, with TypeScript's checker on
+  the assembled text: no part uses a name of a later part; no part assigns another part's binding; every name a part gives another is a
+  const, a function or a class, or a let/var never assigned again (a value passed to a factory is a copy); no part-level `this` or
+  `arguments`; no function declared in a block in sloppy code; the globals (names resolving to no declaration) are the same set in M8's
+  text, in the edited text and in the modules; and after the change no module uses another module's name.
+  The result (client_modules_report.txt lists each module, its imports and exports, and every edit, M8's text and the new):
+    world.js (and the server's copy): head = worldHead(); worldLamps, worldCrawl, worldSurfaces, worldMove, worldArt, each given head's
+      names; the script returns head.W.  A pure re-wrapping: no edit.
+    move.js: move = moveCore(); movePoses({ move }); moveSound({ move }).  Edits: the movement code played Spacious Audio's sounds through
+      window.__mvSfx; now the sound module hands them over (useSound(mvSfx), the movement module's own function, right after registering
+      window.__mvSfx as before) and the movement code calls `sfx && sfx.vaultStart(q)` etc.
+    camcorder.js: core = camcorderCore(); audio = camcorderAudio({ core }); camcorderView({ core, audio }).  Edits: Spacious Audio's module
+      wrote its whine's nodes into BR-R's camera state (S.whine = {...}); now BR-R's module gives setWhine and the sound module calls it:
+      the same value in the same slot (still read as before).
+    glitch.js: walls = glitchWalls(); audio = glitchAudio(); glitchDraw({ walls, audio }).  A pure re-wrapping: no edit.
+    ents.js: head = entsHead(); entsHound({ head }); smiler = entsSmiler({ head }); entsDeath({ head, smiler }); entsAudio({ head });
+      entsDebug({ head }).  Edits: G.I.B.'s death scene called E.drawSmiler, which BR-R's Smiler module puts on the public object E; now the
+      Smiler module names that function (const drawSmiler = E.drawSmiler = function ...) and gives it, and the death module imports it.
+npm run build                                                          39 outputs; the five scripts (and the server's world.js) rewritten
+npm run build:check                                                    BUILD CHECK: PASS
+node dev/tools/checks/parts.js                                         PARTS CHECK: PASS (8 outputs, 59 parts): each module part provides its
+                                                                       factory and uses nothing; each composition uses the factories
+
+## the module boundaries (dev/tools/checks/modules.js, extended to the page: the gate's modules step)
+node dev/tools/checks/modules.js --out modules.json                    exit 0  (modules.json, modules.txt)
+  MODULES CHECK: PASS (26 server files, 21 factories; the sim: 10 modules, wired in order; the page: 5 scripts, 21 modules).  For each
+  page script, as the build assembles it: the wrapper holds only the factories and the composition; each factory uses its own names,
+  what it is given and the page's globals, never a name of the wrapper; nothing it is given is assigned, all of it used; the composition
+  makes each module once, in the order of the parts, from modules made before it, under the keys its factory takes, each imported name
+  returned by its giver; each header's imports and exports are the code's; no module writes another owner's state except through that
+  owner's function; each entry of a public object (W, E, mv) has one module that writes it; no module calls a function a third module put
+  on another module's object; no module reads, through the global object, what another module of its script put there.
+node dev/stage-3h-modernization/tools/c3_modules_mutants.js --out modules_mutants.json   exit 0  (modules_mutants.*)
+  MODULES CHECK MUTANTS: PASS (20 of 20 broken boundaries refused, each for its own reason): the 8 server cases of C3a and 12 page cases,
+  among them M8's own three couplings put back (S.whine written, E.drawSmiler called, window.__mvSfx read): each is refused.
+
+## the scripts against B++'s (the gate's page step: dev/tools/gate/golden/world_diff.js, page_scripts.js, page_scenes.js, page_env.js,
+## page_mutants.js, all new)
+node dev/tools/gate/golden/world_diff.js --out world_diff.json         WORLD DIFF: SAME - 2,295 comparisons, 0 differences; the server's copy
+  is the page's, byte for byte.  B++'s world.js (from Git) and this tree's public/world.js, each loaded fresh: the object (keys in order,
+  types, every data value), propAt / lowZone / crawlAt over a grid with pads and type filters and finely near every prop (1,458), segRect
+  and concealedBy over 400 segments, setMode and WORLD.mode, blocks and addNear in every mode, Level 0 built by L.O.S.T.'s sim.level0.js
+  with each side's world (collision in every mode, ray casts, routes), carve, surfaceAt, lamps, canCrawl, verify, drawProps into a
+  recording Graphics.  Checked not vacuous: no comparison is a thrown error on both sides.
+node dev/tools/gate/golden/page_scripts.js --out page_scripts.json     PAGE SCRIPTS: SAME (4 scripts)
+  Each of move.js, camcorder.js, glitch.js, ents.js loaded twice into the same closed Chromium page (B++'s text from Git, this tree's from
+  public/), after the same environment: 3H0's cli_env.js (fake clock and timers, seeded randomness, recording Web Audio, recorded
+  listeners), page_env.js (recording 2D canvases and Graphics, the page's elements, Level 0), B++'s world.js and dphys.js, and the AI
+  debug overlay's input made by B++'s own sim (world seed 11, three wandering players, 180 s: 30 frames, 90 records; one Smiler record
+  given eye contact, marked).  The scenes (page_scenes.js) drive each script the way the bundle and mp.js do:
+    move.js       15,215 trace lines (27 kinds): walk, run, the slide, stand, crouch and crouch-walk, every low prop vaulted or crawled,
+                  winded and resting, downed and dragged, other players in the way, the events, every pose, every movement sound
+    camcorder.js  11,336 lines (25 kinds): raise and lower, NV off and on, IR LOW and HIGH until it overheats, the lockout and back online,
+                  zoom, the touch buttons, the context menu, the effects registry, a close wall's bloom, the infrared picture's profile
+    glitch.js     21,927 lines (22 kinds): two walls and a cartograph approached, out of the run, exited, the burst and its fade
+    ents.js    1,204,222 lines (39 kinds): two Hounds and two Smilers in every state and action for 10 s, their presence and glow, the
+                  Hound's attack poses, every death (Hound A, B, C at a real wall, D; Smiler A, B, C; the NEW RUN blast) simulated by
+                  dphys.js and drawn, the death lab's overlay, the offline kill choice 24 times, every voice and sound, light failures,
+                  the debug overlay on the server's records with every panel
+  Equal: the traces (by digests of 2,000-line chunks), the page's elements and the errors (0 on both sides).  Reached (V8's coverage of
+  the script under test): move 44 of 45 functions on B++'s text (sm: never called), camcorder 78 of 80 (snd.deny, snd.warn: never
+  called), glitch 13 of 13, ents 141 of 143 (the sound of a dropped light striking something; one line of a selected Smiler's eye
+  contact); this tree's text leaves exactly as many unrun (its factories and compositions always run).
+node dev/tools/gate/golden/page_scripts.js --mutants dev/tools/gate/golden/page_mutants.js --out page_mutants.json
+  PAGE MUTANTS: PASS (12 of 12 seam mutants caught): the sound not handed over; the poses not made; the whine slot not kept; the view
+  given a silent whine; the drawing given another near distance; the drawing given a silent sound; the Smiler module giving the Hound's
+  drawing; the sounds given another public object; the debug module not made; two world modules out of order; a copy of W returned; the
+  surfaces module not made.
+node dev/stage-3h-modernization/tools/m8_served_identity.js            SERVED IDENTITY: PASS (served_identity.*): 45 of 51 files identical to
+  3H2's; rebuilt as modules (behaviour compared instead): public/camcorder.js, ents.js, glitch.js, move.js, world.js and
+  generated/server/world.js; every difference from B++ declared (dev/tools/gate/declared_changes.json gains the five, with their reasons)
+
+## the gate
+node dev/tools/gate/gate.js --tier full --out $SP/em3/c3b/gate_full             exit 1  (gate_full/: the reports and logs; screenshots
+  left out; the live wire's raw frames gzipped)       22 of 24 steps PASS, in 40.1 min:
+  build 39, lineage 83, parts 59, modules 47 (26 server files; the page: 5 scripts, 21 modules), docs 23, scope 210 (the five scripts
+  declared), srv_golden 11 (http_base's lines about the files changed on purpose: 3H2's index.html and mp.js, C3b's five), bpp_golden 7,
+  session 18, sim 20,065, page 1,255,007 (world.js 2,295 comparisons; 1,252,700 trace lines; 12 of 12 seam mutants), cli_golden 12,
+  protocol 52,740, mutants 18, static 4, raw_live 173, quick_suites 23, cli_mutants 22, live_wire 65 (structurally identical),
+  bpp_checks 36 (as on B++), contact_lab 23 images identical pixel for pixel, perf 9 (lifecycle +4 %, deaths +5.33 %, admin -0.54 %,
+  schedule +6.24 %; the page scenes within their rules).
+  suites FAILED: npm_test 148 of 162, one more than B++'s 13 known failures: SM15 (dev/tests/s_smiler.js).  The test ran the debug
+  overlay's source part (dev/ents_src/40_debug.js, now src/frameworks/overseer/client/ents.debug.js) as a fragment of ents.js's IIFE,
+  with E given in its scope; a module's text is a factory, so running it defined the factory and drawDebug never existed.  A broken
+  test, not a broken game: the test now runs the built ents.js (no DOM) and takes its window.__ents when the overlay is a module (the
+  fragment way stays for an old-layout tree).  Its checks are unchanged: the text checks of the Smiler's drawing and glow, and the debug
+  overlay run with debug off, failing if it reads any entity data.
+  browsers FAILED: two_browser, col_head and col_aside passed; gameplay_smoke failed: a Smiler killed Alice before the check's admin
+  connection removed the monsters (its server log: a death is the first line after the start), as once at C3a.
+node dev/tools/gate/gate.js --only suites --out $SP/em3/c3b/gate_suites_rerun     exit 0  PASS (gate_suites_rerun/): npm_test 149 of 162,
+  s_humanqa_hotfix 5/6, s_ir 3/3, test_shadows 43/48, test_br_role 29/32, interp_test 3, test_3bn 7/7, audit_net 13/17, audit_net2 8/11,
+  ir_net 4/4: only the known B++ failures fail
+the browsers failure, examined:
+  $SP/em3/c3b/smoke_ab.sh: gameplay_smoke.py ten more times, alternating this tree and C3a (a copy of each game; gameplay_smoke_ab.txt):
+  10 of 10 OK, no death before the monsters were removed on either.  The page's frame intervals there are the software renderer's
+  (about 330 to 490 ms), noisy run to run: still 344 to 494 ms on C3b, 327 to 379 on C3a; walking 316 to 436 on C3b, 326 to 420 on C3a.
+  node dev/tools/gate/golden/page_scripts.js --perf 7 (page_perf.json): the real time each script's scene takes, B++'s script against
+  this tree's (A/B) and against itself (A/A), interleaved, 7 rounds: move A/B +2.56 % (A/A +7.03 %), camcorder -2.79 % (A/A -2.13 %),
+  glitch -4.11 % (A/A -10.47 %), ents -0.64 % (A/A -1.22 %): the modules cost nothing measurable.
+  The gate now runs gameplay_smoke once more when its server's log shows a death before the admin's first command (dev/tools/gate/gate.js,
+  the browsers step; documented in the gate's README and PARITY_MATRIX.md): such a run proves nothing either way.
+node dev/tools/gate/gate.js --only browsers --out $SP/em3/c3b/gate_browsers_rerun    exit 0  PASS: two_browser 106, col_head 5,
+  col_aside 5, gameplay_smoke ok (before the re-run rule)
+node dev/tools/gate/gate.js --only browsers --out $SP/em3/c3b/gate_browsers_rerun2   exit 1  (with the rule) two_browser, col_head and
+  col_aside passed; gameplay_smoke's walk, turn, light, frames and NEW RUN's answer, run menu and gibs passed, but the walk after
+  SPAWN moved 9 px of the 30 it needs: the random spawn spot (4488, 5832) has a wall 20 px to its south, where the check walks (the
+  sim's moveOk from there: 20 px south yes, 30 px no).  A chance of the check's random world, not a regression; documented.
+node dev/tools/gate/gate.js --only browsers --out $SP/em3/c3b/gate_browsers_rerun3   exit 0  PASS: two_browser 108, col_head 5,
+  col_aside 5, gameplay_smoke ok
+node dev/tools/gate/gate.js --tier fast --out $SP/em3/c3b/gate_fast              exit 0  PASS, 17 of 17 steps (gate_fast/), 5.9 min, on the
+  final tree: the documents and this evidence included
+
+## the secret scans
+  C3b's changes, before the commit: secret_scan.* (CLEAN).  C3a's committed revision, after its commit: secret_scan_c3a_after_commit.txt
+  (CLEAN).  The scan includes the owner's private extra strings (not in this repository).
+
+## the remote
+  C3a's receipt is copied into evidence/remote/verify_c3a_2bc4569.json.  C3b's receipt is written after the push (verify_remote_m.py
+  C3b) and copied in by the next checkpoint.

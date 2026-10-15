@@ -1,8 +1,13 @@
-/** @part public/ents.js - Spacious Audio: the entities' sound (procedural, positional, muffled through walls)
- * provides: -
- * uses: API, E, clamp, lerp, rnd, sm
+/** @part public/ents.js - Spacious Audio: the entities' sound (procedural, positional, muffled through walls); a module: entsAudio
+ * A module (continuation C3b, M-024): M8's part inside its factory, entsAudio. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. ents.compose.js makes it. Every line is M8's.
+ * imports: head { API clamp E lerp rnd sm }
+ * exports: -
+ * provides: entsAudio
+ * uses: -
  * writes: -
  */
+function entsAudio({ head: { API, clamp, E, lerp, rnd, sm } }) {
 
 /* ---------------------------------------------------------------- entity sound (procedural, positional, muffled through walls) */
 let actx = null, aout = null, nbuf = null, lastZ = null;
@@ -175,3 +180,4 @@ E.entAudio = function (dt, hounds, smilers) {
 };
 /* touchdowns reported by the gait code */
 E.footfall = function (o, spd, limb) { const d = Math.hypot(o.x - API().H.x, o.y - API().H.y); if (d < 1100 && spd > 25) E.houndStep(o.x, o.y, spd, limb); };
+}

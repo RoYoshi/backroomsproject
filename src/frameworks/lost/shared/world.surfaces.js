@@ -1,8 +1,13 @@
-/** @part public/world.js,generated/server/world.js - L.O.S.T.: the floor surfaces (carpet, concrete, wet tile)
- * provides: -
- * uses: T, W
+/** @part public/world.js,generated/server/world.js - L.O.S.T.: the floor surfaces (carpet, concrete, wet tile); a module: worldSurfaces
+ * A module (continuation C3b, M-024): M8's part inside its factory, worldSurfaces. Its parameter is what it takes from the modules made
+ * before it, by giver; its return is what later modules take from it. world.compose.js makes it. Every line is M8's.
+ * imports: head { T W }
+ * exports: -
+ * provides: worldSurfaces
+ * uses: -
  * writes: -
  */
+  function worldSurfaces({ head: { T, W } }) {
   /* floor surfaces: carpet (short slides), concrete (medium), wet tile (long).  rooms = the game's room table. */
   const SURF = {
     carpet: { slide: 2.5, step: 1, label: 'carpet' },
@@ -21,3 +26,4 @@
     return 'carpet';
   };
 
+  }

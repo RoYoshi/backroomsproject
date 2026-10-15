@@ -1,0 +1,70 @@
+public/camcorder.js: 3 modules and the composition src/frameworks/br-r/client/camcorder.compose.js
+  core = camcorderCore()  src/frameworks/br-r/client/camcorder.js  ->  CFG, clamp, FX, S, setWhine
+  audio = camcorderAudio({ core: { S, setWhine } })  src/frameworks/spacious-audio/client/camcorder.audio.js  ->  snd, whine
+  view = camcorderView({ core: { CFG, clamp, FX, S }, audio: { snd, whine } })  src/frameworks/br-r/client/camcorder.view.js
+  edit (core): the camera's state gets a function that sets its whine slot
+      M8:  const FX = Object.create(null);
+      now: const setWhine = w => { S.whine = w; };            // (C3b) the heat whine's sound nodes: Spacious Audio's module keeps them in the camera's state
+             const FX = Object.create(null);
+  edit (audio): the sound module sets the whine slot of the camera's state (BR-R's) through that function, not by writing it
+      M8:  S.whine = { c, o, g, lfo };
+      now: setWhine({ c, o, g, lfo });
+  every other line of each part is M8's, verbatim; names unresolved (globals) in M8's text, the edited text and the modules: 9 = 9 = 9, the same set
+public/glitch.js: 3 modules and the composition src/frameworks/lost/client/glitch.compose.js
+  walls = glitchWalls()  src/frameworks/lost/client/glitch.js  ->  cv, cx, fx, NEAR, rnd
+  audio = glitchAudio()  src/frameworks/spacious-audio/client/glitch.audio.js  ->  updateSnd
+  draw = glitchDraw({ walls: { cv, cx, fx, NEAR, rnd }, audio: { updateSnd } })  src/frameworks/lost/client/glitch.draw.js
+  every other line of each part is M8's, verbatim; names unresolved (globals) in M8's text, the edited text and the modules: 7 = 7 = 7, the same set
+public/move.js: 3 modules and the composition src/frameworks/space/client/move.compose.js
+  move = moveCore()  src/frameworks/space/client/move.js  ->  A, clamp, mv, SURF, useSound
+  poses = movePoses({ move: { clamp } })  src/frameworks/br-r/client/move.poses.js
+  sound = moveSound({ move: { A, clamp, mv, SURF, useSound } })  src/frameworks/spacious-audio/client/move.sound.js
+  edit (move): the movement module keeps the sounds the sound module hands it
+      M8:  window.__mv = mv;
+      now: window.__mv = mv;
+           let sfx = null;                         // (C3b) Spacious Audio's movement sounds: move.sound.js hands them over when it is made
+           const useSound = s => { sfx = s; };
+  edit (move): it plays them through what it was handed, not through the global object
+      M8:  window.__mvSfx && window.__mvSfx.vaultStart(q);
+      now: sfx && sfx.vaultStart(q);
+  edit (move): it plays them through what it was handed, not through the global object
+      M8:  window.__mvSfx && window.__mvSfx.vaultLand(v.q);
+      now: sfx && sfx.vaultLand(v.q);
+  edit (move): it plays them through what it was handed, not through the global object
+      M8:  window.__mvSfx && window.__mvSfx.slideStart(surf, mv.slide.v);
+      now: sfx && sfx.slideStart(surf, mv.slide.v);
+  edit (move): it plays them through what it was handed, not through the global object
+      M8:  window.__mvSfx && window.__mvSfx.slideEnd();
+      now: sfx && sfx.slideEnd();
+  edit (sound): the sound module names its sounds (still registered on window, as before)
+      M8:  window.__mvSfx = {
+      now: const mvSfx = window.__mvSfx = {
+  edit (sound): and hands them to the movement module the moment they are registered
+      M8:  };
+           let lastBreath = 0, stepDist = 0, lastStepPos = null;
+      now: };
+           useSound(mvSfx);                        // (C3b) hands them to the movement module, right after registering them
+           let lastBreath = 0, stepDist = 0, lastStepPos = null;
+  every other line of each part is M8's, verbatim; names unresolved (globals) in M8's text, the edited text and the modules: 6 = 6 = 6, the same set
+public/ents.js: 6 modules and the composition src/frameworks/br-r/client/ents.compose.js
+  head = entsHead()  src/frameworks/br-r/client/ents.head.js  ->  angDiff, API, clamp, E, lerp, rnd, sm, TAU
+  hound = entsHound({ head: { clamp, E, lerp, rnd, sm, TAU } })  src/frameworks/br-r/client/ents.hound.js
+  smiler = entsSmiler({ head: { clamp, E, sm, TAU } })  src/frameworks/br-r/client/ents.smiler.js  ->  drawSmiler
+  death = entsDeath({ head: { angDiff, API, clamp, E, sm, TAU }, smiler: { drawSmiler } })  src/frameworks/gib/client/ents.death.js
+  audio = entsAudio({ head: { API, clamp, E, lerp, rnd, sm } })  src/frameworks/spacious-audio/client/ents.audio.js
+  debug = entsDebug({ head: { clamp, E, sm, TAU } })  src/frameworks/overseer/client/ents.debug.js
+  edit (smiler): the Smiler module names the drawing it registers on E, and gives it
+      M8:  E.drawSmiler = function (view, sm_, t, dt, vis, o) {
+      now: const drawSmiler = E.drawSmiler = function (view, sm_, t, dt, vis, o) {
+  edit (death): the death scene draws the Smiler with the function it imports, not through a property of E another module registered
+      M8:  E.drawSmiler(view, { state: 'ATTACKING'
+      now: drawSmiler(view, { state: 'ATTACKING'
+  every other line of each part is M8's, verbatim; names unresolved (globals) in M8's text, the edited text and the modules: 14 = 14 = 14, the same set
+public/world.js (and generated/server/world.js): 6 modules and the composition src/frameworks/space/shared/world.compose.js
+  head = worldHead()  src/frameworks/space/shared/world.js  ->  LOW, PROPS, T, W
+  lamps = worldLamps({ head: { T, W } })  src/frameworks/lost/shared/world.lamps.js
+  crawl = worldCrawl({ head: { LOW, PROPS, W } })  src/frameworks/space/shared/world.crawl.js
+  surfaces = worldSurfaces({ head: { T, W } })  src/frameworks/lost/shared/world.surfaces.js
+  moves = worldMove({ head: { W } })  src/frameworks/space/shared/world.move.js
+  art = worldArt({ head: { PROPS, W } })  src/frameworks/br-r/shared/world.art.js
+  every other line of each part is M8's, verbatim; names unresolved (globals) in M8's text, the edited text and the modules: 3 = 3 = 3, the same set
