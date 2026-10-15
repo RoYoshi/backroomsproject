@@ -10,12 +10,21 @@
  *
  * The recipes (src/build-recipes.json) list, for each output, either its parts in order:
  *   { "out": "public/mp.js", "parts": ["src/core/client/mp.js"] }
- * or a replay of the client lineage ledger (Stage 3H, H3M-6: the compiled bundle and its stylesheet):
+ * or a replay of the client lineage ledger (Stage 3H, H3M-6 up to continuation C4a: the compiled bundle and its stylesheet):
  *   { "out": "public/assets/index-DKbV5Nv9.js", "replay": { "ledger": "src/core/client/bundle/lineage/ledger.json", "chain": "bundle" } }
  * A replay starts from the chain's base (the original v11 build output, src/core/client/bundle/original-v11/dist/...) and applies the
  * ledger's steps in order; every step's patch must find the bytes it was made on (SHA-256 before) and give the bytes it records (SHA-256
- * after), or the build stops.  So the shipped bundle is the recovered TypeScript's build output plus forty recorded edits, and nothing
- * else (src/core/client/bundle/README.md).  The bundle's PixiJS chunks are parts outputs whose one part is the v11 build output's own file.
+ * after), or the build stops: the recovered TypeScript's build output plus forty recorded edits, and nothing else
+ * (src/core/client/bundle/README.md).  That history stays checked by dev/tools/lineage/lineage.js after the replay is retired;
+ * or the record of the compiled client's build (from continuation C4b: the bundle and its stylesheet):
+ *   { "out": "public/assets/index-DKbV5Nv9.js", "client": "generated/CLIENT_BUILD.json" }
+ * Those are built from the maintained TypeScript and CSS in src/core/client/game/ by dev/tools/build/client.js, which needs the locked
+ * npm packages (TypeScript, Vite, PixiJS: installed offline from verified tarballs).  This tool has no dependencies, so it does not
+ * build them: it checks them against client.js's record, as `client.js --record-check` does.  Every source file of the tree must be the
+ * one the record lists (a source edited and not rebuilt fails, and so does a new one) and the output on disk the one it lists (an output
+ * edited by hand fails); then the output counts as built, and its manifest entry names the record.  --clean leaves them (only client.js
+ * can make them again).  The bundle's PixiJS chunks are parts outputs whose one part is the v11 build output's own file (the client
+ * build gives the same bytes).
  * A parts output is the concatenation of its parts' text.  A part's text is its file's bytes, less one leading part header if the file begins
  * with one: a comment that starts the file with "/** @part " and ends at the first "*\/" and the newline after it.  The header is
  * where a part names its output, its owner and its interface; it never reaches the output.  Nothing else is changed: no
@@ -38,6 +47,12 @@ function load() {
   if (!Array.isArray(r.outputs) || !r.outputs.length) throw new Error(`${RECIPES}: no outputs`);
   const seenOut = new Set();
   for (const o of r.outputs) {
+    if (o.client) {                                                 // the compiled client's build (C4)
+      if (!o.out || o.parts || o.replay || !/^generated\/[\w.-]+\.json$/.test(o.client)) throw new Error(`${RECIPES}: ${o.out}: a client output names its record under generated/ and has no parts`);
+      if (!/^public\//.test(o.out)) throw new Error(`${RECIPES}: ${o.out} is outside public/`);
+      if (seenOut.has(o.out)) throw new Error(`${RECIPES}: ${o.out} listed twice`); seenOut.add(o.out);
+      continue;
+    }
     if (o.replay) {                                                 // a lineage replay (H3M-6)
       if (!o.out || o.parts || !o.replay.ledger || !o.replay.chain) throw new Error(`${RECIPES}: ${o.out}: a replay needs "ledger" and "chain" and no "parts"`);
       if (!/^(public|generated)\//.test(o.out)) throw new Error(`${RECIPES}: ${o.out} is outside public/ and generated/`);
@@ -81,8 +96,31 @@ function replay(o) {
   if (sha(cur) !== F.result.sha256) throw new Error(`${o.out}: the replay did not end at the recorded result`);
   return { out: o.out, bytes: cur.length, sha256: sha(cur), replay: { ledger: o.replay.ledger, ledgerSha256: sha(rd(o.replay.ledger)), chain: o.replay.chain, base: { path: F.base.path, sha256: F.base.sha256 }, steps: patches }, buf: cur };
 }
+/* a client output: checked against client.js's record (generated/CLIENT_BUILD.json), as client.js --record-check does; its bytes are the
+   file on disk once the record vouches for it */
+const recordChecked = new Map();
+function client(o) {
+  if (!recordChecked.has(o.client)) {
+    if (!fs.existsSync(path.join(REPO, o.client))) throw new Error(`${o.out}: ${o.client} does not exist (node dev/tools/build/client.js --packages <folder> --write builds the client and writes it)`);
+    const R = JSON.parse(rd(o.client).toString('utf8')), problems = [], tree = R.tree;
+    const files = [], walk = rel => { for (const e of fs.readdirSync(path.join(REPO, rel), { withFileTypes: true }).sort((a, b) => (a.name < b.name ? -1 : 1))) {
+      const q = rel + '/' + e.name; if (e.isDirectory()) { if (e.name !== 'node_modules' && e.name !== 'dist') walk(q); } else files.push(q); } };
+    walk(tree);
+    const was = new Map(R.sources.map(x => [x.path, x.sha256]));
+    for (const f of files) if (!was.has(f)) problems.push(`${f}: a source the record does not list`); else if (was.get(f) !== sha(rd(f))) problems.push(`${f}: changed since the client was built`);
+    for (const f of was.keys()) if (!files.includes(f)) problems.push(`${f}: listed in the record, no longer in the tree`);
+    recordChecked.set(o.client, { R, problems });
+  }
+  const { R, problems } = recordChecked.get(o.client), entry = R.outputs.find(x => x.path === o.out);
+  if (!entry) throw new Error(`${o.out}: ${o.client} lists no such output`);
+  if (problems.length) throw new Error(`${o.out}: the client's sources are not the recorded build's (${problems.slice(0, 3).join('; ')}${problems.length > 3 ? '; ...' : ''}): rebuild with node dev/tools/build/client.js --packages <folder> --write`);
+  const f = path.join(REPO, o.out); if (!fs.existsSync(f)) throw new Error(`${o.out}: missing (node dev/tools/build/client.js --packages <folder> --write builds it)`);
+  const buf = fs.readFileSync(f); if (sha(buf) !== entry.sha256) throw new Error(`${o.out}: not the file the client build gave (${o.client}): rebuild with node dev/tools/build/client.js --packages <folder> --write`);
+  return { out: o.out, bytes: buf.length, sha256: entry.sha256, client: { record: o.client, recordSha256: sha(rd(o.client)) }, buf };
+}
 /* one output, in memory */
 function assemble(o) {
+  if (o.client) return client(o);
   if (o.replay) return replay(o);
   const parts = o.parts.map(p => {
     const b = rd(p), t = b.toString('latin1'), m = t.match(HEADER);
@@ -101,9 +139,9 @@ function manifest(r, built) {
 }
 function main() {
   const r = load();
-  if (mode === '--list') { for (const o of r.outputs) console.log(o.out + '\n  ' + (o.replay ? `replay of ${o.replay.ledger} (${o.replay.chain})` : o.parts.join('\n  '))); return 0; }
-  if (mode === '--clean') {
-    let n = 0; for (const o of r.outputs.map(x => x.out).concat(MANIFEST)) { const f = path.join(REPO, o); if (fs.existsSync(f)) { fs.unlinkSync(f); n++; } }
+  if (mode === '--list') { for (const o of r.outputs) console.log(o.out + '\n  ' + (o.client ? `the client build (dev/tools/build/client.js), recorded in ${o.client}` : o.replay ? `replay of ${o.replay.ledger} (${o.replay.chain})` : o.parts.join('\n  '))); return 0; }
+  if (mode === '--clean') {                                         // (a client output stays: only client.js, with the packages, makes it)
+    let n = 0; for (const o of r.outputs.filter(x => !x.client).map(x => x.out).concat(MANIFEST)) { const f = path.join(REPO, o); if (fs.existsSync(f)) { fs.unlinkSync(f); n++; } }
     console.log(`removed ${n} built files`); return 0;
   }
   const built = r.outputs.map(assemble), man = manifest(r, built);

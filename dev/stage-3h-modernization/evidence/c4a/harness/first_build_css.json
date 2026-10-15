@@ -1,0 +1,230 @@
+{
+ "tool": "dev/tools/gate/golden/bundle_diff.js",
+ "chromium": "141.0.7390.37",
+ "ref": "/home/claude/backrooms-modern/public",
+ "cand": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4/out_s1/cand_root",
+ "scenes": [
+  {
+   "scene": "menu",
+   "frames": 34,
+   "steps": 4,
+   "checkpoints": [
+    {
+     "name": "menu",
+     "frame": 34,
+     "png": [
+      "ea81224842b02eda9405cb83f67d74120d5515c50412e49d93c4e4f9e1fc4f04",
+      "ea81224842b02eda9405cb83f67d74120d5515c50412e49d93c4e4f9e1fc4f04"
+     ],
+     "css": [
+      "bb701ff8ef254a14",
+      "435d346b9a77224c"
+     ],
+     "same": false
+    }
+   ],
+   "ok": false,
+   "evals": [
+    [
+     "window.__boot && __boot.state()",
+     "menu"
+    ]
+   ],
+   "diff": {
+    "checkpoint": "menu",
+    "png": [
+     "ea81224842b02eda9405cb83f67d74120d5515c50412e49d93c4e4f9e1fc4f04",
+     "ea81224842b02eda9405cb83f67d74120d5515c50412e49d93c4e4f9e1fc4f04"
+    ],
+    "css": [
+     "bb701ff8ef254a14",
+     "435d346b9a77224c"
+    ],
+    "cssDiff": [
+     {
+      "el": "54:BUTTON#sound",
+      "prop": "backdrop-filter",
+      "ref": "blur(6px)",
+      "cand": "none"
+     },
+     {
+      "el": "55:BUTTON#customize",
+      "prop": "backdrop-filter",
+      "ref": "blur(6px)",
+      "cand": "none"
+     },
+     {
+      "el": "56:BUTTON#help",
+      "prop": "backdrop-filter",
+      "ref": "blur(6px)",
+      "cand": "none"
+     },
+     {
+      "el": "57:BUTTON#hudPause",
+      "prop": "backdrop-filter",
+      "ref": "blur(6px)",
+      "cand": "none"
+     },
+     {
+      "el": "60:DIV.location",
+      "prop": "transform-origin",
+      "ref": "100% 0%",
+      "cand": "100% 0px"
+     }
+    ]
+   },
+   "seconds": 17
+  },
+  {
+   "scene": "solo_walk",
+   "frames": 146,
+   "steps": 11,
+   "checkpoints": [
+    {
+     "name": "run",
+     "frame": 146,
+     "png": [
+      "b27da34cff8069e2f2ff8b442758f4aa3120050335d38f459c7b170964d2d5eb",
+      "93df8e6f615c266951f7906c8acd1a42f3c75c4f6aebfc10920e92b8d00d5b97"
+     ],
+     "css": [
+      "d1f976f15d62283a",
+      "c6dfcd1de3602c73"
+     ],
+     "same": false
+    }
+   ],
+   "ok": false,
+   "evals": [
+    [
+     "window.__boot && __boot.state()",
+     "menu"
+    ],
+    [
+     "window.__ui && __ui.go('play'), 'go'",
+     "go"
+    ],
+    [
+     "__api.started() + \" \" + __boot.state() + \" \" + __api.fall()",
+     "true playing -1"
+    ]
+   ],
+   "diff": {
+    "checkpoint": "run",
+    "png": [
+     "b27da34cff8069e2f2ff8b442758f4aa3120050335d38f459c7b170964d2d5eb",
+     "93df8e6f615c266951f7906c8acd1a42f3c75c4f6aebfc10920e92b8d00d5b97"
+    ],
+    "css": [
+     "d1f976f15d62283a",
+     "c6dfcd1de3602c73"
+    ],
+    "cssDiff": [
+     {
+      "el": "54:BUTTON#sound",
+      "prop": "backdrop-filter",
+      "ref": "blur(6px)",
+      "cand": "none"
+     },
+     {
+      "el": "55:BUTTON#customize",
+      "prop": "backdrop-filter",
+      "ref": "blur(6px)",
+      "cand": "none"
+     },
+     {
+      "el": "56:BUTTON#help",
+      "prop": "backdrop-filter",
+      "ref": "blur(6px)",
+      "cand": "none"
+     },
+     {
+      "el": "57:BUTTON#hudPause",
+      "prop": "backdrop-filter",
+      "ref": "blur(6px)",
+      "cand": "none"
+     },
+     {
+      "el": "60:DIV.location",
+      "prop": "transform-origin",
+      "ref": "100% 0%",
+      "cand": "100% 0px"
+     }
+    ]
+   },
+   "seconds": 42
+  },
+  {
+   "scene": "bare_walk",
+   "frames": 152,
+   "steps": 7,
+   "checkpoints": [
+    {
+     "name": "run",
+     "frame": 152,
+     "png": [
+      "bb2cb6a628901a0a547155dec7ae7a4e46946f43d294c077e170bf66ff0e2e53",
+      "bb2cb6a628901a0a547155dec7ae7a4e46946f43d294c077e170bf66ff0e2e53"
+     ],
+     "css": [
+      "01a83cd7fd30585b",
+      "d043629b566552f4"
+     ],
+     "same": false
+    }
+   ],
+   "ok": false,
+   "evals": [
+    [
+     "__api.started() + \" \" + __api.fall()",
+     "true -1"
+    ]
+   ],
+   "diff": {
+    "checkpoint": "run",
+    "png": [
+     "bb2cb6a628901a0a547155dec7ae7a4e46946f43d294c077e170bf66ff0e2e53",
+     "bb2cb6a628901a0a547155dec7ae7a4e46946f43d294c077e170bf66ff0e2e53"
+    ],
+    "css": [
+     "01a83cd7fd30585b",
+     "d043629b566552f4"
+    ],
+    "cssDiff": [
+     {
+      "el": "49:BUTTON#sound",
+      "prop": "backdrop-filter",
+      "ref": "blur(6px)",
+      "cand": "none"
+     },
+     {
+      "el": "50:BUTTON#customize",
+      "prop": "backdrop-filter",
+      "ref": "blur(6px)",
+      "cand": "none"
+     },
+     {
+      "el": "51:BUTTON#help",
+      "prop": "backdrop-filter",
+      "ref": "blur(6px)",
+      "cand": "none"
+     },
+     {
+      "el": "52:BUTTON#hudPause",
+      "prop": "backdrop-filter",
+      "ref": "blur(6px)",
+      "cand": "none"
+     },
+     {
+      "el": "55:DIV.location",
+      "prop": "transform-origin",
+      "ref": "100% 0%",
+      "cand": "100% 0px"
+     }
+    ]
+   },
+   "seconds": 74
+  }
+ ],
+ "ok": false
+}

@@ -13,19 +13,22 @@
  * verify  replays every chain from its base and checks every step's hashes and the end result.  The base is the v11 build output: read
  *         from the repository (src/core/client/bundle/original-v11/dist/...) when it is there, else from --recovery (the extracted
  *         THE_FAR_BACKROOMS_ORIGINAL_SOURCE_RECOVERY/ folder).  It then compares each result with the working tree's file:
- *           - the bundle and the stylesheet must be identical (they are edits of build outputs, and the ledger is their only record);
+ *           - a chain the ledger marks superseded (the bundle and the stylesheet from Stage 3H continuation C4b: they are built from the
+ *             maintained source in src/core/client/game/, generated/CLIENT_BUILD.json) is history: the replay must end at its recorded
+ *             result, and the working tree's file is only reported;
+ *           - a chain still in force must end at the working tree's file, byte for byte;
  *           - index.html is reported (it is the page's hand-edited source; edits after the frozen parent are not ledger steps).
  *         It also checks that blame.json is still what the ledger gives.
- *         Exit 0 only when every chain replays, the bundle and the stylesheet are identical, and blame.json is current.
+ *         Exit 0 only when every chain replays, every chain in force is identical, and blame.json is current.
  * show    prints one step's hunks: where, which original module (for the bundle), what was removed and what was written.
  * blame   prints who wrote the modern bundle's bytes: the v11 build, or which step.
  * tree-id proves that src/core/client/bundle/original-v11/ is the recovered v11 snapshot: the Git tree id of its files, with the one file
  *         left out of this public repository (.openai/hosting.json, the old hosting account's project id; its blob id is recorded in
  *         ORIGINAL_V11_PROVENANCE.json), must be the v11 commit's tree id b80323b0...  Computed here (no Git needed).
  * record  turns a change made to public/assets/index-DKbV5Nv9.js or index-D7hdwmUU.css into the ledger's next step (the smallest token
- *         edit, as lineage_derive.js made the others; needs git for the diff), so the build reproduces it, and rewrites blame.json for the
- *         bundle.  The way to change those files until their concern is ported to TypeScript
- *         (docs/architecture/ADRS/ADR-002-client-bundle-source.md). */
+ *         edit, as lineage_derive.js made the others; needs git for the diff) while the ledger is those files' only record, and rewrites
+ *         blame.json for the bundle.  A chain the ledger marks superseded (from C4b: the files are built from src/core/client/game/, where
+ *         a change is made and dev/tools/build/client.js builds it) is refused (docs/architecture/ADRS/ADR-002-client-bundle-source.md). */
 'use strict';
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const REPO = path.resolve(__dirname, '..', '..', '..');
@@ -113,11 +116,12 @@ if (MODE === 'verify') {
     else {
       const wt = path.join(REPO, F.file), now = fs.existsSync(wt) ? fs.readFileSync(wt) : null;
       rec.resultSha256 = F.result.sha256; rec.workingTree = now ? (now.equals(r.result) ? 'identical' : 'different') : 'missing';
-      rec.enforced = key !== 'html';
+      rec.enforced = key !== 'html' && !F.superseded;
+      if (F.superseded) rec.superseded = F.superseded.by;
       if (rec.enforced && rec.workingTree !== 'identical') R.ok = false;
     }
     R.files[key] = rec;
-    console.log(`${rec.replayed && (!rec.enforced || rec.workingTree === 'identical') ? 'PASS' : 'FAIL'} ${key}: ${rec.steps}/${rec.of} steps replayed from ${rec.base || '(no base)'}${rec.error ? ' - ' + rec.error : ''}${rec.workingTree ? `; working tree ${F.file} ${rec.workingTree}${rec.enforced ? '' : ' (reported, not enforced)'}` : ''}`);
+    console.log(`${rec.replayed && (!rec.enforced || rec.workingTree === 'identical') ? 'PASS' : 'FAIL'} ${key}: ${rec.steps}/${rec.of} steps replayed from ${rec.base || '(no base)'}${rec.error ? ' - ' + rec.error : ''}${rec.workingTree ? `; working tree ${F.file} ${rec.workingTree}${rec.superseded ? ' (the chain is history: the file is built from ' + rec.superseded + ')' : rec.enforced ? '' : ' (reported, not enforced)'}` : ''}`);
   }
   if (R.files.bundle && R.files.bundle.replayed) {               // blame.json is derived from the ledger: it must still be what the ledger gives
     R.blame = fs.readFileSync(path.join(LIN, 'blame.json'), 'utf8') === blameOf() ? 'what the ledger gives' : 'STALE';
@@ -176,6 +180,7 @@ if (MODE === 'verify') {
 } else if (MODE === 'record') {
   const key = ARG._[0], F = ledger.files[key];
   if (!F || key === 'html' || !ARG.label) { console.error('usage: lineage.js record <bundle|css> --label "<what changed and why>" [--owner <framework>]'); process.exit(2); }
+  if (F.superseded) { console.error(`${F.file} is built from ${F.superseded.by} since ${F.superseded.since}: change the source there and rebuild (dev/tools/build/client.js); the ledger is its history up to then`); process.exit(2); }
   const r = replay(key); if (!r.ok) { console.error('the ledger does not replay: ' + r.error); process.exit(1); }
   const now = fs.readFileSync(path.join(REPO, F.file));
   if (now.equals(r.result)) { console.log(`${F.file} is what the ledger builds: nothing to record`); process.exit(0); }

@@ -1,0 +1,84 @@
+Stage 3H continuation C4a (M-001, M-012, M-019, ADR-002): the 40 post-v11 edits in readable source - built, proven, not yet served
+================================================================================================================================
+
+Base: C1 00b0c7f66985870af44ef5779696eff75502b295 (tree 81c2b75ea0c5b2cf52230e81a6723954b548d614), verified on GitHub
+(evidence/remote/verify_c1_00b0c7f.json); the after-commit secret scan of C1 is secret_scan_c1_after_commit.txt here.
+C4 is split: C4a (this checkpoint) puts the port and its proofs in the repository while the page is still served the lineage's
+replay; C4b makes the build what the page is served. The packages (TFB_V11_LINUX_X64_PACKAGES.zip, C1) are not committed.
+
+1. The maintained client tree: src/core/client/game/
+   - The recovered v11 project (src/core/client/bundle/original-v11/), copied: package.json, package-lock.json, tsconfig.json and
+     client/style.css, appearance.ts, loadout.ts, vite-env.d.ts, shared/avatar.ts byte-identical; no dist/, no node_modules/, no
+     textures (the page loads public/assets/carpet.png as before), not v11's README (its text describes v11).
+   - The 40 bundle edits ported into readable TypeScript: 15 of v11's modules changed (shared/world, movement, equipment, entity,
+     navigation, vision, remains, evidence; client/main, render, audio, death, entity-view, corpse-view, player-view) and three new ones:
+     client/arrival.ts (NEW RUN's fall and vanish, B12), client/gear-art.ts (the carried lights, B10-B11), client/contracts.d.ts (the
+     types of what the page's other scripts publish on window). Each change carries a comment naming its lineage step and owner.
+   - The stylesheet's eight steps (C01-C08): client/style-after-v11.css, readable, appended by the build as it is (FINDINGS M-031).
+   - vite.config.ts keeps the shipped names (assets/index-DKbV5Nv9.js, assets/index-D7hdwmUU.css, PixiJS's two chunks that import
+     the entry); index.html is the build's entry only; README.md; PORT_LEDGER.md (generated: for each step, what it did, its owners,
+     the window members it reaches, the earlier steps whose text it changed, and the declarations that hold its bytes now).
+
+2. The build: dev/tools/build/client.js (and packages.js, the verifier C1 proved, as a module)
+   node dev/tools/build/client.js --packages <the 31 tarballs> --stage <scratch> --work <scratch>
+   - the tree's lockfile and dependencies must be v11's (a dependency change is its own approved step); every package checked
+     against the lockfile (31 of 31); the tree copied to the work folder; npm ci --offline --ignore-scripts with a private cache and an
+     empty npmrc; the tree's own npm run build (tsc --noEmit && vite build). TypeScript 7.0.2, Vite 8.3.1, Node v22.22.2.
+   - 13 outputs: the bundle (336,622 bytes; the served one, the lineage's, 340,823), the stylesheet (32,818 bytes; the served
+     27,218: v11's 9,899 bytes identical, then the later rules readable), the 11 PixiJS chunks byte-identical to the served ones.
+     PixiJS's web-worker entry (webworkerAll-ByhiNG9W.js) is built but never shipped, as before (M-014).
+   - --write (C4b) puts them in public/assets/ and writes generated/CLIENT_BUILD.json (every source and output with SHA-256);
+     --record-check checks the record against the tree without packages. Not used at C4a: nothing in public/ changed.
+
+3. The port is the shipped program (gate_fast/: the gate's port step ran these, client_build.*, port_*.*)
+   - tools/c4_alpha_all.mjs (port_alpha.json): the shipped bundle is rebuilt in memory from the lineage (each step checked by its
+     SHA-256); each of the 22 entries of tools/c4_alpha_modules.json compares a ported module with it, statement by statement or
+     declaration by declaration, modulo the names of bindings and a stated normal form (tools/c4_alpha.mjs's header lists every rule).
+     SAME, 22 of 22. Coverage: 195 of the shipped app's 197 top-level statements compared; the other 2 (FL, VN: NEW RUN's fall and
+     vanish state) are client/arrival.ts's object, every read and write of them compared through a declared rewrite.
+   - tools/c4_css_check.mjs (port_css.json): the built stylesheet begins with v11's part byte for byte; the rest, the file
+     client/style-after-v11.css and the shipped later part are the same 177 statements (selectors, declarations, values, order).
+   - tools/c4_port_mutants.mjs (port_mutants.*): the two checks catch each of 23 one-place edits of a copy of the port (16 of code: a
+     number, a comparison, && for ||, two statements swapped, a statement dropped, another variable read, two arguments swapped, a
+     property's name, == for === with a string, in B02 stamina, B07 the capture sound, B10-B11 the lights, B12 the fall, B30 the walls'
+     receivers and the HUD; 7 of the stylesheet), and call each unchanged copy SAME (9 controls).
+
+4. The built client in the real page (harness/, bundle_mutants/)
+   dev/tools/gate/golden/bundle_diff.js with bundle_env.js (a deterministic page: a virtual clock and frames, seeded randomness, I/O
+   at frame boundaries, a fake WebSocket, a recording Web Audio) and bundle_scenes.js; headless Chromium with SwiftShader (no
+   physical GPU). Each side is a web root served by the game's own static handler; both step the same frames with the same input and
+   are compared after every batch: Math.random calls, window.__api's state, the document, every 2D canvas call, every audio call, every
+   call through the shared window objects, the socket, errors, and the WebGL canvas's pixels; at checkpoints a PNG and every element's
+   computed style.
+   - The first build differed: the sound button's backdrop-filter (FINDINGS M-031; harness/first_build_css.*). Fixed in the build.
+   - Nine scenes, the lineage's client against this build (the build's bundle e9a81b057d767774..., stylesheet b5a19c27155c122e...):
+     menu 154 frames, solo_walk 666, bare_walk 502 (harness/scenes_1.*); death_hound 690 (a Hound's capture, the body, RETRY's fall,
+     a second capture ended by the world's reset), death_smiler 573, newrun 468 (the vanish, the run menu, the fall), gear 496 (the map,
+     the four lights, night vision), blackout_win 586, customize 104 (harness/scenes_2.*): SAME, 4,239 frames and 26 captures. Each
+     scene's evals show its events happened (a capture "true Hound", "true Smiler"; the world's end "true 0"; the blackout on, off).
+   - The A/A control (harness/aa_control.*): one build against itself, SAME.
+   - The harness's mutants (bundle_mutants/, dev/tools/gate/golden/bundle_mutants.js), each one edit of a copy of this build, matched
+     by a pattern that fits any build of the code, compared with the lineage's client: the control (the unchanged build; solo_walk and
+     bare_walk, 1,168 frames) SAME; caught, each first in the record it shows in: hook (the camera scale given to the page's scripts
+     x 1.001: frame 3, the shared-object calls), state (a sprint drains 23.5 a second: frame 243, the game state), dom (the pace label,
+     shown by the bundle on its own: frame 248, the document), audio (the breath oscillator at 38 Hz: frame 55, Web Audio), rnd (one
+     more Math.random() per footstep: frame 177, the randomness). 5 of 5.
+   (The scene runs of harness/ were made while the harness was finished; the definitions of menu, solo_walk and bare_walk changed
+   after scenes_1 - the gate's bundle step and the mutants' control ran the committed ones: SAME.)
+
+5. The gate (gate_fast/): node dev/tools/gate/gate.js --tier fast --packages <the 31 tarballs>, on this checkpoint's working tree:
+   PASS, 19 steps: build 39, port 408 (13 outputs, 195 statements, 177 rules, 23 mutants), lineage 83, parts 55, modules 58, docs 23,
+   scope 210, srv_golden 11, bpp_golden 7, session 18, sim 20,065, page 1,255,007, cli_golden 30, protocol 52,740, mutants 18,
+   static 4, raw_live 173, quick_suites 23 (only the known B++ failures fail), bundle 824 (menu and solo_walk: 820 frames, 4 captures).
+   (Two earlier runs on this work passed too, the first before the port step ran the mutants; a third was stopped by hand at its
+   eighth step, to make edits of comments and documentation first. This run is on the committed code: only documentation
+   and evidence were written after it.)
+
+6. Also in this checkpoint
+   - M-030: tools/api_contract.js names a declaration's author by its name's bytes (B39's Xwr had been called v11's newRun);
+     api_contract.json and API_CONTRACT.md regenerated (only that attribution and the recorded v11 offsets of functions changed).
+   - M-029 (a Hound's eye-contact slowdown never applies, as shipped since B++: kept exactly), M-032 (two no-op clauses kept).
+   - build.js reads a client recipe (C4b), lineage.js a superseded chain (C4b), docs.js lists either; none is used yet.
+
+What this does not change: no runtime file, no served file, no built output (the build manifest records build.js's new hash).
+The page is served exactly what C1 served.

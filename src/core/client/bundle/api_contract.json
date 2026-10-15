@@ -250,7 +250,7 @@
     {
      "name": "Bc",
      "writtenBy": "v11",
-     "v11Offset": 253073,
+     "v11Offset": 253082,
      "module": "shared/world.ts",
      "tsUnit": "function nearby",
      "bundleUnit": "function Bc"
@@ -278,7 +278,7 @@
     {
      "name": "Uc",
      "writtenBy": "v11",
-     "v11Offset": 253405,
+     "v11Offset": 253414,
      "module": "shared/world.ts",
      "tsUnit": "function rayDistance",
      "bundleUnit": "function Uc"
@@ -390,7 +390,7 @@
     {
      "name": "fl",
      "writtenBy": "v11",
-     "v11Offset": 262150,
+     "v11Offset": 262159,
      "module": "shared/navigation.ts",
      "tsUnit": "function findPath",
      "bundleUnit": "function fl"
@@ -410,7 +410,7 @@
     {
      "name": "cl",
      "writtenBy": "v11",
-     "v11Offset": 261469,
+     "v11Offset": 261478,
      "module": "shared/navigation.ts",
      "tsUnit": "function clearSegment",
      "bundleUnit": "function cl"
@@ -430,7 +430,7 @@
     {
      "name": "dl",
      "writtenBy": "v11",
-     "v11Offset": 261856,
+     "v11Offset": 261865,
      "module": "shared/navigation.ts",
      "tsUnit": "function nearest",
      "bundleUnit": "function dl"
@@ -461,7 +461,7 @@
     {
      "name": "qc",
      "writtenBy": "v11",
-     "v11Offset": 254690,
+     "v11Offset": 254699,
      "module": "shared/equipment.ts",
      "tsUnit": "function carriedLightAt",
      "bundleUnit": "function qc"
@@ -483,7 +483,7 @@
     {
      "name": "Ul",
      "writtenBy": "v11",
-     "v11Offset": 269713,
+     "v11Offset": 269722,
      "module": "shared/vision.ts",
      "tsUnit": "function exposureAt",
      "bundleUnit": "function Ul"
@@ -551,7 +551,7 @@
     {
      "name": "vu",
      "writtenBy": "v11",
-     "v11Offset": 297136,
+     "v11Offset": 297145,
      "module": "client/main.ts",
      "tsUnit": "function toggleMap",
      "bundleUnit": "function vu"
@@ -603,7 +603,7 @@
     {
      "name": "Qc",
      "writtenBy": "v11",
-     "v11Offset": 256365,
+     "v11Offset": 256374,
      "module": "client/loadout.ts",
      "tsUnit": "function saveEquipment",
      "bundleUnit": "function Qc"
@@ -621,7 +621,7 @@
     {
      "name": "Jc",
      "writtenBy": "v11",
-     "v11Offset": 254988,
+     "v11Offset": 254997,
      "module": "shared/equipment.ts",
      "tsUnit": "function validLight",
      "bundleUnit": "function Jc"
@@ -773,7 +773,7 @@
     {
      "name": "yu",
      "writtenBy": "v11",
-     "v11Offset": 297187,
+     "v11Offset": 297196,
      "module": "client/main.ts",
      "tsUnit": "function updateEvidence",
      "bundleUnit": "function yu"
@@ -841,7 +841,7 @@
     {
      "name": "sl",
      "writtenBy": "v11",
-     "v11Offset": 261335,
+     "v11Offset": 261344,
      "module": "shared/navigation.ts",
      "tsUnit": "function clearPoint",
      "bundleUnit": "function sl"
@@ -1017,7 +1017,7 @@
     {
      "name": "xu",
      "writtenBy": "v11",
-     "v11Offset": 297813,
+     "v11Offset": 297822,
      "module": "client/main.ts",
      "tsUnit": "function respawn",
      "bundleUnit": "function xu"
@@ -1038,11 +1038,8 @@
    "binds": [
     {
      "name": "Xwr",
-     "writtenBy": "v11",
-     "v11Offset": 298039,
-     "module": "client/main.ts",
-     "tsUnit": "function newRun",
-     "bundleUnit": "function Su"
+     "writtenBy": "B39",
+     "source": "99e1593 Stage 3D HQ2-4: the browser predicts the other players; the world epoch (an admin reset ends every old-world death and blast on every screen)"
     }
    ],
    "readBy": {
@@ -1321,7 +1318,7 @@
     {
      "name": "_u",
      "writtenBy": "v11",
-     "v11Offset": 297026,
+     "v11Offset": 297035,
      "module": "client/main.ts",
      "tsUnit": "function pause",
      "bundleUnit": "function _u"

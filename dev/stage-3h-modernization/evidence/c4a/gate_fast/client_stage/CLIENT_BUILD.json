@@ -1,0 +1,202 @@
+{
+ "note": "Written by dev/tools/build/client.js. The compiled client: every file of its source tree and every file the build gives, with SHA-256. Do not edit: build with dev/tools/build/client.js --write.",
+ "tree": "src/core/client/game",
+ "tool": "dev/tools/build/client.js",
+ "sources": [
+  {
+   "path": "src/core/client/game/.gitignore",
+   "sha256": "790e3169bc19b046fe55ba1da6d13b976c28363c8c00462a2195fe5faf260910"
+  },
+  {
+   "path": "src/core/client/game/PORT_LEDGER.md",
+   "sha256": "98afc2fac1c17dab396c607d50f645fd04874072c78849df93ea27821ec7b0b8"
+  },
+  {
+   "path": "src/core/client/game/README.md",
+   "sha256": "6a8eb795d2deed172c400edc70a0509db3359282bba0275172ddab21cfd6496d"
+  },
+  {
+   "path": "src/core/client/game/client/appearance.ts",
+   "sha256": "64f0f42e0551b2bb73dd561eedc78eff62bfcbfb87415b6ffa1c1dcfd00cca4b"
+  },
+  {
+   "path": "src/core/client/game/client/arrival.ts",
+   "sha256": "f72146409574ab07bcf215d73a21afe694fead09bd060ca13358ae1fd5578745"
+  },
+  {
+   "path": "src/core/client/game/client/audio.ts",
+   "sha256": "fd0d86138eaa666aa787514c5f8cd33b2df96c5398b5a062d6adb8d31a76335d"
+  },
+  {
+   "path": "src/core/client/game/client/contracts.d.ts",
+   "sha256": "6d492f1b32853260bd5795826e7387be07d2d7041417a914e4a99a70e60bb3be"
+  },
+  {
+   "path": "src/core/client/game/client/corpse-view.ts",
+   "sha256": "23badb2fe4effa269afd03612feffc228c0e36bc0a531515a6e7c09409b9ca0c"
+  },
+  {
+   "path": "src/core/client/game/client/death.ts",
+   "sha256": "ec1510b4ad714654e76310d9ba229860cd286dd5f15a775931cf699916ea7825"
+  },
+  {
+   "path": "src/core/client/game/client/entity-view.ts",
+   "sha256": "e4420fc802485a6ee9ac158b7fd1573ff5e1426be40817c3dcab7dcbf910f384"
+  },
+  {
+   "path": "src/core/client/game/client/gear-art.ts",
+   "sha256": "b44b4c70cbc8f70c07c9c794644a7f61d9b4eaba50cb02c24438a2d27e92337e"
+  },
+  {
+   "path": "src/core/client/game/client/loadout.ts",
+   "sha256": "53efb0c8126b1ef0cbd6d7c8db74c554c08f7d60c028933e324866a880da2bd8"
+  },
+  {
+   "path": "src/core/client/game/client/main.ts",
+   "sha256": "a0996598998195c072c364c4f1a199c9a50c2dd19795870c285213752eb1ee68"
+  },
+  {
+   "path": "src/core/client/game/client/player-view.ts",
+   "sha256": "a01425979bb97e82dc370f2db85e73d5ff326e1d690a5d4e6ff5eafefab79d98"
+  },
+  {
+   "path": "src/core/client/game/client/render.ts",
+   "sha256": "06691f9c6df77dddda2bee5a2684d7cd9116c2c0cdd98b08d6f19efcce9de956"
+  },
+  {
+   "path": "src/core/client/game/client/style-after-v11.css",
+   "sha256": "15c6fabb88d24af8f724d77677ae480ff533dc38f47fa9557a2575c8d6871dcf"
+  },
+  {
+   "path": "src/core/client/game/client/style.css",
+   "sha256": "b99d689dbccc2b6810e8a59cbd6cc6f66f81c68929fb53c93d5c12073cbfc71f"
+  },
+  {
+   "path": "src/core/client/game/client/vite-env.d.ts",
+   "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+  },
+  {
+   "path": "src/core/client/game/index.html",
+   "sha256": "8d9a97d393d52abaca9f4eb419d1294d54b179e47ff3d88d559a62a9e3a7b313"
+  },
+  {
+   "path": "src/core/client/game/package-lock.json",
+   "sha256": "329ef9ecea4042130a2c0bf0e90ba3afb289b279be7c6a57aaa148be99a07c27"
+  },
+  {
+   "path": "src/core/client/game/package.json",
+   "sha256": "a54679f27bb306acf25170cff2f838798287f25e5a556c3f46252319d0159f1d"
+  },
+  {
+   "path": "src/core/client/game/shared/avatar.ts",
+   "sha256": "26ca166d94ee780bf07c904eb52e2fd39ab7f236e9edfb3c6c836d2a779c6c6c"
+  },
+  {
+   "path": "src/core/client/game/shared/entity.ts",
+   "sha256": "4cc152cfd3c33e865efff09cefb62c903821beb43ee7e68d59020a43e1a84537"
+  },
+  {
+   "path": "src/core/client/game/shared/equipment.ts",
+   "sha256": "7801be345fbadb4e3e26a39154ba66b83bf45114e3f750a005e478803d5b301b"
+  },
+  {
+   "path": "src/core/client/game/shared/evidence.ts",
+   "sha256": "a43efb2aad0feb6ab0af0baa4c1bf4dc18b275aec36384e99a1a8055907bf390"
+  },
+  {
+   "path": "src/core/client/game/shared/movement.ts",
+   "sha256": "4488980b6229ffad68ea026ce549f2d659982c0715776397631e2eb16629ef3f"
+  },
+  {
+   "path": "src/core/client/game/shared/navigation.ts",
+   "sha256": "b28a93d6ade70a0559789962d4ca0bb586e6116d227c00d5207f76964fe18d3f"
+  },
+  {
+   "path": "src/core/client/game/shared/remains.ts",
+   "sha256": "6bb20f04756755f8f7028fd693a1cf33b86fe052f685be81d4c5d768a2ae6cc4"
+  },
+  {
+   "path": "src/core/client/game/shared/vision.ts",
+   "sha256": "ef1dc6dde48288192d30c1186516cdb62becffc03b31579f9503d105574b45f0"
+  },
+  {
+   "path": "src/core/client/game/shared/world.ts",
+   "sha256": "29d19e83d8dfa2e04ff7b1db2547fc496389a728e4aaaae256e07c5f54c6ec3f"
+  },
+  {
+   "path": "src/core/client/game/tsconfig.json",
+   "sha256": "e8653f3b9b093c6ae5e9056199a064858648c7319099d141c2436b69b22f4de1"
+  },
+  {
+   "path": "src/core/client/game/vite.config.ts",
+   "sha256": "1d192cf2ee84f50027567d6cf63c04e418c036c74c6b898b1f4b984a2464002a"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "public/assets/BufferResource-B-thlpip.js",
+   "bytes": 11068,
+   "sha256": "56f34780fd104d1cb11da624c9fab954f9de88802590170e4522281609164990"
+  },
+  {
+   "path": "public/assets/Cache-DDo62lBW.js",
+   "bytes": 1100,
+   "sha256": "94f3d177d09bfecefa8b80e646a55ff894635dd1723d6e7128d802477f3bae3a"
+  },
+  {
+   "path": "public/assets/CanvasPool-DecUtJxW.js",
+   "bytes": 68480,
+   "sha256": "45335d161156296b274b89eb85b9040a0d08b1870125bfcc5e7100bb937589f1"
+  },
+  {
+   "path": "public/assets/Filter-DzecrWg_.js",
+   "bytes": 42012,
+   "sha256": "de855f231760116676843943157cf0b52bf893b5f0781f8d34fc94352e1c3fbd"
+  },
+  {
+   "path": "public/assets/GCManagedHash-Bz2ZMBJN.js",
+   "bytes": 19356,
+   "sha256": "b634a4602cfa70019626a0e83942f76dfbe49feadf28825410f0b96cb1849ef6"
+  },
+  {
+   "path": "public/assets/GraphicsContext-vm7TDg_M.js",
+   "bytes": 61700,
+   "sha256": "681ef439c93da35418927d0ff6ba84e4380b1656701756f973ef3df4bdd5aebc"
+  },
+  {
+   "path": "public/assets/RenderTargetSystem-CgUxHIsn.js",
+   "bytes": 58779,
+   "sha256": "cc26f4d020bdf55a0346f21b417048a129c071b2b4625463bb269eb899443aa2"
+  },
+  {
+   "path": "public/assets/browserAll-B-iwy0YI.js",
+   "bytes": 42676,
+   "sha256": "773a95bdf0c8fe2d6106f8643c7171111a1b22b9220d546dedafba2a213346e6"
+  },
+  {
+   "path": "public/assets/canvasUtils-CxYPZET9.js",
+   "bytes": 6054,
+   "sha256": "1e29f32d043bc9342dabb11cb033adf27013606f32f8d363cf3c2ff34bed5b03"
+  },
+  {
+   "path": "public/assets/getTextureBatchBindGroup-DBCrgHVb.js",
+   "bytes": 344,
+   "sha256": "f97cfacaed002298725cd05c62cb5668989473d0bfe5850c4c36dbd773b59766"
+  },
+  {
+   "path": "public/assets/index-D7hdwmUU.css",
+   "bytes": 32818,
+   "sha256": "b5a19c27155c122e0fc6c6878a987ff3376251a38a8eb523c66d0716098b9284"
+  },
+  {
+   "path": "public/assets/index-DKbV5Nv9.js",
+   "bytes": 336622,
+   "sha256": "e9a81b057d76777471d046d66f13f03156298ad5b28a268276e9ed55bfc99bc5"
+  },
+  {
+   "path": "public/assets/init-Cn1_BCi0.js",
+   "bytes": 15753,
+   "sha256": "c6fb810d1c6d8674992f4e85779800fe63394b29eb0dcea71206fc7495714037"
+  }
+ ]
+}

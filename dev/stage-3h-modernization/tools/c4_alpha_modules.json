@@ -1,0 +1,560 @@
+{
+ "note": "Stage 3H continuation C4: each ported module of src/core/client/game/ against the shipped bundle it was ported from (the lineage's result, public/assets/index-DKbV5Nv9.js at C1), checked by tools/c4_alpha.mjs. seq: the shipped top-level statements from the declaration of `from` to that of `to`, statement by statement; pairs: single declarations. free: the shipped module-level names and the port's names for them. const: the port's constants the v11 minifier wrote as numbers. pure: functions (either side's name) known to have no effect. skipNew / skipOrig: declarations only one side has (the v11 minifier dropped what nothing uses; a declaration the port moved to another module). avatar.ts: the shipped appearance (U) is the v11 minifier's {...defaults} with the literal inlined; its literal is compared with defaults, and appearance.ts's {...defaults} is a copy of it. members / params / callArgs: rewrites (tools/c4_alpha.mjs): FL and VN, module-level variables of the shipped main code, are arrival.ts's arrival.fall and arrival.vanish in the port; the shipped renderer's completeDeath read main's au, the port's is passed it (lightOn), and main's call passes it.",
+ "appStart": "FBW",
+ "reviewed": {
+  "FL": "var FL = null (the shipped main code's fall state): arrival.ts's arrival.fall, null in arrival = {fall: null, vanish: null}; every read and write compared through the members rewrite",
+  "VN": "var VN = null (the vanish state): arrival.ts's arrival.vanish, null; every read and write compared through the members rewrite"
+ },
+ "modules": [
+  {
+   "port": "src/core/client/game/shared/world.ts",
+   "from": "FBW",
+   "to": "Uc",
+   "const": {
+    "TILE": 96
+   },
+   "skipNew": [
+    "TILE",
+    "arrival"
+   ],
+   "free": {
+    "FBW": "COLS",
+    "FBH": "ROWS",
+    "Oc": "rooms",
+    "kc": "cells",
+    "Ac": "carve",
+    "jc": "block",
+    "Mc": "pitCells",
+    "Nc": "solids",
+    "Pc": "crates",
+    "Fc": "lights",
+    "Ic": "spawn",
+    "V": "lighting",
+    "Lc": "resetLighting",
+    "Rc": "stepLighting",
+    "zc": "isFloor",
+    "Bc": "nearby",
+    "Vc": "pits",
+    "Hc": "blocksSight",
+    "Uc": "rayDistance"
+   }
+  },
+  {
+   "port": "src/core/client/game/shared/equipment.ts",
+   "from": "Wc",
+   "to": "Jc",
+   "skipOrig": [
+    "Gd"
+   ],
+   "free": {
+    "Wc": "DEFAULT_LIGHT",
+    "PD": "LIGHT_PARTS",
+    "HX": "HEX",
+    "Km": "migrateKind",
+    "Pg": "partsFor",
+    "Gc": "LIGHT_SPECS",
+    "Kc": "smooth",
+    "qc": "carriedLightAt",
+    "Jc": "validLight"
+   }
+  },
+  {
+   "port": "src/core/client/game/client/gear-art.ts",
+   "pairs": {
+    "Gd": "drawGear"
+   }
+  },
+  {
+   "port": "src/core/client/game/shared/movement.ts",
+   "from": "H",
+   "to": "Yc",
+   "const": {
+    "TILE": 96
+   },
+   "free": {
+    "Ic": "spawn",
+    "Wc": "DEFAULT_LIGHT",
+    "Bc": "nearby",
+    "Oc": "rooms",
+    "H": "player",
+    "Yc": "step"
+   }
+  },
+  {
+   "port": "src/core/client/game/shared/avatar.ts",
+   "pairs": {
+    "U": "defaults"
+   }
+  },
+  {
+   "port": "src/core/client/game/client/appearance.ts",
+   "from": "U",
+   "to": "Xc",
+   "skipOrig": [
+    "U"
+   ],
+   "skipNew": [
+    "appearance"
+   ],
+   "free": {
+    "U": "appearance",
+    "Xc": "saveAppearance"
+   }
+  },
+  {
+   "port": "src/core/client/game/client/loadout.ts",
+   "from": "Zc",
+   "to": "Qc",
+   "free": {
+    "Zc": "equipment",
+    "H": "player",
+    "Jc": "validLight",
+    "Qc": "saveEquipment"
+   }
+  },
+  {
+   "port": "src/core/client/game/client/player-view.ts",
+   "pairs": {
+    "$c": "PlayerView"
+   },
+   "free": {
+    "O": "Container",
+    "I": "Graphics",
+    "U": "appearance",
+    "Zc": "equipment",
+    "H": "player",
+    "Uc": "rayDistance",
+    "Gd": "drawGear",
+    "Pg": "partsFor"
+   }
+  },
+  {
+   "port": "src/core/client/game/shared/entity.ts",
+   "from": "G",
+   "to": "zl",
+   "const": {
+    "TILE": 96
+   },
+   "pure": [
+    "kl",
+    "angleDelta",
+    "Al",
+    "hasLine",
+    "Uc",
+    "rayDistance"
+   ],
+   "free": {
+    "Uc": "rayDistance",
+    "V": "lighting",
+    "sl": "clearPoint",
+    "cl": "clearSegment",
+    "fl": "findPath",
+    "pl": "moveCircle",
+    "qc": "carriedLightAt",
+    "G": "entity",
+    "ml": "patrol",
+    "hl": "patrolIndex",
+    "gl": "goal",
+    "K": "route",
+    "_l": "repath",
+    "vl": "sense",
+    "yl": "clock",
+    "bl": "lost",
+    "xl": "searchTime",
+    "Sl": "heardCooldown",
+    "Cl": "stare",
+    "wl": "stareCooldown",
+    "Tl": "scan",
+    "El": "searchLeg",
+    "Dl": "flankUntil",
+    "Ol": "nextFlank",
+    "kl": "angleDelta",
+    "Al": "hasLine",
+    "jl": "transition",
+    "Ml": "reachableNear",
+    "Nl": "resetEntity",
+    "Pl": "resumeEntities",
+    "Fl": "canSee",
+    "Il": "updateEntity",
+    "Ll": "smilerOrigins",
+    "q": "smilers",
+    "Rl": "resetSmilers",
+    "zl": "updateSmilers"
+   }
+  },
+  {
+   "port": "src/core/client/game/shared/vision.ts",
+   "from": "J",
+   "to": "Ul",
+   "const": {
+    "TILE": 96
+   },
+   "skipNew": [
+    "beamExposure"
+   ],
+   "free": {
+    "J": "smooth",
+    "Bl": "rangeFade",
+    "Vl": "corners",
+    "HlqD": "BAND_DEPTH",
+    "HlqF": "facesBuilt",
+    "HlqC": "lastRays",
+    "HlqK": "exitSide",
+    "HlqFaces": "wallFaces",
+    "HlqQuad": "faceBand",
+    "HlqBuild": "buildBands",
+    "HlqExit": "bandExit",
+    "HlqTo": "seenToEnd",
+    "Hl": "visibilityPolygon",
+    "Ul": "exposureAt",
+    "Hc": "blocksSight",
+    "Uc": "rayDistance",
+    "Pc": "crates",
+    "FBW": "COLS",
+    "FBH": "ROWS",
+    "Fc": "lights",
+    "V": "lighting",
+    "qc": "carriedLightAt"
+   }
+  },
+  {
+   "port": "src/core/client/game/client/entity-view.ts",
+   "from": "Nf",
+   "to": "Kl",
+   "free": {
+    "Nf": "camcorderFx",
+    "Wl": "EntityView",
+    "Gl": "SmilerView",
+    "Kl": "smilerViews",
+    "O": "Container",
+    "I": "Graphics",
+    "G": "entity",
+    "q": "smilers",
+    "H": "player",
+    "Ul": "exposureAt"
+   }
+  },
+  {
+   "port": "src/core/client/game/client/death.ts",
+   "from": "ql",
+   "to": "Jl",
+   "const": {
+    "TILE": 96
+   },
+   "pure": [
+    "J",
+    "smooth"
+   ],
+   "free": {
+    "ql": "captureHits",
+    "Jl": "DeathSequence",
+    "O": "Container",
+    "I": "Graphics",
+    "sl": "clearPoint",
+    "zc": "isFloor",
+    "J": "smooth",
+    "Gd": "drawGear",
+    "Pg": "partsFor"
+   }
+  },
+  {
+   "port": "src/core/client/game/shared/remains.ts",
+   "from": "Yl",
+   "to": "$l",
+   "free": {
+    "Yl": "corpses",
+    "Xl": "run",
+    "Zl": "sequence",
+    "Ql": "addCorpse",
+    "$l": "clearCorpses"
+   }
+  },
+  {
+   "port": "src/core/client/game/client/corpse-view.ts",
+   "from": "eu",
+   "to": "eu",
+   "const": {
+    "TILE": 96
+   },
+   "free": {
+    "eu": "CorpseView",
+    "O": "Container",
+    "I": "Graphics",
+    "$c": "PlayerView",
+    "zc": "isFloor",
+    "Km": "migrateKind",
+    "Pg": "partsFor",
+    "Gd": "drawGear"
+   }
+  },
+  {
+   "port": "src/core/client/game/shared/evidence.ts",
+   "from": "el",
+   "to": "rl",
+   "skipNew": [
+    "entrance"
+   ],
+   "free": {
+    "el": "traces",
+    "tl": "resetTraces",
+    "nl": "collected",
+    "rl": "takeTrace"
+   }
+  },
+  {
+   "port": "src/core/client/game/shared/navigation.ts",
+   "from": "il",
+   "to": "pl",
+   "const": {
+    "TILE": 96
+   },
+   "free": {
+    "il": "CELL",
+    "W": "W",
+    "al": "H",
+    "ol": "RADIUS",
+    "sl": "clearPoint",
+    "cl": "clearSegment",
+    "ll": "passable",
+    "ul": "center",
+    "dl": "nearest",
+    "fl": "findPath",
+    "pl": "moveCircle",
+    "FBW": "COLS",
+    "FBH": "ROWS",
+    "zc": "isFloor",
+    "Bc": "nearby"
+   }
+  },
+  {
+   "port": "src/core/client/game/client/arrival.ts",
+   "pairs": {
+    "Xrs": "safeRespawn",
+    "Fk": "fallShake",
+    "Xfn": "noiseBurst",
+    "Fthud": "landingThud",
+    "Ff": "drawArrival"
+   },
+   "members": {
+    "FL": "arrival.fall",
+    "VN": "arrival.vanish"
+   },
+   "free": {
+    "Z": "ambience",
+    "G": "entity",
+    "q": "smilers",
+    "W": "W",
+    "al": "H",
+    "ll": "passable",
+    "ul": "center",
+    "Ic": "spawn",
+    "J": "smooth",
+    "H": "player"
+   }
+  },
+  {
+   "port": "src/core/client/game/client/render.ts",
+   "from": "tu",
+   "to": "tu",
+   "const": {
+    "TILE": 96
+   },
+   "pure": [
+    "J",
+    "smooth"
+   ],
+   "skipNew": [
+    "drawPeers"
+   ],
+   "params": {
+    "au": "lightOn"
+   },
+   "free": {
+    "tu": "Renderer",
+    "Wl": "EntityView",
+    "I": "Graphics",
+    "O": "Container",
+    "ln": "Application",
+    "$c": "PlayerView",
+    "H": "player",
+    "Jl": "DeathSequence",
+    "Sr": "Assets",
+    "Qr": "TilingSprite",
+    "Fc": "lights",
+    "Uc": "rayDistance",
+    "FBW": "COLS",
+    "FBH": "ROWS",
+    "kc": "cells",
+    "zc": "isFloor",
+    "Mc": "pitCells",
+    "Pc": "crates",
+    "Oc": "rooms",
+    "el": "traces",
+    "Kl": "smilerViews",
+    "G": "entity",
+    "q": "smilers",
+    "Ql": "addCorpse",
+    "U": "appearance",
+    "$l": "clearCorpses",
+    "eu": "CorpseView",
+    "Hl": "visibilityPolygon",
+    "Yl": "corpses",
+    "Ff": "drawArrival",
+    "Fk": "fallShake",
+    "J": "smooth",
+    "V": "lighting",
+    "Gc": "LIGHT_SPECS",
+    "drawPeers": "drawPeers"
+   }
+  },
+  {
+   "port": "src/core/client/game/client/render.ts",
+   "pairs": {
+    "drawPeers": "drawPeers"
+   },
+   "free": {
+    "Gc": "LIGHT_SPECS"
+   }
+  },
+  {
+   "port": "src/core/client/game/client/audio.ts",
+   "from": "nu",
+   "to": "nu",
+   "skipNew": [
+    "ambience"
+   ],
+   "free": {
+    "nu": "Ambience",
+    "ql": "captureHits"
+   }
+  },
+  {
+   "port": "src/core/client/game/client/audio.ts",
+   "pairs": {
+    "Z": "ambience"
+   },
+   "free": {
+    "nu": "Ambience"
+   }
+  },
+  {
+   "port": "src/core/client/game/client/main.ts",
+   "from": "Y",
+   "to": "$end",
+   "const": {
+    "TILE": 96
+   },
+   "skipOrig": [
+    "Z",
+    "FL",
+    "VN",
+    "Xrs",
+    "Fk",
+    "Xfn",
+    "Fthud",
+    "Ff",
+    "drawPeers"
+   ],
+   "members": {
+    "FL": "arrival.fall",
+    "VN": "arrival.vanish"
+   },
+   "callArgs": {
+    "completeDeath": [
+     "au"
+    ]
+   },
+   "free": {
+    "Y": "$",
+    "X": "renderer",
+    "Z": "audio",
+    "Q": "keys",
+    "ru": "death",
+    "$": "started",
+    "iu": "paused",
+    "au": "flash",
+    "ou": "map",
+    "su": "last",
+    "cu": "accumulator",
+    "lu": "uiTime",
+    "uu": "mouseX",
+    "du": "mouseY",
+    "fu": "mouseActive",
+    "pu": "customizing",
+    "mu": "previousPause",
+    "hu": "won",
+    "gu": "deathFinished",
+    "__tm": "timing",
+    "_u": "pause",
+    "vu": "toggleMap",
+    "yu": "updateEvidence",
+    "bu": "drawMap",
+    "xu": "respawn",
+    "Xwr": "worldEnd",
+    "Su": "newRun",
+    "Cu": "previewApp",
+    "wu": "previewPerson",
+    "Tu": "closeAppearance",
+    "Eu": "lightDescriptions",
+    "Du": "updateLightDescription",
+    "Xnr": "newRunPressed",
+    "Xok": "newRunApproved",
+    "Nend": "vanished",
+    "Ou": "frame",
+    "Ou0": "frameBody",
+    "tu": "Renderer",
+    "ln": "Application",
+    "$c": "PlayerView",
+    "Zc": "equipment",
+    "Xc": "saveAppearance",
+    "Qc": "saveEquipment",
+    "U": "appearance",
+    "G": "entity",
+    "q": "smilers",
+    "H": "player",
+    "V": "lighting",
+    "el": "traces",
+    "Pl": "resumeEntities",
+    "Nl": "resetEntity",
+    "Lc": "resetLighting",
+    "tl": "resetTraces",
+    "Xrs": "safeRespawn",
+    "Yl": "corpses",
+    "Ql": "addCorpse",
+    "kc": "cells",
+    "FBW": "COLS",
+    "FBH": "ROWS",
+    "Oc": "rooms",
+    "Gc": "LIGHT_SPECS",
+    "Yc": "step",
+    "Rc": "stepLighting",
+    "rl": "takeTrace",
+    "nl": "collected",
+    "Il": "updateEntity",
+    "zl": "updateSmilers",
+    "Uc": "rayDistance",
+    "Bc": "nearby",
+    "Fc": "lights",
+    "ll": "passable",
+    "ul": "center",
+    "fl": "findPath",
+    "cl": "clearSegment",
+    "dl": "nearest",
+    "qc": "carriedLightAt",
+    "Ul": "exposureAt",
+    "PD": "LIGHT_PARTS",
+    "Pg": "partsFor",
+    "Jc": "validLight",
+    "Gd": "drawGear",
+    "zc": "isFloor",
+    "Hc": "blocksSight",
+    "sl": "clearPoint",
+    "Ic": "spawn",
+    "Jl": "DeathSequence",
+    "Wl": "EntityView",
+    "Gl": "SmilerView",
+    "J": "smooth"
+   }
+  }
+ ]
+}

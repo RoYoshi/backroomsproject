@@ -1,0 +1,1667 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c4_port_ledger.mjs",
+ "bundle": {
+  "file": "public/assets/index-DKbV5Nv9.js",
+  "sha256": "694bca01e75d8e1c70e9ec29ea5382da5bda40d22c6a4f043e6e53b251d7529b"
+ },
+ "steps": [
+  {
+   "id": "B01",
+   "what": "Entity readability pass: Hounds and Smilers turn fully opaque in strong light, darker limb strokes, a faster reveal (the package README's 'Refined entity rendering pass')",
+   "owners": "br-r",
+   "inserted": 168,
+   "deleted": 91,
+   "editsTextOf": [],
+   "textChangedBy": [
+    "B02",
+    "B14",
+    "B19"
+   ],
+   "reaches": [],
+   "units": [
+    {
+     "unit": "client/render.ts: Renderer.drawLight",
+     "bytes": 55
+    },
+    {
+     "unit": "shared/vision.ts: exposureAt",
+     "bytes": 21
+    },
+    {
+     "unit": "client/entity-view.ts: SmilerView.update",
+     "bytes": 3
+    }
+   ]
+  },
+  {
+   "id": "B02",
+   "what": "Level 0 refinement v3: the map grows from 64x46 to 96x72 cells with new areas (blackout zone, red rooms, arch gallery, pillar hall, hole grid, deep carpet, damp rooms); stamina, exhaustion and the deep-carpet penalty; Hound eye contact and Smiler light attraction (client-side AI at the time); footstep cadence; rebuilt Hound and Smiler geometry",
+   "owners": "lost, space, nani, br-r, spacious-audio",
+   "inserted": 6501,
+   "deleted": 2626,
+   "editsTextOf": [
+    "B01"
+   ],
+   "textChangedBy": [
+    "B04",
+    "B09",
+    "B10",
+    "B11",
+    "B14",
+    "B19",
+    "B27"
+   ],
+   "reaches": [],
+   "units": [
+    {
+     "unit": "shared/world.ts: top-level code",
+     "bytes": 1286
+    },
+    {
+     "unit": "client/render.ts: Renderer.build",
+     "bytes": 939
+    },
+    {
+     "unit": "client/entity-view.ts: EntityView.constructor",
+     "bytes": 738
+    },
+    {
+     "unit": "shared/movement.ts: step",
+     "bytes": 454
+    },
+    {
+     "unit": "shared/world.ts: rooms",
+     "bytes": 309
+    },
+    {
+     "unit": "client/audio.ts: Ambience.footstep",
+     "bytes": 305
+    },
+    {
+     "unit": "client/main.ts: frameBody",
+     "bytes": 154
+    },
+    {
+     "unit": "shared/entity.ts: updateEntity",
+     "bytes": 80
+    },
+    {
+     "unit": "client/entity-view.ts: SmilerView.update",
+     "bytes": 78
+    },
+    {
+     "unit": "shared/entity.ts: updateSmilers",
+     "bytes": 74
+    },
+    {
+     "unit": "shared/world.ts: pitCells",
+     "bytes": 71
+    },
+    {
+     "unit": "shared/entity.ts: patrol",
+     "bytes": 44
+    },
+    {
+     "unit": "shared/movement.ts: player",
+     "bytes": 38
+    },
+    {
+     "unit": "client/main.ts: respawn",
+     "bytes": 38
+    },
+    {
+     "unit": "client/main.ts: newRun",
+     "bytes": 38
+    },
+    {
+     "unit": "client/main.ts: drawMap",
+     "bytes": 32
+    },
+    {
+     "unit": "shared/world.ts: carve",
+     "bytes": 31
+    },
+    {
+     "unit": "shared/world.ts: block",
+     "bytes": 31
+    },
+    {
+     "unit": "shared/entity.ts: entity",
+     "bytes": 24
+    },
+    {
+     "unit": "shared/entity.ts: smilerOrigins",
+     "bytes": 22
+    },
+    {
+     "unit": "client/render.ts: Renderer.drawLight",
+     "bytes": 14
+    },
+    {
+     "unit": "shared/entity.ts: resetEntity",
+     "bytes": 13
+    },
+    {
+     "unit": "client/entity-view.ts: SmilerView.body",
+     "bytes": 10
+    },
+    {
+     "unit": "shared/world.ts: isFloor",
+     "bytes": 9
+    },
+    {
+     "unit": "shared/world.ts: blocksSight",
+     "bytes": 9
+    },
+    {
+     "unit": "shared/navigation.ts: H",
+     "bytes": 8
+    },
+    {
+     "unit": "shared/world.ts: cells",
+     "bytes": 7
+    },
+    {
+     "unit": "shared/world.ts: lights",
+     "bytes": 7
+    },
+    {
+     "unit": "shared/world.ts: COLS",
+     "bytes": 6
+    },
+    {
+     "unit": "shared/world.ts: ROWS",
+     "bytes": 6
+    },
+    {
+     "unit": "shared/vision.ts: top-level code",
+     "bytes": 6
+    },
+    {
+     "unit": "client/entity-view.ts: SmilerView.constructor",
+     "bytes": 6
+    },
+    {
+     "unit": "shared/navigation.ts: W",
+     "bytes": 5
+    },
+    {
+     "unit": "client/entity-view.ts: EntityView.update",
+     "bytes": 5
+    },
+    {
+     "unit": "shared/world.ts: spawn",
+     "bytes": 4
+    },
+    {
+     "unit": "shared/world.ts: stepLighting",
+     "bytes": 4
+    },
+    {
+     "unit": "shared/world.ts: pits",
+     "bytes": 3
+    },
+    {
+     "unit": "shared/world.ts: lighting",
+     "bytes": 2
+    },
+    {
+     "unit": "shared/world.ts: resetLighting",
+     "bytes": 2
+    }
+   ]
+  },
+  {
+   "id": "B03",
+   "what": "The multiplayer seam: the frame loop calls window.__mp(...) every frame (mp.js); the carpet texture path becomes relative (./assets/carpet.png)",
+   "owners": "core",
+   "inserted": 97,
+   "deleted": 0,
+   "editsTextOf": [],
+   "textChangedBy": [
+    "B05"
+   ],
+   "reaches": [
+    "__mp"
+   ],
+   "units": [
+    {
+     "unit": "client/main.ts: frameBody",
+     "bytes": 96
+    },
+    {
+     "unit": "client/render.ts: Renderer.init",
+     "bytes": 1
+    }
+   ]
+  },
+  {
+   "id": "B04",
+   "what": "The frame loop survives an exception (try/catch around one frame, requestAnimationFrame moved out); one name in the footstep noise",
+   "owners": "core",
+   "inserted": 87,
+   "deleted": 27,
+   "editsTextOf": [
+    "B02"
+   ],
+   "textChangedBy": [],
+   "reaches": [],
+   "units": [
+    {
+     "unit": "client/main.ts: frame",
+     "bytes": 67
+    },
+    {
+     "unit": "client/main.ts: frameBody",
+     "bytes": 15
+    },
+    {
+     "unit": "client/audio.ts: Ambience.footstep",
+     "bytes": 4
+    }
+   ]
+  },
+  {
+   "id": "B05",
+   "what": "Network hooks window.__net (respawn, join, tick, collected); window.__api is published for the first time (G, q, V, el, H, yu, started, paused, win)",
+   "owners": "bpp",
+   "inserted": 366,
+   "deleted": 4,
+   "editsTextOf": [
+    "B03"
+   ],
+   "textChangedBy": [
+    "B06",
+    "B09",
+    "B10",
+    "B12",
+    "B13",
+    "B16",
+    "B18",
+    "B19"
+   ],
+   "reaches": [
+    "__api",
+    "__c",
+    "__net"
+   ],
+   "units": [
+    {
+     "unit": "client/main.ts: frameBody",
+     "bytes": 182
+    },
+    {
+     "unit": "client/main.ts: top-level code",
+     "bytes": 113
+    },
+    {
+     "unit": "client/main.ts: respawn",
+     "bytes": 37
+    },
+    {
+     "unit": "client/main.ts: newRun",
+     "bytes": 34
+    }
+   ]
+  },
+  {
+   "id": "B06",
+   "what": "The bundle draws the other players (drawPeers from window.__peerLights); __api gains look, lamps, audio, revive, tp, mkAvatar, layer, unwin",
+   "owners": "bpp, br-r",
+   "inserted": 840,
+   "deleted": 182,
+   "editsTextOf": [
+    "B05"
+   ],
+   "textChangedBy": [
+    "B10",
+    "B11",
+    "B12",
+    "B20",
+    "B21",
+    "B23",
+    "B35",
+    "B39"
+   ],
+   "reaches": [
+    "__peerLights"
+   ],
+   "units": [
+    {
+     "unit": "client/render.ts: drawPeers",
+     "bytes": 516
+    },
+    {
+     "unit": "client/main.ts: top-level code",
+     "bytes": 197
+    },
+    {
+     "unit": "client/render.ts: Renderer.drawLight",
+     "bytes": 93
+    },
+    {
+     "unit": "client/player-view.ts: PlayerView.update",
+     "bytes": 11
+    }
+   ]
+  },
+  {
+   "id": "B07",
+   "what": "Synthesised capture sounds per entity (air swipe, claw rakes, wet impacts) through a compressor bus",
+   "owners": "spacious-audio, gib",
+   "inserted": 3992,
+   "deleted": 750,
+   "editsTextOf": [],
+   "textChangedBy": [
+    "B34"
+   ],
+   "reaches": [
+    "__vol"
+   ],
+   "units": [
+    {
+     "unit": "client/audio.ts: Ambience.death",
+     "bytes": 3837
+    },
+    {
+     "unit": "client/audio.ts: Ambience.start",
+     "bytes": 18
+    },
+    {
+     "unit": "client/audio.ts: Ambience.toggle",
+     "bytes": 18
+    }
+   ]
+  },
+  {
+   "id": "B08",
+   "what": "Hooks to gore.js (__gore.wounds, fx, corpse) and sfx.js (__sfx.play for footsteps)",
+   "owners": "gib, spacious-audio",
+   "inserted": 640,
+   "deleted": 0,
+   "editsTextOf": [],
+   "textChangedBy": [
+    "B12",
+    "B14",
+    "B15",
+    "B17",
+    "B34"
+   ],
+   "reaches": [
+    "__gore",
+    "__lastCause",
+    "__sfx"
+   ],
+   "units": [
+    {
+     "unit": "client/player-view.ts: PlayerView.deathPose",
+     "bytes": 129
+    },
+    {
+     "unit": "client/audio.ts: Ambience.footstep",
+     "bytes": 123
+    },
+    {
+     "unit": "client/corpse-view.ts: CorpseView.constructor",
+     "bytes": 122
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.drawBlood",
+     "bytes": 104
+    },
+    {
+     "unit": "client/audio.ts: Ambience.collect",
+     "bytes": 53
+    },
+    {
+     "unit": "client/audio.ts: Ambience.death",
+     "bytes": 46
+    },
+    {
+     "unit": "client/render.ts: Renderer.beginDeath",
+     "bytes": 39
+    }
+   ]
+  },
+  {
+   "id": "B09",
+   "what": "Server Hounds (__hounds) drive the Hound views; corpse views follow the shared list; __api gains zc, Hc, sl, Ic, bodyCount, bodies; nameplate panels",
+   "owners": "bpp, gib, br-r",
+   "inserted": 1254,
+   "deleted": 341,
+   "editsTextOf": [
+    "B02",
+    "B05"
+   ],
+   "textChangedBy": [
+    "B12",
+    "B14",
+    "B19",
+    "B21",
+    "B24"
+   ],
+   "reaches": [
+    "__hounds",
+    "__killer",
+    "__net"
+   ],
+   "units": [
+    {
+     "unit": "client/render.ts: Renderer.frame",
+     "bytes": 515
+    },
+    {
+     "unit": "client/render.ts: Renderer.build",
+     "bytes": 219
+    },
+    {
+     "unit": "client/main.ts: top-level code",
+     "bytes": 174
+    },
+    {
+     "unit": "shared/remains.ts: addCorpse",
+     "bytes": 172
+    },
+    {
+     "unit": "shared/entity.ts: smilerOrigins",
+     "bytes": 48
+    },
+    {
+     "unit": "client/entity-view.ts: SmilerView.update",
+     "bytes": 22
+    },
+    {
+     "unit": "client/entity-view.ts: EntityView.update",
+     "bytes": 21
+    },
+    {
+     "unit": "shared/entity.ts: updateSmilers",
+     "bytes": 18
+    },
+    {
+     "unit": "client/render.ts: Renderer.lampTop",
+     "bytes": 13
+    },
+    {
+     "unit": "shared/entity.ts: smilers",
+     "bytes": 8
+    },
+    {
+     "unit": "client/render.ts: Renderer.hv",
+     "bytes": 4
+    },
+    {
+     "unit": "shared/evidence.ts: traces",
+     "bytes": 1
+    }
+   ]
+  },
+  {
+   "id": "B10",
+   "what": "Light equipment parts and colours (PD, Pg, Gd), the camcorder's night-vision overlay, beam aim easing, the map panel; __api gains beam, map, mapOpen, gear",
+   "owners": "pocket, br-r",
+   "inserted": 7844,
+   "deleted": 1107,
+   "editsTextOf": [
+    "B02",
+    "B05",
+    "B06"
+   ],
+   "textChangedBy": [
+    "B11"
+   ],
+   "reaches": [
+    "__inv"
+   ],
+   "units": [
+    {
+     "unit": "client/main.ts: drawMap",
+     "bytes": 2605
+    },
+    {
+     "unit": "client/gear-art.ts: drawGear",
+     "bytes": 2011
+    },
+    {
+     "unit": "client/player-view.ts: PlayerView.update",
+     "bytes": 1060
+    },
+    {
+     "unit": "shared/equipment.ts: LIGHT_PARTS",
+     "bytes": 185
+    },
+    {
+     "unit": "client/main.ts: top-level code",
+     "bytes": 150
+    },
+    {
+     "unit": "shared/equipment.ts: partsFor",
+     "bytes": 136
+    },
+    {
+     "unit": "client/corpse-view.ts: CorpseView.constructor",
+     "bytes": 86
+    },
+    {
+     "unit": "shared/equipment.ts: validLight",
+     "bytes": 67
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.createDebris",
+     "bytes": 47
+    },
+    {
+     "unit": "client/main.ts: newRun",
+     "bytes": 35
+    },
+    {
+     "unit": "shared/equipment.ts: HEX",
+     "bytes": 20
+    },
+    {
+     "unit": "client/render.ts: Renderer.drawLight",
+     "bytes": 18
+    }
+   ]
+  },
+  {
+   "id": "B11",
+   "what": "Carried-light animation (lantern sway, headlamp, camcorder), the equipment descriptions, the camcorder effect hook (__cam.fx)",
+   "owners": "pocket, br-r",
+   "inserted": 5542,
+   "deleted": 1823,
+   "editsTextOf": [
+    "B02",
+    "B06",
+    "B10"
+   ],
+   "textChangedBy": [
+    "B12",
+    "B19",
+    "B20",
+    "B21"
+   ],
+   "reaches": [
+    "__cam",
+    "__loadout"
+   ],
+   "units": [
+    {
+     "unit": "client/gear-art.ts: drawGear",
+     "bytes": 2080
+    },
+    {
+     "unit": "client/player-view.ts: PlayerView.update",
+     "bytes": 1123
+    },
+    {
+     "unit": "client/entity-view.ts: camcorderFx",
+     "bytes": 301
+    },
+    {
+     "unit": "client/main.ts: lightDescriptions",
+     "bytes": 287
+    },
+    {
+     "unit": "shared/equipment.ts: LIGHT_PARTS",
+     "bytes": 255
+    },
+    {
+     "unit": "client/main.ts: top-level code",
+     "bytes": 185
+    },
+    {
+     "unit": "client/main.ts: frameBody",
+     "bytes": 160
+    },
+    {
+     "unit": "shared/equipment.ts: LIGHT_SPECS",
+     "bytes": 156
+    },
+    {
+     "unit": "shared/equipment.ts: validLight",
+     "bytes": 154
+    },
+    {
+     "unit": "client/render.ts: Renderer.frame",
+     "bytes": 136
+    },
+    {
+     "unit": "shared/vision.ts: exposureAt",
+     "bytes": 74
+    },
+    {
+     "unit": "shared/equipment.ts: migrateKind",
+     "bytes": 52
+    },
+    {
+     "unit": "client/render.ts: drawPeers",
+     "bytes": 24
+    },
+    {
+     "unit": "client/main.ts: flash",
+     "bytes": 21
+    },
+    {
+     "unit": "client/main.ts: respawn",
+     "bytes": 21
+    },
+    {
+     "unit": "client/main.ts: newRun",
+     "bytes": 21
+    },
+    {
+     "unit": "client/entity-view.ts: SmilerView.update",
+     "bytes": 20
+    },
+    {
+     "unit": "client/entity-view.ts: EntityView.update",
+     "bytes": 19
+    },
+    {
+     "unit": "client/corpse-view.ts: CorpseView.constructor",
+     "bytes": 16
+    },
+    {
+     "unit": "client/player-view.ts: PlayerView.deathPose",
+     "bytes": 8
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.createDebris",
+     "bytes": 8
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.frame",
+     "bytes": 8
+    }
+   ]
+  },
+  {
+   "id": "B12",
+   "what": "NEW RUN: the fall and vanish sequence (FL, a safe respawn point Xrs), the run menu's buttons, the vanished player's dropped light; __api gains floor, Jl, Wl, Gl, J, fall",
+   "owners": "gib, front",
+   "inserted": 4467,
+   "deleted": 21,
+   "editsTextOf": [
+    "B05",
+    "B06",
+    "B08",
+    "B09",
+    "B11"
+   ],
+   "textChangedBy": [
+    "B14",
+    "B15",
+    "B17",
+    "B32",
+    "B33",
+    "B37"
+   ],
+   "reaches": [
+    "__api",
+    "__fxKill",
+    "__fxKillS",
+    "__hideBodies",
+    "__hideSelf",
+    "__hounds",
+    "__inv",
+    "__net"
+   ],
+   "units": [
+    {
+     "unit": "client/arrival.ts: drawArrival",
+     "bytes": 1042
+    },
+    {
+     "unit": "client/main.ts: newRunPressed",
+     "bytes": 519
+    },
+    {
+     "unit": "client/arrival.ts: noiseBurst",
+     "bytes": 513
+    },
+    {
+     "unit": "client/arrival.ts: landingThud",
+     "bytes": 438
+    },
+    {
+     "unit": "client/arrival.ts: safeRespawn",
+     "bytes": 384
+    },
+    {
+     "unit": "client/corpse-view.ts: CorpseView.constructor",
+     "bytes": 313
+    },
+    {
+     "unit": "client/main.ts: vanished",
+     "bytes": 281
+    },
+    {
+     "unit": "client/main.ts: top-level code",
+     "bytes": 251
+    },
+    {
+     "unit": "client/render.ts: Renderer.frame",
+     "bytes": 184
+    },
+    {
+     "unit": "client/arrival.ts: fallShake",
+     "bytes": 89
+    },
+    {
+     "unit": "client/main.ts: frameBody",
+     "bytes": 88
+    },
+    {
+     "unit": "client/render.ts: Renderer.beginDeath",
+     "bytes": 75
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.createDebris",
+     "bytes": 72
+    },
+    {
+     "unit": "client/main.ts: newRun",
+     "bytes": 68
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.start",
+     "bytes": 41
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.frame",
+     "bytes": 24
+    },
+    {
+     "unit": "client/main.ts: respawn",
+     "bytes": 16
+    },
+    {
+     "unit": "client/main.ts: newRunApproved",
+     "bytes": 8
+    },
+    {
+     "unit": "client/arrival.ts: arrival (FL)",
+     "bytes": 7
+    },
+    {
+     "unit": "client/arrival.ts: arrival (VN)",
+     "bytes": 7
+    }
+   ]
+  },
+  {
+   "id": "B13",
+   "what": "__api.input (clear, release) added; B14 removes it again",
+   "owners": "front",
+   "inserted": 80,
+   "deleted": 0,
+   "editsTextOf": [
+    "B05"
+   ],
+   "textChangedBy": [
+    "B14"
+   ],
+   "reaches": [],
+   "units": [
+    {
+     "unit": "client/main.ts: top-level code",
+     "bytes": 6
+    }
+   ]
+  },
+  {
+   "id": "B14",
+   "what": "Death plans from ents.js (__ents.deathPlan, localKill), the black death fade, the Smiler glow by __ents.smilerGlow; the bundle's own Hound and Smiler drawing is replaced by calls to ents.js; __api reorganised (bodyList, death, keys and the world and navigation bindings Bc ... Gc)",
+   "owners": "br-r, gib, nani",
+   "inserted": 2014,
+   "deleted": 3298,
+   "editsTextOf": [
+    "B01",
+    "B02",
+    "B08",
+    "B09",
+    "B12",
+    "B13"
+   ],
+   "textChangedBy": [
+    "B15",
+    "B16",
+    "B17",
+    "B20"
+   ],
+   "reaches": [
+    "WORLD",
+    "__ents",
+    "__kill",
+    "__lastCause",
+    "__mv",
+    "__pose"
+   ],
+   "units": [
+    {
+     "unit": "client/death.ts: DeathSequence.start",
+     "bytes": 304
+    },
+    {
+     "unit": "client/render.ts: Renderer.beginDeath",
+     "bytes": 301
+    },
+    {
+     "unit": "client/render.ts: Renderer.drawLight",
+     "bytes": 277
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.frame",
+     "bytes": 128
+    },
+    {
+     "unit": "client/entity-view.ts: SmilerView.update",
+     "bytes": 110
+    },
+    {
+     "unit": "client/main.ts: frameBody",
+     "bytes": 91
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.drawBlood",
+     "bytes": 87
+    },
+    {
+     "unit": "client/main.ts: top-level code",
+     "bytes": 79
+    },
+    {
+     "unit": "shared/vision.ts: exposureAt",
+     "bytes": 68
+    },
+    {
+     "unit": "client/entity-view.ts: EntityView.update",
+     "bytes": 68
+    },
+    {
+     "unit": "client/render.ts: Renderer.frame",
+     "bytes": 68
+    },
+    {
+     "unit": "client/entity-view.ts: EntityView.attackPose",
+     "bytes": 57
+    },
+    {
+     "unit": "shared/movement.ts: step",
+     "bytes": 47
+    },
+    {
+     "unit": "client/player-view.ts: PlayerView.update",
+     "bytes": 47
+    },
+    {
+     "unit": "client/entity-view.ts: SmilerView.constructor",
+     "bytes": 46
+    },
+    {
+     "unit": "client/entity-view.ts: EntityView.constructor",
+     "bytes": 45
+    },
+    {
+     "unit": "client/main.ts: respawn",
+     "bytes": 33
+    },
+    {
+     "unit": "client/main.ts: newRun",
+     "bytes": 33
+    },
+    {
+     "unit": "client/render.ts: Renderer.completeDeath",
+     "bytes": 28
+    },
+    {
+     "unit": "shared/world.ts: top-level code",
+     "bytes": 27
+    },
+    {
+     "unit": "shared/world.ts: nearby",
+     "bytes": 27
+    },
+    {
+     "unit": "client/render.ts: Renderer.build",
+     "bytes": 26
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.reset",
+     "bytes": 13
+    },
+    {
+     "unit": "client/entity-view.ts: EntityView",
+     "bytes": 1
+    }
+   ]
+  },
+  {
+   "id": "B15",
+   "what": "Death motion hooks (__deathMotion.applyAvatar, frame, begin); the hat's pose on a corpse",
+   "owners": "gib",
+   "inserted": 711,
+   "deleted": 0,
+   "editsTextOf": [
+    "B08",
+    "B12",
+    "B14"
+   ],
+   "textChangedBy": [
+    "B16",
+    "B17"
+   ],
+   "reaches": [
+    "__deathMotion",
+    "__gore",
+    "__lastCause"
+   ],
+   "units": [
+    {
+     "unit": "client/death.ts: DeathSequence.start",
+     "bytes": 13
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.reset",
+     "bytes": 5
+    },
+    {
+     "unit": "client/corpse-view.ts: CorpseView.constructor",
+     "bytes": 4
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.frame",
+     "bytes": 3
+    },
+    {
+     "unit": "client/render.ts: Renderer.frame",
+     "bytes": 2
+    },
+    {
+     "unit": "client/player-view.ts: PlayerView.deathPose",
+     "bytes": 1
+    }
+   ]
+  },
+  {
+   "id": "B16",
+   "what": "Death physics hooks (__dphys): hands, held light, hat; the victim's own look in the death sequence",
+   "owners": "gib",
+   "inserted": 1198,
+   "deleted": 715,
+   "editsTextOf": [
+    "B05",
+    "B14",
+    "B15"
+   ],
+   "textChangedBy": [
+    "B17"
+   ],
+   "reaches": [
+    "__api",
+    "__dlab",
+    "__dphys"
+   ],
+   "units": [
+    {
+     "unit": "client/render.ts: Renderer.frame",
+     "bytes": 10
+    },
+    {
+     "unit": "client/entity-view.ts: EntityView.attackPose",
+     "bytes": 2
+    },
+    {
+     "unit": "client/corpse-view.ts: CorpseView.constructor",
+     "bytes": 2
+    }
+   ]
+  },
+  {
+   "id": "B17",
+   "what": "An experiment (__api.avatar, scene, corpseViews, replaceEntity; version-2 physical poses), reverted byte for byte by B18",
+   "owners": "gib",
+   "inserted": 1583,
+   "deleted": 1207,
+   "editsTextOf": [
+    "B08",
+    "B12",
+    "B14",
+    "B15",
+    "B16"
+   ],
+   "textChangedBy": [
+    "B18"
+   ],
+   "reaches": [
+    "__deathMotion",
+    "__gore",
+    "__lastCause"
+   ],
+   "units": []
+  },
+  {
+   "id": "B18",
+   "what": "Reverts B17: the result is B16's bytes again",
+   "owners": "-",
+   "inserted": 1207,
+   "deleted": 1583,
+   "editsTextOf": [
+    "B05",
+    "B17"
+   ],
+   "textChangedBy": [
+    "B34"
+   ],
+   "reaches": [
+    "__api",
+    "__dlab",
+    "__dphys"
+   ],
+   "units": [
+    {
+     "unit": "client/death.ts: DeathSequence.start",
+     "bytes": 330
+    },
+    {
+     "unit": "client/player-view.ts: PlayerView.deathPose",
+     "bytes": 322
+    },
+    {
+     "unit": "client/corpse-view.ts: CorpseView.constructor",
+     "bytes": 115
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.reset",
+     "bytes": 96
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.frame",
+     "bytes": 96
+    },
+    {
+     "unit": "client/death.ts: DeathSequence.createDebris",
+     "bytes": 73
+    },
+    {
+     "unit": "client/render.ts: Renderer.frame",
+     "bytes": 53
+    },
+    {
+     "unit": "client/render.ts: Renderer.completeDeath",
+     "bytes": 52
+    },
+    {
+     "unit": "client/entity-view.ts: EntityView.attackPose",
+     "bytes": 40
+    },
+    {
+     "unit": "client/main.ts: top-level code",
+     "bytes": 25
+    }
+   ]
+  },
+  {
+   "id": "B19",
+   "what": "Light-driven entity shading (L.sample, L.shade), __ents.smilerPresence and __light.readability; __api.lightOn",
+   "owners": "br-role, br-r",
+   "inserted": 407,
+   "deleted": 54,
+   "editsTextOf": [
+    "B01",
+    "B02",
+    "B05",
+    "B09",
+    "B11"
+   ],
+   "textChangedBy": [],
+   "reaches": [
+    "__ents",
+    "__hideSelf",
+    "__light"
+   ],
+   "units": [
+    {
+     "unit": "client/entity-view.ts: EntityView.update",
+     "bytes": 215
+    },
+    {
+     "unit": "client/entity-view.ts: SmilerView.update",
+     "bytes": 153
+    },
+    {
+     "unit": "client/main.ts: top-level code",
+     "bytes": 37
+    }
+   ]
+  },
+  {
+   "id": "B20",
+   "what": "Camcorder infrared drawing hooks (__cam.irDraw, peerIR, lampGain)",
+   "owners": "br-r",
+   "inserted": 224,
+   "deleted": 311,
+   "editsTextOf": [
+    "B06",
+    "B11",
+    "B14"
+   ],
+   "textChangedBy": [
+    "B23"
+   ],
+   "reaches": [
+    "__cam"
+   ],
+   "units": [
+    {
+     "unit": "client/render.ts: Renderer.drawLight",
+     "bytes": 149
+    },
+    {
+     "unit": "client/render.ts: drawPeers",
+     "bytes": 50
+    },
+    {
+     "unit": "shared/vision.ts: exposureAt",
+     "bytes": 25
+    }
+   ]
+  },
+  {
+   "id": "B21",
+   "what": "64 Smiler slots (the Smiler list padded to 64, 64 views)",
+   "owners": "nani, br-r",
+   "inserted": 118,
+   "deleted": 63,
+   "editsTextOf": [
+    "B06",
+    "B09",
+    "B11"
+   ],
+   "textChangedBy": [
+    "B35",
+    "B36"
+   ],
+   "reaches": [],
+   "units": [
+    {
+     "unit": "shared/entity.ts: top-level code",
+     "bytes": 50
+    },
+    {
+     "unit": "client/render.ts: Renderer.hv",
+     "bytes": 33
+    },
+    {
+     "unit": "client/render.ts: drawPeers",
+     "bytes": 13
+    },
+    {
+     "unit": "client/render.ts: Renderer.drawLight",
+     "bytes": 7
+    }
+   ]
+  },
+  {
+   "id": "B22",
+   "what": "Fixed-step timing from window.TFB_TIMING (FIXED_DT, MAX_CATCHUP_STEPS, frameDelta) and the camera policy's base scale (window.__cameraPolicy)",
+   "owners": "space, br-r",
+   "inserted": 303,
+   "deleted": 56,
+   "editsTextOf": [],
+   "textChangedBy": [],
+   "reaches": [
+    "TFB_TIMING",
+    "__cameraPolicy"
+   ],
+   "units": [
+    {
+     "unit": "client/main.ts: timing",
+     "bytes": 114
+    },
+    {
+     "unit": "client/main.ts: frameBody",
+     "bytes": 109
+    },
+    {
+     "unit": "client/render.ts: Renderer.resize",
+     "bytes": 78
+    }
+   ]
+  },
+  {
+   "id": "B23",
+   "what": "BR-RoLE BR1: the per-light compositor hook (__brRole.draw) replaces the bundle's own light drawing when it is on",
+   "owners": "br-role",
+   "inserted": 234,
+   "deleted": 4,
+   "editsTextOf": [
+    "B06",
+    "B20"
+   ],
+   "textChangedBy": [
+    "B35",
+    "B36"
+   ],
+   "reaches": [
+    "__brRole"
+   ],
+   "units": [
+    {
+     "unit": "client/render.ts: Renderer.drawLight",
+     "bytes": 213
+    },
+    {
+     "unit": "client/render.ts: drawPeers",
+     "bytes": 16
+    }
+   ]
+  },
+  {
+   "id": "B24",
+   "what": "Level 0 remaster hooks (__l0v.built, __l0v.lamp)",
+   "owners": "br-r, lost",
+   "inserted": 95,
+   "deleted": 0,
+   "editsTextOf": [
+    "B09"
+   ],
+   "textChangedBy": [
+    "B25"
+   ],
+   "reaches": [
+    "__l0v"
+   ],
+   "units": [
+    {
+     "unit": "client/render.ts: Renderer.build",
+     "bytes": 95
+    }
+   ]
+  },
+  {
+   "id": "B25",
+   "what": "The remaster hook is given the Pixi application (presentation cost)",
+   "owners": "br-r",
+   "inserted": 9,
+   "deleted": 0,
+   "editsTextOf": [
+    "B24"
+   ],
+   "textChangedBy": [],
+   "reaches": [],
+   "units": [
+    {
+     "unit": "client/render.ts: Renderer.build",
+     "bytes": 9
+    }
+   ]
+  },
+  {
+   "id": "B26",
+   "what": "Camera scale locked at 1.25 (two literals)",
+   "owners": "br-r",
+   "inserted": 4,
+   "deleted": 4,
+   "editsTextOf": [],
+   "textChangedBy": [],
+   "reaches": [],
+   "units": [
+    {
+     "unit": "client/render.ts: Renderer.baseScale",
+     "bytes": 2
+    },
+    {
+     "unit": "client/render.ts: Renderer.resize",
+     "bytes": 2
+    }
+   ]
+  },
+  {
+   "id": "B27",
+   "what": "Lamps from the shared WORLD.lamps truth instead of the bundle's own list",
+   "owners": "br-role, lost",
+   "inserted": 68,
+   "deleted": 134,
+   "editsTextOf": [
+    "B02"
+   ],
+   "textChangedBy": [],
+   "reaches": [
+    "WORLD"
+   ],
+   "units": [
+    {
+     "unit": "shared/world.ts: lights",
+     "bytes": 68
+    }
+   ]
+  },
+  {
+   "id": "B28",
+   "what": "Wall-corner receivers in the bundle's sight rays: faces, bands and mitres (the Hlq* geometry, 8 KB)",
+   "owners": "br-role",
+   "inserted": 8019,
+   "deleted": 98,
+   "editsTextOf": [],
+   "textChangedBy": [
+    "B29",
+    "B30"
+   ],
+   "reaches": [],
+   "units": [
+    {
+     "unit": "shared/vision.ts: visibilityPolygon",
+     "bytes": 4158
+    },
+    {
+     "unit": "shared/vision.ts: wallFaces",
+     "bytes": 948
+    },
+    {
+     "unit": "shared/vision.ts: faceBand",
+     "bytes": 636
+    },
+    {
+     "unit": "shared/vision.ts: buildBands",
+     "bytes": 547
+    },
+    {
+     "unit": "shared/vision.ts: bandExit",
+     "bytes": 402
+    },
+    {
+     "unit": "shared/vision.ts: BAND_DEPTH",
+     "bytes": 50
+    },
+    {
+     "unit": "shared/vision.ts: facesBuilt",
+     "bytes": 9
+    },
+    {
+     "unit": "shared/vision.ts: lastRays",
+     "bytes": 9
+    },
+    {
+     "unit": "shared/vision.ts: exitSide",
+     "bytes": 7
+    }
+   ]
+  },
+  {
+   "id": "B29",
+   "what": "Inner-corner clip meets on the block's diagonal",
+   "owners": "br-role",
+   "inserted": 170,
+   "deleted": 35,
+   "editsTextOf": [
+    "B28"
+   ],
+   "textChangedBy": [],
+   "reaches": [],
+   "units": [
+    {
+     "unit": "shared/vision.ts: wallFaces",
+     "bytes": 44
+    }
+   ]
+  },
+  {
+   "id": "B30",
+   "what": "A convex corner seen with both faces is one L (1.6 KB)",
+   "owners": "br-role",
+   "inserted": 1603,
+   "deleted": 14,
+   "editsTextOf": [
+    "B28"
+   ],
+   "textChangedBy": [],
+   "reaches": [],
+   "units": [
+    {
+     "unit": "shared/vision.ts: visibilityPolygon",
+     "bytes": 528
+    },
+    {
+     "unit": "shared/vision.ts: wallFaces",
+     "bytes": 422
+    },
+    {
+     "unit": "shared/vision.ts: buildBands",
+     "bytes": 186
+    },
+    {
+     "unit": "shared/vision.ts: seenToEnd",
+     "bytes": 80
+    }
+   ]
+  },
+  {
+   "id": "B31",
+   "what": "window.__avatarApp for the customize preview",
+   "owners": "front",
+   "inserted": 22,
+   "deleted": 0,
+   "editsTextOf": [],
+   "textChangedBy": [],
+   "reaches": [
+    "__avatarApp"
+   ],
+   "units": [
+    {
+     "unit": "client/main.ts: top-level code",
+     "bytes": 22
+    }
+   ]
+  },
+  {
+   "id": "B32",
+   "what": "Gore culling and caching hooks (__gore.cull, __gore.cached)",
+   "owners": "gib",
+   "inserted": 131,
+   "deleted": 0,
+   "editsTextOf": [
+    "B12"
+   ],
+   "textChangedBy": [],
+   "reaches": [
+    "__gore"
+   ],
+   "units": [
+    {
+     "unit": "client/render.ts: Renderer.frame",
+     "bytes": 66
+    },
+    {
+     "unit": "client/corpse-view.ts: CorpseView.constructor",
+     "bytes": 65
+    }
+   ]
+  },
+  {
+   "id": "B33",
+   "what": "The server's kill record names the victim (__dvic)",
+   "owners": "gib, bpp",
+   "inserted": 33,
+   "deleted": 0,
+   "editsTextOf": [
+    "B12"
+   ],
+   "textChangedBy": [],
+   "reaches": [
+    "__dvic"
+   ],
+   "units": [
+    {
+     "unit": "client/death.ts: DeathSequence.start",
+     "bytes": 33
+    }
+   ]
+  },
+  {
+   "id": "B34",
+   "what": "Death-only sound routing (gain, low-pass and pan per listener) and __dsndHits",
+   "owners": "spacious-audio, gib",
+   "inserted": 429,
+   "deleted": 0,
+   "editsTextOf": [
+    "B07",
+    "B08",
+    "B18"
+   ],
+   "textChangedBy": [],
+   "reaches": [
+    "__dcamK",
+    "__dsndHits"
+   ],
+   "units": [
+    {
+     "unit": "client/audio.ts: Ambience.death",
+     "bytes": 356
+    },
+    {
+     "unit": "client/render.ts: Renderer.frame",
+     "bytes": 72
+    }
+   ]
+  },
+  {
+   "id": "B35",
+   "what": "Dying lights: the death light's own power (__deathLight.own, the peers' pw)",
+   "owners": "gib, br-role",
+   "inserted": 135,
+   "deleted": 0,
+   "editsTextOf": [
+    "B06",
+    "B21",
+    "B23"
+   ],
+   "textChangedBy": [
+    "B36"
+   ],
+   "reaches": [
+    "__deathLight"
+   ],
+   "units": [
+    {
+     "unit": "client/render.ts: Renderer.drawLight",
+     "bytes": 88
+    },
+    {
+     "unit": "client/render.ts: drawPeers",
+     "bytes": 43
+    }
+   ]
+  },
+  {
+   "id": "B36",
+   "what": "Keeps BR-RoLE's seam verbatim: the victim's dying light is read inside the hook",
+   "owners": "br-role",
+   "inserted": 19,
+   "deleted": 15,
+   "editsTextOf": [
+    "B21",
+    "B23",
+    "B35"
+   ],
+   "textChangedBy": [],
+   "reaches": [],
+   "units": [
+    {
+     "unit": "client/render.ts: Renderer.drawLight",
+     "bytes": 19
+    }
+   ]
+  },
+  {
+   "id": "B37",
+   "what": "NEW RUN as the server's decision (__net.nr, Xok)",
+   "owners": "bpp",
+   "inserted": 164,
+   "deleted": 0,
+   "editsTextOf": [
+    "B12"
+   ],
+   "textChangedBy": [
+    "B38"
+   ],
+   "reaches": [
+    "__hideSelf",
+    "__net"
+   ],
+   "units": [
+    {
+     "unit": "client/main.ts: newRunApproved",
+     "bytes": 98
+    },
+    {
+     "unit": "client/main.ts: newRunPressed",
+     "bytes": 55
+    },
+    {
+     "unit": "client/main.ts: vanished",
+     "bytes": 8
+    }
+   ]
+  },
+  {
+   "id": "B38",
+   "what": "The local light goes out at NEW RUN",
+   "owners": "gib",
+   "inserted": 6,
+   "deleted": 0,
+   "editsTextOf": [
+    "B37"
+   ],
+   "textChangedBy": [],
+   "reaches": [],
+   "units": [
+    {
+     "unit": "client/main.ts: newRunApproved",
+     "bytes": 6
+    }
+   ]
+  },
+  {
+   "id": "B39",
+   "what": "worldEnd: the world epoch ends a death on every screen (Xwr); __api.worldEnd",
+   "owners": "bpp, gib",
+   "inserted": 471,
+   "deleted": 0,
+   "editsTextOf": [
+    "B06"
+   ],
+   "textChangedBy": [],
+   "reaches": [
+    "__mv"
+   ],
+   "units": [
+    {
+     "unit": "client/main.ts: worldEnd",
+     "bytes": 436
+    },
+    {
+     "unit": "client/main.ts: top-level code",
+     "bytes": 25
+    },
+    {
+     "unit": "client/main.ts: newRun",
+     "bytes": 8
+    }
+   ]
+  },
+  {
+   "id": "B40",
+   "what": "Removes the Wanderer's decorative dark ellipse",
+   "owners": "br-r",
+   "inserted": 0,
+   "deleted": 52,
+   "editsTextOf": [],
+   "textChangedBy": [],
+   "reaches": [],
+   "units": []
+  }
+ ],
+ "unlisted": []
+}

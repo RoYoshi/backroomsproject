@@ -30,6 +30,7 @@ for (const [key, F] of Object.entries(L.files)) {
   out.push(`## ${titles[key]}: \`${F.file}\``, '',
     `- **Base:** the v11 build's \`${F.base.recoveryPath.replace('versions/site-v11-49743e94d6f0/', '')}\`, ${n(F.base.bytes)} bytes, SHA-256 \`${F.base.sha256}\`.`,
     `- **Result:** ${n(F.result.bytes)} bytes, SHA-256 \`${F.result.sha256}\`, after ${F.steps.length} steps.`);
+  if (F.superseded) out.push(`- **Since ${F.superseded.since}:** the file is built from ${F.superseded.by} (record \`${F.superseded.record}\`). This chain is its history up to then: it still replays to the result above, and the build of the maintained source is proven the same program (\`src/core/client/game/PORT_LEDGER.md\` says where each step's text is now).`);
   if (F.corroboration.length) out.push(`- **Corroboration:** ${F.corroboration.map(c => `\`${c.package}\` holds the same bytes as ${c.equals.startsWith('commit') ? '`' + c.equals.slice(7, 14) + '`' : 'the v11 build'}`).join('; ')}.`);
   for (const s of F.sideVersions) out.push(`- **Side version:** \`${s.package}\` (${n(s.bytes)} bytes) is ${s.note}.`);
   out.push('', '| Step | Source | Hunks | Bytes removed | Bytes written | Size after | What it did | Owner today |', '|---|---|---|---|---|---|---|---|');
@@ -40,7 +41,7 @@ for (const [key, F] of Object.entries(L.files)) {
   out.push('');
 }
 out.push('## Who wrote the shipped bundle', '',
-  `Of the ${n(BL.modernBytes)} bytes of \`public/assets/index-DKbV5Nv9.js\`, **${n(BL.bytesByOrigin.v11)} are the v11 build's bytes, unchanged**, and ` +
+  `Of the ${n(BL.modernBytes)} bytes of \`public/assets/index-DKbV5Nv9.js\`${L.files.bundle.superseded ? ` as the ledger records it (shipped until ${L.files.bundle.superseded.since})` : ''}, **${n(BL.bytesByOrigin.v11)} are the v11 build's bytes, unchanged**, and ` +
   `${n(BL.modernBytes - BL.bytesByOrigin.v11)} were written by the later steps:`, '',
   '| Origin | Bytes |', '|---|---|');
 for (const [o, b] of Object.entries(BL.bytesByOrigin)) out.push(`| ${o === 'v11' ? 'the v11 build' : o} | ${n(b)} |`);
@@ -62,6 +63,7 @@ o2.push('# The `window.__api` contract', '',
   'minified internal names, so those one- and two-letter names are a public API: any rebuild of the bundle must keep every member, with',
   'the same name and the same meaning, for every reader below.', '',
   `- **Readers:** ${Object.entries(A.readers).filter(([, r]) => r.loadedByIndexHtml).length} scripts the page loads, plus \`assets/shadows-2d.js\` (retired, not loaded), plus the bundle's own reads.`,
+  ...(A.builtBundle ? [`- **The served bundle:** built from ${A.builtBundle.from}; it publishes ${A.builtBundle.members} members and reads ${A.builtBundle.readsOfApi === 'the same' ? 'the same members of `window.__api`, as often' : A.builtBundle.readsOfApi}. The columns below describe the bundle the lineage records (the one it was ported from).`] : []),
   '- **"Written by"** is the lineage step whose text holds the member: the v11 build had no `__api` at all.',
   '- **"Is"** names what the member\'s value refers to. For an original v11 name, it gives the TypeScript module and declaration it compiled from. For a later name, it gives the step that wrote it.',
   `- **Unread members:** ${A.members.filter(m => !Object.keys(m.readBy).length).map(m => '`' + m.name + '`').join(', ')}. Nothing found reads these, but they stay in the contract until every caller is checked by hand.`,

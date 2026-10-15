@@ -52,7 +52,7 @@ the same name and the same meaning, for every reader below.
 | `lamps` | value | B06 | `Fc` = shared/world.ts `lights` | light.js ×2, mp.js ×1, assets/br-role.js ×6, assets/mp-hum.js ×6, assets/shadows-2d.js ×1 |
 | `audio` | function | B06 | `Z` = client/main.ts `audio` | camcorder.js ×2, ents.js ×3, glitch.js ×4, hud.js ×4, inventory.js ×2, move.js ×2, sfx.js ×2, assets/mp-hum.js ×2 |
 | `revive` | function | B06 | `G` = shared/entity.ts `entity`; `xu` = client/main.ts `function respawn` | mp.js ×1 |
-| `worldEnd` | function | B39 | `Xwr` = client/main.ts `function newRun` | mp.js ×2 |
+| `worldEnd` | function | B39 | `Xwr` (written by B39) | mp.js ×2 |
 | `tp` | function | B06 | `H` = shared/movement.ts `player`; `X` = client/main.ts `renderer` | mp.js ×3 |
 | `mkAvatar` | function | B06 | `$c` = client/player-view.ts `PlayerView (class)` | mp.js ×4 |
 | `layer` | function | B06 | `X` = client/main.ts `renderer` | mp.js ×4, assets/br-role.js ×2, assets/shadows-2d.js ×2 |

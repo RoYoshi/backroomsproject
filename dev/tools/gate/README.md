@@ -3,8 +3,10 @@
 One command decides whether a checkpoint is still the accepted B++ game, on the modern layout:
 
 ```text
-node dev/tools/gate/gate.js --tier fast --out <scratch>/gate        # a few minutes: every deterministic comparison
-node dev/tools/gate/gate.js --tier full --out <scratch>/gate_full   # the final candidate: about 50 minutes on 2 CPUs
+node dev/tools/gate/gate.js --tier fast --packages <folder> --out <scratch>/gate        # about 11 minutes: every deterministic comparison
+node dev/tools/gate/gate.js --tier full --packages <folder> --out <scratch>/gate_full   # the final candidate: over an hour on 2 CPUs
+# --packages (or TFB_CLIENT_PACKAGES): the 31 locked npm packages the client build installs offline (continuation C4); without them the
+# port and bundle steps are NOT RUN, which is a FAIL
 ```
 
 ## How it decides
@@ -23,6 +25,8 @@ for the frozen layout.
 | Step | Tool | What changed from 3H2 |
 |---|---|---|
 | build | `dev/tools/build/build.js --check` | It replaces the three `.sh` builds: every built output (`public/`, `generated/`) is what `src/` builds |
+| port | `dev/tools/build/client.js --stage`, `dev/stage-3h-modernization/tools/c4_alpha_all.mjs`, `c4_css_check.mjs`, `c4_port_ledger.mjs --check 1`, `c4_port_mutants.mjs` | New at continuation C4: the compiled client is built from `src/core/client/game/` (installed offline from the verified packages) into a scratch folder; once it is what the page is served, the build's record must be `generated/CLIENT_BUILD.json` byte for byte. The port must be the shipped program (every top-level statement of the shipped app, rebuilt from the lineage, compared modulo names and a stated normal form), the built stylesheet the shipped one, the port ledger current, and 23 one-place edits of a copy of the port caught by those checks |
+| bundle | `golden/bundle_diff.js --ref-lineage 1 --cand-assets <the port step's build>` (with `golden/bundle_env.js`, `golden/bundle_scenes.js`); full tier also `golden/bundle_mutants.js` | New at continuation C4: the port step's build against the client the lineage records, each in a deterministic Chromium page (a virtual clock, seeded randomness), frame by frame: the randomness, the game state, the document, every 2D canvas and audio call, every call through the shared window objects, the socket, the WebGL pixels, and at checkpoints a PNG and every element's computed style. Fast: the title and a walk; full: nine scenes (captures, NEW RUN, the lights, a blackout, customize), then five one-place edits of the build, each caught in the record it shows in |
 | lineage | `dev/tools/lineage/lineage.js verify` and `tree-id`; since continuation C5 also `dev/stage-3h-modernization/tools/api_contract.js --check 1` and `lineage_doc.js --check` | New at H3M-6: the client lineage replays (bundle, stylesheet, page), `blame.json` is current, and `src/core/client/bundle/original-v11/` is the recovered v11 snapshot. C5: the `window.__api` contract (`src/core/client/bundle/api_contract.json`: the 52 members, what each is, and who reads it, counted from the code; a module script's imported names followed since C5) is what the bundle and the reading scripts give today, and its two generated pages (`STEPS.md`, `API_CONTRACT.md`) are current |
 | parts | `dev/tools/checks/parts.js` | New at H3M-3: every part of a built output declares what it provides, uses and writes in the shared closure, and TypeScript's checker agrees |
 | modules | `dev/tools/checks/modules.js` | New at continuation C3: the module boundaries, proven from the code with TypeScript's checker. Every name a server file uses is its own, given to its factory, or the host's or the language's; no file reaches the global object; a factory never assigns a name it was given, and uses every one; a module of the sim keeps no state outside its factory (each room's world has its own); the sim's composition makes each module from modules made before it, and every name a module imports is one its giver returns. `dev/stage-3h-modernization/tools/c3_modules_mutants.js` proves it refuses each broken boundary Since C3b the page's module scripts too, as the build assembles them: nothing in a script's wrapper but the factories and the composition; no factory uses another's names; the composition's order and wiring; the headers' `imports` and `exports`; no write into another owner's state except through its function; one writer per entry of a public object; no call of a function a third module put on another's object; no global back-channel inside a script. Since C3c (`mp.js`) also: a change of another owner's object in place (`set`, `delete`, `push`, `splice`, `fill` ...) is a write; each name on the global object, and what is written through it, has one module that writes it; a module given modules made after it (the session) gets them only through its `wire`, called once by the composition after the last module is made, and uses none of them while it is being made. `dev/stage-3h-modernization/tools/c3_modules_mutants.js` shows each of 38 breaks refused |
@@ -51,6 +55,8 @@ Every copy begins with a note that says what it changed from its original.
 the original tool's. On this tree, the traces are identical to the stored B++ baselines (`dev/stage-3h-modernization/evidence/`).
 
 ## What it cannot see
+
+The `bundle` step's Chromium renders with SwiftShader (software WebGL, no physical GPU) and steps a virtual clock: it proves two builds draw, sound and behave the same frame by frame, not how the game looks or feels on a player's machine.
 
 Stage 3H2's limits still apply (`dev/stage-3h/gate/README.md`, "What the gate cannot see"):
 - real-browser timing beyond structure;

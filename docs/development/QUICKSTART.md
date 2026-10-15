@@ -6,7 +6,7 @@
 |---|---|
 | Run the game | Node.js 18 or later. No `npm install`: the game has no dependencies |
 | Build, check the build, run the scenario suite | the same |
-| Run the gate (`npm run gate`) | Git with this repository's full history (the gate reads the accepted build, `143b63f`, from it: a shallow clone will not do); TypeScript installed globally (`npm i -g typescript`, or `TYPESCRIPT=<its folder>`) for the parts, modules and `__api` contract checks; Playwright for Node installed globally, with Chromium (`npm i -g playwright`, then `npx playwright install chromium`), for the client goldens, the page scripts' comparison and `dev/tools/checks/dev_workflow.js` |
+| Run the gate (`npm run gate`) | Git with this repository's full history (the gate reads the accepted build, `143b63f`, from it: a shallow clone will not do); TypeScript installed globally (`npm i -g typescript`, or `TYPESCRIPT=<its folder>`) for the parts, modules and `__api` contract checks; Playwright for Node installed globally, with Chromium (`npm i -g playwright`, then `npx playwright install chromium`), for the client goldens, the page scripts' comparison and `dev/tools/checks/dev_workflow.js`; since continuation C4 the 31 locked npm packages of the compiled client's build (the tarballs of `TFB_V11_LINUX_X64_PACKAGES.zip`, never committed: `npm run gate -- --packages <folder>`, or `TFB_CLIENT_PACKAGES=<folder>`), for the `port` and `bundle` steps |
 | Run the full gate (`npm run gate:full`) | also Python 3 with Playwright for Python, Pillow and NumPy (`pip install playwright pillow numpy`) for the browser checks and the contact lab |
 
 Everything here was run on Linux with Node 22 (the gate's evidence says which machine). On Windows, use `node <script>` rather
@@ -65,7 +65,9 @@ backquote key; give the server a passcode with `ADMIN_PASSCODE=... node server.j
 | `node dev/tools/lineage/lineage.js verify` | the compiled bundle's lineage replays byte for byte | seconds |
 | `node dev/tools/checks/dev_workflow.js` | this round trip, on a scratch copy: edit a page module, build, see it served and shown in a real page; edit a server module, restart, see it; undo both; rebuild byte for byte; clean rebuild | ~30 s |
 | `npm test` (`node dev/tests/run.js [file]`) | the scenario suite on the real simulation; one file: `npm run test:hound` and the others in `package.json` | minutes |
-| `npm run gate` | the fast tier of the gate: build, lineage, parts, modules, docs, scope, the server, session and client goldens against the accepted build, the sim and the page's module scripts against B++'s, the protocol, the mutants, the HTTP surface, the quick suites | ~6 min |
+| `node dev/tools/build/client.js --packages <folder> --stage <scratch>` | the compiled client built from `src/core/client/game/` (TypeScript, Vite), offline, into a scratch folder | ~10 s |
+| `node dev/stage-3h-modernization/tools/c4_alpha_all.mjs --rolldown <its install>` | the ported client source against the shipped bundle, statement by statement (modulo names and a stated normal form) | ~10 s |
+| `npm run gate` | the fast tier of the gate: build, the client build and its proofs (`port`), lineage, parts, modules, docs, scope, the server, session and client goldens against the accepted build, the sim and the page's module scripts against B++'s, the protocol, the mutants, the HTTP surface, the quick suites, the built client against the recorded one in a real page (`bundle`) | ~11 min |
 | `npm run gate:full` | everything, with two real browsers, the developer round trip and the browser contracts, the contact lab's pixels, all suites and performance | ~50 min |
 
 The gate writes everything under `--out <folder>` (default: a temporary folder) and says where. `dev/tools/gate/README.md` explains each

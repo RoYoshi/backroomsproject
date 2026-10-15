@@ -15,7 +15,12 @@
  *     name a module script's factory imports from the module that binds it (since continuation C3b: entsHound({ head: { API } })), and
  *     the bundle's own reads of window.__api.  Not counted: a read through a function's parameter that its caller fills with the
  *     object (mp.js: softTp(A, x, y), blendStep(A), markKiller(A, by)); the run-time reads are the traces' to compare.
- * The positions come from TypeScript's parser (its own copy of the global TypeScript package, for the parser only). */
+ * The positions come from TypeScript's parser (its own copy of the global TypeScript package, for the parser only).
+ * (Continuation C4) The bundle described is the one the lineage records (its "written by" and "is" come from the lineage's blame and
+ * module map).  While the bundle's chain is in force (up to C4a) that is the served file; once the ledger marks it superseded (C4b:
+ * the served bundle is built from src/core/client/game/), the recorded one is replayed from the ledger (v11's build and the forty
+ * steps), and the served bundle must publish the same members, in the same order, and read the same members of window.__api as often:
+ * checked here, and the contract says so (builtBundle). */
 'use strict';
 const fs = require('fs'), path = require('path');
 const ARG = {}; for (let i = 2; i < process.argv.length; i += 2) ARG[process.argv[i].replace(/^--/, '')] = process.argv[i + 1];
@@ -24,8 +29,22 @@ const LIN = path.resolve(REPO, ARG.lineage || 'src/core/client/bundle/lineage');
 /* TypeScript's parser: --typescript DIR, or (C5) where dev/tools/checks/parts.js and modules.js find it: $TYPESCRIPT, the package, Node's global copy */
 const ts = (() => { for (const t of [ARG.typescript, process.env.TYPESCRIPT, 'typescript', path.join(path.dirname(process.execPath), '..', 'lib', 'node_modules', 'typescript'), path.join(path.dirname(process.execPath), 'node_modules', 'typescript')].filter(Boolean)) { try { return require(t); } catch (e) { /* the next */ } }
   console.error('API CONTRACT: NOT RUN - TypeScript is not installed (npm i -g typescript, or set TYPESCRIPT=<its folder>)'); process.exit(2); })();
-const BUNDLE = path.join(REPO, 'public', 'assets', 'index-DKbV5Nv9.js');
-const text = fs.readFileSync(BUNDLE, 'utf8'), buf = Buffer.from(text, 'utf8');
+const BUNDLE = path.join(REPO, 'public', 'assets', 'index-DKbV5Nv9.js'), sha = b => require('crypto').createHash('sha256').update(b).digest('hex');
+/* the recorded bundle: the ledger's replay when its chain is superseded (C4), else the served file (an older tree: --repo) */
+function recorded() {
+  const L = JSON.parse(fs.readFileSync(path.join(LIN, 'ledger.json'), 'utf8')), F = L.files.bundle;
+  if (!F.superseded) return fs.readFileSync(BUNDLE);
+  let cur = fs.readFileSync(path.join(REPO, F.base.path)); if (sha(cur) !== F.base.sha256) throw new Error('the ledger base is not the recorded file');
+  for (const st of F.steps) {
+    const P = JSON.parse(fs.readFileSync(path.join(LIN, st.patch), 'utf8')), parts = []; let pos = 0;
+    if (P.before.sha256 !== sha(cur)) throw new Error(`step ${st.id} was not made on the version before it`);
+    for (const [at, del, ins] of P.hunks) { const d = Buffer.from(del, 'utf8'); if (!cur.subarray(at, at + d.length).equals(d)) throw new Error(`step ${st.id}: a hunk does not match`); parts.push(cur.subarray(pos, at), Buffer.from(ins, 'utf8')); pos = at + d.length; }
+    parts.push(cur.subarray(pos)); cur = Buffer.concat(parts);
+  }
+  if (sha(cur) !== F.result.sha256) throw new Error('the replay did not end at the recorded result');
+  return cur;
+}
+const buf = recorded(), text = buf.toString('utf8');
 const toByte = i => Buffer.byteLength(text.slice(0, i));
 const blame = JSON.parse(fs.readFileSync(path.join(LIN, 'blame.json'), 'utf8'));
 const mmap = JSON.parse(fs.readFileSync(path.join(LIN, 'module_map.json'), 'utf8'));
@@ -58,7 +77,7 @@ const sf = ts.createSourceFile('bundle.js', text, ts.ScriptTarget.Latest, true, 
 const decl = new Map();
 for (const st of sf.statements) {
   if (ts.isVariableStatement(st)) for (const d of st.declarationList.declarations) { if (ts.isIdentifier(d.name)) decl.set(d.name.text, d.getStart(sf)); }
-  else if ((ts.isFunctionDeclaration(st) || ts.isClassDeclaration(st)) && st.name) decl.set(st.name.text, st.getStart(sf));
+  else if ((ts.isFunctionDeclaration(st) || ts.isClassDeclaration(st)) && st.name) decl.set(st.name.text, st.name.getStart(sf));   // (C4) the name's own bytes: a step may have inserted a function after v11's `function ` (B39's Xwr)
   else if (ts.isImportDeclaration(st) && st.importClause && st.importClause.namedBindings && ts.isNamedImports(st.importClause.namedBindings))
     for (const e of st.importClause.namedBindings.elements) decl.set(e.name.text, -1 - 0);   // imported from a PixiJS chunk
 }
@@ -198,9 +217,28 @@ for (const [rel, r] of Object.entries(readers)) for (const [k, n] of Object.entr
   const m = byName.get(k); if (m) m.readBy[rel] = n; else (unknown[rel] = unknown[rel] || {})[k] = n;
 }
 for (const [k, n] of Object.entries(bundleReads)) { const m = byName.get(k); if (m) m.readBy['assets/index-DKbV5Nv9.js (the bundle itself)'] = n; }
+/* (C4) the served bundle, when it is not the recorded one: the same members in the same order, the same reads of window.__api */
+let builtBundle = null;
+{
+  const served = fs.readFileSync(BUNDLE);
+  if (!served.equals(buf)) {
+    const sf2 = ts.createSourceFile('served.js', served.toString('utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.JS);
+    let lit = null; const reads = {};
+    (function walk(n) {
+      if (ts.isBinaryExpression(n) && n.operatorToken.kind === ts.SyntaxKind.EqualsToken && isApi(n.left) && ts.isObjectLiteralExpression(n.right)) lit = n.right;
+      if (ts.isPropertyAccessExpression(n) && isApi(n.expression)) reads[n.name.text] = (reads[n.name.text] || 0) + 1;
+      ts.forEachChild(n, walk);
+    })(sf2);
+    const names = lit ? lit.properties.map(p => p.name.getText(sf2)) : [];
+    const sameMembers = JSON.stringify(names) === JSON.stringify(members.map(m => m.name)), sameReads = JSON.stringify(Object.entries(reads).sort()) === JSON.stringify(Object.entries(bundleReads).sort());
+    builtBundle = { file: 'public/assets/index-DKbV5Nv9.js', sha256: sha(served), from: 'src/core/client/game/ (generated/CLIENT_BUILD.json)', members: sameMembers ? `the same ${names.length}, in the same order` : 'DIFFERENT: ' + names.join(','), readsOfApi: sameReads ? 'the same' : 'DIFFERENT: ' + JSON.stringify(reads) };
+    if (!sameMembers || !sameReads) { console.log('API CONTRACT: the served bundle does not publish the recorded facade: ' + JSON.stringify(builtBundle)); process.exitCode = 1; }
+  }
+}
 const out = {
-  note: 'The window.__api contract of the compiled bundle (public/assets/index-DKbV5Nv9.js), derived by dev/stage-3h-modernization/tools/api_contract.js from the bundle, the lineage (blame.json, module_map.json) and the scripts in public/. A member read by nobody is still part of the contract until every script is checked by hand (a script may build a member name at run time: "[computed]" lists element accesses).',
-  bundleSha256: require('crypto').createHash('sha256').update(buf).digest('hex'),
+  note: 'The window.__api contract of the compiled bundle (public/assets/index-DKbV5Nv9.js), derived by dev/stage-3h-modernization/tools/api_contract.js from the bundle, the lineage (blame.json, module_map.json) and the scripts in public/. A member read by nobody is still part of the contract until every script is checked by hand (a script may build a member name at run time: "[computed]" lists element accesses).' + (builtBundle ? ' Since continuation C4 the bundle described is the one the lineage records (bundleSha256), and the served one, built from src/core/client/game/, publishes the same members and reads the same ones (builtBundle).' : ''),
+  bundleSha256: sha(buf),
+  ...(builtBundle ? { builtBundle } : {}),
   memberCount: members.length,
   readers: Object.fromEntries(Object.entries(readers).map(([f, r]) => [f, { loadedByIndexHtml: r.loaded, aliases: r.aliases, getters: r.getters, memberCount: Object.keys(r.members).length }])),
   readsOfNamesNotInTheLiteral: unknown,
@@ -208,7 +246,7 @@ const out = {
 };
 const OUT = ARG.out ? path.resolve(ARG.out) : path.join(LIN, '..', 'api_contract.json');
 if (ARG.check) {                                         // (C5) --check 1: the committed contract is what the code gives (the gate's lineage step)
-  const same = fs.existsSync(OUT) && fs.readFileSync(OUT, 'utf8') === JSON.stringify(out, null, 1) + '\n';
+  const same = fs.existsSync(OUT) && fs.readFileSync(OUT, 'utf8') === JSON.stringify(out, null, 1) + '\n' && process.exitCode !== 1;
   console.log(`API CONTRACT: ${same ? 'CURRENT' : 'STALE'} (${path.relative(REPO, OUT)}${same ? ' is what the bundle and the readers give' : ': run node dev/stage-3h-modernization/tools/api_contract.js, then lineage_doc.js'})`);
   process.exitCode = same ? 0 : 1;
 } else fs.writeFileSync(OUT, JSON.stringify(out, null, 1) + '\n');

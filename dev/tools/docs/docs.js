@@ -53,8 +53,8 @@ const blocks = {};
 {
   const L = ['| Output | How | From |', '|---|---|---|'];
   for (const o of recipes) {
-    const how = o.replay ? 'a replay of the lineage ledger' : o.parts.length > 1 ? `${o.parts.length} parts, joined in order` : /original-v11/.test(o.parts[0]) ? 'a copy of the v11 build output' : 'one source file';
-    const from = o.replay ? `\`${o.replay.ledger}\` (chain \`${o.replay.chain}\`)` : o.parts.map(p => '`' + p.replace(/^src\//, '') + '`').join('<br>');
+    const how = o.client ? 'the client build (TypeScript and Vite: `dev/tools/build/client.js`), checked against its record' : o.replay ? 'a replay of the lineage ledger' : o.parts.length > 1 ? `${o.parts.length} parts, joined in order` : /original-v11/.test(o.parts[0]) ? 'a copy of the v11 build output' : 'one source file';
+    const from = o.client ? `\`core/client/game/\` (record \`${o.client}\`)` : o.replay ? `\`${o.replay.ledger}\` (chain \`${o.replay.chain}\`)` : o.parts.map(p => '`' + p.replace(/^src\//, '') + '`').join('<br>');
     L.push(`| \`${o.out}\` | ${how} | ${from} |`);
   }
   blocks['outputs'] = L.join('\n');

@@ -1,6 +1,7 @@
 /* Stage 3H engine modernization - THE gate: the working tree against the accepted B++ game, on the modern layout (development only).
  *
- *   node dev/tools/gate/gate.js [--tier fast|full] [--only step,step] [--out DIR] [--keep-heavy 1]
+ *   node dev/tools/gate/gate.js [--tier fast|full] [--only step,step] [--out DIR] [--keep-heavy 1] [--packages DIR]
+ *        --packages (or TFB_CLIENT_PACKAGES): the 31 locked npm packages the client build needs (continuation C4: the port step)
  *
  * A copy of Stage 3H2's gate (dev/stage-3h/gate/h2_gate.js, left as it is for the frozen layout), with the same steps, the same B++
  * baselines (dev/stage-3h/evidence/h1/golden, h2/golden) and the same rule (a step passes only on its own positive evidence; a step that
@@ -40,11 +41,22 @@
  *     browser_contracts.js (on B++ and on this tree, in a real Chromium with a synthetic passcode: the 52-member window.__api facade at
  *     the menu and in a run, unauthorized access refused - a visitor's admin command, a wrong passcode, the lockout - and a phone with
  *     touch: the stick walks, the manifest); the two sides must agree;
+ *   - port (added at continuation C4): the compiled client is built from src/core/client/game/ (TypeScript and CSS): dev/tools/build/
+ *     client.js --stage (installed offline from the verified packages into a scratch folder; once the build is what the page is served,
+ *     its record must be generated/CLIENT_BUILD.json byte for byte, so the served bundle, stylesheet and PixiJS chunks are what the tree
+ *     builds), dev/stage-3h-modernization/tools/c4_alpha_all.mjs (every top-level statement of the shipped app code, rebuilt from the
+ *     lineage, compared with the port, modulo names and a normal form), c4_css_check.mjs (the built stylesheet against the shipped one)
+ *     c4_port_ledger.mjs --check (where each lineage step's text is now: src/core/client/game/PORT_LEDGER.md) and c4_port_mutants.mjs
+ *     (the alpha and stylesheet checks catch each of 23 one-place edits of a copy of the port, and pass its unchanged copies);
+ *   - bundle (added at continuation C4): golden/bundle_diff.js --ref-lineage --cand-assets: the port step's build against the client
+ *     the lineage records (what the page was served up to C4a), both in the real page, frame by frame (state, randomness, the document,
+ *     2D canvas and audio calls, the shared window objects, pixels, computed styles): fast, the title and a walk; full, every scene of
+ *     golden/bundle_scenes.js, then golden/bundle_mutants.js (five one-place edits of the build, each caught in the record it shows in);
  * The tools that never read a runtime file by path (protocol_v2, suites, static_check, live_wire_h2, place_replay, place_guard_check,
  * two_browser, col_browser, gameplay_smoke, contact_lab, compare_captures) are used where they are.
  *
- *   --tier fast   (default, a few minutes) build, lineage, parts, modules, docs, scope, srv_golden, bpp_golden, session, sim, page, cli_golden,
- *                 protocol, mutants, static, raw_live, quick_suites
+ *   --tier fast   (default, a few minutes) build, port, lineage, parts, modules, docs, scope, srv_golden, bpp_golden, session, sim, page,
+ *                 cli_golden, protocol, mutants, static, raw_live, quick_suites, bundle
  *   --tier full   (the final candidate; about 50 minutes on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, workflow,
  *                 contact_lab, suites, perf
  * Everything is written under --out (default: a scratch folder): gate_report.json plus each tool's log and report.
@@ -115,6 +127,44 @@ function wtGame() {
 const STEPS = {
   build: () => { const r = run('build', ['node', 'dev/tools/build/build.js', '--check']); const m = /(\d+) outputs/.exec(r.text);
     return { ok: r.exit === 0 && /BUILD CHECK: PASS/.test(r.text), cases: m ? +m[1] : 0, note: (r.text.trim().split('\n').pop() || '').slice(0, 160), r }; },
+  /* (C4) the compiled client is built from src/core/client/game/ into a staging folder (never public/): once it is what the page is
+   * served (generated/CLIENT_BUILD.json), this build's record must be that one byte for byte; the port is the shipped program, statement
+   * by statement; the built stylesheet is the shipped one; the port ledger is current */
+  port: () => {
+    const pk = ARG.packages || process.env.TFB_CLIENT_PACKAGES;
+    if (!pk) return { ok: false, cases: 0, note: 'NOT RUN: the client build needs the 31 locked npm packages (--packages DIR or TFB_CLIENT_PACKAGES=DIR: the tarballs of TFB_V11_LINUX_X64_PACKAGES.zip)' };
+    const work = o('client_work'), stage = o('client_stage'), rd = path.join(work, 'tree', 'node_modules', 'rolldown');
+    fs.rmSync(stage, { recursive: true, force: true });
+    const b = run('client_build', ['node', 'dev/tools/build/client.js', '--packages', path.resolve(pk), '--stage', stage, '--work', work, '--out', o('client_build.json')]), jb = J(o('client_build.json'));
+    const recF = path.join(REPO, 'generated', 'CLIENT_BUILD.json'), shipped = fs.existsSync(recF), stRec = path.join(stage, 'CLIENT_BUILD.json');
+    const sameRecord = shipped ? fs.existsSync(stRec) && fs.readFileSync(stRec).equals(fs.readFileSync(recF)) : null;
+    const a = run('port_alpha', ['node', 'dev/stage-3h-modernization/tools/c4_alpha_all.mjs', '--rolldown', rd, '--out', o('port_alpha.json')]), ja = J(o('port_alpha.json'));
+    const c = run('port_css', ['node', 'dev/stage-3h-modernization/tools/c4_css_check.mjs', '--built', path.join(stage, 'assets', 'index-D7hdwmUU.css'), '--out', o('port_css.json')]), jc = J(o('port_css.json'));
+    const l = run('port_ledger', ['node', 'dev/stage-3h-modernization/tools/c4_port_ledger.mjs', '--check', '1', '--rolldown', rd]);
+    const mu = run('port_mutants', ['node', 'dev/stage-3h-modernization/tools/c4_port_mutants.mjs', '--rolldown', rd, '--out', o('port_mutants.json')]), jm = J(o('port_mutants.json'));
+    const built = b.exit === 0 && /staged \d+ files/.test(b.text) && !!jb && sameRecord !== false, alpha = a.exit === 0 && !!ja && ja.ok, css = c.exit === 0 && !!jc && jc.ok, ledger = l.exit === 0 && /PORT LEDGER: CURRENT/.test(l.text);
+    const mutants = mu.exit === 0 && !!jm && jm.ok && jm.mutants.length > 0, caught = jm ? jm.mutants.filter(m => m.caught).length : 0;
+    const outs = jb && jb.outputs ? jb.outputs.length : 0, stmts = ja && ja.coverage ? ja.coverage.compared : 0, rules = jc ? jc.laterStatements : 0;
+    return { ok: built && alpha && css && ledger && mutants, cases: built && alpha && css ? outs + stmts + rules + caught : 0,
+      note: `the client build ${built ? `gives ${outs} files${shipped ? ', its record the shipped one byte for byte' : ' (not yet what the page is served: no generated/CLIENT_BUILD.json)'}` : (sameRecord === false ? 'FAIL: its record is not generated/CLIENT_BUILD.json' : 'FAIL')}${jb && jb.toolchain ? ` (${jb.toolchain.typescript}, Vite ${jb.toolchain.vite})` : ''}; the alpha check ${alpha ? `SAME: ${ja.modules.length} port entries, ${stmts} of the shipped app's ${ja.coverage.appStatements} statements compared, ${ja.coverage.reviewed} reviewed` : 'DIFFERENT'}; the stylesheet ${css ? `the same (${rules} later rules)` : 'DIFFERENT'}; the port ledger ${ledger ? 'current' : 'STALE'}; the checks' mutants ${caught} of ${jm ? jm.mutants.length : 0} caught${jm && !jm.ok ? ' (FAIL)' : ''}`, r: a };
+  },
+  /* (C4) the port step's build against the client the lineage records (v11's build and the 40 recorded steps: what the page was served
+   * up to C4a), in the real page, frame by frame */
+  bundle: () => {
+    const stage = path.join(o('client_stage'), 'assets');
+    if (!fs.existsSync(path.join(stage, 'index-DKbV5Nv9.js'))) return { ok: false, cases: 0, note: "NOT RUN: it compares the port step's build (run port first)" };
+    const scenes = ARG.tier === 'full' ? Object.keys(require(path.join(REPO, G('golden', 'bundle_scenes.js')))).join(',') : 'menu,solo_walk';
+    const r = run('bundle_diff', ['node', G('golden', 'bundle_diff.js'), '--ref-lineage', '1', '--cand-assets', stage, '--scenes', scenes, '--viewport', '640x360', '--out', o('bundle')], { ms: 7200000 }), j = J(o('bundle', 'bundle_diff.json'));
+    const sc = j ? j.scenes : [], frames = sc.reduce((a, x) => a + (x.frames || 0), 0), shots = sc.reduce((a, x) => a + (x.checkpoints || []).length, 0);
+    /* full tier: the harness's own mutants (golden/bundle_mutants.js; the scenes above were their control) */
+    let mutants = true, mnote = '';
+    if (ARG.tier === 'full') {
+      const m = run('bundle_mutants', ['node', G('golden', 'bundle_mutants.js'), '--assets', stage, '--control', '0', '--out', o('bundle_mutants')], { ms: 3600000 }), jm = J(o('bundle_mutants', 'bundle_mutants.json'));
+      const caught = jm ? jm.mutants.filter(x => x.caught).length : 0; mutants = m.exit === 0 && !!jm && jm.ok && caught > 0; mnote = `; the harness's mutants ${caught} of ${jm ? jm.mutants.length : 0} caught in their record`;
+    }
+    return { ok: r.exit === 0 && !!j && j.ok && sc.length === scenes.split(',').length && mutants, cases: j && j.ok ? frames + shots : 0,
+      note: `${sc.filter(x => x.ok).length} of ${sc.length} scenes identical to the recorded client (${frames} frames, ${shots} captures)${j && !j.ok ? '; DIFFERENT: ' + sc.filter(x => !x.ok).map(x => x.scene).join(', ') : ''}${mnote}`, r };
+  },
   lineage: () => {                                                        // (H3M-6) the bundle's lineage replays, blame.json is current, the v11 snapshot is authentic
     const r = run('lineage', ['node', 'dev/tools/lineage/lineage.js', 'verify', '--out', o('lineage.json')]), t = run('lineage_tree', ['node', 'dev/tools/lineage/lineage.js', 'tree-id']), j = J(o('lineage.json'));
     const n = j ? Object.values(j.files).reduce((a, f) => a + (f.replayed ? f.steps : 0), 0) : 0, proven = t.exit === 0 && /ORIGINAL V11 TREE: PROVEN/.test(t.text);
@@ -277,7 +327,7 @@ const STEPS = {
 };
 const QUICK = ['s_humanqa_hotfix', 's_ir', 'interp_test', 'test_3bn', 'ir_net'];
 function suiteNote(j) { return Object.entries(j.suites).map(([n, x]) => `${n} ${x.summary ? x.summary.passed + '/' + x.summary.total : x.ran}${x.ok ? '' : ' FAIL'}`).join(', ') + ' (only the known B++ failures fail)'; }
-const FAST = ['build', 'lineage', 'parts', 'modules', 'docs', 'scope', 'srv_golden', 'bpp_golden', 'session', 'sim', 'page', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites'];
+const FAST = ['build', 'port', 'lineage', 'parts', 'modules', 'docs', 'scope', 'srv_golden', 'bpp_golden', 'session', 'sim', 'page', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites', 'bundle'];
 const FULL = FAST.concat(['cli_mutants', 'live_wire', 'bpp_checks', 'browsers', 'workflow', 'contact_lab', 'suites', 'perf']);
 const steps = ARG.only ? ARG.only.split(',') : ARG.tier === 'full' ? FULL : FAST;
 const R = { tool: 'dev/tools/gate/gate.js', tier: ARG.tier, declared: 'dev/tools/gate/declared_changes.json', base: BPP, head: execFileSync('git', ['-C', REPO, 'rev-parse', 'HEAD']).toString().trim(), startedAt: new Date().toISOString(), out: OUT, steps: {}, ok: true };
@@ -290,9 +340,9 @@ for (const s of steps) {
   console.log(`${res.ok ? 'PASS' : 'FAIL'} ${s}: ${res.cases} compared${res.note ? '; ' + res.note : ''} (${R.steps[s].seconds} s)`);
 }
 R.finishedAt = new Date().toISOString();
-/* the bulky intermediates (two game copies, the kept traces: about 350 MB a run) are removed once every step has used them, unless
+/* the bulky intermediates (two game copies, the kept traces, the client build's work tree, the harness's web roots: about 650 MB a run) are removed once every step has used them, unless
  * --keep-heavy 1; the reports and logs stay */
-if (!ARG['keep-heavy']) { R.removed = []; for (const d of ['game_bpp', 'game_candidate', 'srv_keep', 'bpp_keep', 'cli_keep', 'cli_h2_keep', 'cli_c3c_keep']) { const p = o(d); if (p.startsWith(OUT + path.sep) && fs.existsSync(p)) { fs.rmSync(p, { recursive: true, force: true }); R.removed.push(d); } } }
+if (!ARG['keep-heavy']) { R.removed = []; for (const d of ['game_bpp', 'game_candidate', 'srv_keep', 'bpp_keep', 'cli_keep', 'cli_h2_keep', 'cli_c3c_keep', 'client_work', path.join('bundle', 'ref_lineage_root'), path.join('bundle', 'cand_root')]) { const p = o(d); if (p.startsWith(OUT + path.sep) && fs.existsSync(p)) { fs.rmSync(p, { recursive: true, force: true }); R.removed.push(d); } } }
 fs.writeFileSync(o('gate_report.json'), JSON.stringify(R, null, 1) + '\n');
 console.log(`MODERNIZATION GATE (${ARG.tier}${ARG.only ? ': ' + ARG.only : ''}): ${R.ok ? 'PASS' : 'FAIL'}  - report ${o('gate_report.json')}`);
 process.exitCode = R.ok ? 0 : 1;
