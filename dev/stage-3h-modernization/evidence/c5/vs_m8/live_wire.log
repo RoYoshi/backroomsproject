@@ -1,0 +1,5 @@
+$ node dev/stage-3h/golden/live_wire_h2.js --old-dir /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5/vs_m8/game_m8 --new-dir /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5/vs_m8/game_candidate --shots /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5/vs_m8/live_wire_shots --save-raw /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5/vs_m8/live_wire_raw --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5/vs_m8/live_wire.json
+old: 3703 + 3491 frames in 175583 ms; errors A 0 B 0; ui {"menuAfterFirst":true,"refusedLabel":"NEW RUN · WAIT N S","menuAfterRefused":false,"menuAfterAdmin":true}
+new: 3798 + 3594 frames in 181551 ms; errors A 0 B 0; ui {"menuAfterFirst":true,"refusedLabel":"NEW RUN · WAIT N S","menuAfterRefused":false,"menuAfterAdmin":true}
+live wire: structurally identical in every phase
+LIVE WIRE: PASS

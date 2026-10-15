@@ -63,9 +63,10 @@ backquote key; give the server a passcode with `ADMIN_PASSCODE=... node server.j
 | `node dev/tools/gate/golden/page_scripts.js` | `move.js`, `camcorder.js`, `glitch.js`, `ents.js` against B++'s, in the same closed Chromium page: equal traces | ~20 s |
 | `node dev/tools/gate/golden/cli_golden_c3c.js` | `mp.js` against B++'s: all 18 client scenes in one Chromium page, equal traces, every function of `mp.js` run | ~10 s |
 | `node dev/tools/lineage/lineage.js verify` | the compiled bundle's lineage replays byte for byte | seconds |
+| `node dev/tools/checks/dev_workflow.js` | this round trip, on a scratch copy: edit a page module, build, see it served and shown in a real page; edit a server module, restart, see it; undo both; rebuild byte for byte; clean rebuild | ~30 s |
 | `npm test` (`node dev/tests/run.js [file]`) | the scenario suite on the real simulation; one file: `npm run test:hound` and the others in `package.json` | minutes |
 | `npm run gate` | the fast tier of the gate: build, lineage, parts, modules, docs, scope, the server, session and client goldens against the accepted build, the sim and the page's module scripts against B++'s, the protocol, the mutants, the HTTP surface, the quick suites | ~6 min |
-| `npm run gate:full` | everything, with two real browsers, the contact lab's pixels, all suites and performance | ~38 min |
+| `npm run gate:full` | everything, with two real browsers, the developer round trip and the browser contracts, the contact lab's pixels, all suites and performance | ~50 min |
 
 The gate writes everything under `--out <folder>` (default: a temporary folder) and says where. `dev/tools/gate/README.md` explains each
 step and what it cannot see.

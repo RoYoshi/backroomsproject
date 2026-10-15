@@ -1,0 +1,100 @@
+{
+ "tool": "dev/tools/gate/golden/cli_golden_h2.js",
+ "oldRef": "c34f0c22bbacc5ac2813d173bc0591b67af7169f",
+ "newSide": "working tree",
+ "chromium": "141.0.7390.37",
+ "helpers": {
+  "old": [
+   "assets/net-newrun.js",
+   "assets/mp-hum.js",
+   "assets/net-wire.js",
+   "assets/net-interp.js"
+  ],
+  "new": [
+   "assets/net-newrun.js",
+   "assets/mp-hum.js",
+   "assets/net-wire.js",
+   "assets/net-interp.js"
+  ]
+ },
+ "declaredNewGlobals": [
+  "__mpLib"
+ ],
+ "startedAt": "2026-10-15T09:21:31.286Z",
+ "scenes": [
+  {
+   "scene": "nr_answers",
+   "old": {
+    "entries": 229,
+    "bytes": 16968,
+    "sha256": "06a819be3a1df505658f6db43aad174c7bc1e10581adb330e4498d87f624a070",
+    "ms": 189,
+    "errors": []
+   },
+   "new": {
+    "entries": 229,
+    "bytes": 16968,
+    "sha256": "06a819be3a1df505658f6db43aad174c7bc1e10581adb330e4498d87f624a070",
+    "ms": 135,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": 47,
+   "repeats": [],
+   "ok": true
+  },
+  {
+   "scene": "nr_reconnect",
+   "old": {
+    "entries": 96,
+    "bytes": 8919,
+    "sha256": "b877c98793945dd166f862f13ce0034097614a120e172c85d9b3f1c8fc597bad",
+    "ms": 126,
+    "errors": []
+   },
+   "new": {
+    "entries": 96,
+    "bytes": 8919,
+    "sha256": "b877c98793945dd166f862f13ce0034097614a120e172c85d9b3f1c8fc597bad",
+    "ms": 121,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": 18,
+   "repeats": [],
+   "ok": true
+  },
+  {
+   "scene": "hum_fixtures",
+   "old": {
+    "entries": 8788,
+    "bytes": 695719,
+    "sha256": "3961c4258ee11c8a9f5bc3d4b266ce501a4cc8ebdf8716a50b09baff0d7fa4f8",
+    "ms": 269,
+    "errors": []
+   },
+   "new": {
+    "entries": 8788,
+    "bytes": 695719,
+    "sha256": "3961c4258ee11c8a9f5bc3d4b266ce501a4cc8ebdf8716a50b09baff0d7fa4f8",
+    "ms": 284,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": 4,
+   "repeats": [],
+   "ok": true
+  }
+ ],
+ "ok": true,
+ "finishedAt": "2026-10-15T09:21:32.487Z"
+}

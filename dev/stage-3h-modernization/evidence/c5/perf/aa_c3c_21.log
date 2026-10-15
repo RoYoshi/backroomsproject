@@ -1,0 +1,6 @@
+client menu_online: hook ms old 22.9 new 23.2 (1.31 %) ok; handler ms old 2.4 new 2.2 (-8.33 %) ok
+client run_online: hook ms old 63 new 62.9 (-0.16 %) ok; handler ms old 6.1 new 6.3 (3.28 %) ok
+client interp: hook ms old 77.1 new 78.2 (1.43 %) ok; handler ms old 6.7 new 6.9 (2.99 %) ok
+client fx_bodies: hook ms old 120.9 new 118.1 (-2.32 %) ok; handler ms old 10.7 new 10.8 (0.93 %) ok
+client hum_dread: hook ms old 46.1 new 45.2 (-1.95 %) ok; handler ms old 0.2 new 0.2 (0 %) ok
+deterministic performance: within the predeclared tolerance

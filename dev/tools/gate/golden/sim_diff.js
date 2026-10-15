@@ -23,7 +23,8 @@ const REPO = path.resolve(__dirname, '..', '..', '..', '..'), LAYOUT = require(p
 const ARG = { seeds: '1,7,42,99,1234', ops: '4000', 'old-ref': '143b63ff42b88c6780c5043e0f61d64100f81f40' }; for (let i = 2; i < process.argv.length; i += 2) ARG[process.argv[i].replace(/^--/, '')] = process.argv[i + 1];
 const R = { tool: 'dev/tools/gate/golden/sim_diff.js', old: `${ARG['old-ref'].slice(0, 7)}: sim.js, ai.js, world.js`, new: ARG.tree ? `a copy: ${ARG.tree}` : `this tree: ${LAYOUT.rel('sim.js')} and its modules`, seeds: ARG.seeds.split(',').map(Number), ops: +ARG.ops, comparisons: 0, differences: 0, first: [], reached: {}, ok: true };
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'c3sim-'));
-for (const f of ['sim', 'ai', 'world']) fs.writeFileSync(path.join(tmp, f + '.js'), execFileSync('git', ['-C', REPO, 'show', `${ARG['old-ref']}:${f}.js`]));
+const MODERN = (() => { try { execFileSync('git', ['-C', REPO, 'cat-file', '-e', `${ARG['old-ref']}:public/index.html`], { stdio: 'ignore' }); return true; } catch (e) { return false; } })();   // (C5) an old side on the modern layout (M8): generated/server/
+for (const f of ['sim', 'ai', 'world']) fs.writeFileSync(path.join(tmp, f + '.js'), execFileSync('git', ['-C', REPO, 'show', `${ARG['old-ref']}:${MODERN ? 'generated/server/' : ''}${f}.js`]));
 /* --mutants: this file runs itself once per mutant, on a copy of the sim's files with that mutant applied (--tree), and reports */
 if (ARG.mutants) {
   const files = LAYOUT.simFiles().concat([LAYOUT.rel('ai.js'), LAYOUT.rel('world.js')]);

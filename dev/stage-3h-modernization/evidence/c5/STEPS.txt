@@ -1,0 +1,91 @@
+# Stage 3H continuation, wave C5a: the final verification's new proofs (no runtime file changed)
+# $SP is the session's scratch folder. The parent is C3c = 722113f (tree 000fdc4). B++ = 143b63f. M8 = c34f0c2.
+
+## the window.__api contract (M-020, finding M-027)
+node dev/stage-3h-modernization/tools/api_contract.js --check 1        before: API CONTRACT: STALE.  The committed contract (M6a) was never
+  compared with the code again, and the tool, run on this tree, counted 17 reads fewer (12 in ents.js, 3 in move.js, 2 in mp.js): since
+  C3b the readers' modules take their name for __api from the module that holds it (entsHound({ head: { API } })), which it did not follow.
+  The tool now follows a module script's imports (the composition says which module gives each key; the giver's return says what each
+  name is).  --repo DIR reads another checkout; --check 1 writes nothing and fails when the committed contract is not what it gives.
+node dev/stage-3h-modernization/tools/api_contract.js --repo $SP/c5/m8tree --out api/api_contract_at_m8.json
+  M8's files (git archive c34f0c2 public src/core/client/bundle): the contract it gives is the committed one, exactly (the same tool on
+  M8-era code changes nothing).  This tree against it (api/api_contract_vs_m8.txt): the same bundle (sha256 694bca01...), the same 52
+  members in the same order, each the same kind, text and referent; one count differs: H read by mp.js 24 times here, 26 at M8 - the two
+  reads of N.A.N.I.'s kill handling that C3c moved from the session's tick into markKiller(A, by), whose A is a parameter (a count of the
+  text cannot follow it; what they decide is in the client traces, equal to B++'s).
+node dev/stage-3h-modernization/tools/api_contract.js; node dev/stage-3h-modernization/tools/lineage_doc.js
+  api_contract.json and API_CONTRACT.md regenerated: the one count, and a line in the page saying what "Read by" counts.
+  lineage_doc.js --check (new): fails when STEPS.md or API_CONTRACT.md is not what it would write.  Both checks run in the gate's
+  lineage step; refused on a tampered copy (the contract with mp.js's count put back: STALE, exit 1).
+
+## the developer's round trip (dev/tools/checks/dev_workflow.js, new; the gate's workflow step)
+node dev/tools/checks/dev_workflow.js --out workflow/dev_workflow.json  DEV WORKFLOW: PASS (15 of 15 steps), on a scratch copy of what plays
+  and builds (server.js, package.json, public/, generated/, src/, dev/tools/build/) as the working tree has it:
+    1  the copy builds as committed (39 outputs)
+    2  a page module edited (B++'s session: the status line's words): build.js --check refuses it (public/mp.js differs from what its
+       sources build); build.js writes public/mp.js and the manifest, nothing else; --check passes
+    3  the copy's own server (synthetic passcode) serves the new mp.js, and a real Chromium page's status line shows the new words
+    4  a server module edited (W.A.R.D.'s static file server: one more response header): not built (--check passes, nothing written);
+       the restarted server answers with it
+    5  both undone: every output (39 and the manifest) byte for byte what it was in 1; the server serves the original bytes, without the
+       header; the page's status line is the original's
+    6  build.js --clean deletes all 39 outputs and the manifest; a clean rebuild gives all 40 files back, byte for byte
+
+## three contracts in a real Chromium (dev/tools/gate/checks/browser_contracts.js, new; the gate's workflow step)
+node dev/tools/gate/checks/browser_contracts.js --old-dir <B++ folder> --new-dir <this tree's folder>   BROWSER CONTRACTS: PASS
+  Headless Chromium with SwiftShader (a software renderer): no physical GPU, no real phone.  Each side its own `node server.js PORT`
+  with the same synthetic passcode; on each, through the page's own keys, taps and panel:
+    the facade      window.__api at the menu and in a run: the 52 members of api_contract.json, in order, with their types, a function's
+                    arity and an object's keys - the same on both sides
+    unauthorized    a visitor's admin command over its own WebSocket (freeze the room): no answer, and the admin's own view of the room
+                    shows it changed nothing (fz 0); a wrong passcode: WRONG PASSCODE; the right one unlocks (ADMIN in the status line)
+                    and the admin's own freeze works and is undone (fz 1, then 0); a third page's five wrong passcodes: WRONG PASSCODE
+                    four times, then TOO MANY TRIES · WAIT ##S, and the right passcode then is refused the same way - the same on both
+    a phone         390 x 844 with touch: the boot gate passed by a tap, a run started by taps, the touch stick shown, a thumb drag on it
+                    holds the game's KeyD and walks the player (in the gate's run 215 px on B++, 258 on this tree: each from its own
+                    random spawn spot), released clears it; the manifest the page links: 200, the same 405 bytes on both sides
+  The admin panel is used with the keyboard (the backquote, the passcode, Enter): at the menu the menu lies over the panel's buttons, and
+  in a run a monster can catch the player during the lockout's tries (seen once while writing this check: the caught screen took the click).
+node dev/tools/gate/gate.js --only workflow --out $SP/c5/gate_workflow     PASS: dev workflow 15 of 15 steps; browser contracts 8 checks,
+  the two sides agree on 3 of 3 (202 s; workflow/)
+
+## this tree against M8 directly (dev/stage-3h-modernization/tools/c5_vs_m8.js, new; vs_m8/)
+  M8 is the gameplay-parity reference.  Where a comparison tool can read M8's layout (public/, generated/server/), M8 is the old side:
+  page_scripts.js, world_diff.js and sim_diff.js learnt to (an old ref with public/index.html is read there; B++ and earlier at the root,
+  as before).
+node dev/stage-3h-modernization/tools/c5_vs_m8.js --out $SP/c5/vs_m8      THIS TREE AGAINST M8: SAME (9 of 9 comparisons equal; the
+  runtime files, 302 of them, sha256 4687f0013eb31070 together; vs_m8/, the contact lab's images and the live wire's screenshots left out):
+    page traces, 3H0's 9 scenes (cli_golden.js --old-ref c34f0c2)            identical
+    page traces, 3H2's 3 scenes (cli_golden_h2.js)                           identical
+    all 18 scenes in one page (cli_golden_c3c.js)                            identical; M8's mp.js 159 of 159 functions run, this tree's 232 of 232
+    world.js, every function (world_diff.js)                                 2,295 comparisons, 0 differences
+    move.js, camcorder.js, glitch.js, ents.js (page_scripts.js)               1,252,700 trace lines equal
+    the sim (sim_diff.js: M8's generated/server/sim.js, ai.js, world.js)      20,050 comparisons over 5 seeds, 0 differences
+    mp.js's hook and handler, time (perf_det.js --only client, 7 rounds)      within the rule in all 5 scenes
+    two real players (live_wire_h2.js, M8's game folder and this tree's)      65 phases, structurally identical
+    BR-RoLE's contact lab (contact_lab.py on both folders)                     23 images identical, pixel for pixel
+  The server traces have no M8 side to run (srv_golden.js runs an old server.js over this tree's files, and M8's server.js needs its
+  own src/): M8's and this tree's are each byte for byte the same stored B++ baselines (M8: evidence/m8/gate_full; this tree: the gate).
+
+## the page's time against M8, more closely (perf/)
+node dev/tools/gate/golden/perf_det.js --old-ref c34f0c2 --only client --rounds 21      within the rule
+node dev/tools/gate/golden/perf_det.js --old-ref 722113f --only client --rounds 21      within the rule (the same code on both sides: A/A)
+  The 7-round runs had shown menu_online's hook +11 % against B++ (C3c's gate) and against M8.  With 21 rounds against M8 (perf/summary.txt):
+  hook medians -5.4 % to +7.6 % by scene, two faster and three slower, none distinguishable (the share of slower pairs at most 0.64; on the
+  same code 0.41 to 0.53); the largest median difference is about 13 us per hook call (menu_online: 1.7 ms over 130 calls), against a
+  60 Hz frame of 16,700 us.  Real hardware: Human QA.
+
+## the gate
+node dev/tools/gate/gate.js --tier fast --out $SP/c5/gate_fast              exit 0  PASS, 17 of 17 steps (gate_fast/), 6.4 min, on the
+  final tree: build 39, lineage 83 (the __api contract and its pages current), parts 55, modules 58, docs 23, scope 210, srv_golden 11,
+  bpp_golden 7, session 18, sim 20,065, page 1,255,007, cli_golden 30, protocol 52,740, mutants 18, static 4, raw_live 173,
+  quick_suites 23.  The page and sim steps ran the tools that now also read M8's layout: against B++ they give what they gave.
+  The full tier (with the new workflow step) runs next, on a fresh clone of this commit: the final gate (C5b).
+
+## the secret scans
+  C5a's changes, before the commit: secret_scan.* (CLEAN).  C3c's committed revision, after its commit: secret_scan_c3c_after_commit.txt
+  (CLEAN).  The scan includes the owner's private extra strings (not in this repository).
+
+## the remote
+  C3c's receipt is copied into evidence/remote/verify_c3c_722113f.json.  C5a's receipt is written after the push (verify_remote_m.py
+  C5a) and copied in by the next checkpoint.

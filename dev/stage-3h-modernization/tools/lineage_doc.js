@@ -1,6 +1,8 @@
 /* Stage 3H engine modernization (H3M-6) - write the lineage's two generated pages (development only).
  *
- *   node dev/stage-3h-modernization/tools/lineage_doc.js
+ *   node dev/stage-3h-modernization/tools/lineage_doc.js [--check]
+ *
+ * --check (continuation C5, the gate's lineage step) writes nothing: it fails if either page is not what it would write.
  *
  * From src/core/client/bundle/lineage/{ledger,blame,module_map,descriptions}.json and src/core/client/bundle/api_contract.json it writes:
  *   - src/core/client/bundle/lineage/STEPS.md: every step of the three chains (bundle, stylesheet, index.html) with its source, size and
@@ -10,6 +12,7 @@
 'use strict';
 const fs = require('fs'), path = require('path');
 const REPO = path.resolve(__dirname, '..', '..', '..'), B = path.join(REPO, 'src', 'core', 'client', 'bundle'), LIN = path.join(B, 'lineage');
+const CHECK = process.argv.includes('--check');
 const J = f => JSON.parse(fs.readFileSync(f, 'utf8'));
 const L = J(path.join(LIN, 'ledger.json')), BL = J(path.join(LIN, 'blame.json')), MM = J(path.join(LIN, 'module_map.json')), D = J(path.join(LIN, 'descriptions.json'));
 const A = J(path.join(B, 'api_contract.json'));
@@ -49,7 +52,7 @@ out.push('', '## Which original modules each step changed', '',
   '"v11 bytes replaced" counts the original bytes a step removed or wrote over (a pure insertion counts the byte before it); "edits text of" names the earlier steps whose text it changed.', '',
   '| Step | v11 bytes replaced, by module | Edits text of |', '|---|---|---|');
 for (const s of BL.steps) out.push(`| ${s.id} | ${Object.entries(s.v11BytesReplaced).map(([m, b]) => `${m.replace(/ \(library\).*/, '')} ${b}`).join(', ') || '-'} | ${s.editsTextOfSteps.join(', ') || '-'} |`);
-fs.writeFileSync(path.join(LIN, 'STEPS.md'), out.join('\n') + '\n');
+const pages = [[path.join(LIN, 'STEPS.md'), out.join('\n') + '\n']];
 
 const o2 = [];
 o2.push('# The `window.__api` contract', '',
@@ -61,7 +64,8 @@ o2.push('# The `window.__api` contract', '',
   `- **Readers:** ${Object.entries(A.readers).filter(([, r]) => r.loadedByIndexHtml).length} scripts the page loads, plus \`assets/shadows-2d.js\` (retired, not loaded), plus the bundle's own reads.`,
   '- **"Written by"** is the lineage step whose text holds the member: the v11 build had no `__api` at all.',
   '- **"Is"** names what the member\'s value refers to. For an original v11 name, it gives the TypeScript module and declaration it compiled from. For a later name, it gives the step that wrote it.',
-  `- **Unread members:** ${A.members.filter(m => !Object.keys(m.readBy).length).map(m => '`' + m.name + '`').join(', ')}. Nothing found reads these, but they stay in the contract until every caller is checked by hand.`, '',
+  `- **Unread members:** ${A.members.filter(m => !Object.keys(m.readBy).length).map(m => '`' + m.name + '`').join(', ')}. Nothing found reads these, but they stay in the contract until every caller is checked by hand.`,
+  '- **"Read by"** counts the places in each script\'s text that read the member: through `window.__api`, a local name for it, or (since the module scripts of continuation C3) a name a module imports from the module that holds it. A read through a function\'s parameter that its caller fills with the object is not counted (`mp.js`: `softTp`, `blendStep`, `markKiller`); the run-time reads are the client traces\' to compare.', '',
   '| Member | Kind | Written by | Is | Read by |', '|---|---|---|---|---|');
 for (const m of A.members) {
   const is = m.binds.map(b => b.writtenBy === 'v11' ? `\`${b.name}\` = ${b.module.replace(/^(client|shared)\//, '$1/')} \`${b.tsUnit || '?'}\`` : b.writtenBy ? `\`${b.name}\` (written by ${b.writtenBy})` : `\`${b.name}\` (${b.declared})`).join('; ') || cell(m.text);
@@ -69,5 +73,12 @@ for (const m of A.members) {
 }
 o2.push('', '## Readers', '', '| Script | Loaded by index.html | Local names for __api | Members read |', '|---|---|---|---|');
 for (const [f, r] of Object.entries(A.readers)) o2.push(`| \`${f}\` | ${r.loadedByIndexHtml ? 'yes' : 'no (retired)'} | ${[...r.aliases, ...r.getters.map(g => g + '()')].map(x => '`' + x + '`').join(', ') || '-'} | ${r.memberCount} |`);
-fs.writeFileSync(path.join(B, 'API_CONTRACT.md'), o2.join('\n') + '\n');
-console.log('wrote', path.relative(REPO, path.join(LIN, 'STEPS.md')), 'and', path.relative(REPO, path.join(B, 'API_CONTRACT.md')));
+pages.push([path.join(B, 'API_CONTRACT.md'), o2.join('\n') + '\n']);
+if (CHECK) {                                             // (C5) --check: the committed pages are what the ledger and the contract give
+  const stale = pages.filter(([f, t]) => !fs.existsSync(f) || fs.readFileSync(f, 'utf8') !== t).map(([f]) => path.relative(REPO, f));
+  console.log(`LINEAGE PAGES: ${stale.length ? 'STALE: ' + stale.join(', ') + ' (run node dev/stage-3h-modernization/tools/lineage_doc.js)' : 'CURRENT (STEPS.md, API_CONTRACT.md)'}`);
+  process.exitCode = stale.length ? 1 : 0;
+} else {
+  for (const [f, t] of pages) fs.writeFileSync(f, t);
+  console.log('wrote', path.relative(REPO, path.join(LIN, 'STEPS.md')), 'and', path.relative(REPO, path.join(B, 'API_CONTRACT.md')));
+}

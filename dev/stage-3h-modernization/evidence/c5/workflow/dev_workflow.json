@@ -1,0 +1,87 @@
+{
+ "tool": "dev/tools/checks/dev_workflow.js",
+ "ref": "the working tree (722113f and its changes)",
+ "node": "v22.22.2",
+ "steps": [
+  {
+   "id": "1 the copy builds as committed",
+   "ok": true,
+   "note": "39 outputs; BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)"
+  },
+  {
+   "id": "2a a page module edited",
+   "ok": true,
+   "note": "src/frameworks/bpp/client/mp.session.js: ' · SHARED MONSTERS' -> ' · SHARED MONSTERS · DEV WORKFLOW CHECK'"
+  },
+  {
+   "id": "2b --check sees the outputs no longer match",
+   "ok": true,
+   "note": "NOT BUILT: public/mp.js: differs from what its sources build"
+  },
+  {
+   "id": "2c the build writes public/mp.js and the manifest, nothing else",
+   "ok": true,
+   "note": "written: generated/BUILD_MANIFEST.json, public/mp.js"
+  },
+  {
+   "id": "2d the new public/mp.js holds the edit, and --check passes",
+   "ok": true,
+   "note": "public/mp.js 7c05570a744b -> 3f2f588f0a01"
+  },
+  {
+   "id": "3a the server serves the new mp.js",
+   "ok": true,
+   "note": "GET /mp.js 200, 100277 bytes"
+  },
+  {
+   "id": "3b a real page shows the edit",
+   "ok": true,
+   "note": "#net: \"ONLINE · ROOM WORKFLOW34745 · 1 WANDERER · SHARED MONSTERS · DEV WORKFLOW CHECK\""
+  },
+  {
+   "id": "4a a server module edited",
+   "ok": true,
+   "note": "src/frameworks/ward/server/static.js: one more response header"
+  },
+  {
+   "id": "4b a server module is not built: --check passes, nothing written",
+   "ok": true,
+   "note": "BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)"
+  },
+  {
+   "id": "4c the restarted server answers with the new header",
+   "ok": true,
+   "note": "GET /index.html 200 x-dev-workflow-check: 1"
+  },
+  {
+   "id": "5a both edits undone: every output is byte for byte what it was",
+   "ok": true,
+   "note": "40 files identical"
+  },
+  {
+   "id": "5b the restarted server serves the original bytes, without the header",
+   "ok": true,
+   "note": "GET /mp.js 200, sha256 7c05570a744b"
+  },
+  {
+   "id": "5c the page's status line is the original's",
+   "ok": true,
+   "note": "#net: \"ONLINE · ROOM WORKFLOW34745 · 1 WANDERER · SHARED MONSTERS\""
+  },
+  {
+   "id": "6a build.js --clean deletes every output",
+   "ok": true,
+   "note": "39 of 39 outputs gone"
+  },
+  {
+   "id": "6b a clean rebuild gives every output back, byte for byte",
+   "ok": true,
+   "note": "40 files identical; built 39 outputs (40 files written, 0 already up to date)"
+  }
+ ],
+ "ok": true,
+ "copy": {
+  "files": 303
+ },
+ "chromium": "141.0.7390.37"
+}

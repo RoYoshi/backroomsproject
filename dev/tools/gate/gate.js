@@ -7,7 +7,8 @@
  * compared nothing is a FAIL).  What differs:
  *   - build: dev/tools/build/build.js --check (every built output is what src/ builds; it replaces the three .sh builds);
  *   - lineage (added at H3M-6): dev/tools/lineage/lineage.js verify and tree-id (the client lineage replays, blame.json is current, and
- *     src/core/client/bundle/original-v11/ is the recovered v11 snapshot);
+ *     src/core/client/bundle/original-v11/ is the recovered v11 snapshot); since continuation C5 also api_contract.js --check and
+ *     lineage_doc.js --check (the window.__api contract, its 52 members and who reads each, and its two pages are current);
  *   - parts (added at H3M-3): dev/tools/checks/parts.js (every part of a built output declares its interface; the code agrees);
  *   - modules (added at continuation C3): dev/tools/checks/modules.js (the module boundaries, from the code: every name a server file uses
  *     is given to it or its own; no import assigned; every import used; no global object; a world's state inside its factory; the sim's
@@ -34,13 +35,18 @@
  *   - the browser checks are given the candidate's files where its layout keeps them (public/assets/...); gameplay_smoke is run once more
  *     when its first run's player was killed before the check's admin removed the monsters (its world is random: that run proves
  *     nothing either way; added at continuation C3b);
+ *   - workflow (added at continuation C5, full tier): dev/tools/checks/dev_workflow.js (a developer's round trip on a scratch copy: edit,
+ *     build, see it served and shown in a real page, undo, rebuild byte for byte, clean rebuild) and dev/tools/gate/checks/
+ *     browser_contracts.js (on B++ and on this tree, in a real Chromium with a synthetic passcode: the 52-member window.__api facade at
+ *     the menu and in a run, unauthorized access refused - a visitor's admin command, a wrong passcode, the lockout - and a phone with
+ *     touch: the stick walks, the manifest); the two sides must agree;
  * The tools that never read a runtime file by path (protocol_v2, suites, static_check, live_wire_h2, place_replay, place_guard_check,
  * two_browser, col_browser, gameplay_smoke, contact_lab, compare_captures) are used where they are.
  *
  *   --tier fast   (default, a few minutes) build, lineage, parts, modules, docs, scope, srv_golden, bpp_golden, session, sim, page, cli_golden,
  *                 protocol, mutants, static, raw_live, quick_suites
- *   --tier full   (the final candidate; about 35 minutes on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, contact_lab,
- *                 suites, perf
+ *   --tier full   (the final candidate; about 50 minutes on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, workflow,
+ *                 contact_lab, suites, perf
  * Everything is written under --out (default: a scratch folder): gate_report.json plus each tool's log and report.
  *
  * The original's description follows.
@@ -112,7 +118,10 @@ const STEPS = {
   lineage: () => {                                                        // (H3M-6) the bundle's lineage replays, blame.json is current, the v11 snapshot is authentic
     const r = run('lineage', ['node', 'dev/tools/lineage/lineage.js', 'verify', '--out', o('lineage.json')]), t = run('lineage_tree', ['node', 'dev/tools/lineage/lineage.js', 'tree-id']), j = J(o('lineage.json'));
     const n = j ? Object.values(j.files).reduce((a, f) => a + (f.replayed ? f.steps : 0), 0) : 0, proven = t.exit === 0 && /ORIGINAL V11 TREE: PROVEN/.test(t.text);
-    return { ok: r.exit === 0 && !!j && j.ok && proven, cases: n, note: `steps replayed (bundle, stylesheet, page); blame.json ${j ? j.blame : '?'}; the v11 snapshot's tree ${proven ? 'proven' : 'NOT PROVEN'}`, r }; },
+    /* (C5) the window.__api contract (52 members, who reads each) is what the bundle and the reading scripts give, and its pages are current */
+    const a = run('api_contract', ['node', 'dev/stage-3h-modernization/tools/api_contract.js', '--check', '1']), p = run('lineage_pages', ['node', 'dev/stage-3h-modernization/tools/lineage_doc.js', '--check']);
+    const api = a.exit === 0 && /API CONTRACT: CURRENT/.test(a.text) && /__api: 52 members/.test(a.text), pages = p.exit === 0 && /LINEAGE PAGES: CURRENT/.test(p.text);
+    return { ok: r.exit === 0 && !!j && j.ok && proven && api && pages, cases: n, note: `steps replayed (bundle, stylesheet, page); blame.json ${j ? j.blame : '?'}; the v11 snapshot's tree ${proven ? 'proven' : 'NOT PROVEN'}; the __api contract (52 members) ${api ? 'current' : 'NOT CURRENT'}; its pages ${pages ? 'current' : 'NOT CURRENT'}`, r }; },
   parts: () => {                                                          // (H3M-3) every part's interface header agrees with the code
     const r = run('parts', ['node', 'dev/tools/checks/parts.js', '--out', o('parts.json')]), j = J(o('parts.json'));
     const n = j ? j.outputs.reduce((a, x) => a + x.parts.length, 0) : 0;
@@ -235,6 +244,18 @@ const STEPS = {
     res.push(['gameplay_smoke', sm.ok, sm.checks, smNote]);
     return { ok: res.every(x => x[1]), cases: res.every(x => x[2] > 0) ? res.reduce((s, x) => s + x[2], 0) : 0, note: res.map(([n, k, c, w]) => `${n} ${k ? 'ok' : 'FAIL'} (${c})${w || ''}`).join(', ') };
   },
+  /* (C5) a developer's round trip on a scratch copy of the working tree (dev/tools/checks/dev_workflow.js: edit a page module, build,
+   * see it served and shown, edit a server module, undo both, rebuild, clean rebuild), and three contracts seen from a real Chromium on
+   * B++ and on this tree (dev/tools/gate/checks/browser_contracts.js: the 52-member window.__api facade, unauthorized access refused, a
+   * phone with touch) */
+  workflow: () => {
+    const d = run('dev_workflow', ['node', 'dev/tools/checks/dev_workflow.js', '--out', o('dev_workflow.json')]), jd = J(o('dev_workflow.json'));
+    const b = run('browser_contracts', ['node', 'dev/tools/gate/checks/browser_contracts.js', '--old-dir', bppGame(), '--new-dir', wtGame(), '--out', o('browser_contracts.json')]), jb = J(o('browser_contracts.json'));
+    const nd = jd ? jd.steps.filter(s => s.ok).length : 0, nb = jb ? jb.sides.reduce((a, s) => a + Object.values(s.checks || {}).filter(Boolean).length, 0) : 0;
+    const agree = jb && jb.agree ? Object.values(jb.agree).filter(Boolean).length : 0;
+    return { ok: d.exit === 0 && !!jd && jd.ok && b.exit === 0 && !!jb && jb.ok, cases: nd + nb,
+      note: `dev workflow ${jd ? `${nd} of ${jd.steps.length} steps` : 'no report'}; browser contracts ${jb && jb.ok ? 'PASS' : 'FAIL'}: ${nb} checks on B++ and this tree (the 52-member facade, unauthorized access refused, a phone), the two sides agree on ${agree} of 3`, r: b };
+  },
   contact_lab: () => {
     const scenes = 'geometry,lights,peers', res = [];
     for (const [label, g] of [['bpp', bppGame()], ['cand', wtGame()]]) {
@@ -257,7 +278,7 @@ const STEPS = {
 const QUICK = ['s_humanqa_hotfix', 's_ir', 'interp_test', 'test_3bn', 'ir_net'];
 function suiteNote(j) { return Object.entries(j.suites).map(([n, x]) => `${n} ${x.summary ? x.summary.passed + '/' + x.summary.total : x.ran}${x.ok ? '' : ' FAIL'}`).join(', ') + ' (only the known B++ failures fail)'; }
 const FAST = ['build', 'lineage', 'parts', 'modules', 'docs', 'scope', 'srv_golden', 'bpp_golden', 'session', 'sim', 'page', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites'];
-const FULL = FAST.concat(['cli_mutants', 'live_wire', 'bpp_checks', 'browsers', 'contact_lab', 'suites', 'perf']);
+const FULL = FAST.concat(['cli_mutants', 'live_wire', 'bpp_checks', 'browsers', 'workflow', 'contact_lab', 'suites', 'perf']);
 const steps = ARG.only ? ARG.only.split(',') : ARG.tier === 'full' ? FULL : FAST;
 const R = { tool: 'dev/tools/gate/gate.js', tier: ARG.tier, declared: 'dev/tools/gate/declared_changes.json', base: BPP, head: execFileSync('git', ['-C', REPO, 'rev-parse', 'HEAD']).toString().trim(), startedAt: new Date().toISOString(), out: OUT, steps: {}, ok: true };
 for (const s of steps) {

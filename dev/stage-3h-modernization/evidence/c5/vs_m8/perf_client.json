@@ -1,0 +1,273 @@
+{
+ "tool": "dev/tools/gate/golden/perf_det.js",
+ "rounds": 7,
+ "oldRef": "c34f0c22bbacc5ac2813d173bc0591b67af7169f",
+ "node": "v22.22.2",
+ "cpus": 2,
+ "startedAt": "2026-10-15T09:22:36.176Z",
+ "server": {},
+ "client": {
+  "menu_online": {
+   "hookMs": {
+    "old": [
+     33.9,
+     34.7,
+     19.9,
+     19.6,
+     18.4,
+     20.8,
+     21.8
+    ],
+    "new": [
+     23.2,
+     26.6,
+     20.9,
+     21.3,
+     20.6,
+     23.8,
+     26.1
+    ],
+    "oldMedian": 20.8,
+    "newMedian": 23.2,
+    "tolerance": 16.3,
+    "changePct": 11.54,
+    "ok": true
+   },
+   "handlerMs": {
+    "old": [
+     4.7,
+     2.6,
+     1.8,
+     2.1,
+     1.9,
+     2.2,
+     2.3
+    ],
+    "new": [
+     2.1,
+     2.3,
+     1.7,
+     2.3,
+     1.7,
+     2.8,
+     1.9
+    ],
+    "oldMedian": 2.2,
+    "newMedian": 2.1,
+    "tolerance": 2.9,
+    "changePct": -4.55,
+    "ok": true
+   }
+  },
+  "run_online": {
+   "hookMs": {
+    "old": [
+     67.8,
+     56.2,
+     72.7,
+     97.9,
+     61.6,
+     58.2,
+     91.7
+    ],
+    "new": [
+     74.2,
+     55.1,
+     73.1,
+     85.6,
+     73.7,
+     81.1,
+     95.7
+    ],
+    "oldMedian": 67.8,
+    "newMedian": 74.2,
+    "tolerance": 41.7,
+    "changePct": 9.44,
+    "ok": true
+   },
+   "handlerMs": {
+    "old": [
+     8.7,
+     5.2,
+     5.8,
+     8.3,
+     6.5,
+     5.2,
+     7.9
+    ],
+    "new": [
+     6.8,
+     6.1,
+     6.4,
+     7.5,
+     6.8,
+     6.1,
+     8.3
+    ],
+    "oldMedian": 6.5,
+    "newMedian": 6.8,
+    "tolerance": 3.5,
+    "changePct": 4.62,
+    "ok": true
+   }
+  },
+  "interp": {
+   "hookMs": {
+    "old": [
+     116.9,
+     77.8,
+     85.7,
+     74.4,
+     81.6,
+     69.4,
+     112.3
+    ],
+    "new": [
+     124.6,
+     75.8,
+     76.7,
+     96.1,
+     79.2,
+     64.8,
+     70.4
+    ],
+    "oldMedian": 81.6,
+    "newMedian": 76.7,
+    "tolerance": 47.5,
+    "changePct": -6,
+    "ok": true
+   },
+   "handlerMs": {
+    "old": [
+     9,
+     5.5,
+     6.9,
+     7.7,
+     7.2,
+     6.9,
+     8.3
+    ],
+    "new": [
+     9.4,
+     9.1,
+     7.6,
+     8.2,
+     6.5,
+     8.3,
+     7
+    ],
+    "oldMedian": 7.2,
+    "newMedian": 8.2,
+    "tolerance": 3.5,
+    "changePct": 13.89,
+    "ok": true
+   }
+  },
+  "fx_bodies": {
+   "hookMs": {
+    "old": [
+     142.5,
+     119.3,
+     111.3,
+     167.6,
+     136.6,
+     191.1,
+     108.5
+    ],
+    "new": [
+     141.3,
+     123.6,
+     104.1,
+     113.9,
+     116.8,
+     157.9,
+     123.6
+    ],
+    "oldMedian": 136.6,
+    "newMedian": 123.6,
+    "tolerance": 82.6,
+    "changePct": -9.52,
+    "ok": true
+   },
+   "handlerMs": {
+    "old": [
+     11.6,
+     10.6,
+     8.9,
+     13.3,
+     11.6,
+     13.6,
+     9.1
+    ],
+    "new": [
+     15.6,
+     11,
+     8.8,
+     12.1,
+     14.4,
+     15.3,
+     10.9
+    ],
+    "oldMedian": 11.6,
+    "newMedian": 12.1,
+    "tolerance": 4.7,
+    "changePct": 4.31,
+    "ok": true
+   }
+  },
+  "hum_dread": {
+   "hookMs": {
+    "old": [
+     40.9,
+     40.5,
+     42,
+     37.3,
+     40.9,
+     47.4,
+     74.2
+    ],
+    "new": [
+     39.7,
+     77.1,
+     55.8,
+     46.1,
+     50.2,
+     49,
+     67.7
+    ],
+    "oldMedian": 40.9,
+    "newMedian": 50.2,
+    "tolerance": 36.9,
+    "changePct": 22.74,
+    "ok": true
+   },
+   "handlerMs": {
+    "old": [
+     0.2,
+     0.4,
+     0.4,
+     0.3,
+     0.3,
+     0.3,
+     0.5
+    ],
+    "new": [
+     0.2,
+     0.2,
+     0.4,
+     0.3,
+     0.3,
+     0.2,
+     0.2
+    ],
+    "oldMedian": 0.3,
+    "newMedian": 0.2,
+    "tolerance": 0.3,
+    "changePct": -33.33,
+    "ok": true
+   }
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-15T09:22:57.283Z"
+}

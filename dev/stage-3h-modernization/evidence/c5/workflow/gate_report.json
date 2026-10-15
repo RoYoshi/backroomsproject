@@ -1,0 +1,24 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "fast",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "722113ff533c315effd6a15b9fafd019a53e0703",
+ "startedAt": "2026-10-15T09:16:21.784Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5/gate_workflow",
+ "steps": {
+  "workflow": {
+   "ok": true,
+   "cases": 23,
+   "note": "dev workflow 15 of 15 steps; browser contracts PASS: 8 checks on B++ and this tree (the 52-member facade, unauthorized access refused, a phone), the two sides agree on 3 of 3",
+   "exit": 0,
+   "seconds": 202
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-15T09:19:43.601Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate"
+ ]
+}

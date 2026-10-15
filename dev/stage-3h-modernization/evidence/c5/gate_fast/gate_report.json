@@ -1,0 +1,141 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "fast",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "722113ff533c315effd6a15b9fafd019a53e0703",
+ "startedAt": "2026-10-15T09:45:22.722Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5/gate_fast",
+ "steps": {
+  "build": {
+   "ok": true,
+   "cases": 39,
+   "note": "BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "lineage": {
+   "ok": true,
+   "cases": 83,
+   "note": "steps replayed (bundle, stylesheet, page); blame.json what the ledger gives; the v11 snapshot's tree proven; the __api contract (52 members) current; its pages current",
+   "exit": 0,
+   "seconds": 3
+  },
+  "parts": {
+   "ok": true,
+   "cases": 55,
+   "note": "8 outputs built from parts; every header agrees with the code (TypeScript 6.0.3)",
+   "exit": 0,
+   "seconds": 3
+  },
+  "modules": {
+   "ok": true,
+   "cases": 58,
+   "note": "26 server files, 21 factories; the sim: 10 modules, wired in order; the page: 6 scripts, 32 modules (TypeScript 6.0.3)",
+   "exit": 0,
+   "seconds": 2
+  },
+  "docs": {
+   "ok": true,
+   "cases": 23,
+   "note": "DOCS CHECK: PASS (23 generated blocks in 23 documents)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "scope": {
+   "ok": true,
+   "cases": 210,
+   "note": "runtime changed (declared): camcorder.js, death_srv.js, ents.js, glitch.js, index.html, move.js, mp.js, package.json, server.js, server/static.js, sim.js, world.js; added: assets/mp-hum.js, assets/net-newrun.js, server/aftermath.js, server/newrun.js, src/core/server/loop.js, src/core/server/rooms.js, src/core/server/sim.step.js, src/frameworks/bpp/server/poses.js, src/frameworks/bpp/server/session.js, src/frameworks/gib/server/sim.bodies.js, src/frameworks/lost/server/sim.glitches.js, src/frameworks/lost/server/sim.level0.js, src/frameworks/nani/server/sim.ai.js, src/frameworks/nani/server/sim.feed.js, src/frameworks/overseer/server/admin.js, src/frameworks/overseer/server/sim.admin.js, src/frameworks/pocket/server/sim.items.js, src/frameworks/space/server/movement.js, src/frameworks/space/server/sim.movement.js, src/frameworks/space/server/sim.players.js, src/frameworks/ward/server/admin_login.js; other files: 5 identical, 129 moved, 1 replaced (declared)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "srv_golden": {
+   "ok": true,
+   "cases": 11,
+   "note": "HTTP lines about changed files: index.html, mp.js, world.js, move.js, ents.js, glitch.js, camcorder.js",
+   "exit": 0,
+   "seconds": 15
+  },
+  "bpp_golden": {
+   "ok": true,
+   "cases": 7,
+   "note": "",
+   "exit": 0,
+   "seconds": 13
+  },
+  "session": {
+   "ok": true,
+   "cases": 18,
+   "note": "3 session scenarios identical to B++'s traces; 15 of 15 session mutants caught",
+   "exit": 0,
+   "seconds": 29
+  },
+  "sim": {
+   "ok": true,
+   "cases": 20065,
+   "note": "20050 calls give B++'s results; 15 of 15 seam mutants caught (by the server scenarios 13, by the differential run 14)",
+   "exit": 0,
+   "seconds": 131
+  },
+  "page": {
+   "ok": true,
+   "cases": 1255007,
+   "note": "world.js: 2295 comparisons equal; move, camcorder, glitch, ents: 1252700 trace lines equal, each scene reaching its script; 12 of 12 seam mutants caught",
+   "exit": 0,
+   "seconds": 101
+  },
+  "cli_golden": {
+   "ok": true,
+   "cases": 30,
+   "note": "B++ client scenes 3; all 18 scenes in one page, running 232 of mp.js's 232 functions",
+   "exit": 0,
+   "seconds": 18
+  },
+  "protocol": {
+   "ok": true,
+   "cases": 52740,
+   "note": "messages checked; selftest PASS",
+   "exit": null,
+   "seconds": 4
+  },
+  "mutants": {
+   "ok": true,
+   "cases": 18,
+   "note": "guard_off@src/frameworks/space/server/movement.js grace_1000@src/frameworks/space/server/movement.js admin_checked@src/frameworks/bpp/server/session.js q_self@src/frameworks/bpp/server/poses.js nr_gap_200@src/frameworks/bpp/server/newrun.js nr_wait_round@src/frameworks/bpp/server/newrun.js nr_no_memory@src/frameworks/bpp/server/newrun.js nr_free_off@src/frameworks/bpp/server/newrun.js nr_held_free@src/frameworks/space/server/sim.players.js aft_el_half@src/frameworks/gib/server/aftermath.js aft_every_tick@src/frameworks/gib/server/aftermath.js aft_victim_replay@src/frameworks/gib/server/aftermath.js aft_one_per_player@src/frameworks/gib/server/aftermath.js aft_world_tick@src/frameworks/gib/server/aftermath.js aft_killer_end@src/frameworks/gib/server/aftermath.js aft_boom_revive@src/frameworks/gib/server/aftermath.js aft_revive_end@src/frameworks/overseer/server/admin.js",
+   "exit": 0,
+   "seconds": 32
+  },
+  "static": {
+   "ok": true,
+   "cases": 4,
+   "note": "",
+   "exit": 0,
+   "seconds": 1
+  },
+  "raw_live": {
+   "ok": true,
+   "cases": 173,
+   "note": "responses for changed files: index.html, mp.js",
+   "exit": 0,
+   "seconds": 24
+  },
+  "quick_suites": {
+   "ok": true,
+   "cases": 23,
+   "note": "s_humanqa_hotfix 5/6, s_ir 3/3, interp_test 3, test_3bn 7/7, ir_net 4/4 (only the known B++ failures fail)",
+   "exit": 0,
+   "seconds": 9
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-15T09:51:46.734Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate",
+  "srv_keep",
+  "bpp_keep",
+  "cli_keep",
+  "cli_h2_keep",
+  "cli_c3c_keep"
+ ]
+}

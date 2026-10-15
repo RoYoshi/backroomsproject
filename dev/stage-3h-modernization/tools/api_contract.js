@@ -1,6 +1,8 @@
 /* Stage 3H engine modernization (H3M-6) - the window.__api contract ledger (development only; its output is committed).
  *
  *   node dev/stage-3h-modernization/tools/api_contract.js [--lineage src/core/client/bundle/lineage] [--out <file.json>] [--typescript <dir>]
+ *        [--repo <dir>]   (another checkout to read, e.g. M8's files from git archive; then give --out too)
+ *        [--check 1]      (continuation C5, the gate's lineage step: writes nothing; fails if the committed contract is not what it gives)
  *
  * window.__api is the compiled bundle's facade: the object it publishes for the classic scripts.  Some of its members are the bundle's
  * minified internal names, so they are a de-facto public API.  For every member this tool records:
@@ -9,13 +11,15 @@
  *     name it refers to, where that name is declared: an original v11 declaration (with the TypeScript module and unit it compiled from,
  *     from module_map.json) or a later step's text;
  *   - who reads it: every first-party script the page loads (public/, not the bundle and not the PixiJS chunks), by property accesses on
- *     window.__api or on a local name bound to it (const A = window.__api, A = window.__api || {}, const {x} = window.__api), and the
- *     bundle's own reads of window.__api.
+ *     window.__api or on a local name bound to it (const A = window.__api, A = window.__api || {}, const {x} = window.__api), or on a
+ *     name a module script's factory imports from the module that binds it (since continuation C3b: entsHound({ head: { API } })), and
+ *     the bundle's own reads of window.__api.  Not counted: a read through a function's parameter that its caller fills with the
+ *     object (mp.js: softTp(A, x, y), blendStep(A), markKiller(A, by)); the run-time reads are the traces' to compare.
  * The positions come from TypeScript's parser (its own copy of the global TypeScript package, for the parser only). */
 'use strict';
 const fs = require('fs'), path = require('path');
 const ARG = {}; for (let i = 2; i < process.argv.length; i += 2) ARG[process.argv[i].replace(/^--/, '')] = process.argv[i + 1];
-const REPO = path.resolve(__dirname, '..', '..', '..');
+const REPO = ARG.repo ? path.resolve(ARG.repo) : path.resolve(__dirname, '..', '..', '..');
 const LIN = path.resolve(REPO, ARG.lineage || 'src/core/client/bundle/lineage');
 const ts = require(ARG.typescript || path.join(path.dirname(process.execPath), '..', 'lib', 'node_modules', 'typescript'));
 const BUNDLE = path.join(REPO, 'public', 'assets', 'index-DKbV5Nv9.js');
@@ -120,7 +124,53 @@ for (const rel of files) {
   };
   const isGetter = f => f && (ts.isArrowFunction(f) || ts.isFunctionExpression(f)) && !f.parameters.length &&
     (ts.isBlock(f.body) ? f.body.statements.length === 1 && ts.isReturnStatement(f.body.statements[0]) && isApiExpr(f.body.statements[0].expression) : isApiExpr(f.body));
-  for (let pass = 0; pass < 3; pass++) (function find(n) {   // aliases (a name given window.__api) and getters (a function returning it)
+  /* (continuation C3b, C3c) a module script's factories import what an earlier module returns: entsHound({ head: { API } }) is given
+   * entsHead's own getter API.  A name a factory imports is the alias or getter its giver returns under that name; which module gives
+   * which key is read from the composition (const head = entsHead(); entsHound({ head })).  Without this, a read through an imported
+   * getter (API().H) would not be counted. */
+  const imports = [];                                    // [the imported binding's symbol, the giver's factory name, the export's name]
+  {
+    const factories = new Map(), exportsOf = new Map(), modOf = new Map();
+    (function find(n) { if (ts.isFunctionDeclaration(n) && n.name && n.body) factories.set(n.name.text, n); ts.forEachChild(n, find); })(s);
+    for (const [name, f] of factories) {                 // what each factory returns: its top-level return { a, b: c, d: () => window.__api }
+      const ex = new Map();
+      for (const st of f.body.statements) if (ts.isReturnStatement(st) && st.expression && ts.isObjectLiteralExpression(st.expression))
+        for (const p of st.expression.properties) {
+          if (ts.isShorthandPropertyAssignment(p)) ex.set(p.name.text, { sym: checker.getShorthandAssignmentValueSymbol(p) });
+          else if (ts.isPropertyAssignment(p) && ts.isIdentifier(p.name)) ex.set(p.name.text, ts.isIdentifier(p.initializer) ? { sym: symOf(p.initializer) } : { node: p.initializer });
+        }
+      exportsOf.set(name, ex);
+    }
+    const factoryOf = c => ts.isCallExpression(c) && ts.isIdentifier(c.expression) && factories.has(c.expression.text) ? c.expression.text : null;
+    (function find(n) {                                  // the composition: const head = entsHead(), and the keys each factory is given
+      if (ts.isVariableDeclaration(n) && ts.isIdentifier(n.name) && n.initializer && factoryOf(n.initializer)) { const y = symOf(n.name); if (y) modOf.set(y, factoryOf(n.initializer)); }
+      ts.forEachChild(n, find);
+    })(s);
+    (function find(n) {
+      const F = factoryOf(n);
+      if (F && n.arguments.length === 1 && ts.isObjectLiteralExpression(n.arguments[0])) {
+        const given = new Map();
+        for (const p of n.arguments[0].properties) {
+          const y = ts.isShorthandPropertyAssignment(p) ? checker.getShorthandAssignmentValueSymbol(p) : ts.isPropertyAssignment(p) && ts.isIdentifier(p.initializer) ? symOf(p.initializer) : null;
+          if (y && modOf.has(y)) given.set(p.name.getText(s), modOf.get(y));
+        }
+        const par = factories.get(F).parameters[0];
+        if (par && ts.isObjectBindingPattern(par.name)) for (const e of par.name.elements) {
+          const key = (e.propertyName || e.name).getText(s);
+          if (given.has(key) && ts.isObjectBindingPattern(e.name)) for (const i of e.name.elements) if (ts.isIdentifier(i.name)) {
+            const y = symOf(i.name); if (y) imports.push([y, given.get(key), (i.propertyName || i.name).getText(s), i.name.text]);
+          }
+        }
+      }
+      ts.forEachChild(n, find);
+    })(s);
+    for (const im of imports) im.push(exportsOf.get(im[1]).get(im[2]) || null);
+  }
+  const linkImports = () => { for (const [y, , , local, ex] of imports) if (ex) {
+    if ((ex.sym && aliases.has(ex.sym)) || (ex.node && isApiExpr(ex.node))) { aliases.add(y); aliasNames.add(local); }
+    else if ((ex.sym && getters.has(ex.sym)) || (ex.node && isGetter(ex.node))) { getters.add(y); getterNames.add(local); }
+  } };
+  for (let pass = 0; pass < 3; pass++, linkImports()) (function find(n) {   // aliases (a name given window.__api) and getters (a function returning it)
     if (ts.isVariableDeclaration(n) && n.initializer && ts.isIdentifier(n.name)) {
       const y = symOf(n.name);
       if (y && isApiExpr(n.initializer)) { aliases.add(y); aliasNames.add(n.name.text); }
@@ -155,5 +205,9 @@ const out = {
   members,
 };
 const OUT = ARG.out ? path.resolve(ARG.out) : path.join(LIN, '..', 'api_contract.json');
-fs.writeFileSync(OUT, JSON.stringify(out, null, 1) + '\n');
+if (ARG.check) {                                         // (C5) --check 1: the committed contract is what the code gives (the gate's lineage step)
+  const same = fs.existsSync(OUT) && fs.readFileSync(OUT, 'utf8') === JSON.stringify(out, null, 1) + '\n';
+  console.log(`API CONTRACT: ${same ? 'CURRENT' : 'STALE'} (${path.relative(REPO, OUT)}${same ? ' is what the bundle and the readers give' : ': run node dev/stage-3h-modernization/tools/api_contract.js, then lineage_doc.js'})`);
+  process.exitCode = same ? 0 : 1;
+} else fs.writeFileSync(OUT, JSON.stringify(out, null, 1) + '\n');
 console.log(`__api: ${members.length} members; ${Object.keys(readers).length} reading scripts (+ the bundle itself); unread members: ${members.filter(m => !Object.keys(m.readBy).length).map(m => m.name).join(', ') || 'none'}; names read but not in the literal: ${JSON.stringify(unknown)}`);

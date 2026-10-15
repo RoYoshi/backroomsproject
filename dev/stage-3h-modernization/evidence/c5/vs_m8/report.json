@@ -1,0 +1,68 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c5_vs_m8.js",
+ "m8": "c34f0c22bbacc5ac2813d173bc0591b67af7169f",
+ "head": "722113ff533c315effd6a15b9fafd019a53e0703",
+ "runtimeTree": {
+  "files": 302,
+  "sha256": "4687f0013eb310701c3389a63a040a60668b1017a0106f673bc07320da8bf9e8"
+ },
+ "startedAt": "2026-10-15T09:21:25.338Z",
+ "comparisons": [
+  {
+   "id": "page traces, 3H0's scenes (cli_golden.js)",
+   "ok": true,
+   "compared": 9,
+   "note": "load menu_online run_online interp fx_bodies facade admin reconnect_solo hum_dread"
+  },
+  {
+   "id": "page traces, 3H2's scenes (cli_golden_h2.js)",
+   "ok": true,
+   "compared": 3,
+   "note": "nr_answers nr_reconnect hum_fixtures"
+  },
+  {
+   "id": "page traces, all 18 scenes in one page (cli_golden_c3c.js)",
+   "ok": true,
+   "compared": 18,
+   "note": "M8's mp.js 159 of 159 functions run, this tree's 232 of 232"
+  },
+  {
+   "id": "world.js, every function (world_diff.js)",
+   "ok": true,
+   "compared": 2295,
+   "note": "WORLD DIFF: SAME - 2295 comparisons, 0 differences; the server's copy is the page's, byte for byte"
+  },
+  {
+   "id": "move.js, camcorder.js, glitch.js, ents.js (page_scripts.js)",
+   "ok": true,
+   "compared": 1252700,
+   "note": "move.js 15215 lines, camcorder.js 11336 lines, glitch.js 21927 lines, ents.js 1204222 lines"
+  },
+  {
+   "id": "the sim (sim_diff.js)",
+   "ok": true,
+   "compared": 20050,
+   "note": "SIM DIFF: SAME - 20050 comparisons over 5 seeds, 0 differences"
+  },
+  {
+   "id": "mp.js's frame hook and message handler, time (perf_det.js --only client)",
+   "ok": true,
+   "compared": 5,
+   "note": "menu_online hook +11.54% handler -4.55%; run_online hook +9.44% handler +4.62%; interp hook -6% handler +13.89%; fx_bodies hook -9.52% handler +4.31%; hum_dread hook +22.74% handler -33.33%"
+  },
+  {
+   "id": "two real players, every WebSocket frame by structure (live_wire_h2.js)",
+   "ok": true,
+   "compared": 65,
+   "note": "structurally identical"
+  },
+  {
+   "id": "BR-RoLE's contact lab, pixel for pixel (contact_lab.py)",
+   "ok": true,
+   "compared": 23,
+   "note": "23 images identical"
+  }
+ ],
+ "ok": true,
+ "finishedAt": "2026-10-15T09:39:30.964Z"
+}

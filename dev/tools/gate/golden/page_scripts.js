@@ -31,7 +31,10 @@ const UNRUN = {
   'glitch.js': { max: 0, why: '-' },
   'ents.js': { max: 2, why: 'the sound of a dropped light striking something (a death event the scene does not produce) and the Smiler\'s eye-contact line of a selected record' },
 };
-const git = p => execFileSync('git', ['-C', REPO, 'show', `${ARG['old-ref']}:${p}`]);
+/* (C5) an old side on the modern layout (M8: --old-ref c34f0c2): the page's files are under public/, the server's built sim under
+ * generated/server/; B++ and earlier keep both at the root */
+const MODERN = (() => { try { execFileSync('git', ['-C', REPO, 'cat-file', '-e', `${ARG['old-ref']}:public/index.html`], { stdio: 'ignore' }); return true; } catch (e) { return false; } })();
+const git = (p, server) => execFileSync('git', ['-C', REPO, 'show', `${ARG['old-ref']}:${MODERN ? (server ? 'generated/server/' : 'public/') : ''}${p}`]);
 /* --mutants FILE: each seam mutant (golden/page_mutants.js) in a scratch copy of this tree's scripts; the differential of its script (this
  * tool with --tree and --only, or world_diff.js for world.js) must FAIL on it */
 if (ARG.mutants) {
@@ -67,7 +70,7 @@ const level0 = fs.readFileSync(path.join(REPO, 'src', 'frameworks', 'lost', 'ser
 function debugFixture() {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'c3b-dbg-'));
   try {
-    for (const f of ['sim', 'ai', 'world']) fs.writeFileSync(path.join(tmp, f + '.js'), git(f + '.js'));
+    for (const f of ['sim', 'ai', 'world']) fs.writeFileSync(path.join(tmp, f + '.js'), git(f + '.js', true));
     const s = require(path.join(tmp, 'sim.js'))({ seed: 11 }), ps = [1, 2, 3].map(i => s.addPlayer(i)), frames = [];
     ps.forEach(p => s.join(p));
     ps.forEach((p, j) => { for (let k = 0; k < 60; k++) { const x = 960 + j * 60 + (k % 8) * 48, y = 3264 + Math.floor(k / 8) * 48; if (s.spawnOk(x, y)) { p.x = x; p.y = y; break; } } });

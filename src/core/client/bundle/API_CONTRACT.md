@@ -11,6 +11,7 @@ the same name and the same meaning, for every reader below.
 - **"Written by"** is the lineage step whose text holds the member: the v11 build had no `__api` at all.
 - **"Is"** names what the member's value refers to. For an original v11 name, it gives the TypeScript module and declaration it compiled from. For a later name, it gives the step that wrote it.
 - **Unread members:** `Fc`, `ll`, `ul`, `fl`, `cl`, `dl`, `pl`, `el`, `yu`, `bodyCount`, `J`, `unwin`. Nothing found reads these, but they stay in the contract until every caller is checked by hand.
+- **"Read by"** counts the places in each script's text that read the member: through `window.__api`, a local name for it, or (since the module scripts of continuation C3) a name a module imports from the module that holds it. A read through a function's parameter that its caller fills with the object is not counted (`mp.js`: `softTp`, `blendStep`, `markKiller`); the run-time reads are the client traces' to compare.
 
 | Member | Kind | Written by | Is | Read by |
 |---|---|---|---|---|
@@ -39,7 +40,7 @@ the same name and the same meaning, for every reader below.
 | `q` | binding | B05 | `q` = shared/entity.ts `smilers` | mp.js ×6 |
 | `V` | binding | B05 | `V` = shared/world.ts `lighting` | ents.js ×2, light.js ×2, mp.js ×1, assets/br-role.js ×2, assets/mp-hum.js ×1, assets/shadows-2d.js ×2 |
 | `el` | binding | B05 | `el` = shared/evidence.ts `traces` | - |
-| `H` | binding | B05 | `H` = shared/movement.ts `player` | camcorder.js ×4, ents.js ×7, light.js ×3, move.js ×7, mp.js ×26, assets/br-role.js ×4, assets/l0-remaster.js ×1, assets/mp-hum.js ×1, assets/shadows-2d.js ×5, assets/ui.js ×1, assets/index-DKbV5Nv9.js (itself) ×3 |
+| `H` | binding | B05 | `H` = shared/movement.ts `player` | camcorder.js ×4, ents.js ×7, light.js ×3, move.js ×7, mp.js ×24, assets/br-role.js ×4, assets/l0-remaster.js ×1, assets/mp-hum.js ×1, assets/shadows-2d.js ×5, assets/ui.js ×1, assets/index-DKbV5Nv9.js (itself) ×3 |
 | `yu` | binding | B05 | `yu` = client/main.ts `function updateEvidence` | - |
 | `zc` | binding | B09 | `zc` = shared/world.ts `isFloor` | mp.js ×4, assets/l0-remaster.js ×4 |
 | `Hc` | binding | B09 | `Hc` = shared/world.ts `blocksSight` | mp.js ×1, assets/br-role.js ×6, assets/l0-remaster.js ×4, assets/shadows-2d.js ×2 |

@@ -1,0 +1,17 @@
+mp.js's per-frame hook, real time summed over each perf scene (perf_det.js --only client, 21 rounds, interleaved old/new).
+A/B: M8's mp.js (old) against this tree's (new).  A/A: C3c's committed mp.js against the same code in the working tree (the noise).
+P(new>old): the share of (new, old) pairs in which the new run was slower (0.5 = no difference).  Hook calls per scene, counted once.
+A/B against M8:
+  menu_online  old   22.3 ms  new   24.0 ms   +7.62 %  P(new>old) 0.63  per hook call +13.1 us (130 calls)  handler  +9.52 %  rule ok
+  run_online   old   67.5 ms  new   64.2 ms   -4.89 %  P(new>old) 0.46  per hook call  -7.9 us (420 calls)  handler  -4.55 %  rule ok
+  interp       old   76.8 ms  new   81.6 ms   +6.25 %  P(new>old) 0.60  per hook call  +6.5 us (740 calls)  handler  -1.41 %  rule ok
+  fx_bodies    old  131.9 ms  new  124.8 ms   -5.38 %  P(new>old) 0.45  per hook call -10.1 us (700 calls)  handler  -0.83 %  rule ok
+  hum_dread    old   44.2 ms  new   46.5 ms   +5.20 %  P(new>old) 0.64  per hook call  +3.8 us (600 calls)  handler -50.00 %  rule ok
+A/A (the same code):
+  menu_online  old   22.9 ms  new   23.2 ms   +1.31 %  P(new>old) 0.51  per hook call  +2.3 us (130 calls)  handler  -8.33 %  rule ok
+  run_online   old   63.0 ms  new   62.9 ms   -0.16 %  P(new>old) 0.41  per hook call  -0.2 us (420 calls)  handler  +3.28 %  rule ok
+  interp       old   77.1 ms  new   78.2 ms   +1.43 %  P(new>old) 0.53  per hook call  +1.5 us (740 calls)  handler  +2.99 %  rule ok
+  fx_bodies    old  120.9 ms  new  118.1 ms   -2.32 %  P(new>old) 0.50  per hook call  -4.0 us (700 calls)  handler  +0.93 %  rule ok
+  hum_dread    old   46.1 ms  new   45.2 ms   -1.95 %  P(new>old) 0.46  per hook call  -1.5 us (600 calls)  handler  +0.00 %  rule ok
+Reading: against M8, two scenes are faster and three slower, none beyond what 21 rounds can tell apart (P at most 0.64; the same test
+on the same code gives 0.41 to 0.53); the largest median difference is about 13 us per hook call, against a 60 Hz frame of 16,700 us.

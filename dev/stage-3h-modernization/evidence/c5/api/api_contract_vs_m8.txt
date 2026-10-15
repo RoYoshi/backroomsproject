@@ -1,0 +1,13 @@
+The window.__api contract, counted from the code by dev/stage-3h-modernization/tools/api_contract.js (C5: it follows a module
+script's imported names), on this tree and on M8's files (git archive c34f0c2 public src/core/client/bundle; --repo).
+bundle sha256: this tree 694bca01e75d8e1c, M8 694bca01e75d8e1c: the same bundle
+members: this tree 52, M8 52; names in the same order: True
+each member's kind, text and what it refers to: the same
+who reads which member, by script: 1 difference(s)
+  H read by mp.js: 24 here, 26 at M8
+the readers (scripts, their local names for __api, members read): 0 difference(s)
+  none
+Why: C3c moved the two reads of H in mp.js's kill handling (Math.hypot(o.x - A.H.x, o.y - A.H.y)) from the session's tick, where A
+is the tick's own name for window.__api, into N.A.N.I.'s markKiller(A, by), whose A is a parameter the tick fills: the same reads at
+run time, counted only where the text names __api.  What they decide (which Hound's slot is marked as the killer) is in the client
+traces (run_online), equal to B++'s; the seam mutant killer_by_nobody shows the scenes see it.

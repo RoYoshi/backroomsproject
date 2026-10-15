@@ -20,7 +20,8 @@ const REPO = path.resolve(__dirname, '..', '..', '..', '..');
 const ARG = { 'old-ref': '143b63ff42b88c6780c5043e0f61d64100f81f40' }; for (let i = 2; i < process.argv.length; i += 2) ARG[process.argv[i].replace(/^--/, '')] = process.argv[i + 1];
 const TREE = ARG.tree ? path.resolve(ARG.tree) : REPO, LAYOUT = require(path.join(REPO, 'dev', 'tools', 'layout.js')).forTree(TREE);
 const load = text => { const m = { exports: {} }; new Function('module', 'exports', 'require', 'self', text)(m, m.exports, require, undefined); return m.exports; };
-const oldText = execFileSync('git', ['-C', REPO, 'show', `${ARG['old-ref']}:world.js`]).toString('utf8'), newFile = path.join(LAYOUT.webRoot(), 'world.js'), newText = fs.readFileSync(newFile, 'utf8');
+const MODERN = (() => { try { execFileSync('git', ['-C', REPO, 'cat-file', '-e', `${ARG['old-ref']}:public/index.html`], { stdio: 'ignore' }); return true; } catch (e) { return false; } })();   // (C5) an old side on the modern layout (M8): public/world.js
+const oldText = execFileSync('git', ['-C', REPO, 'show', `${ARG['old-ref']}:${MODERN ? 'public/' : ''}world.js`]).toString('utf8'), newFile = path.join(LAYOUT.webRoot(), 'world.js'), newText = fs.readFileSync(newFile, 'utf8');
 const serverCopy = LAYOUT.at('world.js'), serverSame = serverCopy === newFile || fs.readFileSync(serverCopy, 'utf8') === newText;   // the server's copy must be the page's, byte for byte
 const level0Text = fs.readFileSync(path.join(REPO, 'src', 'frameworks', 'lost', 'server', 'sim.level0.js'), 'utf8');
 const level0 = load(level0Text);
