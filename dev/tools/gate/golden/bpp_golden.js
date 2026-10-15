@@ -4,9 +4,11 @@
  *   - the old server.js runs against the working tree's runtime written under its old names into a scratch folder (dev/tools/layout.js
  *     projectOld), because a pre-modernization server.js requires ./sim.js; the new server.js runs in the working tree.  As before, only
  *     server.js's text differs between the two sides.
- * The scenarios are still srv_scenarios_bpp.js (dev/stage-3h/golden/).
+ * The scenarios are still srv_scenarios_bpp.js (dev/stage-3h/golden/), unless --scenarios names another scenario module (continuation C2:
+ * dev/tools/gate/golden/srv_scenarios_session.js, the session and the admin login).
  *
  *   node dev/tools/gate/golden/bpp_golden.js [--old-ref 143b63f] [--repeat 1] [--out DIR] [--write-baseline] [--baseline DIR] [--keep DIR]
+ *                                            [--scenarios FILE]   (C2: another scenario module; its report is named after the file)
  *
  * The original's description follows.
  *
@@ -19,10 +21,12 @@
 'use strict';
 const fs = require('fs'), path = require('path'), os = require('os'), zlib = require('zlib'), crypto = require('crypto');
 const { execFileSync, spawnSync } = require('child_process');
-const HERE = __dirname, REPO = path.resolve(HERE, '..', '..', '..', '..'), HARNESS = path.join(HERE, 'srv_harness.js'), SCEN_FILE = path.join(REPO, 'dev', 'stage-3h', 'golden', 'srv_scenarios_bpp.js');
+const HERE = __dirname, REPO = path.resolve(HERE, '..', '..', '..', '..'), HARNESS = path.join(HERE, 'srv_harness.js');
 const LAYOUT = require(path.join(REPO, 'dev', 'tools', 'layout.js'));
 const ARG = { 'old-ref': '143b63ff42b88c6780c5043e0f61d64100f81f40', repeat: '1' };
 for (let i = 2; i < process.argv.length; i++) { const k = process.argv[i].replace(/^--/, ''); if (k === 'write-baseline') ARG[k] = true; else ARG[k] = process.argv[++i]; }
+const SCEN_FILE = ARG.scenarios ? path.resolve(ARG.scenarios) : path.join(REPO, 'dev', 'stage-3h', 'golden', 'srv_scenarios_bpp.js');   // (C2) --scenarios
+const REPORT = ARG.scenarios ? path.basename(SCEN_FILE, '.js') + '_report.json' : 'bpp_golden_report.json';
 const SCEN = Object.keys(require(SCEN_FILE));
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const tmp = ARG.keep ? path.resolve(ARG.keep) : fs.mkdtempSync(path.join(os.tmpdir(), 'h1bpp-')); fs.mkdirSync(tmp, { recursive: true });
@@ -35,7 +39,7 @@ const run = (src, scen, tag) => {
   return { ok: r.status === 0, status: r.status, stderr: (r.stderr || '').trim().slice(-600), ms: Date.now() - t0, bytes: buf.length, lines: buf.length ? buf.toString('utf8').split('\n').length - 1 : 0, sha256: sha(buf), buf };
 };
 const base = ARG.baseline ? JSON.parse(fs.readFileSync(path.join(path.resolve(ARG.baseline), 'hashes.json'), 'utf8')) : null;
-const R = { tool: 'dev/tools/gate/golden/bpp_golden.js', oldRef: ARG['old-ref'], newSide: 'working tree', oldDir: 'the working tree\'s runtime under its old names (' + PROJECTED.length + ' files)', node: process.version, scenarios: [], ok: true };
+const R = { tool: 'dev/tools/gate/golden/bpp_golden.js', scenarios: path.relative(REPO, SCEN_FILE).split(path.sep).join('/'), oldRef: ARG['old-ref'], newSide: 'working tree', oldDir: 'the working tree\'s runtime under its old names (' + PROJECTED.length + ' files)', node: process.version, scenarios: [], ok: true };
 const outDir = ARG.out ? path.resolve(ARG.out) : null; if (outDir) fs.mkdirSync(outDir, { recursive: true });
 const bdir = outDir && ARG['write-baseline'] ? path.join(outDir, 'bpp_traces') : null; if (bdir) fs.mkdirSync(bdir, { recursive: true });
 const hashes = {};
@@ -51,7 +55,7 @@ for (const sc of SCEN) {
   console.log(`${rec.ok ? 'PASS' : 'FAIL'} ${sc}: old ${o.lines} lines ${o.sha256.slice(0, 12)} | new ${n.lines} lines ${n.sha256.slice(0, 12)} | ${rec.identical ? 'identical' : 'DIFFERENT'} | repeats ${rec.deterministic ? 'same' : 'DIFFER'}${base ? ' | baseline ' + (rec.baseline.equal ? 'equal' : 'DIFFERENT') : ''}${n.stderr ? ' | stderr: ' + n.stderr.slice(0, 200) : ''}`);
 }
 if (bdir) fs.writeFileSync(path.join(bdir, 'hashes.json'), JSON.stringify(hashes, null, 1) + '\n');
-if (outDir) fs.writeFileSync(path.join(outDir, 'bpp_golden_report.json'), JSON.stringify(R, null, 1) + '\n');
+if (outDir) fs.writeFileSync(path.join(outDir, REPORT), JSON.stringify(R, null, 1) + '\n');
 if (!ARG.keep) fs.rmSync(tmp, { recursive: true, force: true });
 console.log(`B++ golden traces: ${R.ok ? 'ALL IDENTICAL' : 'NOT IDENTICAL'}`);
 process.exit(R.ok ? 0 : 1);

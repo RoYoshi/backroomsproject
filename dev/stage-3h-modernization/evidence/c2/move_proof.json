@@ -1,0 +1,177 @@
+{
+ "tool": "dev/stage-3h/tools/h2_move_proof.js",
+ "base": "c34f0c22bbacc5ac2813d173bc0591b67af7169f",
+ "from": "server.js",
+ "moves": [
+  {
+   "to": "src/frameworks/ward/server/admin_login.js",
+   "ranges": [
+    {
+     "lines": "13-16",
+     "count": 4,
+     "foundAtModuleLine": 15
+    },
+    {
+     "lines": "116-119",
+     "count": 4,
+     "foundAtModuleLine": 20
+    }
+   ],
+   "movedLines": 8,
+   "moduleLines": 28,
+   "ok": true,
+   "moduleOwnLines": [
+    "1: /* src/frameworks/ward/server/admin_login.js - W.A.R.D. on the server: the admin login.  A client's {t:'admin', pass} is checked here:",
+    "2:  * the passcode against its SHA-256 in constant time, and a failure map that locks a client identity out for 60 s after its fifth wrong",
+    "3:  * guess.  Whether a connection is an admin is the connection's own flag (me.admin), set here and read by the session; nothing else",
+    "4:  * grants it.",
+    "5:  *",
+    "6:  * Stage 3H continuation (C2): moved out of server.js without a change, with the owner's approval to relocate this code (not to change",
+    "7:  * it).  Every line between the factory's first line and its return is server.js's own at M8 (c34f0c2: lines 13-16 and 116-119),",
+    "8:  * comments and indentation included, except the one line that names the function, marked (C2); dev/stage-3h/tools/h2_move_proof.js",
+    "9:  * checks it (dev/stage-3h-modernization/evidence/c2/).  The passcode's source stays in server.js's configuration, which gives it here.",
+    "10:  *   adminLogin(me, m, ip, name, id)   one {t:'admin'} message of connection me (client identity ip, room name, connection id): it",
+    "11:  *                                     answers {t:'admin', ok, wait | q} and logs one line; me.admin becomes true on a correct passcode",
+    "12:  * Given by server.js: crypto (Node's), ADMIN_PASS (the configured passcode) and send(c, obj).  No timer.  Never served: the server's",
+    "13:  * allowlist reaches only public/. */",
+    "14: module.exports = ({ crypto, ADMIN_PASS, send }) => {",
+    "19: function adminLogin(me, m, ip, name, id) {                             // (C2) the body of the session's {t:'admin'} branch, as it was",
+    "24: }",
+    "25: ",
+    "26: return { adminLogin };",
+    "27: };",
+    "28: "
+   ]
+  },
+  {
+   "to": "src/frameworks/bpp/server/session.js",
+   "ranges": [
+    {
+     "lines": "26-26",
+     "count": 1,
+     "foundAtModuleLine": 20
+    },
+    {
+     "lines": "61-115",
+     "count": 55,
+     "foundAtModuleLine": 22
+    },
+    {
+     "lines": "120-136",
+     "count": 17,
+     "foundAtModuleLine": 78
+    }
+   ],
+   "movedLines": 73,
+   "moduleLines": 96,
+   "ok": true,
+   "moduleOwnLines": [
+    "1: /* src/frameworks/bpp/server/session.js - B++ on the server: the WebSocket session.  It answers the HTTP server's upgrades on /ws",
+    "2:  * (the handshake, the room, the room cap), keeps each connection's state, reads each message the client sends and hands it to its owner,",
+    "3:  * and ends the connection.  It is the protocol's intake; every decision it calls for is made by the module that owns it:",
+    "4:  *   p        the pose: the movement authority (S.P.A.C.E., movement.js), the AI's hearing (room.sim), the presentation fields (fields.js)",
+    "5:  *   join, respawn, leave   the world's lifecycle (room.sim), then a placement onto a free spot (movement.js)",
+    "6:  *   nr       NEW RUN's decision (B++, newrun.js);  pick  the cartograph (room.sim)",
+    "7:  *   admin    the admin login (W.A.R.D., admin_login.js);  a  an admin command, only from a connection that login unlocked (OVERSEER)",
+    "8:  *   caps     the fresher poses (B+);  ping  pong, at most every 400 ms",
+    "9:  *",
+    "10:  * Stage 3H continuation (C2): moved out of server.js without a change, with the owner's approval to relocate this code (not to change",
+    "11:  * it).  Every line between the factory's first line and its end is server.js's own at M8 (c34f0c2: lines 26, 61-115 and 120-136),",
+    "12:  * comments and indentation included, except the one line marked (C2), which calls adminLogin where the admin branch's body was;",
+    "13:  * dev/stage-3h/tools/h2_move_proof.js checks it (dev/stage-3h-modernization/evidence/c2/).  The factory registers the upgrade handler",
+    "14:  * on the server it is given, at the point of server.js where the handler was registered before; it returns nothing.",
+    "15:  * Given by server.js: srv (the HTTP server), crypto (Node's), MAX_ROOM, FAST_GAP, the rooms (getRoom, rooms), the framing (send,",
+    "16:  * reader), the field checks (num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook), the movement authority (PEERS, MV, PD, blockers,",
+    "17:  * placeFree, mvReset, mvCheck, adminMove), nrIntent, adminCommand and adminLogin.  No timer.  Never served: the server's allowlist",
+    "18:  * reaches only public/. */",
+    "19: module.exports = ({ srv, crypto, MAX_ROOM, FAST_GAP, getRoom, rooms, send, reader, PEERS, num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook, MV, PD, blockers, placeFree, mvReset, mvCheck, adminMove, nrIntent, adminCommand, adminLogin }) => {",
+    "21: ",
+    "77:       adminLogin(me, m, ip, name, id);                                     // (C2) W.A.R.D.: the passcode check and the lockout (admin_login.js)",
+    "95: };",
+    "96: "
+   ]
+  }
+ ],
+ "ok": true,
+ "relocated": [],
+ "edited": [
+  {
+   "line": 29,
+   "base": "/* Stage 3H engine modernization (H3M-2): server.js is the server's composition root.  It keeps the configuration; the admin passcode, its"
+  },
+  {
+   "line": 30,
+   "base": " * check and its lockout; the WebSocket session below (the upgrade, each client's messages, its leaving); the requires the server always"
+  },
+  {
+   "line": 31,
+   "base": " * made, in their order; and the wiring.  Each other part lives with its owner, and is given what it uses (never requiring the server):"
+  },
+  {
+   "line": 32,
+   "base": " *   src/frameworks/space/server/movement.js   S.P.A.C.E.: the movement authority (the budget, the walls, the other players, placements)"
+  },
+  {
+   "line": 33,
+   "base": " *   src/core/server/rooms.js                  core: the rooms, and the admin world reset (a new world epoch)"
+  },
+  {
+   "line": 34,
+   "base": " *   src/frameworks/gib/server/aftermath.js    G.I.B.: the death aftermath and the NEW RUN blast (Stage 3H2 C-2)"
+  },
+  {
+   "line": 35,
+   "base": " *   src/frameworks/bpp/server/newrun.js       B++: NEW RUN's decision (Stage 3H2 C-1)"
+  },
+  {
+   "line": 36,
+   "base": " *   src/frameworks/overseer/server/admin.js   OVERSEER: the admin panel's commands"
+  },
+  {
+   "line": 37,
+   "base": " *   src/frameworks/bpp/server/poses.js        B++: the fresher poses between two snapshots (Stage 3E-0 B+)"
+  },
+  {
+   "line": 38,
+   "base": " *   src/core/server/loop.js                   core: the loop (the 60 Hz steps, the aftermath, the snapshots)"
+  },
+  {
+   "line": 39,
+   "base": " * The static files, the WebSocket framing and the checks on what clients send (Stage 3H0), and the players' bodies (peers.js), are"
+  },
+  {
+   "line": 40,
+   "base": " * required where they always were.  The session stays here because it holds the passcode check and its lockout: security code moves"
+  },
+  {
+   "line": 41,
+   "base": " * only with the owner's approval (dev/stage-3h-modernization/FINDINGS.md M-023). */"
+  }
+ ],
+ "fromLinesBase": 142,
+ "fromLinesNow": 66,
+ "removedLines": 81,
+ "keptInOrder": true,
+ "notKept": [],
+ "insertedInFrom": [
+  "24: /* Stage 3H engine modernization (H3M-2, continuation C2): server.js is the server's composition root.  It keeps the configuration,",
+  "25:  * with the admin passcode's source; the requires the server always made, in their order; and the wiring.  Each other part lives with its",
+  "26:  * owner, and is given what it uses (never requiring the server):",
+  "27:  *   src/frameworks/space/server/movement.js   S.P.A.C.E.: the movement authority (the budget, the walls, the other players, placements)",
+  "28:  *   src/core/server/rooms.js                  core: the rooms, and the admin world reset (a new world epoch)",
+  "29:  *   src/frameworks/gib/server/aftermath.js    G.I.B.: the death aftermath and the NEW RUN blast (Stage 3H2 C-2)",
+  "30:  *   src/frameworks/bpp/server/newrun.js       B++: NEW RUN's decision (Stage 3H2 C-1)",
+  "31:  *   src/frameworks/overseer/server/admin.js   OVERSEER: the admin panel's commands",
+  "32:  *   src/frameworks/ward/server/admin_login.js W.A.R.D.: the admin login (the passcode check and its lockout), moved as it was (C2)",
+  "33:  *   src/frameworks/bpp/server/session.js      B++: the WebSocket session (the upgrade, each client's messages, its leaving), moved as",
+  "34:  *                                             it was (C2)",
+  "35:  *   src/frameworks/bpp/server/poses.js        B++: the fresher poses between two snapshots (Stage 3E-0 B+)",
+  "36:  *   src/core/server/loop.js                   core: the loop (the 60 Hz steps, the aftermath, the snapshots)",
+  "37:  * The static files, the WebSocket framing and the checks on what clients send (Stage 3H0), and the players' bodies (peers.js), are",
+  "38:  * required where they always were.  The owner approved the session's move as a relocation (2026-10-14): its semantics are unchanged",
+  "39:  * (dev/stage-3h-modernization/FINDINGS.md M-023). */",
+  "59: const { adminLogin } = require('./src/frameworks/ward/server/admin_login.js')({ crypto, ADMIN_PASS, send });   // (C2) W.A.R.D.: the admin login",
+  "60: require('./src/frameworks/bpp/server/session.js')({ srv, crypto, MAX_ROOM, FAST_GAP, getRoom, rooms, send, reader, PEERS, num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook, MV, PD, blockers, placeFree, mvReset, mvCheck, adminMove, nrIntent, adminCommand, adminLogin });   // (C2) B++: the WebSocket session"
+ ],
+ "editedCount": 13
+}

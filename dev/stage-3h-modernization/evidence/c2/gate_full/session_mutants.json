@@ -1,0 +1,364 @@
+{
+ "tool": "dev/tools/gate/golden/bpp_mutants.js",
+ "source": "working tree",
+ "files": [
+  "generated/server/ai.js",
+  "generated/server/dphys.js",
+  "generated/server/sim.js",
+  "generated/server/world.js",
+  "server.js",
+  "src/core/server/loop.js",
+  "src/core/server/rooms.js",
+  "src/frameworks/bpp/server/newrun.js",
+  "src/frameworks/bpp/server/poses.js",
+  "src/frameworks/bpp/server/session.js",
+  "src/frameworks/bpp/server/ws.js",
+  "src/frameworks/gib/server/aftermath.js",
+  "src/frameworks/gib/server/death_srv.js",
+  "src/frameworks/overseer/server/admin.js",
+  "src/frameworks/space/server/movement.js",
+  "src/frameworks/space/server/peers.js",
+  "src/frameworks/ward/server/admin_login.js",
+  "src/frameworks/ward/server/fields.js",
+  "src/frameworks/ward/server/static.js"
+ ],
+ "node": "v22.22.2",
+ "reference": {
+  "session_login": {
+   "ok": true,
+   "sha256": "df8d880c6e948f74b93ea2a40c5ec44db45e401399cfe9dde48fa4646f1a752a",
+   "lines": 35229,
+   "stderr": "ok session_login 35229 lines"
+  },
+  "session_identity": {
+   "ok": true,
+   "sha256": "e0e1e5b0d394b23768c1871d9463aa458d83281fd79e9d947e26937e4c1332f7",
+   "lines": 16311,
+   "stderr": "ok session_identity 16311 lines"
+  },
+  "session_wire": {
+   "ok": true,
+   "sha256": "03756fe463bd91ee95cf2d55a35436cbaf0eeb2dc7428eaac71a91d05c4522fb",
+   "lines": 813,
+   "stderr": "ok session_wire 813 lines"
+  }
+ },
+ "mutants": [
+  {
+   "id": "login_threshold_6",
+   "why": "the lockout after six wrong guesses instead of five",
+   "find": "if (++f.n >= 5) { f.until = now + 60000;",
+   "repl": "if (++f.n >= 6) { f.until = now + 60000;",
+   "foundIn": [
+    "src/frameworks/ward/server/admin_login.js"
+   ],
+   "scenarios": {
+    "session_login": {
+     "ok": true,
+     "sha256": "95dcf0db7c7031d7325949e47dc0e1b1af4d2b97a2ca94513b1ed506f8e83480",
+     "lines": 35237,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/ward/server/admin_login.js",
+   "caught": true
+  },
+  {
+   "id": "login_lock_59s",
+   "why": "a lockout of 59 s instead of 60 s",
+   "find": "f.until = now + 60000; f.n = 0;",
+   "repl": "f.until = now + 59000; f.n = 0;",
+   "foundIn": [
+    "src/frameworks/ward/server/admin_login.js"
+   ],
+   "scenarios": {
+    "session_login": {
+     "ok": true,
+     "sha256": "e9cae41af3e0e718f737ac905aa1be76556baeabdb505e1c3d6d68c7f9777010",
+     "lines": 35231,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/ward/server/admin_login.js",
+   "caught": true
+  },
+  {
+   "id": "login_count_kept",
+   "why": "a correct passcode no longer clears the count of wrong guesses",
+   "find": "me.admin = true; fails.delete(ip);",
+   "repl": "me.admin = true;",
+   "foundIn": [
+    "src/frameworks/ward/server/admin_login.js"
+   ],
+   "scenarios": {
+    "session_login": {
+     "ok": true,
+     "sha256": "eb98e7bf72110e51b50df15e2550d26c53b484c49945018456623ed4a475ee21",
+     "lines": 35229,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/ward/server/admin_login.js",
+   "caught": true
+  },
+  {
+   "id": "login_count_not_reset",
+   "why": "the count is not reset when the lockout starts",
+   "find": "f.until = now + 60000; f.n = 0;",
+   "repl": "f.until = now + 60000;",
+   "foundIn": [
+    "src/frameworks/ward/server/admin_login.js"
+   ],
+   "scenarios": {
+    "session_login": {
+     "ok": true,
+     "sha256": "df8fb18e7f22c7cd1ecd47b9f5ee9eadeb785af549eec906179361859fa843ef",
+     "lines": 35229,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/ward/server/admin_login.js",
+   "caught": true
+  },
+  {
+   "id": "login_wait_floor",
+   "why": "the time left rounded down instead of up",
+   "find": "wait: Math.ceil((f.until - now) / 1000)",
+   "repl": "wait: Math.floor((f.until - now) / 1000)",
+   "foundIn": [
+    "src/frameworks/ward/server/admin_login.js"
+   ],
+   "scenarios": {
+    "session_login": {
+     "ok": true,
+     "sha256": "ada390460e14be0456dd76b617b899de62dc0cae08b82f50ca276251db33eddc",
+     "lines": 35229,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/ward/server/admin_login.js",
+   "caught": true
+  },
+  {
+   "id": "login_quiet_ignored",
+   "why": "the quiet login answered as a loud one",
+   "find": "send(me, { t: 'admin', ok: true, q: m.quiet ? 1 : 0 });",
+   "repl": "send(me, { t: 'admin', ok: true, q: 0 });",
+   "foundIn": [
+    "src/frameworks/ward/server/admin_login.js"
+   ],
+   "scenarios": {
+    "session_login": {
+     "ok": true,
+     "sha256": "493494593d44efa8daee4170d610acc2adf81f3e7789614cd6a1abdc4a505fb9",
+     "lines": 35229,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/ward/server/admin_login.js",
+   "caught": true
+  },
+  {
+   "id": "login_locked_unlocks",
+   "why": "the passcode accepted during a lockout",
+   "find": "if (now < f.until) return send(me, { t: 'admin', ok: false,",
+   "repl": "if (false) return send(me, { t: 'admin', ok: false,",
+   "foundIn": [
+    "src/frameworks/ward/server/admin_login.js"
+   ],
+   "scenarios": {
+    "session_login": {
+     "ok": true,
+     "sha256": "045bb1bc288d96038e27bbbd54465a856c39a5362249bfed9dc07f8cb3a49a2b",
+     "lines": 35237,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/ward/server/admin_login.js",
+   "caught": true
+  },
+  {
+   "id": "identity_last_entry",
+   "why": "the client identity taken from the forwarded header's last entry instead of its first",
+   "find": ".split(',')[0].trim();",
+   "repl": ".split(',').pop().trim();",
+   "foundIn": [
+    "src/frameworks/bpp/server/session.js"
+   ],
+   "scenarios": {
+    "session_identity": {
+     "ok": true,
+     "sha256": "3b0338b884a0f583db71bb1d9a6862f95374b9bedbe6a13cca3b2de7ae2369f6",
+     "lines": 16312,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/bpp/server/session.js",
+   "caught": true
+  },
+  {
+   "id": "identity_socket_only",
+   "why": "the client identity taken from the socket only",
+   "find": "String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')",
+   "repl": "String(req.socket.remoteAddress || '')",
+   "foundIn": [
+    "src/frameworks/bpp/server/session.js"
+   ],
+   "scenarios": {
+    "session_identity": {
+     "ok": true,
+     "sha256": "3f41310e5b66872e7a7b56f9b93328ef2867fc870106df507831bb9e1b40bc13",
+     "lines": 16311,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/bpp/server/session.js",
+   "caught": true
+  },
+  {
+   "id": "commands_unchecked",
+   "why": "admin commands accepted from any connection",
+   "find": "else if (m.t === 'a') { if (me.admin) adminCommand(room, me, m); }",
+   "repl": "else if (m.t === 'a') { adminCommand(room, me, m); }",
+   "foundIn": [
+    "src/frameworks/bpp/server/session.js"
+   ],
+   "scenarios": {
+    "session_login": {
+     "ok": true,
+     "sha256": "24a9b0e5eda8ea439b3c33a0518d3d8283ef5214950225d7bd6f26c5e3b230c8",
+     "lines": 35245,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/bpp/server/session.js",
+   "caught": true
+  },
+  {
+   "id": "ping_gap_300",
+   "why": "pongs answered every 300 ms instead of 400",
+   "find": "t - (me.pingAt || 0) > 400",
+   "repl": "t - (me.pingAt || 0) > 300",
+   "foundIn": [
+    "src/frameworks/bpp/server/session.js"
+   ],
+   "scenarios": {
+    "session_wire": {
+     "ok": true,
+     "sha256": "b0d3b27e5a880c54ef9a3205d1208959313d9492cfb4fb42ec338984d265b0f6",
+     "lines": 816,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/bpp/server/session.js",
+   "caught": true
+  },
+  {
+   "id": "room_cap_9",
+   "why": "a ninth connection admitted to a room",
+   "find": "if (room.clients.size >= MAX_ROOM) return sock.destroy();",
+   "repl": "if (room.clients.size > MAX_ROOM) return sock.destroy();",
+   "foundIn": [
+    "src/frameworks/bpp/server/session.js"
+   ],
+   "scenarios": {
+    "session_wire": {
+     "ok": true,
+     "sha256": "c7d7baf6584c0ace9dc7363ed2c15ade6c65edc961ce91061c0952a7439472ad",
+     "lines": 825,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/bpp/server/session.js",
+   "caught": true
+  },
+  {
+   "id": "caps_loose",
+   "why": "the fresher poses switched on by any true value",
+   "find": "me.fp = m.fp === 1;",
+   "repl": "me.fp = !!m.fp;",
+   "foundIn": [
+    "src/frameworks/bpp/server/session.js"
+   ],
+   "scenarios": {
+    "session_wire": {
+     "ok": true,
+     "sha256": "43db5ce38ddb146211a362d553a8dcad5912eea86ebfb59e1f3e3784186ab7d8",
+     "lines": 813,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/bpp/server/session.js",
+   "caught": true
+  },
+  {
+   "id": "room_kept",
+   "why": "an empty room is kept instead of thrown away",
+   "find": "if (!room.clients.size) rooms.delete(name);",
+   "repl": "if (false) rooms.delete(name);",
+   "foundIn": [
+    "src/frameworks/bpp/server/session.js"
+   ],
+   "scenarios": {
+    "session_wire": {
+     "ok": true,
+     "sha256": "42b7d1f4f081a9517562c0fc9d99af1252073f5ee8302504a67642501e476aab",
+     "lines": 837,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/bpp/server/session.js",
+   "caught": true
+  },
+  {
+   "id": "error_ignored",
+   "why": "a socket's error no longer ends its connection at once",
+   "find": "sock.on('close', bye); sock.on('error', bye);",
+   "repl": "sock.on('close', bye);",
+   "foundIn": [
+    "src/frameworks/bpp/server/session.js"
+   ],
+   "scenarios": {
+    "session_wire": {
+     "ok": true,
+     "sha256": "8e58fdb438ce928b843343d8e51cac4b925d149e9544f412d2827e8b3db95a07",
+     "lines": 807,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "src/frameworks/bpp/server/session.js",
+   "caught": true
+  }
+ ],
+ "ok": true
+}

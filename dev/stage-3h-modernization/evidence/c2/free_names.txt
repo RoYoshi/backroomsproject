@@ -1,0 +1,11 @@
+ok   self-test: poses.js without its parameter: undeclared send (must be: send)
+ok   server.js (at the base): undeclared none; host URL, __dirname, console, process, setInterval; language Date, JSON, Map, Math, String, isFinite
+ok   server.js: undeclared none; host __dirname, console, process, setInterval; language JSON, Math
+ok   src/frameworks/space/server/movement.js: undeclared none; host -; language Date, Math, Object
+ok   src/core/server/rooms.js: undeclared none; host -; language Date, Map, Math
+ok   src/frameworks/overseer/server/admin.js: undeclared none; host Buffer, console, setTimeout; language Math, String
+ok   src/frameworks/bpp/server/poses.js: undeclared none; host -; language Math
+ok   src/core/server/loop.js: undeclared none; host process; language Date, JSON, Math, Number, Object
+ok   src/frameworks/ward/server/admin_login.js: undeclared none; host console; language Date, Map, Math, String
+ok   src/frameworks/bpp/server/session.js: undeclared none; host URL; language Date, Math, String, isFinite
+FREE NAMES: every name is declared, a factory parameter, or the host's or the language's

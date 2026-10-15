@@ -1,0 +1,11 @@
+$ node dev/tools/checks/parts.js --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em3/work/gate_c2_full/parts.json
+PASS public/camcorder.js: 3 parts, 41 names in the shared closure
+PASS public/ents.js: 6 parts, 63 names in the shared closure
+PASS public/glitch.js: 3 parts, 15 names in the shared closure
+PASS public/move.js: 3 parts, 35 names in the shared closure
+PASS public/mp.js: 16 parts, 170 names in the shared closure
+PASS public/world.js: 6 parts, 12 names in the shared closure
+PASS generated/server/ai.js: 10 parts, 201 names in the shared closure
+PASS generated/server/sim.js: 11 parts, 114 names in the shared closure
+PASS generated/server/world.js: 6 parts, 12 names in the shared closure
+PARTS CHECK: PASS (9 outputs, 64 parts)

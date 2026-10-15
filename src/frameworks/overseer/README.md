@@ -8,7 +8,7 @@ The admin's tools: the panel's commands on the server (`server/admin.js`: kick, 
 
 ## What it must not own
 
-Who is an admin: the passcode check and its lockout stay in `server.js` (W.A.R.D.'s concern), and a page can never grant itself powers. Its hardening needs the owner's approval.
+Who is an admin: the passcode check and its lockout are W.A.R.D.'s (`ward/server/admin_login.js`), and a page can never grant itself powers. Changing them needs the owner's separate approval.
 
 ## Its rule
 

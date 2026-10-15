@@ -6,7 +6,9 @@
  *     their folders, so a mutant's text is looked up where the running code lives (generated/server/sim.js, src/frameworks/.../newrun.js).
  * The mutants and the scenarios (srv_scenarios_bpp.js) are the original's, unchanged.
  *
- *   node dev/tools/gate/golden/bpp_mutants.js [--ref REF] [--only id,id] [--out FILE.json]
+ *   node dev/tools/gate/golden/bpp_mutants.js [--ref REF] [--only id,id] [--out FILE.json] [--scenarios FILE --mutants FILE]
+ *   (continuation C2: --scenarios and --mutants name another scenario module and the mutant list that goes with it, a module exporting
+ *   an array of { id, scenarios, find, repl, why }: dev/tools/gate/golden/srv_scenarios_session.js and session_mutants.js)
  *
  * The original's description follows.
  *
@@ -21,10 +23,11 @@
 'use strict';
 const fs = require('fs'), path = require('path'), os = require('os'), crypto = require('crypto');
 const { execFileSync, spawnSync } = require('child_process');
-const HERE = __dirname, REPO = path.resolve(HERE, '..', '..', '..', '..'), HARNESS = path.join(HERE, 'srv_harness.js'), SCEN_FILE = path.join(REPO, 'dev', 'stage-3h', 'golden', 'srv_scenarios_bpp.js');
+const HERE = __dirname, REPO = path.resolve(HERE, '..', '..', '..', '..'), HARNESS = path.join(HERE, 'srv_harness.js');
 const LAYOUT = require(path.join(REPO, 'dev', 'tools', 'layout.js'));
 const ARG = {}; for (let i = 2; i < process.argv.length; i += 2) ARG[process.argv[i].replace(/^--/, '')] = process.argv[i + 1];
-const MUTANTS = [
+const SCEN_FILE = ARG.scenarios ? path.resolve(ARG.scenarios) : path.join(REPO, 'dev', 'stage-3h', 'golden', 'srv_scenarios_bpp.js');   // (C2) --scenarios
+const B_MUTANTS = [
   { id: 'guard_off', scenarios: ['bpp_place_guard', 'bpp_world_guard'], find: 'if (pl && now < v.grace && now - pl[2] < MV.GRACE', repl: 'if (false && pl && now < v.grace && now - pl[2] < MV.GRACE', why: "B++-0's placement guard removed (B+'s behaviour)" },
   { id: 'grace_1000', scenarios: ['bpp_known_limits'], find: 'SNAP: 220, GRACE: 900 }', repl: 'SNAP: 220, GRACE: 1000 }', why: 'the grace after a placement 100 ms longer' },
   { id: 'admin_checked', scenarios: ['bpp_known_limits'], find: 'if (me.admin) { if (!me.mv) mvReset(me, false); adminMove(', repl: 'if (me.admin && false) { if (!me.mv) mvReset(me, false); adminMove(', why: "an admin's own poses checked like anyone's" },
@@ -47,6 +50,7 @@ const MUTANTS = [
   { id: 'aft_boom_revive', scenarios: ['bpp_aftermath'], find: '(room.afts || []).find(a => a.id === id && !a.body && !a.boom)', repl: '(room.afts || []).find(a => a.id === id && !a.body)', why: 'an admin revive also cancels a NEW RUN blast' },
   { id: 'aft_revive_end', scenarios: ['bpp_aftermath'], find: "if (c !== target) send(c, { t: 'fx', k: 'end', id: target.id, de: a.de });", repl: "if (false) send(c, { t: 'fx', k: 'end', id: target.id, de: a.de });", why: 'a revived death is not ended on the other screens' },
 ];
+const MUTANTS = ARG.mutants ? require(path.resolve(ARG.mutants)) : B_MUTANTS;                                // (C2) --mutants
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const ref = ARG.ref ? execFileSync('git', ['-C', REPO, 'rev-parse', ARG.ref]).toString().trim() : null;
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'mmut-'));

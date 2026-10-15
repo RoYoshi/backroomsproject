@@ -26,14 +26,14 @@ States: **DONE** · **IN PROGRESS** · **PLANNED** · **BLOCKED** (with what unb
 | M-001, M-012, M-019, ADR-002: the 40 post-v11 edits | Replayed into minified output (`lineage/`) | Ported to readable, owned TypeScript in a maintained client tree; the bundle built from it; no replay of minified patches | C4 | **BLOCKED by C1.** `inventory/c0_bundle_steps.csv` maps each step to its concern, owner, the v11 modules it changed and its port target. B13, B17 and B18 have no net effect. Heaviest: B02 (Level 0, stamina: 6.5 KB), B14, B10, B11, B07, B28 to B30 |
 | M-020 `window.__api` (52 members) | Traced, 16 readers | The same 52 members, or proven adapters, during and after the port | C4, with a contract suite in C5 | PLANNED |
 | M-003 Level 0 defined twice | `sim.level0.js` (server) and the bundle (B02) | One canonical level definition read by the server and by the page | C4 | **BLOCKED by C1.** The page's copy lives in the bundle, which cannot be rebuilt here |
-| M-023 the session in `server.js` | Upgrade, dispatch, passcode check, lockout, leave: about 75 lines | `server.js` as a thin root; the session under B++, the admin login and lockout under W.A.R.D., each with an explicit contract and the same semantics | C2 | PLANNED |
+| M-023 the session in `server.js` | Upgrade, dispatch, passcode check, lockout, leave: about 75 lines | `server.js` as a thin root; the session under B++, the admin login and lockout under W.A.R.D., each with an explicit contract and the same semantics | C2 | **DONE at C2:** B++'s `session.js` and W.A.R.D.'s `admin_login.js`, every line verbatim; `server.js` 65 lines; B++'s traces on the session scenarios; 15 of 15 session mutants caught |
 | M-024 shared closures | 58 part files, 9 outputs; 312 uses and 49 writes across owners (`inventory/c0_parts_coupling.csv`) | Real modules: explicit imports or injected factories, each state with one owner, no writes into another owner's bindings, no global back-channel | C3 | PLANNED. `sim.js` (134 uses, 18 writes across owners) and `mp.js` (147 and 31) are the core of it. `ai.js` has one owner and no cross-owner use; it stays one cohesive module unless a boundary helps |
 | M-005 legacy `window` contracts (63 names) | Documented (`CONTRACTS.md`) | Explicit adapters as consumers migrate; same public behaviour | C3 (the classic scripts' side), C4 (the bundle's side) | PLANNED |
 | M-021 perf noise | A/A rule, paired runs | A/A controls and paired A/B kept; real hardware in Human QA | C5 | PLANNED |
 | M-013 carpet placeholder | Shipped placeholder | **Not debt:** kept, hash unchanged | - | kept |
 | M-002, M-014 PixiJS chunks | Named, one not observed loaded | Recorded as a vendor detail; no gameplay "fix" | C4 | PLANNED |
 | Eight README-only frameworks | Reserved homes | **Not debt:** left reserved, labelled so | - | kept |
-| Inherited security weaknesses | Known (the owner holds the private notes) | Not changed by any refactor; a separate, owner-approved security change before any promotion | - | tracked privately |
+| Security observations | Kept outside this public repository | Not changed by any refactor; any change is a separate security change that the owner approves, before any promotion | - | tracked privately |
 
 ## What the session's move must keep (C2)
 
@@ -49,7 +49,7 @@ These are the exact behaviours the move must keep. They are read from the code, 
 - the ping rate limit;
 - the order of everything on leaving.
 
-The values and any weaknesses stay out of this public file.
+No value and no security observation is written in this public file.
 
 ## The waves
 

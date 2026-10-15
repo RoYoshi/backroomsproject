@@ -3,7 +3,8 @@
  *
  *   node dev/stage-3h-modernization/tools/m2_free_names.js [--base f2db9d8] [--out FILE.json]
  *
- * For server.js at --base (before the split) and for server.js and the five modules split out of it, TypeScript's checker lists every
+ * For server.js at --base (before the split) and for server.js and the modules split out of it (H3M-2's five; the continuation's C2 adds
+ * admin_login.js and session.js), TypeScript's checker lists every
  * name a file uses that nothing in it declares.  A module split out of server.js must use nothing but its factory's parameters and the
  * host's globals (require, process, console, the timers, Buffer, URL ...): a name it used from server.js and was not given would be a
  * ReferenceError only when that code runs.  Its "Cannot find name" diagnostics are the measure; the host globals are listed apart (no
@@ -18,8 +19,9 @@ if (!ts) { console.error('NOT RUN: TypeScript is not installed'); process.exit(2
 const HOST = new Set(['require', 'module', 'exports', 'process', 'Buffer', '__dirname', '__filename', 'console', 'setTimeout', 'setInterval', 'clearTimeout', 'clearInterval', 'setImmediate', 'URL', 'global']);
 const BUILTIN = new Set(['http', 'fs', 'path', 'crypto', 'zlib']);                 // TypeScript names these in require('http') when it has no Node types
 const files = [['server.js (at the base)', execFileSync('git', ['-C', REPO, 'show', ARG.base + ':server.js']).toString('utf8')]].concat(
-  ['server.js', 'src/frameworks/space/server/movement.js', 'src/core/server/rooms.js', 'src/frameworks/overseer/server/admin.js', 'src/frameworks/bpp/server/poses.js', 'src/core/server/loop.js']
-    .map(f => [f, fs.readFileSync(path.join(REPO, f), 'utf8')]));
+  ['server.js', 'src/frameworks/space/server/movement.js', 'src/core/server/rooms.js', 'src/frameworks/overseer/server/admin.js', 'src/frameworks/bpp/server/poses.js', 'src/core/server/loop.js',
+   'src/frameworks/ward/server/admin_login.js', 'src/frameworks/bpp/server/session.js']                                      // (C2) the two modules split out of it later, when present
+    .filter(f => fs.existsSync(path.join(REPO, f))).map(f => [f, fs.readFileSync(path.join(REPO, f), 'utf8')]));
 const R = { tool: 'dev/stage-3h-modernization/tools/m2_free_names.js', base: ARG.base, typescript: ts.version, files: {}, ok: true };
 /* a self-test first: poses.js without its one parameter must be reported (send undeclared) */
 files.unshift(['self-test: poses.js without its parameter', fs.readFileSync(path.join(REPO, 'src/frameworks/bpp/server/poses.js'), 'utf8').replace('module.exports = ({ send }) => {', 'module.exports = ({ }) => {')]);

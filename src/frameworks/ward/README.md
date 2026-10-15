@@ -4,7 +4,7 @@
 
 ## What it owns
 
-The edges of trust: what the server serves (`server/static.js`: only `public/`, through the `SERVE` allowlist; MIME types, caching, gzip, `/sounds`) and the checks on every field a client sends (`server/fields.js`). The admin passcode, its constant-time check and the lockout per address are W.A.R.D.'s concern too, and stay in `server.js` as they were.
+The edges of trust: what the server serves (`server/static.js`: only `public/`, through the `SERVE` allowlist; MIME types, caching, gzip, `/sounds`) and the checks on every field a client sends (`server/fields.js`). The admin login is W.A.R.D.'s too (`server/admin_login.js`, continuation C2): the passcode's hash and its constant-time check, the count of wrong guesses per client identity and the 60 s lockout after the fifth, moved out of `server.js` as they were. The passcode's source (`ADMIN_PASSCODE`, or the built-in default) stays in `server.js`'s configuration, which gives it to the login.
 
 ## What it must not own
 
@@ -19,6 +19,7 @@ Server source stays private to the server (never served); no secret in a client 
 <!-- generated: sources:ward (dev/tools/docs/docs.js) -->
 | File | What it is | Goes into |
 |---|---|---|
+| [`server/admin_login.js`](server/admin_login.js) | src/frameworks/ward/server/admin_login.js - W.A.R.D. on the server: the admin login.  A client's {t:'admin', pass} is checked here: | a server module: `server.js` requires it |
 | [`server/fields.js`](server/fields.js) | server/fields.js - the checks server.js applies to the fields clients send. | a server module: `server.js` requires it |
 | [`server/static.js`](server/static.js) | server/static.js - the static file serving of server.js. | a server module: `server.js` requires it |
 <!-- end of generated block -->
@@ -27,7 +28,7 @@ A file marked "(a part)" is one part of a bigger script: its `/** @part` header 
 
 ## How it connects
 
-- `server.js` gives `static.js` its web root; the session applies `fields.js`'s checks to the fields of the messages it reads.
+- `server.js` gives `static.js` its web root and `admin_login.js` the configured passcode; the session (B++, `session.js`) applies `fields.js`'s checks to the fields of the messages it reads, and hands each `{t:'admin'}` to `adminLogin`.
 - The deployment pulls `main` and runs `node server.js` (`.github/workflows/deploy-bloom.yml`, unchanged).
 
 ## Changing it
@@ -41,4 +42,4 @@ Only with the owner's approval. Security findings go to the owner privately, nev
 
 ## Known debt
 
-- Moving the session out of `server.js` waits for the owner (M-023).
+- None: the login moved at C2 with its semantics unchanged (M-023). Any change to what it decides is a separate security change that the owner approves.

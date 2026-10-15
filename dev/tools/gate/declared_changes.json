@@ -3,7 +3,7 @@
  "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
  "runtime": {
   "changed": {
-   "server.js": "3H2 C-1 and C-2: NEW RUN's decision and the death aftermath moved to modules (server/newrun.js, server/aftermath.js). H3M-1: the web root is public/; the moved modules and the generated sim.js are required from their new paths. H3M-2: the composition root; the movement authority, the rooms and the world reset, the admin panel's commands, the fresher poses and the loop moved to modules as they were (the move proof: dev/stage-3h-modernization/evidence/m2/); the configuration, the passcode, its check and lockout, and the session stay",
+   "server.js": "3H2 C-1 and C-2: NEW RUN's decision and the death aftermath moved to modules (server/newrun.js, server/aftermath.js). H3M-1: the web root is public/; the moved modules and the generated sim.js are required from their new paths. H3M-2: the composition root; the movement authority, the rooms and the world reset, the admin panel's commands, the fresher poses and the loop moved to modules as they were (the move proof: dev/stage-3h-modernization/evidence/m2/); the configuration and the passcode's source stay. Continuation C2: the WebSocket session (src/frameworks/bpp/server/session.js) and the admin login with its lockout (src/frameworks/ward/server/admin_login.js) moved to modules as they were, with the owner's approval to relocate them (the move proof: dev/stage-3h-modernization/evidence/c2/)",
    "mp.js": "3H2 C-3 and C-4: NEW RUN's button and run-menu words, and the fluorescent hum, moved to assets/net-newrun.js and assets/mp-hum.js",
    "index.html": "3H2 C-3 and C-4: the two helper scripts are loaded",
    "death_srv.js": "H3M-1: its path to the built dphys.js (generated/server/dphys.js)",
@@ -19,7 +19,9 @@
    "src/core/server/rooms.js": "H3M-2: core, the rooms and the admin world reset, moved out of server.js as they were",
    "src/frameworks/overseer/server/admin.js": "H3M-2: OVERSEER, the admin panel's commands, moved out of server.js as they were (the passcode check stays in server.js)",
    "src/frameworks/bpp/server/poses.js": "H3M-2: B++, the fresher poses between two snapshots (Stage 3E-0 B+), moved out of server.js as it was",
-   "src/core/server/loop.js": "H3M-2: core, the loop's tick (the body of server.js's setInterval callback), moved out of server.js as it was"
+   "src/core/server/loop.js": "H3M-2: core, the loop's tick (the body of server.js's setInterval callback), moved out of server.js as it was",
+   "src/frameworks/ward/server/admin_login.js": "Continuation C2: W.A.R.D.'s admin login - the passcode's hash and constant-time check, the failure map and the lockout - moved out of server.js as it was",
+   "src/frameworks/bpp/server/session.js": "Continuation C2: B++'s WebSocket session - the upgrade, each connection's state and messages, the leaving - moved out of server.js as it was"
   },
   "removed": {}
  },

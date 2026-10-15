@@ -1,0 +1,89 @@
+# Stage 3H continuation, wave C2: the WebSocket session and the admin login out of server.js (M-023)
+# $SP is the session's scratch folder. The parent is C0 = 8041b61 (tree c2c7b8f). C0 changed no runtime file, so the server.js that was
+# split is M8's (c34f0c2, blob b58e911). B++ = 143b63f. The owner approved moving the session as a relocation (2026-10-14): what it does
+# was not to change, and no security default, passcode, lockout rule or identity rule was changed.
+
+## the split (dev/stage-3h-modernization/tools/c2_split_session.py, new at C2)
+python3 -I -B dev/stage-3h-modernization/tools/c2_split_session.py --apply      on M8's server.js
+  src/frameworks/ward/server/admin_login.js   W.A.R.D.: the passcode check (constant time, over a hash), the count of wrong guesses per
+                                              identity, the lockout and the answers, as the session's {t:'admin'} branch had them
+  src/frameworks/bpp/server/session.js        B++: the upgrade, the room, each client's messages, its leaving
+  server.js                                   142 lines to 65: the configuration (the passcode's source line unchanged), the requires in
+                                              their order, the wiring
+python3 -I -B dev/stage-3h-modernization/tools/c2_split_session.py --check      exit 0  C2 SPLIT CHECK: PASS (split_check.txt)
+  rebuilds the three files from M8's server.js, read from Git, and compares them with the working tree
+
+## the move proof (move_proof.json, move_proof.txt)
+node dev/stage-3h/tools/h2_move_proof.js --base c34f0c2 --from server.js \
+     --to src/frameworks/ward/server/admin_login.js --lines 13-16,116-119 \
+     --to src/frameworks/bpp/server/session.js --lines 26-26,61-115,120-136 --edited 29,30,31,32,33,34,35,36,37,38,39,40,41   exit 0
+  MOVE PROOF: PASS.  81 of M8's lines moved verbatim, in order, each range as one block (8 to admin_login.js, 73 to session.js).
+  The 13 edited lines are server.js's opening comment, which said that the session was held there; it now names the two modules.
+  18 lines were inserted: the new comment and the two requires.  Every other line of M8's server.js is kept, in order.
+  The modules' own lines are listed for review: their header comments, the factories' first and last lines, and in session.js the one
+  call, adminLogin(me, m, ip, name, id), that stands where the login's four lines were.
+
+## the free names (free_names.json, free_names.txt)
+node dev/stage-3h-modernization/tools/m2_free_names.js --out ...                exit 0  FREE NAMES: every name is declared, a factory
+  parameter, or the host's or the language's, in server.js and in each of its 7 modules (the self-test catches a missing parameter)
+
+## the session's own traces (new at C2: dev/tools/gate/golden/srv_scenarios_session.js)
+  session_login     the login and its lockout over time, per identity (wrong guesses below the threshold, then a correct one; five wrong
+                    guesses; the time left at several moments of the lock; a second connection of the same identity; another identity;
+                    the count after a lock ran out, with and without a login in between; the quiet answer; commands before and after
+                    the login, from an unlocked and from a locked connection)
+  session_identity  the identity the lockout counts by: the forwarded header's first entry when there is one, else the socket's address
+  session_wire      one connection's life: the greeting, the fresher-pose answer, unknown and early messages, pings faster and slower
+                    than the server answers them, a pose with bad coordinates, an error then a close, the empty room thrown away, the
+                    room cap reached and freed
+  The passcode in them is the harness's synthetic one.  Their wording names behaviour, not weaknesses.
+node dev/tools/gate/golden/bpp_golden.js --scenarios dev/tools/gate/golden/srv_scenarios_session.js --repeat 1 --write-baseline \
+     --out $SP/em3/work/sess_base                                               exit 0
+  The old side is B++'s server.js on this tree's runtime under its old names.  The files that server.js loads there are B++'s bytes:
+  sim.js, ai.js, world.js and dphys.js are identical to B++'s, and death_srv.js is too once projectOld has undone its layout path edit
+  (SHA-256 against B++'s commit; none of these files is changed by C2).  In that run, B++'s server.js and this server.js gave
+  byte-identical traces, and the new side's repeat gave the same bytes.  So the stored traces (golden/session_traces/: 3 gzipped traces
+  and hashes.json) are B++'s:
+    session_login     35,229 lines  df8d880c6e948f74b93ea2a40c5ec44db45e401399cfe9dde48fa4646f1a752a
+    session_identity  16,311 lines  e0e1e5b0d394b23768c1871d9463aa458d83281fd79e9d947e26937e4c1332f7
+    session_wire         813 lines  03756fe463bd91ee95cf2d55a35436cbaf0eeb2dc7428eaac71a91d05c4522fb
+node dev/tools/gate/golden/bpp_mutants.js --scenarios dev/tools/gate/golden/srv_scenarios_session.js \
+     --mutants dev/tools/gate/golden/session_mutants.js --out ...              exit 0  15 of 15 caught (session_mutants.json)
+  Each mutant changes one thing the login or the session does: the threshold, the lock's length, the count kept or not reset, the time
+  left rounded down, the quiet answer, a login during the lock, the identity's source and entry, unchecked commands, the ping gap, the
+  room cap, the fresher-pose switch, an empty room kept, a socket error ignored.  bpp_mutants.js finds the text in whichever server file
+  holds it.  The first version of the scenarios missed two mutants (the count not reset when a lock starts; pings answered every
+  300 ms).  So the scenarios gained a wrong guess after a lock ran out with no login in between, and pings 350 ms apart.
+
+## the gate (a new step: session)
+  The gate's session step (fast and full tiers) runs bpp_golden.js on the session scenarios, B++'s server.js against this one, with
+  --baseline golden/session_traces: both sides must equal the stored B++ traces.  It also runs the 15 session mutants: every one must
+  be caught.
+node dev/tools/gate/gate.js --tier full --out $SP/em3/work/gate_c2_full         exit 1  (gate_full/: the reports and logs; screenshots
+  left out; the live wire's raw frames gzipped)       20 of 21 steps PASS, in 35.6 min, on the working tree with C2's changes:
+  build 40, lineage 83, parts 64, docs 23, scope 200, srv_golden 11, bpp_golden 7, session 18 (3 scenarios equal to the stored B++
+  traces on both sides; 15 of 15 session mutants caught), cli_golden 12, protocol 52,740, mutants 18 (admin_checked now applied in
+  session.js), static 4, raw_live 173, quick_suites 23, cli_mutants 22, live_wire 65 (structurally identical), bpp_checks 36 (8/22/6
+  as on B++), browsers 123 (two_browser 108, col_head 5, col_aside 5, gameplay_smoke 5), contact_lab 23 images identical pixel for
+  pixel, suites 293 (only the known B++ failures fail).
+  perf FAILED: the page scene menu_online's hook took 19.6 ms against B++'s 17.3 (+13.29 %, over its 2.1 ms tolerance; the new
+  side's seven runs were 19.6, 18.3, 20.5, 28.9, 18.2, 21.2 and 17.9 ms); the server's four timings were within theirs (lifecycle
+  -7.39 %, deaths +0.37 %, admin -5.16 %, schedule -3.17 %).  C2 changed no file the page runs: git diff c34f0c2 -- public/ generated/
+  is empty, so the page scenes ran M8's bytes.  No other job of this session was running during the step (a 6 s scratch test had
+  finished two minutes before it started).
+node dev/tools/gate/gate.js --only perf --out $SP/em3/work/gate_c2_perf_rerun   exit 0  (gate_perf_rerun/), the machine otherwise idle
+  PASS: server lifecycle +2.1 %, deaths -2.58 %, admin +5.22 %, schedule -1.05 %; page: 5 scenes, every hook and handler within its
+  rule (menu_online's hook +0.51 %).  Recorded as M1's was (perf failed once and passed when re-run: M-021, the noise of a 2-CPU
+  machine).
+
+## after the full gate (evidence and documents only)
+node dev/tools/gate/gate.js --tier fast --out $SP/em3/work/gate_c2_fast2        exit 0  PASS, 14 of 14 steps (gate_fast/), on the final
+  tree: this evidence, CHECKPOINTS.md and the stage README included (build 40, lineage 83, parts 64, docs 23, scope 200, srv_golden 11,
+  bpp_golden 7, session 18, cli_golden 12, protocol 52,740, mutants 18, static 4, raw_live 173, quick_suites 23)
+
+## the secret scans
+  C2's changes, before the commit: secret_scan.* (CLEAN).  The scan includes the owner's private extra strings (not in this repository).
+
+## the remote
+  C0's receipt is copied into evidence/remote/verify_c0_8041b61.json.  C2's receipt is written after the push (verify_remote_m.py C2)
+  and copied in by the next checkpoint.

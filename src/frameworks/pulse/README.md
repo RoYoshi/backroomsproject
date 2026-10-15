@@ -22,7 +22,7 @@ No file of its own: this framework has no code in this repository yet (see above
 
 ## How it connects
 
-Today the counters are scattered: the server's step timings (`room.pf`, in `src/core/server/loop.js`), BR-RoLE's `stats()`, the admin's debug data (`mp.js`), the ping and pong of the session (`server.js`). The gate's perf step measures from outside (`dev/tools/gate/golden/perf_det.js`).
+Today the counters are scattered: the server's step timings (`room.pf`, in `src/core/server/loop.js`), BR-RoLE's `stats()`, the admin's debug data (`mp.js`), the ping and pong of the session (`src/frameworks/bpp/server/session.js`). The gate's perf step measures from outside (`dev/tools/gate/golden/perf_det.js`).
 
 ## Changing it
 

@@ -53,5 +53,4 @@ Server: edit `server/*.js` (modules are required directly; `sim.*.js` parts need
 
 ## Known debt
 
-- The movement check is called from the session in `server.js` (M-023).
 - `world.js`'s props are L.O.S.T.'s content, declared in S.P.A.C.E.'s part, as they always were.

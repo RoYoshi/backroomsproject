@@ -1,0 +1,48 @@
+src/frameworks/ward/server/admin_login.js: 8 lines moved verbatim (13-16 at line 15, 116-119 at line 20); the module's own lines: 20
+src/frameworks/bpp/server/session.js: 73 lines moved verbatim (26-26 at line 20, 61-115 at line 22, 120-136 at line 78); the module's own lines: 23
+server.js: line 29 changed in place; at c34f0c2 it was:
+  - /* Stage 3H engine modernization (H3M-2): server.js is the server's composition root.  It keeps the configuration; the admin passcode, its
+server.js: line 30 changed in place; at c34f0c2 it was:
+  -  * check and its lockout; the WebSocket session below (the upgrade, each client's messages, its leaving); the requires the server always
+server.js: line 31 changed in place; at c34f0c2 it was:
+  -  * made, in their order; and the wiring.  Each other part lives with its owner, and is given what it uses (never requiring the server):
+server.js: line 32 changed in place; at c34f0c2 it was:
+  -  *   src/frameworks/space/server/movement.js   S.P.A.C.E.: the movement authority (the budget, the walls, the other players, placements)
+server.js: line 33 changed in place; at c34f0c2 it was:
+  -  *   src/core/server/rooms.js                  core: the rooms, and the admin world reset (a new world epoch)
+server.js: line 34 changed in place; at c34f0c2 it was:
+  -  *   src/frameworks/gib/server/aftermath.js    G.I.B.: the death aftermath and the NEW RUN blast (Stage 3H2 C-2)
+server.js: line 35 changed in place; at c34f0c2 it was:
+  -  *   src/frameworks/bpp/server/newrun.js       B++: NEW RUN's decision (Stage 3H2 C-1)
+server.js: line 36 changed in place; at c34f0c2 it was:
+  -  *   src/frameworks/overseer/server/admin.js   OVERSEER: the admin panel's commands
+server.js: line 37 changed in place; at c34f0c2 it was:
+  -  *   src/frameworks/bpp/server/poses.js        B++: the fresher poses between two snapshots (Stage 3E-0 B+)
+server.js: line 38 changed in place; at c34f0c2 it was:
+  -  *   src/core/server/loop.js                   core: the loop (the 60 Hz steps, the aftermath, the snapshots)
+server.js: line 39 changed in place; at c34f0c2 it was:
+  -  * The static files, the WebSocket framing and the checks on what clients send (Stage 3H0), and the players' bodies (peers.js), are
+server.js: line 40 changed in place; at c34f0c2 it was:
+  -  * required where they always were.  The session stays here because it holds the passcode check and its lockout: security code moves
+server.js: line 41 changed in place; at c34f0c2 it was:
+  -  * only with the owner's approval (dev/stage-3h-modernization/FINDINGS.md M-023). */
+server.js: 81 lines moved out, every other line of c34f0c2 kept in order: yes; inserted 18:
+  + 24: /* Stage 3H engine modernization (H3M-2, continuation C2): server.js is the server's composition root.  It keeps the configuration,
+  + 25:  * with the admin passcode's source; the requires the server always made, in their order; and the wiring.  Each other part lives with its
+  + 26:  * owner, and is given what it uses (never requiring the server):
+  + 27:  *   src/frameworks/space/server/movement.js   S.P.A.C.E.: the movement authority (the budget, the walls, the other players, placements)
+  + 28:  *   src/core/server/rooms.js                  core: the rooms, and the admin world reset (a new world epoch)
+  + 29:  *   src/frameworks/gib/server/aftermath.js    G.I.B.: the death aftermath and the NEW RUN blast (Stage 3H2 C-2)
+  + 30:  *   src/frameworks/bpp/server/newrun.js       B++: NEW RUN's decision (Stage 3H2 C-1)
+  + 31:  *   src/frameworks/overseer/server/admin.js   OVERSEER: the admin panel's commands
+  + 32:  *   src/frameworks/ward/server/admin_login.js W.A.R.D.: the admin login (the passcode check and its lockout), moved as it was (C2)
+  + 33:  *   src/frameworks/bpp/server/session.js      B++: the WebSocket session (the upgrade, each client's messages, its leaving), moved as
+  + 34:  *                                             it was (C2)
+  + 35:  *   src/frameworks/bpp/server/poses.js        B++: the fresher poses between two snapshots (Stage 3E-0 B+)
+  + 36:  *   src/core/server/loop.js                   core: the loop (the 60 Hz steps, the aftermath, the snapshots)
+  + 37:  * The static files, the WebSocket framing and the checks on what clients send (Stage 3H0), and the players' bodies (peers.js), are
+  + 38:  * required where they always were.  The owner approved the session's move as a relocation (2026-10-14): its semantics are unchanged
+  + 39:  * (dev/stage-3h-modernization/FINDINGS.md M-023). */
+  + 59: const { adminLogin } = require('./src/frameworks/ward/server/admin_login.js')({ crypto, ADMIN_PASS, send });   // (C2) W.A.R.D.: the admin login
+  + 60: require('./src/frameworks/bpp/server/session.js')({ srv, crypto, MAX_ROOM, FAST_GAP, getRoom, rooms, send, reader, PEERS, num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook, MV, PD, blockers, p
+MOVE PROOF: PASS

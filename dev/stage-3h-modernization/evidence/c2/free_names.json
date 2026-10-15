@@ -1,0 +1,145 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/m2_free_names.js",
+ "base": "c34f0c22bbacc5ac2813d173bc0591b67af7169f",
+ "typescript": "6.0.3",
+ "files": {
+  "self-test: poses.js without its parameter": {
+   "undeclared": [
+    "send"
+   ],
+   "hostGlobals": [],
+   "language": [
+    "Math"
+   ],
+   "requiredModules": []
+  },
+  "server.js (at the base)": {
+   "undeclared": [],
+   "hostGlobals": [
+    "URL",
+    "__dirname",
+    "console",
+    "process",
+    "setInterval"
+   ],
+   "language": [
+    "Date",
+    "JSON",
+    "Map",
+    "Math",
+    "String",
+    "isFinite"
+   ],
+   "requiredModules": [
+    "crypto",
+    "fs",
+    "http",
+    "path",
+    "zlib"
+   ]
+  },
+  "server.js": {
+   "undeclared": [],
+   "hostGlobals": [
+    "__dirname",
+    "console",
+    "process",
+    "setInterval"
+   ],
+   "language": [
+    "JSON",
+    "Math"
+   ],
+   "requiredModules": [
+    "crypto",
+    "fs",
+    "http",
+    "path",
+    "zlib"
+   ]
+  },
+  "src/frameworks/space/server/movement.js": {
+   "undeclared": [],
+   "hostGlobals": [],
+   "language": [
+    "Date",
+    "Math",
+    "Object"
+   ],
+   "requiredModules": []
+  },
+  "src/core/server/rooms.js": {
+   "undeclared": [],
+   "hostGlobals": [],
+   "language": [
+    "Date",
+    "Map",
+    "Math"
+   ],
+   "requiredModules": []
+  },
+  "src/frameworks/overseer/server/admin.js": {
+   "undeclared": [],
+   "hostGlobals": [
+    "Buffer",
+    "console",
+    "setTimeout"
+   ],
+   "language": [
+    "Math",
+    "String"
+   ],
+   "requiredModules": []
+  },
+  "src/frameworks/bpp/server/poses.js": {
+   "undeclared": [],
+   "hostGlobals": [],
+   "language": [
+    "Math"
+   ],
+   "requiredModules": []
+  },
+  "src/core/server/loop.js": {
+   "undeclared": [],
+   "hostGlobals": [
+    "process"
+   ],
+   "language": [
+    "Date",
+    "JSON",
+    "Math",
+    "Number",
+    "Object"
+   ],
+   "requiredModules": []
+  },
+  "src/frameworks/ward/server/admin_login.js": {
+   "undeclared": [],
+   "hostGlobals": [
+    "console"
+   ],
+   "language": [
+    "Date",
+    "Map",
+    "Math",
+    "String"
+   ],
+   "requiredModules": []
+  },
+  "src/frameworks/bpp/server/session.js": {
+   "undeclared": [],
+   "hostGlobals": [
+    "URL"
+   ],
+   "language": [
+    "Date",
+    "Math",
+    "String",
+    "isFinite"
+   ],
+   "requiredModules": []
+  }
+ },
+ "ok": true,
+ "selfTest": true
+}

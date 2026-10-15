@@ -1,6 +1,9 @@
-# ADR-003: Server modules are factories given what they use; the session and its security code stay in `server.js`
+# ADR-003: Server modules are factories given what they use; `server.js` is the composition root
 
-- **Status:** accepted for Stage 3H (H3M-2, checkpoint M2). The WebSocket session's move is held for the owner (M-023): PARTIAL.
+- **Status:** accepted for Stage 3H (H3M-2, checkpoint M2).
+  - At M2 the WebSocket session's move was held for the owner (M-023).
+  - The owner approved moving it as a relocation on 2026-10-14. It moved at continuation C2: B++'s `session.js` and W.A.R.D.'s
+    `admin_login.js`, with every line verbatim, the same traces as B++, and 15 session mutants caught (`evidence/c2/`).
 - **Evidence:** `dev/stage-3h-modernization/evidence/m2/` (the move proof, the free names, the full gate); `FINDINGS.md` M-023.
 
 ## Context
@@ -38,14 +41,22 @@
    - the configuration;
    - the requires the server always made, in their order;
    - the wiring;
-   - **the admin passcode, its check and its lockout;**
-   - **the WebSocket session:** the upgrade, each client's messages, its leaving.
-
-   The session stays because it holds the passcode check. Security code moves only with the owner's approval (M-023).
+   - **at M2, also the admin passcode's check and lockout, and the WebSocket session**: the upgrade, each client's messages, its
+     leaving. Security code moves only with the owner's approval (M-023). That approval came on 2026-10-14, as a relocation that
+     changes nothing the code decides (decision 5).
+5. **The session and the admin login move as they are (continuation C2).**
+   - The session goes to B++'s `session.js`: the upgrade, each connection's state, every message type and its owner, the leaving.
+     Its factory is the one that returns nothing: it registers the upgrade handler on the HTTP server it is given, at the point of
+     `server.js` where the handler was registered before.
+   - The admin login goes to W.A.R.D.'s `admin_login.js`: the passcode's hash and constant-time check, the failure map, the lockout.
+   - `server.js` keeps the passcode's source (its configuration line, compared by hash in every gate run) and gives it to the login.
+   - Every line is moved verbatim. The session scenarios pin the login over time, the lockout per client identity and the
+     connection's life, on B++'s `server.js` and on this one. Their traces are stored, and 15 one-line mutants of the session and the
+     login are each caught.
 
 ## Consequences
 
-- **`server.js` went from 385 lines to 141.** Each of the server's other jobs lives in its owner's folder. Its factory's parameters
+- **`server.js` went from 385 lines to 141 at M2, and to 65 at C2.** Each of the server's other jobs lives in its owner's folder. Its factory's parameters
   say what it depends on, and its return value says what it offers.
 - **The server answers the same.**
   - The 18 server scenarios' traces equal B++'s stored baselines. The one allowed exception is in `http_base`: its 10 lines about
@@ -53,9 +64,8 @@
   - The 18 server mutants each change a golden. Each is applied where its code now lives: a module, the built `sim.js`, or
     `server.js`.
   - The full gate passed at M2, 18 of 18 steps.
-- **`server.js` is not yet a bare bootstrap.** The session (about 75 lines, with the passcode check) is still there. That is recorded
-  as PARTIAL until the owner decides. If the owner approves, the session can move the same way: the check kept as it is, the lines
-  verbatim, the same proof.
+- **`server.js` is a composition root:** the configuration, the requires in their old order, the wiring. Since C2 the session is not
+  in it.
 - **The passcode line is guarded.** The gate's `scope` step compares it by hash, so any change to it fails the gate.
 
 ## Alternatives rejected
@@ -64,6 +74,7 @@
   `"type": "module"`), the load order and the strictness, for no gain the goldens could prove.
 - **Modules that require each other or `server.js`.** That creates load-order coupling and cycles. The factory's parameters make every
   dependency visible and keep the requires in `server.js`, in their old order.
-- **Moving the session and the passcode check now.** The owner's rule forbids it without approval. The proof would be the same, but
-  the decision is not ours.
+- **Moving the session and the passcode check at M2.** The owner's rule forbade it without approval. The approval came later, for a
+  relocation only, and C2 did exactly that.
+- **Changing what the login decides while moving it.** That needs an owner-approved security change of its own, with its own tests.
 - **A dependency injection library.** The server has no dependencies, and plain function parameters are enough.

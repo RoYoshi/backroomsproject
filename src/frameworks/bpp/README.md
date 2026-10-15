@@ -5,7 +5,7 @@
 ## What it owns
 
 The game's network: the WebSocket on both sides, every message's handling, and what each client is sent.
-- **Server:** the framing (`server/ws.js`: `frame`, `reader`), NEW RUN's decision (`server/newrun.js`: `nrIntent`, one answer per press), the fresher poses between snapshots (`server/poses.js`, Stage 3E-0 B+). The session itself (the upgrade, each client's messages, its leaving) is still in `server.js`: it holds the admin passcode check (FINDINGS M-023).
+- **Server:** the framing (`server/ws.js`: `frame`, `reader`), NEW RUN's decision (`server/newrun.js`: `nrIntent`, one answer per press), the fresher poses between snapshots (`server/poses.js`, Stage 3E-0 B+). The session itself (`server/session.js`, continuation C2): the upgrade, each connection's state, every message the client sends and to whom it goes, the leaving; moved out of `server.js` as it was, with the admin login handed to W.A.R.D. (`admin_login.js`).
 - **Page:** `window.__net`, what the game bundle calls (`client/mp.net.js`); the WebSocket and every server message (`client/mp.transport.js`); NEW RUN's state on the page (`client/mp.newrun.js`); the field codec (`client/net-wire.js`) and the snapshot interpolation (`client/net-interp.js`).
 
 ## What it must not own
@@ -28,6 +28,7 @@ The network boundary. A message's name and fields are a contract (`docs/architec
 | [`client/net-wire.js`](client/net-wire.js) | net-wire.js - the look / light / corpse field codec of the multiplayer layer (mp.js). | `public/assets/net-wire.js` |
 | [`server/newrun.js`](server/newrun.js) | server/newrun.js - NEW RUN's decision on the server. | a server module: `server.js` requires it |
 | [`server/poses.js`](server/poses.js) | src/frameworks/bpp/server/poses.js - B++ on the server: the fresher player poses ('q') between two snapshots (Stage 3E-0 B+), for the | a server module: `server.js` requires it |
+| [`server/session.js`](server/session.js) | src/frameworks/bpp/server/session.js - B++ on the server: the WebSocket session.  It answers the HTTP server's upgrades on /ws | a server module: `server.js` requires it |
 | [`server/ws.js`](server/ws.js) | server/ws.js - the WebSocket framing of server.js. | a server module: `server.js` requires it |
 <!-- end of generated block -->
 
@@ -35,7 +36,7 @@ A file marked "(a part)" is one part of a bigger script: its `/** @part` header 
 
 ## How it connects
 
-- `server.js` gives the server modules what they use (`send`, `boomStart`, ...); the session calls S.P.A.C.E. (`mvCheck`, `placeFree`), OVERSEER (`adminCommand`) and B++'s own `nrIntent`.
+- `server.js` gives the server modules what they use (`send`, `boomStart`, ...); the session calls S.P.A.C.E. (`mvCheck`, `placeFree`), W.A.R.D. (`adminLogin`), OVERSEER (`adminCommand`) and B++'s own `nrIntent`.
 - On the page, `mp.transport.js` hands every server message to the part that owns it: its header's uses list is that map (59 names of other parts).
 
 ## Changing it
@@ -49,5 +50,4 @@ Server: edit `src/frameworks/bpp/server/*.js` (required directly, no build). Pag
 
 ## Known debt
 
-- The session (and the passcode check in it) stays in `server.js` until the owner approves moving security code (M-023).
 - The page's parts share `mp.js`'s closure; `mp.transport.js` writes 20 bindings of other parts (M-024).

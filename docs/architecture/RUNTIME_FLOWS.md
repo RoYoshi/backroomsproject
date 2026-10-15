@@ -13,7 +13,8 @@ Paths are under `src/` unless they start with `public/`. A function name in a pa
    (`frameworks/gib/server/aftermath.js`), NEW RUN's decision (`frameworks/bpp/server/newrun.js`), the rooms
    (`core/server/rooms.js`), the admin commands (`frameworks/overseer/server/admin.js`), the fresher poses
    (`frameworks/bpp/server/poses.js`);
-4. listens for WebSocket upgrades (the session, in `server.js`), starts the loop (`core/server/loop.js`, every 25 ms), and listens.
+4. wires the admin login (`frameworks/ward/server/admin_login.js`) and the WebSocket session (`frameworks/bpp/server/session.js`, which
+   registers the upgrade handler), starts the loop (`core/server/loop.js`, every 25 ms), and listens.
 
 ## The page starts
 
@@ -37,7 +38,7 @@ scripts' hooks. `mp.js` connects (`frameworks/bpp/client/mp.transport.js`: `conn
 
 ## One message from a client
 
-The session (`server.js`, `onMessage`) reads JSON frames (`frameworks/bpp/server/ws.js`) and hands each by type:
+The session (`frameworks/bpp/server/session.js`, `onMessage`) reads JSON frames (`frameworks/bpp/server/ws.js`) and hands each by type:
 
 | Message | Goes to | What happens |
 |---|---|---|
@@ -45,7 +46,7 @@ The session (`server.js`, `onMessage`) reads JSON frames (`frameworks/bpp/server
 | `join`, `respawn`, `leave` | `room.sim` (S.P.A.C.E.'s `sim.players.js`), then `placeFree` (S.P.A.C.E.'s `movement.js`) | the lifecycle; after a join or a respawn, a placement onto a free spot |
 | `nr` | `nrIntent` (B++, `newrun.js`) | NEW RUN, below |
 | `pick` | `room.sim.takeItem` | the cartograph, if the player stands on it |
-| `admin` | the passcode check (`server.js`) | unlock, or a wrong guess counted (five: 60 s lockout) |
+| `admin` | `adminLogin` (W.A.R.D., `admin_login.js`) | unlock, or a wrong guess counted (five: 60 s lockout) |
 | `a` | `adminCommand` (OVERSEER, `admin.js`) | only from an unlocked connection |
 | `caps`, `ping` | the session | the fresher poses switched on; `pong` |
 

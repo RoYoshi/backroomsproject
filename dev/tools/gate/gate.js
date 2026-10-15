@@ -10,6 +10,8 @@
  *     src/core/client/bundle/original-v11/ is the recovered v11 snapshot);
  *   - parts (added at H3M-3): dev/tools/checks/parts.js (every part of a built output declares its interface; the code agrees);
  *   - docs (added at H3M-7): dev/tools/docs/docs.js --check (the documentation's generated tables are what the repository gives today);
+ *   - session (added at continuation C2): the session scenarios (golden/srv_scenarios_session.js) on B++'s server.js and this one, both
+ *     equal to the B++ traces stored at C2 (dev/stage-3h-modernization/evidence/c2/golden/session_traces), and 15 session mutants;
  *   - scope: dev/tools/gate/scope_m.js (every file outside dev/ is B++'s, moved where the layout says, or a declared change listed in
  *     dev/tools/gate/declared_changes.json; it replaces --allow-prod);
  *   - the harnesses that read runtime files by path are the layout-aware copies in dev/tools/gate/golden/ and checks/ (srv_harness,
@@ -19,7 +21,7 @@
  * The tools that never read a runtime file by path (protocol_v2, suites, static_check, live_wire_h2, place_replay, place_guard_check,
  * two_browser, col_browser, gameplay_smoke, contact_lab, compare_captures) are used where they are.
  *
- *   --tier fast   (default, a few minutes) build, lineage, parts, docs, scope, srv_golden, bpp_golden, cli_golden, protocol, mutants, static,
+ *   --tier fast   (default, a few minutes) build, lineage, parts, docs, scope, srv_golden, bpp_golden, session, cli_golden, protocol, mutants, static,
  *                 raw_live, quick_suites
  *   --tier full   (the final candidate; about 35 minutes on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, contact_lab,
  *                 suites, perf
@@ -68,6 +70,7 @@ const G = (...p) => path.join('dev', 'tools', 'gate', ...p);                    
 const BPP = '143b63ff42b88c6780c5043e0f61d64100f81f40';
 const OUT = path.resolve(ARG.out || fs.mkdtempSync(path.join(os.tmpdir(), 'mgate-'))); fs.mkdirSync(OUT, { recursive: true });
 const E1 = path.join(REPO, 'dev', 'stage-3h', 'evidence', 'h1', 'golden'), E2 = path.join(REPO, 'dev', 'stage-3h', 'evidence', 'h2', 'golden');
+const EC2 = path.join(REPO, 'dev', 'stage-3h-modernization', 'evidence', 'c2', 'golden');                 // (C2) the session scenarios' B++ traces
 const o = (...p) => path.join(OUT, ...p);
 const J = f => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch (e) { return null; } };
 function run(name, cmd, { ms = 1800000, env = {} } = {}) {
@@ -107,6 +110,11 @@ const STEPS = {
     return { ok: r.exit === 0 && j && j.ok && n === 11, cases: n, note: exp.length ? 'HTTP lines about changed files: ' + [...new Set(exp)].join(', ') : 'identical to the baseline', r }; },
   bpp_golden: () => { const r = run('bpp_golden', ['node', G('golden', 'bpp_golden.js'), '--old-ref', BPP, '--repeat', '0', '--baseline', path.join(E2, 'bpp_traces'), '--out', o('bpp'), '--keep', o('bpp_keep')]); const j = J(o('bpp', 'bpp_golden_report.json'));
     const n = j ? j.scenarios.length : 0; return { ok: r.exit === 0 && j && j.ok && n === 7 && j.scenarios.every(s => s.baseline && s.baseline.equal), cases: n, r }; },
+  session: () => {                                                         // (C2) the WebSocket session and the admin login: B++'s server.js and this one on the session scenarios, both equal to the stored B++ traces; and the session mutants, each caught
+    const r = run('session_golden', ['node', G('golden', 'bpp_golden.js'), '--old-ref', BPP, '--repeat', '0', '--scenarios', G('golden', 'srv_scenarios_session.js'), '--baseline', path.join(EC2, 'session_traces'), '--out', o('session')]), j = J(o('session', 'srv_scenarios_session_report.json'));
+    const m = run('session_mutants', ['node', G('golden', 'bpp_mutants.js'), '--scenarios', G('golden', 'srv_scenarios_session.js'), '--mutants', G('golden', 'session_mutants.js'), '--out', o('session_mutants.json')]), jm = J(o('session_mutants.json'));
+    const n = j ? j.scenarios.length : 0, caught = jm ? jm.mutants.filter(x => x.caught).length : 0, of = jm ? jm.mutants.length : 0;
+    return { ok: r.exit === 0 && !!j && j.ok && n === 3 && j.scenarios.every(s => s.baseline && s.baseline.equal) && m.exit === 0 && !!jm && jm.ok && caught === of && of > 0, cases: n + caught, note: `${n} session scenarios identical to B++'s traces; ${caught} of ${of} session mutants caught`, r }; },
   cli_golden: () => { const r = run('cli_golden', ['node', G('golden', 'cli_golden.js'), '--old-ref', BPP, '--baseline', path.join(E1, 'cli_traces'), '--out', o('cli'), '--keep', o('cli_keep')]); const j = J(o('cli', 'cli_golden_report.json'));
     const n = j ? j.scenes.length : 0; let ok = r.exit === 0 && j && j.ok && n === 9, cases = n, note = '';
     {                                                                                      // the B++ client scenes (Stage 3H2's)
@@ -193,7 +201,7 @@ const STEPS = {
 };
 const QUICK = ['s_humanqa_hotfix', 's_ir', 'interp_test', 'test_3bn', 'ir_net'];
 function suiteNote(j) { return Object.entries(j.suites).map(([n, x]) => `${n} ${x.summary ? x.summary.passed + '/' + x.summary.total : x.ran}${x.ok ? '' : ' FAIL'}`).join(', ') + ' (only the known B++ failures fail)'; }
-const FAST = ['build', 'lineage', 'parts', 'docs', 'scope', 'srv_golden', 'bpp_golden', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites'];
+const FAST = ['build', 'lineage', 'parts', 'docs', 'scope', 'srv_golden', 'bpp_golden', 'session', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites'];
 const FULL = FAST.concat(['cli_mutants', 'live_wire', 'bpp_checks', 'browsers', 'contact_lab', 'suites', 'perf']);
 const steps = ARG.only ? ARG.only.split(',') : ARG.tier === 'full' ? FULL : FAST;
 const R = { tool: 'dev/tools/gate/gate.js', tier: ARG.tier, declared: 'dev/tools/gate/declared_changes.json', base: BPP, head: execFileSync('git', ['-C', REPO, 'rev-parse', 'HEAD']).toString().trim(), startedAt: new Date().toISOString(), out: OUT, steps: {}, ok: true };

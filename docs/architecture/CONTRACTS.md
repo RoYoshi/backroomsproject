@@ -13,7 +13,7 @@ JSON over one WebSocket (`/ws?room=NAME`), framed by `src/frameworks/bpp/server/
 | `join`, `respawn`, `leave` | the session: the world's lifecycle (S.P.A.C.E.) | | `s`: the snapshot (20 a second) | `mp.transport.js`, then the parts it names |
 | `nr`: a NEW RUN press | `nrIntent` (B++) | | `q`: fresher poses (B+) | `peerPoses` (`mp.peers.js`) |
 | `pick` | `sim.takeItem` (P.O.C.K.E.T.) | | `tp`: where you really are | `mp.transport.js`, `softTp` (`mp.peers.js`) |
-| `admin`: the passcode | the session's check (W.A.R.D.) | | `world`: a new world epoch | `worldNew` (`mp.peers.js`) |
+| `admin`: the passcode | `adminLogin` (W.A.R.D., `admin_login.js`) | | `world`: a new world epoch | `worldNew` (`mp.peers.js`) |
 | `a`: an admin command | `adminCommand` (OVERSEER) | | `fx`: a death's or a blast's replay, or its end | `startFx` (`mp.replays.js`) |
 | `caps`: ask for the fresher poses | the session | | `bodies`: everyone's bodies | `mp.bodies.js` |
 | `ping` | the session (`pong`) | | `nra`: NEW RUN's answer; `nrf`: UNLIMITED NEW RUN's state | `nrAnswer` (`mp.newrun.js`), the admin menu |
@@ -120,6 +120,8 @@ module of the server (so the order of the server's own requires, which the golde
 | `core/server/rooms.js` | `createSim`, `BODY_TTL`, `aftStart`, `placeFree`, `mvReset`, `send` | `rooms`, `getRoom`, `worldReset` |
 | `frameworks/overseer/server/admin.js` | `send`, `aftOf`, `moveTo`, `worldReset` | `adminCommand` |
 | `frameworks/bpp/server/poses.js` | `send` | `poseSend` |
+| `frameworks/ward/server/admin_login.js` | `crypto`, `ADMIN_PASS`, `send` | `adminLogin` |
+| `frameworks/bpp/server/session.js` | `srv` and what the session hands messages to (`getRoom`, `rooms`, `send`, `reader`, the field checks, the movement authority, `nrIntent`, `adminCommand`, `adminLogin`), `crypto`, `MAX_ROOM`, `FAST_GAP` | nothing: it registers the upgrade handler on `srv` |
 | `core/server/loop.js` | `rooms`, `poseSend`, `aftStart`, `aftSend`, `aftTick`, `bodyAt`, `send`, `SNAP_EVERY`, `ADMIN_EVERY` | `tick` |
 
 The world itself (`generated/server/sim.js`, `createSim(opts)`) returns the API the server uses: `step`, `entities`, `addPlayer`, `join`,
