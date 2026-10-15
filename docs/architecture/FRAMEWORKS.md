@@ -5,7 +5,9 @@ The master pack names twenty frameworks. Twelve have code in this repository, in
 README that says what they will own and where the related code lives today. No framework has a stub of code it does not run.
 
 One folder is not a framework: `src/core/` holds the composition roots (`server.js`'s helpers in `core/server/`; the page's network
-layer's opening and per-frame hook, and the compiled bundle's source and record, in `core/client/`).
+layer's opening and per-frame hook in `core/client/`; the compiled client's TypeScript in `core/client/game/`, built since continuation
+C4b, and its history and records in `core/client/bundle/`). The compiled client's code is shared by owners: each change in its source
+names the lineage step it ports and that step's owners (`core/client/game/PORT_LEDGER.md`).
 
 <!-- generated: frameworks (dev/tools/docs/docs.js) -->
 | Framework | Folder | What it owns | Its files | They go into |
@@ -45,9 +47,9 @@ is out of date. Each framework's README lists its files the same way, with what 
 | Where is NEW RUN approved? | B++ on the server: `bpp/server/newrun.js` (`nrIntent`), with the rules in `space/server/sim.players.js` (`nrWhy`, `newRun`) and the blast in `gib/server/aftermath.js` (`boomStart`) |
 | Where is the admin login checked? | W.A.R.D.: `ward/server/admin_login.js` (the passcode's check and the lockout). The session (B++, `bpp/server/session.js`) hands it each `{t:'admin'}`; `server.js` holds only the passcode's source |
 | Why does a corpse stay? | G.I.B.: `gib/server/aftermath.js` (one event per death, finished by the server), `gib/server/sim.bodies.js` (one body per player; `BODY_TTL`), `gib/client/mp.deaths.js` (the page's copy) |
-| Where is the headlamp? | Carried: BR-RoLE (`br-role.js`, the `CARRY` heights) and the bundle's light gear (lineage steps B10 and B11). On a dead body: G.I.B. (`gib/shared/dphys.js`, the dying light) |
+| Where is the headlamp? | Carried: BR-RoLE (`br-role.js`, the `CARRY` heights) and the compiled client's light gear (`core/client/game/client/gear-art.ts` and `shared/equipment.ts`: lineage steps B10 and B11, P.O.C.K.E.T.'s). On a dead body: G.I.B. (`gib/shared/dphys.js`, the dying light) |
 | How do I fix a wall collision? | S.P.A.C.E.: the page's `space/client/move.js` (collision), the server's `space/server/movement.js` (`mvCheck`) and `sim.movement.js` (`moveRoute`, `moveOk`), the props in `space/shared/world.js` |
-| How do I add a level? | Not yet possible: Level 0 is code (L.O.S.T.'s `lost/server/sim.level0.js`, and the bundle). `lost/README.md` says what a level format would need |
+| How do I add a level? | Not yet possible: Level 0 is code (L.O.S.T.'s `lost/server/sim.level0.js`, and the compiled client's `core/client/game/shared/world.ts`). `lost/README.md` says what a level format would need |
 | How will verticality work? | It does not: `logicz/README.md` |
 | How do I change a key binding? | F.R.O.N.T.: `front/client/ui.js`, its keybinds section. H.A.N.D.S. is a name only |
 | Where are the settings kept? | In the browser's storage, written by F.R.O.N.T. (`front/client/ui.js`: settings, keybinds, name; `hud.js`), BR-RoLE (`br-role.js`: the lighting quality), OVERSEER (`overseer/client/mp.admin.js`) and the compiled bundle (the appearance and the light). V.A.U.L.T. is a name only: `vault/README.md` |

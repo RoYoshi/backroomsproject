@@ -2,8 +2,8 @@
 
 The source of the page's compiled client (`public/assets/index-DKbV5Nv9.js`, its stylesheet `public/assets/index-D7hdwmUU.css` and
 the PixiJS chunks): TypeScript, PixiJS 8 and Vite, the recovered v11 project (`../bundle/original-v11/`) with the forty edits made to
-its output since v11 ported into readable, owned source (Stage 3H continuation C4). At C4a it is built and proven against the served
-files, which are still the lineage's replay (`../bundle/lineage/`); from C4b the served files are its build.
+its output since v11 ported into readable, owned source (Stage 3H continuation C4: ported and proven at C4a, served since C4b; until
+then the served files were the lineage's replay, `../bundle/lineage/`, which stays as their history).
 
 - `shared/`: the level, movement, the lights, the entities and their navigation, vision and the walls' receivers, the remains.
 - `client/`: the PixiJS views, the renderer, the audio, NEW RUN's arrival and departure (`arrival.ts`), the frame loop and the

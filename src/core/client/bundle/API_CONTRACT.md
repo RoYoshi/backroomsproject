@@ -8,6 +8,7 @@ minified internal names, so those one- and two-letter names are a public API: an
 the same name and the same meaning, for every reader below.
 
 - **Readers:** 16 scripts the page loads, plus `assets/shadows-2d.js` (retired, not loaded), plus the bundle's own reads.
+- **The served bundle:** built from src/core/client/game/ (generated/CLIENT_BUILD.json); it publishes the same 52 members, in the same order, and reads the same members of `window.__api`, as often. The columns below describe the bundle the lineage records (the one it was ported from).
 - **"Written by"** is the lineage step whose text holds the member: the v11 build had no `__api` at all.
 - **"Is"** names what the member's value refers to. For an original v11 name, it gives the TypeScript module and declaration it compiled from. For a later name, it gives the step that wrote it.
 - **Unread members:** `Fc`, `ll`, `ul`, `fl`, `cl`, `dl`, `pl`, `el`, `yu`, `bodyCount`, `J`, `unwin`. Nothing found reads these, but they stay in the contract until every caller is checked by hand.

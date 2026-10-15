@@ -41,7 +41,7 @@ for (const [key, F] of Object.entries(L.files)) {
   out.push('');
 }
 out.push('## Who wrote the shipped bundle', '',
-  `Of the ${n(BL.modernBytes)} bytes of \`public/assets/index-DKbV5Nv9.js\`${L.files.bundle.superseded ? ` as the ledger records it (shipped until ${L.files.bundle.superseded.since})` : ''}, **${n(BL.bytesByOrigin.v11)} are the v11 build's bytes, unchanged**, and ` +
+  `Of the ${n(BL.modernBytes)} bytes of \`public/assets/index-DKbV5Nv9.js\`${L.files.bundle.superseded ? ` as the ledger records it (shipped before ${L.files.bundle.superseded.since})` : ''}, **${n(BL.bytesByOrigin.v11)} are the v11 build's bytes, unchanged**, and ` +
   `${n(BL.modernBytes - BL.bytesByOrigin.v11)} were written by the later steps:`, '',
   '| Origin | Bytes |', '|---|---|');
 for (const [o, b] of Object.entries(BL.bytesByOrigin)) out.push(`| ${o === 'v11' ? 'the v11 build' : o} | ${n(b)} |`);
@@ -63,7 +63,7 @@ o2.push('# The `window.__api` contract', '',
   'minified internal names, so those one- and two-letter names are a public API: any rebuild of the bundle must keep every member, with',
   'the same name and the same meaning, for every reader below.', '',
   `- **Readers:** ${Object.entries(A.readers).filter(([, r]) => r.loadedByIndexHtml).length} scripts the page loads, plus \`assets/shadows-2d.js\` (retired, not loaded), plus the bundle's own reads.`,
-  ...(A.builtBundle ? [`- **The served bundle:** built from ${A.builtBundle.from}; it publishes ${A.builtBundle.members} members and reads ${A.builtBundle.readsOfApi === 'the same' ? 'the same members of `window.__api`, as often' : A.builtBundle.readsOfApi}. The columns below describe the bundle the lineage records (the one it was ported from).`] : []),
+  ...(A.builtBundle ? [`- **The served bundle:** built from ${A.builtBundle.from}; it publishes ${A.builtBundle.members}, and reads ${A.builtBundle.readsOfApi === 'the same' ? 'the same members of `window.__api`, as often' : A.builtBundle.readsOfApi}. The columns below describe the bundle the lineage records (the one it was ported from).`] : []),
   '- **"Written by"** is the lineage step whose text holds the member: the v11 build had no `__api` at all.',
   '- **"Is"** names what the member\'s value refers to. For an original v11 name, it gives the TypeScript module and declaration it compiled from. For a later name, it gives the step that wrote it.',
   `- **Unread members:** ${A.members.filter(m => !Object.keys(m.readBy).length).map(m => '`' + m.name + '`').join(', ')}. Nothing found reads these, but they stay in the contract until every caller is checked by hand.`,

@@ -1,0 +1,47 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/m7_clean_rebuild.js",
+ "source": "working tree copy",
+ "node": "v22.22.2",
+ "steps": {
+  "check_before": {
+   "exit": 0,
+   "text": "BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)"
+  },
+  "clean": {
+   "exit": 0,
+   "text": "removed 38 built files",
+   "removed": 38,
+   "expected": 38,
+   "kept": [
+    "public/assets/index-D7hdwmUU.css",
+    "public/assets/index-DKbV5Nv9.js"
+   ]
+  },
+  "build": {
+   "exit": 0,
+   "text": "wrote public/assets/BufferResource-B-thlpip.js\nwrote public/assets/Cache-DDo62lBW.js\nwrote public/assets/CanvasPool-DecUtJxW.js\nwrote public/assets/Filter-DzecrWg_.js\nwrote public/assets/GCManagedHash-Bz2ZMBJN.js\nwrote public/assets/GraphicsContext-vm7TDg_M.js\nwrote public/assets/RenderTargetSystem-CgUxHIsn.js\nwrote public/assets/br-role.js\nwrote public/assets/browserAll-B-iwy0YI.js\nwrote public/assets/canvasUtils-CxYPZET9.js\nwrote public/assets/credits_data.js\nwrote public/assets/getTextureBatchBindGroup-DBCrgHVb.js\nwrote public/assets/init-Cn1_BCi0.js\nwrote public/assets/l0-remaster.js\nwrote public/assets/level0_visuals.js\nwrote public/assets/mp-hum.js\nwrote public/assets/net-interp.js\nwrote public/assets/net-newrun.js\nwrote public/assets/net-wire.js\nwrote public/assets/ui.js\nwrote public/camcorder.js\nwrote public/camera_policy.js\nwrote public/dphys.js\nwrote public/ents.js\nwrote public/glitch.js\nwrote public/gore.js\nwrote public/hud.js\nwrote public/inventory.js\nwrote public/light.js\nwrote public/move.js\nwrote public/mp.js\nwrote public/sfx.js\nwrote public/timing_policy.js\nwrote public/world.js\nwrote generated/server/ai.js\nwrote generated/server/dphys.js\nwrote generated/server/world.js\nwrote generated/BUILD_MANIFEST.json\nbuilt 39 outputs (38 files written, 2 already up to date)"
+  },
+  "compare": {
+   "outputs": 40,
+   "identical": 40,
+   "differ": []
+  },
+  "check_after": {
+   "exit": 0,
+   "text": "BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)"
+  },
+  "client": {
+   "exit": 0,
+   "text": "wrote public/assets/index-D7hdwmUU.css\nwrote public/assets/index-DKbV5Nv9.js\nwrote generated/CLIENT_BUILD.json\ntoolchain: Node v22.22.2, Version 7.0.2, vite/8.3.1 linux-x64 node-v22.22.2; added 31 packages in 6s",
+   "files": 3,
+   "identical": 3,
+   "differ": []
+  },
+  "check_client": {
+   "exit": 0,
+   "text": "BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)"
+  }
+ },
+ "ok": true,
+ "files": 10220
+}

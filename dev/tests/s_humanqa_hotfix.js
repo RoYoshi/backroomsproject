@@ -14,7 +14,7 @@ add('HQA X01 admin stress ceiling is truly reachable without changing normal dir
 });
 
 add('HQA X02 client/network presentation has 64 slots for each species and batch stress controls',()=>{
-  const mp=fs.readFileSync(LAYOUT.at('mp.js'),'utf8'),bundle=fs.readFileSync(LAYOUT.at('assets/index-DKbV5Nv9.js'),'utf8'),server=LAYOUT.serverSource();   // (Stage 3H modernization, H3M-2: server.js and the modules split out of it)
+  const mp=fs.readFileSync(LAYOUT.at('mp.js'),'utf8'),bundle=require('../tools/lineage/recorded.js').recorded('bundle').toString('utf8'),server=LAYOUT.serverSource();   // (Stage 3H modernization, H3M-2: server.js and the modules split out of it; C4b: the bundle's text as B++ shipped it, dev/tools/lineage/recorded.js)
   assert(mp.includes('const CLIENT_ENTITY_SLOTS = 64'));
   assert(bundle.includes('hv=Array.from({length:64},()=>new Wl)'));
   assert(bundle.includes('for(let e=Ll.length;e<64;e++)Ll.push({...Ll[e%5]})'));
@@ -24,7 +24,7 @@ add('HQA X02 client/network presentation has 64 slots for each species and batch
 });
 
 add('HQA X03 dead hover and switched-off physical-light QOL are present in shipped client',()=>{
-  const mp=fs.readFileSync(LAYOUT.at('mp.js'),'utf8'),bundle=fs.readFileSync(LAYOUT.at('assets/index-DKbV5Nv9.js'),'utf8');
+  const mp=fs.readFileSync(LAYOUT.at('mp.js'),'utf8'),bundle=require('../tools/lineage/recorded.js').recorded('bundle').toString('utf8');   // (Stage 3H continuation C4b) the compiled client's text as B++ shipped it: since C4b the served bundle is that program rebuilt from src/core/client/game/ (dev/tools/lineage/recorded.js)
   assert(mp.includes("hover.o.d ? ' · DEAD' : ''"));
   assert(!mp.includes("hover.o.d ? ' · DOWN' : ''"));
   assert(bundle.includes('if(e&&!f.nv){_(0,Math.PI*2,this.death.active?150:52,this.death.active?.73:.35)'));

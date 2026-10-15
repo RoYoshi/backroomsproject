@@ -1,0 +1,58 @@
+Stage 3H continuation C4b (M-001, ADR-002 P4): the page is served the compiled client built from its readable source
+=================================================================================================================
+
+Base: C4a 323f292d75659dcfc35746f2e6817a7c2a98539d (tree 40d4b7956d4294d4a780ee78bbe4306f8509a714), verified on GitHub
+(evidence/remote/verify_c4a_323f292.json); its after-commit secret scan is secret_scan_c4a_after_commit.txt here.
+
+1. The swap
+   - node dev/tools/build/client.js --packages <the 31 tarballs> --write --work <scratch>: the packages verified (31 of 31) and
+     installed offline; tsc --noEmit && vite build; it wrote public/assets/index-DKbV5Nv9.js (336,622 bytes, SHA-256 e9a81b05...),
+     public/assets/index-D7hdwmUU.css (32,818 bytes, b5a19c27...) and generated/CLIENT_BUILD.json (the 32 files of src/core/client/game/
+     and the 13 outputs, with SHA-256). The 11 PixiJS chunks were already those bytes: not written.
+   - src/build-recipes.json: the two outputs are "client" recipes (build.js checks them against the record; it no longer replays them).
+   - src/core/client/bundle/lineage/ledger.json: the bundle's and the stylesheet's chains are marked superseded since C4b; they still
+     replay to their recorded results (lineage.js verify: PASS), as history. lineage.js record refuses them.
+   - npm run build: the manifest (generated/BUILD_MANIFEST.json). npm run build:check: PASS. client.js --record-check: PASS.
+   - Regenerated: api_contract.json (now with builtBundle: the served bundle publishes the same 52 members in the same order and reads
+     the same members of window.__api), API_CONTRACT.md, lineage/STEPS.md, the outputs table of docs/architecture/BUILD_PIPELINE.md.
+   - dev/tools/gate/declared_changes.json: the two files are declared runtime changes, with their proofs.
+
+2. What else had to follow
+   - dev/tools/checks/dev_workflow.js: build.js --clean leaves the compiled client's two files (6a); a new step 7 (with --packages): a
+     TypeScript source of the client edited, build:check refusing it, client.js --write and build.js writing the bundle, its record and
+     the manifest and nothing else, the copy's server serving it and a real page seeing the edit through window.__api, the edit undone
+     and rebuilt byte for byte. Run alone: 22 of 22 (dev_workflow.json); the gate's workflow step passes the packages.
+   - dev/stage-3h-modernization/tools/m7_clean_rebuild.js: --clean keeps the client; with --packages the client is rebuilt from nothing
+     too (its outputs and record deleted, a fresh offline install in a new folder): clean_rebuild.json, on this working tree: 40 of 40
+     built files and the 3 client files byte-identical.
+   - dev/stage-3h-modernization/tools/m8_served_identity.js: the two files are "built from the port" (compared by program and
+     behaviour): served_identity.*, PASS (42 of 51 identical to 3H2; 7 rebuilt as modules at C3b/C3c; 2 built from the port; every
+     difference from B++ declared).
+   - Six tests that read the compiled client's minified text read it as the lineage records it, B++'s bytes
+     (dev/tools/lineage/recorded.js; FINDINGS M-033): test_shadows, test_br_role, s_humanqa_hotfix, test_3bn, s_fps_equality,
+     s_camera_fairness.
+   - Documentation: the client tree's and the bundle folder's READMEs, BUILD_PIPELINE, QUICKSTART, PARITY_MATRIX, FRAMEWORKS, ADR-002
+     ("How it was done"), the root README, the gate's README.
+
+3. The full gate (gate_full/), on this working tree, against B++ (143b63f), with the packages
+   node dev/tools/gate/gate.js --tier full --packages <folder>: 25 of its 27 steps PASS, among them
+   - port: the build's record is generated/CLIENT_BUILD.json byte for byte; the alpha check SAME; the stylesheet SAME; 23 mutants caught;
+   - bundle: the served build against the client the lineage records, in Chromium, frame by frame: 9 of 9 scenes identical (4,239
+     frames, 26 captures), and the harness's 5 mutants caught in their record;
+   - live_wire (two real Chromium players through the game's own buttons: structurally identical), browsers (two_browser 99,
+     col_head 5, col_aside 5, gameplay_smoke 5), workflow (22 of 22 with the compiled client's round trip; the browser contracts:
+     the 52-member facade, refusals, a phone, the same on B++ and here), contact_lab (23 images byte-identical in pixels), perf
+     (lifecycle -4.48 %, deaths -0.67 %, admin +2.82 %, schedule -1.81 %: within the rule), bpp_checks, the goldens, the protocol, the
+     mutants, HTTP;
+   and 2 FAIL: quick_suites and suites, only in the six tests of M-033 (the markers they cut B++'s code by are not in the recompiled
+   bundle), nothing else.
+   After those tests read the recorded bundle: the two steps again (gate_suites/: --tier full --only quick_suites,suites): PASS, only
+   B++'s known failures fail - quick_suites (s_humanqa_hotfix 5/6, s_ir 3/3, interp_test 3, test_3bn 7/7, ir_net 4/4) and suites
+   (npm_test 149/162, s_humanqa_hotfix 5/6, s_ir 3/3, test_shadows 43/48, test_br_role 29/32, interp_test 3, test_3bn 7/7, audit_net
+   13/17, audit_net2 8/11, ir_net 4/4). s_fps_equality and s_camera_fairness (not in the gate) pass too.
+   The other 25 steps do not read those test files; their run above stands.
+
+4. What changed for players: nothing that any check here can see. The bundle is the same program as B++'s (every top-level
+   statement, modulo names and a stated normal form), draws the same pixels, makes the same calls, sounds and randomness frame by
+   frame in nine scenes, sends the same frames to a real server, and its facade is the same 52 members. It is minified again as a
+   whole, so its bytes are new; its name and URL are the same, and the stylesheet's later rules are appended as they were written.

@@ -231,12 +231,12 @@ let builtBundle = null;
     })(sf2);
     const names = lit ? lit.properties.map(p => p.name.getText(sf2)) : [];
     const sameMembers = JSON.stringify(names) === JSON.stringify(members.map(m => m.name)), sameReads = JSON.stringify(Object.entries(reads).sort()) === JSON.stringify(Object.entries(bundleReads).sort());
-    builtBundle = { file: 'public/assets/index-DKbV5Nv9.js', sha256: sha(served), from: 'src/core/client/game/ (generated/CLIENT_BUILD.json)', members: sameMembers ? `the same ${names.length}, in the same order` : 'DIFFERENT: ' + names.join(','), readsOfApi: sameReads ? 'the same' : 'DIFFERENT: ' + JSON.stringify(reads) };
+    builtBundle = { file: 'public/assets/index-DKbV5Nv9.js', sha256: sha(served), from: 'src/core/client/game/ (generated/CLIENT_BUILD.json)', members: sameMembers ? `the same ${names.length} members, in the same order` : 'DIFFERENT: ' + names.join(','), readsOfApi: sameReads ? 'the same' : 'DIFFERENT: ' + JSON.stringify(reads) };
     if (!sameMembers || !sameReads) { console.log('API CONTRACT: the served bundle does not publish the recorded facade: ' + JSON.stringify(builtBundle)); process.exitCode = 1; }
   }
 }
 const out = {
-  note: 'The window.__api contract of the compiled bundle (public/assets/index-DKbV5Nv9.js), derived by dev/stage-3h-modernization/tools/api_contract.js from the bundle, the lineage (blame.json, module_map.json) and the scripts in public/. A member read by nobody is still part of the contract until every script is checked by hand (a script may build a member name at run time: "[computed]" lists element accesses).' + (builtBundle ? ' Since continuation C4 the bundle described is the one the lineage records (bundleSha256), and the served one, built from src/core/client/game/, publishes the same members and reads the same ones (builtBundle).' : ''),
+  note: 'The window.__api contract of the compiled bundle (public/assets/index-DKbV5Nv9.js), derived by dev/stage-3h-modernization/tools/api_contract.js from the bundle, the lineage (blame.json, module_map.json) and the scripts in public/. A member read by nobody is still part of the contract until every script is checked by hand (a script may build a member name at run time: "[computed]" lists element accesses).' + (builtBundle ? ' Since continuation C4b the bundle described is the one the lineage records (bundleSha256), and the served one, built from src/core/client/game/, publishes the same members and reads the same ones (builtBundle).' : ''),
   bundleSha256: sha(buf),
   ...(builtBundle ? { builtBundle } : {}),
   memberCount: members.length,

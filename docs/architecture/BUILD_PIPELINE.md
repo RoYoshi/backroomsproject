@@ -6,14 +6,17 @@
 the browser loads into `public/`, and the scripts the server loads into `generated/server/`. It records every input and output, with
 their SHA-256, in `generated/BUILD_MANIFEST.json`. The outputs are committed, because the production host pulls `main` and runs
 `node server.js` with no build step. `npm run build:check` builds in memory and fails if anything committed differs. The gate runs it.
+The one exception is the compiled client (the bundle and its stylesheet): it is TypeScript built by Vite, so its own tool,
+`dev/tools/build/client.js`, builds it with the locked npm packages, and `build.js` checks it against that build's record.
 
-## Three kinds of output
+## Four kinds of output
 
 | Kind | How it is built | Example |
 |---|---|---|
 | **Parts, joined** | Each part's text, in recipe order. A part file may begin with a `/** @part ... */` header, which the build removes: nothing else is changed (no minifying, no transpiling, no wrapping) | `public/mp.js`: 12 parts from 8 frameworks' folders and `src/core/` (11 modules and their composition) |
 | **A copy of the recovered v11 build** | One part: a file of `src/core/client/bundle/original-v11/dist/` | the 11 PixiJS chunks |
-| **A replay of the lineage ledger** | The v11 build output, then every recorded step's patch, each checked by its SHA-256 before and after | `public/assets/index-DKbV5Nv9.js`, `index-D7hdwmUU.css` |
+| **The compiled client** (since continuation C4b) | Built from `src/core/client/game/` (TypeScript, PixiJS, Vite) by `dev/tools/build/client.js --write`, which needs the 31 locked npm packages (each checked against the lockfile, installed offline) and writes its record, `generated/CLIENT_BUILD.json` (every source and output with SHA-256). `build.js` does not build it: it checks that the sources are the recorded ones and the files the recorded outputs | `public/assets/index-DKbV5Nv9.js`, `index-D7hdwmUU.css` |
+| **A replay of the lineage ledger** (H3M-6 to continuation C4a) | The v11 build output, then every recorded step's patch, each checked by its SHA-256 before and after. No output is made this way since C4b; `lineage.js verify` still replays the chains, as history | (until C4a) the bundle and its stylesheet |
 
 The parts of one script are joined inside one wrapper (an IIFE, a UMD factory). In the server's `ai.js` they share that closure: each
 part's header says what it provides to the others, what it uses of theirs and which of their bindings it writes;
@@ -46,8 +49,8 @@ sounds and web manifest, and the retired `assets/shadows-2d.js` (still served, u
 | `public/assets/canvasUtils-CxYPZET9.js` | a copy of the v11 build output | `core/client/bundle/original-v11/dist/assets/canvasUtils-CxYPZET9.js` |
 | `public/assets/credits_data.js` | one source file | `frameworks/front/client/credits_data.js` |
 | `public/assets/getTextureBatchBindGroup-DBCrgHVb.js` | a copy of the v11 build output | `core/client/bundle/original-v11/dist/assets/getTextureBatchBindGroup-DBCrgHVb.js` |
-| `public/assets/index-D7hdwmUU.css` | a replay of the lineage ledger | `src/core/client/bundle/lineage/ledger.json` (chain `css`) |
-| `public/assets/index-DKbV5Nv9.js` | a replay of the lineage ledger | `src/core/client/bundle/lineage/ledger.json` (chain `bundle`) |
+| `public/assets/index-D7hdwmUU.css` | the client build (TypeScript and Vite: `dev/tools/build/client.js`), checked against its record | `core/client/game/` (record `generated/CLIENT_BUILD.json`) |
+| `public/assets/index-DKbV5Nv9.js` | the client build (TypeScript and Vite: `dev/tools/build/client.js`), checked against its record | `core/client/game/` (record `generated/CLIENT_BUILD.json`) |
 | `public/assets/init-Cn1_BCi0.js` | a copy of the v11 build output | `core/client/bundle/original-v11/dist/assets/init-Cn1_BCi0.js` |
 | `public/assets/l0-remaster.js` | one source file | `frameworks/br-r/client/l0-remaster.js` |
 | `public/assets/level0_visuals.js` | one source file | `frameworks/lost/client/level0_visuals.js` |
@@ -84,11 +87,15 @@ sounds and web manifest, and the retired `assets/shadows-2d.js` (still served, u
 npm run build                                   # writes only what changed: "built 39 outputs (N files written, M already up to date)"
 npm run build:check                             # "BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)"
 node dev/tools/build/build.js --list            # every output and its sources
-node dev/tools/build/build.js --clean           # deletes every built file and the manifest (then build again)
+node dev/tools/build/build.js --clean           # deletes every built file and the manifest (then build again); not the compiled client
+node dev/tools/build/client.js --packages <folder> --write    # the compiled client from src/core/client/game/, and its record
+node dev/tools/build/client.js --packages <folder> --stage <scratch>   # the same build into a scratch folder (public/ untouched)
+node dev/tools/build/client.js --record-check   # no packages: the record against the sources and the served files
 ```
 
 From nothing: `--clean` then `npm run build` gives back `public/` and `generated/` byte for byte, with Node alone (no `npm install`,
-no network). `node dev/stage-3h-modernization/tools/m7_clean_rebuild.js --work <empty folder> [--ref <commit>]` proves it on a copy of
+no network); `--clean` leaves the compiled client's two files, which only `client.js` (with the packages) makes, and the same build gives
+them back byte for byte (`dev/tools/checks/dev_workflow.js` step 7). `node dev/stage-3h-modernization/tools/m7_clean_rebuild.js --work <empty folder> [--ref <commit>]` proves it on a copy of
 the working tree, or on a fresh clone of a commit. It was run on the working tree at checkpoint M7, and on a fresh clone of M7 at M8
 (`dev/stage-3h-modernization/evidence/m7/`, `evidence/m8/clean_checkout.*`).
 
@@ -100,15 +107,15 @@ the working tree, or on a fresh clone of a commit. It was run on the working tre
   prints the lists), and run the checks.
 - **A new script**: add `{ "out": "public/<name>.js", "parts": ["src/frameworks/<owner>/client/<name>.js"] }`; the page loads it only if
   `index.html` says so, and the server serves it only if its `SERVE` list allows the path (`src/frameworks/ward/server/static.js`).
-- **The compiled bundle or its stylesheet**: never by hand. Record the change as a lineage step
-  (`node dev/tools/lineage/lineage.js record bundle --label "..."`): [`src/core/client/bundle/README.md`](../../src/core/client/bundle/README.md).
+- **The compiled bundle or its stylesheet**: never by hand. Edit `src/core/client/game/` and build with
+  `node dev/tools/build/client.js --packages <folder> --write`, then `npm run build` (the manifest):
+  [`src/core/client/game/README.md`](../../src/core/client/game/README.md).
 
 ## Where the bundle comes from
 
-The page's core, `public/assets/index-DKbV5Nv9.js`, is the build output of the recovered original Vite + TypeScript project
-(`src/core/client/bundle/original-v11/`, version 11), plus forty recorded in-place edits. That project builds by itself with its own
-toolchain (Vite 8.3.1, TypeScript 7.0.2, PixiJS 8.21.0, its lockfile), in a copy and never into this repository: `npm ci && npm run build`.
-That rebuild was reproduced at continuation C1, offline: the owner supplied the 31 locked packages, each was checked against the
-lockfile, and `npm ci --offline --ignore-scripts && npm run build` gave its `dist/` byte for byte
-(`dev/stage-3h-modernization/tools/c1_rebuild_v11.js`). ADR-002 explains the decision and the TypeScript port that would make the
-bundle compiled from readable source.
+The page's core, `public/assets/index-DKbV5Nv9.js`, is built since continuation C4b from `src/core/client/game/`: the recovered original
+Vite + TypeScript project (version 11, kept as it was in `src/core/client/bundle/original-v11/`) with the forty edits made to its
+compiled output since v11 ported into readable, owned TypeScript (`src/core/client/game/PORT_LEDGER.md`). Its toolchain is v11's
+(Vite 8.3.1, TypeScript 7.0.2, PixiJS 8.21.0, the same lockfile); `client.js` installs it offline from the owner's verified packages
+(continuation C1 proved that the same install rebuilds v11's `dist/` byte for byte). The port is proven the same program as the bundle
+it replaces (`src/core/client/bundle/README.md`, "How the port is proven the same program"). ADR-002 explains the decision.

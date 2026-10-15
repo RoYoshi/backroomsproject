@@ -10,8 +10,10 @@
  * built server files that exist are compared; the gate's sim step compares the sim's behaviour with B++'s.)
  * Exit 0 when every file is byte-identical to 3H2's, except the outputs made of modules (continuation C3b: camcorder.js, ents.js,
  * glitch.js, move.js, world.js and the server's copy of world.js; C3c: mp.js), whose bytes changed on purpose and whose behaviour the
- * gate's page step (C3b's five) and cli_golden step (mp.js) compare with B++'s.  The differences from B++ are listed: each must be declared
- * in dev/tools/gate/declared_changes.json (Stage 3H2's index.html, mp.js, assets/net-newrun.js, assets/mp-hum.js, and C3b's and C3c's). */
+ * gate's page step (C3b's five) and cli_golden step (mp.js) compare with B++'s; and (continuation C4b) the compiled client's bundle and
+ * stylesheet, built from src/core/client/game/, whose program the gate's port step and whose behaviour its bundle step compare with the
+ * bundle B++ shipped.  The differences from B++ are listed: each must be declared in dev/tools/gate/declared_changes.json (Stage 3H2's
+ * index.html, mp.js, assets/net-newrun.js, assets/mp-hum.js, and C3b's, C3c's and C4b's). */
 'use strict';
 const fs = require('fs'), path = require('path'), crypto = require('crypto'), { execFileSync } = require('child_process');
 const ARG = {}; for (let i = 2; i < process.argv.length; i += 2) ARG[process.argv[i].replace(/^--/, '')] = process.argv[i + 1];
@@ -27,20 +29,22 @@ const OUTS = JSON.parse(fs.readFileSync(path.join(REPO, 'src', 'build-recipes.js
 /* (C3b) the outputs made of modules: their last part is a composition; their bytes changed on purpose, so their behaviour is compared
  * instead (the gate's page step) */
 const modular = new Set(OUTS.filter(o => Array.isArray(o.parts) && o.parts.length > 1 && o.parts[o.parts.length - 1].endsWith('.compose.js')).map(o => o.out));
+const compiled = new Set(OUTS.filter(o => o.client).map(o => o.out));   // (C4b) built from the port: compared by program and behaviour
 const R = { tool: 'dev/stage-3h-modernization/tools/m8_served_identity.js', frozen3H2: H2, acceptedBpp: BPP, files: [], ok: true };
 for (const [now, old] of pairs) {
   const b = blob(fs.readFileSync(path.join(REPO, now)));
-  R.files.push({ file: now, oldPath: old, built: recipes.has(now), modules: modular.has(now), same3H2: T2.get(old) === b, sameBpp: TB.get(old) === b, inBpp: TB.has(old) });
+  R.files.push({ file: now, oldPath: old, built: recipes.has(now), modules: modular.has(now), compiledClient: compiled.has(now), same3H2: T2.get(old) === b, sameBpp: TB.get(old) === b, inBpp: TB.has(old) });
 }
-const notSame3H2 = R.files.filter(f => !f.same3H2 && !f.modules), rebuilt = R.files.filter(f => !f.same3H2 && f.modules), notBpp = R.files.filter(f => !f.sameBpp);
+const notSame3H2 = R.files.filter(f => !f.same3H2 && !f.modules && !f.compiledClient), rebuilt = R.files.filter(f => !f.same3H2 && f.modules), ported = R.files.filter(f => !f.same3H2 && f.compiledClient), notBpp = R.files.filter(f => !f.sameBpp);
 const decl = JSON.parse(fs.readFileSync(path.join(REPO, 'dev', 'tools', 'gate', 'declared_changes.json'), 'utf8')).runtime;
 const undeclared = notBpp.filter(f => !(f.inBpp ? decl.changed[f.oldPath] : decl.added[f.oldPath]));
 R.counts = { public: pub.length, publicBuilt: pub.filter(f => recipes.has(f)).length, publicStatic: pub.filter(f => !recipes.has(f)).length, serverBuilt: SERVER_BUILT.length,
-  identicalTo3H2: R.files.length - notSame3H2.length - rebuilt.length, of: R.files.length, rebuiltAsModules: rebuilt.map(f => f.file), differFromBpp: notBpp.map(f => f.oldPath + (f.inBpp ? ' (changed)' : ' (added)')) };
+  identicalTo3H2: R.files.length - notSame3H2.length - rebuilt.length - ported.length, of: R.files.length, rebuiltAsModules: rebuilt.map(f => f.file), builtFromThePort: ported.map(f => f.file), differFromBpp: notBpp.map(f => f.oldPath + (f.inBpp ? ' (changed)' : ' (added)')) };
 R.ok = !notSame3H2.length && !undeclared.length;
 if (ARG.out) fs.writeFileSync(ARG.out, JSON.stringify(R, null, 1) + '\n');
 console.log(`public/: ${R.counts.public} files (${R.counts.publicBuilt} built, ${R.counts.publicStatic} static), and the server's ${R.counts.serverBuilt} built files`);
 console.log(`identical to the frozen 3H2 (${H2.slice(0, 7)}): ${R.counts.identicalTo3H2} of ${R.counts.of}${rebuilt.length ? `; rebuilt as modules (continuation C3b, C3c; their behaviour is compared instead: the gate's page step, and its cli_golden step for mp.js): ${rebuilt.map(f => f.file).join(', ')}` : ''}${notSame3H2.length ? '; DIFFERENT: ' + notSame3H2.map(f => f.file).join(', ') : ''}`);
+if (ported.length) console.log(`built from the port (continuation C4b; their program and behaviour are compared instead: the gate's port and bundle steps): ${ported.map(f => f.file).join(', ')}`);
 console.log(`different from B++ (${BPP.slice(0, 7)}): ${R.counts.differFromBpp.join(', ') || 'none'}${undeclared.length ? '; NOT DECLARED: ' + undeclared.map(f => f.oldPath).join(', ') : ' (each declared in dev/tools/gate/declared_changes.json)'}`);
 console.log('SERVED IDENTITY: ' + (R.ok ? 'PASS' : 'FAIL'));
 process.exitCode = R.ok ? 0 : 1;

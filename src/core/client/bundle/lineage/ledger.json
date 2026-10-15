@@ -742,6 +742,12 @@
     "bytes": 340823,
     "sha256": "694bca01e75d8e1c70e9ec29ea5382da5bda40d22c6a4f043e6e53b251d7529b"
    },
+   "superseded": {
+    "since": "Stage 3H continuation C4b",
+    "by": "src/core/client/game/ (TypeScript and CSS), with dev/tools/build/client.js",
+    "record": "generated/CLIENT_BUILD.json",
+    "note": "The chain is the history of the file up to C4a: it still replays to its recorded result. The file is now the build of the maintained source, proven the same program as this result (dev/stage-3h-modernization/tools/c4_alpha_all.mjs, c4_css_check.mjs, dev/tools/gate/golden/bundle_diff.js)."
+   },
    "corroboration": [
     {
      "equals": "v11 original build (versions/site-v11-49743e94d6f0/dist/assets/index-DKbV5Nv9.js)",
@@ -941,6 +947,12 @@
    "result": {
     "bytes": 27218,
     "sha256": "02d94e783642b454f9171090cc88d21745a7285bf64dbc143e73c297acaf6c1a"
+   },
+   "superseded": {
+    "since": "Stage 3H continuation C4b",
+    "by": "src/core/client/game/ (TypeScript and CSS), with dev/tools/build/client.js",
+    "record": "generated/CLIENT_BUILD.json",
+    "note": "The chain is the history of the file up to C4a: it still replays to its recorded result. The file is now the build of the maintained source, proven the same program as this result (dev/stage-3h-modernization/tools/c4_alpha_all.mjs, c4_css_check.mjs, dev/tools/gate/golden/bundle_diff.js)."
    },
    "corroboration": [
     {

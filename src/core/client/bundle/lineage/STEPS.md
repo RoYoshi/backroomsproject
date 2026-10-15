@@ -7,6 +7,7 @@
 
 - **Base:** the v11 build's `dist/assets/index-DKbV5Nv9.js`, 304,183 bytes, SHA-256 `82fb8ff4b25334237f03f57888cfb48dfa84cdba625ffffb7f5eedf03d5bbf5e`.
 - **Result:** 340,823 bytes, SHA-256 `694bca01e75d8e1c70e9ec29ea5382da5bda40d22c6a4f043e6e53b251d7529b`, after 40 steps.
+- **Since Stage 3H continuation C4b:** the file is built from src/core/client/game/ (TypeScript and CSS), with dev/tools/build/client.js (record `generated/CLIENT_BUILD.json`). This chain is its history up to then: it still replays to the result above, and the build of the maintained source is proven the same program (`src/core/client/game/PORT_LEDGER.md` says where each step's text is now).
 - **Corroboration:** `thefarbackrooms-recovered-build.zip` holds the same bytes as the v11 build; `thefarbackrooms-level0-refined-v15.zip` holds the same bytes as `e68caf5`; `thefarbackrooms-level0-refined-v15.1.zip` holds the same bytes as `5bc12b4`; `thefarbackrooms-level0-refined-v16.zip` holds the same bytes as `f53d218`.
 - **Side version:** `thefarbackrooms-level0-refined-v20.zip` (329,248 bytes) is closest to bd95943 v18 (269 bytes of token edits); not on the repository's path.
 
@@ -57,6 +58,7 @@
 
 - **Base:** the v11 build's `dist/assets/index-D7hdwmUU.css`, 9,899 bytes, SHA-256 `794903d6a8b9a693e2cb7067cd1a28954963c294a7e304ab9b1bbc28c07dacef`.
 - **Result:** 27,218 bytes, SHA-256 `02d94e783642b454f9171090cc88d21745a7285bf64dbc143e73c297acaf6c1a`, after 8 steps.
+- **Since Stage 3H continuation C4b:** the file is built from src/core/client/game/ (TypeScript and CSS), with dev/tools/build/client.js (record `generated/CLIENT_BUILD.json`). This chain is its history up to then: it still replays to the result above, and the build of the maintained source is proven the same program (`src/core/client/game/PORT_LEDGER.md` says where each step's text is now).
 - **Corroboration:** `thefarbackrooms-recovered-build.zip` holds the same bytes as the v11 build; `thefarbackrooms-refined-entity-build.zip` holds the same bytes as the v11 build; `thefarbackrooms-level0-refined-v15.zip` holds the same bytes as `f58bad6`; `thefarbackrooms-level0-refined-v15.1.zip` holds the same bytes as `f58bad6`; `thefarbackrooms-level0-refined-v16.zip` holds the same bytes as `f58bad6`; `thefarbackrooms-level0-refined-v20.zip` holds the same bytes as `f58bad6`.
 
 | Step | Source | Hunks | Bytes removed | Bytes written | Size after | What it did | Owner today |
@@ -117,7 +119,7 @@
 
 ## Who wrote the shipped bundle
 
-Of the 340,823 bytes of `public/assets/index-DKbV5Nv9.js`, **296,552 are the v11 build's bytes, unchanged**, and 44,271 were written by the later steps:
+Of the 340,823 bytes of `public/assets/index-DKbV5Nv9.js` as the ledger records it (shipped before Stage 3H continuation C4b), **296,552 are the v11 build's bytes, unchanged**, and 44,271 were written by the later steps:
 
 | Origin | Bytes |
 |---|---|

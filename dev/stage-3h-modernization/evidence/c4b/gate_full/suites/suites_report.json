@@ -1,0 +1,256 @@
+{
+ "tool": "dev/stage-3h/gate/suites.js",
+ "known": "dev/stage-3h/gate/known_failures_bpp.json",
+ "suites": {
+  "npm_test": {
+   "ran": 162,
+   "summary": {
+    "passed": 149,
+    "total": 162
+   },
+   "failing": [
+    "P01 noticing distance: run > walk > crouch (resting hound, corridor)",
+    "P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming",
+    "H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)",
+    "NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm",
+    "C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it",
+    "C3 it does not track the hidden prey exactly: after losing it, its goals come from memory and sound, never from where the prey really is",
+    "C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)",
+    "C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you",
+    "C9 / C10 an exhausted runner is far more vulnerable; a fresh one can still make distance",
+    "C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out",
+    "L9 lifecycle (v22.2): a living player starts a new run only through the NEW RUN sequence (vanish, 2 s or more, then leave / join), once per 30 s",
+    "2F F13 death/respawn/leave/world reset clear encounter identity",
+    "2F F22 species physical/canon parameter preservation"
+   ],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 256665,
+   "ok": true
+  },
+  "s_humanqa_hotfix": {
+   "ran": 6,
+   "summary": {
+    "passed": 4,
+    "total": 6
+   },
+   "failing": [
+    "HQA X02 client/network presentation has 64 slots for each species and batch stress controls",
+    "HQA X03 dead hover and switched-off physical-light QOL are present in shipped client"
+   ],
+   "newFailures": [
+    "HQA X02 client/network presentation has 64 slots for each species and batch stress controls"
+   ],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 1762,
+   "ok": false
+  },
+  "s_ir": {
+   "ran": 3,
+   "summary": {
+    "passed": 3,
+    "total": 3
+   },
+   "failing": [],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 0,
+   "ms": 1871,
+   "ok": true
+  },
+  "test_shadows": {
+   "ran": 30,
+   "summary": null,
+   "failing": [
+    "S01 attaches right above the carpet, under the level art; mp hook chained",
+    "S02 wall adjacency: every wall/floor boundary edge is covered by exactly one grounding strip of the right side",
+    "S03 grounding strips lie on floor only (never inside a wall cell) and outer corners are closed",
+    "S04 grounding is static (built once) and camera-culled by chunk",
+    "S05 dominant direction: light.js points toward the light; the entity shadow points away from it",
+    "S06 the local flashlight casts a lit hound's shadow away from the player; rotating the aim off it fades it smoothly (no pop)",
+    "S07 Smilers never get a shadow (no implied body), even fully lit in the beam",
+    "S08 nothing is revealed: a lit hound the player cannot see (behind a wall) gets no shadow; in sight it does",
+    "S09 caps: entity shadows never exceed the quality budget; OFF draws nothing",
+    "S10 no NaN / Infinity in anything drawn, whatever the inputs (random positions, zero dt, huge dt, NaN entity)",
+    "S11 stable ordering / determinism: the same scene and light state give identical geometry",
+    "S12 read-only: drawing shadows never changes an entity, the player, the lamps or the light foundation",
+    "S13 failure isolation: an internal error switches the module off and the game hook keeps working",
+    "S14 quality: URL > remembered > device default; LOW is a real tier (grounding + capped light shadows)",
+    "S16 the shipped server serves the module without any server change (assets/ is already whitelisted)",
+    "C01 lamp shadows of props fall away from the lamp (every prop-shadow polygon centroid is on the far side of the prop)",
+    "C02 lamp wall penumbrae: apex on a convex wall/pillar corner, extend away from the lamp, only where the lamp's light reaches (no double black), within 130 px of the corner (SH7)",
+    "C03 lamp flicker: a lamp's shadow strength follows the overlay's own lamp power every frame (failures dim it, never brighter than nominal)",
+    "C04 dim fixtures (index % 13 == 0) flicker their shadows with the overlay formula .13 + .06·max(0, sin(11t + i)), relative to their brightest state",
+    "C05 blackout removes every lamp shadow at once; carried-light shadows stay",
+    "C06 your own light: props cast moving shadows away from the beam",
+    "C07 flashlight rotation: sweeping the aim across a prop changes its shadow smoothly (no frame-to-frame pop)",
+    "C08 caps and culling: lamps <= tier cap and only those in view; dynamic polygons <= budget; peers <= cap",
+    "C09 no NaN / Infinity in any lamp or carried-light polygon, and every polygon owns its point array (Pixi keeps references)",
+    "C10 stable ordering: the same scene and light state build identical lamp and carried geometry",
+    "C11 LOW / MEDIUM / HIGH: fidelity grows with the tier (lamps, samples, penumbra wedges), LOW keeps every kind of shadow; OFF draws nothing",
+    "C12 baked prop shadows are detected: a prop lit from the side of its baked drop shadow gets a thinner dynamic shadow",
+    "C13 other wanderers' lights: bounded, cast prop shadows and pillar penumbrae, never from a dead or switched-off light",
+    "C14 your light's penumbrae: from convex corners in the beam, on the lit side of the edge the overlay already cuts, away from you, within 110 px of the corner (SH7)"
+   ],
+   "newFailures": [
+    "S01 attaches right above the carpet, under the level art; mp hook chained",
+    "S02 wall adjacency: every wall/floor boundary edge is covered by exactly one grounding strip of the right side",
+    "S03 grounding strips lie on floor only (never inside a wall cell) and outer corners are closed",
+    "S04 grounding is static (built once) and camera-culled by chunk",
+    "S05 dominant direction: light.js points toward the light; the entity shadow points away from it",
+    "S07 Smilers never get a shadow (no implied body), even fully lit in the beam",
+    "S08 nothing is revealed: a lit hound the player cannot see (behind a wall) gets no shadow; in sight it does",
+    "S09 caps: entity shadows never exceed the quality budget; OFF draws nothing",
+    "S10 no NaN / Infinity in anything drawn, whatever the inputs (random positions, zero dt, huge dt, NaN entity)",
+    "S11 stable ordering / determinism: the same scene and light state give identical geometry",
+    "S12 read-only: drawing shadows never changes an entity, the player, the lamps or the light foundation",
+    "S13 failure isolation: an internal error switches the module off and the game hook keeps working",
+    "S14 quality: URL > remembered > device default; LOW is a real tier (grounding + capped light shadows)",
+    "C01 lamp shadows of props fall away from the lamp (every prop-shadow polygon centroid is on the far side of the prop)",
+    "C02 lamp wall penumbrae: apex on a convex wall/pillar corner, extend away from the lamp, only where the lamp's light reaches (no double black), within 130 px of the corner (SH7)",
+    "C03 lamp flicker: a lamp's shadow strength follows the overlay's own lamp power every frame (failures dim it, never brighter than nominal)",
+    "C04 dim fixtures (index % 13 == 0) flicker their shadows with the overlay formula .13 + .06·max(0, sin(11t + i)), relative to their brightest state",
+    "C05 blackout removes every lamp shadow at once; carried-light shadows stay",
+    "C06 your own light: props cast moving shadows away from the beam",
+    "C07 flashlight rotation: sweeping the aim across a prop changes its shadow smoothly (no frame-to-frame pop)",
+    "C08 caps and culling: lamps <= tier cap and only those in view; dynamic polygons <= budget; peers <= cap",
+    "C09 no NaN / Infinity in any lamp or carried-light polygon, and every polygon owns its point array (Pixi keeps references)",
+    "C10 stable ordering: the same scene and light state build identical lamp and carried geometry",
+    "C11 LOW / MEDIUM / HIGH: fidelity grows with the tier (lamps, samples, penumbra wedges), LOW keeps every kind of shadow; OFF draws nothing",
+    "C12 baked prop shadows are detected: a prop lit from the side of its baked drop shadow gets a thinner dynamic shadow",
+    "C13 other wanderers' lights: bounded, cast prop shadows and pillar penumbrae, never from a dead or switched-off light",
+    "C14 your light's penumbrae: from convex corners in the beam, on the lit side of the edge the overlay already cuts, away from you, within 110 px of the corner (SH7)"
+   ],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [
+    "V08 the strongest place in the busiest scenes stays partial: everything drawn at one spot (grounding, lamps, your light) never removes more than 85 % of the light",
+    "X01 mixed light (SH-QA-01): inside your flashlight beam a lamp's shadow gives way to the flashlight (strong beam, cut > .3: at most 45 % of its lamps-only darkening, and close to the exact share), outside the beam it is unchanged",
+    "X02 mixed light at LOW and from another wanderer's light: LOW fills too; a peer's beam fills a lamp shadow as yours does"
+   ],
+   "empty": true,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 137,
+   "ok": false
+  },
+  "test_br_role": {
+   "ran": 0,
+   "summary": null,
+   "failing": [],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [
+    "U01 loads, attaches above the carpet on the first frame, and takes over the light (on() true); version reported; the blockers are every wall side and pillar side",
+    "U02 one compositor, no visibility polygon: nothing is clipped to any shape (only, BR3, shadow fills to their light's own pixel box; QA2, a face band's end pieces to its mitred outline); every light is ADDED to the light buffer (`lighter`): each lamp as its own shadowed field, each carried light (beam, then hand glow); the overlay loses the buffer once (destination-out), then the beam colour (source-over)",
+    "U26 BR2.1 the player's two hands are part of the silhouette: each gets the same self-shading gradient as the body, the cast is cut out around them too and starts past them (one pass, the dominant light only)"
+   ],
+   "empty": true,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 64,
+   "ok": false
+  },
+  "interp_test": {
+   "ran": 3,
+   "summary": null,
+   "failing": [],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 0,
+   "ms": 66,
+   "ok": true
+  },
+  "test_3bn": {
+   "ran": 7,
+   "summary": {
+    "passed": 6,
+    "total": 7
+   },
+   "failing": [
+    "N1-4 the bundle reads both policies at start-up, and index.html loads them before the bundle (classic scripts run before the deferred module)"
+   ],
+   "newFailures": [
+    "N1-4 the bundle reads both policies at start-up, and index.html loads them before the bundle (classic scripts run before the deferred module)"
+   ],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 364,
+   "ok": false
+  },
+  "audit_net": {
+   "ran": 17,
+   "summary": {
+    "passed": 13,
+    "total": 17
+   },
+   "failing": [
+    "A1 admin tools still move people (bring) and the moved player carries on from there",
+    "M4 a short hop through a wall is refused",
+    "D3 a normal death: the victim's own replay and corpse are used - one replay, one corpse, nothing added by the server",
+    "R2 a dead player can respawn (back at the spawn point, alive)"
+   ],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 55134,
+   "ok": true
+  },
+  "audit_net2": {
+   "ran": 11,
+   "summary": {
+    "passed": 8,
+    "total": 11
+   },
+   "failing": [
+    "LC4 NEW RUN only through its sequence: a bare join or leave while alive does nothing; vanish (2.7 s on screen) -> leave -> join starts a run at the client's spawn choice; a second vanish within 30 s does not",
+    "MT1 real move.js traces (walk, sprint, vault, crouch, crawl through a hole, slide; plain and in lag bursts) sent by an ordinary client: no correction, the server ends where the client does",
+    "DD2 a connected victim: its own replay and corpse, exactly one of each, nothing added by the server even after the fallback deadline"
+   ],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 219875,
+   "ok": true
+  },
+  "ir_net": {
+   "ran": 4,
+   "summary": {
+    "passed": 4,
+    "total": 4
+   },
+   "failing": [],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 0,
+   "ms": 4911,
+   "ok": true
+  }
+ },
+ "ok": false
+}

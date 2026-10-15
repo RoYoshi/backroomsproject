@@ -6,7 +6,9 @@
     `lineage` step of the gate, and `lineage.js record`. The served files did not change.
   - The fresh `npm ci && npm run build` of decision 1 (P0) is DONE at continuation C1: the owner supplied the 31 locked packages,
     each was verified against the lockfile, and the offline build gave the v11 `dist/` byte for byte (M-017, `evidence/c1/`).
-  - The TypeScript port (P1 to P4) is PLANNED for continuation C4.
+  - The TypeScript port is DONE: P1 to P3 at continuation C4a (the maintained tree `src/core/client/game/`, all forty steps ported and
+    proven against the shipped bundle; `dev/stage-3h-modernization/evidence/c4a/`), P4 (the swap) at C4b: the served bundle and
+    stylesheet are built from it, and the lineage's two chains are kept as their history. Human QA is pending. "How it was done", below.
 - **Supersedes:** `PLAN.md` §6 as written at H3M-0 ("the compiled bundle has no source … a compatibility island").
 - **Evidence:**
   - `dev/stage-3h-modernization/SOURCE_RECOVERY_INTAKE.md`;
@@ -84,15 +86,43 @@
    - **No mechanic changes on the way.** Nothing is rebalanced, optimised or "fixed", and no evaluation order changes where it is
      observable.
 
+## How it was done (continuation C4)
+
+- **P0** was continuation C1: the owner's 31 locked packages, each checked against the lockfile, installed offline; v11's `dist/`
+  rebuilt byte for byte.
+- **P1.** `src/core/client/game/` started as a copy of `original-v11/` (the same lockfile and dependencies: `client.js` refuses any
+  other). The decision on the URL: the build keeps the shipped names (`vite.config.ts` fixes `assets/index-DKbV5Nv9.js`,
+  `assets/index-D7hdwmUU.css` and the two PixiJS chunks that import the entry), so neither the `SERVE` allowlist nor `index.html`
+  changes and no new path is served. `dev/tools/build/client.js` builds it into a scratch folder (`--stage`) or into `public/assets/`
+  with its record (`--write`); `build.js` checks the record, so the build stays dependency-free.
+- **P2.** The forty steps were ported in one wave (C4a), not one commit per concern, because the focused test is stronger than the
+  plan's: every top-level statement of the shipped app code is compared with the port, modulo the names of bindings and a stated
+  normal form (`tools/c4_alpha_all.mjs`; 195 of 197 statements compared, the other 2 reviewed), so each concern's code, not one trace
+  of it, is shown to be the shipped one. The deliberate changes of structure (none of behaviour) are declared with their reasons in
+  `c4_alpha_modules.json`: NEW RUN's fall and vanish state is `client/arrival.ts`'s object; the renderer is passed whether the light
+  was on when a death completes; the page's one ambience is made in `client/audio.ts`. The checks' own mutants sit in the concerns
+  this ADR named (B02, B07, B10 and B11, B12, B28 to B30: `c4_port_mutants.mjs`). `window.__api` is an explicit object literal in
+  `client/main.ts` with all 52 contract names, the minified ones included, each mapped to a readable declaration, made at the same
+  moment as before; the contract tool checks that the served bundle publishes the same members in the same order.
+- **P3.** The staging build was proven against the shipped bundle before anything was served: the alpha check, the stylesheet
+  (`c4_css_check.mjs`), and `dev/tools/gate/golden/bundle_diff.js` (both in Chromium, frame by frame, with seeded randomness and a
+  virtual clock: the randomness, the state, the document, every 2D canvas and audio call, the window hooks, the pixels and computed
+  styles; nine scenes), each with its mutants. The gate's `port` and `bundle` steps run these from then on.
+- **P4.** The swap is its own checkpoint (C4b): `client.js --write`, the recipes and the ledger updated, the full gate (live wire,
+  the browser checks, the contact lab, the suites, perf, the developer round trip now including a TypeScript edit of the client).
+- **Kept exactly, on purpose:** a B02 test that never fires (FINDINGS M-029) and two no-op clauses (M-032); the build's CSS minifier is
+  not applied to the later rules (M-031).
+
 ## Consequences
 
 - **The bundle stops being an opaque blob.**
   - Its 296,552 v11 bytes are source-proven (PixiJS from the lockfile, the game from the TypeScript).
   - Its 44,271 later bytes are each traceable to a step, a date, a source and an owning framework.
-- **The post-v11 code is still edits of minified code.** That is the remaining modernization debt for the client core. Its status is
-  COMPATIBILITY ISLAND WITH COMPLETE LINEAGE, and Stage 3H reports it as PARTIAL.
-- **The duplicated Level 0 map remains** (`sim.level0.js` and the bundle; M-003). Unifying it is part of P2, B02's concern, with both
-  sides proven by fixtures.
+- **Since C4b the post-v11 code is readable, owned TypeScript** built with v11's toolchain; the minified edits are history (the
+  lineage still replays them to the file they produced, and the port is proven against that file). Until C4a this was a
+  COMPATIBILITY ISLAND WITH COMPLETE LINEAGE.
+- **The duplicated Level 0 map remained after the swap** (the server's `sim.level0.js` and the client's `shared/world.ts`; M-003).
+  Unifying it is B02's concern, done after the port so that the client side is readable source, with both sides proven.
 - **The recovered original carpet texture is not swapped in.** The shipped `carpet.png` is the placeholder the HAR recovery generated
   (M-013), and changing it would change what players see. That is the owner's decision.
 

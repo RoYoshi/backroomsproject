@@ -1,0 +1,5 @@
+$ node dev/tools/gate/golden/bpp_golden.js --old-ref 143b63ff42b88c6780c5043e0f61d64100f81f40 --repeat 0 --scenarios dev/tools/gate/golden/srv_scenarios_session.js --baseline /home/claude/backrooms-modern/dev/stage-3h-modernization/evidence/c2/golden/session_traces --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4b/gate_full/session
+PASS session_login: old 35229 lines df8d880c6e94 | new 35229 lines df8d880c6e94 | identical | repeats same | baseline equal
+PASS session_identity: old 16311 lines e0e1e5b0d394 | new 16311 lines e0e1e5b0d394 | identical | repeats same | baseline equal
+PASS session_wire: old 813 lines 03756fe463bd | new 813 lines 03756fe463bd | identical | repeats same | baseline equal
+B++ golden traces: ALL IDENTICAL

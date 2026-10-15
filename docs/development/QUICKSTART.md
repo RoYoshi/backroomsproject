@@ -6,6 +6,7 @@
 |---|---|
 | Run the game | Node.js 18 or later. No `npm install`: the game has no dependencies |
 | Build, check the build, run the scenario suite | the same |
+| Change the compiled client (`src/core/client/game/`: TypeScript) and build it | also the 31 locked npm packages of its toolchain (the tarballs of `TFB_V11_LINUX_X64_PACKAGES.zip`, never committed): `node dev/tools/build/client.js --packages <folder> --write` checks each against the lockfile and installs them offline, in a scratch folder |
 | Run the gate (`npm run gate`) | Git with this repository's full history (the gate reads the accepted build, `143b63f`, from it: a shallow clone will not do); TypeScript installed globally (`npm i -g typescript`, or `TYPESCRIPT=<its folder>`) for the parts, modules and `__api` contract checks; Playwright for Node installed globally, with Chromium (`npm i -g playwright`, then `npx playwright install chromium`), for the client goldens, the page scripts' comparison and `dev/tools/checks/dev_workflow.js`; since continuation C4 the 31 locked npm packages of the compiled client's build (the tarballs of `TFB_V11_LINUX_X64_PACKAGES.zip`, never committed: `npm run gate -- --packages <folder>`, or `TFB_CLIENT_PACKAGES=<folder>`), for the `port` and `bundle` steps |
 | Run the full gate (`npm run gate:full`) | also Python 3 with Playwright for Python, Pillow and NumPy (`pip install playwright pillow numpy`) for the browser checks and the contact lab |
 
@@ -44,8 +45,10 @@ backquote key; give the server a passcode with `ADMIN_PASSCODE=... node server.j
    boundaries (every name given to it or its own, nothing it was given assigned, every import used; for the sim and the page's module
    scripts, no state outside the factories, the wiring in order; for the page, no write into another owner's state (a mutating call
    such as `set` or `push` is a write), no global back-channel, a late name given once, by the composition, and the header's
-   `imports`, `exports` and `late` the code's). The compiled client bundle and its stylesheet are not edited this way: see
-   [`src/core/client/bundle/README.md`](../../src/core/client/bundle/README.md).
+   `imports`, `exports` and `late` the code's). The compiled client (the bundle and its stylesheet) is TypeScript and CSS in
+   `src/core/client/game/`: build it with `node dev/tools/build/client.js --packages <folder> --write` (it writes the two files and
+   their record, `generated/CLIENT_BUILD.json`), then `npm run build` for the manifest; `build:check` fails until you do
+   ([`src/core/client/game/README.md`](../../src/core/client/game/README.md)).
 5. **Test.** `npm test` runs the scenario suite on the real simulation (about 5 minutes). 13 of its 162 cases fail on the accepted
    build too; `dev/stage-3h/gate/known_failures_bpp.json` lists every known failure. `npm run gate` compares the whole game with the
    accepted build (about 6 minutes on 2 CPUs; it prints one line per step and `MODERNIZATION GATE (fast): PASS`).
@@ -62,8 +65,9 @@ backquote key; give the server a passcode with `ADMIN_PASSCODE=... node server.j
 | `node dev/tools/gate/golden/world_diff.js` | `world.js` against B++'s: every function, the same answers | seconds |
 | `node dev/tools/gate/golden/page_scripts.js` | `move.js`, `camcorder.js`, `glitch.js`, `ents.js` against B++'s, in the same closed Chromium page: equal traces | ~20 s |
 | `node dev/tools/gate/golden/cli_golden_c3c.js` | `mp.js` against B++'s: all 18 client scenes in one Chromium page, equal traces, every function of `mp.js` run | ~10 s |
-| `node dev/tools/lineage/lineage.js verify` | the compiled bundle's lineage replays byte for byte | seconds |
-| `node dev/tools/checks/dev_workflow.js` | this round trip, on a scratch copy: edit a page module, build, see it served and shown in a real page; edit a server module, restart, see it; undo both; rebuild byte for byte; clean rebuild | ~30 s |
+| `node dev/tools/lineage/lineage.js verify` | the compiled bundle's history (the lineage of its edits up to continuation C4a) replays byte for byte | seconds |
+| `node dev/tools/build/client.js --record-check` | the compiled client's record: its sources are the recorded ones and the served files the recorded build's (no packages needed) | seconds |
+| `node dev/tools/checks/dev_workflow.js` | this round trip, on a scratch copy: edit a page module, build, see it served and shown in a real page; edit a server module, restart, see it; undo both; rebuild byte for byte; clean rebuild; with `--packages <folder>`, a TypeScript edit of the compiled client built, served, seen in the page, undone and rebuilt byte for byte | ~1 min |
 | `npm test` (`node dev/tests/run.js [file]`) | the scenario suite on the real simulation; one file: `npm run test:hound` and the others in `package.json` | minutes |
 | `node dev/tools/build/client.js --packages <folder> --stage <scratch>` | the compiled client built from `src/core/client/game/` (TypeScript, Vite), offline, into a scratch folder | ~10 s |
 | `node dev/stage-3h-modernization/tools/c4_alpha_all.mjs --rolldown <its install>` | the ported client source against the shipped bundle, statement by statement (modulo names and a stated normal form) | ~10 s |
@@ -78,7 +82,9 @@ step and what it cannot see.
 - **`EADDRINUSE`**: another server has the port. `node server.js 9000`.
 - **`BUILD CHECK: FAIL ... differs from what its sources build`**: a built file was edited by hand, or `npm run build` was not run
   after a source change. Run `npm run build`, and edit the source next time.
-- **`BUILD ERROR: ... step B.. did not give the recorded bytes`**: the compiled bundle's lineage does not replay; see
+- **`BUILD ERROR: public/assets/index-...: the client's sources are not the recorded build's`**: a file of `src/core/client/game/`
+  changed and the client was not built since. Run `node dev/tools/build/client.js --packages <folder> --write`, then `npm run build`.
+- **`LINEAGE: FAIL ... did not give the recorded bytes`**: the compiled bundle's recorded history does not replay; see
   `src/core/client/bundle/README.md`.
 - **`PARTS CHECK: FAIL`**: a part's header lists names its code does not have, or misses some. `--fix <output>` rewrites the lists.
   "a statement ... straddles two parts" means a split cuts a statement in two: move the boundary.

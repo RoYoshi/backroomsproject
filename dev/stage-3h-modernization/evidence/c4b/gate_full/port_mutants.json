@@ -1,0 +1,246 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c4_port_mutants.mjs",
+ "controls": [
+  {
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/shared/movement.ts",
+   "rows": 1,
+   "same": true
+  },
+  {
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/death.ts",
+   "rows": 1,
+   "same": true
+  },
+  {
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/audio.ts",
+   "rows": 2,
+   "same": true
+  },
+  {
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/shared/equipment.ts",
+   "rows": 1,
+   "same": true
+  },
+  {
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/arrival.ts",
+   "rows": 1,
+   "same": true
+  },
+  {
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/shared/vision.ts",
+   "rows": 1,
+   "same": true
+  },
+  {
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/main.ts",
+   "rows": 1,
+   "same": true
+  },
+  {
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/render.ts",
+   "rows": 2,
+   "same": true
+  },
+  {
+   "check": "c4_css_check.mjs",
+   "file": "src/core/client/game/client/style-after-v11.css",
+   "same": true
+  }
+ ],
+ "mutants": [
+  {
+   "id": "B02-drain",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/shared/movement.ts",
+   "what": "a number: a sprint drains 23.5 stamina a second, not 23",
+   "caught": true,
+   "first": "#1: #1 function Yc = function step.body[0].else[5].then[0].expression.right.arguments[1].right.left.value: 23 vs 23.5"
+  },
+  {
+   "id": "B02-recover",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/shared/movement.ts",
+   "what": "a comparison: >= became >",
+   "caught": true,
+   "first": "#1: #1 function Yc = function step.body[0].else[3].if.right.operator: \">=\" vs \">\""
+  },
+  {
+   "id": "B02-and-or",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/shared/movement.ts",
+   "what": "&& became ||",
+   "caught": true,
+   "first": "#1: #1 function Yc = function step.body[0].else[3].if.operator: \"&&\" vs \"||\""
+  },
+  {
+   "id": "B02-order",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/shared/movement.ts",
+   "what": "two statements in the other order: the sprint test before the recovery",
+   "caught": true,
+   "first": "#1: #1 function Yc = function step.body[0].else[3]: If vs Var: {\"type\":\"If\",\"test\":{\"type\":\"LogicalExpression\",\"left\":{\"type\":\"MemberExpression\",\"object\":{\"type\":\"Identifier\",\"name\":\"H\"},\"property\":{\"type\":\"Prop\",\"name\":\"exhausted\"},\"computed\":false,\"optional\":false},\"operator\":\"&&\",\"right\":{\"type\":"
+  },
+  {
+   "id": "B07-hits",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/death.ts",
+   "what": "a time in the Hound's capture: its third hit 50 ms later",
+   "caught": true,
+   "first": "#0: #0 var ql = var captureHits.properties[0].value.elements[2].value: 1.2 vs 1.25"
+  },
+  {
+   "id": "B07-compressor",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/audio.ts",
+   "what": "the capture sound's compressor ratio",
+   "caught": true,
+   "first": "#0: #0 var nu = class Ambience.body[13].value.body[0].then[6].expression.right.value: 5 vs 6"
+  },
+  {
+   "id": "B10-B11-headlamp",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/shared/equipment.ts",
+   "what": "the headlamp's range",
+   "caught": true,
+   "first": "#5: #5 var Gc = var LIGHT_SPECS.properties[1].value.properties[1].value.value: 262 vs 263"
+  },
+  {
+   "id": "B12-landing",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/arrival.ts",
+   "what": "the moment a fall lands",
+   "caught": true,
+   "first": "Ff=drawArrival: Ff=drawArrival.body[3].then[2].then[1].init.value: 0.62 vs 0.63"
+  },
+  {
+   "id": "B12-dropped",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/arrival.ts",
+   "what": "a statement dropped: a vanishing wanderer's light would stay drawn",
+   "caught": true,
+   "first": "Ff=drawArrival: Ff=drawArrival.body[3].then[0].then: 7 items vs 6: [{\"type\":\"Var\",\"kind\":\"let\",\"id\":{\"type\":\"Identifier\",\"name\":\"v\"},\"init\":{\"type\":\"CallExpression\",\"callee\":{\"type\":\"MemberExpression\",\"object\":{\"type\":\"Identifier\",\"name\":\"Math\"},\"property\":{\"type\":\"Prop\",\"name\":\"min\"},\"computed\":fal"
+  },
+  {
+   "id": "B12-binding",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/arrival.ts",
+   "what": "another variable in scope read (t for p)",
+   "caught": true,
+   "first": "Ff=drawArrival: Ff=drawArrival.body[3].then[2].then: 3 declarations vs 4: p,k,h | p,landing,t,h"
+  },
+  {
+   "id": "B12-arguments",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/arrival.ts",
+   "what": "two values swapped: the fall's whoosh sweeps down, not up",
+   "caught": true,
+   "first": "Ff=drawArrival: Ff=drawArrival.body[3].then[2].then[2].then[1].expression.arguments[0].elements[0].value: 250 vs 1400"
+  },
+  {
+   "id": "B12-member",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/arrival.ts",
+   "what": "a property's name",
+   "caught": true,
+   "first": "Ff=drawArrival: Ff=drawArrival.body[3].then[0].then[6].expression.left.property.name: \"alpha\" vs \"visible\""
+  },
+  {
+   "id": "B30-mitre",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/shared/vision.ts",
+   "what": "a convex corner's choice of band ends",
+   "caught": true,
+   "first": "#13: #13 function Hl = function visibilityPolygon.body[24].then[6].body[3].then[0].expression.right.value: 2 vs 1"
+  },
+  {
+   "id": "hud-label",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/main.ts",
+   "what": "a string: the pace label",
+   "caught": true,
+   "first": "#64: #64 function Ou0 = function frameBody.body[17].then[6].expression.right.alternate.consequent.alternate.consequent.value: \"SPRINTING\" vs \"SPRINTlNG\""
+  },
+  {
+   "id": "loose-equality",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/main.ts",
+   "what": "=== became == with a string: the normal form makes them one only when an operand is a number",
+   "caught": true,
+   "first": "#54: #54 ExpressionStatement = ExpressionStatement.expression.arguments[1].body[0].then[0].if.operator: \"===\" vs \"==\""
+  },
+  {
+   "id": "corpse-owner",
+   "check": "c4_alpha_all.mjs",
+   "file": "src/core/client/game/client/render.ts",
+   "what": "a corpse recorded under the wanderer's name, not its id",
+   "caught": true,
+   "first": "#0: #0 var tu = class Renderer.body[28].value.body[1].then[0].expression.right.object.arguments[0].properties[0].value.property.name: \"id\" vs \"name\""
+  },
+  {
+   "id": "css-value",
+   "check": "c4_css_check.mjs",
+   "file": "src/core/client/game/client/style-after-v11.css",
+   "what": "a value",
+   "caught": true,
+   "first": "[0].decls[2][1]: \"7px\" vs \"8px\""
+  },
+  {
+   "id": "css-dropped",
+   "check": "c4_css_check.mjs",
+   "file": "src/core/client/game/client/style-after-v11.css",
+   "what": "a declaration dropped",
+   "caught": true,
+   "first": "[1].decls[0][0]: \"min-width\" vs \"color\""
+  },
+  {
+   "id": "css-selector",
+   "check": "c4_css_check.mjs",
+   "file": "src/core/client/game/client/style-after-v11.css",
+   "what": "a selector: a child became a descendant",
+   "caught": true,
+   "first": "[1].prelude: \".staminaHud>b\" vs \".staminaHud b\""
+  },
+  {
+   "id": "css-order",
+   "check": "c4_css_check.mjs",
+   "file": "src/core/client/game/client/style-after-v11.css",
+   "what": "two rules in the other order",
+   "caught": true,
+   "first": "[1].prelude: \".staminaHud>b\" vs \".staminaHud i\""
+  },
+  {
+   "id": "css-important",
+   "check": "c4_css_check.mjs",
+   "file": "src/core/client/game/client/style-after-v11.css",
+   "what": "!important dropped",
+   "caught": true,
+   "first": "[10].decls[0][1]: \"1!important\" vs \"1\""
+  },
+  {
+   "id": "css-media",
+   "check": "c4_css_check.mjs",
+   "file": "src/core/client/game/client/style-after-v11.css",
+   "what": "an @media rule's condition",
+   "caught": true,
+   "first": "[113].at: \"@media (prefers-reduced-motion:reduce)\" vs \"@media (prefers-reduced-motion:no-preference)\""
+  },
+  {
+   "id": "css-custom-property",
+   "check": "c4_css_check.mjs",
+   "file": "src/core/client/game/client/style-after-v11.css",
+   "what": "a custom property's value",
+   "caught": true,
+   "first": "[63].decls[0][1]: \"#f3e7a7\" vs \"#f3e7a8\""
+  }
+ ],
+ "ok": true,
+ "runs": 32
+}

@@ -1,5 +1,5 @@
 {
- "note": "Every built output, in order (dev/tools/build/build.js). public/ is the web root; generated/server/ holds what the server loads that is assembled from parts. Most outputs list their parts: they are concatenated as they are, less a leading \"/** @part\" header. The compiled client bundle and its stylesheet are a replay of the client lineage ledger instead: the original v11 build output, then every recorded step (src/core/client/bundle/README.md). The PixiJS chunks are the v11 build output's own files, unchanged.",
+ "note": "Every built output, in order (dev/tools/build/build.js). public/ is the web root; generated/server/ holds what the server loads that is assembled from parts. Most outputs list their parts: they are concatenated as they are, less a leading \"/** @part\" header. The compiled client bundle and its stylesheet are built from the maintained TypeScript and CSS (src/core/client/game/) by dev/tools/build/client.js, which needs the locked npm packages: build.js checks them against that build's record, generated/CLIENT_BUILD.json (since Stage 3H continuation C4b; until then they were a replay of the client lineage ledger, src/core/client/bundle/README.md). The PixiJS chunks are the v11 build output's own files, unchanged.",
  "outputs": [
   {
    "out": "public/assets/BufferResource-B-thlpip.js",
@@ -75,17 +75,11 @@
   },
   {
    "out": "public/assets/index-D7hdwmUU.css",
-   "replay": {
-    "ledger": "src/core/client/bundle/lineage/ledger.json",
-    "chain": "css"
-   }
+   "client": "generated/CLIENT_BUILD.json"
   },
   {
    "out": "public/assets/index-DKbV5Nv9.js",
-   "replay": {
-    "ledger": "src/core/client/bundle/lineage/ledger.json",
-    "chain": "bundle"
-   }
+   "client": "generated/CLIENT_BUILD.json"
   },
   {
    "out": "public/assets/init-Cn1_BCi0.js",

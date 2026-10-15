@@ -31,7 +31,7 @@ section('N1', async () => {
     const cam = (await get('/camera_policy.js')).body, tim = (await get('/timing_policy.js')).body;
     check('N1-3 the served policies are the repository files byte for byte', cam === read('camera_policy.js') && tim === read('timing_policy.js'));
   } finally { srv.kill(); }
-  const B = read('assets/index-DKbV5Nv9.js');
+  const B = require('../tools/lineage/recorded.js').recorded('bundle').toString('utf8');   // (Stage 3H continuation C4b) the compiled client's text as B++ shipped it: since C4b the served bundle is that program rebuilt from src/core/client/game/ (dev/tools/lineage/recorded.js)
   const usesCam = /this\.baseScale=window\.__cameraPolicy\?window\.__cameraPolicy\.baseScale\(innerWidth,innerHeight\)/.test(B), usesTim = /__tm=window\.TFB_TIMING\|\|/.test(B);
   const order = [...read('index.html').matchAll(/<script[^>]*src="([^"]+)"/g)].map(m => m[1]);
   check('N1-4 the bundle reads both policies at start-up, and index.html loads them before the bundle (classic scripts run before the deferred module)', usesCam && usesTim && order.indexOf('./camera_policy.js') < order.indexOf('./assets/index-DKbV5Nv9.js') && order.indexOf('./timing_policy.js') < order.indexOf('./assets/index-DKbV5Nv9.js'),

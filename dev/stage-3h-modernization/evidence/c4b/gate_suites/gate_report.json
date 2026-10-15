@@ -1,0 +1,28 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "323f292d75659dcfc35746f2e6817a7c2a98539d",
+ "startedAt": "2026-10-15T17:41:17.044Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4b/gate_suites",
+ "steps": {
+  "quick_suites": {
+   "ok": true,
+   "cases": 23,
+   "note": "s_humanqa_hotfix 5/6, s_ir 3/3, interp_test 3, test_3bn 7/7, ir_net 4/4 (only the known B++ failures fail)",
+   "exit": 0,
+   "seconds": 9
+  },
+  "suites": {
+   "ok": true,
+   "cases": 293,
+   "note": "npm_test 149/162, s_humanqa_hotfix 5/6, s_ir 3/3, test_shadows 43/48, test_br_role 29/32, interp_test 3, test_3bn 7/7, audit_net 13/17, audit_net2 8/11, ir_net 4/4 (only the known B++ failures fail)",
+   "exit": 0,
+   "seconds": 617
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-15T17:51:43.121Z",
+ "removed": []
+}

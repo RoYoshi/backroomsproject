@@ -1,0 +1,53 @@
+{
+ "tool": "dev/tools/gate/golden/bundle_mutants.js",
+ "assets": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4b/gate_full/client_stage/assets",
+ "control": null,
+ "mutants": [
+  {
+   "id": "hook",
+   "what": "the camera scale given to the page's scripts (window.__mp), times 1.001",
+   "scene": "solo_walk",
+   "expected": "hook",
+   "reported": "hook",
+   "frame": 3,
+   "caught": true
+  },
+  {
+   "id": "state",
+   "what": "a sprint drains 23.5 stamina a second, not 23",
+   "scene": "bare_walk",
+   "expected": "st",
+   "reported": "st",
+   "frame": 243,
+   "caught": true
+  },
+  {
+   "id": "dom",
+   "what": "the pace label SPRINTlNG (the bundle on its own: the page without its scripts)",
+   "scene": "bare_walk",
+   "expected": "dom",
+   "reported": "dom",
+   "frame": 248,
+   "caught": true
+  },
+  {
+   "id": "audio",
+   "what": "the breath oscillator at 38 Hz, not 37",
+   "scene": "solo_walk",
+   "expected": "audio",
+   "reported": "audio",
+   "frame": 55,
+   "caught": true
+  },
+  {
+   "id": "rnd",
+   "what": "one more Math.random() with each footstep",
+   "scene": "solo_walk",
+   "expected": "rnd",
+   "reported": "rnd",
+   "frame": 177,
+   "caught": true
+  }
+ ],
+ "ok": true
+}

@@ -16,7 +16,7 @@ const fs = require('fs');
 // Verify the shipped browser loop is actually wired to the policy under test.
 {
   const html = fs.readFileSync(LAYOUT.at('index.html'), 'utf8');
-  const bundle = fs.readFileSync(LAYOUT.at('assets/index-DKbV5Nv9.js'), 'utf8');
+  const bundle = require('../tools/lineage/recorded.js').recorded('bundle').toString('utf8');   // (Stage 3H continuation C4b) the compiled client's text as B++ shipped it: since C4b the served bundle is that program rebuilt from src/core/client/game/ (dev/tools/lineage/recorded.js)
   assert(html.indexOf('./timing_policy.js') >= 0 && html.indexOf('./timing_policy.js') < html.indexOf('./assets/index-DKbV5Nv9.js'), 'timing policy must load before the game module');
   assert(bundle.includes('__tm.frameDelta(e,su)'), 'shipped render loop must use timing_policy frameDelta');
   assert(bundle.includes('__tm.FIXED_DT') && bundle.includes('__tm.MAX_CATCHUP_STEPS'), 'shipped gameplay loop must use fixed-step policy constants');

@@ -29,7 +29,7 @@ node server.js 9000       # another port
 | Get started, build, test | [`docs/development/QUICKSTART.md`](docs/development/QUICKSTART.md) |
 | Know who owns what | [`docs/architecture/FRAMEWORKS.md`](docs/architecture/FRAMEWORKS.md), and each `src/frameworks/<name>/README.md` |
 | Follow a frame, a message, a death, NEW RUN | [`docs/architecture/RUNTIME_FLOWS.md`](docs/architecture/RUNTIME_FLOWS.md) |
-| Change a script the browser or the server loads | [`docs/architecture/BUILD_PIPELINE.md`](docs/architecture/BUILD_PIPELINE.md): edit `src/`, then `npm run build` |
+| Change a script the browser or the server loads | [`docs/architecture/BUILD_PIPELINE.md`](docs/architecture/BUILD_PIPELINE.md): edit `src/`, then `npm run build` (the compiled client, `src/core/client/game/`, is TypeScript: `dev/tools/build/client.js` builds it with its locked npm packages) |
 | Know what one part may rely on from another | [`docs/architecture/CONTRACTS.md`](docs/architecture/CONTRACTS.md) |
 | Know what was proven to be unchanged, and how | [`docs/architecture/PARITY_MATRIX.md`](docs/architecture/PARITY_MATRIX.md) |
 | Read a past decision | [`docs/architecture/ADRS/`](docs/architecture/ADRS/) |
@@ -38,7 +38,8 @@ node server.js 9000       # another port
 ```text
 npm run build          # writes public/ and generated/ from src/          npm run build:check   # are they what src/ builds?
 npm test               # the scenario suite (some cases fail on the accepted build too: see QUICKSTART)
-npm run gate           # the modernization gate against the accepted build (a few minutes)
+npm run gate -- --packages <folder>   # the modernization gate against the accepted build (about 11 minutes; the folder holds the
+                                      # compiled client's 31 locked npm packages)
 ```
 
 ## Where things are

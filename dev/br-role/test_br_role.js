@@ -55,7 +55,7 @@ function mkCanvas(log, name) {
 }
 
 function makeGame() {
-  const B = read('assets/index-DKbV5Nv9.js');
+  const B = require('../tools/lineage/recorded.js').recorded('bundle').toString('utf8');   // (Stage 3H continuation C4b) the compiled client's text as B++ shipped it: since C4b the served bundle is that program rebuilt from src/core/client/game/ (dev/tools/lineage/recorded.js)
   const cut = (a, b) => { const i = B.indexOf(a), j = B.indexOf(b, i); assert(i >= 0 && j > i, 'bundle marker missing: ' + a); return B.slice(i, j); };
   const ctx = vm.createContext({ window: { WORLD: require(LAYOUT.at('world.js')) }, Math, Uint8Array, Set, Object, Array, Number, console });
   vm.runInContext(cut('var FBW=96', 'var Wc={kind:') + ';\n' + cut('var Gc={flashlight', 'function Jc(') + ';\nthis.__x={FBW,FBH,kc,zc,Hc,Uc,Bc,Fc,Pc,Mc,Gc,qc,Ic,V};', ctx);
@@ -235,7 +235,7 @@ run('U09 fail-safe and DEV switch: ?lighting=legacy leaves the game\'s own light
   return { ok: legacyOff && r === false && b.R.on() === false && b.R.stats().disabled === 'frame error', note: `legacy: on() ${a.R.on()}; after an error: draw ${r}, on() ${b.R.on()}, disabled '${b.R.stats().disabled}'` };
 });
 run('U10 the seam: index.html loads br-role.js (not shadows-2d.js); drawLight hands the light cut-outs to BR-RoLE through one guarded hook, and keeps the legacy path intact behind it', () => {
-  const html = read('index.html'), B = read('assets/index-DKbV5Nv9.js');
+  const html = read('index.html'), B = require('../tools/lineage/recorded.js').recorded('bundle').toString('utf8');   // (Stage 3H continuation C4b) the compiled client's text as B++ shipped it: since C4b the served bundle is that program rebuilt from src/core/client/game/ (dev/tools/lineage/recorded.js)
   const hooks = ['let BR=window.__brRole&&window.__brRole.on()?window.__brRole:null', 'BR||(u.addColorStop(0,`rgba(0,0,0,.14)`)', 'BR||V.blackout||Fc.forEach(', 'BR&&BR.draw(n,{', 'if(!BR&&e&&!f.nv){', 'drawPeers(mk,t,!!BR)', 'if(B)continue;'];
   const miss = hooks.filter(h => B.split(h).length !== 2);
   return { ok: html.includes('<script src="./assets/br-role.js"></script>') && !html.includes('shadows-2d.js') && !miss.length && B.includes('window.__cam.irDraw(mk,'), note: `hooks found ${hooks.length - miss.length}/${hooks.length}${miss.length ? ' missing ' + JSON.stringify(miss) : ''}` };

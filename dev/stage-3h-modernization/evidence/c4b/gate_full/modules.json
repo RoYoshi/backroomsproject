@@ -1,0 +1,2413 @@
+{
+ "tool": "dev/tools/checks/modules.js",
+ "typescript": "6.0.3",
+ "tree": "this repository",
+ "files": {
+  "server.js": {
+   "factory": false,
+   "host": [
+    "__dirname",
+    "console",
+    "process",
+    "setInterval"
+   ],
+   "language": [
+    "JSON",
+    "Math"
+   ],
+   "undeclared": []
+  },
+  "src/core/server/loop.js": {
+   "factory": true,
+   "host": [
+    "process"
+   ],
+   "language": [
+    "Date",
+    "JSON",
+    "Math",
+    "Number",
+    "Object"
+   ],
+   "undeclared": [],
+   "imports": {
+    "rooms": [
+     "rooms"
+    ],
+    "poseSend": [
+     "poseSend"
+    ],
+    "aftStart": [
+     "aftStart"
+    ],
+    "aftSend": [
+     "aftSend"
+    ],
+    "aftTick": [
+     "aftTick"
+    ],
+    "bodyAt": [
+     "bodyAt"
+    ],
+    "send": [
+     "send"
+    ],
+    "SNAP_EVERY": [
+     "SNAP_EVERY"
+    ],
+    "ADMIN_EVERY": [
+     "ADMIN_EVERY"
+    ]
+   },
+   "exports": [
+    "tick"
+   ]
+  },
+  "src/core/server/rooms.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Date",
+    "Map",
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "createSim": [
+     "createSim"
+    ],
+    "BODY_TTL": [
+     "BODY_TTL"
+    ],
+    "aftStart": [
+     "aftStart"
+    ],
+    "placeFree": [
+     "placeFree"
+    ],
+    "mvReset": [
+     "mvReset"
+    ],
+    "send": [
+     "send"
+    ]
+   },
+   "exports": [
+    "rooms",
+    "getRoom",
+    "worldReset"
+   ]
+  },
+  "src/core/server/sim.js": {
+   "factory": true,
+   "host": [],
+   "language": [],
+   "undeclared": [],
+   "imports": {
+    "options": [
+     "options"
+    ]
+   },
+   "exports": [
+    "takeItem",
+    "players",
+    "addPlayer",
+    "removePlayer",
+    "join",
+    "respawn",
+    "canRespawn",
+    "moveOk",
+    "moveRoute",
+    "spawnOk",
+    "leave",
+    "newRun",
+    "nrWhy",
+    "nrWait",
+    "NR_CD",
+    "forfeit",
+    "gaitFloor",
+    "lifeOf",
+    "clearAt",
+    "blockersAt",
+    "step",
+    "entities",
+    "resetWorld",
+    "admin",
+    "setBody",
+    "killerEnd",
+    "navCmd",
+    "hearMove",
+    "capInfo",
+    "debugInfo",
+    "logSince",
+    "logSeq",
+    "engStats",
+    "debugOn",
+    "engine",
+    "adapter",
+    "bodies",
+    "bodyVer",
+    "glitches",
+    "runT",
+    "worldSeq",
+    "debug"
+   ],
+   "sim": "the composition"
+  },
+  "src/core/server/sim.step.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "opts": [
+     "opts"
+    ],
+    "players": [
+     "players"
+    ],
+    "level": [
+     "Lc",
+     "Rc",
+     "V",
+     "forceBlackout"
+    ],
+    "ai": [
+     "DIRECTOR_MAX_HOUNDS",
+     "RND",
+     "alive",
+     "eng",
+     "ents",
+     "newHound",
+     "rnd",
+     "spawnMonsters"
+    ],
+    "feed": [
+     "feed",
+     "processEvents"
+    ],
+    "walls": [
+     "glitches",
+     "placeGlitches"
+    ],
+    "items": [
+     "items",
+     "placeItems"
+    ],
+    "bodies": [
+     "clearBodies",
+     "clock",
+     "tick"
+    ]
+   },
+   "exports": [
+    "controls",
+    "entities",
+    "ofKind",
+    "resetWorld",
+    "step",
+    "runT",
+    "worldSeq"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/bpp/server/newrun.js": {
+   "factory": true,
+   "host": [
+    "console"
+   ],
+   "language": [
+    "Date",
+    "Math",
+    "Number"
+   ],
+   "undeclared": [],
+   "imports": {
+    "send": [
+     "send"
+    ],
+    "boomStart": [
+     "boomStart"
+    ]
+   },
+   "exports": [
+    "NR_GAP",
+    "nrIntent"
+   ]
+  },
+  "src/frameworks/bpp/server/poses.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "send": [
+     "send"
+    ]
+   },
+   "exports": [
+    "poseSend"
+   ]
+  },
+  "src/frameworks/bpp/server/session.js": {
+   "factory": true,
+   "host": [
+    "URL"
+   ],
+   "language": [
+    "Date",
+    "Math",
+    "String",
+    "isFinite"
+   ],
+   "undeclared": [],
+   "imports": {
+    "srv": [
+     "srv"
+    ],
+    "crypto": [
+     "crypto"
+    ],
+    "MAX_ROOM": [
+     "MAX_ROOM"
+    ],
+    "FAST_GAP": [
+     "FAST_GAP"
+    ],
+    "getRoom": [
+     "getRoom"
+    ],
+    "rooms": [
+     "rooms"
+    ],
+    "send": [
+     "send"
+    ],
+    "reader": [
+     "reader"
+    ],
+    "PEERS": [
+     "PEERS"
+    ],
+    "num": [
+     "num"
+    ],
+    "kindOf": [
+     "kindOf"
+    ],
+    "cleanParts": [
+     "cleanParts"
+    ],
+    "HEX": [
+     "HEX"
+    ],
+    "DEFAULT_LOOK": [
+     "DEFAULT_LOOK"
+    ],
+    "cleanLook": [
+     "cleanLook"
+    ],
+    "MV": [
+     "MV"
+    ],
+    "PD": [
+     "PD"
+    ],
+    "blockers": [
+     "blockers"
+    ],
+    "placeFree": [
+     "placeFree"
+    ],
+    "mvReset": [
+     "mvReset"
+    ],
+    "mvCheck": [
+     "mvCheck"
+    ],
+    "adminMove": [
+     "adminMove"
+    ],
+    "nrIntent": [
+     "nrIntent"
+    ],
+    "adminCommand": [
+     "adminCommand"
+    ],
+    "adminLogin": [
+     "adminLogin"
+    ]
+   },
+   "exports": null
+  },
+  "src/frameworks/bpp/server/ws.js": {
+   "factory": false,
+   "host": [
+    "Buffer"
+   ],
+   "language": [
+    "JSON"
+   ],
+   "undeclared": []
+  },
+  "src/frameworks/gib/server/aftermath.js": {
+   "factory": true,
+   "host": [
+    "console"
+   ],
+   "language": [
+    "Date",
+    "Math",
+    "Object",
+    "Set",
+    "WeakMap"
+   ],
+   "undeclared": [],
+   "imports": {
+    "deathSrv": [
+     "deathSrv"
+    ],
+    "send": [
+     "send"
+    ],
+    "HEX": [
+     "HEX"
+    ]
+   },
+   "exports": [
+    "aftStart",
+    "aftOf",
+    "aftSend",
+    "aftTick",
+    "bodyAt",
+    "putBody",
+    "boomStart"
+   ]
+  },
+  "src/frameworks/gib/server/death_srv.js": {
+   "factory": false,
+   "host": [
+    "__dirname"
+   ],
+   "language": [
+    "Array",
+    "Function",
+    "Math",
+    "String"
+   ],
+   "undeclared": []
+  },
+  "src/frameworks/gib/server/sim.bodies.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Map",
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "opts": [
+     "opts"
+    ],
+    "ai": [
+     "MAX_BODIES"
+    ]
+   },
+   "exports": [
+    "bodies",
+    "setBody",
+    "tick",
+    "clearBodies",
+    "clock",
+    "bodyVer"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/lost/server/sim.glitches.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "ai": [
+     "ANCHOR",
+     "RND"
+    ],
+    "level": [
+     "FBH",
+     "FBW",
+     "Hc",
+     "Ic",
+     "fl",
+     "sl",
+     "zc"
+    ]
+   },
+   "exports": [
+    "glitches",
+    "placeGlitches"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/lost/server/sim.level0.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Int32Array",
+    "Math",
+    "Number",
+    "Object",
+    "Set",
+    "Uint8Array"
+   ],
+   "undeclared": [],
+   "imports": {
+    "WORLD": [
+     "WORLD"
+    ]
+   },
+   "exports": [
+    "FBH",
+    "FBW",
+    "Bc",
+    "Fc",
+    "Gc",
+    "Hc",
+    "Ic",
+    "Lc",
+    "Oc",
+    "Rc",
+    "Uc",
+    "V",
+    "W",
+    "al",
+    "fl",
+    "il",
+    "ll",
+    "qc",
+    "sl",
+    "ul",
+    "zc",
+    "forceBlackout",
+    "restartBlackout"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/nani/server/sim.ai.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "AI": [
+     "AI"
+    ],
+    "WORLD": [
+     "WORLD"
+    ],
+    "opts": [
+     "opts"
+    ],
+    "players": [
+     "players"
+    ],
+    "level": [
+     "Bc",
+     "FBH",
+     "FBW",
+     "Fc",
+     "Gc",
+     "Ic",
+     "Oc",
+     "Uc",
+     "V",
+     "W",
+     "al",
+     "fl",
+     "il",
+     "ll",
+     "qc",
+     "sl",
+     "ul",
+     "zc"
+    ]
+   },
+   "exports": [
+    "ADMIN_MAX_HOUNDS",
+    "ADMIN_MAX_SMILERS",
+    "ANCHOR",
+    "DIRECTOR_MAX_HOUNDS",
+    "MAX_BODIES",
+    "RND",
+    "SNn",
+    "adapter",
+    "adminCap",
+    "adminSpawn",
+    "alive",
+    "eng",
+    "ents",
+    "isAlive",
+    "killerEnd",
+    "navCmd",
+    "newHound",
+    "randomSpot",
+    "rnd",
+    "spawnMonsters"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/nani/server/sim.feed.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "WORLD": [
+     "WORLD"
+    ],
+    "opts": [
+     "opts"
+    ],
+    "players": [
+     "players"
+    ],
+    "level": [
+     "Gc"
+    ],
+    "ai": [
+     "SNn",
+     "eng",
+     "isAlive"
+    ]
+   },
+   "exports": [
+    "capInfo",
+    "feed",
+    "processEvents"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/overseer/server/admin.js": {
+   "factory": true,
+   "host": [
+    "Buffer",
+    "console",
+    "setTimeout"
+   ],
+   "language": [
+    "Math",
+    "String"
+   ],
+   "undeclared": [],
+   "imports": {
+    "send": [
+     "send"
+    ],
+    "aftOf": [
+     "aftOf"
+    ],
+    "moveTo": [
+     "moveTo"
+    ],
+    "worldReset": [
+     "worldReset"
+    ]
+   },
+   "exports": [
+    "adminCommand"
+   ]
+  },
+  "src/frameworks/overseer/server/sim.admin.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Boolean",
+    "Math",
+    "Set"
+   ],
+   "undeclared": [],
+   "imports": {
+    "players": [
+     "players"
+    ],
+    "level": [
+     "restartBlackout",
+     "sl"
+    ],
+    "ai": [
+     "ADMIN_MAX_HOUNDS",
+     "ADMIN_MAX_SMILERS",
+     "DIRECTOR_MAX_HOUNDS",
+     "RND",
+     "adminCap",
+     "adminSpawn",
+     "eng",
+     "ents",
+     "spawnMonsters"
+    ],
+    "feed": [
+     "feed",
+     "processEvents"
+    ],
+    "walls": [
+     "glitches",
+     "placeGlitches"
+    ],
+    "items": [
+     "items",
+     "placeItems"
+    ],
+    "run": [
+     "controls",
+     "ofKind",
+     "resetWorld"
+    ],
+    "life": [
+     "spawn"
+    ]
+   },
+   "exports": [
+    "admin",
+    "debugOn"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/pocket/server/sim.items.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "ai": [
+     "eng",
+     "randomSpot"
+    ],
+    "walls": [
+     "glitches"
+    ]
+   },
+   "exports": [
+    "items",
+    "placeItems",
+    "takeItem"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/space/server/movement.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Date",
+    "Math",
+    "Object"
+   ],
+   "undeclared": [],
+   "imports": {
+    "PEERS": [
+     "PEERS"
+    ],
+    "send": [
+     "send"
+    ]
+   },
+   "exports": [
+    "MV",
+    "PD",
+    "blockers",
+    "placeFree",
+    "mvReset",
+    "mvCheck",
+    "moveTo",
+    "adminMove"
+   ]
+  },
+  "src/frameworks/space/server/peers.js": {
+   "factory": false,
+   "host": [],
+   "language": [
+    "Math"
+   ],
+   "undeclared": []
+  },
+  "src/frameworks/space/server/sim.movement.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Array",
+    "Math"
+   ],
+   "undeclared": [],
+   "imports": {
+    "WORLD": [
+     "WORLD"
+    ],
+    "level": [
+     "sl"
+    ],
+    "ai": [
+     "eng"
+    ]
+   },
+   "exports": [
+    "gaitFloor",
+    "hearMove",
+    "moveOk",
+    "moveRoute",
+    "spawnOk"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/space/server/sim.players.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "Date",
+    "Math",
+    "Object"
+   ],
+   "undeclared": [],
+   "imports": {
+    "players": [
+     "players"
+    ],
+    "level": [
+     "Ic"
+    ],
+    "ai": [
+     "eng"
+    ],
+    "feed": [
+     "processEvents"
+    ],
+    "run": [
+     "resetWorld",
+     "runT"
+    ]
+   },
+   "exports": [
+    "NR_CD",
+    "addPlayer",
+    "canRespawn",
+    "forfeit",
+    "join",
+    "leave",
+    "lifeOf",
+    "newRun",
+    "nrWait",
+    "nrWhy",
+    "removePlayer",
+    "respawn",
+    "spawn"
+   ],
+   "sim": "a module"
+  },
+  "src/frameworks/ward/server/admin_login.js": {
+   "factory": true,
+   "host": [
+    "console"
+   ],
+   "language": [
+    "Date",
+    "Map",
+    "Math",
+    "String"
+   ],
+   "undeclared": [],
+   "imports": {
+    "crypto": [
+     "crypto"
+    ],
+    "ADMIN_PASS": [
+     "ADMIN_PASS"
+    ],
+    "send": [
+     "send"
+    ]
+   },
+   "exports": [
+    "adminLogin"
+   ]
+  },
+  "src/frameworks/ward/server/fields.js": {
+   "factory": false,
+   "host": [],
+   "language": [
+    "Math",
+    "String"
+   ],
+   "undeclared": []
+  },
+  "src/frameworks/ward/server/static.js": {
+   "factory": true,
+   "host": [],
+   "language": [
+    "JSON",
+    "Map",
+    "String",
+    "decodeURIComponent"
+   ],
+   "undeclared": [],
+   "imports": {
+    "ROOT": [
+     "ROOT"
+    ]
+   },
+   "exports": null
+  }
+ },
+ "sim": {
+  "modules": [
+   {
+    "name": "level",
+    "file": "src/frameworks/lost/server/sim.level0.js",
+    "given": [
+     "(positional)"
+    ],
+    "uses": []
+   },
+   {
+    "name": "ai",
+    "file": "src/frameworks/nani/server/sim.ai.js",
+    "given": [
+     "AI",
+     "WORLD",
+     "opts",
+     "players",
+     "level"
+    ],
+    "uses": [
+     "level"
+    ]
+   },
+   {
+    "name": "walls",
+    "file": "src/frameworks/lost/server/sim.glitches.js",
+    "given": [
+     "ai",
+     "level"
+    ],
+    "uses": [
+     "ai",
+     "level"
+    ]
+   },
+   {
+    "name": "items",
+    "file": "src/frameworks/pocket/server/sim.items.js",
+    "given": [
+     "ai",
+     "walls"
+    ],
+    "uses": [
+     "ai",
+     "walls"
+    ]
+   },
+   {
+    "name": "bodies",
+    "file": "src/frameworks/gib/server/sim.bodies.js",
+    "given": [
+     "opts",
+     "ai"
+    ],
+    "uses": [
+     "ai"
+    ]
+   },
+   {
+    "name": "feed",
+    "file": "src/frameworks/nani/server/sim.feed.js",
+    "given": [
+     "WORLD",
+     "opts",
+     "players",
+     "level",
+     "ai"
+    ],
+    "uses": [
+     "level",
+     "ai"
+    ]
+   },
+   {
+    "name": "run",
+    "file": "src/core/server/sim.step.js",
+    "given": [
+     "opts",
+     "players",
+     "level",
+     "ai",
+     "feed",
+     "walls",
+     "items",
+     "bodies"
+    ],
+    "uses": [
+     "level",
+     "ai",
+     "feed",
+     "walls",
+     "items",
+     "bodies"
+    ]
+   },
+   {
+    "name": "life",
+    "file": "src/frameworks/space/server/sim.players.js",
+    "given": [
+     "players",
+     "level",
+     "ai",
+     "feed",
+     "run"
+    ],
+    "uses": [
+     "level",
+     "ai",
+     "feed",
+     "run"
+    ]
+   },
+   {
+    "name": "move",
+    "file": "src/frameworks/space/server/sim.movement.js",
+    "given": [
+     "WORLD",
+     "level",
+     "ai"
+    ],
+    "uses": [
+     "level",
+     "ai"
+    ]
+   },
+   {
+    "name": "over",
+    "file": "src/frameworks/overseer/server/sim.admin.js",
+    "given": [
+     "players",
+     "level",
+     "ai",
+     "feed",
+     "walls",
+     "items",
+     "run",
+     "life"
+    ],
+    "uses": [
+     "level",
+     "ai",
+     "feed",
+     "walls",
+     "items",
+     "run",
+     "life"
+    ]
+   }
+  ],
+  "ok": true
+ },
+ "problems": [],
+ "ok": true,
+ "page": {
+  "public/camcorder.js": {
+   "modules": [
+    {
+     "path": "src/frameworks/br-r/client/camcorder.js",
+     "owner": "br-r",
+     "factory": "camcorderCore",
+     "imports": {},
+     "exports": [
+      "CFG",
+      "clamp",
+      "FX",
+      "S",
+      "setWhine"
+     ],
+     "late": null,
+     "globals": [
+      "Math",
+      "Object"
+     ]
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/camcorder.audio.js",
+     "owner": "spacious-audio",
+     "factory": "camcorderAudio",
+     "imports": {
+      "core": [
+       "S",
+       "setWhine"
+      ]
+     },
+     "exports": [
+      "snd",
+      "whine"
+     ],
+     "late": null,
+     "globals": [
+      "Math",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/br-r/client/camcorder.view.js",
+     "owner": "br-r",
+     "factory": "camcorderView",
+     "imports": {
+      "core": [
+       "CFG",
+       "clamp",
+       "FX",
+       "S"
+      ],
+      "audio": [
+       "snd",
+       "whine"
+      ]
+     },
+     "exports": [],
+     "late": null,
+     "globals": [
+      "KeyboardEvent",
+      "Math",
+      "Number",
+      "Object",
+      "String",
+      "document",
+      "getComputedStyle",
+      "performance",
+      "window"
+     ]
+    }
+   ],
+   "composition": [
+    {
+     "module": "core",
+     "factory": "camcorderCore",
+     "from": []
+    },
+    {
+     "module": "audio",
+     "factory": "camcorderAudio",
+     "from": [
+      "core=camcorderCore"
+     ]
+    },
+    {
+     "module": "-",
+     "factory": "camcorderView",
+     "from": [
+      "core=camcorderCore",
+      "audio=camcorderAudio"
+     ]
+    }
+   ],
+   "wired": [],
+   "returns": null,
+   "publicObjects": [],
+   "windowNames": {
+    "__cam": [
+     "camcorderView"
+    ]
+   },
+   "writtenThroughWindow": {}
+  },
+  "public/ents.js": {
+   "modules": [
+    {
+     "path": "src/frameworks/br-r/client/ents.head.js",
+     "owner": "br-r",
+     "factory": "entsHead",
+     "imports": {},
+     "exports": [
+      "angDiff",
+      "API",
+      "clamp",
+      "E",
+      "lerp",
+      "rnd",
+      "sm",
+      "TAU"
+     ],
+     "late": null,
+     "globals": [
+      "Math",
+      "undefined",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/br-r/client/ents.hound.js",
+     "owner": "br-r",
+     "factory": "entsHound",
+     "imports": {
+      "head": [
+       "clamp",
+       "E",
+       "lerp",
+       "rnd",
+       "sm",
+       "TAU"
+      ]
+     },
+     "exports": [],
+     "late": null,
+     "globals": [
+      "Math",
+      "performance",
+      "undefined"
+     ]
+    },
+    {
+     "path": "src/frameworks/br-r/client/ents.smiler.js",
+     "owner": "br-r",
+     "factory": "entsSmiler",
+     "imports": {
+      "head": [
+       "clamp",
+       "E",
+       "sm",
+       "TAU"
+      ]
+     },
+     "exports": [
+      "drawSmiler"
+     ],
+     "late": null,
+     "globals": [
+      "Math",
+      "undefined",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/gib/client/ents.death.js",
+     "owner": "gib",
+     "factory": "entsDeath",
+     "imports": {
+      "head": [
+       "angDiff",
+       "API",
+       "clamp",
+       "E",
+       "sm",
+       "TAU"
+      ],
+      "smiler": [
+       "drawSmiler"
+      ]
+     },
+     "exports": [],
+     "late": null,
+     "globals": [
+      "Math",
+      "NaN",
+      "Object",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/ents.audio.js",
+     "owner": "spacious-audio",
+     "factory": "entsAudio",
+     "imports": {
+      "head": [
+       "API",
+       "clamp",
+       "E",
+       "lerp",
+       "rnd",
+       "sm"
+      ]
+     },
+     "exports": [],
+     "late": null,
+     "globals": [
+      "Map",
+      "Math",
+      "document",
+      "performance",
+      "setTimeout",
+      "undefined",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/overseer/client/ents.debug.js",
+     "owner": "overseer",
+     "factory": "entsDebug",
+     "imports": {
+      "head": [
+       "clamp",
+       "E",
+       "sm",
+       "TAU"
+      ]
+     },
+     "exports": [],
+     "late": null,
+     "globals": [
+      "Boolean",
+      "Math",
+      "Object",
+      "String",
+      "devicePixelRatio",
+      "document",
+      "innerHeight",
+      "innerWidth",
+      "performance",
+      "undefined",
+      "window"
+     ]
+    }
+   ],
+   "composition": [
+    {
+     "module": "head",
+     "factory": "entsHead",
+     "from": []
+    },
+    {
+     "module": "-",
+     "factory": "entsHound",
+     "from": [
+      "head=entsHead"
+     ]
+    },
+    {
+     "module": "smiler",
+     "factory": "entsSmiler",
+     "from": [
+      "head=entsHead"
+     ]
+    },
+    {
+     "module": "-",
+     "factory": "entsDeath",
+     "from": [
+      "head=entsHead",
+      "smiler=entsSmiler"
+     ]
+    },
+    {
+     "module": "-",
+     "factory": "entsAudio",
+     "from": [
+      "head=entsHead"
+     ]
+    },
+    {
+     "module": "-",
+     "factory": "entsDebug",
+     "from": [
+      "head=entsHead"
+     ]
+    }
+   ],
+   "wired": [],
+   "returns": null,
+   "publicObjects": [
+    "entsHead.E"
+   ],
+   "windowNames": {
+    "__ents": [
+     "entsHead"
+    ],
+    "__dsndHits": [
+     "entsAudio"
+    ]
+   },
+   "writtenThroughWindow": {}
+  },
+  "public/glitch.js": {
+   "modules": [
+    {
+     "path": "src/frameworks/lost/client/glitch.js",
+     "owner": "lost",
+     "factory": "glitchWalls",
+     "imports": {},
+     "exports": [
+      "cv",
+      "cx",
+      "fx",
+      "NEAR",
+      "rnd"
+     ],
+     "late": null,
+     "globals": [
+      "Math",
+      "Object",
+      "document"
+     ]
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/glitch.audio.js",
+     "owner": "spacious-audio",
+     "factory": "glitchAudio",
+     "imports": {},
+     "exports": [
+      "updateSnd"
+     ],
+     "late": null,
+     "globals": [
+      "Math",
+      "setTimeout",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/lost/client/glitch.draw.js",
+     "owner": "lost",
+     "factory": "glitchDraw",
+     "imports": {
+      "walls": [
+       "cv",
+       "cx",
+       "fx",
+       "NEAR",
+       "rnd"
+      ],
+      "audio": [
+       "updateSnd"
+      ]
+     },
+     "exports": [],
+     "late": null,
+     "globals": [
+      "Math",
+      "devicePixelRatio",
+      "document",
+      "performance",
+      "window"
+     ]
+    }
+   ],
+   "composition": [
+    {
+     "module": "walls",
+     "factory": "glitchWalls",
+     "from": []
+    },
+    {
+     "module": "audio",
+     "factory": "glitchAudio",
+     "from": []
+    },
+    {
+     "module": "-",
+     "factory": "glitchDraw",
+     "from": [
+      "walls=glitchWalls",
+      "audio=glitchAudio"
+     ]
+    }
+   ],
+   "wired": [],
+   "returns": null,
+   "publicObjects": [],
+   "windowNames": {
+    "__glitchSound": [
+     "glitchAudio"
+    ],
+    "__glitchFrame": [
+     "glitchDraw"
+    ]
+   },
+   "writtenThroughWindow": {}
+  },
+  "public/move.js": {
+   "modules": [
+    {
+     "path": "src/frameworks/space/client/move.js",
+     "owner": "space",
+     "factory": "moveCore",
+     "imports": {},
+     "exports": [
+      "A",
+      "clamp",
+      "mv",
+      "SURF",
+      "useSound"
+     ],
+     "late": null,
+     "globals": [
+      "Math",
+      "Object",
+      "performance",
+      "undefined",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/br-r/client/move.poses.js",
+     "owner": "br-r",
+     "factory": "movePoses",
+     "imports": {
+      "move": [
+       "clamp"
+      ]
+     },
+     "exports": [],
+     "late": null,
+     "globals": [
+      "Math",
+      "undefined",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/move.sound.js",
+     "owner": "spacious-audio",
+     "factory": "moveSound",
+     "imports": {
+      "move": [
+       "A",
+       "clamp",
+       "mv",
+       "SURF",
+       "useSound"
+      ]
+     },
+     "exports": [],
+     "late": null,
+     "globals": [
+      "Math",
+      "document",
+      "performance",
+      "window"
+     ]
+    }
+   ],
+   "composition": [
+    {
+     "module": "move",
+     "factory": "moveCore",
+     "from": []
+    },
+    {
+     "module": "-",
+     "factory": "movePoses",
+     "from": [
+      "move=moveCore"
+     ]
+    },
+    {
+     "module": "-",
+     "factory": "moveSound",
+     "from": [
+      "move=moveCore"
+     ]
+    }
+   ],
+   "wired": [],
+   "returns": null,
+   "publicObjects": [
+    "moveCore.mv"
+   ],
+   "windowNames": {
+    "__mv": [
+     "moveCore"
+    ],
+    "__pose": [
+     "movePoses"
+    ],
+    "__mvSfx": [
+     "moveSound"
+    ]
+   },
+   "writtenThroughWindow": {}
+  },
+  "public/mp.js": {
+   "modules": [
+    {
+     "path": "src/core/client/mp.js",
+     "owner": "core",
+     "factory": "mpCore",
+     "imports": {},
+     "exports": [
+      "buildHum",
+      "cv",
+      "cx",
+      "dread",
+      "EN",
+      "game",
+      "humUpdate",
+      "light",
+      "lookStr",
+      "NET",
+      "netHist",
+      "netPose",
+      "netReset",
+      "nrButton",
+      "parseLook",
+      "partList",
+      "partObj",
+      "PEER_MODE",
+      "PEER_SNAP",
+      "room",
+      "runMenuWords",
+      "toRec"
+     ],
+     "late": null,
+     "globals": [
+      "URLSearchParams",
+      "document",
+      "location",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/bpp/client/mp.session.js",
+     "owner": "bpp",
+     "factory": "bppSession",
+     "imports": {
+      "core": [
+       "lookStr",
+       "netHist",
+       "netReset",
+       "nrButton",
+       "partList",
+       "PEER_MODE",
+       "PEER_SNAP",
+       "room",
+       "runMenuWords"
+      ]
+     },
+     "exports": [
+      "connected",
+      "cpNow",
+      "graceUntil",
+      "handled",
+      "me",
+      "mseq",
+      "myId",
+      "N",
+      "nrBusy",
+      "nrLast",
+      "peers",
+      "sendPose",
+      "snap",
+      "tellId",
+      "tx",
+      "wire"
+     ],
+     "late": {
+      "glitch": [
+       "doExit",
+       "noGlitches",
+       "resetExit",
+       "soloOff"
+      ],
+      "cartograph": [
+       "giveItem",
+       "noItems"
+      ],
+      "monsters": [
+       "announceKill",
+       "clearKill",
+       "clearKiller",
+       "clearSlots",
+       "entitySignals",
+       "markKiller",
+       "noFails",
+       "unhold"
+      ],
+      "space": [
+       "blendTick",
+       "resolid",
+       "softCount",
+       "softTp",
+       "solidCount",
+       "solidOff",
+       "solidPeers",
+       "stopBlend"
+      ],
+      "wanderers": [
+       "dropAvatar"
+      ],
+      "deaths": [
+       "applyBodies",
+       "endAllFx",
+       "flushSt",
+       "forgetOwnDeath",
+       "fxMsg",
+       "hideCorpse",
+       "killNoted",
+       "noPeerLights",
+       "oldLights",
+       "showCorpse",
+       "startFx",
+       "takeBodies"
+      ],
+      "admin": [
+       "adminData",
+       "adminOffline",
+       "aresAnswer",
+       "debugData",
+       "debugGone",
+       "kickedShow",
+       "loginAnswer",
+       "nrfAnswer",
+       "pong",
+       "relogin",
+       "showMsg",
+       "unlocked"
+      ]
+     },
+     "globals": [
+      "Array",
+      "Date",
+      "JSON",
+      "Map",
+      "Math",
+      "Number",
+      "Object",
+      "Set",
+      "WebSocket",
+      "clearTimeout",
+      "document",
+      "encodeURIComponent",
+      "location",
+      "performance",
+      "setTimeout",
+      "undefined",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/lost/client/mp.glitch.js",
+     "owner": "lost",
+     "factory": "lostGlitch",
+     "imports": {
+      "session": [
+       "N"
+      ]
+     },
+     "exports": [
+      "doExit",
+      "exited",
+      "glitches",
+      "glitchesFrom",
+      "noGlitches",
+      "resetExit",
+      "soloGlitches",
+      "soloOff"
+     ],
+     "late": null,
+     "globals": [
+      "Math",
+      "String",
+      "document",
+      "performance",
+      "setTimeout",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/pocket/client/mp.cartograph.js",
+     "owner": "pocket",
+     "factory": "pocketCartograph",
+     "imports": {
+      "session": [
+       "N",
+       "tx"
+      ]
+     },
+     "exports": [
+      "giveItem",
+      "itemsFrame",
+      "itemsFrom",
+      "noItems",
+      "soloItems"
+     ],
+     "late": null,
+     "globals": [
+      "Math",
+      "performance",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/nani/client/mp.monsters.js",
+     "owner": "nani",
+     "factory": "naniMonsters",
+     "imports": {
+      "core": [
+       "EN",
+       "NET",
+       "netPose"
+      ],
+      "session": [
+       "cpNow",
+       "graceUntil",
+       "N",
+       "snap"
+      ],
+      "glitch": [
+       "glitchesFrom"
+      ],
+      "cartograph": [
+       "itemsFrom"
+      ]
+     },
+     "exports": [
+      "angDiff",
+      "announceKill",
+      "applyCaught",
+      "applyServerState",
+      "clearKill",
+      "clearKiller",
+      "clearSlots",
+      "entitySignals",
+      "fadeHit",
+      "hitFlash",
+      "hMap",
+      "hSlots",
+      "markKiller",
+      "noFails",
+      "unhold"
+     ],
+     "late": null,
+     "globals": [
+      "Array",
+      "Map",
+      "Math",
+      "Object",
+      "Set",
+      "performance",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/space/client/mp.peers.js",
+     "owner": "space",
+     "factory": "spacePeers",
+     "imports": {
+      "session": [
+       "cpNow",
+       "me",
+       "nrBusy",
+       "peers"
+      ],
+      "glitch": [
+       "exited"
+      ]
+     },
+     "exports": [
+      "blendTick",
+      "resolid",
+      "softCount",
+      "softTp",
+      "solidCount",
+      "solidOff",
+      "solidPeers",
+      "stopBlend"
+     ],
+     "late": null,
+     "globals": [
+      "Math",
+      "Set",
+      "performance",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/mp.dread.js",
+     "owner": "spacious-audio",
+     "factory": "audioDread",
+     "imports": {},
+     "exports": [
+      "burst",
+      "onlineNote",
+      "setDrone",
+      "thump"
+     ],
+     "late": null,
+     "globals": [
+      "AudioContext",
+      "Math",
+      "MutationObserver",
+      "addEventListener",
+      "document"
+     ]
+    },
+    {
+     "path": "src/frameworks/br-r/client/mp.wanderers.js",
+     "owner": "br-r",
+     "factory": "brrWanderers",
+     "imports": {
+      "session": [
+       "peers"
+      ]
+     },
+     "exports": [
+      "dropAvatar",
+      "hoverTip",
+      "mx",
+      "my"
+     ],
+     "late": null,
+     "globals": [
+      "Object",
+      "addEventListener",
+      "document",
+      "setInterval"
+     ]
+    },
+    {
+     "path": "src/frameworks/gib/client/mp.deaths.js",
+     "owner": "gib",
+     "factory": "gibDeaths",
+     "imports": {
+      "core": [
+       "cx",
+       "EN",
+       "NET",
+       "parseLook",
+       "partObj",
+       "PEER_MODE",
+       "toRec"
+      ],
+      "session": [
+       "myId",
+       "N",
+       "peers",
+       "tellId"
+      ],
+      "monsters": [
+       "angDiff",
+       "hMap"
+      ],
+      "wanderers": [
+       "hoverTip",
+       "mx",
+       "my"
+      ]
+     },
+     "exports": [
+      "applyBodies",
+      "drawPeers",
+      "endAllFx",
+      "flushSt",
+      "forgetOwnDeath",
+      "fxMsg",
+      "hideCorpse",
+      "killNoted",
+      "noPeerLights",
+      "oldLights",
+      "showCorpse",
+      "startFx",
+      "takeBodies"
+     ],
+     "late": null,
+     "globals": [
+      "Array",
+      "Date",
+      "Map",
+      "Math",
+      "Number",
+      "Object",
+      "Set",
+      "performance",
+      "undefined",
+      "window"
+     ]
+    },
+    {
+     "path": "src/frameworks/overseer/client/mp.admin.js",
+     "owner": "overseer",
+     "factory": "overseerAdmin",
+     "imports": {
+      "core": [
+       "buildHum",
+       "EN",
+       "room"
+      ],
+      "session": [
+       "connected",
+       "myId",
+       "N",
+       "nrLast",
+       "tx"
+      ],
+      "glitch": [
+       "glitches"
+      ],
+      "cartograph": [
+       "giveItem"
+      ]
+     },
+     "exports": [
+      "adminData",
+      "adminOffline",
+      "aresAnswer",
+      "debugData",
+      "debugGone",
+      "kickedShow",
+      "loginAnswer",
+      "nrfAnswer",
+      "pong",
+      "previewTick",
+      "relogin",
+      "showMsg",
+      "unlocked"
+     ],
+     "late": null,
+     "globals": [
+      "Boolean",
+      "Date",
+      "HTMLInputElement",
+      "JSON",
+      "Math",
+      "Object",
+      "OfflineAudioContext",
+      "Promise",
+      "String",
+      "addEventListener",
+      "clearTimeout",
+      "confirm",
+      "document",
+      "localStorage",
+      "navigator",
+      "performance",
+      "setInterval",
+      "setTimeout",
+      "undefined",
+      "window"
+     ]
+    },
+    {
+     "path": "src/core/client/mp.frame.js",
+     "owner": "core",
+     "factory": "mpFrame",
+     "imports": {
+      "core": [
+       "cv",
+       "cx",
+       "dread",
+       "EN",
+       "game",
+       "humUpdate",
+       "light"
+      ],
+      "session": [
+       "handled",
+       "me",
+       "mseq",
+       "N",
+       "sendPose"
+      ],
+      "glitch": [
+       "exited",
+       "soloGlitches"
+      ],
+      "cartograph": [
+       "itemsFrame",
+       "soloItems"
+      ],
+      "monsters": [
+       "applyCaught",
+       "applyServerState",
+       "fadeHit",
+       "hitFlash",
+       "hSlots",
+       "unhold"
+      ],
+      "audio": [
+       "burst",
+       "onlineNote",
+       "setDrone",
+       "thump"
+      ],
+      "deaths": [
+       "drawPeers"
+      ],
+      "admin": [
+       "previewTick"
+      ]
+     },
+     "exports": [],
+     "late": null,
+     "globals": [
+      "Math",
+      "devicePixelRatio",
+      "innerHeight",
+      "innerWidth",
+      "performance",
+      "setTimeout",
+      "window"
+     ]
+    }
+   ],
+   "composition": [
+    {
+     "module": "core",
+     "factory": "mpCore",
+     "from": []
+    },
+    {
+     "module": "session",
+     "factory": "bppSession",
+     "from": [
+      "core=mpCore"
+     ]
+    },
+    {
+     "module": "glitch",
+     "factory": "lostGlitch",
+     "from": [
+      "session=bppSession"
+     ]
+    },
+    {
+     "module": "cartograph",
+     "factory": "pocketCartograph",
+     "from": [
+      "session=bppSession"
+     ]
+    },
+    {
+     "module": "monsters",
+     "factory": "naniMonsters",
+     "from": [
+      "core=mpCore",
+      "session=bppSession",
+      "glitch=lostGlitch",
+      "cartograph=pocketCartograph"
+     ]
+    },
+    {
+     "module": "space",
+     "factory": "spacePeers",
+     "from": [
+      "session=bppSession",
+      "glitch=lostGlitch"
+     ]
+    },
+    {
+     "module": "audio",
+     "factory": "audioDread",
+     "from": []
+    },
+    {
+     "module": "wanderers",
+     "factory": "brrWanderers",
+     "from": [
+      "session=bppSession"
+     ]
+    },
+    {
+     "module": "deaths",
+     "factory": "gibDeaths",
+     "from": [
+      "core=mpCore",
+      "session=bppSession",
+      "monsters=naniMonsters",
+      "wanderers=brrWanderers"
+     ]
+    },
+    {
+     "module": "admin",
+     "factory": "overseerAdmin",
+     "from": [
+      "core=mpCore",
+      "session=bppSession",
+      "glitch=lostGlitch",
+      "cartograph=pocketCartograph"
+     ]
+    },
+    {
+     "module": "-",
+     "factory": "mpFrame",
+     "from": [
+      "core=mpCore",
+      "session=bppSession",
+      "glitch=lostGlitch",
+      "cartograph=pocketCartograph",
+      "monsters=naniMonsters",
+      "audio=audioDread",
+      "deaths=gibDeaths",
+      "admin=overseerAdmin"
+     ]
+    }
+   ],
+   "wired": [
+    {
+     "module": "session",
+     "factory": "bppSession",
+     "from": [
+      "glitch=lostGlitch",
+      "cartograph=pocketCartograph",
+      "monsters=naniMonsters",
+      "space=spacePeers",
+      "wanderers=brrWanderers",
+      "deaths=gibDeaths",
+      "admin=overseerAdmin"
+     ]
+    }
+   ],
+   "returns": null,
+   "publicObjects": [
+    "bppSession.N",
+    "naniMonsters.hSlots"
+   ],
+   "windowNames": {
+    "__net": [
+     "bppSession"
+    ],
+    "__nrDebug": [
+     "bppSession"
+    ],
+    "__peerNet": [
+     "bppSession"
+    ],
+    "__epochDebug": [
+     "bppSession"
+    ],
+    "__glitches": [
+     "lostGlitch"
+    ],
+    "__glitchSolo": [
+     "lostGlitch"
+    ],
+    "__itemSolo": [
+     "pocketCartograph"
+    ],
+    "__items": [
+     "pocketCartograph"
+    ],
+    "__hounds": [
+     "naniMonsters"
+    ],
+    "__kill": [
+     "naniMonsters"
+    ],
+    "__netPose": [
+     "naniMonsters"
+    ],
+    "__NET": [
+     "naniMonsters"
+    ],
+    "__killer": [
+     "naniMonsters"
+    ],
+    "__peerBodies": [
+     "spacePeers"
+    ],
+    "__dvic": [
+     "gibDeaths"
+    ],
+    "__fxs": [
+     "gibDeaths"
+    ],
+    "__hideBodies": [
+     "gibDeaths"
+    ],
+    "__fxKill": [
+     "gibDeaths"
+    ],
+    "__fxKillS": [
+     "gibDeaths"
+    ],
+    "__deathLight": [
+     "gibDeaths"
+    ],
+    "__peerLights": [
+     "gibDeaths"
+    ],
+    "__dlab": [
+     "overseerAdmin"
+    ],
+    "__mp": [
+     "mpFrame"
+    ]
+   },
+   "writtenThroughWindow": {
+    "window.__mv.down": [
+     "naniMonsters"
+    ],
+    "window.__mv.dragTo": [
+     "naniMonsters"
+    ],
+    "window.__peerBodies.length": [
+     "spacePeers"
+    ],
+    "window.__hideBodies, in place (delete)": [
+     "gibDeaths"
+    ],
+    "window.__hideBodies, in place (add)": [
+     "gibDeaths"
+    ],
+    "window.__fxKill, in place (clear)": [
+     "gibDeaths"
+    ],
+    "window.__fxKillS, in place (clear)": [
+     "gibDeaths"
+    ],
+    "window.__fxKill, in place (add)": [
+     "gibDeaths"
+    ],
+    "window.__fxKillS, in place (add)": [
+     "gibDeaths"
+    ]
+   }
+  },
+  "public/world.js": {
+   "modules": [
+    {
+     "path": "src/frameworks/space/shared/world.js",
+     "owner": "space",
+     "factory": "worldHead",
+     "imports": {},
+     "exports": [
+      "LOW",
+      "PROPS",
+      "T",
+      "W"
+     ],
+     "late": null,
+     "globals": [
+      "Object"
+     ]
+    },
+    {
+     "path": "src/frameworks/lost/shared/world.lamps.js",
+     "owner": "lost",
+     "factory": "worldLamps",
+     "imports": {
+      "head": [
+       "T",
+       "W"
+      ]
+     },
+     "exports": [],
+     "late": null,
+     "globals": [
+      "Int32Array",
+      "Math"
+     ]
+    },
+    {
+     "path": "src/frameworks/space/shared/world.crawl.js",
+     "owner": "space",
+     "factory": "worldCrawl",
+     "imports": {
+      "head": [
+       "LOW",
+       "PROPS",
+       "W"
+      ]
+     },
+     "exports": [],
+     "late": null,
+     "globals": []
+    },
+    {
+     "path": "src/frameworks/lost/shared/world.surfaces.js",
+     "owner": "lost",
+     "factory": "worldSurfaces",
+     "imports": {
+      "head": [
+       "T",
+       "W"
+      ]
+     },
+     "exports": [],
+     "late": null,
+     "globals": []
+    },
+    {
+     "path": "src/frameworks/space/shared/world.move.js",
+     "owner": "space",
+     "factory": "worldMove",
+     "imports": {
+      "head": [
+       "W"
+      ]
+     },
+     "exports": [],
+     "late": null,
+     "globals": []
+    },
+    {
+     "path": "src/frameworks/br-r/shared/world.art.js",
+     "owner": "br-r",
+     "factory": "worldArt",
+     "imports": {
+      "head": [
+       "PROPS",
+       "W"
+      ]
+     },
+     "exports": [],
+     "late": null,
+     "globals": [
+      "Math"
+     ]
+    }
+   ],
+   "composition": [
+    {
+     "module": "head",
+     "factory": "worldHead",
+     "from": []
+    },
+    {
+     "module": "-",
+     "factory": "worldLamps",
+     "from": [
+      "head=worldHead"
+     ]
+    },
+    {
+     "module": "-",
+     "factory": "worldCrawl",
+     "from": [
+      "head=worldHead"
+     ]
+    },
+    {
+     "module": "-",
+     "factory": "worldSurfaces",
+     "from": [
+      "head=worldHead"
+     ]
+    },
+    {
+     "module": "-",
+     "factory": "worldMove",
+     "from": [
+      "head=worldHead"
+     ]
+    },
+    {
+     "module": "-",
+     "factory": "worldArt",
+     "from": [
+      "head=worldHead"
+     ]
+    }
+   ],
+   "wired": [],
+   "returns": "head.W",
+   "publicObjects": [
+    "worldHead.W"
+   ],
+   "windowNames": {},
+   "writtenThroughWindow": {}
+  }
+ }
+}

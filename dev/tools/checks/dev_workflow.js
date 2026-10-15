@@ -2,7 +2,7 @@
 /* dev/tools/checks/dev_workflow.js - a developer's round trip on a scratch copy of the project, checked step by step (development tool;
  * added at Stage 3H continuation C5; the gate's workflow step).
  *
- *   node dev/tools/checks/dev_workflow.js [--ref COMMIT] [--out FILE.json] [--keep 1]
+ *   node dev/tools/checks/dev_workflow.js [--ref COMMIT] [--out FILE.json] [--keep 1] [--packages DIR] [--client-work DIR]
  *
  * The copy, in a new scratch folder, is what plays and builds (server.js, package.json, public/, generated/, src/, dev/tools/build/) as
  * it is on disk in the working tree (Git's files and the new ones Git does not ignore; without Git, those folders as they are), or as
@@ -18,7 +18,16 @@
  *      passes, nothing is written); the server restarted, every response carries the header;
  *   5. both edits undone: build.js writes public/mp.js and the manifest back, and every output is again byte for byte what it was in 1;
  *      the restarted server serves the original bytes, without the header, and the page's status line is the original's;
- *   6. a clean rebuild: build.js --clean deletes every output, build.js writes them all again, byte for byte what they were in 1.
+ *   6. a clean rebuild: build.js --clean deletes every output it builds (since continuation C4b not the compiled client's bundle and
+ *      stylesheet: only dev/tools/build/client.js, with the packages, makes them), build.js writes them all again, byte for byte what
+ *      they were in 1;
+ *   7. (continuation C4b; with --packages, or TFB_CLIENT_PACKAGES: the 31 locked npm packages) the compiled client: a TypeScript source
+ *      of src/core/client/game/ is edited (the flashlight's label); build.js --check now fails (the client is not its record's build);
+ *      client.js --write builds it (offline, from the verified packages) and build.js writes the manifest: the bundle, its record and the
+ *      manifest are written, nothing else, and --check passes; the copy's server serves the new bundle and a real Chromium page sees the
+ *      new label through window.__api; the edit undone and built again: every output, the record included, byte for byte what it was,
+ *      served, and the page sees the original label.  Without the packages, step 7 is reported as not run (R.client), and the gate,
+ *      which gives the packages, requires it.
  * Each server is stopped by its PID.  The scratch folder is removed at the end (--keep 1 keeps it).  Exit 0 only when every step holds. */
 'use strict';
 const fs = require('fs'), path = require('path'), os = require('os'), crypto = require('crypto'), http = require('http'), net = require('net');
@@ -31,6 +40,8 @@ const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const PASS = 'c5-synthetic-admin';                                       // a synthetic passcode for the copy's server (never a real one)
 const CLIENT = { file: 'src/frameworks/bpp/client/mp.session.js', find: "' · SHARED MONSTERS'", repl: "' · SHARED MONSTERS · DEV WORKFLOW CHECK'", mark: 'DEV WORKFLOW CHECK' };
 const PARTS = ['server.js', 'package.json', 'public', 'generated', 'src', 'dev/tools/build'];   // what plays and builds (the rest of dev/ is not needed)
+const GAME = { file: 'src/core/client/game/shared/equipment.ts', find: "flashlight:{label:'Flashlight',", repl: "flashlight:{label:'Flashlight - DEV WORKFLOW CHECK',", mark: 'Flashlight - DEV WORKFLOW CHECK', orig: 'Flashlight' };
+const PACKAGES = ARG.packages || process.env.TFB_CLIENT_PACKAGES;      // (C4b) the client build's packages: step 7
 const SERVER = { file: 'src/frameworks/ward/server/static.js', find: "'Vary': 'Accept-Encoding' }", repl: "'Vary': 'Accept-Encoding', 'X-Dev-Workflow-Check': '1' }", header: 'x-dev-workflow-check' };
 
 const R = { tool: 'dev/tools/checks/dev_workflow.js', ref: null, node: process.version, steps: [], ok: true };
@@ -49,6 +60,17 @@ async function serve(port) {
   try { process.kill(p.pid); } catch (e) { } throw new Error('the copy\'s server did not start');
 }
 const stop = async p => { if (!p) return; try { process.kill(p.pid); } catch (e) { } for (let i = 0; i < 50 && p.exitCode === null && p.signalCode === null; i++) await sleep(50); };
+/* (C4b) the flashlight's label as the page's compiled client publishes it (window.__api.Gc), once it is `want` (or the last value seen) */
+async function apiLabel(browser, port, want, ms = 30000) {
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 720 } }), P = await ctx.newPage(), errs = [];
+  P.on('pageerror', e => errs.push(String(e).slice(0, 200)));
+  try {
+    await P.goto(`http://127.0.0.1:${port}/?room=workflow${port}`, { timeout: 90000 });
+    const t0 = Date.now(); let value = null;
+    while (Date.now() - t0 < ms) { value = await P.evaluate(() => (window.__api && window.__api.Gc && window.__api.Gc.flashlight ? window.__api.Gc.flashlight.label : null)).catch(() => null); if (value === want) break; await sleep(200); }
+    return { value, errors: errs };
+  } finally { await ctx.close(); }
+}
 async function statusLine(browser, port, want, ms = 30000) {               // the page's status line (#net), once it holds `want` (or the last text seen)
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 720 } }), P = await ctx.newPage(), errs = [];
   P.on('pageerror', e => errs.push(String(e).slice(0, 200)));
@@ -112,10 +134,39 @@ async function statusLine(browser, port, want, ms = 30000) {               // th
     step('5c the page\'s status line is the original\'s', !!s.text && /SHARED MONSTERS/.test(s.text) && !s.text.includes(CLIENT.mark) && !s.errors.length, { note: `#net: ${JSON.stringify(s.text)}` });
     await stop(srv); srv = null;
     /* 6 */
-    c = build('--clean'); const gone = outs.filter(f => !fs.existsSync(path.join(T, f)));
-    step('6a build.js --clean deletes every output', c.status === 0 && gone.length === outs.length && !fs.existsSync(path.join(T, 'generated', 'BUILD_MANIFEST.json')), { note: `${gone.length} of ${outs.length} outputs gone` });
+    const clientOuts = JSON.parse(fs.readFileSync(path.join(T, 'src', 'build-recipes.json'), 'utf8')).outputs.filter(o => o.client).map(o => o.out).sort();   // (C4b) built by client.js only
+    c = build('--clean'); const gone = outs.filter(f => !fs.existsSync(path.join(T, f))), stayed = outs.filter(f => fs.existsSync(path.join(T, f))).sort();
+    step('6a build.js --clean deletes every output it builds', c.status === 0 && gone.length === outs.length - clientOuts.length && JSON.stringify(stayed) === JSON.stringify(clientOuts) && !fs.existsSync(path.join(T, 'generated', 'BUILD_MANIFEST.json')),
+      { note: `${gone.length} of ${outs.length} outputs gone${clientOuts.length ? `; the compiled client's ${clientOuts.length} stay (client.js makes them)` : ''}` });
     c = build(); const H3 = hashes(outs), diff3 = Object.keys(H0).filter(f => H0[f] !== H3[f]);
     step('6b a clean rebuild gives every output back, byte for byte', c.status === 0 && !diff3.length && build('--check').status === 0, { note: diff3.length ? 'differ: ' + diff3.join(', ') : `${Object.keys(H0).length} files identical; ${(c.stdout.trim().split('\n').pop() || '').slice(0, 100)}` });
+    /* 7 (C4b) the compiled client, built from its TypeScript */
+    if (!clientOuts.length) R.client = 'no compiled client output in the recipes';
+    else if (!PACKAGES) { R.client = 'NOT RUN: the client build needs the 31 locked npm packages (--packages DIR or TFB_CLIENT_PACKAGES)'; console.log('skip 7 ' + R.client); }
+    else {
+      const CW = ARG['client-work'] ? path.resolve(ARG['client-work']) : fs.mkdtempSync(path.join(os.tmpdir(), 'dev-workflow-client-'));
+      const cbuild = () => spawnSync(process.execPath, ['dev/tools/build/client.js', '--packages', path.resolve(PACKAGES), '--write', '--work', CW], { cwd: T, encoding: 'utf8', maxBuffer: 64 << 20 });
+      try {
+        const all = outs.concat('generated/CLIENT_BUILD.json'), B0 = hashes(all), BUNDLE = 'public/assets/index-DKbV5Nv9.js';
+        const origGame = edit(GAME); step('7a a client source edited', origGame !== null, { note: `${GAME.file}: the flashlight's label` });
+        c = build('--check'); step('7b --check sees the client is not its record\'s build', c.status !== 0 && (c.stdout + c.stderr).includes(GAME.file), { note: ((c.stdout + c.stderr).trim().split('\n').find(l => l.includes(GAME.file)) || '').slice(0, 160) });
+        let k = cbuild(), m = build(); const B1 = hashes(all), written7 = Object.keys(B1).filter(f => B1[f] !== B0[f]).sort();
+        step('7c client.js --write and build.js write the bundle, its record and the manifest, nothing else', k.status === 0 && m.status === 0 && JSON.stringify(written7) === JSON.stringify(['generated/BUILD_MANIFEST.json', 'generated/CLIENT_BUILD.json', BUNDLE]) && build('--check').status === 0,
+          { note: `written: ${written7.join(', ')}${k.status ? '; client.js: ' + (k.stdout + k.stderr).trim().split('\n').slice(-2).join(' ').slice(0, 200) : ''}` });
+        step('7d the new bundle holds the edit', fs.readFileSync(path.join(T, BUNDLE), 'utf8').includes(GAME.mark), { note: `${BUNDLE} ${B0[BUNDLE].slice(0, 12)} -> ${B1[BUNDLE].slice(0, 12)}` });
+        const port7 = await freePort(); srv = await serve(port7);
+        if (!browser) browser = await pw.chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+        g = await get(port7, '/assets/index-DKbV5Nv9.js'); let a = await apiLabel(browser, port7, GAME.mark);
+        step('7e the server serves the new bundle, and a real page sees the edit', g.status === 200 && sha(g.body) === B1[BUNDLE] && a.value === GAME.mark && !a.errors.length, { note: `GET ${g.status}; window.__api.Gc.flashlight.label ${JSON.stringify(a.value)}${a.errors.length ? '; page errors: ' + a.errors.join(' | ') : ''}` });
+        await stop(srv); srv = null;
+        edit(GAME, origGame); k = cbuild(); m = build(); const B2 = hashes(all), diff7 = Object.keys(B0).filter(f => B0[f] !== B2[f]);
+        step('7f the edit undone and built again: every output and the record, byte for byte what they were', k.status === 0 && m.status === 0 && !diff7.length && build('--check').status === 0, { note: diff7.length ? 'differ: ' + diff7.join(', ') : `${Object.keys(B0).length} files identical` });
+        srv = await serve(port7); g = await get(port7, '/assets/index-DKbV5Nv9.js'); a = await apiLabel(browser, port7, GAME.orig);
+        step('7g the server serves the original bundle, and the page sees the original label', g.status === 200 && sha(g.body) === B0[BUNDLE] && a.value === GAME.orig && !a.errors.length, { note: `GET ${g.status}; window.__api.Gc.flashlight.label ${JSON.stringify(a.value)}` });
+        await stop(srv); srv = null;
+        R.client = R.steps.filter(x => /^7/.test(x.id)).every(x => x.ok) ? 'checked' : 'FAILED';
+      } finally { if (!ARG['client-work']) fs.rmSync(CW, { recursive: true, force: true }); }
+    }
   } catch (e) { step('error', false, { note: String(e && e.stack || e).slice(0, 400) }); }
   finally {
     await stop(srv); if (browser) await browser.close().catch(() => { });

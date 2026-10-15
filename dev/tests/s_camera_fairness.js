@@ -58,7 +58,7 @@ assert(near(a.width, b.width, 1e-5) && near(a.height, b.height, 1e-5), '4K gains
 // the application must actually call it in its resize path.
 const root = path.join(__dirname, '..', '..');
 const html = fs.readFileSync(LAYOUT.at('index.html'), 'utf8');
-const bundle = fs.readFileSync(path.join(root, 'assets', 'index-DKbV5Nv9.js'), 'utf8');
+const bundle = require('../tools/lineage/recorded.js').recorded('bundle').toString('utf8');   // (Stage 3H continuation C4b) the compiled client's text as B++ shipped it: since C4b the served bundle is that program rebuilt from src/core/client/game/ (dev/tools/lineage/recorded.js) (until C4b this read root/assets/, a path the modern layout moved: H3M-1 left it)
 assert(html.indexOf('./camera_policy.js') >= 0, 'camera policy script missing from index.html');
 assert(html.indexOf('./camera_policy.js') < html.indexOf('./assets/index-DKbV5Nv9.js'), 'camera policy must load before app module');
 assert(bundle.includes('__cameraPolicy.baseScale(innerWidth,innerHeight)'), 'renderer resize path is not using fair camera policy');

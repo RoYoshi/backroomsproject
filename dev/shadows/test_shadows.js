@@ -4,7 +4,8 @@
  *
  * The module runs in a VM with:
  *   - the REAL level geometry, wall/ray queries, lamp list and equipment light model, extracted verbatim from the shipped
- *     bundle assets/index-DKbV5Nv9.js (the same code the browser runs),
+ *     bundle assets/index-DKbV5Nv9.js (the same code the browser runs; since Stage 3H continuation C4b the bundle as B++ shipped it,
+ *     dev/tools/lineage/recorded.js: the served one is that program rebuilt from src/core/client/game/),
  *   - the REAL light.js (__light.sample / ray / occluders),
  *   - a recording mock of the few Pixi classes the module reaches (Container, Graphics, Texture).
  * Nothing here changes any game file. */
@@ -37,7 +38,7 @@ class Texture { constructor(src) { this.src = src; } static from(c) { return new
 
 /* ---------- the shipped client's own level / light code, extracted verbatim from the bundle ---------- */
 function makeGame() {
-  const B = read('assets/index-DKbV5Nv9.js');
+  const B = require('../tools/lineage/recorded.js').recorded('bundle').toString('utf8');   // (Stage 3H continuation C4b) the compiled client's text as B++ shipped it: since C4b the served bundle is that program rebuilt from src/core/client/game/ (dev/tools/lineage/recorded.js)
   const cut = (a, b) => { const i = B.indexOf(a), j = B.indexOf(b, i); assert(i >= 0 && j > i, 'bundle marker missing: ' + a); return B.slice(i, j); };
   const mapSrc = cut('var FBW=96', 'var Wc={kind:'), lightSrc = cut('var Gc={flashlight', 'function Jc(');
   const WORLD = require(LAYOUT.at('world.js'));

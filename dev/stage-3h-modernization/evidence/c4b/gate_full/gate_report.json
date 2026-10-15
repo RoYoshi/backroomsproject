@@ -1,0 +1,214 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "323f292d75659dcfc35746f2e6817a7c2a98539d",
+ "startedAt": "2026-10-15T16:27:55.046Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c4b/gate_full",
+ "steps": {
+  "build": {
+   "ok": true,
+   "cases": 39,
+   "note": "BUILD CHECK: PASS (39 outputs and the manifest are what src/ builds)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "port": {
+   "ok": true,
+   "cases": 408,
+   "note": "the client build gives 13 files, its record the shipped one byte for byte (Version 7.0.2, Vite vite/8.3.1 linux-x64 node-v22.22.2); the alpha check SAME: 22 port entries, 195 of the shipped app's 197 statements compared, 2 reviewed; the stylesheet the same (177 later rules); the port ledger current; the checks' mutants 23 of 23 caught",
+   "exit": 0,
+   "seconds": 68
+  },
+  "lineage": {
+   "ok": true,
+   "cases": 83,
+   "note": "steps replayed (bundle, stylesheet, page); blame.json what the ledger gives; the v11 snapshot's tree proven; the __api contract (52 members) current; its pages current",
+   "exit": 0,
+   "seconds": 2
+  },
+  "parts": {
+   "ok": true,
+   "cases": 55,
+   "note": "8 outputs built from parts; every header agrees with the code (TypeScript 6.0.3)",
+   "exit": 0,
+   "seconds": 3
+  },
+  "modules": {
+   "ok": true,
+   "cases": 58,
+   "note": "26 server files, 21 factories; the sim: 10 modules, wired in order; the page: 6 scripts, 32 modules (TypeScript 6.0.3)",
+   "exit": 0,
+   "seconds": 2
+  },
+  "docs": {
+   "ok": true,
+   "cases": 23,
+   "note": "DOCS CHECK: PASS (23 generated blocks in 23 documents)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "scope": {
+   "ok": true,
+   "cases": 210,
+   "note": "runtime changed (declared): assets/index-D7hdwmUU.css, assets/index-DKbV5Nv9.js, camcorder.js, death_srv.js, ents.js, glitch.js, index.html, move.js, mp.js, package.json, server.js, server/static.js, sim.js, world.js; added: assets/mp-hum.js, assets/net-newrun.js, server/aftermath.js, server/newrun.js, src/core/server/loop.js, src/core/server/rooms.js, src/core/server/sim.step.js, src/frameworks/bpp/server/poses.js, src/frameworks/bpp/server/session.js, src/frameworks/gib/server/sim.bodies.js, src/frameworks/lost/server/sim.glitches.js, src/frameworks/lost/server/sim.level0.js, src/frameworks/nani/server/sim.ai.js, src/frameworks/nani/server/sim.feed.js, src/frameworks/overseer/server/admin.js, src/frameworks/overseer/server/sim.admin.js, src/frameworks/pocket/server/sim.items.js, src/frameworks/space/server/movement.js, src/frameworks/space/server/sim.movement.js, src/frameworks/space/server/sim.players.js, src/frameworks/ward/server/admin_login.js; other files: 5 identical, 129 moved, 1 replaced (declared)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "srv_golden": {
+   "ok": true,
+   "cases": 11,
+   "note": "HTTP lines about changed files: index.html, mp.js, world.js, move.js, ents.js, glitch.js, camcorder.js, assets/index-DKbV5Nv9.js, assets/index-D7hdwmUU.css",
+   "exit": 0,
+   "seconds": 14
+  },
+  "bpp_golden": {
+   "ok": true,
+   "cases": 7,
+   "note": "",
+   "exit": 0,
+   "seconds": 12
+  },
+  "session": {
+   "ok": true,
+   "cases": 18,
+   "note": "3 session scenarios identical to B++'s traces; 15 of 15 session mutants caught",
+   "exit": 0,
+   "seconds": 26
+  },
+  "sim": {
+   "ok": true,
+   "cases": 20065,
+   "note": "20050 calls give B++'s results; 15 of 15 seam mutants caught (by the server scenarios 13, by the differential run 14)",
+   "exit": 0,
+   "seconds": 118
+  },
+  "page": {
+   "ok": true,
+   "cases": 1255007,
+   "note": "world.js: 2295 comparisons equal; move, camcorder, glitch, ents: 1252700 trace lines equal, each scene reaching its script; 12 of 12 seam mutants caught",
+   "exit": 0,
+   "seconds": 91
+  },
+  "cli_golden": {
+   "ok": true,
+   "cases": 30,
+   "note": "B++ client scenes 3; all 18 scenes in one page, running 232 of mp.js's 232 functions",
+   "exit": 0,
+   "seconds": 17
+  },
+  "protocol": {
+   "ok": true,
+   "cases": 52740,
+   "note": "messages checked; selftest PASS",
+   "exit": null,
+   "seconds": 4
+  },
+  "mutants": {
+   "ok": true,
+   "cases": 18,
+   "note": "guard_off@src/frameworks/space/server/movement.js grace_1000@src/frameworks/space/server/movement.js admin_checked@src/frameworks/bpp/server/session.js q_self@src/frameworks/bpp/server/poses.js nr_gap_200@src/frameworks/bpp/server/newrun.js nr_wait_round@src/frameworks/bpp/server/newrun.js nr_no_memory@src/frameworks/bpp/server/newrun.js nr_free_off@src/frameworks/bpp/server/newrun.js nr_held_free@src/frameworks/space/server/sim.players.js aft_el_half@src/frameworks/gib/server/aftermath.js aft_every_tick@src/frameworks/gib/server/aftermath.js aft_victim_replay@src/frameworks/gib/server/aftermath.js aft_one_per_player@src/frameworks/gib/server/aftermath.js aft_world_tick@src/frameworks/gib/server/aftermath.js aft_killer_end@src/frameworks/gib/server/aftermath.js aft_boom_revive@src/frameworks/gib/server/aftermath.js aft_revive_end@src/frameworks/overseer/server/admin.js",
+   "exit": 0,
+   "seconds": 31
+  },
+  "static": {
+   "ok": true,
+   "cases": 4,
+   "note": "",
+   "exit": 0,
+   "seconds": 1
+  },
+  "raw_live": {
+   "ok": true,
+   "cases": 173,
+   "note": "responses for changed files: index.html, mp.js, assets/index-DKbV5Nv9.js",
+   "exit": 0,
+   "seconds": 24
+  },
+  "quick_suites": {
+   "ok": false,
+   "cases": 23,
+   "note": "s_humanqa_hotfix 4/6 FAIL, s_ir 3/3, interp_test 3, test_3bn 6/7 FAIL, ir_net 4/4 (only the known B++ failures fail)",
+   "exit": 1,
+   "seconds": 9
+  },
+  "bundle": {
+   "ok": true,
+   "cases": 4265,
+   "note": "9 of 9 scenes identical to the recorded client (4239 frames, 26 captures); the harness's mutants 5 of 5 caught in their record",
+   "exit": 0,
+   "seconds": 1502
+  },
+  "cli_mutants": {
+   "ok": true,
+   "cases": 57,
+   "note": "3 in assets/net-newrun.js, 11 in assets/mp-hum.js; mp.js's module seams: 35 of 35 caught",
+   "exit": 0,
+   "seconds": 22
+  },
+  "live_wire": {
+   "ok": true,
+   "cases": 65,
+   "note": "structurally identical, ui {\"menuAfterFirst\":true,\"refusedLabel\":\"NEW RUN · WAIT N S\",\"menuAfterRefused\":false,\"menuAfterAdmin\":true}",
+   "exit": 0,
+   "seconds": 393
+  },
+  "bpp_checks": {
+   "ok": true,
+   "cases": 36,
+   "note": "proto_check as on B++ (8), place_replay as on B++ (22), place_guard as on B++ (6)",
+   "exit": null,
+   "seconds": 148
+  },
+  "browsers": {
+   "ok": true,
+   "cases": 114,
+   "note": "two_browser ok (99), col_head ok (5), col_aside ok (5), gameplay_smoke ok (5)",
+   "exit": null,
+   "seconds": 235
+  },
+  "workflow": {
+   "ok": true,
+   "cases": 30,
+   "note": "dev workflow 22 of 22 steps (the compiled client: checked); browser contracts PASS: 8 checks on B++ and this tree (the 52-member facade, unauthorized access refused, a phone), the two sides agree on 3 of 3",
+   "exit": 0,
+   "seconds": 213
+  },
+  "contact_lab": {
+   "ok": true,
+   "cases": 23,
+   "note": "23 images byte-identical in pixels",
+   "exit": null,
+   "seconds": 671
+  },
+  "suites": {
+   "ok": false,
+   "cases": 243,
+   "note": "npm_test 149/162, s_humanqa_hotfix 4/6 FAIL, s_ir 3/3, test_shadows 30 FAIL, test_br_role 0 FAIL, interp_test 3, test_3bn 6/7 FAIL, audit_net 13/17, audit_net2 8/11, ir_net 4/4 (only the known B++ failures fail)",
+   "exit": 1,
+   "seconds": 541
+  },
+  "perf": {
+   "ok": true,
+   "cases": 9,
+   "note": "lifecycle -4.48%, deaths -0.67%, admin +2.82%, schedule -1.81%",
+   "exit": 0,
+   "seconds": 75
+  }
+ },
+ "ok": false,
+ "finishedAt": "2026-10-15T17:38:16.396Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate",
+  "srv_keep",
+  "bpp_keep",
+  "cli_keep",
+  "cli_h2_keep",
+  "cli_c3c_keep",
+  "client_work",
+  "bundle/ref_lineage_root",
+  "bundle/cand_root"
+ ]
+}

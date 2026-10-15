@@ -295,16 +295,19 @@ const STEPS = {
     return { ok: res.every(x => x[1]), cases: res.every(x => x[2] > 0) ? res.reduce((s, x) => s + x[2], 0) : 0, note: res.map(([n, k, c, w]) => `${n} ${k ? 'ok' : 'FAIL'} (${c})${w || ''}`).join(', ') };
   },
   /* (C5) a developer's round trip on a scratch copy of the working tree (dev/tools/checks/dev_workflow.js: edit a page module, build,
-   * see it served and shown, edit a server module, undo both, rebuild, clean rebuild), and three contracts seen from a real Chromium on
+   * see it served and shown, edit a server module, undo both, rebuild, clean rebuild; since C4b also a TypeScript source of the compiled
+   * client edited, built with client.js, served and seen, undone, rebuilt byte for byte), and three contracts seen from a real Chromium on
    * B++ and on this tree (dev/tools/gate/checks/browser_contracts.js: the 52-member window.__api facade, unauthorized access refused, a
    * phone with touch) */
   workflow: () => {
-    const d = run('dev_workflow', ['node', 'dev/tools/checks/dev_workflow.js', '--out', o('dev_workflow.json')]), jd = J(o('dev_workflow.json'));
+    const pk = ARG.packages || process.env.TFB_CLIENT_PACKAGES;                            // (C4b) and the compiled client's round trip (step 7)
+    const d = run('dev_workflow', ['node', 'dev/tools/checks/dev_workflow.js', '--out', o('dev_workflow.json'), ...(pk ? ['--packages', path.resolve(pk), '--client-work', o('client_work')] : [])]), jd = J(o('dev_workflow.json'));
     const b = run('browser_contracts', ['node', 'dev/tools/gate/checks/browser_contracts.js', '--old-dir', bppGame(), '--new-dir', wtGame(), '--out', o('browser_contracts.json')]), jb = J(o('browser_contracts.json'));
     const nd = jd ? jd.steps.filter(s => s.ok).length : 0, nb = jb ? jb.sides.reduce((a, s) => a + Object.values(s.checks || {}).filter(Boolean).length, 0) : 0;
     const agree = jb && jb.agree ? Object.values(jb.agree).filter(Boolean).length : 0;
-    return { ok: d.exit === 0 && !!jd && jd.ok && b.exit === 0 && !!jb && jb.ok, cases: nd + nb,
-      note: `dev workflow ${jd ? `${nd} of ${jd.steps.length} steps` : 'no report'}; browser contracts ${jb && jb.ok ? 'PASS' : 'FAIL'}: ${nb} checks on B++ and this tree (the 52-member facade, unauthorized access refused, a phone), the two sides agree on ${agree} of 3`, r: b };
+    const clientOk = !!jd && (jd.client === 'checked' || jd.client === 'no compiled client output in the recipes');
+    return { ok: d.exit === 0 && !!jd && jd.ok && clientOk && b.exit === 0 && !!jb && jb.ok, cases: nd + nb,
+      note: `dev workflow ${jd ? `${nd} of ${jd.steps.length} steps (the compiled client: ${jd.client || '?'})` : 'no report'}; browser contracts ${jb && jb.ok ? 'PASS' : 'FAIL'}: ${nb} checks on B++ and this tree (the 52-member facade, unauthorized access refused, a phone), the two sides agree on ${agree} of 3`, r: b };
   },
   contact_lab: () => {
     const scenes = 'geometry,lights,peers', res = [];
