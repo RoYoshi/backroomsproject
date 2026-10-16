@@ -931,3 +931,12 @@ html.rm .bb{transition:none}
 .rgb-channel input{width:100%;min-width:0;accent-color:#b5c793;cursor:pointer}
 .rgb-channel output{text-align:right;font-variant-numeric:tabular-nums}
 .rgb-channel:focus-within{color:#f3e7a7}
+
+/* Trial 4: no photosensitive full-screen white/red capture pulse, even when reduced motion is switched off.
+ * This stylesheet is the maintained FRONT presentation source for capture overlay styling. */
+body.captured #dread{
+  animation:none!important;
+  opacity:.62!important;
+  background:radial-gradient(ellipse at center,transparent 24%,rgba(38,6,8,.27) 63%,rgba(6,2,3,.78) 100%)!important;
+}
+html.rm body.captured #dread{animation:none!important}
