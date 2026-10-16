@@ -1,0 +1,600 @@
+{
+ "tool": "dev/tools/checks/chat_server.js",
+ "tree": "this repository",
+ "seconds": 273,
+ "ok": true,
+ "cases": [
+  {
+   "name": "unit_text_plain",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_trim_and_collapse",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_not_a_string",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_empty",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_160_code_points_kept_161_refused",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_600_UTF_8_bytes_kept_601_refused",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_long_UTF_16_refused_before_any_work",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_lone_surrogate_refused",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_bidi_override_removed",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_control_heavy_refused",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_zero_width_removed_ZWJ_kept",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_combining_run_capped_at_4_after_NFC_",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_NFC",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_markup_kept_as_literal_text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_URL_kept_as_text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_RTL_script_kept",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_text_nickname_capped_and_defaulted",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_speech_recipients",
+   "ok": true,
+   "detail": "1,2,3,5"
+  },
+  {
+   "name": "unit_speech_event_shape",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_speech_hear_constant",
+   "ok": true,
+   "detail": "576"
+  },
+  {
+   "name": "unit_speech_menu_refused",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_speech_dead_refused",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_speech_repeat_refused",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_speech_bucket",
+   "ok": true,
+   "detail": "3 lines, 1 slow"
+  },
+  {
+   "name": "unit_speech_backlog_skipped",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_speech_left_silent",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_speech_invalid_refused",
+   "ok": true,
+   "detail": "bad,bad,long"
+  },
+  {
+   "name": "unit_speech_reader_passthrough",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_speech_inert_hook",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_lounge_handshake",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_lounge_hello_first",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_lounge_welcome",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_lounge_line",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_lounge_soft_skip",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_lounge_hard_destroy",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_lounge_invalid_destroy",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_lounge_bytes_destroy",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_lounge_origin",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_lounge_handshake_refused",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_lounge_hello_timeout",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "unit_lounge_idle_timeout",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_speech_eligible_once",
+   "ok": true,
+   "detail": "1,1,1,1"
+  },
+  {
+   "name": "sock_speech_outside_none",
+   "ok": true,
+   "detail": "0,0,0,0"
+  },
+  {
+   "name": "sock_speech_other_room_none",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_speech_menu_none",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_speech_event_shape",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_speech_spoof_ignored",
+   "ok": true,
+   "detail": "far 0, other room 0"
+  },
+  {
+   "name": "sock_speech_menu_refused",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_speech_rate",
+   "ok": true,
+   "detail": "3 heard"
+  },
+  {
+   "name": "sock_speech_rate_refills",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_speech_repeat",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_speech_invalid",
+   "ok": true,
+   "detail": "bad,bad,empty"
+  },
+  {
+   "name": "sock_speech_lone_surrogate",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_speech_oversized",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_speech_big_frame_ignored",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_speech_markup_literal",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_speech_dead_refused",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_speech_dead_hears_nothing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_speech_no_duplicates",
+   "ok": true,
+   "detail": "3 lines"
+  },
+  {
+   "name": "sock_speech_reconnect",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_speech_no_lounge_on_game",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_plain_spawned_pair_hears",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_lounge_welcome",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_lounge_across_rooms",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_lounge_not_on_game",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_lounge_no_game_protocol",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_lounge_no_replay",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_lounge_rate",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_lounge_repeat",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_lounge_invalid_text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_lounge_nick",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_lounge_hello_required",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_lounge_invalid_closes",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_lounge_origin",
+   "ok": true,
+   "detail": "403,403,403,101"
+  },
+  {
+   "name": "sock_lounge_handshake",
+   "ok": true,
+   "detail": "400,400,400"
+  },
+  {
+   "name": "sock_lounge_plain_http_404",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_game_unknown_path_dropped",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "sock_game_pace_with_lounge_load",
+   "ok": true,
+   "detail": "quiet 59 snapshots p50 51 p95 53 ms; busy 59 p50 51 p95 53 ms"
+  },
+  {
+   "name": "sock_lounge_join_rate",
+   "ok": true,
+   "detail": "refused at 30 with 429"
+  },
+  {
+   "name": "sock_lounge_socket_cap",
+   "ok": true,
+   "detail": "64 opened, 64 still open, then 503"
+  },
+  {
+   "name": "sock_server_log_no_text",
+   "ok": true,
+   "detail": "18 log lines"
+  }
+ ],
+ "passed": 81,
+ "failed": [],
+ "mutants": [
+  {
+   "name": "cross-room leak",
+   "file": "src/frameworks/bpp/server/speech.js",
+   "caught": true,
+   "failed": [
+    "unit_speech_recipients",
+    "sock_speech_outside_none",
+    "sock_speech_other_room_none",
+    "sock_speech_spoof_ignored"
+   ],
+   "expected": [
+    "sock_speech_other_room_none",
+    "unit_speech_recipients"
+   ]
+  },
+  {
+   "name": "radius ignored",
+   "file": "src/frameworks/bpp/server/speech.js",
+   "caught": true,
+   "failed": [
+    "unit_speech_recipients",
+    "sock_speech_outside_none",
+    "sock_speech_spoof_ignored"
+   ],
+   "expected": [
+    "sock_speech_outside_none",
+    "unit_speech_recipients"
+   ]
+  },
+  {
+   "name": "spoofed position trusted",
+   "file": "src/frameworks/bpp/server/speech.js",
+   "caught": true,
+   "failed": [
+    "unit_speech_recipients",
+    "sock_speech_spoof_ignored"
+   ],
+   "expected": [
+    "sock_speech_spoof_ignored"
+   ]
+  },
+  {
+   "name": "spoofed id trusted",
+   "file": "src/frameworks/bpp/server/speech.js",
+   "caught": true,
+   "failed": [
+    "unit_speech_event_shape",
+    "sock_speech_spoof_ignored"
+   ],
+   "expected": [
+    "sock_speech_spoof_ignored"
+   ]
+  },
+  {
+   "name": "menu and dead may speak",
+   "file": "src/frameworks/bpp/server/speech.js",
+   "caught": true,
+   "failed": [
+    "unit_speech_menu_refused",
+    "unit_speech_dead_refused",
+    "sock_speech_menu_refused",
+    "sock_speech_dead_refused"
+   ],
+   "expected": [
+    "sock_speech_menu_refused",
+    "unit_speech_menu_refused"
+   ]
+  },
+  {
+   "name": "dead recipients hear",
+   "file": "src/frameworks/bpp/server/speech.js",
+   "caught": true,
+   "failed": [
+    "unit_speech_recipients",
+    "sock_speech_dead_hears_nothing"
+   ],
+   "expected": [
+    "unit_speech_recipients"
+   ]
+  },
+  {
+   "name": "cleaning bypassed",
+   "file": "src/frameworks/ward/server/chat_text.js",
+   "caught": true,
+   "failed": [
+    "unit_text_trim_and_collapse",
+    "unit_text_empty",
+    "unit_text_160_code_points_kept_161_refused",
+    "unit_text_600_UTF_8_bytes_kept_601_refused",
+    "unit_text_lone_surrogate_refused",
+    "unit_text_bidi_override_removed",
+    "unit_text_control_heavy_refused",
+    "unit_text_zero_width_removed_ZWJ_kept",
+    "unit_text_combining_run_capped_at_4_after_NFC_",
+    "unit_text_NFC",
+    "unit_text_nickname_capped_and_defaulted",
+    "sock_speech_lone_surrogate",
+    "sock_speech_oversized",
+    "sock_lounge_invalid_text",
+    "sock_lounge_nick"
+   ],
+   "expected": [
+    "unit_text_bidi_override_removed",
+    "sock_speech_lone_surrogate",
+    "sock_lounge_invalid_text"
+   ]
+  },
+  {
+   "name": "speech rate limit removed",
+   "file": "src/frameworks/bpp/server/speech.js",
+   "caught": true,
+   "failed": [
+    "unit_speech_bucket",
+    "sock_speech_rate"
+   ],
+   "expected": [
+    "sock_speech_rate",
+    "unit_speech_bucket"
+   ]
+  },
+  {
+   "name": "lounge rate limit removed",
+   "file": "src/frameworks/bpp/server/lounge.js",
+   "caught": true,
+   "failed": [
+    "sock_lounge_rate"
+   ],
+   "expected": [
+    "sock_lounge_rate"
+   ]
+  },
+  {
+   "name": "Origin check removed",
+   "file": "src/frameworks/bpp/server/lounge.js",
+   "caught": true,
+   "failed": [
+    "unit_lounge_origin",
+    "sock_lounge_origin"
+   ],
+   "expected": [
+    "sock_lounge_origin",
+    "unit_lounge_origin"
+   ]
+  },
+  {
+   "name": "speaker position sent",
+   "file": "src/frameworks/bpp/server/speech.js",
+   "caught": true,
+   "failed": [
+    "unit_speech_event_shape",
+    "sock_speech_event_shape"
+   ],
+   "expected": [
+    "sock_speech_event_shape",
+    "unit_speech_event_shape"
+   ]
+  },
+  {
+   "name": "lounge lines to game sockets",
+   "file": "server.js",
+   "caught": true,
+   "failed": [
+    "sock_lounge_not_on_game"
+   ],
+   "expected": [
+    "sock_lounge_not_on_game"
+   ]
+  },
+  {
+   "name": "hello not required",
+   "file": "src/frameworks/bpp/server/lounge.js",
+   "caught": true,
+   "failed": [
+    "unit_lounge_hello_first",
+    "unit_lounge_welcome",
+    "unit_lounge_ran",
+    "sock_lounge_hello_required"
+   ],
+   "expected": [
+    "sock_lounge_hello_required",
+    "unit_lounge_hello_first"
+   ]
+  }
+ ]
+}

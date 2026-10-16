@@ -1,0 +1,21 @@
+$ node dev/tools/checks/menu_drift.js --old-dir /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/gate_mb_t2b/game_c5d --new-dir /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/gate_mb_t2b/game_candidate --mutants 1 --work /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/gate_mb_t2b --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/gate_mb_t2b/menu_drift.json --shots /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/gate_mb_t2b/menu_shots
+mutant amplitude: caught (failed: static, hidden, play, pointer)
+mutant reduced_ignored: caught (failed: reduced, boot_os)
+mutant hidden_ignored: caught (failed: hidden)
+mutant second_loop: caught (failed: reduced)
+mutant no_drift: caught (failed: static, reduced, play, pointer)
+mutant control_moved: caught (failed: layout 1920x1080, layout 2560x1080, layout 1366x768@1.5, layout 390x844@3 touch)
+mutant run_ignored: caught (failed: play)
+mutant clock_reset: caught (failed: hidden)
+ok   boot
+ok   static
+ok   hidden
+ok   reduced
+ok   play
+ok   pointer
+ok   pageErrors
+ok   boot_os
+ok   layout
+ok   logo
+ok   theme
+MENU DRIFT: PASS (11 of 11 checks; mutants 8 of 8 caught)

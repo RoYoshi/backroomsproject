@@ -1,0 +1,441 @@
+{
+ "tool": "dev/post-3h-trials/tools/t1_menu_perf.js",
+ "mode": "A/B",
+ "old": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/games/t1",
+ "new": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/games/t2",
+ "rounds": 4,
+ "seconds": 10,
+ "results": {
+  "desktop": [
+   {
+    "order": "old then new",
+    "old": {
+     "frames": 18,
+     "fps": 1.64,
+     "p50": 616.7,
+     "p95": 766.7,
+     "p99": 766.7,
+     "taskMsPerS": 1228.7,
+     "scriptMsPerS": 108.382,
+     "styleMsPerS": 1.223,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 21,
+     "driftCalls": 20,
+     "driftMsPerS": 0.2889,
+     "driftMsPerCall": 0.15,
+     "driftRunning": true
+    },
+    "new": {
+     "frames": 18,
+     "fps": 1.64,
+     "p50": 616.6,
+     "p95": 816.6,
+     "p99": 816.6,
+     "taskMsPerS": 1251.783,
+     "scriptMsPerS": 123.868,
+     "styleMsPerS": 1.123,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 21,
+     "driftCalls": 20,
+     "driftMsPerS": 0.2126,
+     "driftMsPerCall": 0.11,
+     "driftRunning": true
+    }
+   },
+   {
+    "order": "new then old",
+    "new": {
+     "frames": 18,
+     "fps": 1.7,
+     "p50": 583.3,
+     "p95": 716.6,
+     "p99": 716.6,
+     "taskMsPerS": 1250.237,
+     "scriptMsPerS": 123.727,
+     "styleMsPerS": 1.545,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 21,
+     "driftCalls": 20,
+     "driftMsPerS": 0.1897,
+     "driftMsPerCall": 0.095,
+     "driftRunning": true
+    },
+    "old": {
+     "frames": 19,
+     "fps": 1.8,
+     "p50": 550,
+     "p95": 700,
+     "p99": 700,
+     "taskMsPerS": 1241.932,
+     "scriptMsPerS": 118.593,
+     "styleMsPerS": 1.019,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 22,
+     "driftCalls": 21,
+     "driftMsPerS": 0.1298,
+     "driftMsPerCall": 0.0619,
+     "driftRunning": true
+    }
+   },
+   {
+    "order": "old then new",
+    "old": {
+     "frames": 18,
+     "fps": 1.65,
+     "p50": 600,
+     "p95": 733.3,
+     "p99": 733.3,
+     "taskMsPerS": 1225,
+     "scriptMsPerS": 118.498,
+     "styleMsPerS": 1.061,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 21,
+     "driftCalls": 20,
+     "driftMsPerS": 0.301,
+     "driftMsPerCall": 0.155,
+     "driftRunning": true
+    },
+    "new": {
+     "frames": 19,
+     "fps": 1.79,
+     "p50": 550,
+     "p95": 683.3,
+     "p99": 683.3,
+     "taskMsPerS": 1216.411,
+     "scriptMsPerS": 119.761,
+     "styleMsPerS": 1.15,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 22,
+     "driftCalls": 21,
+     "driftMsPerS": 0.2292,
+     "driftMsPerCall": 0.1095,
+     "driftRunning": true
+    }
+   },
+   {
+    "order": "new then old",
+    "new": {
+     "frames": 20,
+     "fps": 1.85,
+     "p50": 500,
+     "p95": 716.6,
+     "p99": 716.6,
+     "taskMsPerS": 1237.297,
+     "scriptMsPerS": 121.676,
+     "styleMsPerS": 1.082,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 23,
+     "driftCalls": 22,
+     "driftMsPerS": 0.1753,
+     "driftMsPerCall": 0.0818,
+     "driftRunning": true
+    },
+    "old": {
+     "frames": 19,
+     "fps": 1.76,
+     "p50": 583.3,
+     "p95": 700,
+     "p99": 700,
+     "taskMsPerS": 1211.82,
+     "scriptMsPerS": 117.47,
+     "styleMsPerS": 1.178,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 22,
+     "driftCalls": 21,
+     "driftMsPerS": 0.3127,
+     "driftMsPerCall": 0.1524,
+     "driftRunning": true
+    }
+   }
+  ],
+  "phone": [
+   {
+    "order": "old then new",
+    "old": {
+     "frames": 42,
+     "fps": 4.03,
+     "p50": 250,
+     "p95": 316.6,
+     "p99": 333.2,
+     "taskMsPerS": 1090.628,
+     "scriptMsPerS": 48.163,
+     "styleMsPerS": 2.294,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 89,
+     "driftCalls": 44,
+     "driftMsPerS": 0.5115,
+     "driftMsPerCall": 0.1182,
+     "driftRunning": true
+    },
+    "new": {
+     "frames": 46,
+     "fps": 4.51,
+     "p50": 216.7,
+     "p95": 250.1,
+     "p99": 316.7,
+     "taskMsPerS": 1084.82,
+     "scriptMsPerS": 50.487,
+     "styleMsPerS": 2.627,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 97,
+     "driftCalls": 48,
+     "driftMsPerS": 0.4307,
+     "driftMsPerCall": 0.0896,
+     "driftRunning": true
+    }
+   },
+   {
+    "order": "new then old",
+    "new": {
+     "frames": 41,
+     "fps": 3.94,
+     "p50": 250.1,
+     "p95": 316.7,
+     "p99": 350,
+     "taskMsPerS": 1093.268,
+     "scriptMsPerS": 48.347,
+     "styleMsPerS": 2.544,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 87,
+     "driftCalls": 43,
+     "driftMsPerS": 0.4335,
+     "driftMsPerCall": 0.1023,
+     "driftRunning": true
+    },
+    "old": {
+     "frames": 45,
+     "fps": 4.37,
+     "p50": 233.3,
+     "p95": 266.7,
+     "p99": 283.3,
+     "taskMsPerS": 1081.614,
+     "scriptMsPerS": 49.383,
+     "styleMsPerS": 2.561,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 95,
+     "driftCalls": 47,
+     "driftMsPerS": 0.447,
+     "driftMsPerCall": 0.0957,
+     "driftRunning": true
+    }
+   },
+   {
+    "order": "old then new",
+    "old": {
+     "frames": 43,
+     "fps": 4.15,
+     "p50": 233.4,
+     "p95": 299.9,
+     "p99": 333.4,
+     "taskMsPerS": 1085.219,
+     "scriptMsPerS": 53.401,
+     "styleMsPerS": 2.63,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 91,
+     "driftCalls": 45,
+     "driftMsPerS": 0.3954,
+     "driftMsPerCall": 0.0889,
+     "driftRunning": true
+    },
+    "new": {
+     "frames": 41,
+     "fps": 3.93,
+     "p50": 250,
+     "p95": 300,
+     "p99": 333.3,
+     "taskMsPerS": 1107.039,
+     "scriptMsPerS": 48.265,
+     "styleMsPerS": 2.707,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 87,
+     "driftCalls": 43,
+     "driftMsPerS": 0.8459,
+     "driftMsPerCall": 0.2,
+     "driftRunning": true
+    }
+   },
+   {
+    "order": "new then old",
+    "new": {
+     "frames": 45,
+     "fps": 4.33,
+     "p50": 216.7,
+     "p95": 283.4,
+     "p99": 349.9,
+     "taskMsPerS": 1092.809,
+     "scriptMsPerS": 47.84,
+     "styleMsPerS": 2.519,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 95,
+     "driftCalls": 47,
+     "driftMsPerS": 0.3541,
+     "driftMsPerCall": 0.0766,
+     "driftRunning": true
+    },
+    "old": {
+     "frames": 43,
+     "fps": 4.13,
+     "p50": 233.4,
+     "p95": 316.7,
+     "p99": 333.3,
+     "taskMsPerS": 1090.796,
+     "scriptMsPerS": 49.015,
+     "styleMsPerS": 2.552,
+     "layoutMsPerS": 0,
+     "styleRecalcs": 91,
+     "driftCalls": 45,
+     "driftMsPerS": 0.423,
+     "driftMsPerCall": 0.0956,
+     "driftRunning": true
+    }
+   }
+  ]
+ },
+ "summary": {
+  "desktop": {
+   "fps": {
+    "oldMedian": 1.705,
+    "newMedian": 1.745,
+    "pairedDiffMedian": 0.045,
+    "pairedDiffMin": -0.1,
+    "pairedDiffMax": 0.14
+   },
+   "p50": {
+    "oldMedian": 591.65,
+    "newMedian": 566.65,
+    "pairedDiffMedian": -25.05,
+    "pairedDiffMin": -83.3,
+    "pairedDiffMax": 33.3
+   },
+   "p95": {
+    "oldMedian": 716.65,
+    "newMedian": 716.6,
+    "pairedDiffMedian": 16.6,
+    "pairedDiffMin": -50,
+    "pairedDiffMax": 49.9
+   },
+   "p99": {
+    "oldMedian": 716.65,
+    "newMedian": 716.6,
+    "pairedDiffMedian": 16.6,
+    "pairedDiffMin": -50,
+    "pairedDiffMax": 49.9
+   },
+   "taskMsPerS": {
+    "oldMedian": 1226.85,
+    "newMedian": 1243.767,
+    "pairedDiffMedian": 15.694,
+    "pairedDiffMin": -8.589,
+    "pairedDiffMax": 25.477
+   },
+   "scriptMsPerS": {
+    "oldMedian": 117.984,
+    "newMedian": 122.7015,
+    "pairedDiffMedian": 4.67,
+    "pairedDiffMin": 1.263,
+    "pairedDiffMax": 15.486
+   },
+   "styleMsPerS": {
+    "oldMedian": 1.1195,
+    "newMedian": 1.1365,
+    "pairedDiffMedian": -0.0035,
+    "pairedDiffMin": -0.1,
+    "pairedDiffMax": 0.526
+   },
+   "layoutMsPerS": {
+    "oldMedian": 0,
+    "newMedian": 0,
+    "pairedDiffMedian": 0,
+    "pairedDiffMin": 0,
+    "pairedDiffMax": 0
+   },
+   "driftMsPerS": {
+    "oldMedian": 0.2949,
+    "newMedian": 0.2011,
+    "pairedDiffMedian": -0.074,
+    "pairedDiffMin": -0.1374,
+    "pairedDiffMax": 0.0599
+   },
+   "driftMsPerCall": {
+    "oldMedian": 0.1512,
+    "newMedian": 0.1023,
+    "pairedDiffMedian": -0.0427,
+    "pairedDiffMin": -0.0706,
+    "pairedDiffMax": 0.0331
+   }
+  },
+  "phone": {
+   "fps": {
+    "oldMedian": 4.14,
+    "newMedian": 4.135,
+    "pairedDiffMedian": -0.01,
+    "pairedDiffMin": -0.43,
+    "pairedDiffMax": 0.48
+   },
+   "p50": {
+    "oldMedian": 233.4,
+    "newMedian": 233.35,
+    "pairedDiffMedian": -0.05,
+    "pairedDiffMin": -33.3,
+    "pairedDiffMax": 16.8
+   },
+   "p95": {
+    "oldMedian": 308.25,
+    "newMedian": 291.7,
+    "pairedDiffMedian": -16.6,
+    "pairedDiffMin": -66.5,
+    "pairedDiffMax": 50
+   },
+   "p99": {
+    "oldMedian": 333.25,
+    "newMedian": 341.6,
+    "pairedDiffMedian": 8.25,
+    "pairedDiffMin": -16.5,
+    "pairedDiffMax": 66.7
+   },
+   "taskMsPerS": {
+    "oldMedian": 1087.9235,
+    "newMedian": 1093.0385,
+    "pairedDiffMedian": 6.8335,
+    "pairedDiffMin": -5.808,
+    "pairedDiffMax": 21.82
+   },
+   "scriptMsPerS": {
+    "oldMedian": 49.199,
+    "newMedian": 48.306,
+    "pairedDiffMedian": -1.1055,
+    "pairedDiffMin": -5.136,
+    "pairedDiffMax": 2.324
+   },
+   "styleMsPerS": {
+    "oldMedian": 2.5565,
+    "newMedian": 2.5855,
+    "pairedDiffMedian": 0.03,
+    "pairedDiffMin": -0.033,
+    "pairedDiffMax": 0.333
+   },
+   "layoutMsPerS": {
+    "oldMedian": 0,
+    "newMedian": 0,
+    "pairedDiffMedian": 0,
+    "pairedDiffMin": 0,
+    "pairedDiffMax": 0
+   },
+   "driftMsPerS": {
+    "oldMedian": 0.435,
+    "newMedian": 0.4321,
+    "pairedDiffMedian": -0.0412,
+    "pairedDiffMin": -0.0808,
+    "pairedDiffMax": 0.4505
+   },
+   "driftMsPerCall": {
+    "oldMedian": 0.0956,
+    "newMedian": 0.096,
+    "pairedDiffMedian": -0.0062,
+    "pairedDiffMin": -0.0286,
+    "pairedDiffMax": 0.1111
+   }
+  }
+ },
+ "chromium": "141.0.7390.37"
+}

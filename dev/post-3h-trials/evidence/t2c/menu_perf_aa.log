@@ -1,0 +1,10 @@
+desktop round 1: old 1.97 fps p95 583.3 ms task 1193.931 ms/s; new 1.86 fps p95 633.2 ms task 1213.391 ms/s, drift 0.2157 ms/s
+desktop round 2: old 1.82 fps p95 650.1 ms task 1198.928 ms/s; new 1.93 fps p95 616.7 ms task 1198.707 ms/s, drift 0.2319 ms/s
+desktop round 3: old 1.84 fps p95 683.2 ms task 1226.226 ms/s; new 1.84 fps p95 633.3 ms task 1241.757 ms/s, drift 0.2136 ms/s
+desktop round 4: old 1.82 fps p95 616.7 ms task 1214.321 ms/s; new 1.91 fps p95 616.6 ms task 1186.596 ms/s, drift 0.1529 ms/s
+phone round 1: old 4.34 fps p95 283.3 ms task 1093.033 ms/s; new 4.1 fps p95 300 ms task 1102.231 ms/s, drift 0.3225 ms/s
+phone round 2: old 4.12 fps p95 316.8 ms task 1094.206 ms/s; new 4.17 fps p95 316.6 ms task 1103.938 ms/s, drift 0.3775 ms/s
+phone round 3: old 4.02 fps p95 300 ms task 1104.447 ms/s; new 3.75 fps p95 333.4 ms task 1098.629 ms/s, drift 0.4836 ms/s
+phone round 4: old 4.23 fps p95 283.4 ms task 1097.153 ms/s; new 4.18 fps p95 283.3 ms task 1098.404 ms/s, drift 0.3881 ms/s
+desktop fps 1.83 -> 1.885 (paired 0.045, -0.11..0.11); p50 533.3 -> 524.95 (paired 0, -50..33.3); p95 633.4 -> 624.95 (paired -16.75, -49.9..49.9); p99 633.4 -> 624.95 (paired -16.75, -49.9..49.9); taskMsPerS 1206.6245 -> 1206.049 (paired 7.655, -27.725..19.46); scriptMsPerS 119.7625 -> 123.3185 (paired 3.1275, 1.032..4.986); styleMsPerS 1.17 -> 1.177 (paired 0.034, -0.095..0.232); layoutMsPerS 0 -> 0 (paired 0, 0..0); driftMsPerS 0.2034 -> 0.2147 (paired 0.0204, -0.1538..0.0391); driftMsPerCall 0.0935 -> 0.1 (paired 0.0086, -0.0759..0.0182)
+phone fps 4.175 -> 4.135 (paired -0.145, -0.27..0.05); p50 233.3 -> 233.35 (paired 0.05, 0..0.1); p95 291.7 -> 308.3 (paired 8.3, -0.2..33.4); p99 316.65 -> 333.3 (paired 16.7, -0.1..33.2); taskMsPerS 1095.6795 -> 1100.43 (paired 5.2245, -5.818..9.732); scriptMsPerS 49.6045 -> 50.118 (paired 0.0155, -2.297..2.285); styleMsPerS 2.6235 -> 2.5045 (paired -0.0795, -0.276..0.131); layoutMsPerS 0 -> 0 (paired 0, 0..0); driftMsPerS 0.4173 -> 0.3828 (paired -0.0345, -0.0525..0.0326); driftMsPerCall 0.0935 -> 0.0856 (paired -0.0061, -0.0112..0.015)

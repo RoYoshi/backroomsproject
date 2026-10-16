@@ -1,0 +1,102 @@
+{
+ "tool": "dev/tools/gate/golden/page_scripts.js --mutants",
+ "mutants": [
+  {
+   "id": "move_sound_not_handed",
+   "file": "move.js",
+   "why": "the sound module does not hand its sounds to the movement module (vaults and slides fall silent)",
+   "caught": true,
+   "exit": 1,
+   "by": "FAIL move.js: 15215 trace lines (27 kinds) DIFFERENT, the page's elements equal, errors 0/0; functions run: B++ 44 of 45, this tree 47 of 49 - NOT REACHED: the scene must run every function but 1 (sm: declared and never called) without errors"
+  },
+  {
+   "id": "move_poses_not_made",
+   "file": "move.js",
+   "why": "the composition does not make the poses module (window.__pose is missing)",
+   "caught": true,
+   "exit": 1,
+   "by": "FAIL move.js: 15215 trace lines (27 kinds) DIFFERENT, the page's elements equal, errors 0/1; functions run: B++ 44 of 45, this tree 14 of 41 - NOT REACHED: the scene must run every function but 1 (sm: declared and never called) without errors"
+  },
+  {
+   "id": "camcorder_whine_lost",
+   "file": "camcorder.js",
+   "why": "the camera's state does not keep the whine's nodes (the sound module builds them again and again)",
+   "caught": true,
+   "exit": 1,
+   "by": "FAIL camcorder.js: 11336 trace lines (25 kinds) DIFFERENT, the page's elements DIFFERENT, errors 0/1; functions run: B++ 78 of 80, this tree 61 of 84 - NOT REACHED: the scene must run every function but 2 (snd.deny and snd.warn: declared and never called) without errors"
+  },
+  {
+   "id": "camcorder_view_wrong_audio",
+   "file": "camcorder.js",
+   "why": "the view is given a silent whine instead of the sound module's",
+   "caught": true,
+   "exit": 1,
+   "by": "FAIL camcorder.js: 11336 trace lines (25 kinds) DIFFERENT, the page's elements equal, errors 0/0; functions run: B++ 78 of 80, this tree 81 of 85 - NOT REACHED: the scene must run every function but 2 (snd.deny and snd.warn: declared and never called) without errors"
+  },
+  {
+   "id": "glitch_draw_wrong_walls",
+   "file": "glitch.js",
+   "why": "the drawing module is given another near distance than the walls module's",
+   "caught": true,
+   "exit": 1,
+   "by": "FAIL glitch.js: 21927 trace lines (22 kinds) DIFFERENT, the page's elements equal, errors 0/0; functions run: B++ 13 of 13, this tree 16 of 16"
+  },
+  {
+   "id": "glitch_draw_silent",
+   "file": "glitch.js",
+   "why": "the drawing module is given a silent sound module",
+   "caught": true,
+   "exit": 1,
+   "by": "FAIL glitch.js: 21927 trace lines (22 kinds) DIFFERENT, the page's elements equal, errors 0/0; functions run: B++ 13 of 13, this tree 16 of 17 - NOT REACHED: the scene must run every function but 0 (-) without errors"
+  },
+  {
+   "id": "ents_smiler_gives_hound",
+   "file": "ents.js",
+   "why": "the Smiler module gives the Hound's drawing (the death scene draws the wrong creature)",
+   "caught": true,
+   "exit": 1,
+   "by": "FAIL ents.js: 1204222 trace lines (39 kinds) DIFFERENT, the page's elements equal, errors 0/0; functions run: B++ 141 of 143, this tree 147 of 149"
+  },
+  {
+   "id": "ents_audio_other_E",
+   "file": "ents.js",
+   "why": "the sound module is given another public object (its voices never reach window.__ents)",
+   "caught": true,
+   "exit": 1,
+   "by": "FAIL ents.js: 1204222 trace lines (39 kinds) DIFFERENT, the page's elements DIFFERENT, errors 0/1; functions run: B++ 141 of 143, this tree 40 of 94 - NOT REACHED: the scene must run every function but 2 (the sound of a dropped light striking something (a death event the scene does not produce) and "
+  },
+  {
+   "id": "ents_debug_not_made",
+   "file": "ents.js",
+   "why": "the composition does not make the debug module",
+   "caught": true,
+   "exit": 1,
+   "by": "FAIL ents.js: 1204222 trace lines (39 kinds) DIFFERENT, the page's elements DIFFERENT, errors 0/1; functions run: B++ 141 of 143, this tree 81 of 91 - NOT REACHED: the scene must run every function but 2 (the sound of a dropped light striking something (a death event the scene does not produce) and "
+  },
+  {
+   "id": "world_order_swapped",
+   "file": "world.js",
+   "why": "two modules made out of order (the world's keys in another order)",
+   "caught": true,
+   "exit": 1,
+   "by": "DIFFERENT keys"
+  },
+  {
+   "id": "world_returns_copy",
+   "file": "world.js",
+   "why": "the script returns a copy of the object its modules built (setMode no longer shows in WORLD.mode)",
+   "caught": true,
+   "exit": 1,
+   "by": "DIFFERENT mode"
+  },
+  {
+   "id": "world_surfaces_not_made",
+   "file": "world.js",
+   "why": "the composition does not make the surfaces module (no surfaceAt)",
+   "caught": true,
+   "exit": 1,
+   "by": "DIFFERENT keys"
+  }
+ ],
+ "ok": true
+}

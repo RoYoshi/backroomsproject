@@ -1,0 +1,270 @@
+{
+ "tool": "dev/post-3h-trials/tools/t2_server_perf.js",
+ "secs": 30,
+ "rounds": 2,
+ "runs": [
+  {
+   "kind": "idle0",
+   "cpuMsPerS": 10,
+   "rssKB": 57880,
+   "snaps": 0,
+   "gap": {
+    "p50": 0,
+    "p95": 0,
+    "p99": 0,
+    "max": 0
+   },
+   "side": "old",
+   "round": 0
+  },
+  {
+   "kind": "idle0",
+   "cpuMsPerS": 9,
+   "rssKB": 62672,
+   "snaps": 0,
+   "gap": {
+    "p50": 0,
+    "p95": 0,
+    "p99": 0,
+    "max": 0
+   },
+   "side": "new",
+   "round": 0
+  },
+  {
+   "kind": "play2",
+   "cpuMsPerS": 39.7,
+   "rssKB": 68648,
+   "snaps": 593,
+   "gap": {
+    "p50": 50.5,
+    "p95": 52,
+    "p99": 53.4,
+    "max": 58.3
+   },
+   "side": "old",
+   "round": 0
+  },
+  {
+   "kind": "play2",
+   "cpuMsPerS": 39,
+   "rssKB": 74772,
+   "snaps": 592,
+   "gap": {
+    "p50": 50.5,
+    "p95": 52,
+    "p99": 55.3,
+    "max": 78
+   },
+   "side": "new",
+   "round": 0
+  },
+  {
+   "kind": "play8",
+   "cpuMsPerS": 57.7,
+   "rssKB": 70360,
+   "snaps": 593,
+   "gap": {
+    "p50": 50.5,
+    "p95": 51.9,
+    "p99": 54.3,
+    "max": 70.8
+   },
+   "side": "old",
+   "round": 0
+  },
+  {
+   "kind": "play8",
+   "cpuMsPerS": 61,
+   "rssKB": 71104,
+   "snaps": 592,
+   "gap": {
+    "p50": 50.5,
+    "p95": 52,
+    "p99": 54.1,
+    "max": 72.8
+   },
+   "side": "new",
+   "round": 0
+  },
+  {
+   "kind": "play8_say",
+   "cpuMsPerS": 59.7,
+   "rssKB": 71896,
+   "snaps": 590,
+   "gap": {
+    "p50": 50.5,
+    "p95": 52.2,
+    "p99": 61.4,
+    "max": 93
+   },
+   "side": "new",
+   "round": 0
+  },
+  {
+   "kind": "play8_lounge",
+   "cpuMsPerS": 55.3,
+   "rssKB": 76924,
+   "snaps": 592,
+   "gap": {
+    "p50": 50.4,
+    "p95": 52,
+    "p99": 58.4,
+    "max": 70.3
+   },
+   "lounge": 60,
+   "loungeMsgsPerSocket": 304,
+   "side": "new",
+   "round": 0
+  },
+  {
+   "kind": "play8",
+   "cpuMsPerS": 60.7,
+   "rssKB": 74924,
+   "snaps": 593,
+   "gap": {
+    "p50": 50.5,
+    "p95": 51.9,
+    "p99": 55.7,
+    "max": 61.6
+   },
+   "side": "old-again",
+   "round": 0
+  },
+  {
+   "kind": "idle0",
+   "cpuMsPerS": 8.3,
+   "rssKB": 61540,
+   "snaps": 0,
+   "gap": {
+    "p50": 0,
+    "p95": 0,
+    "p99": 0,
+    "max": 0
+   },
+   "side": "new",
+   "round": 1
+  },
+  {
+   "kind": "idle0",
+   "cpuMsPerS": 8,
+   "rssKB": 61956,
+   "snaps": 0,
+   "gap": {
+    "p50": 0,
+    "p95": 0,
+    "p99": 0,
+    "max": 0
+   },
+   "side": "old",
+   "round": 1
+  },
+  {
+   "kind": "play2",
+   "cpuMsPerS": 39.7,
+   "rssKB": 68436,
+   "snaps": 593,
+   "gap": {
+    "p50": 50.5,
+    "p95": 52,
+    "p99": 54.4,
+    "max": 59.5
+   },
+   "side": "new",
+   "round": 1
+  },
+  {
+   "kind": "play2",
+   "cpuMsPerS": 38,
+   "rssKB": 71544,
+   "snaps": 592,
+   "gap": {
+    "p50": 50.5,
+    "p95": 52,
+    "p99": 54.3,
+    "max": 83.3
+   },
+   "side": "old",
+   "round": 1
+  },
+  {
+   "kind": "play8",
+   "cpuMsPerS": 62,
+   "rssKB": 70824,
+   "snaps": 592,
+   "gap": {
+    "p50": 50.5,
+    "p95": 51.8,
+    "p99": 56.9,
+    "max": 73.9
+   },
+   "side": "new",
+   "round": 1
+  },
+  {
+   "kind": "play8",
+   "cpuMsPerS": 60,
+   "rssKB": 77236,
+   "snaps": 593,
+   "gap": {
+    "p50": 50.5,
+    "p95": 52,
+    "p99": 53.7,
+    "max": 63.4
+   },
+   "side": "old",
+   "round": 1
+  },
+  {
+   "kind": "play8_say",
+   "cpuMsPerS": 57,
+   "rssKB": 76968,
+   "snaps": 593,
+   "gap": {
+    "p50": 50.5,
+    "p95": 52,
+    "p99": 58.3,
+    "max": 68.6
+   },
+   "side": "new",
+   "round": 1
+  },
+  {
+   "kind": "play8_lounge",
+   "cpuMsPerS": 53.7,
+   "rssKB": 75312,
+   "snaps": 594,
+   "gap": {
+    "p50": 50.3,
+    "p95": 52,
+    "p99": 57.7,
+    "max": 65.3
+   },
+   "lounge": 60,
+   "loungeMsgsPerSocket": 304,
+   "side": "new",
+   "round": 1
+  },
+  {
+   "kind": "play8",
+   "cpuMsPerS": 60.3,
+   "rssKB": 76312,
+   "snaps": 592,
+   "gap": {
+    "p50": 50.5,
+    "p95": 52,
+    "p99": 55.5,
+    "max": 64
+   },
+   "side": "old-again",
+   "round": 1
+  }
+ ],
+ "reconnect": {
+  "opened": 209,
+  "refused429": 1066,
+  "rssKBBefore": 62612,
+  "rssKBAfter": 61896,
+  "onlineAfter": 1
+ }
+}

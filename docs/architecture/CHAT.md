@@ -157,7 +157,9 @@ too long, not while dead...). Offline (SOLO), Enter does what it always did.
 
 **Keys.** While a chat field (or anything inside the lounge or the composer) has focus, chat.js's window capture listener stops each
 keydown and keypress there from reaching the game, the menus or the key remapping (key releases still pass, so nothing stays held); the
-browser's own typing, Tab and form sending are untouched. Esc leaves the field (closes the composer or the phone's lounge). The admin
+browser's own typing, Tab and form sending are untouched. (The game, the inventory, the camcorder and the menus already ignore keys typed into a text field; chat.js's
+stop is a second wall, which is why the browser check tests what a player would notice - nobody walks, the light does not toggle, Esc
+only closes - rather than the stop itself.) Esc leaves the field (closes the composer or the phone's lounge). The admin
 key, pause and every game key behave as before whenever no chat field has focus.
 
 **Accessibility.** Every control is a real button or field with a label, reachable by keyboard and by touch. New lines are announced
@@ -174,7 +176,7 @@ lounge closed during a run, and its place at five screen sizes (covering nothing
 room with a third elsewhere: the composer (held keys let go, nobody walks while typing, Esc only closes), bubbles on both screens and
 gone within 5 s, an edge hint pointing the right way for a listener off screen, nothing beyond the radius or in the other room, hide
 and mute, a leaver's bubble going with it, SAY on a phone, reduced motion. Its mutants break the page's chat.js seven ways (a bubble
-written as HTML, a chat field's keys passed to the game, held keys kept, the lounge left open in a run, no edge hint, mutes ignored,
+written as HTML, the composer opening over the pause screen, held keys kept, the lounge left open in a run, no edge hint, mutes ignored,
 bubbles that never end).
 
 `node dev/tools/checks/chat_server.js [--mutants 1]`: the cleaning, `speech.js` on hand-made rooms and `lounge.js` on fake sockets

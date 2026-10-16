@@ -1,0 +1,17 @@
+$ node dev/tools/gate/golden/sim_diff.js --mutants dev/tools/gate/golden/sim_mutants.js --seeds 1,7 --ops 800 --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/gate_fast_t2b/sim_diff_mutants.json
+CAUGHT  run_freeze_ignored (src/core/server/sim.step.js): the admin's freeze no longer reaches the run | first difference: 5 admin 0
+CAUGHT  run_speed_ignored (src/core/server/sim.step.js): the admin's speed no longer reaches the run | first difference: 54 admin 1
+CAUGHT  run_blackout_ignored (src/core/server/sim.step.js): the admin's blackout mode no longer reaches the run | first difference: 49 admin 2
+CAUGHT  blackout_forced_wrong (src/frameworks/lost/server/sim.level0.js): a forced blackout set the wrong way | first difference: 105 step 0.05
+CAUGHT  reset_items_first (src/core/server/sim.step.js): the world reset places the cartograph before the walls (the random stream in another order) | first difference: the first world
+CAUGHT  reset_bodies_kept (src/core/server/sim.step.js): the world reset keeps the bodies | first difference: the first world
+CAUGHT  clock_double (src/frameworks/gib/server/sim.bodies.js): the sim's clock runs at twice the step | first difference: 6 step 0.03333333333333333
+CAUGHT  walls_stale (src/frameworks/lost/server/sim.glitches.js): the walls read once, when the module was made (a stale copy instead of the current list) | first difference: the first world
+CAUGHT  items_stale (src/frameworks/pocket/server/sim.items.js): the cartograph read once, when the module was made | first difference: the first world
+CAUGHT  debug_never (src/frameworks/overseer/server/sim.admin.js): the admin's debug switch never reaches the sim's getter | first difference: 128 admin 3
+CAUGHT  run_time_zero (src/core/server/sim.step.js): the run's clock read as zero outside the run | first difference: 85 step 0.016666666666666666
+CAUGHT  world_count_one (src/core/server/sim.step.js): the world count read as one outside the run | first difference: 4 admin 5
+CAUGHT  body_version_one (src/frameworks/gib/server/sim.bodies.js): the bodies' version read as one outside G.I.B. | first difference: the first world
+CAUGHT  roster_copied (src/core/server/sim.js): the AI given a copy of the roster (it would never see a player join) | first difference: 58 admin 5
+MISSED  cap_run_time_61 (src/frameworks/overseer/server/sim.admin.js): the admin's monster reset caps the run's clock at 61 s
+SIM DIFF MUTANTS: 14 of 15 caught

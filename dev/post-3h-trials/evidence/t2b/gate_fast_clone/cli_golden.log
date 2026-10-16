@@ -1,0 +1,11 @@
+$ node dev/tools/gate/golden/cli_golden.js --old-ref 143b63ff42b88c6780c5043e0f61d64100f81f40 --baseline /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/clone_t2b/dev/stage-3h/evidence/h1/golden/cli_traces --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/gate_fast_t2b/cli --keep /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/gate_fast_t2b/cli_keep
+PASS load: old 20 entries 1dd9e3b9f038 (251 ms) | new 20 entries 1dd9e3b9f038 (173 ms) | identical | baseline same
+PASS menu_online: old 1844 entries 7c17bb5dce53 (282 ms) | new 1844 entries 7c17bb5dce53 (320 ms) | identical | baseline same
+PASS run_online: old 7413 entries d61f90bf0c38 (496 ms) | new 7413 entries d61f90bf0c38 (427 ms) | identical | baseline same
+PASS interp: old 11483 entries 7eb8f6d25d57 (465 ms) | new 11483 entries 7eb8f6d25d57 (448 ms) | identical | baseline same
+PASS fx_bodies: old 22762 entries f41b0dbe275e (640 ms) | new 22762 entries f41b0dbe275e (569 ms) | identical | baseline same
+PASS facade: old 1164 entries 6c709388b64a (217 ms) | new 1164 entries 6c709388b64a (249 ms) | identical | baseline same
+PASS admin: old 1333 entries 90c1239bb505 (362 ms) | new 1333 entries 90c1239bb505 (375 ms) | identical | baseline same
+PASS reconnect_solo: old 739 entries 8c3a6b38b816 (185 ms) | new 739 entries 8c3a6b38b816 (239 ms) | identical | baseline same
+PASS hum_dread: old 4876 entries 116637e7f617 (263 ms) | new 4876 entries 116637e7f617 (268 ms) | identical | baseline same
+client golden traces: ALL IDENTICAL

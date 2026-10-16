@@ -67,7 +67,7 @@
  *
  *   --tier fast   (default, about 20 minutes) build, port, lineage, parts, modules, contracts, docs, scope, srv_golden, bpp_golden, session, sim, page,
  *                 cli_golden, protocol, mutants, static, raw_live, quick_suites, bundle, chat
- *   --tier full   (the final candidate; about two and a half hours on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers,
+ *   --tier full   (the final candidate; about three hours on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers,
  *                 workflow, menu, chat_browser, contact_lab, suites, perf
  * Everything is written under --out (default: a scratch folder): gate_report.json plus each tool's log and report.
  *
@@ -344,7 +344,7 @@ const STEPS = {
       note: j ? `the lounge and nearby speech on the server: ${j.passed} of ${j.cases.length} cases (the text check, speech by radius, room and life, spoofed fields, limits, the lounge's handshake, Origin, caps, no crossing between the two, the game's pace under lounge load); its mutants ${mc} of ${m} caught` : 'no report', r };
   },
   chat_browser: () => {                                                                 // post-3H Trial 2: the chats in real pages
-    const r = run('chat_browser', ['node', 'dev/tools/checks/chat_browser.js', '--mutants', '1', '--work', o('chat_bmut'), '--out', o('chat_browser.json'), '--shots', o('chat_shots')], { ms: 3600000 }), j = J(o('chat_browser.json'));
+    const r = run('chat_browser', ['node', 'dev/tools/checks/chat_browser.js', '--mutants', '1', '--work', o('chat_bmut'), '--out', o('chat_browser.json'), '--shots', o('chat_shots')], { ms: 7200000 }), j = J(o('chat_browser.json'));
     const m = j && j.mutants ? j.mutants.length : 0, mc = j && j.mutants ? j.mutants.filter(x => x.caught).length : 0;
     return { ok: r.exit === 0 && !!j && j.ok && m === 7 && mc === 7, cases: (j ? j.cases.length : 0) + m,
       note: j ? `the lounge and nearby speech in Chromium: ${j.passed} of ${j.cases.length} cases (the lounge across rooms, typing isolated, markup literal, mute, fold, off, the phone, closed in a run, its place at 5 sizes; the composer, bubbles, the edge hint, the radius, the other room, hide, mute, a leaver, SAY, reduced motion); its mutants ${mc} of ${m} caught` : 'no report', r };

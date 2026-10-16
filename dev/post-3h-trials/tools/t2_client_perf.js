@@ -2,7 +2,8 @@
 /* dev/post-3h-trials/tools/t2_client_perf.js - post-3H Trial 2: what the nearby speech costs a page in a run (development only; a
  * checkpoint measurement, not a gate step).
  *
- *   node dev/post-3h-trials/tools/t2_client_perf.js --old-dir DIR --new-dir DIR [--rounds 4] [--seconds 10] [--out FILE.json]
+ *   node dev/post-3h-trials/tools/t2_client_perf.js --old-dir DIR --new-dir DIR [--rounds 4] [--seconds 10] [--aa 1] [--out FILE.json]
+ *   (--aa 1: two copies of one game folder, the A/A control; the chat hook is not measured then)
  *
  * DIR: complete game folders (the accepted Trial 1 checkpoint as the old side; the candidate as the new), each served by its own
  * `node server.js PORT` (a synthetic admin passcode).  Each round opens one page a side at 1280 x 720, in an order that alternates,
@@ -77,12 +78,12 @@ const med = a => { const s = a.filter(x => x !== null).slice().sort((x, y) => x 
   try {
     for (let r = 0; r < ROUNDS; r++) {
       const order = r % 2 ? ['new', 'old'] : ['old', 'new'], row = { round: r, order: order.join(' then ') };
-      for (const side of order) { const s = await page(b, side === 'old' ? so.port : sn.port, side === 'new'); try { row[side] = await frames(s.P, s.cdp); if (side === 'new') for (const m of ['idle', 'one', 'nine']) R.hook.push(Object.assign({ round: r }, await hookCost(s.P, m))); } finally { await s.ctx.close(); } }
+      for (const side of order) { const s = await page(b, side === 'old' ? so.port : sn.port, side === 'new'); try { row[side] = await frames(s.P, s.cdp); if (side === 'new' && ARG.aa !== '1') for (const m of ['idle', 'one', 'nine']) R.hook.push(Object.assign({ round: r }, await hookCost(s.P, m))); } finally { await s.ctx.close(); } }
       R.runs.push(row); console.log(JSON.stringify(row));
     }
     R.summary = {};
     for (const k of ['fps', 'p50', 'p95', 'p99', 'taskMsPerS', 'scriptMsPerS', 'styleMsPerS', 'layoutMsPerS']) { const d = R.runs.map(x => x.new[k] - x.old[k]); R.summary[k] = { old: med(R.runs.map(x => x.old[k])), new: med(R.runs.map(x => x.new[k])), pairedDiffMedian: med(d), min: Math.min(...d), max: Math.max(...d) }; }
-    R.hookSummary = {}; for (const m of ['idle', 'one', 'nine']) { const h = R.hook.filter(x => x.mode === m); R.hookSummary[m] = { bubbles: med(h.map(x => x.bubbles)), hints: med(h.map(x => x.hints)), msPerS: med(h.map(x => x.msPerS)), msPerCall: med(h.map(x => x.msPerCall)) }; }
+    R.hookSummary = {}; if (ARG.aa !== '1') for (const m of ['idle', 'one', 'nine']) { const h = R.hook.filter(x => x.mode === m); R.hookSummary[m] = { bubbles: med(h.map(x => x.bubbles)), hints: med(h.map(x => x.hints)), msPerS: med(h.map(x => x.msPerS)), msPerCall: med(h.map(x => x.msPerCall)) }; }
     console.log(JSON.stringify(R.summary)); console.log(JSON.stringify(R.hookSummary));
   } finally { try { process.kill(so.p.pid); } catch (e) { } try { process.kill(sn.p.pid); } catch (e) { } await b.close(); }
   if (ARG.out) fs.writeFileSync(path.resolve(ARG.out), JSON.stringify(R, null, 1) + '\n');

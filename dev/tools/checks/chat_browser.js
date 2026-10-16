@@ -15,8 +15,8 @@
  *              as literal text, and is gone within 5 s; a listener moved off screen (but within 576 px) gets an edge hint pointing
  *              the right way, one moved beyond the radius gets nothing, the other room nothing; hiding speech and muting the
  *              speaker work at once; a speaker who leaves takes its bubble along; the phone's SAY button opens the composer.
- *   mutants    (--mutants 1) copies of the page's chat.js with one fault each (a bubble written as HTML, a chat field's keys passed
- *              on to the game, held keys kept, the lounge left open in a run, no edge hint, mutes ignored, bubbles that never end):
+ *   mutants    (--mutants 1) copies of the page's chat.js with one fault each (a bubble written as HTML, the composer opening over the
+ *              pause screen, held keys kept, the lounge left open in a run, no edge hint, mutes ignored, bubbles that never end):
  *              each must fail its cases.  The server is the tree's own; only public/assets/chat.js differs (a copy of public/).
  * Exit 0 only if every case passes (and every mutant is caught).  Servers are stopped by their PIDs. */
 'use strict';
@@ -43,9 +43,9 @@ async function serve(dir) {
   for (let i = 0; i < 100; i++) { if (await get(port, '/index.html') === 200) return { p, port }; await sleep(100); }
   try { process.kill(p.pid); } catch (e) { } throw new Error('no server in ' + dir);
 }
-const TAP = `(() => { const S = window.WebSocket; window.__t2 = { game: null, admin: null, social: [] };
+const TAP = `(() => { const S = window.WebSocket; window.__t2 = { game: null, admin: null, unlocked: false, social: [] };
   window.WebSocket = function (u, p) { const ws = new S(u, p);
-    if (/\\/ws\\?/.test(u)) { window.__t2.game = ws; ws.addEventListener('message', e => { try { const m = JSON.parse(e.data); if (m.ad) window.__t2.admin = m.ad; } catch (x) { } }); }
+    if (/\\/ws\\?/.test(u)) { window.__t2.game = ws; ws.addEventListener('message', e => { try { const m = JSON.parse(e.data); if (m.ad) window.__t2.admin = m.ad; if (m.t === 'admin' && m.ok) window.__t2.unlocked = true; } catch (x) { } }); }
     else window.__t2.social.push(ws);
     return ws; };
   window.WebSocket.prototype = S.prototype; Object.assign(window.WebSocket, { OPEN: 1, CLOSED: 3, CONNECTING: 0, CLOSING: 2 }); })();`;
@@ -70,8 +70,12 @@ async function startRun(s, name) {
   await P.fill('#name', name);
   if (s.mobile) await P.tap('#enter'); else await P.click('#enter');
   const ok = await until(P, () => !!(window.__api && __api.started() && !document.getElementById('hud').hidden && window.__net && __net.on), null, 20000);
+  // at once: the admin tools (a synthetic passcode), the world frozen and this player made unkillable, so no monster ends a test
+  await P.evaluate(p => window.__net.testAuth(p), PASS);
+  const unlocked = await until(P, () => window.__t2.unlocked, null, 5000);
+  await P.evaluate(() => { window.__t2.game.send(JSON.stringify({ t: 'a', c: 'freeze', on: true })); window.__t2.game.send(JSON.stringify({ t: 'a', c: 'god', id: __api.H.id })); });
   await sleep(1200);                                                     // the curtain lifts, the first snapshots arrive
-  return !!ok;
+  return !!ok && !!unlocked && !(await P.evaluate(() => !!(__api.G && __api.G.caught) || !document.getElementById('caught').hidden));
 }
 const pos = P => P.evaluate(() => ({ x: __api.H.x, y: __api.H.y, id: __api.H.id }));
 
@@ -177,10 +181,14 @@ async function loungeLayout(b, port, shots) {
 }
 
 /* ================================================================ nearby speech */
-/* the listener gets the admin tools (a synthetic passcode), freezes the world (no monster ends a test) and is placed beside the speaker */
-async function together(L, Sp) {
-  await L.P.evaluate(p => window.__net.testAuth(p), PASS); await sleep(400);
-  await L.P.evaluate(() => window.__t2.game.send(JSON.stringify({ t: 'a', c: 'freeze', on: true }))); await sleep(300);
+/* one line said through the composer: Enter, then (a software-rendered page can be slow) wait until the composer is open, type, Enter */
+async function composer(S) { await S.P.keyboard.press('Enter'); return until(S.P, () => window.__chat.state().nearby.composer, null, 4000); }
+async function speak(S, text) {
+  if (!await composer(S)) return false;
+  await S.P.keyboard.type(text); await S.P.keyboard.press('Enter'); return true;
+}
+/* the listener is placed beside the speaker with the admin tools (players of one room can spawn far apart) */
+async function together(L, Sp) {                                       // (both already have the admin tools, the world frozen: startRun)
   const beside = await Sp.P.evaluate(() => { const H = __api.H; for (const [dx, dy] of [[90, 0], [-90, 0], [0, 90], [0, -90], [70, 70], [-70, 70], [70, -70], [-70, -70]]) if (__api.zc(Math.floor((H.x + dx) / 96), Math.floor((H.y + dy) / 96))) return { x: H.x + dx, y: H.y + dy }; return { x: H.x + 1, y: H.y + 1 }; });
   await L.P.evaluate(s => window.__api.tp(s.x, s.y), beside);
   return !!await until(L.P, s => { const a = window.__t2.admin; return a && a.pl && a.pl.some(q => q.id === __api.H.id && Math.hypot(q.x - s.x, q.y - s.y) < 30); }, beside, 5000);
@@ -194,38 +202,51 @@ async function nearby(b, port, shots) {
   const pa0 = await pos(A.P), pb = await pos(B.P);
   check('nearby_spawned_in_one_world', pa0.id && pb.id && pa0.id !== pb.id, `${Math.round(Math.hypot(pa0.x - pb.x, pa0.y - pb.y))} px apart at spawn`);
   // the listener is brought beside the speaker with the admin tools (players of one room can spawn far apart)
-  await together(B, A);
+  check('nearby_listener_placed', await together(B, A));
   const pa = await pos(A.P);
   // Enter opens the composer; held keys are let go; typing walks nobody; Esc closes without pausing
   await A.P.keyboard.down('KeyD'); await sleep(250);
   await A.P.keyboard.press('Enter');
-  const op = await A.P.evaluate(() => ({ c: window.__chat.state().nearby.composer, keys: __api.keys.size, f: document.activeElement && document.activeElement.id }));
+  await until(A.P, () => window.__chat.state().nearby.composer, null, 4000);
+  const op = await A.P.evaluate(() => ({ c: window.__chat.state().nearby.composer, keys: __api.keys.size, f: document.activeElement && document.activeElement.id,
+    why: { started: __api.started(), paused: __api.paused(), caught: !!(__api.G && __api.G.caught), on: __net.on, sheets: document.querySelectorAll('.ui-sheet:not([hidden])').length, shown: ['dialog', 'caught', 'won', 'runMenu', 'appearancePanel', 'menu'].filter(id => { const e = document.getElementById(id); return e && !e.hidden; }) } }));
   await sleep(500);                                                      // (the walk that was under way slows to a stop)
-  const p0 = await pos(A.P); await A.P.keyboard.type('wwwwssssaaaa'); await A.P.keyboard.down('KeyA'); await sleep(600); await A.P.keyboard.up('KeyA'); const p1 = await pos(A.P);
+  const l0 = await A.P.evaluate(() => __api.lightOn());
+  const p0 = await pos(A.P); await A.P.keyboard.type('wwwwssssaaaa fff'); await A.P.keyboard.down('KeyA'); await sleep(600); await A.P.keyboard.up('KeyA'); const p1 = await pos(A.P);
+  const l1 = await A.P.evaluate(() => __api.lightOn());
   await A.P.keyboard.up('KeyD');
   check('nearby_composer_opens', op.c && op.keys === 0 && op.f === 'sayText', JSON.stringify(op));
-  check('nearby_typing_walks_nobody', Math.hypot(p1.x - p0.x, p1.y - p0.y) < 2, `${Math.round(Math.hypot(p1.x - p0.x, p1.y - p0.y))} px`);
+  check('nearby_typing_walks_nobody', Math.hypot(p1.x - p0.x, p1.y - p0.y) < 2 && l1 === l0, `${Math.round(Math.hypot(p1.x - p0.x, p1.y - p0.y))} px; the light ${l0 ? 'on' : 'off'} -> ${l1 ? 'on' : 'off'} after typing F three times`);
   await A.P.keyboard.press('Escape'); await sleep(200);
   const esc = await A.P.evaluate(() => ({ c: window.__chat.state().nearby.composer, paused: __api.paused(), dialog: !document.getElementById('dialog').hidden }));
   check('nearby_escape_closes_only', !esc.c && !esc.paused && !esc.dialog, JSON.stringify(esc));
+  // over the pause screen Enter keeps its old meaning: the composer does not open (Esc pauses, Enter, Esc resumes)
+  await A.P.keyboard.press('Escape'); const pz = await until(A.P, () => __api.paused() && !document.getElementById('dialog').hidden, null, 4000);
+  await A.P.evaluate(() => { const r = document.getElementById('resume'); if (r) r.blur(); document.body.focus(); });
+  await A.P.keyboard.press('Enter'); await sleep(400);
+  const overPause = await A.P.evaluate(() => window.__chat.state().nearby.composer);
+  if (await A.P.evaluate(() => __api.paused())) await A.P.keyboard.press('Escape');
+  const resumed = await until(A.P, () => !__api.paused(), null, 4000);
+  check('nearby_not_over_pause', !!pz && !overPause && !!resumed, `paused ${!!pz}, composer over it ${overPause}, resumed ${!!resumed}`);
   // the keys work again after the composer
   const q0 = await pos(A.P); await A.P.keyboard.down('KeyS'); await sleep(500); await A.P.keyboard.up('KeyS'); const q1 = await pos(A.P);
   await A.P.keyboard.down('KeyW'); await sleep(500); await A.P.keyboard.up('KeyW');
   check('nearby_keys_back_after', Math.hypot(q1.x - q0.x, q1.y - q0.y) > 20, `${Math.round(Math.hypot(q1.x - q0.x, q1.y - q0.y))} px`);
   // a line: a bubble over the speaker on both screens, literal text, gone within 5 s
   const t1 = synth('near');
-  await A.P.keyboard.press('Enter'); await A.P.keyboard.type(t1); await A.P.keyboard.press('Enter');
-  const bb = await until(B.P, ([t, id]) => { const s = window.__chat.state().nearby.bubbles.find(x => x.id === id); const e = [...document.querySelectorAll('#chatLayer .bb .bb-text')].find(e => e.textContent === t); return s && e && s.w ? s : null; }, [t1, pa.id]);
+  await speak(A, t1);
+  const bb = await until(B.P, ([t, id]) => { const s = window.__chat.state().nearby.bubbles.find(x => x.id === id); const e = [...document.querySelectorAll('#chatLayer .bb .bb-text')].find(e => e.textContent === t); return s && e && s.w ? s : null; }, [t1, pa.id], 12000);
   const own = await until(A.P, ([t, id]) => { const s = window.__chat.state().nearby.bubbles.find(x => x.id === id); return s && s.mode === 'bb-on' && [...document.querySelectorAll('#chatLayer .bb-text')].some(e => e.textContent === t); }, [t1, pa.id]);
   check('nearby_bubble_both_screens', !!bb && bb.mode === 'bb-on' && !!own, JSON.stringify(bb));
-  if (shots) { await sleep(1200); await B.P.screenshot({ path: path.join(shots, 'nearby_bubble_listener.png') }); await A.P.screenshot({ path: path.join(shots, 'nearby_bubble_speaker.png') }); }   // (a software-rendered page paints late)
+  if (shots) { await B.P.bringToFront(); await sleep(1200); await B.P.screenshot({ path: path.join(shots, 'nearby_bubble_listener.png') }); await A.P.bringToFront(); await sleep(800); await A.P.screenshot({ path: path.join(shots, 'nearby_bubble_speaker.png') }); }   // (a software-rendered page paints late)
   await sleep(600);
   const cNone = await C.P.evaluate(() => window.__chat.state().nearby.heard === 0 && !document.querySelector('#chatLayer .bb'));
   check('nearby_other_room_nothing', cNone);
-  const gone = await until(B.P, id => !window.__chat.state().nearby.bubbles.some(x => x.id === id), pa.id, 6000);
-  check('nearby_bubble_bounded', !!gone && !(await A.P.evaluate(id => window.__chat.state().nearby.bubbles.some(x => x.id === id), pa.id)));
+  const gone = await until(B.P, id => !window.__chat.state().nearby.bubbles.some(x => x.id === id), pa.id, 9000);
+  const goneA = await until(A.P, id => !window.__chat.state().nearby.bubbles.some(x => x.id === id), pa.id, 3000);
+  check('nearby_bubble_bounded', !!gone && !!goneA, `listener ${!!gone}, speaker ${!!goneA} (a bubble lives 3 to 5 s)`);
   // markup stays text
-  await A.P.keyboard.press('Enter'); await A.P.keyboard.type(XSS); await A.P.keyboard.press('Enter');
+  await speak(A, XSS);
   const xb = await until(B.P, t => { const e = [...document.querySelectorAll('#chatLayer .bb-text')].find(e => e.textContent === t); return e ? { kids: e.children.length, img: document.querySelectorAll('#chatLayer img').length } : null; }, XSS);
   await sleep(300);
   check('nearby_markup_literal', !!xb && xb.kids === 0 && xb.img === 0 && await B.P.evaluate(() => window.__xss === undefined), JSON.stringify(xb));
@@ -240,49 +261,50 @@ async function nearby(b, port, shots) {
     await B.P.evaluate(s => window.__api.tp(s.x, s.y), spot);
     await until(B.P, s => { const a = window.__t2.admin; return a && a.pl && a.pl.some(q => q.id === __api.H.id && Math.hypot(q.x - s.x, q.y - s.y) < 30); }, spot, 5000);
     await sleep(1800);
-    const t2 = synth('hint'); await A.P.keyboard.press('Enter'); await A.P.keyboard.type(t2); await A.P.keyboard.press('Enter');
+    const t2 = synth('hint'); await speak(A, t2);
     const h = await until(B.P, id => { const s = window.__chat.state().nearby.bubbles.find(x => x.id === id); return s && s.w && s.mode ? s : null; }, pa.id);
     const want = Math.atan2(-spot.dy, -spot.dx);                         // from the listener toward the speaker
     const d = h && h.a !== null ? Math.abs(Math.atan2(Math.sin(h.a - want), Math.cos(h.a - want))) : 9;
     hintOk = !!h && h.mode === 'bb-hint' && d < .5;
     hintDetail = h ? `${h.mode}, angle off by ${d.toFixed(2)} rad, at ${h.x},${h.y}` : 'no bubble';
-    if (shots) { await sleep(1200); await B.P.screenshot({ path: path.join(shots, 'nearby_edge_hint_listener.png') }); }
+    if (shots) { await B.P.bringToFront(); await sleep(1200); await B.P.screenshot({ path: path.join(shots, 'nearby_edge_hint_listener.png') }); }
   }
   check('nearby_offscreen_hint', hintOk, hintDetail);
   // beyond the radius: nothing
   await sleep(5200);
   const far = await A.P.evaluate(() => ({ x: __api.H.x, y: __api.H.y }));
   const farSpot = await A.P.evaluate(() => { const H = __api.H; for (const [dx, dy] of [[0, 900], [0, -900], [900, 0], [-900, 0], [700, 700], [-700, 700], [700, -700], [-700, -700]]) { const i = Math.floor((H.x + dx) / 96), j = Math.floor((H.y + dy) / 96); if (__api.zc(i, j)) return { x: H.x + dx, y: H.y + dy }; } return null; });
-  let farOk = false;
+  let farOk = false, farWhy = '';
   if (farSpot) {
     await B.P.evaluate(s => window.__api.tp(s.x, s.y), farSpot);
     await until(B.P, s => { const a = window.__t2.admin; return a && a.pl && a.pl.some(q => q.id === __api.H.id && Math.hypot(q.x - s.x, q.y - s.y) < 30); }, farSpot, 5000);
     await sleep(400);
     const h0 = (await cstate(B.P)).nearby.heard;
-    const t3 = synth('far'); await A.P.keyboard.press('Enter'); await A.P.keyboard.type(t3); await A.P.keyboard.press('Enter');
+    const t3 = synth('far'); await speak(A, t3);
     const ownFar = await until(A.P, t => [...document.querySelectorAll('#chatLayer .bb-text')].some(e => e.textContent === t), t3);
     await sleep(800);
-    farOk = !!ownFar && (await cstate(B.P)).nearby.heard === h0;
+    const h1 = (await cstate(B.P)).nearby.heard;
+    farOk = !!ownFar && h1 === h0; farWhy = `own bubble ${!!ownFar}, listener heard ${h1 - h0} more`;
   }
-  check('nearby_beyond_radius_nothing', farOk, farSpot ? '' : 'no open spot');
+  check('nearby_beyond_radius_nothing', farOk, farSpot ? farWhy : 'no open spot');
   // back near; hide speech; mute the speaker
   await B.P.evaluate(s => window.__api.tp(s.x, s.y), { x: far.x + 60, y: far.y }); await sleep(1500);
-  await B.P.keyboard.press('Enter'); await B.P.click('#sayBox .say-more'); await B.P.click('#sayOpts [data-opt="bubbles"]');
+  await composer(B); await B.P.click('#sayBox .say-more'); await B.P.click('#sayOpts [data-opt="bubbles"]');
   await B.P.keyboard.press('Escape');
   const hb0 = (await cstate(B.P)).nearby.shown, hh0 = (await cstate(B.P)).nearby.heard;
-  await sleep(1800); const t5 = synth('hidden'); await A.P.keyboard.press('Enter'); await A.P.keyboard.type(t5); await A.P.keyboard.press('Enter');
+  await sleep(1800); const t5 = synth('hidden'); await speak(A, t5);
   const arrived = await until(B.P, h => window.__chat.state().nearby.heard > h, hh0, 3000); await sleep(600);
   const hid = await B.P.evaluate(() => ({ shown: window.__chat.state().nearby.shown, any: !!document.querySelector('#chatLayer .bb') }));
-  await B.P.keyboard.press('Enter'); await B.P.click('#sayBox .say-more'); await B.P.click('#sayOpts [data-opt="bubbles"]');
+  await composer(B); await B.P.click('#sayBox .say-more'); await B.P.click('#sayOpts [data-opt="bubbles"]');
   const muteBtn = await B.P.$(`#sayOpts [data-mute="${pa.id}"]`); if (muteBtn) await muteBtn.click();
   await B.P.keyboard.press('Escape');
-  await sleep(1800); const t6 = synth('muted'); await A.P.keyboard.press('Enter'); await A.P.keyboard.type(t6); await A.P.keyboard.press('Enter');
+  await sleep(1800); const t6 = synth('muted'); await speak(A, t6);
   await sleep(1200);
   const mu = await B.P.evaluate(t => ({ any: [...document.querySelectorAll('#chatLayer .bb-text')].some(e => e.textContent === t), muted: window.__chat.state().nearby.muted }), t6);
   check('nearby_hide_and_mute', !!arrived && hid.shown === hb0 && !hid.any && !!muteBtn && mu.muted === 1 && !mu.any, JSON.stringify([hid, mu, !!muteBtn]));
   // unmute, then the speaker leaves: its bubble goes with it
-  await B.P.keyboard.press('Enter'); await B.P.click('#sayBox .say-more'); const um = await B.P.$(`#sayOpts [data-mute="${pa.id}"]`); if (um) await um.click(); await B.P.keyboard.press('Escape');
-  await sleep(1800); const t7 = synth('leaving'); await A.P.keyboard.press('Enter'); await A.P.keyboard.type(t7); await A.P.keyboard.press('Enter');
+  await composer(B); await B.P.click('#sayBox .say-more'); const um = await B.P.$(`#sayOpts [data-mute="${pa.id}"]`); if (um) await um.click(); await B.P.keyboard.press('Escape');
+  await sleep(1800); const t7 = synth('leaving'); await speak(A, t7);
   const seen7 = await until(B.P, t => [...document.querySelectorAll('#chatLayer .bb-text')].some(e => e.textContent === t), t7);
   await A.ctx.close();
   const left = await until(B.P, id => !window.__chat.state().nearby.bubbles.some(x => x.id === id), pa.id, 3000);
@@ -296,7 +318,7 @@ async function nearbyPhone(b, port, shots) {
   const D = await open(b, port, room, { viewport: { width: 1280, height: 720 } });
   const ok = (await startRun(M, 'T2 Phone')) && (await startRun(D, 'T2 Desk')) && (await together(D, M));
   const say = await until(M.P, () => { const e = document.getElementById('chatSay'); return !!e && !e.hidden && getComputedStyle(e).display !== 'none'; });
-  if (say) await M.P.tap('#chatSay');
+  if (say) { await M.P.tap('#chatSay'); await until(M.P, () => window.__chat.state().nearby.composer, null, 4000); }
   const c = await M.P.evaluate(() => ({ c: window.__chat.state().nearby.composer, f: document.activeElement && document.activeElement.id, keys: __api.keys.size, top: document.getElementById('sayBox').getBoundingClientRect().top }));
   if (shots) await M.P.screenshot({ path: path.join(shots, 'nearby_phone_composer.png') });
   const t = synth('phone'); await M.P.keyboard.type(t); await M.P.keyboard.press('Enter');
@@ -309,9 +331,10 @@ async function reducedMotion(b, port) {
   const room = 't2r' + (Date.now() % 100000);
   const A = await open(b, port, room, { viewport: { width: 1280, height: 720 }, reduced: true }), B = await open(b, port, room, { viewport: { width: 1280, height: 720 }, reduced: true });
   const ok = (await startRun(A, 'T2 Calm A')) && (await startRun(B, 'T2 Calm B')) && (await together(B, A));
-  const t = synth('calm'); await A.P.keyboard.press('Enter'); await A.P.keyboard.type(t); await A.P.keyboard.press('Enter');
+  const t = synth('calm'), said = await speak(A, t);
   const st = await until(B.P, t => { const e = [...document.querySelectorAll('#chatLayer .bb')].find(b => b.querySelector('.bb-text').textContent === t); if (!e) return null; const cs = getComputedStyle(e); return { rm: document.documentElement.classList.contains('rm'), tr: cs.transitionDuration, an: cs.animationName }; }, t);
-  check('nearby_reduced_motion', ok && !!st && st.rm && parseFloat(st.tr) <= .01 && st.an === 'none', JSON.stringify(st));   // (html.rm's own rule: every transition 0.01 s)
+  const why = st ? '' : JSON.stringify({ ok, said, a: await A.P.evaluate(() => window.__chat.state().nearby), b: await B.P.evaluate(() => window.__chat.state().nearby), d: Math.round(Math.hypot((await pos(A.P)).x - (await pos(B.P)).x, (await pos(A.P)).y - (await pos(B.P)).y)) });
+  check('nearby_reduced_motion', ok && !!st && st.rm && parseFloat(st.tr) <= .01 && st.an === 'none', st ? JSON.stringify(st) : why);   // (html.rm's own rule: every transition 0.01 s)
   await A.ctx.close(); await B.ctx.close();
 }
 
@@ -329,7 +352,7 @@ async function suite(tree, shots) {
 
 const MUTANTS = [
   { name: 'bubble as HTML', from: "b.txt.textContent = m.text;", to: "b.txt.innerHTML = m.text;", only: 'nearby', expect: ['nearby_markup_literal'] },
-  { name: "chat field's keys reach the game", from: "      e.stopImmediatePropagation(); return;                              // the game, the menus and the key remapping never see it", to: "      return;", only: 'lounge,nearby', expect: ['lounge_typing_isolated', 'nearby_typing_walks_nobody'] },
+  { name: 'the composer opens over the pause screen', from: "A.started && A.started() && !A.paused() && !(A.G && A.G.caught) && !overlayOpen());", to: "A.started && A.started() && !(A.G && A.G.caught));", only: 'nearby', expect: ['nearby_not_over_pause'] },
   { name: 'held keys kept', from: "if (A && A.keys && A.keys.clear) A.keys.clear();", to: "", only: 'nearby', expect: ['nearby_composer_opens', 'nearby_typing_walks_nobody'] },
   { name: 'lounge left open in a run', from: "  const inMenu = () => vis('menu') && !(API() && API().started && API().started());", to: "  const inMenu = () => true;", only: 'lounge', expect: ['lounge_closed_in_run'] },
   { name: 'no edge hint', from: "const on = sx > M && sx < W - M && sy > M && sy < H - M;", to: "const on = true;", only: 'nearby', expect: ['nearby_offscreen_hint'] },

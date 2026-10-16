@@ -1,0 +1,277 @@
+{
+ "tool": "dev/tools/checks/chat_browser.js",
+ "tree": "this repository",
+ "browser": "chromium",
+ "seconds": 5461,
+ "ok": false,
+ "cases": [
+  {
+   "name": "lounge_online_in_two_rooms",
+   "ok": true,
+   "detail": "ids 1, 2"
+  },
+  {
+   "name": "lounge_line_arrives",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "lounge_own_line_marked",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "lounge_typing_isolated",
+   "ok": true,
+   "detail": "{\"keys\":0,\"st\":\"menu\",\"entry\":false,\"sheets\":0,\"v\":\"wasd mcnbzw\"}"
+  },
+  {
+   "name": "lounge_markup_literal",
+   "ok": true,
+   "detail": "{\"kids\":0,\"img\":0}"
+  },
+  {
+   "name": "lounge_mute",
+   "ok": true,
+   "detail": "removed true, silent true, back true"
+  },
+  {
+   "name": "lounge_fold",
+   "ok": true,
+   "detail": "{\"f\":true,\"body\":\"none\",\"saved\":true}"
+  },
+  {
+   "name": "lounge_off_closes_socket",
+   "ok": true,
+   "detail": "off true, count true, on true"
+  },
+  {
+   "name": "lounge_closed_in_run",
+   "ok": true,
+   "detail": "run true, closed true"
+  },
+  {
+   "name": "lounge_no_page_errors",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "lounge_layout_1920x1080",
+   "ok": true,
+   "detail": "{\"mine\":[\"lounge\"],\"clash\":[],\"scroll\":true,\"inView\":true}"
+  },
+  {
+   "name": "lounge_layout_1280x720",
+   "ok": true,
+   "detail": "{\"mine\":[\"lounge\"],\"clash\":[],\"scroll\":true,\"inView\":true}"
+  },
+  {
+   "name": "lounge_layout_1366x768",
+   "ok": true,
+   "detail": "{\"mine\":[\"lounge\"],\"clash\":[],\"scroll\":true,\"inView\":true}"
+  },
+  {
+   "name": "lounge_layout_390x844",
+   "ok": true,
+   "detail": "{\"mine\":[\"mmLounge\"],\"clash\":[],\"scroll\":true,\"inView\":true}"
+  },
+  {
+   "name": "lounge_layout_844x390",
+   "ok": true,
+   "detail": "{\"mine\":[\"mmLounge\"],\"clash\":[],\"scroll\":true,\"inView\":true}"
+  },
+  {
+   "name": "lounge_phone_sheet",
+   "ok": true,
+   "detail": "[{\"panel\":\"none\",\"btn\":\"inline-flex\"},{\"sheet\":true,\"panel\":\"flex\",\"focus\":\"lgText\"},{\"sheet\":false,\"focus\":\"mmLounge\",\"st\":\"menu\"}]"
+  },
+  {
+   "name": "lounge_phone_no_page_errors",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_runs_started",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_spawned_in_one_world",
+   "ok": true,
+   "detail": "7440 px apart at spawn"
+  },
+  {
+   "name": "nearby_listener_placed",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_composer_opens",
+   "ok": true,
+   "detail": "{\"c\":true,\"keys\":0,\"f\":\"sayText\",\"why\":{\"started\":true,\"paused\":false,\"caught\":false,\"on\":true,\"sheets\":0,\"shown\":[]}}"
+  },
+  {
+   "name": "nearby_typing_walks_nobody",
+   "ok": true,
+   "detail": "0 px; the light on -> on after typing F three times"
+  },
+  {
+   "name": "nearby_escape_closes_only",
+   "ok": true,
+   "detail": "{\"c\":false,\"paused\":false,\"dialog\":false}"
+  },
+  {
+   "name": "nearby_not_over_pause",
+   "ok": true,
+   "detail": "paused true, composer over it false, resumed true"
+  },
+  {
+   "name": "nearby_keys_back_after",
+   "ok": true,
+   "detail": "43 px"
+  },
+  {
+   "name": "nearby_bubble_both_screens",
+   "ok": true,
+   "detail": "{\"id\":9,\"mode\":\"bb-on\",\"x\":357,\"y\":207,\"w\":188,\"h\":33,\"a\":null}"
+  },
+  {
+   "name": "nearby_other_room_nothing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_bubble_bounded",
+   "ok": true,
+   "detail": "listener true, speaker true (a bubble lives 3 to 5 s)"
+  },
+  {
+   "name": "nearby_markup_literal",
+   "ok": true,
+   "detail": "{\"kids\":0,\"img\":0}"
+  },
+  {
+   "name": "nearby_offscreen_hint",
+   "ok": true,
+   "detail": "bb-hint, angle off by 0.00 rad, at 390,12"
+  },
+  {
+   "name": "nearby_beyond_radius_nothing",
+   "ok": false,
+   "detail": ""
+  },
+  {
+   "name": "nearby_hide_and_mute",
+   "ok": true,
+   "detail": "[{\"shown\":3,\"any\":false},{\"any\":false,\"muted\":1},true]"
+  },
+  {
+   "name": "nearby_leaver_bubble_goes",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_no_page_errors",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_phone_say_button",
+   "ok": true,
+   "detail": "{\"c\":true,\"f\":\"sayText\",\"keys\":0,\"top\":12}"
+  },
+  {
+   "name": "nearby_phone_no_page_errors",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_reduced_motion",
+   "ok": false,
+   "detail": "null"
+  }
+ ],
+ "passed": 35,
+ "failed": [
+  "nearby_beyond_radius_nothing",
+  "nearby_reduced_motion"
+ ],
+ "mutants": [
+  {
+   "name": "bubble as HTML",
+   "caught": true,
+   "failed": [
+    "nearby_markup_literal",
+    "nearby_beyond_radius_nothing"
+   ],
+   "expected": [
+    "nearby_markup_literal"
+   ]
+  },
+  {
+   "name": "the composer opens over the pause screen",
+   "caught": true,
+   "failed": [
+    "nearby_not_over_pause",
+    "nearby_keys_back_after",
+    "nearby_bubble_both_screens",
+    "nearby_beyond_radius_nothing"
+   ],
+   "expected": [
+    "nearby_not_over_pause"
+   ]
+  },
+  {
+   "name": "held keys kept",
+   "caught": true,
+   "failed": [
+    "nearby_composer_opens"
+   ],
+   "expected": [
+    "nearby_composer_opens",
+    "nearby_typing_walks_nobody"
+   ]
+  },
+  {
+   "name": "lounge left open in a run",
+   "caught": true,
+   "failed": [
+    "lounge_closed_in_run"
+   ],
+   "expected": [
+    "lounge_closed_in_run"
+   ]
+  },
+  {
+   "name": "no edge hint",
+   "caught": true,
+   "failed": [
+    "nearby_offscreen_hint"
+   ],
+   "expected": [
+    "nearby_offscreen_hint"
+   ]
+  },
+  {
+   "name": "mutes ignored",
+   "caught": true,
+   "failed": [
+    "nearby_beyond_radius_nothing",
+    "nearby_hide_and_mute"
+   ],
+   "expected": [
+    "nearby_hide_and_mute"
+   ]
+  },
+  {
+   "name": "bubbles never end",
+   "caught": true,
+   "failed": [
+    "nearby_bubble_bounded"
+   ],
+   "expected": [
+    "nearby_bubble_bounded"
+   ]
+  }
+ ]
+}
