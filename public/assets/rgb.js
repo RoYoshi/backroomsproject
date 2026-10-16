@@ -49,7 +49,10 @@
     picker.addEventListener('change', () => sync(picker));
     sync(picker);
   }
-  function scan() { for (const [id, name] of targets) mount(id, name); }
+  function scan() {
+    for (const [id, name] of targets) mount(id, name);
+    if (targets.every(([id]) => { const p = document.getElementById(id); return p && p.dataset.rgbReady === '1'; })) dom.disconnect();
+  }
   const dom = new MutationObserver(scan);
   dom.observe(document.body, { childList: true, subtree: true });
   document.addEventListener('click', () => requestAnimationFrame(() => {
