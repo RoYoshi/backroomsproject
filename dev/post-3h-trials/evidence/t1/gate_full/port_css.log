@@ -1,0 +1,5 @@
+$ node dev/stage-3h-modernization/tools/c4_css_check.mjs --built /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t1/final/gate_full/client_stage/assets/index-D7hdwmUU.css --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t1/final/gate_full/port_css.json
+v11's part (9899 bytes): same bytes
+the later part (177 statements) against client/style-after-v11.css: the same stylesheet
+the later part against the built stylesheet's: the same stylesheet
+CSS CHECK: SAME

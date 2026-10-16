@@ -1,0 +1,16 @@
+ok   boot
+ok   static
+ok   hidden
+ok   reduced
+ok   play
+ok   pointer
+ok   pageErrors
+ok   boot_os
+ok   layout
+ok   logo
+ok   theme
+Error: ENOENT: no such file or directory, open '/tmp/t1-mutants-ZLXOly/amplitude/public/assets/ui.css'
+    at Object.readFileSync (node:fs:440:20)
+    at /home/claude/backrooms-modern/dev/tools/checks/menu_drift.js:250:113
+MENU DRIFT: FAIL (11 of 11 checks; mutants undefined of 8 caught)
+exit 1

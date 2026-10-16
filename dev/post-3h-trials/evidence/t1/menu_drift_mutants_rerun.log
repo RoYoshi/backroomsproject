@@ -1,0 +1,13 @@
+mutant amplitude: caught (failed: static, play, pointer)
+mutant reduced_ignored: caught (failed: reduced, boot_os)
+mutant hidden_ignored: caught (failed: hidden)
+mutant second_loop: caught (failed: reduced)
+mutant no_drift: caught (failed: static, reduced, play, pointer)
+mutant control_moved: caught (failed: layout 1920x1080, layout 2560x1080, layout 1366x768@1.5, layout 390x844@3 touch)
+mutant run_ignored: caught (failed: play)
+mutant clock_reset: caught (failed: hidden)
+ok   layout
+ok   logo
+ok   theme
+MENU DRIFT: PASS (3 of 3 checks; mutants 8 of 8 caught)
+exit 0

@@ -74,7 +74,7 @@ backquote key; give the server a passcode with `ADMIN_PASSCODE=... node server.j
 | `node dev/tools/build/client.js --packages <folder> --stage <scratch>` | the compiled client built from `src/core/client/game/` (TypeScript, Vite), offline, into a scratch folder | ~10 s |
 | `node dev/stage-3h-modernization/tools/c4_alpha_all.mjs --rolldown <its install>` | the ported client source against the shipped bundle, statement by statement (modulo names and a stated normal form) | ~10 s |
 | `npm run gate` | the fast tier of the gate: build, the client build and its proofs (`port`), lineage, parts, modules, the client's window contract and the facts written in more than one place (`contracts`), docs, scope, the server, session and client goldens against the accepted build, the sim and the page's module scripts against B++'s, the protocol, the mutants, the HTTP surface, the quick suites, the built client against the recorded one in a real page (`bundle`) | ~12 min |
-| `npm run gate:full` | everything, with two real browsers, the developer round trip and the browser contracts, the contact lab's pixels, the compiled client's nine scenes and its mutants, all suites and performance | ~75 min |
+| `npm run gate:full` | everything, with two real browsers, the developer round trip and the browser contracts, the main menu's drift (post-3H Trial 1), the contact lab's pixels, the compiled client's nine scenes and its mutants, all suites and performance | ~2 h |
 
 The gate writes everything under `--out <folder>` (default: a temporary folder) and says where. `dev/tools/gate/README.md` explains each
 step and what it cannot see.

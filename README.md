@@ -6,8 +6,9 @@ its wanderer.
 
 **This branch (`post-3h-trials-1-2-4`):** the owner-accepted Stage 3H engine (C5d, `4beba2f`: its report and Human QA page are in
 [`dev/stage-3h-modernization/`](dev/stage-3h-modernization/)) plus the post-3H integration trials the owner authorized, one at a time
-([`dev/post-3h-trials/`](dev/post-3h-trials/README.md)). **Trial 1, the main menu's title drift: IN PROGRESS** (its state and, once
-verified, its report and Human QA page are in that folder). Nothing else changes how the game plays. The deployed game is `main`; nothing here is merged or deployed.
+([`dev/post-3h-trials/`](dev/post-3h-trials/README.md)). **Trial 1, the main menu's title drift: HUMAN QA PENDING** (only the owner can
+accept it: [`HUMAN_QA_T1.md`](dev/post-3h-trials/HUMAN_QA_T1.md); the report: [`T1_REPORT.md`](dev/post-3h-trials/T1_REPORT.md)).
+Nothing else changes how the game plays. The deployed game is `main`; nothing here is merged or deployed.
 
 ## Run it
 

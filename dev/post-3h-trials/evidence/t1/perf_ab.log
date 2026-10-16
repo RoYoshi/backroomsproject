@@ -1,0 +1,14 @@
+desktop round 1: old 2.1 fps p95 516.7 ms task 1188.189 ms/s; new 2.13 fps p95 500 ms task 1173.014 ms/s, drift 0.2419 ms/s
+desktop round 2: old 1.99 fps p95 600 ms task 1201.715 ms/s; new 1.96 fps p95 649.9 ms task 1225.748 ms/s, drift 0.2056 ms/s
+desktop round 3: old 2.05 fps p95 549.9 ms task 1195.498 ms/s; new 2.07 fps p95 549.9 ms task 1197.977 ms/s, drift 0.1967 ms/s
+desktop round 4: old 2.15 fps p95 500.1 ms task 1189.312 ms/s; new 2.14 fps p95 500 ms task 1181.663 ms/s, drift 0.2533 ms/s
+desktop round 5: old 2.2 fps p95 516.6 ms task 1177.668 ms/s; new 2.15 fps p95 500 ms task 1177.567 ms/s, drift 0.2634 ms/s
+desktop round 6: old 2.14 fps p95 550 ms task 1169.629 ms/s; new 2.11 fps p95 533.2 ms task 1194.307 ms/s, drift 0.2496 ms/s
+phone round 1: old 4.81 fps p95 250.1 ms task 1080.09 ms/s; new 4.56 fps p95 250.1 ms task 1079.02 ms/s, drift 0.5157 ms/s
+phone round 2: old 4.58 fps p95 250 ms task 1078.488 ms/s; new 4.77 fps p95 233.4 ms task 1082.681 ms/s, drift 0.3974 ms/s
+phone round 3: old 4.57 fps p95 266.6 ms task 1084.631 ms/s; new 4.81 fps p95 233.4 ms task 1083.13 ms/s, drift 0.5303 ms/s
+phone round 4: old 4.51 fps p95 266.7 ms task 1080.774 ms/s; new 4.47 fps p95 250.1 ms task 1079.273 ms/s, drift 0.3974 ms/s
+phone round 5: old 4.69 fps p95 250 ms task 1077.332 ms/s; new 4.75 fps p95 250 ms task 1081.639 ms/s, drift 0.505 ms/s
+phone round 6: old 4.74 fps p95 233.3 ms task 1075.899 ms/s; new 4.3 fps p95 283.4 ms task 1078.092 ms/s, drift 0.41 ms/s
+desktop fps 2.12 -> 2.12 (paired -0.02, -0.05..0.03); p50 466.65 -> 466.7 (paired 0.1, 0..16.6); p95 533.3 -> 516.6 (paired -8.35, -16.8..49.9); p99 550 -> 541.7 (paired 0.1, -66.8..49.9); taskMsPerS 1188.7505 -> 1187.985 (paired 1.189, -15.175..24.678); scriptMsPerS 122.732 -> 126.3295 (paired 3.913, -0.367..7.048); styleMsPerS 0.523 -> 1.133 (paired 0.6045, 0.56..0.729); layoutMsPerS 0 -> 0 (paired 0, 0..0); driftMsPerS 0 -> 0.2457 (paired 0.2457, 0.1967..0.2634); driftMsPerCall 0 -> 0.102 (paired 0.102, 0.0833..0.108)
+phone fps 4.635 -> 4.655 (paired 0.01, -0.44..0.24); p50 216.6 -> 208.35 (paired -8.25, -16.6..16.7); p95 250.05 -> 250.05 (paired -8.3, -33.2..50.1); p99 275 -> 274.95 (paired -16.7, -33.4..66.8); taskMsPerS 1079.289 -> 1080.456 (paired 0.5615, -1.501..4.307); scriptMsPerS 50.4475 -> 50.18 (paired -0.0325, -2.881..1.229); styleMsPerS 1.248 -> 2.5595 (paired 1.2925, 1.122..1.391); layoutMsPerS 0 -> 0 (paired 0, 0..0); driftMsPerS 0 -> 0.4575 (paired 0.4575, 0.3974..0.5303); driftMsPerCall 0 -> 0.0945 (paired 0.0945, 0.0784..0.1061)

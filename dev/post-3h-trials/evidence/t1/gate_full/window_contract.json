@@ -1,0 +1,1068 @@
+{
+ "tool": "dev/tools/checks/window_contract.js",
+ "typescript": "6.0.3",
+ "members": {
+  "WORLD": {
+   "declared": true,
+   "comment": "/* world.js (owner L.O.S.T.; the server loads it too): Level 0's openings carved into the cells (B14), the ceiling lamps (B27), the\n     wall faces a point is near (B02), the props drawn on the floor (B14) */",
+   "named": [
+    "world.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/render.ts:77",
+     "src/core/client/game/shared/world.ts:22",
+     "src/core/client/game/shared/world.ts:32",
+     "src/core/client/game/shared/world.ts:40"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "world.js"
+    ],
+    "reads": [
+     "assets/br-role.js",
+     "assets/l0-remaster.js",
+     "assets/shadows-2d.js",
+     "dphys.js",
+     "ents.js",
+     "gore.js",
+     "move.js",
+     "mp.js",
+     "world.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "TFB_TIMING": {
+   "declared": true,
+   "comment": "/* timing_policy.js (owner S.P.A.C.E.; B22): the fixed step, the most steps in one frame, a frame's time */",
+   "named": [
+    "timing_policy.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/main.ts:27"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "timing_policy.js"
+    ],
+    "reads": []
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__cameraPolicy": {
+   "declared": true,
+   "comment": "/* camera_policy.js (owner BR-R; B22, B26): the camera's base scale for a window size */",
+   "named": [
+    "camera_policy.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/render.ts:35",
+     "src/core/client/game/client/render.ts:35"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "camera_policy.js"
+    ],
+    "reads": [
+     "assets/l0-remaster.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__api": {
+   "declared": true,
+   "comment": "/* the bundle's own facade (main.ts; B05 and later): the members the bundle itself reads back */",
+   "named": [
+    "main.ts"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/death.ts:37",
+     "src/core/client/game/client/death.ts:50",
+     "src/core/client/game/client/death.ts:61",
+     "src/core/client/game/client/death.ts:61",
+     "src/core/client/game/client/death.ts:90"
+    ],
+    "writes": [
+     "src/core/client/game/client/main.ts:235"
+    ]
+   },
+   "scripts": {
+    "writes": [],
+    "reads": [
+     "assets/br-role.js",
+     "assets/l0-remaster.js",
+     "assets/mp-hum.js",
+     "assets/net-wire.js",
+     "assets/shadows-2d.js",
+     "assets/ui.js",
+     "camcorder.js",
+     "dphys.js",
+     "ents.js",
+     "glitch.js",
+     "gore.js",
+     "hud.js",
+     "inventory.js",
+     "light.js",
+     "move.js",
+     "mp.js",
+     "sfx.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": true
+   }
+  },
+  "__avatarApp": {
+   "declared": true,
+   "comment": "/* the customize preview's Pixi application (main.ts, B31), for the page's two-area customize screen */",
+   "named": [
+    "main.ts"
+   ],
+   "client": {
+    "reads": [],
+    "writes": [
+     "src/core/client/game/client/main.ts:126"
+    ]
+   },
+   "scripts": {
+    "writes": [],
+    "reads": []
+   },
+   "bundle": {
+    "reads": false,
+    "writes": true
+   }
+  },
+  "__c": {
+   "declared": true,
+   "comment": "/* the trace found this step (main.ts, B05) */",
+   "named": [
+    "main.ts"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/main.ts:193"
+    ],
+    "writes": [
+     "src/core/client/game/client/main.ts:192"
+    ]
+   },
+   "scripts": {
+    "writes": [],
+    "reads": []
+   },
+   "bundle": {
+    "reads": true,
+    "writes": true
+   }
+  },
+  "__lastCause": {
+   "declared": true,
+   "comment": "/* the cause of the last death (render.ts, B14), for gore.js's wounds */",
+   "named": [
+    "render.ts",
+    "gore.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/player-view.ts:115"
+    ],
+    "writes": [
+     "src/core/client/game/client/render.ts:133"
+    ]
+   },
+   "scripts": {
+    "writes": [],
+    "reads": []
+   },
+   "bundle": {
+    "reads": true,
+    "writes": true
+   }
+  },
+  "__net": {
+   "declared": true,
+   "comment": "/* mp.js (owner BPP): the network (B05, B09, B12, B37): whether it is on, a step of the server's world, the trace collected, a\n     respawn, joining and leaving a run, a body made, a death started, a vanish, the NEW RUN decision */",
+   "named": [
+    "mp.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/main.ts:87",
+     "src/core/client/game/client/main.ts:87",
+     "src/core/client/game/client/main.ts:105",
+     "src/core/client/game/client/main.ts:105",
+     "src/core/client/game/client/main.ts:159",
+     "src/core/client/game/client/main.ts:166",
+     "src/core/client/game/client/main.ts:166",
+     "src/core/client/game/client/main.ts:166",
+     "src/core/client/game/client/main.ts:171",
+     "src/core/client/game/client/main.ts:171",
+     "src/core/client/game/client/main.ts:171",
+     "src/core/client/game/client/main.ts:190",
+     "src/core/client/game/client/main.ts:190",
+     "src/core/client/game/client/main.ts:193",
+     "src/core/client/game/client/main.ts:193",
+     "src/core/client/game/client/main.ts:198",
+     "src/core/client/game/client/main.ts:198",
+     "src/core/client/game/client/main.ts:198",
+     "src/core/client/game/client/render.ts:139",
+     "src/core/client/game/client/render.ts:139",
+     "src/core/client/game/client/render.ts:139",
+     "src/core/client/game/client/render.ts:173",
+     "src/core/client/game/client/render.ts:173",
+     "src/core/client/game/shared/remains.ts:24",
+     "src/core/client/game/shared/remains.ts:24",
+     "src/core/client/game/shared/remains.ts:24"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "mp.js"
+    ],
+    "reads": [
+     "mp.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__mp": {
+   "declared": true,
+   "comment": "/* mp.js (B03): the multiplayer seam, called every frame; assets/shadows-2d.js (BR-RoLE's earlier 2D shadows) wraps it to draw after\n     mp.js's hook, where a page loads it: index.html has not since lineage step H18, only the shadows tests do (FINDINGS M-035) */",
+   "named": [
+    "mp.js",
+    "assets/shadows-2d.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/main.ts:219",
+     "src/core/client/game/client/main.ts:219"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "assets/shadows-2d.js",
+     "mp.js"
+    ],
+    "reads": [
+     "assets/shadows-2d.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__peerLights": {
+   "declared": true,
+   "comment": "/* mp.js: the other players' lights (B06), the server's Hounds (B09), the Hound killing (B09) and the Hounds and Smilers the page\n     hides (B12), the bodies it hides (B12), the recorded kill (B14), the victim a kill record names (B33), the death lab (B18, B34) */",
+   "named": [
+    "mp.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/render.ts:236",
+     "src/core/client/game/client/render.ts:236",
+     "src/core/client/game/client/render.ts:266"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "mp.js"
+    ],
+    "reads": [
+     "assets/br-role.js",
+     "assets/shadows-2d.js",
+     "camcorder.js",
+     "light.js",
+     "mp.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__hounds": {
+   "declared": true,
+   "comment": "/* mp.js: the other players' lights (B06), the server's Hounds (B09), the Hound killing (B09) and the Hounds and Smilers the page\n     hides (B12), the bodies it hides (B12), the recorded kill (B14), the victim a kill record names (B33), the death lab (B18, B34) */",
+   "named": [
+    "mp.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/arrival.ts:19",
+     "src/core/client/game/client/render.ts:174",
+     "src/core/client/game/client/render.ts:174"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "mp.js"
+    ],
+    "reads": []
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__killer": {
+   "declared": true,
+   "comment": "/* mp.js: the other players' lights (B06), the server's Hounds (B09), the Hound killing (B09) and the Hounds and Smilers the page\n     hides (B12), the bodies it hides (B12), the recorded kill (B14), the victim a kill record names (B33), the death lab (B18, B34) */",
+   "named": [
+    "mp.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/render.ts:174"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "mp.js"
+    ],
+    "reads": []
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__fxKill": {
+   "declared": true,
+   "comment": "/* mp.js: the other players' lights (B06), the server's Hounds (B09), the Hound killing (B09) and the Hounds and Smilers the page\n     hides (B12), the bodies it hides (B12), the recorded kill (B14), the victim a kill record names (B33), the death lab (B18, B34) */",
+   "named": [
+    "mp.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/render.ts:174",
+     "src/core/client/game/client/render.ts:174"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "mp.js"
+    ],
+    "reads": [
+     "mp.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__fxKillS": {
+   "declared": true,
+   "comment": "/* mp.js: the other players' lights (B06), the server's Hounds (B09), the Hound killing (B09) and the Hounds and Smilers the page\n     hides (B12), the bodies it hides (B12), the recorded kill (B14), the victim a kill record names (B33), the death lab (B18, B34) */",
+   "named": [
+    "mp.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/render.ts:175",
+     "src/core/client/game/client/render.ts:175"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "mp.js"
+    ],
+    "reads": [
+     "mp.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__hideBodies": {
+   "declared": true,
+   "comment": "/* mp.js: the other players' lights (B06), the server's Hounds (B09), the Hound killing (B09) and the Hounds and Smilers the page\n     hides (B12), the bodies it hides (B12), the recorded kill (B14), the victim a kill record names (B33), the death lab (B18, B34) */",
+   "named": [
+    "mp.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/render.ts:165",
+     "src/core/client/game/client/render.ts:165"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "mp.js"
+    ],
+    "reads": [
+     "mp.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__kill": {
+   "declared": true,
+   "comment": "/* mp.js: the other players' lights (B06), the server's Hounds (B09), the Hound killing (B09) and the Hounds and Smilers the page\n     hides (B12), the bodies it hides (B12), the recorded kill (B14), the victim a kill record names (B33), the death lab (B18, B34) */",
+   "named": [
+    "mp.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/render.ts:131",
+     "src/core/client/game/client/render.ts:131",
+     "src/core/client/game/client/render.ts:131"
+    ],
+    "writes": [
+     "src/core/client/game/client/render.ts:137"
+    ]
+   },
+   "scripts": {
+    "writes": [
+     "mp.js"
+    ],
+    "reads": [
+     "mp.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": true
+   }
+  },
+  "__dvic": {
+   "declared": true,
+   "comment": "/* mp.js: the other players' lights (B06), the server's Hounds (B09), the Hound killing (B09) and the Hounds and Smilers the page\n     hides (B12), the bodies it hides (B12), the recorded kill (B14), the victim a kill record names (B33), the death lab (B18, B34) */",
+   "named": [
+    "mp.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/death.ts:37",
+     "src/core/client/game/client/death.ts:37"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "mp.js"
+    ],
+    "reads": []
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__dlab": {
+   "declared": true,
+   "comment": "/* mp.js: the other players' lights (B06), the server's Hounds (B09), the Hound killing (B09) and the Hounds and Smilers the page\n     hides (B12), the bodies it hides (B12), the recorded kill (B14), the victim a kill record names (B33), the death lab (B18, B34) */",
+   "named": [
+    "mp.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/entity-view.ts:68",
+     "src/core/client/game/client/entity-view.ts:68"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "mp.js"
+    ],
+    "reads": [
+     "dphys.js",
+     "ents.js",
+     "mp.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__deathLight": {
+   "declared": true,
+   "comment": "/* mp.js (B35): the local dying light's own power */",
+   "named": [
+    "mp.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/render.ts:226",
+     "src/core/client/game/client/render.ts:226"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "mp.js"
+    ],
+    "reads": [
+     "assets/br-role.js",
+     "light.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__hideSelf": {
+   "declared": true,
+   "comment": "/* assets/ui.js and the bundle (B12): the wanderer is hidden (after a vanish) */",
+   "named": [
+    "assets/ui.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/arrival.ts:60",
+     "src/core/client/game/client/main.ts:217",
+     "src/core/client/game/client/main.ts:236"
+    ],
+    "writes": [
+     "src/core/client/game/client/main.ts:105",
+     "src/core/client/game/client/main.ts:169",
+     "src/core/client/game/client/main.ts:171"
+    ]
+   },
+   "scripts": {
+    "writes": [
+     "assets/ui.js"
+    ],
+    "reads": []
+   },
+   "bundle": {
+    "reads": true,
+    "writes": true
+   }
+  },
+  "__ents": {
+   "declared": true,
+   "comment": "/* ents.js (owners BR-R and N.A.N.I.; B14 and later): the Hounds and Smilers drawn, their deaths planned and posed, the lamps a\n     presence dims, a TFB.Smiler's presence and glow, the local kill's record */",
+   "named": [
+    "ents.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/death.ts:41",
+     "src/core/client/game/client/death.ts:41",
+     "src/core/client/game/client/death.ts:41",
+     "src/core/client/game/client/death.ts:97",
+     "src/core/client/game/client/death.ts:97",
+     "src/core/client/game/client/death.ts:97",
+     "src/core/client/game/client/entity-view.ts:47",
+     "src/core/client/game/client/entity-view.ts:47",
+     "src/core/client/game/client/entity-view.ts:63",
+     "src/core/client/game/client/entity-view.ts:63",
+     "src/core/client/game/client/entity-view.ts:69",
+     "src/core/client/game/client/entity-view.ts:69",
+     "src/core/client/game/client/entity-view.ts:77",
+     "src/core/client/game/client/entity-view.ts:77",
+     "src/core/client/game/client/entity-view.ts:85",
+     "src/core/client/game/client/entity-view.ts:85",
+     "src/core/client/game/client/entity-view.ts:85",
+     "src/core/client/game/client/entity-view.ts:91",
+     "src/core/client/game/client/entity-view.ts:91",
+     "src/core/client/game/client/render.ts:136",
+     "src/core/client/game/client/render.ts:136",
+     "src/core/client/game/client/render.ts:136",
+     "src/core/client/game/client/render.ts:184",
+     "src/core/client/game/client/render.ts:184",
+     "src/core/client/game/client/render.ts:207",
+     "src/core/client/game/client/render.ts:207",
+     "src/core/client/game/client/render.ts:247",
+     "src/core/client/game/client/render.ts:247",
+     "src/core/client/game/shared/vision.ts:302",
+     "src/core/client/game/shared/vision.ts:302"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "ents.js"
+    ],
+    "reads": [
+     "assets/br-role.js",
+     "assets/shadows-2d.js",
+     "dphys.js",
+     "light.js",
+     "mp.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__dsndHits": {
+   "declared": true,
+   "comment": "/* ents.js (B34): the death lab's hit times */",
+   "named": [
+    "ents.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/audio.ts:54",
+     "src/core/client/game/client/audio.ts:54"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "ents.js"
+    ],
+    "reads": []
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__gore": {
+   "declared": true,
+   "comment": "/* gore.js (owner G.I.B.; B08, B32): blood, wounds, remains, their caching and culling */",
+   "named": [
+    "gore.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/corpse-view.ts:18",
+     "src/core/client/game/client/corpse-view.ts:18",
+     "src/core/client/game/client/corpse-view.ts:47",
+     "src/core/client/game/client/corpse-view.ts:47",
+     "src/core/client/game/client/corpse-view.ts:47",
+     "src/core/client/game/client/death.ts:97",
+     "src/core/client/game/client/death.ts:97",
+     "src/core/client/game/client/player-view.ts:115",
+     "src/core/client/game/client/player-view.ts:115",
+     "src/core/client/game/client/render.ts:165",
+     "src/core/client/game/client/render.ts:165",
+     "src/core/client/game/client/render.ts:165"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "gore.js"
+    ],
+    "reads": [
+     "ents.js",
+     "mp.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__dphys": {
+   "declared": true,
+   "comment": "/* dphys.js (owner G.I.B.; B15, B18): a physical death takes over the clock, the frame and the remains; (B34) the death lab's camera */",
+   "named": [
+    "dphys.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/death.ts:50",
+     "src/core/client/game/client/death.ts:50",
+     "src/core/client/game/client/death.ts:73",
+     "src/core/client/game/client/death.ts:74",
+     "src/core/client/game/client/render.ts:145"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "dphys.js"
+    ],
+    "reads": [
+     "ents.js",
+     "gore.js",
+     "mp.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__dcamK": {
+   "declared": true,
+   "comment": "/* dphys.js (owner G.I.B.; B15, B18): a physical death takes over the clock, the frame and the remains; (B34) the death lab's camera */",
+   "named": [
+    "dphys.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/render.ts:158",
+     "src/core/client/game/client/render.ts:158",
+     "src/core/client/game/client/render.ts:159",
+     "src/core/client/game/client/render.ts:159"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "dphys.js"
+    ],
+    "reads": []
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__cam": {
+   "declared": true,
+   "comment": "/* camcorder.js (owner BR-R; B11, B20): the camcorder's effects, night vision, zoom, shake, infrared, lamp gain */",
+   "named": [
+    "camcorder.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/entity-view.ts:10",
+     "src/core/client/game/client/main.ts:121",
+     "src/core/client/game/client/main.ts:121",
+     "src/core/client/game/client/main.ts:140",
+     "src/core/client/game/client/main.ts:140",
+     "src/core/client/game/client/main.ts:149",
+     "src/core/client/game/client/main.ts:149",
+     "src/core/client/game/client/main.ts:215",
+     "src/core/client/game/client/main.ts:215",
+     "src/core/client/game/client/render.ts:155",
+     "src/core/client/game/client/render.ts:155",
+     "src/core/client/game/client/render.ts:158",
+     "src/core/client/game/client/render.ts:158",
+     "src/core/client/game/client/render.ts:159",
+     "src/core/client/game/client/render.ts:159",
+     "src/core/client/game/client/render.ts:207",
+     "src/core/client/game/client/render.ts:207",
+     "src/core/client/game/client/render.ts:235",
+     "src/core/client/game/client/render.ts:235",
+     "src/core/client/game/client/render.ts:267",
+     "src/core/client/game/client/render.ts:267",
+     "src/core/client/game/shared/vision.ts:304",
+     "src/core/client/game/shared/vision.ts:304",
+     "src/core/client/game/shared/vision.ts:305"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "camcorder.js"
+    ],
+    "reads": [
+     "assets/br-role.js",
+     "assets/shadows-2d.js",
+     "light.js",
+     "mp.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__light": {
+   "declared": true,
+   "comment": "/* light.js (owner BR-RoLE; B19): the light model: a sample, its shade, an entity's readability */",
+   "named": [
+    "light.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/entity-view.ts:54",
+     "src/core/client/game/client/entity-view.ts:84",
+     "src/core/client/game/client/entity-view.ts:84"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "light.js"
+    ],
+    "reads": [
+     "assets/shadows-2d.js",
+     "ents.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__brRole": {
+   "declared": true,
+   "comment": "/* assets/br-role.js (owner BR-RoLE; B23): the per-light compositor */",
+   "named": [
+    "assets/br-role.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/render.ts:201",
+     "src/core/client/game/client/render.ts:201",
+     "src/core/client/game/client/render.ts:201"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "assets/br-role.js"
+    ],
+    "reads": [
+     "assets/br-role.js",
+     "assets/l0-remaster.js",
+     "assets/ui.js",
+     "camcorder.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__mv": {
+   "declared": true,
+   "comment": "/* move.js (owner S.P.A.C.E.; B14): the movement, the steps' sound, the pace's label, the pose */",
+   "named": [
+    "move.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/main.ts:89",
+     "src/core/client/game/client/main.ts:89",
+     "src/core/client/game/client/main.ts:97",
+     "src/core/client/game/client/main.ts:97",
+     "src/core/client/game/client/main.ts:107",
+     "src/core/client/game/client/main.ts:107",
+     "src/core/client/game/client/main.ts:208",
+     "src/core/client/game/client/main.ts:208",
+     "src/core/client/game/client/main.ts:226",
+     "src/core/client/game/client/main.ts:226",
+     "src/core/client/game/shared/movement.ts:11",
+     "src/core/client/game/shared/movement.ts:11"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "move.js"
+    ],
+    "reads": [
+     "ents.js",
+     "mp.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__pose": {
+   "declared": true,
+   "comment": "/* move.js (owner S.P.A.C.E.; B14): the movement, the steps' sound, the pace's label, the pose */",
+   "named": [
+    "move.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/player-view.ts:100",
+     "src/core/client/game/client/player-view.ts:100"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "move.js"
+    ],
+    "reads": []
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__sfx": {
+   "declared": true,
+   "comment": "/* sfx.js (owner SPACIOUS-AUDIO; B08, B34): recorded sounds */",
+   "named": [
+    "sfx.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/audio.ts:25",
+     "src/core/client/game/client/audio.ts:25",
+     "src/core/client/game/client/audio.ts:53",
+     "src/core/client/game/client/audio.ts:53",
+     "src/core/client/game/client/audio.ts:134",
+     "src/core/client/game/client/audio.ts:134"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "sfx.js"
+    ],
+    "reads": [
+     "assets/mp-hum.js",
+     "mp.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__vol": {
+   "declared": true,
+   "comment": "/* hud.js (B07): the volume */",
+   "named": [
+    "hud.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/audio.ts:12",
+     "src/core/client/game/client/audio.ts:14"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "hud.js"
+    ],
+    "reads": [
+     "assets/ui.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__inv": {
+   "declared": true,
+   "comment": "/* inventory.js (owner P.O.C.K.E.T.; B10, B11, B12): the inventory, and whether the loadout screen is open */",
+   "named": [
+    "inventory.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/main.ts:105",
+     "src/core/client/game/client/main.ts:105",
+     "src/core/client/game/client/main.ts:149",
+     "src/core/client/game/client/main.ts:149",
+     "src/core/client/game/client/main.ts:171",
+     "src/core/client/game/client/main.ts:171",
+     "src/core/client/game/client/main.ts:171"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "inventory.js"
+    ],
+    "reads": [
+     "assets/ui.js",
+     "mp.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__loadout": {
+   "declared": true,
+   "comment": "/* inventory.js (owner P.O.C.K.E.T.; B10, B11, B12): the inventory, and whether the loadout screen is open */",
+   "named": [
+    "inventory.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/main.ts:130"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "inventory.js"
+    ],
+    "reads": [
+     "assets/ui.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   }
+  },
+  "__l0v": {
+   "declared": true,
+   "comment": "/* the Level 0 remaster (assets/l0-remaster.js; B24, B25): draws each lamp into the Graphics it gives, and is told when the world is\n   built. The shipped bundle reads it as a bare global name, after checking window.__l0v; so does the port. */",
+   "named": [
+    "assets/l0-remaster.js"
+   ],
+   "client": {
+    "reads": [
+     "src/core/client/game/client/render.ts:107",
+     "src/core/client/game/client/render.ts:107",
+     "src/core/client/game/client/render.ts:126",
+     "src/core/client/game/client/render.ts:126"
+    ],
+    "writes": []
+   },
+   "scripts": {
+    "writes": [
+     "assets/l0-remaster.js"
+    ],
+    "reads": [
+     "assets/l0-remaster.js",
+     "gore.js"
+    ]
+   },
+   "bundle": {
+    "reads": true,
+    "writes": false
+   },
+   "bare": true
+  }
+ },
+ "problems": [],
+ "ok": true
+}

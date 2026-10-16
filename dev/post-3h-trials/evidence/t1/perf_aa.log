@@ -1,0 +1,15 @@
+desktop round 1: old 2.12 fps p95 516.6 ms task 1170.721 ms/s; new 1.97 fps p95 583.3 ms task 1177.436 ms/s, drift 0 ms/s
+desktop round 2: old 2 fps p95 600.1 ms task 1211.203 ms/s; new 2.09 fps p95 516.7 ms task 1185.238 ms/s, drift 0 ms/s
+desktop round 3: old 2.11 fps p95 516.7 ms task 1195.915 ms/s; new 2.16 fps p95 499.9 ms task 1180.114 ms/s, drift 0 ms/s
+desktop round 4: old 2 fps p95 566.6 ms task 1193.357 ms/s; new 2.03 fps p95 550 ms task 1188.614 ms/s, drift 0 ms/s
+desktop round 5: old 2.12 fps p95 483.4 ms task 1185.962 ms/s; new 2.09 fps p95 500.1 ms task 1191.603 ms/s, drift 0 ms/s
+desktop round 6: old 2.07 fps p95 516.7 ms task 1202.659 ms/s; new 2.09 fps p95 550 ms task 1209.788 ms/s, drift 0 ms/s
+phone round 1: old 4.88 fps p95 249.9 ms task 1077.071 ms/s; new 4.98 fps p95 216.7 ms task 1077.803 ms/s, drift 0 ms/s
+phone round 2: old 4.9 fps p95 216.7 ms task 1081.038 ms/s; new 4.95 fps p95 233.4 ms task 1071.73 ms/s, drift 0 ms/s
+phone round 3: old 4.79 fps p95 250 ms task 1086.832 ms/s; new 5 fps p95 233.3 ms task 1076.088 ms/s, drift 0 ms/s
+phone round 4: old 4.5 fps p95 266.7 ms task 1074.132 ms/s; new 4.89 fps p95 233.4 ms task 1076.695 ms/s, drift 0 ms/s
+phone round 5: old 4.59 fps p95 250 ms task 1076.739 ms/s; new 4.81 fps p95 233.4 ms task 1075.808 ms/s, drift 0 ms/s
+phone round 6: old 4.74 fps p95 250 ms task 1082.096 ms/s; new 4.58 fps p95 283.3 ms task 1078.091 ms/s, drift 0 ms/s
+desktop fps 2.09 -> 2.09 (paired 0.025, -0.15..0.09); p50 483.25 -> 475 (paired -8.35, -33.2..33.3); p95 516.7 -> 533.35 (paired 0.05, -83.4..66.7); p99 550 -> 558.35 (paired 25, -66.8..66.6); taskMsPerS 1194.636 -> 1186.926 (paired 0.449, -25.965..7.129); scriptMsPerS 123.6865 -> 126.2975 (paired 0.725, -6.074..7.974); styleMsPerS 0.5255 -> 0.4885 (paired -0.0225, -0.096..0.027); layoutMsPerS 0 -> 0 (paired 0, 0..0); driftMsPerS 0 -> 0 (paired 0, 0..0); driftMsPerCall 0 -> 0 (paired 0, 0..0)
+phone fps 4.765 -> 4.92 (paired 0.155, -0.16..0.39); p50 200 -> 200 (paired 0, -16.7..0.1); p95 250 -> 233.4 (paired -16.65, -33.3..33.3); p99 291.65 -> 266.7 (paired -16.6, -50..33.2); taskMsPerS 1079.0545 -> 1076.3915 (paired -2.468, -10.744..2.563); scriptMsPerS 51.413 -> 49.211 (paired -1.5485, -3.309..0.15); styleMsPerS 1.356 -> 1.1475 (paired -0.162, -0.435..-0.017); layoutMsPerS 0 -> 0 (paired 0, 0..0); driftMsPerS 0 -> 0 (paired 0, 0..0); driftMsPerCall 0 -> 0 (paired 0, 0..0)
+exit 0

@@ -1,0 +1,17 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c4_css_check.mjs",
+ "shipped": {
+  "bytes": 27218,
+  "sha256": "02d94e783642b454f9171090cc88d21745a7285bf64dbc143e73c297acaf6c1a"
+ },
+ "built": {
+  "file": "../../../tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t1/gate_fast/client_stage/assets/index-D7hdwmUU.css",
+  "bytes": 32818,
+  "sha256": "b5a19c27155c122e0fc6c6878a987ff3376251a38a8eb523c66d0716098b9284"
+ },
+ "v11Part": "same bytes",
+ "laterStatements": 177,
+ "laterVsFile": "the same stylesheet",
+ "laterVsBuilt": "the same stylesheet",
+ "ok": true
+}

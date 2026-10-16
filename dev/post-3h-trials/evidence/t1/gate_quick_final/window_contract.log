@@ -1,0 +1,37 @@
+$ node dev/tools/checks/window_contract.js --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t1/gate_quick/window_contract.json
+WORLD                    read by the client; written by world.js; declared: world.js
+TFB_TIMING               read by the client; written by timing_policy.js; declared: timing_policy.js
+__cameraPolicy           read by the client; written by camera_policy.js; declared: camera_policy.js
+__api            written read by the client; written by the client; declared: main.ts
+__avatarApp      written      by the client; written by the client; declared: main.ts
+__c              written read by the client; written by the client; declared: main.ts
+__lastCause      written read by the client; written by the client; declared: render.ts, gore.js
+__net                    read by the client; written by mp.js; declared: mp.js
+__mp                     read by the client; written by assets/shadows-2d.js, mp.js; declared: mp.js, assets/shadows-2d.js
+__peerLights             read by the client; written by mp.js; declared: mp.js
+__hounds                 read by the client; written by mp.js; declared: mp.js
+__killer                 read by the client; written by mp.js; declared: mp.js
+__fxKill                 read by the client; written by mp.js; declared: mp.js
+__fxKillS                read by the client; written by mp.js; declared: mp.js
+__hideBodies             read by the client; written by mp.js; declared: mp.js
+__kill           written read by the client; written by mp.js; declared: mp.js
+__dvic                   read by the client; written by mp.js; declared: mp.js
+__dlab                   read by the client; written by mp.js; declared: mp.js
+__deathLight             read by the client; written by mp.js; declared: mp.js
+__hideSelf       written read by the client; written by assets/ui.js; declared: assets/ui.js
+__ents                   read by the client; written by ents.js; declared: ents.js
+__dsndHits               read by the client; written by ents.js; declared: ents.js
+__gore                   read by the client; written by gore.js; declared: gore.js
+__dphys                  read by the client; written by dphys.js; declared: dphys.js
+__dcamK                  read by the client; written by dphys.js; declared: dphys.js
+__cam                    read by the client; written by camcorder.js; declared: camcorder.js
+__light                  read by the client; written by light.js; declared: light.js
+__brRole                 read by the client; written by assets/br-role.js; declared: assets/br-role.js
+__mv                     read by the client; written by move.js; declared: move.js
+__pose                   read by the client; written by move.js; declared: move.js
+__sfx                    read by the client; written by sfx.js; declared: sfx.js
+__vol                    read by the client; written by hud.js; declared: hud.js
+__inv                    read by the client; written by inventory.js; declared: inventory.js
+__loadout                read by the client; written by inventory.js; declared: inventory.js
+__l0v                    read by the client; written by assets/l0-remaster.js; declared: assets/l0-remaster.js
+WINDOW CONTRACT: PASS (35 window members declared for the compiled client and used by it; 0 problems; TypeScript 6.0.3)

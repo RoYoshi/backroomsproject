@@ -1,0 +1,51 @@
+Post-3H Trial 1, checkpoint T1-B: the verification, the report and the Human QA page (the code is T1-B 1 of 2, ecbef39)
+================================================================================================================================
+
+Commits: T1-A c563f89 (preservation, evidence/t1a/), T1-B 1 of 2 ecbef39 (the drift check's mutant copies fixed, a comment corrected:
+the code verified here), T1-B 2 of 2 (this commit: documents, evidence, two measurement tools, the A/A copy fixed). Each pushed and
+read back from GitHub (evidence/remote/verify_t1a_c563f89.json, verify_t1b1_ecbef39.json; this commit's receipt comes with the
+delivery). Machine: 2 CPUs, headless Chromium 141 with SwiftShader; Node v22.22.2.
+
+1. The drift check's mutants (menu_drift_mutants_*):
+   - the first attempt (menu_drift_mutants_first_attempt.log): the candidate's checks and the comparison passed, then the first mutant
+     stopped the run: its game copy was a folder inside the copy (cp of "dir" instead of "dir/."), so the mutated file was not found.
+     The machine had also restarted once, killing an earlier attempt (evidence/t1a/STEPS.txt). Fixed in ecbef39.
+   - the rerun (--only compare --mutants 1; menu_drift_mutants_rerun.*): 8 of 8 caught - amplitude tripled (static, play, pointer),
+     reduced motion ignored (reduced, boot_os), hidden tab ignored (hidden), a second loop on each switch (reduced), no drift (static,
+     reduced, play, pointer), a control moved 2 px (layout at all four sizes), the run ignored (play), the clock reset at each pause
+     (hidden); the comparison with C5d PASS.
+
+2. The fast gate on the working tree that became ecbef39 (gate_fast_t1b1/, .log): PASS, 20 of 20 steps (srv_golden and raw_live list
+   ui.js and ui.css among the files changed on purpose; scope: both declared). The only edit after it, before ecbef39, was ui.js's comment.
+
+3. The final verification of ecbef39 (tools/run_t1_final.sh; run.log), on a fresh clone of the repository with ecbef39 checked out
+   (0 changes), one heavy run after another:
+   a. the full gate (gate_full/, gate_full.log): PASS, 29 of 29 steps at the first run, 03:08:49 to 05:06:18 UTC (117.5 minutes):
+      build 39, port 410, lineage 83, parts 55, modules 58, contracts 381, docs 23, scope 212, srv_golden 11, bpp_golden 7, session 18,
+      sim 20,065, page 1,255,007, cli_golden 30, protocol 52,740, mutants 18, static 4, raw_live 173, quick_suites 23, bundle 4,265 (9 of
+      9 scenes identical, 4,239 frames, 26 captures; 5 of 5 mutants), cli_mutants 57, live_wire 65, bpp_checks 36, browsers 109
+      (two_browser 94 frames, col_head, col_aside, gameplay_smoke at the first run), workflow 30, menu 19 (11 of 11 checks; 8 of 8
+      mutants; 2303 s), contact_lab 23 identical, suites 293 (only the known B++ failures), perf 9 (server lifecycle +3.1 %, deaths
+      -1.5 %, admin +4.73 %, schedule -6.17 %; mp.js's hooks -1.92 % to +6.08 %; within the rules).
+      The menu step's captures: gate_full/menu_shots/ (C5d's and the candidate's menu at 1920 x 1080 and on a 390 x 844 phone; the
+      candidate's title every 5 s for 20 s).
+   b. the build from a clean checkout of ecbef39 (clean_checkout.*): PASS - 38 of 38 built files removed and written again, 40 of 40
+      identical, git status clean; the compiled client from nothing, 3 of 3 files byte for byte.
+   c. the drift's cost on the idle menu (perf_ab.*): C5d against ecbef39, 6 rounds at each of two sizes, the order alternating: done.
+   d. the A/A control (perf_aa.*): the script's run failed at once: the tool's copy of the C5d folder had the same cp mistake as 1
+      (fixed in this commit: tools/t1_menu_perf.js). Run again with the fixed tool, C5d against a copy of itself, 6 rounds a size:
+      done (its log and report replace the failed one's).
+   T1_REPORT.md tabulates c and d: the drift's own callback about 0.1 ms a frame and the title's style recalculation about 0.3 ms a
+   frame (outside the A/A's range); frame rate and frame times unchanged within the A/A noise; 2 to 5 frames a second here.
+
+4. A capture for the Human QA evidence (capture/; tools/t1_capture.js on C5d's and ecbef39's game folders, the candidate only, 1280 x
+   720, 30 s, the mouse untouched): 14 frames (a software-rendered capture waits for the page's frames, about 2 s each), shown in the
+   GIFs for the time each really lasted (tools/make_gif.py): the title at 1:1, and its upper-left corner at 4x. The title's offset at
+   each frame is in t1_capture_frames.json (x -2.87..+2.28 px, y -2.93..+2.31 px).
+
+5. This commit's own tree: documents, evidence, tools/t1_menu_perf.js's copy fixed, tools/t1_capture.js new, dev/tools/README.md and
+   the gate's duration notes. No runtime file changed after ecbef39. The steps that read documents and files ran again on it:
+   build, lineage, parts, modules, contracts, docs, scope: PASS (gate_quick_final/, gate_quick_final.log).
+
+6. Secret scans: ecbef39 after its commit, and c563f89 after its commit (secret_scan_*); this commit's changes before it
+   (secret_scan.*); its own after-commit scan comes with the delivery.

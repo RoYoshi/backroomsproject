@@ -1,0 +1,11 @@
+$ node dev/tools/checks/window_contract.js --mutants 1 --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t1/gate_quick/window_contract_mutants.json
+PASS    control: as it is
+CAUGHT  1: an undeclared member read
+CAUGHT  2: a declaration nobody uses
+CAUGHT  3: a read of a name no page script writes
+CAUGHT  4: a declaration that loses its script
+CAUGHT  4: a page script that starts writing a member the client reads
+CAUGHT  5: the built bundle reaches a name its source does not
+CAUGHT  5: the built bundle stops writing a member its source writes
+CAUGHT  1: an untyped use of window
+WINDOW CONTRACT MUTANTS: PASS (8 of 8 breaks refused; the control PASS)

@@ -1,0 +1,5 @@
+$ node dev/tools/gate/golden/cli_golden_h2.js --old-ref 143b63ff42b88c6780c5043e0f61d64100f81f40 --baseline /home/claude/backrooms-modern/dev/stage-3h/evidence/h2/golden/cli_traces --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t1/gate_fast/cli_h2 --keep /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t1/gate_fast/cli_h2_keep
+PASS nr_answers: old 229 entries 06a819be3a1d | new 229 entries 06a819be3a1d | scene steps 47 | identical | baseline same
+PASS nr_reconnect: old 96 entries b877c9879394 | new 96 entries b877c9879394 | scene steps 18 | identical | baseline same
+PASS hum_fixtures: old 8788 entries 3961c4258ee1 | new 8788 entries 3961c4258ee1 | scene steps 4 | identical | baseline same
+client golden traces (NEW RUN, the hum): ALL IDENTICAL

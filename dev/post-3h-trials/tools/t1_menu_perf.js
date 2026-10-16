@@ -63,7 +63,7 @@ async function measure(b, port, view) {
 const med = a => { const s = a.slice().sort((x, y) => x - y); return s.length ? (s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2) : null; };
 (async () => {
   const OLD = path.resolve(ARG['old-dir']), NEW = AA ? fs.mkdtempSync(path.join(os.tmpdir(), 't1aa-')) : path.resolve(ARG['new-dir']);
-  if (AA) execFileSync('cp', ['-a', path.join(OLD, '.'), NEW]);
+  if (AA) execFileSync('cp', ['-a', OLD + path.sep + '.', NEW]);   // (OLD/. : its contents)
   const R = { tool: 'dev/post-3h-trials/tools/t1_menu_perf.js', mode: AA ? 'A/A (the old side against a copy of itself)' : 'A/B', old: OLD, new: AA ? OLD + ' (copy)' : NEW, rounds: ROUNDS, seconds: SECS, results: {}, summary: {} };
   const b = await pw.chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] }); R.chromium = b.version();
   let so = null, sn = null;

@@ -1,0 +1,24 @@
+$ node dev/tools/gate/golden/cli_golden_h2.js --mutants 1 --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t1/final/gate_full/cli_mutants.json
+CAUGHT  the waiting mark is three dots (mp.js) | nr_answers differs, nr_reconnect differs, hum_fixtures same
+CAUGHT  the cooldown wait rounded, not rounded up (mp.js) | nr_answers differs, nr_reconnect same, hum_fixtures same
+CAUGHT  a refusal shows for 2 s (assets/net-newrun.js) | nr_answers differs, nr_reconnect same, hum_fixtures same
+CAUGHT  the button stays enabled while waiting (assets/net-newrun.js) | nr_answers differs, nr_reconnect differs, hum_fixtures same
+CAUGHT  a double press within 200 ms (mp.js) | nr_answers differs, nr_reconnect same, hum_fixtures same
+CAUGHT  no answer for 3 s before the button comes back (mp.js) | nr_answers differs, nr_reconnect differs, hum_fixtures same
+CAUGHT  the run menu says something else after a blast (assets/net-newrun.js) | nr_answers differs, nr_reconnect differs, hum_fixtures same
+CAUGHT  join keeps the blast words (mp.js) | nr_answers differs, nr_reconnect differs, hum_fixtures same
+CAUGHT  the approval does not call the beat (mp.js) | nr_answers differs, nr_reconnect differs, hum_fixtures same
+CAUGHT  a refused press keeps the client busy (mp.js) | nr_answers differs, nr_reconnect same, hum_fixtures same
+CAUGHT  a closed connection keeps the press (mp.js) | nr_answers same, nr_reconnect differs, hum_fixtures same
+CAUGHT  hum buzz gain 0.21 (assets/mp-hum.js) | hum_dread differs
+CAUGHT  hum beating between 60 and 60.5 Hz (assets/mp-hum.js) | hum_dread differs
+CAUGHT  every 12th fixture flickers (assets/mp-hum.js) | hum_dread same, hum_fixtures differs
+CAUGHT  blackout hum level 0.03 (assets/mp-hum.js) | hum_dread differs
+CAUGHT  a ballast dip lasts 20 ms longer (assets/mp-hum.js) | hum_dread differs
+CAUGHT  the blackout thunk starts at 100 Hz (assets/mp-hum.js) | hum_dread differs
+CAUGHT  the starter tink at 1400 Hz (assets/mp-hum.js) | hum_dread differs
+CAUGHT  the pan follows the fixture more slowly (assets/mp-hum.js) | hum_dread differs
+CAUGHT  pops 0.1 s further apart (assets/mp-hum.js) | hum_dread same, hum_fixtures differs
+CAUGHT  a user hum fades the synth slower (assets/mp-hum.js) | hum_dread differs
+CAUGHT  the blackout drop is faster (assets/mp-hum.js) | hum_dread differs
+client mutants (NEW RUN, the hum): 22/22 caught

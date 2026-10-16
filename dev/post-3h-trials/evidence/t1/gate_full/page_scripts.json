@@ -1,0 +1,160 @@
+{
+ "tool": "dev/tools/gate/golden/page_scripts.js",
+ "old": "143b63f",
+ "new": "this tree",
+ "debugFixture": {
+  "frames": 30,
+  "records": 90
+ },
+ "scripts": {
+  "move.js": {
+   "equal": true,
+   "lines": [
+    15215,
+    15215
+   ],
+   "kinds": [
+    27,
+    27
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "functions": {
+    "old": [
+     44,
+     45
+    ],
+    "new": [
+     48,
+     49
+    ],
+    "unrunOld": [
+     "sm@857"
+    ],
+    "unrunNew": [
+     "sm@879"
+    ],
+    "allowed": {
+     "max": 1,
+     "why": "sm: declared and never called"
+    }
+   },
+   "reached": true,
+   "ok": true
+  },
+  "camcorder.js": {
+   "equal": true,
+   "lines": [
+    11336,
+    11336
+   ],
+   "kinds": [
+    25,
+    25
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "functions": {
+    "old": [
+     78,
+     80
+    ],
+    "new": [
+     82,
+     84
+    ],
+    "unrunOld": [
+     "deny@8373",
+     "warn@8614"
+    ],
+    "unrunNew": [
+     "deny@8653",
+     "warn@8894"
+    ],
+    "allowed": {
+     "max": 2,
+     "why": "snd.deny and snd.warn: declared and never called"
+    }
+   },
+   "reached": true,
+   "ok": true
+  },
+  "glitch.js": {
+   "equal": true,
+   "lines": [
+    21927,
+    21927
+   ],
+   "kinds": [
+    22,
+    22
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "functions": {
+    "old": [
+     13,
+     13
+    ],
+    "new": [
+     16,
+     16
+    ],
+    "unrunOld": [],
+    "unrunNew": [],
+    "allowed": {
+     "max": 0,
+     "why": "-"
+    }
+   },
+   "reached": true,
+   "ok": true
+  },
+  "ents.js": {
+   "equal": true,
+   "lines": [
+    1204222,
+    1204222
+   ],
+   "kinds": [
+    39,
+    39
+   ],
+   "errors": [
+    [],
+    []
+   ],
+   "functions": {
+    "old": [
+     141,
+     143
+    ],
+    "new": [
+     147,
+     149
+    ],
+    "unrunOld": [
+     "play.far@47870",
+     "(anonymous)@61147"
+    ],
+    "unrunNew": [
+     "play.far@48274",
+     "(anonymous)@61607"
+    ],
+    "allowed": {
+     "max": 2,
+     "why": "the sound of a dropped light striking something (a death event the scene does not produce) and the Smiler's eye-contact line of a selected record"
+    }
+   },
+   "reached": true,
+   "ok": true
+  }
+ },
+ "ok": true
+}

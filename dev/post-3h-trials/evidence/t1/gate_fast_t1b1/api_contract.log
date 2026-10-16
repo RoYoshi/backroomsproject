@@ -1,0 +1,3 @@
+$ node dev/stage-3h-modernization/tools/api_contract.js --check 1
+API CONTRACT: CURRENT (src/core/client/bundle/api_contract.json is what the bundle and the readers give)
+__api: 52 members; 17 reading scripts (+ the bundle itself); unread members: Fc, ll, ul, fl, cl, dl, pl, el, yu, bodyCount, J, unwin; names read but not in the literal: {}

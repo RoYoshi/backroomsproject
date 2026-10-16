@@ -17,7 +17,7 @@ Development only. Nothing here is served or loaded by the game.
 
 | Trial | What it changes, on purpose | State |
 |---|---|---|
-| 1 | The main menu's title drifts a few pixels on its own, as well as leaning with the pointer | **IN PROGRESS:** T1-A, the source and its check, pushed as a preservation checkpoint; the verification (the full gate, performance, the package) and the Human QA page follow at T1-B |
+| 1 | The main menu's title drifts a few pixels on its own, as well as leaning with the pointer | **ENGINEERING COMPLETE; HUMAN QA PENDING** at T1-B (`T1_REPORT.md`, `HUMAN_QA_T1.md`) |
 | 2 | A global chat on the main menu; nearby speech in a run, as bubbles, sent only to players close enough in the same room | not started: waits for the owner's PASS on Trial 1 |
 | 4 | NEW RUN's button reads "Spontaneously Combust?"; red, green and blue sliders for the wanderer's colours; no rapid full-screen flashing | not started: waits for the owner's PASS on Trial 2 |
 
@@ -26,9 +26,10 @@ Development only. Nothing here is served or loaded by the game.
 | File | What it is |
 |---|---|
 | `CHECKPOINTS.md` | Every pushed trial checkpoint: commit, tree, tests, rollback |
-| `T1_REPORT.md`, `HUMAN_QA_T1.md` | Trial 1's report and Human QA page (at T1-B) |
+| `T1_REPORT.md`, `HUMAN_QA_T1.md` | Trial 1's report and its Human QA page, for the owner |
 | `evidence/t1a/`, `evidence/t1/` | What Trial 1's commands produced, by checkpoint (each `STEPS.txt` says which file is which); `evidence/remote/` holds the push receipts |
-| `tools/` | The trials' own measurements (`t1_menu_perf.js`: what the drift costs on the idle menu, A/B and A/A) |
+| `tools/` | The trials' own tools: `t1_menu_perf.js` (what the drift costs on the idle menu, A/B and A/A), `t1_capture.js` (a capture of the title for the Human QA evidence), `verify_remote_t.py` (a pushed checkpoint read back from GitHub) |
+| `inventory/` | Every remote head before the first push (the remote check compares with it) |
 
 The lasting checks live with the others: `dev/tools/checks/menu_drift.js` (the gate's full-tier `menu` step).
 

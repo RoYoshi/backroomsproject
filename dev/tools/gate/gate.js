@@ -62,7 +62,7 @@
  *
  *   --tier fast   (default, about 12 minutes) build, port, lineage, parts, modules, contracts, docs, scope, srv_golden, bpp_golden, session, sim, page,
  *                 cli_golden, protocol, mutants, static, raw_live, quick_suites, bundle
- *   --tier full   (the final candidate; about 100 minutes on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, workflow,
+ *   --tier full   (the final candidate; about two hours on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, workflow,
  *                 menu, contact_lab, suites, perf
  * Everything is written under --out (default: a scratch folder): gate_report.json plus each tool's log and report.
  *

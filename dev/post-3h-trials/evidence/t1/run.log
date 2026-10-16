@@ -1,0 +1,7 @@
+03:08:13 start: ecbef39ea4facb91d5a0a4ba6f6d0d6b556b1a3a
+03:08:49 clone: ecbef39ea4facb91d5a0a4ba6f6d0d6b556b1a3a tree a596bd0f95c505875723faa4e2adcde4850ca7ed; status: 0 changes
+05:06:20 gate: exit 0 - MODERNIZATION GATE (full): PASS  - report /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-90
+05:07:06 clean rebuild: exit 0 - CLEAN REBUILD: PASS
+05:16:55 perf A/B: exit 0
+05:17:07 perf A/A: exit 1
+05:17:07 done

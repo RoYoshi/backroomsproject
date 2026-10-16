@@ -1,0 +1,12 @@
+$ node dev/stage-3h/gate/suites.js run --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t1/final/gate_full/suites
+PASS npm_test: 149/162; known failures 13 (335 s)
+PASS s_humanqa_hotfix: 5/6; known failures 1 (2 s)
+PASS s_ir: 3/3; known failures 0 (2 s)
+PASS test_shadows: 43/48; known failures 5 (35 s)
+PASS test_br_role: 29/32; known failures 3 (39 s)
+PASS interp_test: 3 cases; known failures 0 (0 s)
+PASS test_3bn: 7/7; known failures 0 (0 s)
+PASS audit_net: 13/17; known failures 4 (55 s)
+PASS audit_net2: 8/11; known failures 3 (230 s)
+PASS ir_net: 4/4; known failures 0 (5 s)
+SUITES: PASS (only the known B++ failures)
