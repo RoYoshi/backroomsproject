@@ -908,3 +908,11 @@ html.rm .bb{transition:none}
   .say-opts{top:calc(100% + 6px);bottom:auto}
   .say-toast{top:calc(max(12px,env(safe-area-inset-top)) + 58px);bottom:auto}
 }
+
+/* Trial 4 — visible chat discovery without a permanent game chat panel. */
+.say-keyhint{position:fixed;z-index:6;bottom:calc(var(--touch-h,0px) + 20px);left:50%;transform:translateX(-50%);
+  margin:0;padding:6px 10px;border:1px solid #756b5180;background:#090805da;color:#d5cfb6;
+  font:500 11px/1.4 var(--u-mono);letter-spacing:.04em;pointer-events:none;white-space:nowrap}
+.say-keyhint kbd{margin-right:5px;color:#f3e7a7;font:600 11px/1.4 var(--u-mono)}
+.say-keyhint[hidden]{display:none}
+@media (pointer:coarse){.say-keyhint{display:none!important}}

@@ -224,7 +224,7 @@
   /* ================================================================ IN LEVEL · NEARBY */
   const B = new Map();                                                   // speaker id -> its bubble { el, txt, arrow, until, born, w, h, mode, x, y, a }
   const names = new Map(), recent = new Map(), muted = new Set();        // game session ids (this visit only)
-  let sendSay = null, layer = null, comp = null, sayBtn = null, toastEl = null, toastT = 0, epoch = null, sayShown = false, heardN = 0, shownN = 0;
+  let hintEl = null, hintShown = false, sendSay = null, layer = null, comp = null, sayBtn = null, toastEl = null, toastT = 0, epoch = null, sayShown = false, heardN = 0, shownN = 0;
   const coarse = matchMedia('(pointer:coarse)');
   const myGameId = () => { const A = API(); return A && A.H ? A.H.id : null; };
   const overlayOpen = () => vis('dialog') || vis('caught') || vis('won') || vis('runMenu') || vis('appearancePanel') || vis('menu') || !!document.querySelector('.ui-sheet:not([hidden])');
@@ -257,8 +257,15 @@
     if (!own) announce(`${names.get(m.id) || 'Someone'} nearby says: ${m.text}`);
   }
   // where the bubbles go: called by mp.js every frame (after the other players are drawn), with the frame's camera
+  function ensureHint() {
+    if (!hintEl) { hintEl = mk('p', 'say-keyhint', null, { id: 'chatKeyHint', hidden: '', 'aria-label': 'Press Enter for nearby chat' });
+      hintEl.append(mk('kbd', null, 'ENTER'), document.createTextNode(' Nearby Chat')); document.body.appendChild(hintEl); }
+    return hintEl;
+  }
   function frame(f) {
     if (comp && !comp.form.hidden && !canSpeak()) closeComposer();
+    const showHint = !coarse.matches && canSpeak() && (!comp || comp.form.hidden);
+    if (showHint !== hintShown) { hintShown = showHint; ensureHint().hidden = !showHint; }
     if (coarse.matches) { const w = canSpeak() && (!comp || comp.form.hidden); if (w !== sayShown) { sayShown = w; ensureSay().hidden = !w; } }
     else if (sayShown) { sayShown = false; if (sayBtn) sayBtn.hidden = true; }
     if (!B.size) return;
