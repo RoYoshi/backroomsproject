@@ -1,0 +1,87 @@
+{
+ "tool": "dev/tools/checks/chat_browser.js",
+ "tree": "this repository",
+ "browser": "chromium",
+ "seconds": 579,
+ "ok": true,
+ "cases": [
+  {
+   "name": "nearby_runs_started",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_spawned_in_one_world",
+   "ok": true,
+   "detail": "5704 px apart at spawn"
+  },
+  {
+   "name": "nearby_composer_opens",
+   "ok": true,
+   "detail": "{\"c\":true,\"keys\":0,\"f\":\"sayText\"}"
+  },
+  {
+   "name": "nearby_typing_walks_nobody",
+   "ok": true,
+   "detail": "0 px"
+  },
+  {
+   "name": "nearby_escape_closes_only",
+   "ok": true,
+   "detail": "{\"c\":false,\"paused\":false,\"dialog\":false}"
+  },
+  {
+   "name": "nearby_keys_back_after",
+   "ok": true,
+   "detail": "43 px"
+  },
+  {
+   "name": "nearby_bubble_both_screens",
+   "ok": true,
+   "detail": "{\"id\":1,\"mode\":\"bb-on\",\"x\":357,\"y\":207,\"w\":188,\"h\":33,\"a\":null}"
+  },
+  {
+   "name": "nearby_other_room_nothing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_bubble_bounded",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_markup_literal",
+   "ok": true,
+   "detail": "{\"kids\":0,\"img\":0}"
+  },
+  {
+   "name": "nearby_offscreen_hint",
+   "ok": true,
+   "detail": "bb-hint, angle off by 0.00 rad, at 390,12"
+  },
+  {
+   "name": "nearby_beyond_radius_nothing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_hide_and_mute",
+   "ok": true,
+   "detail": "[{\"shown\":3,\"any\":false},{\"any\":false,\"muted\":1},true]"
+  },
+  {
+   "name": "nearby_leaver_bubble_goes",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_no_page_errors",
+   "ok": true,
+   "detail": ""
+  }
+ ],
+ "passed": 15,
+ "failed": [],
+ "mutants": null
+}

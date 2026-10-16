@@ -53,6 +53,11 @@
  *     change Trial 1 makes, in a real Chromium against the accepted C5d (4beba2f): it moves with no pointer and within 3 px, stops with a
  *     hidden tab, reduced motion and a run (no frame asked for, nothing written), resumes with one loop, keeps the pointer's lean; the
  *     menu's controls, text, Tab order and title at rest, the logo and the theme the same as C5d's at four sizes; its eight mutants caught;
+ *   - chat (added at post-3H Trial 2, fast tier): dev/tools/checks/chat_server.js --mutants 1: the lounge (/social) and nearby speech
+ *     ({t:'say'}) on the server - the text check, who hears what (radius, room, life; spoofed fields ignored), the limits, the lounge's
+ *     handshake and Origin rule, its caps, no line crossing between the two, the game's snapshot pace under lounge load; 13 mutants caught;
+ *   - chat_browser (added at post-3H Trial 2, full tier): dev/tools/checks/chat_browser.js --mutants 1: the same in real pages (the
+ *     lounge panel and its phone button, the composer, bubbles and edge hints, typing isolated from the game); 7 mutants caught;
  *   - bundle (added at continuation C4): golden/bundle_diff.js --ref-lineage --cand-assets: the port step's build against the client
  *     the lineage records (what the page was served up to C4a), both in the real page, frame by frame (state, randomness, the document,
  *     2D canvas and audio calls, the shared window objects, pixels, computed styles): fast, the title and a walk; full, every scene of
@@ -60,10 +65,10 @@
  * The tools that never read a runtime file by path (protocol_v2, suites, static_check, live_wire_h2, place_replay, place_guard_check,
  * two_browser, col_browser, gameplay_smoke, contact_lab, compare_captures) are used where they are.
  *
- *   --tier fast   (default, about 12 minutes) build, port, lineage, parts, modules, contracts, docs, scope, srv_golden, bpp_golden, session, sim, page,
- *                 cli_golden, protocol, mutants, static, raw_live, quick_suites, bundle
- *   --tier full   (the final candidate; about two hours on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, workflow,
- *                 menu, contact_lab, suites, perf
+ *   --tier fast   (default, about 20 minutes) build, port, lineage, parts, modules, contracts, docs, scope, srv_golden, bpp_golden, session, sim, page,
+ *                 cli_golden, protocol, mutants, static, raw_live, quick_suites, bundle, chat
+ *   --tier full   (the final candidate; about two and a half hours on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers,
+ *                 workflow, menu, chat_browser, contact_lab, suites, perf
  * Everything is written under --out (default: a scratch folder): gate_report.json plus each tool's log and report.
  *
  * The original's description follows.
@@ -332,6 +337,18 @@ const STEPS = {
     return { ok: r.exit === 0 && !!j && j.ok && m === 8 && j.mutantsCaught === 8, cases: n + m,
       note: j ? `the title's drift against C5d: ${k} of ${n} checks (the drift, a hidden tab, reduced motion, a run, the pointer; the menu's controls, text, Tab order and title at 4 sizes, the logo, the theme); its mutants ${j.mutantsCaught} of ${m} caught` : 'no report', r };
   },
+  chat: () => {                                                                         // post-3H Trial 2: the chat's server side (no browser)
+    const r = run('chat_server', ['node', 'dev/tools/checks/chat_server.js', '--mutants', '1', '--work', o('chat_mut'), '--out', o('chat_server.json')], { ms: 1800000 }), j = J(o('chat_server.json'));
+    const m = j && j.mutants ? j.mutants.length : 0, mc = j && j.mutants ? j.mutants.filter(x => x.caught).length : 0;
+    return { ok: r.exit === 0 && !!j && j.ok && m === 13 && mc === 13, cases: (j ? j.cases.length : 0) + m,
+      note: j ? `the lounge and nearby speech on the server: ${j.passed} of ${j.cases.length} cases (the text check, speech by radius, room and life, spoofed fields, limits, the lounge's handshake, Origin, caps, no crossing between the two, the game's pace under lounge load); its mutants ${mc} of ${m} caught` : 'no report', r };
+  },
+  chat_browser: () => {                                                                 // post-3H Trial 2: the chats in real pages
+    const r = run('chat_browser', ['node', 'dev/tools/checks/chat_browser.js', '--mutants', '1', '--work', o('chat_bmut'), '--out', o('chat_browser.json'), '--shots', o('chat_shots')], { ms: 3600000 }), j = J(o('chat_browser.json'));
+    const m = j && j.mutants ? j.mutants.length : 0, mc = j && j.mutants ? j.mutants.filter(x => x.caught).length : 0;
+    return { ok: r.exit === 0 && !!j && j.ok && m === 7 && mc === 7, cases: (j ? j.cases.length : 0) + m,
+      note: j ? `the lounge and nearby speech in Chromium: ${j.passed} of ${j.cases.length} cases (the lounge across rooms, typing isolated, markup literal, mute, fold, off, the phone, closed in a run, its place at 5 sizes; the composer, bubbles, the edge hint, the radius, the other room, hide, mute, a leaver, SAY, reduced motion); its mutants ${mc} of ${m} caught` : 'no report', r };
+  },
   contact_lab: () => {
     const scenes = 'geometry,lights,peers', res = [];
     for (const [label, g] of [['bpp', bppGame()], ['cand', wtGame()]]) {
@@ -353,8 +370,8 @@ const STEPS = {
 };
 const QUICK = ['s_humanqa_hotfix', 's_ir', 'interp_test', 'test_3bn', 'ir_net'];
 function suiteNote(j) { return Object.entries(j.suites).map(([n, x]) => `${n} ${x.summary ? x.summary.passed + '/' + x.summary.total : x.ran}${x.ok ? '' : ' FAIL'}`).join(', ') + ' (only the known B++ failures fail)'; }
-const FAST = ['build', 'port', 'lineage', 'parts', 'modules', 'contracts', 'docs', 'scope', 'srv_golden', 'bpp_golden', 'session', 'sim', 'page', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites', 'bundle'];
-const FULL = FAST.concat(['cli_mutants', 'live_wire', 'bpp_checks', 'browsers', 'workflow', 'menu', 'contact_lab', 'suites', 'perf']);
+const FAST = ['build', 'port', 'lineage', 'parts', 'modules', 'contracts', 'docs', 'scope', 'srv_golden', 'bpp_golden', 'session', 'sim', 'page', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites', 'bundle', 'chat'];
+const FULL = FAST.concat(['cli_mutants', 'live_wire', 'bpp_checks', 'browsers', 'workflow', 'menu', 'chat_browser', 'contact_lab', 'suites', 'perf']);
 const steps = ARG.only ? ARG.only.split(',') : ARG.tier === 'full' ? FULL : FAST;
 const R = { tool: 'dev/tools/gate/gate.js', tier: ARG.tier, declared: 'dev/tools/gate/declared_changes.json', base: BPP, head: execFileSync('git', ['-C', REPO, 'rev-parse', 'HEAD']).toString().trim(), startedAt: new Date().toISOString(), out: OUT, steps: {}, ok: true };
 for (const s of steps) {

@@ -1,0 +1,21 @@
+$ node dev/tools/gate/golden/cli_golden_c3c.js --old-ref 143b63ff42b88c6780c5043e0f61d64100f81f40 --baseline /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/clone_t2a2/dev/stage-3h-modernization/evidence/c3c/golden/cli_traces --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/gate_fast_t2a2/cli_c3c --keep /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/gate_fast_t2a2/cli_c3c_keep
+PASS load: B++ 20 entries 7610e6d85b3d | this tree 20 entries 7610e6d85b3d | identical
+PASS menu_online: B++ 1844 entries 2636fe01a314 | this tree 1844 entries 2636fe01a314 | identical
+PASS run_online: B++ 7413 entries 51995af81336 | this tree 7413 entries 51995af81336 | identical
+PASS interp: B++ 11483 entries 4c69588c48a3 | this tree 11483 entries 4c69588c48a3 | identical
+PASS fx_bodies: B++ 22762 entries a94dd7857b83 | this tree 22762 entries a94dd7857b83 | identical
+PASS facade: B++ 1164 entries e50e80816279 | this tree 1164 entries e50e80816279 | identical
+PASS admin: B++ 1333 entries b7ffb34a699a | this tree 1333 entries b7ffb34a699a | identical
+PASS reconnect_solo: B++ 739 entries 395aaf696d33 | this tree 739 entries 395aaf696d33 | identical
+PASS hum_dread: B++ 4876 entries d415d0bf6bbf | this tree 4876 entries d415d0bf6bbf | identical
+PASS nr_answers: B++ 229 entries 06a819be3a1d | this tree 229 entries 06a819be3a1d | identical
+PASS nr_reconnect: B++ 96 entries b877c9879394 | this tree 96 entries b877c9879394 | identical
+PASS hum_fixtures: B++ 8788 entries 3961c4258ee1 | this tree 8788 entries 3961c4258ee1 | identical
+PASS c3c_poses: B++ 3094 entries 469cb724e456 | this tree 3094 entries 469cb724e456 | scene steps 38 | identical | baseline same
+PASS c3c_epoch: B++ 1258 entries 0d328c0e1929 | this tree 1258 entries 0d328c0e1929 | scene steps 15 | identical | baseline same
+PASS c3c_deathlight: B++ 7733 entries bf649b877ca1 | this tree 7733 entries bf649b877ca1 | scene steps 23 | identical | baseline same
+PASS c3c_misc: B++ 1427 entries 20365f36096a | this tree 1427 entries 20365f36096a | scene steps 20 | identical | baseline same
+PASS c3c_mode_a: B++ 1109 entries 3a1ae0bcbfe9 | this tree 1109 entries 3a1ae0bcbfe9 | scene steps 3 | identical | baseline same
+PASS c3c_mode_b: B++ 1109 entries ec0a2bb4e1eb | this tree 1109 entries ec0a2bb4e1eb | scene steps 3 | identical | baseline same
+reach (all 18 scenes): B++ 169 of 169 functions run, 122 lines with code not run; this tree 232 of 232, 117 lines - REACHED
+client scenes (all, C3c): ALL IDENTICAL, mp.js reached

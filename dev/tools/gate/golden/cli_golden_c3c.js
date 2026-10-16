@@ -25,6 +25,7 @@ const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 /* the functions of mp.js no scene runs, and why (matched by V8's function name; an anonymous one by the start of its text) */
 const UNRUN = [
   ['connect', 'only its `file:` and constructor-failure branches are unrun; the function itself runs (listed for its old name only)', 0],
+  ['say', "post-3H Trial 2: the send of {t:'say'} the session links into F.R.O.N.T.'s chat.js (window.__chat.link); chat.js is not one of the scenes' scripts, so no scene makes or calls it; dev/tools/checks/chat_browser.js runs it in real pages", 1],
 ];
 const UNRUN_NAMES = new Set(UNRUN.filter(u => u[2]).map(u => u[0]));
 /* one side's union over scenes: per function (name@offset) whether it ran; per byte the highest count (V8's innermost range wins) */

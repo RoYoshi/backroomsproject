@@ -19,6 +19,7 @@ The words on screen reflect what the server actually answered.
 <!-- generated: sources:front (dev/tools/docs/docs.js) -->
 | File | What it is | Goes into |
 |---|---|---|
+| [`client/chat.js`](client/chat.js) | src/frameworks/front/client/chat.js -> public/assets/chat.js - F.R.O.N.T.: the page's two chats (post-3H Trial 2; docs/architecture/CHAT.md). | `public/assets/chat.js` |
 | [`client/credits_data.js`](client/credits_data.js) | THE FAR BACKROOMS - credits.  EDIT THIS FILE to change the Credits page; the layout never needs touching. | `public/assets/credits_data.js` |
 | [`client/hud.js`](client/hud.js) | The settings model and the HUD's own polish. | `public/hud.js` |
 | [`client/net-newrun.js`](client/net-newrun.js) | net-newrun.js - the NEW RUN button's words and the run menu's, for the multiplayer layer (mp.js). | `public/assets/net-newrun.js` |

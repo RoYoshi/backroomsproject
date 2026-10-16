@@ -1,0 +1,42 @@
+Post-3H Trial 2, checkpoint T2-B: the page's chats (the lounge on the main menu, nearby speech in a run) and their browser check
+==============================================================================================================================
+
+Machine: 2 CPUs, headless Chromium 141 with SwiftShader; Node v22.22.2. Every chat text is synthetic; the reports hold no text
+(the captures show synthetic lines only).
+
+Before this checkpoint (T2-A, 80fb4d2, pushed and read back: evidence/remote/verify_t2a_80fb4d2.json):
+  - the fast gate on a fresh clone of T2-A's first local commit (34ee1e4, never pushed): 19 of 20 steps; session FAILED - one of its
+    15 mutants could not be applied because its search text ("sock.on('close', bye); sock.on('error', bye);") now also occurred in
+    lounge.js (evidence/t2a/gate_fast_first_clone*). The lounge's line was reordered (no behaviour change) and the local commit amended
+    to 80fb4d2, before any push.
+  - the fast gate on a fresh clone of 80fb4d2: PASS, 20 of 20 (evidence/t2a/gate_fast_clone/, .log); chat_server.js --mutants 1 on
+    that clone: 81 of 81 cases, 13 of 13 mutants (evidence/t2a/chat_server_clone.*); its commit scanned clean
+    (evidence/t2a/secret_scan_after_commit.*).
+
+This checkpoint:
+1. F.R.O.N.T.'s src/frameworks/front/client/chat.js (public/assets/chat.js), its styles appended to public/assets/ui.css, its script tag in
+   public/index.html (first of the page scripts); B++'s client session: window.__net.say and 'heard' / 'said' handed to window.__chat;
+   core's per-frame hook calls window.__chatFrame. cli_golden lists say as run only by chat_browser.js. menu_drift.js leaves the chat's
+   own elements out of its comparison with C5d (and the chat's script tag out of index.html's hash).
+2. dev/tools/checks/chat_browser.js, the full suite on the working tree (chat_browser_full.*): 34 of 35 cases. The one failure,
+   nearby_typing_walks_nobody (9 px), was the check's own: it measured from the moment the composer opened, while the walk that was
+   under way (D held before Enter) was still slowing to a stop. The check now waits 0.5 s, then types and holds a movement key for
+   0.6 s: the nearby scenario again (chat_browser_nearby_rerun.*): 15 of 15, 0 px.
+   Earlier runs while writing the page and the check (not kept), and what they found:
+   - the lounge's title bar was an HTML <header>: the game's stylesheet places every <header> fixed at the top of the screen with no
+     pointer events (its Hide button could not be pressed). Now a div; the layout case checks that the panel's parts stay inside it.
+   - the edge hint's arrow was never turned: its first angle was compared with NaN. Fixed.
+   - the composer on a phone cut its placeholder; now "Say something" (the field is labelled "Say to players near you").
+   - the phone's lounge sheet let the menu show faintly through it; now opaque. A bubble faded in over 0.18 s, which a software-rendered
+     page paints late; it now appears at once (and still fades out over its last 0.4 s).
+   - the check's own: players of one room can spawn far apart (it now brings the listener beside the speaker with the admin tools and
+     freezes the world), and html.rm's own rule makes every transition 0.01 s.
+3. Captures (shots/): the lounge at 1920 x 1080 and 1280 x 720, the phone's menu and its lounge, an edge hint, the phone's composer.
+4. The fast gate on a fresh clone of the first local T2-B commit (5c53aba, never pushed; gate_fast_first_clone*): 19 of 21 steps - chat PASS (81 of 81, 13 of 13); lineage FAILED (the __api contract was stale: chat.js is a new reader of window.__api)
+   and cli_golden FAILED (every client scene records window.__net's members, and the session had gained a member, say). Fixed before
+   any push: the session no longer adds to window.__net; it hands chat.js its send of {t:'say'} once, as it loads
+   (window.__chat.link({say})), so window.__net and every B++ scene's trace are as before; the __api contract and its pages
+   regenerated (api_contract.js, lineage_doc.js). After the fix: cli_golden_c3c.js on the working tree, all 18 scenes identical, mp.js
+   reached; the phone's nearby scenario (it speaks through the link) 2 of 2. The menu and chat_browser steps that had started on that
+   clone were stopped (they would have checked the superseded code) and the local commit amended.
+5. The fast gate and the menu and chat_browser steps on a fresh clone of this commit: results in the next checkpoint.

@@ -110,6 +110,9 @@ function peerPoses(m) {
   }
   resolid();                                                                         // (C3c) S.P.A.C.E.: the bodies we steer round, from the newer poses
 }
+/* post-3H Trial 2: F.R.O.N.T.'s chat.js (loaded before this script) is handed the one way to speak nearby, {t:'say'} on this socket; the
+ * server decides who hears it.  window.__net itself is unchanged.  Without chat.js nothing happens. */
+if (window.__chat && window.__chat.link) window.__chat.link({ say: text => tx({ t: 'say', text: String(text) }) });
 window.__peerNet = () => ({ mode: PEER_MODE, fast: fastAck, sendMs: fastAck ? 25 : 50, lastK, counts: Object.assign({}, PN),   // DEV only (tests): what B+ did
   peers: [...peers.values()].map(o => ({ id: o.id, x: +o.x.toFixed(2), y: +o.y.toFixed(2), tx: o.tx, ty: o.ty, a: o.a, ang: o.ang === undefined ? null : +o.ang.toFixed(4), d: o.d })) });
 /* the world epoch: an admin world reset ({t:'world', w, x, y}), or the first snapshot of a world a lone player's new run started.
@@ -163,6 +166,7 @@ function connect() {
     else if (m.t === 'exit') doExit(m.secs);
     else if (m.t === 'nra') nrAnswer(m);                                       // Stage 3D HQ2: the server's NEW RUN decision
     else if (m.t === 'got') giveItem(m.item);
+    else if (m.t === 'heard' || m.t === 'said') { if (window.__chat) window.__chat.net(m, peers.get(m.id) || null); }   // post-3H Trial 2: nearby speech, for F.R.O.N.T.'s chat.js (with the speaker's peer record: its name)
     else if (m.t === 's') {
       const now = performance.now(), seen = new Set(); PN.s++; if (m.k != null) lastK = m.k;
       for (const p of m.p) {

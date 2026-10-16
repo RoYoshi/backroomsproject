@@ -47,6 +47,7 @@ sounds and web manifest, and the retired `assets/shadows-2d.js` (still served, u
 | `public/assets/br-role.js` | one source file | `frameworks/br-role/client/br-role.js` |
 | `public/assets/browserAll-B-iwy0YI.js` | a copy of the v11 build output | `core/client/bundle/original-v11/dist/assets/browserAll-B-iwy0YI.js` |
 | `public/assets/canvasUtils-CxYPZET9.js` | a copy of the v11 build output | `core/client/bundle/original-v11/dist/assets/canvasUtils-CxYPZET9.js` |
+| `public/assets/chat.js` | one source file | `frameworks/front/client/chat.js` |
 | `public/assets/credits_data.js` | one source file | `frameworks/front/client/credits_data.js` |
 | `public/assets/getTextureBatchBindGroup-DBCrgHVb.js` | a copy of the v11 build output | `core/client/bundle/original-v11/dist/assets/getTextureBatchBindGroup-DBCrgHVb.js` |
 | `public/assets/index-D7hdwmUU.css` | the client build (TypeScript and Vite: `dev/tools/build/client.js`), checked against its record | `core/client/game/` (record `generated/CLIENT_BUILD.json`) |

@@ -39,6 +39,7 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   sendPose(now, p, started, lightOn);                                     // (C3c) the session's: our pose every 25 / 50 ms, every 250 ms in the menu
   /* --- other wanderers: real avatars (same look as yours), their own lights, hover name --- */
   drawPeers(p, cam, sc, los, t, W, H);
+  if (window.__chatFrame) window.__chatFrame({ p, cam, sc, W, H, run: run && !exited() });   // post-3H Trial 2: F.R.O.N.T.'s speech bubbles, placed with this frame's camera
   /* --- dread: proximity to hound + smilers drives heartbeat, drone, vignette, shake, flicker --- */
   let d = 1e9;
   if (run) { d = Math.hypot(G.x - p.x, G.y - p.y); for (const s of q) d = Math.min(d, Math.hypot(s.x - p.x, s.y - p.y)); }

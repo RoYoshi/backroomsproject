@@ -1,7 +1,7 @@
 {
  "note": "Written by dev/tools/build/build.js. Every built output, its parts in order and their SHA-256. Do not edit: run npm run build.",
  "recipes": "src/build-recipes.json",
- "recipesSha256": "c053a58784b7742405e20d5f26a50e08c1dadd87f57cbd630dd192f3d0d12953",
+ "recipesSha256": "4117e921923d1cccc19883d069cb1f18106a92060adec18a77a19ac395c7f962",
  "tool": "dev/tools/build/build.js",
  "toolSha256": "6afae04820edaef19a49e8c9f2fe0f99eb8b719976bcd92571ed63b7c7a53f0e",
  "outputs": [
@@ -121,6 +121,18 @@
     {
      "path": "src/core/client/bundle/original-v11/dist/assets/canvasUtils-CxYPZET9.js",
      "sha256": "1e29f32d043bc9342dabb11cb033adf27013606f32f8d363cf3c2ff34bed5b03",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/assets/chat.js",
+   "bytes": 28703,
+   "sha256": "4e3c72c9e2dd738b83ebab2f43a7e4bca36a49c757250d1948b3a2751fbbac49",
+   "parts": [
+    {
+     "path": "src/frameworks/front/client/chat.js",
+     "sha256": "4e3c72c9e2dd738b83ebab2f43a7e4bca36a49c757250d1948b3a2751fbbac49",
      "headerBytes": 0
     }
    ]
@@ -460,8 +472,8 @@
   },
   {
    "out": "public/mp.js",
-   "bytes": 100255,
-   "sha256": "7c05570a744b4fb94532e438ea01c01edd9961ce0de8be949d6b9eb44d7d480c",
+   "bytes": 101010,
+   "sha256": "ced1752c67c1d86aa48ed04e655ea731b66469d948dcc0616af6219bf950a98e",
    "parts": [
     {
      "path": "src/core/client/mp.js",
@@ -470,7 +482,7 @@
     },
     {
      "path": "src/frameworks/bpp/client/mp.session.js",
-     "sha256": "f82f3dca2e08e701709ff6a0ee92ace307b369c71783d9f15bb682a72d368408",
+     "sha256": "f8636ff312adc54957a044cf9625391bff41c1d79e167d38c0824398ac3f02af",
      "headerBytes": 2500
     },
     {
@@ -515,7 +527,7 @@
     },
     {
      "path": "src/core/client/mp.frame.js",
-     "sha256": "5bd51efdae0a9b8d2a400275a279aa46b69388c2bcdb3a1d2cff9045b5b9dac3",
+     "sha256": "bf35489c3e3b08fea6c8151b5ac6cc6c5966e08f760f9d07a02b0566d7863d3f",
      "headerBytes": 1345
     },
     {

@@ -7,7 +7,7 @@
 minified internal names, so those one- and two-letter names are a public API: any rebuild of the bundle must keep every member, with
 the same name and the same meaning, for every reader below.
 
-- **Readers:** 16 scripts the page loads, plus `assets/shadows-2d.js` (retired, not loaded), plus the bundle's own reads.
+- **Readers:** 17 scripts the page loads, plus `assets/shadows-2d.js` (retired, not loaded), plus the bundle's own reads.
 - **The served bundle:** built from src/core/client/game/ (generated/CLIENT_BUILD.json); it publishes the same 52 members, in the same order, and reads the same members of `window.__api`, as often. The columns below describe the bundle the lineage records (the one it was ported from).
 - **"Written by"** is the lineage step whose text holds the member: the v11 build had no `__api` at all.
 - **"Is"** names what the member's value refers to. For an original v11 name, it gives the TypeScript module and declaration it compiled from. For a later name, it gives the step that wrote it.
@@ -19,7 +19,7 @@ the same name and the same meaning, for every reader below.
 | `lightOn` | function | B19 | `au` = client/main.ts `flash` | ents.js ×2 |
 | `bodyList` | function | B14 | `Yl` = shared/remains.ts `corpses` | mp.js ×4 |
 | `death` | function | B14 | `X` = client/main.ts `renderer` | ents.js ×4, light.js ×2, mp.js ×11, assets/shadows-2d.js ×6 |
-| `keys` | value | B14 | `Q` = client/main.ts `keys` | move.js ×1, assets/ui.js ×2 |
+| `keys` | value | B14 | `Q` = client/main.ts `keys` | move.js ×1, assets/chat.js ×3, assets/ui.js ×2 |
 | `Bc` | binding | B14 | `Bc` = shared/world.ts `function nearby` | dphys.js ×2, ents.js ×2, light.js ×2, move.js ×2, assets/br-role.js ×2, assets/l0-remaster.js ×2, assets/shadows-2d.js ×2 |
 | `Uc` | binding | B14 | `Uc` = shared/world.ts `function rayDistance` | camcorder.js ×4, ents.js ×3, gore.js ×2, light.js ×3, mp.js ×2, assets/br-role.js ×5, assets/shadows-2d.js ×8 |
 | `Oc` | binding | B14 | `Oc` = shared/world.ts `rooms` | move.js ×2, assets/br-role.js ×2, assets/l0-remaster.js ×7 |
@@ -37,11 +37,11 @@ the same name and the same meaning, for every reader below.
 | `map` | function | B10 | `vu` = client/main.ts `function toggleMap` | inventory.js ×2 |
 | `mapOpen` | function | B10 | `ou` = client/main.ts `map` | inventory.js ×2 |
 | `gear` | value | B10 | `Zc` = client/loadout.ts `equipment`; `Qc` = client/loadout.ts `function saveEquipment`; `PD` (written by B10); `Pg` (written by B10); `Jc` = shared/equipment.ts `function validLight`; `Gd` (written by B10) | inventory.js ×19, assets/net-wire.js ×5, assets/ui.js ×6 |
-| `G` | binding | B05 | `G` = shared/entity.ts `entity` | mp.js ×11 |
+| `G` | binding | B05 | `G` = shared/entity.ts `entity` | mp.js ×11, assets/chat.js ×4 |
 | `q` | binding | B05 | `q` = shared/entity.ts `smilers` | mp.js ×6 |
 | `V` | binding | B05 | `V` = shared/world.ts `lighting` | ents.js ×2, light.js ×2, mp.js ×1, assets/br-role.js ×2, assets/mp-hum.js ×1, assets/shadows-2d.js ×2 |
 | `el` | binding | B05 | `el` = shared/evidence.ts `traces` | - |
-| `H` | binding | B05 | `H` = shared/movement.ts `player` | camcorder.js ×4, ents.js ×7, light.js ×3, move.js ×7, mp.js ×24, assets/br-role.js ×4, assets/l0-remaster.js ×1, assets/mp-hum.js ×1, assets/shadows-2d.js ×5, assets/ui.js ×1, assets/index-DKbV5Nv9.js (itself) ×3 |
+| `H` | binding | B05 | `H` = shared/movement.ts `player` | camcorder.js ×4, ents.js ×7, light.js ×3, move.js ×7, mp.js ×24, assets/br-role.js ×4, assets/chat.js ×2, assets/l0-remaster.js ×1, assets/mp-hum.js ×1, assets/shadows-2d.js ×5, assets/ui.js ×1, assets/index-DKbV5Nv9.js (itself) ×3 |
 | `yu` | binding | B05 | `yu` = client/main.ts `function updateEvidence` | - |
 | `zc` | binding | B09 | `zc` = shared/world.ts `isFloor` | mp.js ×4, assets/l0-remaster.js ×4 |
 | `Hc` | binding | B09 | `Hc` = shared/world.ts `blocksSight` | mp.js ×1, assets/br-role.js ×6, assets/l0-remaster.js ×4, assets/shadows-2d.js ×2 |
@@ -63,8 +63,8 @@ the same name and the same meaning, for every reader below.
 | `Gl` | binding | B12 | `Gl` = client/entity-view.ts `SmilerView (class)` | mp.js ×1 |
 | `J` | binding | B12 | `J` = shared/vision.ts `smooth` | - |
 | `fall` | function | B12 | `FL` (written by B12) | mp.js ×4 |
-| `started` | function | B05 | `$` = client/main.ts `started` | inventory.js ×4, mp.js ×1, assets/ui.js ×9 |
-| `paused` | function | B05 | `iu` = client/main.ts `paused` | mp.js ×2, assets/ui.js ×5 |
+| `started` | function | B05 | `$` = client/main.ts `started` | inventory.js ×4, mp.js ×1, assets/chat.js ×5, assets/ui.js ×9 |
+| `paused` | function | B05 | `iu` = client/main.ts `paused` | mp.js ×2, assets/chat.js ×1, assets/ui.js ×5 |
 | `unpause` | function | B18 | `iu` = client/main.ts `paused`; `_u` = client/main.ts `function pause` | mp.js ×2 |
 | `win` | function | B05 | `hu` = client/main.ts `won`; `Q` = client/main.ts `keys`; `cu` = client/main.ts `accumulator`; `Y` = client/main.ts `$` | mp.js ×1 |
 | `unwin` | function | B06 | `hu` = client/main.ts `won`; `Y` = client/main.ts `$` | - |
@@ -85,6 +85,7 @@ the same name and the same meaning, for every reader below.
 | `mp.js` | yes | `A` | 28 |
 | `sfx.js` | yes | - | 1 |
 | `assets/br-role.js` | yes | `A` | 10 |
+| `assets/chat.js` | yes | `A`, `API()` | 5 |
 | `assets/l0-remaster.js` | yes | `A`, `api()` | 5 |
 | `assets/mp-hum.js` | yes | `A` | 4 |
 | `assets/net-wire.js` | yes | `A` | 1 |

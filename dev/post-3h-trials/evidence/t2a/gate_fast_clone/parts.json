@@ -1,0 +1,1203 @@
+{
+ "tool": "dev/tools/checks/parts.js",
+ "typescript": "6.0.3",
+ "outputs": [
+  {
+   "out": "public/camcorder.js",
+   "closure": "ArrowFunction at character 4028",
+   "closureNames": 5,
+   "parts": [
+    {
+     "path": "src/frameworks/br-r/client/camcorder.js",
+     "statements": 2,
+     "provides": [
+      "camcorderCore"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/camcorder.audio.js",
+     "statements": 1,
+     "provides": [
+      "camcorderAudio"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/client/camcorder.view.js",
+     "statements": 1,
+     "provides": [
+      "camcorderView"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/client/camcorder.compose.js",
+     "statements": 3,
+     "provides": [],
+     "uses": [
+      "camcorderAudio",
+      "camcorderCore",
+      "camcorderView"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "camcorderCore": "src/frameworks/br-r/client/camcorder.js",
+      "camcorderAudio": "src/frameworks/spacious-audio/client/camcorder.audio.js",
+      "camcorderView": "src/frameworks/br-r/client/camcorder.view.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "public/ents.js",
+   "closure": "ArrowFunction at character 325",
+   "closureNames": 8,
+   "parts": [
+    {
+     "path": "src/frameworks/br-r/client/ents.head.js",
+     "statements": 2,
+     "provides": [
+      "entsHead"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/client/ents.hound.js",
+     "statements": 1,
+     "provides": [
+      "entsHound"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/client/ents.smiler.js",
+     "statements": 1,
+     "provides": [
+      "entsSmiler"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/gib/client/ents.death.js",
+     "statements": 1,
+     "provides": [
+      "entsDeath"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/ents.audio.js",
+     "statements": 1,
+     "provides": [
+      "entsAudio"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/overseer/client/ents.debug.js",
+     "statements": 1,
+     "provides": [
+      "entsDebug"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/client/ents.compose.js",
+     "statements": 6,
+     "provides": [],
+     "uses": [
+      "entsAudio",
+      "entsDeath",
+      "entsDebug",
+      "entsHead",
+      "entsHound",
+      "entsSmiler"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "entsHead": "src/frameworks/br-r/client/ents.head.js",
+      "entsHound": "src/frameworks/br-r/client/ents.hound.js",
+      "entsSmiler": "src/frameworks/br-r/client/ents.smiler.js",
+      "entsDeath": "src/frameworks/gib/client/ents.death.js",
+      "entsAudio": "src/frameworks/spacious-audio/client/ents.audio.js",
+      "entsDebug": "src/frameworks/overseer/client/ents.debug.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "public/glitch.js",
+   "closure": "ArrowFunction at character 389",
+   "closureNames": 5,
+   "parts": [
+    {
+     "path": "src/frameworks/lost/client/glitch.js",
+     "statements": 1,
+     "provides": [
+      "glitchWalls"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/glitch.audio.js",
+     "statements": 1,
+     "provides": [
+      "glitchAudio"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/client/glitch.draw.js",
+     "statements": 1,
+     "provides": [
+      "glitchDraw"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/client/glitch.compose.js",
+     "statements": 3,
+     "provides": [],
+     "uses": [
+      "glitchAudio",
+      "glitchDraw",
+      "glitchWalls"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "glitchWalls": "src/frameworks/lost/client/glitch.js",
+      "glitchAudio": "src/frameworks/spacious-audio/client/glitch.audio.js",
+      "glitchDraw": "src/frameworks/lost/client/glitch.draw.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "public/move.js",
+   "closure": "ArrowFunction at character 697",
+   "closureNames": 4,
+   "parts": [
+    {
+     "path": "src/frameworks/space/client/move.js",
+     "statements": 2,
+     "provides": [
+      "moveCore"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/client/move.poses.js",
+     "statements": 1,
+     "provides": [
+      "movePoses"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/move.sound.js",
+     "statements": 1,
+     "provides": [
+      "moveSound"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/client/move.compose.js",
+     "statements": 3,
+     "provides": [],
+     "uses": [
+      "moveCore",
+      "movePoses",
+      "moveSound"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "moveCore": "src/frameworks/space/client/move.js",
+      "movePoses": "src/frameworks/br-r/client/move.poses.js",
+      "moveSound": "src/frameworks/spacious-audio/client/move.sound.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "public/mp.js",
+   "closure": "ArrowFunction at character 388",
+   "closureNames": 21,
+   "parts": [
+    {
+     "path": "src/core/client/mp.js",
+     "statements": 1,
+     "provides": [
+      "mpCore"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/bpp/client/mp.session.js",
+     "statements": 1,
+     "provides": [
+      "bppSession"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/client/mp.glitch.js",
+     "statements": 1,
+     "provides": [
+      "lostGlitch"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/pocket/client/mp.cartograph.js",
+     "statements": 1,
+     "provides": [
+      "pocketCartograph"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/client/mp.monsters.js",
+     "statements": 1,
+     "provides": [
+      "naniMonsters"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/client/mp.peers.js",
+     "statements": 1,
+     "provides": [
+      "spacePeers"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/mp.dread.js",
+     "statements": 1,
+     "provides": [
+      "audioDread"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/client/mp.wanderers.js",
+     "statements": 1,
+     "provides": [
+      "brrWanderers"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/gib/client/mp.deaths.js",
+     "statements": 1,
+     "provides": [
+      "gibDeaths"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/overseer/client/mp.admin.js",
+     "statements": 1,
+     "provides": [
+      "overseerAdmin"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/core/client/mp.frame.js",
+     "statements": 1,
+     "provides": [
+      "mpFrame"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/core/client/mp.compose.js",
+     "statements": 12,
+     "provides": [],
+     "uses": [
+      "audioDread",
+      "bppSession",
+      "brrWanderers",
+      "gibDeaths",
+      "lostGlitch",
+      "mpCore",
+      "mpFrame",
+      "naniMonsters",
+      "overseerAdmin",
+      "pocketCartograph",
+      "spacePeers"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "mpCore": "src/core/client/mp.js",
+      "bppSession": "src/frameworks/bpp/client/mp.session.js",
+      "lostGlitch": "src/frameworks/lost/client/mp.glitch.js",
+      "pocketCartograph": "src/frameworks/pocket/client/mp.cartograph.js",
+      "naniMonsters": "src/frameworks/nani/client/mp.monsters.js",
+      "spacePeers": "src/frameworks/space/client/mp.peers.js",
+      "audioDread": "src/frameworks/spacious-audio/client/mp.dread.js",
+      "brrWanderers": "src/frameworks/br-r/client/mp.wanderers.js",
+      "gibDeaths": "src/frameworks/gib/client/mp.deaths.js",
+      "overseerAdmin": "src/frameworks/overseer/client/mp.admin.js",
+      "mpFrame": "src/core/client/mp.frame.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "public/world.js",
+   "closure": "FunctionExpression at character 779",
+   "closureNames": 7,
+   "parts": [
+    {
+     "path": "src/frameworks/space/shared/world.js",
+     "statements": 2,
+     "provides": [
+      "worldHead"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/shared/world.lamps.js",
+     "statements": 1,
+     "provides": [
+      "worldLamps"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/shared/world.crawl.js",
+     "statements": 1,
+     "provides": [
+      "worldCrawl"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/shared/world.surfaces.js",
+     "statements": 1,
+     "provides": [
+      "worldSurfaces"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/shared/world.move.js",
+     "statements": 1,
+     "provides": [
+      "worldMove"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/shared/world.art.js",
+     "statements": 1,
+     "provides": [
+      "worldArt"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/shared/world.compose.js",
+     "statements": 7,
+     "provides": [],
+     "uses": [
+      "worldArt",
+      "worldCrawl",
+      "worldHead",
+      "worldLamps",
+      "worldMove",
+      "worldSurfaces"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "worldHead": "src/frameworks/space/shared/world.js",
+      "worldLamps": "src/frameworks/lost/shared/world.lamps.js",
+      "worldCrawl": "src/frameworks/space/shared/world.crawl.js",
+      "worldSurfaces": "src/frameworks/lost/shared/world.surfaces.js",
+      "worldMove": "src/frameworks/space/shared/world.move.js",
+      "worldArt": "src/frameworks/br-r/shared/world.art.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "generated/server/ai.js",
+   "closure": "FunctionExpression at character 976",
+   "closureNames": 201,
+   "parts": [
+    {
+     "path": "src/frameworks/nani/server/ai.head.js",
+     "statements": 15,
+     "provides": [
+      "Hash",
+      "S",
+      "SCODE",
+      "SNAMES",
+      "TAU",
+      "TRAITS",
+      "WORLD",
+      "angDiff",
+      "clamp",
+      "deriveSeed",
+      "dist",
+      "entityStreams",
+      "lerp",
+      "mkRng",
+      "sm"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.geo.js",
+     "statements": 6,
+     "provides": [
+      "Geo",
+      "OL"
+     ],
+     "uses": [
+      "WORLD",
+      "sm"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "WORLD": "src/frameworks/nani/server/ai.head.js",
+      "sm": "src/frameworks/nani/server/ai.head.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.senses.js",
+     "statements": 27,
+     "provides": [
+      "LEAD_MAXAGE",
+      "W_SN",
+      "addLead",
+      "bestAnonLead",
+      "bestLead",
+      "decayMemory",
+      "estimate",
+      "facedBy",
+      "hearEvent",
+      "memAge",
+      "memHalfLife",
+      "newMemory",
+      "noteEv",
+      "perc",
+      "rec",
+      "setTarget",
+      "tgtGone",
+      "threatsAround",
+      "touching",
+      "updateVision",
+      "visualObservation"
+     ],
+     "uses": [
+      "INTEL",
+      "S",
+      "TAU",
+      "WORLD",
+      "angDiff",
+      "clamp",
+      "evidenceModality",
+      "forgetIdentity",
+      "habitObserve",
+      "identifySound",
+      "lerp",
+      "observationScore"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "INTEL": "src/frameworks/nani/server/ai.intelligence.js",
+      "forgetIdentity": "src/frameworks/nani/server/ai.intelligence.js",
+      "evidenceModality": "src/frameworks/nani/server/ai.intelligence.js",
+      "observationScore": "src/frameworks/nani/server/ai.intelligence.js",
+      "angDiff": "src/frameworks/nani/server/ai.head.js",
+      "lerp": "src/frameworks/nani/server/ai.head.js",
+      "clamp": "src/frameworks/nani/server/ai.head.js",
+      "WORLD": "src/frameworks/nani/server/ai.head.js",
+      "habitObserve": "src/frameworks/nani/server/ai.intelligence.js",
+      "identifySound": "src/frameworks/nani/server/ai.intelligence.js",
+      "S": "src/frameworks/nani/server/ai.head.js",
+      "TAU": "src/frameworks/nani/server/ai.head.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.intelligence.js",
+     "statements": 14,
+     "provides": [
+      "INTEL",
+      "arbitrateEvidence",
+      "cleanHabits",
+      "cleanupKnowledge",
+      "evidenceCandidates",
+      "evidenceModality",
+      "forgetIdentity",
+      "habitBias",
+      "habitObserve",
+      "identifySound",
+      "intelligenceDebug",
+      "observationScore"
+     ],
+     "uses": [
+      "LEAD_MAXAGE",
+      "S",
+      "SM_DWELL",
+      "clamp",
+      "hDwell",
+      "hMaySwitch",
+      "houndTargetScore",
+      "memHalfLife",
+      "sScore",
+      "tgtGone",
+      "visualObservation"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "clamp": "src/frameworks/nani/server/ai.head.js",
+      "memHalfLife": "src/frameworks/nani/server/ai.senses.js",
+      "LEAD_MAXAGE": "src/frameworks/nani/server/ai.senses.js",
+      "visualObservation": "src/frameworks/nani/server/ai.senses.js",
+      "S": "src/frameworks/nani/server/ai.head.js",
+      "houndTargetScore": "src/frameworks/nani/server/ai.hound.js",
+      "sScore": "src/frameworks/nani/server/ai.smiler.js",
+      "tgtGone": "src/frameworks/nani/server/ai.senses.js",
+      "hMaySwitch": "src/frameworks/nani/server/ai.hound.js",
+      "hDwell": "src/frameworks/nani/server/ai.hound.js",
+      "SM_DWELL": "src/frameworks/nani/server/ai.smiler.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.light.js",
+     "statements": 8,
+     "provides": [
+      "lightSense"
+     ],
+     "uses": [
+      "TAU",
+      "addLead",
+      "angDiff",
+      "bestAnonLead",
+      "clamp",
+      "noteEv",
+      "observationScore",
+      "sm"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "TAU": "src/frameworks/nani/server/ai.head.js",
+      "sm": "src/frameworks/nani/server/ai.head.js",
+      "angDiff": "src/frameworks/nani/server/ai.head.js",
+      "clamp": "src/frameworks/nani/server/ai.head.js",
+      "noteEv": "src/frameworks/nani/server/ai.senses.js",
+      "addLead": "src/frameworks/nani/server/ai.senses.js",
+      "bestAnonLead": "src/frameworks/nani/server/ai.senses.js",
+      "observationScore": "src/frameworks/nani/server/ai.intelligence.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.entity.js",
+     "statements": 29,
+     "provides": [
+      "approach",
+      "coarseMove",
+      "directOk",
+      "directTo",
+      "faceToward",
+      "follow",
+      "goTo",
+      "mkEntity",
+      "moodTick",
+      "moveCollide",
+      "navOf",
+      "plan",
+      "randomFloor",
+      "setAct",
+      "setState",
+      "steerTo",
+      "stopMoving",
+      "tierOf",
+      "turnTo"
+     ],
+     "uses": [
+      "OL",
+      "S",
+      "SPECIES",
+      "TAU",
+      "TRAITS",
+      "angDiff",
+      "clamp",
+      "entityStreams",
+      "lerp",
+      "newMemory"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "TRAITS": "src/frameworks/nani/server/ai.head.js",
+      "clamp": "src/frameworks/nani/server/ai.head.js",
+      "SPECIES": "src/frameworks/nani/server/ai.engine.js",
+      "entityStreams": "src/frameworks/nani/server/ai.head.js",
+      "TAU": "src/frameworks/nani/server/ai.head.js",
+      "OL": "src/frameworks/nani/server/ai.geo.js",
+      "S": "src/frameworks/nani/server/ai.head.js",
+      "newMemory": "src/frameworks/nani/server/ai.senses.js",
+      "angDiff": "src/frameworks/nani/server/ai.head.js",
+      "lerp": "src/frameworks/nani/server/ai.head.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.capture.js",
+     "statements": 17,
+     "provides": [
+      "beginCapture",
+      "capStep",
+      "commitEnd",
+      "commitTick",
+      "finishCapture",
+      "killNow",
+      "pickW",
+      "previewKill",
+      "rand"
+     ],
+     "uses": [
+      "TAU",
+      "angDiff",
+      "clamp",
+      "setAct",
+      "stopMoving",
+      "threatsAround"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "TAU": "src/frameworks/nani/server/ai.head.js",
+      "threatsAround": "src/frameworks/nani/server/ai.senses.js",
+      "clamp": "src/frameworks/nani/server/ai.head.js",
+      "angDiff": "src/frameworks/nani/server/ai.head.js",
+      "setAct": "src/frameworks/nani/server/ai.entity.js",
+      "stopMoving": "src/frameworks/nani/server/ai.entity.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.hound.js",
+     "statements": 45,
+     "provides": [
+      "HACT",
+      "HOUND",
+      "beginHunt",
+      "beginSearch",
+      "hDebug",
+      "hDwell",
+      "hMaySwitch",
+      "houndTargetScore"
+     ],
+     "uses": [
+      "S",
+      "SCODE",
+      "TAU",
+      "WORLD",
+      "angDiff",
+      "approach",
+      "bestAnonLead",
+      "clamp",
+      "commitTick",
+      "directOk",
+      "directTo",
+      "dist",
+      "estimate",
+      "faceToward",
+      "facedBy",
+      "follow",
+      "goTo",
+      "habitBias",
+      "lerp",
+      "memAge",
+      "moveCollide",
+      "pickW",
+      "plan",
+      "rand",
+      "randomFloor",
+      "rec",
+      "setAct",
+      "setState",
+      "setTarget",
+      "steerTo",
+      "stopMoving",
+      "tgtGone",
+      "turnTo"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "S": "src/frameworks/nani/server/ai.head.js",
+      "rand": "src/frameworks/nani/server/ai.capture.js",
+      "setAct": "src/frameworks/nani/server/ai.entity.js",
+      "facedBy": "src/frameworks/nani/server/ai.senses.js",
+      "faceToward": "src/frameworks/nani/server/ai.entity.js",
+      "estimate": "src/frameworks/nani/server/ai.senses.js",
+      "bestAnonLead": "src/frameworks/nani/server/ai.senses.js",
+      "setState": "src/frameworks/nani/server/ai.entity.js",
+      "stopMoving": "src/frameworks/nani/server/ai.entity.js",
+      "goTo": "src/frameworks/nani/server/ai.entity.js",
+      "follow": "src/frameworks/nani/server/ai.entity.js",
+      "dist": "src/frameworks/nani/server/ai.head.js",
+      "memAge": "src/frameworks/nani/server/ai.senses.js",
+      "tgtGone": "src/frameworks/nani/server/ai.senses.js",
+      "randomFloor": "src/frameworks/nani/server/ai.entity.js",
+      "plan": "src/frameworks/nani/server/ai.entity.js",
+      "clamp": "src/frameworks/nani/server/ai.head.js",
+      "lerp": "src/frameworks/nani/server/ai.head.js",
+      "habitBias": "src/frameworks/nani/server/ai.intelligence.js",
+      "TAU": "src/frameworks/nani/server/ai.head.js",
+      "angDiff": "src/frameworks/nani/server/ai.head.js",
+      "WORLD": "src/frameworks/nani/server/ai.head.js",
+      "setTarget": "src/frameworks/nani/server/ai.senses.js",
+      "turnTo": "src/frameworks/nani/server/ai.entity.js",
+      "approach": "src/frameworks/nani/server/ai.entity.js",
+      "moveCollide": "src/frameworks/nani/server/ai.entity.js",
+      "directOk": "src/frameworks/nani/server/ai.entity.js",
+      "directTo": "src/frameworks/nani/server/ai.entity.js",
+      "commitTick": "src/frameworks/nani/server/ai.capture.js",
+      "steerTo": "src/frameworks/nani/server/ai.entity.js",
+      "rec": "src/frameworks/nani/server/ai.senses.js",
+      "pickW": "src/frameworks/nani/server/ai.capture.js",
+      "SCODE": "src/frameworks/nani/server/ai.head.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.smiler.js",
+     "statements": 36,
+     "provides": [
+      "SACT",
+      "SMILER",
+      "SM_DWELL",
+      "beginDrawn",
+      "beginHidden",
+      "beginStalk",
+      "sScore"
+     ],
+     "uses": [
+      "S",
+      "SCODE",
+      "TAU",
+      "angDiff",
+      "approach",
+      "clamp",
+      "directOk",
+      "directTo",
+      "dist",
+      "estimate",
+      "faceToward",
+      "facedBy",
+      "follow",
+      "goTo",
+      "habitBias",
+      "lerp",
+      "moveCollide",
+      "perc",
+      "pickW",
+      "plan",
+      "rand",
+      "rec",
+      "setAct",
+      "setState",
+      "setTarget",
+      "stopMoving",
+      "tgtGone",
+      "touching"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "S": "src/frameworks/nani/server/ai.head.js",
+      "clamp": "src/frameworks/nani/server/ai.head.js",
+      "lerp": "src/frameworks/nani/server/ai.head.js",
+      "TAU": "src/frameworks/nani/server/ai.head.js",
+      "setState": "src/frameworks/nani/server/ai.entity.js",
+      "plan": "src/frameworks/nani/server/ai.entity.js",
+      "setTarget": "src/frameworks/nani/server/ai.senses.js",
+      "facedBy": "src/frameworks/nani/server/ai.senses.js",
+      "perc": "src/frameworks/nani/server/ai.senses.js",
+      "tgtGone": "src/frameworks/nani/server/ai.senses.js",
+      "estimate": "src/frameworks/nani/server/ai.senses.js",
+      "stopMoving": "src/frameworks/nani/server/ai.entity.js",
+      "follow": "src/frameworks/nani/server/ai.entity.js",
+      "setAct": "src/frameworks/nani/server/ai.entity.js",
+      "angDiff": "src/frameworks/nani/server/ai.head.js",
+      "habitBias": "src/frameworks/nani/server/ai.intelligence.js",
+      "faceToward": "src/frameworks/nani/server/ai.entity.js",
+      "goTo": "src/frameworks/nani/server/ai.entity.js",
+      "rand": "src/frameworks/nani/server/ai.capture.js",
+      "moveCollide": "src/frameworks/nani/server/ai.entity.js",
+      "directOk": "src/frameworks/nani/server/ai.entity.js",
+      "directTo": "src/frameworks/nani/server/ai.entity.js",
+      "touching": "src/frameworks/nani/server/ai.senses.js",
+      "dist": "src/frameworks/nani/server/ai.head.js",
+      "pickW": "src/frameworks/nani/server/ai.capture.js",
+      "approach": "src/frameworks/nani/server/ai.entity.js",
+      "rec": "src/frameworks/nani/server/ai.senses.js",
+      "SCODE": "src/frameworks/nani/server/ai.head.js"
+     },
+     "header": true
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.engine.js",
+     "statements": 6,
+     "provides": [
+      "SPECIES"
+     ],
+     "uses": [
+      "Geo",
+      "HACT",
+      "HOUND",
+      "Hash",
+      "INTEL",
+      "S",
+      "SACT",
+      "SCODE",
+      "SMILER",
+      "SNAMES",
+      "TRAITS",
+      "WORLD",
+      "W_SN",
+      "angDiff",
+      "arbitrateEvidence",
+      "beginCapture",
+      "beginDrawn",
+      "beginHidden",
+      "beginHunt",
+      "beginSearch",
+      "beginStalk",
+      "bestLead",
+      "capStep",
+      "cleanHabits",
+      "cleanupKnowledge",
+      "coarseMove",
+      "commitEnd",
+      "decayMemory",
+      "deriveSeed",
+      "directOk",
+      "directTo",
+      "estimate",
+      "evidenceCandidates",
+      "facedBy",
+      "finishCapture",
+      "follow",
+      "forgetIdentity",
+      "goTo",
+      "hDebug",
+      "habitBias",
+      "habitObserve",
+      "hearEvent",
+      "intelligenceDebug",
+      "killNow",
+      "lightSense",
+      "mkEntity",
+      "mkRng",
+      "moodTick",
+      "moveCollide",
+      "navOf",
+      "observationScore",
+      "plan",
+      "previewKill",
+      "rand",
+      "randomFloor",
+      "rec",
+      "setAct",
+      "setState",
+      "tierOf",
+      "updateVision"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "HOUND": "src/frameworks/nani/server/ai.hound.js",
+      "SMILER": "src/frameworks/nani/server/ai.smiler.js",
+      "mkRng": "src/frameworks/nani/server/ai.head.js",
+      "deriveSeed": "src/frameworks/nani/server/ai.head.js",
+      "Geo": "src/frameworks/nani/server/ai.geo.js",
+      "Hash": "src/frameworks/nani/server/ai.head.js",
+      "forgetIdentity": "src/frameworks/nani/server/ai.intelligence.js",
+      "angDiff": "src/frameworks/nani/server/ai.head.js",
+      "commitEnd": "src/frameworks/nani/server/ai.capture.js",
+      "hearEvent": "src/frameworks/nani/server/ai.senses.js",
+      "WORLD": "src/frameworks/nani/server/ai.head.js",
+      "W_SN": "src/frameworks/nani/server/ai.senses.js",
+      "mkEntity": "src/frameworks/nani/server/ai.entity.js",
+      "finishCapture": "src/frameworks/nani/server/ai.capture.js",
+      "updateVision": "src/frameworks/nani/server/ai.senses.js",
+      "lightSense": "src/frameworks/nani/server/ai.light.js",
+      "decayMemory": "src/frameworks/nani/server/ai.senses.js",
+      "cleanupKnowledge": "src/frameworks/nani/server/ai.intelligence.js",
+      "arbitrateEvidence": "src/frameworks/nani/server/ai.intelligence.js",
+      "moodTick": "src/frameworks/nani/server/ai.entity.js",
+      "S": "src/frameworks/nani/server/ai.head.js",
+      "setState": "src/frameworks/nani/server/ai.entity.js",
+      "beginHidden": "src/frameworks/nani/server/ai.smiler.js",
+      "randomFloor": "src/frameworks/nani/server/ai.entity.js",
+      "plan": "src/frameworks/nani/server/ai.entity.js",
+      "rand": "src/frameworks/nani/server/ai.capture.js",
+      "coarseMove": "src/frameworks/nani/server/ai.entity.js",
+      "navOf": "src/frameworks/nani/server/ai.entity.js",
+      "tierOf": "src/frameworks/nani/server/ai.entity.js",
+      "beginCapture": "src/frameworks/nani/server/ai.capture.js",
+      "capStep": "src/frameworks/nani/server/ai.capture.js",
+      "moveCollide": "src/frameworks/nani/server/ai.entity.js",
+      "directOk": "src/frameworks/nani/server/ai.entity.js",
+      "directTo": "src/frameworks/nani/server/ai.entity.js",
+      "goTo": "src/frameworks/nani/server/ai.entity.js",
+      "follow": "src/frameworks/nani/server/ai.entity.js",
+      "rec": "src/frameworks/nani/server/ai.senses.js",
+      "beginHunt": "src/frameworks/nani/server/ai.hound.js",
+      "beginStalk": "src/frameworks/nani/server/ai.smiler.js",
+      "previewKill": "src/frameworks/nani/server/ai.capture.js",
+      "killNow": "src/frameworks/nani/server/ai.capture.js",
+      "beginSearch": "src/frameworks/nani/server/ai.hound.js",
+      "setAct": "src/frameworks/nani/server/ai.entity.js",
+      "beginDrawn": "src/frameworks/nani/server/ai.smiler.js",
+      "bestLead": "src/frameworks/nani/server/ai.senses.js",
+      "estimate": "src/frameworks/nani/server/ai.senses.js",
+      "facedBy": "src/frameworks/nani/server/ai.senses.js",
+      "hDebug": "src/frameworks/nani/server/ai.hound.js",
+      "intelligenceDebug": "src/frameworks/nani/server/ai.intelligence.js",
+      "SNAMES": "src/frameworks/nani/server/ai.head.js",
+      "SCODE": "src/frameworks/nani/server/ai.head.js",
+      "HACT": "src/frameworks/nani/server/ai.hound.js",
+      "SACT": "src/frameworks/nani/server/ai.smiler.js",
+      "TRAITS": "src/frameworks/nani/server/ai.head.js",
+      "INTEL": "src/frameworks/nani/server/ai.intelligence.js",
+      "evidenceCandidates": "src/frameworks/nani/server/ai.intelligence.js",
+      "observationScore": "src/frameworks/nani/server/ai.intelligence.js",
+      "habitObserve": "src/frameworks/nani/server/ai.intelligence.js",
+      "cleanHabits": "src/frameworks/nani/server/ai.intelligence.js",
+      "habitBias": "src/frameworks/nani/server/ai.intelligence.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  },
+  {
+   "out": "generated/server/world.js",
+   "closure": "FunctionExpression at character 779",
+   "closureNames": 7,
+   "parts": [
+    {
+     "path": "src/frameworks/space/shared/world.js",
+     "statements": 2,
+     "provides": [
+      "worldHead"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/shared/world.lamps.js",
+     "statements": 1,
+     "provides": [
+      "worldLamps"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/shared/world.crawl.js",
+     "statements": 1,
+     "provides": [
+      "worldCrawl"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/lost/shared/world.surfaces.js",
+     "statements": 1,
+     "provides": [
+      "worldSurfaces"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/shared/world.move.js",
+     "statements": 1,
+     "provides": [
+      "worldMove"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/br-r/shared/world.art.js",
+     "statements": 1,
+     "provides": [
+      "worldArt"
+     ],
+     "uses": [],
+     "writes": [],
+     "usesFrom": {},
+     "header": true
+    },
+    {
+     "path": "src/frameworks/space/shared/world.compose.js",
+     "statements": 7,
+     "provides": [],
+     "uses": [
+      "worldArt",
+      "worldCrawl",
+      "worldHead",
+      "worldLamps",
+      "worldMove",
+      "worldSurfaces"
+     ],
+     "writes": [],
+     "usesFrom": {
+      "worldHead": "src/frameworks/space/shared/world.js",
+      "worldLamps": "src/frameworks/lost/shared/world.lamps.js",
+      "worldCrawl": "src/frameworks/space/shared/world.crawl.js",
+      "worldSurfaces": "src/frameworks/lost/shared/world.surfaces.js",
+      "worldMove": "src/frameworks/space/shared/world.move.js",
+      "worldArt": "src/frameworks/br-r/shared/world.art.js"
+     },
+     "header": true
+    }
+   ],
+   "problems": [],
+   "ok": true
+  }
+ ],
+ "ok": true
+}

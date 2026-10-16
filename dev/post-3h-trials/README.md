@@ -27,11 +27,13 @@ Development only. Nothing here is served or loaded by the game.
 |---|---|
 | `CHECKPOINTS.md` | Every pushed trial checkpoint: commit, tree, tests, rollback |
 | `T1_REPORT.md`, `HUMAN_QA_T1.md` | Trial 1's report and its Human QA page, for the owner |
-| `evidence/t1a/`, `evidence/t1/` | What Trial 1's commands produced, by checkpoint (each `STEPS.txt` says which file is which); `evidence/remote/` holds the push receipts |
-| `tools/` | The trials' own tools: `t1_menu_perf.js` (what the drift costs on the idle menu, A/B and A/A), `t1_capture.js` (a capture of the title for the Human QA evidence), `verify_remote_t.py` (a pushed checkpoint read back from GitHub) |
+| `T2_REPORT.md`, `HUMAN_QA_T2.md` | Trial 2's report and its Human QA page (at T2-D); the design, protocol and threat model are `docs/architecture/CHAT.md` |
+| `evidence/t1a/`, `evidence/t1/`, `evidence/t2a/`, `evidence/t2b/`, ... | What each checkpoint's commands produced (each `STEPS.txt` says which file is which); `evidence/remote/` holds the push receipts |
+| `tools/` | The trials' own tools: `t1_menu_perf.js` (what the drift costs on the idle menu, A/B and A/A; reused for Trial 2's menu), `t1_capture.js` (a capture of the title for the Human QA evidence), `t2_server_perf.js` (what the chat costs the server: CPU, memory, snapshot pace, reconnects), `t2_client_perf.js` (what nearby speech costs a page in a run), `verify_remote_t.py` (a pushed checkpoint read back from GitHub) |
 | `inventory/` | Every remote head before the first push (the remote check compares with it) |
 
-The lasting checks live with the others: `dev/tools/checks/menu_drift.js` (the gate's full-tier `menu` step).
+The lasting checks live with the others: `dev/tools/checks/menu_drift.js` (the gate's full-tier `menu` step), `dev/tools/checks/chat_server.js`
+(the fast-tier `chat` step) and `dev/tools/checks/chat_browser.js` (the full-tier `chat_browser` step).
 
 ## How a trial is checked
 

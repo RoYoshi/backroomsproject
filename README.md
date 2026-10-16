@@ -6,8 +6,8 @@ its wanderer.
 
 **This branch (`post-3h-trials-1-2-4`):** the owner-accepted Stage 3H engine (C5d, `4beba2f`: its report and Human QA page are in
 [`dev/stage-3h-modernization/`](dev/stage-3h-modernization/)) plus the post-3H integration trials the owner authorized, one at a time
-([`dev/post-3h-trials/`](dev/post-3h-trials/README.md)). **Trial 1, the main menu's title drift: HUMAN QA PENDING** (only the owner can
-accept it: [`HUMAN_QA_T1.md`](dev/post-3h-trials/HUMAN_QA_T1.md); the report: [`T1_REPORT.md`](dev/post-3h-trials/T1_REPORT.md)).
+([`dev/post-3h-trials/`](dev/post-3h-trials/README.md)). **Trial 1, the main menu's title drift: accepted by the owner.** **Trial 2,
+chat - a lounge on the main menu and nearby speech in a run: in progress** ([`docs/architecture/CHAT.md`](docs/architecture/CHAT.md)).
 Nothing else changes how the game plays. The deployed game is `main`; nothing here is merged or deployed.
 
 ## Run it
@@ -39,7 +39,7 @@ node server.js 9000       # another port
 ```text
 npm run build          # writes public/ and generated/ from src/          npm run build:check   # are they what src/ builds?
 npm test               # the scenario suite (some cases fail on the accepted build too: see QUICKSTART)
-npm run gate -- --packages <folder>   # the modernization gate against the accepted build (about 11 minutes; the folder holds the
+npm run gate -- --packages <folder>   # the modernization gate against the accepted build (about 20 minutes; the folder holds the
                                       # compiled client's 31 locked npm packages)
 ```
 

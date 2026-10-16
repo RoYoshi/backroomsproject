@@ -1,0 +1,16 @@
+ok   nearby_runs_started
+ok   nearby_spawned_in_one_world - 5704 px apart at spawn
+ok   nearby_composer_opens - {"c":true,"keys":0,"f":"sayText"}
+ok   nearby_typing_walks_nobody - 0 px
+ok   nearby_escape_closes_only - {"c":false,"paused":false,"dialog":false}
+ok   nearby_keys_back_after - 43 px
+ok   nearby_bubble_both_screens - {"id":1,"mode":"bb-on","x":357,"y":207,"w":188,"h":33,"a":null}
+ok   nearby_other_room_nothing
+ok   nearby_bubble_bounded
+ok   nearby_markup_literal - {"kids":0,"img":0}
+ok   nearby_offscreen_hint - bb-hint, angle off by 0.00 rad, at 390,12
+ok   nearby_beyond_radius_nothing - 
+ok   nearby_hide_and_mute - [{"shown":3,"any":false},{"any":false,"muted":1},true]
+ok   nearby_leaver_bubble_goes
+ok   nearby_no_page_errors - 
+CHAT BROWSER: PASS - 15 of 15 cases (579 s)

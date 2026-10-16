@@ -29,8 +29,11 @@
  * Both sides, compared (the drift is the only allowed difference):
  *   layout      at 1920x1080, 2560x1080 (ultrawide), 1366x768 at 1.5x and a 390x844 phone at 3x with touch: every visible control's box
  *               in the menu (its hit area) the same on both sides, to 0.5 px; the menu's text the same; the order Tab visits the menu's
- *               controls the same; the title's box at rest (minus the drift) the same; no horizontal scroll; the drift within bounds
- *   logo        the logo's bytes as served, and index.html's, the same on both sides
+ *               controls the same; the title's box at rest (minus the drift) the same; no horizontal scroll; the drift within bounds.
+ *               Since post-3H Trial 2 the chat's own elements (inside [data-chat], and #mmLounge) are left out of the controls, the
+ *               text and the Tab order: they are new on purpose, and dev/tools/checks/chat_browser.js checks them (and that they
+ *               cover no other control); every control C5d has must still be where it was.
+ *   logo        the logo's bytes as served, and index.html's (less post-3H Trial 2's one chat script tag), the same on both sides
  *   theme       the menu music's state after the gate, and the sound button's state after one press, the same on both sides
  * --shots DIR: a 1920x1080 and a 390x844 capture of each side's menu, and the candidate's title every 5 s for 20 s (PNG crops).
  * --mutants 1: the check's own sensitivity: eight edits of a copy of the candidate's built ui.js or ui.css, each of which one of the
@@ -169,13 +172,17 @@ const VIEWS = [['1920x1080', { viewport: { width: 1920, height: 1080 } }], ['256
 const LAYOUT = () => { const m = document.getElementById('menu'), q = '#menu button, #menu a[href], #menu input, #menu select, #menu [tabindex]';
   const vis = e => e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden' && !e.closest('[hidden]');
   const box = e => { const r = e.getBoundingClientRect(); return [+r.left.toFixed(2), +r.top.toFixed(2), +r.width.toFixed(2), +r.height.toFixed(2)]; };
-  const ctl = [...document.querySelectorAll(q)].filter(vis).map(e => [e.id || e.className || e.tagName, box(e)]);
+  const chat = e => !!e.closest('[data-chat], #mmLounge');                  // (post-3H Trial 2: the chat's own controls, checked by chat_browser.js, are not C5d's)
+  const ctl = [...document.querySelectorAll(q)].filter(e => vis(e) && !chat(e)).map(e => [e.id || e.className || e.tagName, box(e)]);
   const t = document.getElementById('mmTitle'), tb = box(t), dx = parseFloat(t.style.getPropertyValue('--dx')) || 0, dy = parseFloat(t.style.getPropertyValue('--dy')) || 0;
   const c = m.cloneNode(true); for (const id of ['mmRoom', 'mmLink', 'mmInside', 'mmShared', 'mmVer']) { const e = c.querySelector('#' + id); if (e) e.textContent = '(' + id + ')'; }
+  for (const e of [...c.querySelectorAll('[data-chat], #mmLounge')]) e.remove();
   return { controls: ctl, text: c.textContent.replace(/\s+/g, ' ').trim(), titleRest: [+(tb[0] - dx * 3).toFixed(1), +(tb[1] - dy * 3).toFixed(1), tb[2], tb[3]],
     scroll: { w: document.scrollingElement.scrollWidth, iw: innerWidth }, drift: window.__ui.drift ? __ui.drift() : null }; };
 async function tabOrder(P, n = 14) { await P.evaluate(() => { const p = document.getElementById('mmPlay'); if (p) p.focus(); }); const ids = [];
-  for (let i = 0; i < n; i++) { ids.push(await P.evaluate(() => { const a = document.activeElement; return a ? (a.id || a.getAttribute('aria-label') || a.className || a.tagName) : null; })); await P.keyboard.press('Tab'); }
+  for (let i = 0; ids.length < n && i < n + 40; i++) {                 // (post-3H Trial 2: a stop inside the chat is passed over, not recorded)
+    const id = await P.evaluate(() => { const a = document.activeElement; if (a && a.closest && a.closest('[data-chat], #mmLounge')) return undefined; return a ? (a.id || a.getAttribute('aria-label') || a.className || a.tagName) : null; });
+    if (id !== undefined) ids.push(id); await P.keyboard.press('Tab'); }
   await P.evaluate(() => document.activeElement && document.activeElement.blur()); return ids; }
 async function sideLayout(b, port, label, shots) {
   const out = {};
@@ -194,7 +201,7 @@ async function sideMisc(b, port) {
     const press = async () => { await s.P.click('#mmSound'); await sleep(300); return s.P.evaluate(() => document.getElementById('mmSound').getAttribute('aria-pressed')); };
     const before = await s.P.evaluate(() => document.getElementById('mmSound').getAttribute('aria-pressed')), after = await press(); await press();
     const logo = await get(port, '/assets/MAIN_MENU_LOGO_USER_SUPPLIED.png'), html = await get(port, '/index.html');
-    return { theme, sound: [before, after], logo: crypto.createHash('sha256').update(logo.body).digest('hex'), logoStatus: logo.status, html: crypto.createHash('sha256').update(html.body).digest('hex') };
+    return { theme, sound: [before, after], logo: crypto.createHash('sha256').update(logo.body).digest('hex'), logoStatus: logo.status, html: crypto.createHash('sha256').update(html.body.toString('utf8').replace(/<script src="\.\/assets\/chat\.js"><\/script>(<!--[^>]*-->)?\n/, '')).digest('hex') };   // (post-3H Trial 2: less the chat's script tag)
   } finally { await s.ctx.close(); }
 }
 function compare(oldL, newL, oldM, newM) {

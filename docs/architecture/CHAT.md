@@ -85,7 +85,8 @@ unread; it answers pings and closes on a close frame; unparseable frames are dro
    Memory: per lounge socket a few counters and its unsent output (bounded, then closed); per game connection a small record in a
    WeakMap. No queue, history or index of texts exists anywhere. Stuck sockets: hello and idle timeouts, the output limit, and the
    byte budget close them.
-5. **Mute and controls on a phone.** See [The page](#the-page): every control is a button reachable by touch and keyboard.
+5. **Mute and controls on a phone.** Yes (see [The page](#the-page)): the Lounge button, mute by the sender's name, Turn the lounge off,
+   and in a run SAY, Options, hide and mute are all buttons, used by touch in the browser check (`chat_browser.js`).
 6. **What is kept, logged, broadcast or given to an AI.** Nothing of a text is kept or logged by the server (the check reads the
    server's own output and finds no test text). A line is broadcast only to the receivers above. No AI, monster or other module gets
    any of it: the future-entity hook below is inert.
@@ -129,9 +130,52 @@ Today `speech.js` holds `ON_HEARD = null`, never assigned and never called (the 
 
 ## The page
 
-(Written with the client checkpoints T2-B and T2-C.)
+F.R.O.N.T.'s `src/frameworks/front/client/chat.js` (built to `public/assets/chat.js`, loaded first of the page's scripts) and its
+styles at the end of `public/assets/ui.css`. B++'s client session (`mp.session.js`) links in its send of `{t:'say'}` (`window.__chat.link({say})`, once, as it loads; `window.__net` is unchanged) and hands `heard`
+and `said` to `window.__chat.net(m, peer)` (with the speaker's peer record, for its name); core's per-frame hook (`mp.frame.js`) calls
+`window.__chatFrame({p, cam, sc, W, H, run})` after drawing the other players. Nothing else of the page changed.
+
+**The lounge (MENU).** Open only while the main menu is shown and the lounge is on; closed the moment a run begins (and its list
+emptied: nothing said meanwhile reaches a player in a run), and after 30 s in a hidden tab; it reconnects with a growing wait (2 s to
+30 s) when the server cannot be reached or is full. Wide screens (at least 1180 x 620): a panel at the lower right, between the utility
+rail and the corner, foldable to its title (remembered). Smaller screens: a **Lounge** button at the end of the left rail (with the count
+online and a badge for unread lines) opens it over the menu (a phone held upright: the full width; on its side: the right side);
+**Close** or Esc puts it away and gives the focus back to the button. Each line is the sender's nickname (a button: press it to mute that
+sender until the page is left; "Undo" and "Unmute everyone" put it back) and the text; your own lines say "You". The panel says plainly
+that names are not verified and nothing is kept. **Turn the lounge off** closes its socket (and so leaves the count); **Turn the lounge
+on** opens it again. At most 80 lines are kept on the page.
+
+**Nearby (IN LEVEL).** Only in a live run, online, alive and with nothing open over the game: **Enter** (or **SAY** on a touch screen,
+at the right edge) opens a one-line composer labelled *Nearby* (its field is announced as "Say to players near you"); every key the game was holding is
+let go first. Enter sends and closes; Esc or a click elsewhere closes. A line heard shows as a bubble over its speaker (yours too:
+your own line comes back from the server as its receipt) for 3 to 5 s (3 s plus 12.5 ms a character), one bubble a speaker, the newest
+replacing the last. A speaker off screen gets the same line as a small one-line hint at the screen's edge, with an arrow pointing their
+way. Bubbles end at once when their speaker leaves, dies or the world resets, and all of them when you die, leave the run or lose the
+connection. **Options** in the composer: speech bubbles shown or hidden, text size normal or large, and the people heard this visit,
+each one muted or heard (by the server's id for that connection, never by name). A refused line says why for a few seconds (too fast,
+too long, not while dead...). Offline (SOLO), Enter does what it always did.
+
+**Keys.** While a chat field (or anything inside the lounge or the composer) has focus, chat.js's window capture listener stops each
+keydown and keypress there from reaching the game, the menus or the key remapping (key releases still pass, so nothing stays held); the
+browser's own typing, Tab and form sending are untouched. Esc leaves the field (closes the composer or the phone's lounge). The admin
+key, pause and every game key behave as before whenever no chat field has focus.
+
+**Accessibility.** Every control is a real button or field with a label, reachable by keyboard and by touch. New lines are announced
+through one polite region at most every 2.5 s (more waiting lines become one count, never a flood): nearby lines always, lounge lines
+only while the focus is inside the lounge. A bubble appears at once and fades out over its last 0.4 s; with reduced motion (Settings,
+or the device under System) it simply goes. Nothing moves but the bubbles following their speakers; nothing flashes. Saved (`tfb.chat.v1` in this browser): lounge on or off, folded or not, bubbles shown or hidden, text size.
+Never a text, a name or a mute.
 
 ## Checks
+
+`node dev/tools/checks/chat_browser.js [--mutants 1] [--shots DIR]`: real pages in headless Chromium against the real server: the lounge
+across two rooms, typing isolated from the game and the menu, markup kept literal, mute, fold, off, the phone's Lounge button, the
+lounge closed during a run, and its place at five screen sizes (covering nothing of the menu); nearby speech between players in one
+room with a third elsewhere: the composer (held keys let go, nobody walks while typing, Esc only closes), bubbles on both screens and
+gone within 5 s, an edge hint pointing the right way for a listener off screen, nothing beyond the radius or in the other room, hide
+and mute, a leaver's bubble going with it, SAY on a phone, reduced motion. Its mutants break the page's chat.js seven ways (a bubble
+written as HTML, a chat field's keys passed to the game, held keys kept, the lounge left open in a run, no edge hint, mutes ignored,
+bubbles that never end).
 
 `node dev/tools/checks/chat_server.js [--mutants 1]`: the cleaning, `speech.js` on hand-made rooms and `lounge.js` on fake sockets
 (unit cases); the real server driven by raw WebSocket clients (every rule above, positive and negative); and, with `--mutants 1`,

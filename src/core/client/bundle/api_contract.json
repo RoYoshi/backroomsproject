@@ -108,6 +108,16 @@
    "getters": [],
    "memberCount": 10
   },
+  "assets/chat.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [
+    "A"
+   ],
+   "getters": [
+    "API"
+   ],
+   "memberCount": 5
+  },
   "assets/l0-remaster.js": {
    "loadedByIndexHtml": true,
    "aliases": [
@@ -242,6 +252,7 @@
    ],
    "readBy": {
     "move.js": 1,
+    "assets/chat.js": 3,
     "assets/ui.js": 2
    }
   },
@@ -664,7 +675,8 @@
     }
    ],
    "readBy": {
-    "mp.js": 11
+    "mp.js": 11,
+    "assets/chat.js": 4
    }
   },
   {
@@ -761,6 +773,7 @@
     "move.js": 7,
     "mp.js": 24,
     "assets/br-role.js": 4,
+    "assets/chat.js": 2,
     "assets/l0-remaster.js": 1,
     "assets/mp-hum.js": 1,
     "assets/shadows-2d.js": 5,
@@ -1279,6 +1292,7 @@
    "readBy": {
     "inventory.js": 4,
     "mp.js": 1,
+    "assets/chat.js": 5,
     "assets/ui.js": 9
    }
   },
@@ -1302,6 +1316,7 @@
    ],
    "readBy": {
     "mp.js": 2,
+    "assets/chat.js": 1,
     "assets/ui.js": 5
    }
   },

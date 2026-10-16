@@ -1,0 +1,17 @@
+$ node dev/tools/gate/golden/bpp_mutants.js --scenarios dev/tools/gate/golden/srv_scenarios_session.js --mutants dev/tools/gate/golden/session_mutants.js --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/gate_fast_t2a2/session_mutants.json
+CAUGHT  login_threshold_6 (src/frameworks/ward/server/admin_login.js): the lockout after six wrong guesses instead of five | session_login differs
+CAUGHT  login_lock_59s (src/frameworks/ward/server/admin_login.js): a lockout of 59 s instead of 60 s | session_login differs
+CAUGHT  login_count_kept (src/frameworks/ward/server/admin_login.js): a correct passcode no longer clears the count of wrong guesses | session_login differs
+CAUGHT  login_count_not_reset (src/frameworks/ward/server/admin_login.js): the count is not reset when the lockout starts | session_login differs
+CAUGHT  login_wait_floor (src/frameworks/ward/server/admin_login.js): the time left rounded down instead of up | session_login differs
+CAUGHT  login_quiet_ignored (src/frameworks/ward/server/admin_login.js): the quiet login answered as a loud one | session_login differs
+CAUGHT  login_locked_unlocks (src/frameworks/ward/server/admin_login.js): the passcode accepted during a lockout | session_login differs
+CAUGHT  identity_last_entry (src/frameworks/bpp/server/session.js): the client identity taken from the forwarded header's last entry instead of its first | session_identity differs
+CAUGHT  identity_socket_only (src/frameworks/bpp/server/session.js): the client identity taken from the socket only | session_identity differs
+CAUGHT  commands_unchecked (src/frameworks/bpp/server/session.js): admin commands accepted from any connection | session_login differs
+CAUGHT  ping_gap_300 (src/frameworks/bpp/server/session.js): pongs answered every 300 ms instead of 400 | session_wire differs
+CAUGHT  room_cap_9 (src/frameworks/bpp/server/session.js): a ninth connection admitted to a room | session_wire differs
+CAUGHT  caps_loose (src/frameworks/bpp/server/session.js): the fresher poses switched on by any true value | session_wire differs
+CAUGHT  room_kept (src/frameworks/bpp/server/session.js): an empty room is kept instead of thrown away | session_wire differs
+CAUGHT  error_ignored (src/frameworks/bpp/server/session.js): a socket's error no longer ends its connection at once | session_wire differs
+B++ golden mutants: 15/15 caught

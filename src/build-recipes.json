@@ -62,6 +62,12 @@
    ]
   },
   {
+   "out": "public/assets/chat.js",
+   "parts": [
+    "src/frameworks/front/client/chat.js"
+   ]
+  },
+  {
    "out": "public/assets/credits_data.js",
    "parts": [
     "src/frameworks/front/client/credits_data.js"

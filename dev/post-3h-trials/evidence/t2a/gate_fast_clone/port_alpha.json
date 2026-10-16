@@ -1,0 +1,216 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/c4_alpha_all.mjs",
+ "shipped": {
+  "bytes": 340823,
+  "sha256": "694bca01e75d8e1c70e9ec29ea5382da5bda40d22c6a4f043e6e53b251d7529b"
+ },
+ "modules": [
+  {
+   "port": "src/core/client/game/shared/world.ts",
+   "sha256": "7cfd5eb59f413b18108446279f978b5d8e886247bbe178492ce935551586321a",
+   "buildConstants": 22,
+   "mode": "seq",
+   "statements": 27,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/shared/equipment.ts",
+   "sha256": "a4972be199abd51570e71ad1d0c15ff88e0894d909dc9089bd931803f64b2560",
+   "buildConstants": 1,
+   "mode": "seq",
+   "statements": 9,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/client/gear-art.ts",
+   "sha256": "b44b4c70cbc8f70c07c9c794644a7f61d9b4eaba50cb02c24438a2d27e92337e",
+   "mode": "pairs",
+   "problems": [],
+   "declarations": 1,
+   "ok": true,
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/shared/movement.ts",
+   "sha256": "4488980b6229ffad68ea026ce549f2d659982c0715776397631e2eb16629ef3f",
+   "mode": "seq",
+   "statements": 2,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/shared/avatar.ts",
+   "sha256": "26ca166d94ee780bf07c904eb52e2fd39ab7f236e9edfb3c6c836d2a779c6c6c",
+   "mode": "pairs",
+   "problems": [],
+   "declarations": 1,
+   "ok": true,
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/client/appearance.ts",
+   "sha256": "64f0f42e0551b2bb73dd561eedc78eff62bfcbfb87415b6ffa1c1dcfd00cca4b",
+   "mode": "seq",
+   "statements": 2,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/client/loadout.ts",
+   "sha256": "53efb0c8126b1ef0cbd6d7c8db74c554c08f7d60c028933e324866a880da2bd8",
+   "mode": "seq",
+   "statements": 3,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/client/player-view.ts",
+   "sha256": "a01425979bb97e82dc370f2db85e73d5ff326e1d690a5d4e6ff5eafefab79d98",
+   "mode": "pairs",
+   "problems": [],
+   "declarations": 1,
+   "ok": true,
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/shared/entity.ts",
+   "sha256": "4cc152cfd3c33e865efff09cefb62c903821beb43ee7e68d59020a43e1a84537",
+   "mode": "seq",
+   "statements": 30,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/shared/vision.ts",
+   "sha256": "ef1dc6dde48288192d30c1186516cdb62becffc03b31579f9503d105574b45f0",
+   "mode": "seq",
+   "statements": 15,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/client/entity-view.ts",
+   "sha256": "e4420fc802485a6ee9ac158b7fd1573ff5e1426be40817c3dcab7dcbf910f384",
+   "mode": "seq",
+   "statements": 4,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/client/death.ts",
+   "sha256": "ec1510b4ad714654e76310d9ba229860cd286dd5f15a775931cf699916ea7825",
+   "mode": "seq",
+   "statements": 2,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/shared/remains.ts",
+   "sha256": "6bb20f04756755f8f7028fd693a1cf33b86fe052f685be81d4c5d768a2ae6cc4",
+   "mode": "seq",
+   "statements": 5,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/client/corpse-view.ts",
+   "sha256": "23badb2fe4effa269afd03612feffc228c0e36bc0a531515a6e7c09409b9ca0c",
+   "mode": "seq",
+   "statements": 1,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/shared/evidence.ts",
+   "sha256": "a43efb2aad0feb6ab0af0baa4c1bf4dc18b275aec36384e99a1a8055907bf390",
+   "mode": "seq",
+   "statements": 4,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/shared/navigation.ts",
+   "sha256": "b28a93d6ade70a0559789962d4ca0bb586e6116d227c00d5207f76964fe18d3f",
+   "mode": "seq",
+   "statements": 12,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/client/arrival.ts",
+   "sha256": "f72146409574ab07bcf215d73a21afe694fead09bd060ca13358ae1fd5578745",
+   "mode": "pairs",
+   "problems": [],
+   "declarations": 5,
+   "ok": true,
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/client/render.ts",
+   "sha256": "06691f9c6df77dddda2bee5a2684d7cd9116c2c0cdd98b08d6f19efcce9de956",
+   "mode": "seq",
+   "statements": 1,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/client/render.ts",
+   "sha256": "06691f9c6df77dddda2bee5a2684d7cd9116c2c0cdd98b08d6f19efcce9de956",
+   "mode": "pairs",
+   "problems": [],
+   "declarations": 1,
+   "ok": true,
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/client/audio.ts",
+   "sha256": "fd0d86138eaa666aa787514c5f8cd33b2df96c5398b5a062d6adb8d31a76335d",
+   "mode": "seq",
+   "statements": 1,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/client/audio.ts",
+   "sha256": "fd0d86138eaa666aa787514c5f8cd33b2df96c5398b5a062d6adb8d31a76335d",
+   "mode": "pairs",
+   "problems": [],
+   "declarations": 1,
+   "ok": true,
+   "inferred": []
+  },
+  {
+   "port": "src/core/client/game/client/main.ts",
+   "sha256": "a0996598998195c072c364c4f1a199c9a50c2dd19795870c285213752eb1ee68",
+   "mode": "seq",
+   "statements": 67,
+   "ok": true,
+   "problems": [],
+   "inferred": []
+  }
+ ],
+ "coverage": {
+  "appStatements": 197,
+  "compared": 195,
+  "reviewed": 2,
+  "missing": []
+ },
+ "ok": true
+}
