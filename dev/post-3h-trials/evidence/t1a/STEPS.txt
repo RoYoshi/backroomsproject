@@ -1,0 +1,31 @@
+Post-3H Trial 1, checkpoint T1-A: the main menu's title drift, in source, with its check - a PRESERVATION checkpoint (not verified)
+=================================================================================================================================
+
+Why now: the session's machine restarted while the drift check's mutants were running (the run was lost; its log is empty). The work
+on disk survived; this checkpoint preserves it on the integration branch, as the owner's pack asks on an interruption, before the
+verification continues. It is NOT the trial's verified checkpoint: T1-B is (the full gate, the mutants, performance, the clean
+rebuild, the package, the report and the Human QA page).
+
+Base: C5d 4beba2f36deaf17473ad3b955eeefdd6fcfbd90b (tree 677d4ebf95d960e51dc86792bbc0861e3e1eb4c9), the owner-accepted Stage 3H candidate;
+the branch post-3h-trials-1-2-4 created from exactly it (it did not exist, locally or on GitHub); C5d, main, B++, 3H2 and M8 checked on
+GitHub before (GitHub's API: C5d's commit and tree as expected).
+
+What is in it:
+  - src/frameworks/front/client/ui.js (built into public/assets/ui.js) and public/assets/ui.css: the title's drift (T1_REPORT.md at T1-B
+    describes it; the file's own comments say how it works);
+  - dev/tools/checks/menu_drift.js: the drift's check against C5d, in headless Chromium (SwiftShader), with eight mutants; and a full-tier
+    gate step, menu, that runs it (dev/tools/gate/gate.js);
+  - dev/tools/gate/declared_changes.json: assets/ui.js and assets/ui.css declared as Trial 1's changes;
+  - dev/stage-3h-modernization/tools/m8_package.js: a --trial N mode for the trials' packages;
+  - dev/post-3h-trials/: the folder, its README, tools/t1_menu_perf.js (not yet run);
+  - the documents: README.md, docs/architecture/PARITY_MATRIX.md, src/frameworks/front/README.md, dev/tools/gate/README.md.
+
+What ran (before the restart, on this source; node dev/tools/checks/menu_drift.js on a C5d game folder and the candidate's):
+  - menu_drift_run2_candidate.json, .log: every check of the candidate itself passed (boot, static, hidden, reduced, play, pointer, page
+    errors, boot_os); its layout comparison failed only on the checker's own rounding (a resting title's offset of 0.001 px at 1.5x and
+    3x against a tolerance of 0.001), which the checker now allows (0.02 px; the drift is up to 3 px);
+  - menu_drift_run3_compare.json, .log: the side-by-side comparison with that tolerance (--only compare): layout at four sizes, the logo,
+    the theme: PASS.
+  - Quick checks on this tree: build.js --check PASS, docs.js --check PASS, client.js --record-check PASS (the compiled client is not
+    touched); the secret scan below.
+What has NOT run yet: the drift check's mutants, the gate (fast or full), the performance measurement, the clean rebuild, the package.

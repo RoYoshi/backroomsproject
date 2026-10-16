@@ -1,7 +1,10 @@
 /* Stage 3H engine modernization (H3M-8) - the Human QA package of one commit: a playable, buildable ZIP, its manifest and its receipts,
  * each checked (development only).
  *
- *   node dev/stage-3h-modernization/tools/m8_package.js --ref COMMIT --out <empty folder> [--port 8890]
+ *   node dev/stage-3h-modernization/tools/m8_package.js --ref COMMIT --out <empty folder> [--port 8890] [--trial N]
+ *   --trial N (post-3H): a post-3H integration trial's package instead (dev/post-3h-trials/): THE_FAR_BACKROOMS_POST_3H_TRIAL_<N>_HUMAN_QA.zip,
+ *   which also holds dev/post-3h-trials/README.md, T<N>_REPORT.md and HUMAN_QA_T<N>.md, and HUMAN_QA.md beside it is HUMAN_QA_T<N>.md;
+ *   everything else (the files, the checks, the receipts) as below.
  *
  * Writes into --out:
  *   THE_FAR_BACKROOMS_STAGE_3H_ENGINE_MODERNIZATION_HUMAN_QA.zip
@@ -38,11 +41,14 @@ const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const git = (...a) => execFileSync('git', ['-C', REPO, ...a], { maxBuffer: 1 << 30 });
 const COMMIT = git('rev-parse', ARG.ref + '^{commit}').toString().trim(), TREE = git('rev-parse', COMMIT + '^{tree}').toString().trim();
 const PARENT = git('rev-parse', COMMIT + '^').toString().trim(), WHEN = git('log', '-1', '--format=%cI', COMMIT).toString().trim();
-const NAME = 'THE_FAR_BACKROOMS_STAGE_3H_ENGINE_MODERNIZATION_HUMAN_QA', PREFIX = `the-far-backrooms-stage-3h-${COMMIT.slice(0, 7)}/`;
+const TRIAL = ARG.trial ? String(+ARG.trial) : null;                                  // (post-3H) a trial's package
+const NAME = TRIAL ? `THE_FAR_BACKROOMS_POST_3H_TRIAL_${TRIAL}_HUMAN_QA` : 'THE_FAR_BACKROOMS_STAGE_3H_ENGINE_MODERNIZATION_HUMAN_QA';
+const PREFIX = TRIAL ? `the-far-backrooms-post-3h-t${TRIAL}-${COMMIT.slice(0, 7)}/` : `the-far-backrooms-stage-3h-${COMMIT.slice(0, 7)}/`;
+const QA = TRIAL ? `dev/post-3h-trials/HUMAN_QA_T${TRIAL}.md` : 'dev/stage-3h-modernization/HUMAN_QA.md';
 const PATHS = ['server.js', 'package.json', 'README.md', 'run_linux.sh', 'run_windows.bat', 'public', 'generated', 'src', 'docs',
   'dev/tools/README.md', 'dev/tools/layout.js', 'dev/tools/build', 'dev/tools/checks', 'dev/tools/docs', 'dev/tools/lineage',
-  'dev/stage-3h-modernization/HUMAN_QA.md', 'dev/stage-3h-modernization/REPORT.md'];
-const R = { tool: 'dev/stage-3h-modernization/tools/m8_package.js', commit: COMMIT, tree: TREE, parent: PARENT, committedAt: WHEN, checks: {}, ok: true };
+  'dev/stage-3h-modernization/HUMAN_QA.md', 'dev/stage-3h-modernization/REPORT.md'].concat(TRIAL ? ['dev/post-3h-trials/README.md', `dev/post-3h-trials/T${TRIAL}_REPORT.md`, QA] : []);
+const R = { tool: 'dev/stage-3h-modernization/tools/m8_package.js', trial: TRIAL ? +TRIAL : undefined, commit: COMMIT, tree: TREE, parent: PARENT, committedAt: WHEN, checks: {}, ok: true };
 const fail = m => { (R.problems = R.problems || []).push(m); R.ok = false; console.log('PROBLEM ' + m); };
 const at = f => git('show', `${COMMIT}:${f}`);
 
@@ -132,6 +138,7 @@ const get = (u, headers = {}) => new Promise(res => { const q = http.get({ host:
     : f.startsWith('public/') ? 'a static web file, edited where it is (no recipe builds it)' : f === 'server.js' ? "the server's composition root"
     : f.startsWith('dev/tools/') ? 'a development tool' : /\.md$/.test(f) ? 'documentation' : 'a project file';
   const manifest = {
+    post_3h_trial: TRIAL ? { trial: +TRIAL, baseline_c5d: '4beba2f36deaf17473ad3b955eeefdd6fcfbd90b', report: `dev/post-3h-trials/T${TRIAL}_REPORT.md`, human_qa: QA, merge_authorized: false, deploy_authorized: false } : undefined,
     revision: COMMIT, parent_sha: PARENT, tree_sha: TREE, committed_at: WHEN, node_version: process.version, node_required: JSON.parse(at('package.json')).engines,
     build_tool_versions: { build: { tool: 'dev/tools/build/build.js', sha256: sha(at('dev/tools/build/build.js')), dependencies: 'none' },
       parts_check: { tool: 'dev/tools/checks/parts.js', needs: 'TypeScript (global); not needed to build or run' },
@@ -146,7 +153,8 @@ const get = (u, headers = {}) => new Promise(res => { const q = http.get({ host:
       { component: 'sim.level0.js', where: 'src/frameworks/lost/server/sim.level0.js', status: "the bundle's own minified Level 0 code (collision, ray cast, routes, light), extracted and kept as one part (FINDINGS M-025); since continuation C4c it reads Level 0's data from its one definition (src/frameworks/lost/shared/level0.json, src/frameworks/pocket/shared/lights.json; M-003)" },
       { component: 'PixiJS 8.21.0', where: 'public/assets/*.js chunks and the bundle', status: 'third-party (MIT), from the v11 lockfile, copied from the v11 build output' }],
     tests: { here: 'PACKAGE_RECEIPT.json: the build, the compiled client\'s record, the lineage, the documentation, the parts, the facts written in more than one place and the client\'s window contract checked on the extracted ZIP; the server started from it, every served file compared, the refused paths, a WebSocket greeting',
-      repository: 'npm run gate:full on the branch (it needs the Git history, the dev/ folders, the 31 locked npm packages, Playwright and Python): dev/stage-3h-modernization/evidence/ (the final gate: CHECKPOINTS.md names it)' },
+      repository: TRIAL ? `npm run gate:full on the branch (it needs the Git history, the dev/ folders, the 31 locked npm packages, Playwright and Python), and the trial's own checks: dev/post-3h-trials/evidence/t${TRIAL}/ (dev/post-3h-trials/CHECKPOINTS.md names them)`
+        : 'npm run gate:full on the branch (it needs the Git history, the dev/ folders, the 31 locked npm packages, Playwright and Python): dev/stage-3h-modernization/evidence/ (the final gate: CHECKPOINTS.md names it)' },
     limitations: [
       'Building the compiled client needs the 31 locked npm packages (TFB_V11_LINUX_X64_PACKAGES.zip), which are not in this package; running, building the rest and checking need none.',
       'The level\'s code exists twice: the compiled client\'s TypeScript and the server\'s sim.level0.js, the bundle\'s code extracted (FINDINGS M-025). Its data is one definition (M-003).',
@@ -159,7 +167,7 @@ const get = (u, headers = {}) => new Promise(res => { const q = http.get({ host:
     python: spawnSync('python3', ['--version'], { encoding: 'utf8' }).stdout.trim(), typescript: R.checks.extracted && R.checks.extracted.parts_check ? R.checks.extracted.parts_check.typescript : null, os: `${os.platform()} ${os.release()} ${os.arch()}`,
     zip: { command: `git archive --format=zip -9 --prefix=${PREFIX} ${COMMIT} -- ${PATHS.join(' ')}` }, on_the_extracted_zip: R.checks.extracted || null };
   fs.writeFileSync(path.join(OUT, 'BUILD_RECEIPT.json'), JSON.stringify(receipt, null, 1) + '\n');
-  fs.writeFileSync(path.join(OUT, 'HUMAN_QA.md'), at('dev/stage-3h-modernization/HUMAN_QA.md'));
+  fs.writeFileSync(path.join(OUT, 'HUMAN_QA.md'), at(QA));
   R.sha256sumCheck = 'SHA256SUMS.txt lists every file here; sha256sum -c checks it after this receipt is written (the console says the result)';
   fs.writeFileSync(path.join(OUT, 'PACKAGE_RECEIPT.json'), JSON.stringify(R, null, 1) + '\n');
   const sums = fs.readdirSync(OUT).filter(f => f !== 'SHA256SUMS.txt').sort().map(f => `${sha(fs.readFileSync(path.join(OUT, f)))}  ${f}`).join('\n') + '\n';

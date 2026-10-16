@@ -10,11 +10,13 @@
  * only presses those same buttons, watches the panels the bundle shows and hides, and draws the menu around them.
  * Loaded before hud.js and inventory.js, so its capture-phase keys run first - but only while one of its own modals is open.
  * Event-driven: no per-frame work, except the menu's pointer parallax (one style write per animation frame, and only while
- * the menu is open and the pointer moves).
+ * the menu is open and the pointer moves) and, since post-3H Trial 1, the title's slow drift: one animation-frame loop, running
+ * only while the main menu is on screen, the tab is visible and motion is not reduced.
  *
- *   window.__ui = { version, go(view, sub), state(), settingsPages(), close(), entryOpen(), theme, boot() }   (go: 'home' | 'play' |
- *   'customize' | 'settings' | 'credits' | 'controls' | 'help'; sub: a settings page or a customize tab; 'play' opens the entry,
- *   'home' closes it; theme.info() reports the menu music's state; boot() how the boot gate was passed) */
+ *   window.__ui = { version, go(view, sub), state(), settingsPages(), close(), entryOpen(), theme, boot(), drift() }   (go: 'home' |
+ *   'play' | 'customize' | 'settings' | 'credits' | 'controls' | 'help'; sub: a settings page or a customize tab; 'play' opens the
+ *   entry, 'home' closes it; theme.info() reports the menu music's state; boot() how the boot gate was passed; drift() the title
+ *   drift's state, for its checks) */
 (() => {
   'use strict';
   /* QA1 (Q2): the menu is not a run. Until ENTER LEVEL 0 the visitor's own wanderer is not drawn in the world and its light does
@@ -50,7 +52,8 @@
   const storedRm = () => { try { const v = JSON.parse(localStorage.getItem('fb_settings_v1') || '{}').rm; return ['auto', 'on', 'off'].includes(v) ? v : 'auto'; } catch (e) { return 'auto'; } };
   const motionMode = () => { const s = window.__settings && __settings.get(); return s ? (s.rm || 'auto') : storedRm(); };
   const reduced = () => { const m = motionMode(); return m === 'on' || (m === 'auto' && mq.matches); };
-  const applyMotion = () => root.classList.toggle('rm', reduced());
+  let driftHook = null;                               // (post-3H Trial 1) the title drift's sync, set where the drift is defined below
+  const applyMotion = () => { root.classList.toggle('rm', reduced()); if (driftHook) driftHook(); };
   mq.addEventListener && mq.addEventListener('change', () => { applyMotion(); if (typeof syncSettings === 'function') syncSettings(); });
   applyMotion();
 
@@ -971,6 +974,7 @@
     if (inMenu && !menuWas && revealed) menuEntrance();                      // back from a run: the logo first, with the theme (above)
     menuWas = inMenu;
     if (!inMenu) closeEntry(false);
+    if (driftHook) driftHook();                                             // (post-3H Trial 1) the title drifts only on the menu
     if (st === last) return;
     const prev = last; last = st;
     if (st === 'menu') {
@@ -1063,6 +1067,7 @@
     if (revealed) return; revealed = true;
     BOOT.set('menu');
     document.documentElement.classList.remove('tfb-boot');
+    if (driftHook) driftHook();                       // (post-3H Trial 1) the revealed menu's title begins to drift
     if (!bootEl) return;
     // the boot layer goes at once (the menu's own field is black, and every part of the menu starts dark: the entrance follows);
     // it keeps taking the pointer until it is removed, so the press that passed the gate - and its click - lands on nothing
@@ -1155,6 +1160,50 @@
     bootInfo.entrances.push(Math.round(performance.now()));
     entT = setTimeout(() => menu.classList.remove('mm-intro', 'mm-go'), reduced() ? 800 : 1800);
   }
+
+  /* ---------------------------------------------------------------- post-3H Trial 1: the title's own slow drift
+     The main menu's title (the user's logo, in the box the pointer already leans: pointer-events none, so nothing anyone presses or
+     focuses moves) floats a few pixels on its own, with no mouse at all. Each axis is two slow sine waves (periods 5.9 to 21 s) whose
+     weights sum to 1, so the offset stays within -1..1 of ui.css's --drx / --dry (3 px); it is added to the pointer's lean (--mx,
+     --my, written exactly as before), never instead of it. One animation-frame loop, and only while the boot has revealed the menu,
+     the menu is shown, the tab is visible and motion is not reduced (Settings, or the system's under System): every change of those
+     comes through drift.sync (the menu's state observer, the reveal, visibilitychange, applyMotion), which starts the loop if it is
+     not running and stops it otherwise, so no second loop can start. Reduced motion puts the title back where it rests (offset 0) and
+     the drift starts from 0 when allowed again; a hidden tab or a run pauses it where it is, and it resumes from there. The offsets
+     are a function of the drift's own clock, which runs only with the loop (a long gap counts as 100 ms, never as a jump). No layout
+     is read in the loop; only the title's two custom properties are written, and only when they change. */
+  const DRIFT_X = [[.7, 21], [.3, 8.3]], DRIFT_Y = [[.65, 13], [.35, 5.9]];   // [weight, period in seconds]; weights sum to 1
+  const drift = { raf: 0, t: 0, last: 0, x: 0, y: 0, frames: 0, writes: 0, starts: 0, stops: 0 };
+  const titleEl = $('mmTitle');
+  const wave = (W, t) => W.reduce((a, [w, p]) => a + w * Math.sin(2 * Math.PI * t / p), 0);
+  const driftWant = () => !!(menu && titleEl && revealed && vis('menu') && !document.hidden && !reduced());
+  function driftFrame(now) {
+    drift.raf = 0;
+    if (!driftWant()) { driftStop(reduced()); return; }
+    drift.frames++;
+    if (drift.last) drift.t += Math.min(Math.max(now - drift.last, 0), 100) / 1000;
+    drift.last = now;
+    const x = +wave(DRIFT_X, drift.t).toFixed(3), y = +wave(DRIFT_Y, drift.t).toFixed(3);
+    if (x !== drift.x || y !== drift.y) { drift.x = x; drift.y = y; titleEl.style.setProperty('--dx', x); titleEl.style.setProperty('--dy', y); drift.writes++; }
+    drift.raf = requestAnimationFrame(driftFrame);
+  }
+  function driftStop(rest) {
+    if (drift.raf) { cancelAnimationFrame(drift.raf); drift.raf = 0; }
+    if (menu.classList.contains('mm-drift')) { menu.classList.remove('mm-drift'); drift.stops++; }
+    drift.last = 0;
+    if (rest && (drift.t || drift.x || drift.y)) { drift.t = drift.x = drift.y = 0; titleEl.style.removeProperty('--dx'); titleEl.style.removeProperty('--dy'); }
+  }
+  function driftSync() {
+    if (!menu || !titleEl) return;
+    if (!driftWant()) { driftStop(reduced()); return; }
+    if (drift.raf) return;
+    menu.classList.add('mm-drift'); drift.starts++;
+    drift.raf = requestAnimationFrame(driftFrame);
+  }
+  driftHook = driftSync;
+  document.addEventListener('visibilitychange', driftSync);
+  addEventListener('pagehide', () => { if (menu && titleEl) driftStop(false); });
+  addEventListener('pageshow', driftSync);           // (a page restored from the back-forward cache)
   /* QA2: END in the run menu returns to the main menu through black. What the player hears of the game (its own master output:
      the halls' hum, threats, footsteps, effects) and what they see of the world fade down together (0.8 s; reduced motion 0.25 s);
      on full black the game's own END runs (the bundle's handler, unchanged), and the menu's entrance follows - logo and theme
@@ -1194,6 +1243,7 @@
 
   Object.assign(ui, { version: VERSION, go, state, close: closeSheet, closeAll, refresh: loadoutSummary, reduced, entryOpen: () => entryOpen, theme, keys, standalone,
     boot: () => Object.assign({ revealed }, bootInfo),
+    drift: () => ({ running: !!drift.raf, t: +drift.t.toFixed(3), x: drift.x, y: drift.y, frames: drift.frames, writes: drift.writes, starts: drift.starts, stops: drift.stops }),
     stick: () => ({ held: stickId !== null, want: [...stickWant].sort(), owned: [...stickOwned].sort() }),
     reveal: () => ({ shown: !!rvEl && !rvEl.hidden, kind: rvEl && rvEl.className, eye: ($('rvEye') || {}).textContent, title: ($('rvTitle') || {}).textContent, sub: ($('rvSub') || {}).textContent, keys: ($('rvKeys') || {}).textContent, last: rvLast }) });
   window.__ui = ui;

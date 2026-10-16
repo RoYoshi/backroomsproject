@@ -49,6 +49,10 @@
  *     their uses), c4_css_check.mjs (the built stylesheet against the shipped one)
  *     c4_port_ledger.mjs --check (where each lineage step's text is now: src/core/client/game/PORT_LEDGER.md) and c4_port_mutants.mjs
  *     (the alpha and stylesheet checks catch each of 25 one-place edits of a copy of the port or of the one definition of Level 0 and the lights, and pass the unchanged copies);
+ *   - menu (added at post-3H Trial 1, full tier): dev/tools/checks/menu_drift.js --mutants 1: the main menu's title drift, the only
+ *     change Trial 1 makes, in a real Chromium against the accepted C5d (4beba2f): it moves with no pointer and within 3 px, stops with a
+ *     hidden tab, reduced motion and a run (no frame asked for, nothing written), resumes with one loop, keeps the pointer's lean; the
+ *     menu's controls, text, Tab order and title at rest, the logo and the theme the same as C5d's at four sizes; its eight mutants caught;
  *   - bundle (added at continuation C4): golden/bundle_diff.js --ref-lineage --cand-assets: the port step's build against the client
  *     the lineage records (what the page was served up to C4a), both in the real page, frame by frame (state, randomness, the document,
  *     2D canvas and audio calls, the shared window objects, pixels, computed styles): fast, the title and a walk; full, every scene of
@@ -58,8 +62,8 @@
  *
  *   --tier fast   (default, about 12 minutes) build, port, lineage, parts, modules, contracts, docs, scope, srv_golden, bpp_golden, session, sim, page,
  *                 cli_golden, protocol, mutants, static, raw_live, quick_suites, bundle
- *   --tier full   (the final candidate; about 75 minutes on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, workflow,
- *                 contact_lab, suites, perf
+ *   --tier full   (the final candidate; about 100 minutes on 2 CPUs) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, workflow,
+ *                 menu, contact_lab, suites, perf
  * Everything is written under --out (default: a scratch folder): gate_report.json plus each tool's log and report.
  *
  * The original's description follows.
@@ -103,6 +107,7 @@ const ARG = { tier: 'fast' }; for (let i = 2; i < process.argv.length; i += 2) A
 const REPO = path.resolve(__dirname, '..', '..', '..'), LAYOUT = require(path.join(REPO, 'dev', 'tools', 'layout.js'));
 const G = (...p) => path.join('dev', 'tools', 'gate', ...p);                                       // this gate's own tools
 const BPP = '143b63ff42b88c6780c5043e0f61d64100f81f40';
+const C5D = '4beba2f36deaf17473ad3b955eeefdd6fcfbd90b';   // post-3H: the owner-accepted Stage 3H candidate, the trials' direct baseline
 const OUT = path.resolve(ARG.out || fs.mkdtempSync(path.join(os.tmpdir(), 'mgate-'))); fs.mkdirSync(OUT, { recursive: true });
 const E1 = path.join(REPO, 'dev', 'stage-3h', 'evidence', 'h1', 'golden'), E2 = path.join(REPO, 'dev', 'stage-3h', 'evidence', 'h2', 'golden');
 const E3 = path.join(REPO, 'dev', 'stage-3h-modernization', 'evidence', 'c3c', 'golden');                                     // (C3c) the C3c client scenes' stored traces
@@ -117,8 +122,9 @@ function run(name, cmd, { ms = 1800000, env = {} } = {}) {
   return { exit: r.status, text, ms: Date.now() - t0, timedOut: !!(r.error && /ETIMEDOUT/.test(String(r.error.code))) };
 }
 /* a complete game folder: the B++ export (git archive), or a copy of the working tree's production files (tracked and untracked) */
-let bppDir = null, wtDir = null;
+let bppDir = null, wtDir = null, c5dDir = null;
 function bppGame() { if (bppDir) return bppDir; bppDir = o('game_bpp'); fs.mkdirSync(bppDir, { recursive: true }); execFileSync('sh', ['-c', `git -C "$1" archive "$2" -- . ':(exclude)dev' | tar -x -C "$3"`, 'sh', REPO, BPP, bppDir]); return bppDir; }
+function c5dGame() { if (c5dDir) return c5dDir; c5dDir = o('game_c5d'); fs.mkdirSync(c5dDir, { recursive: true }); execFileSync('sh', ['-c', `git -C "$1" archive "$2" -- . ':(exclude)dev' | tar -x -C "$3"`, 'sh', REPO, C5D, c5dDir]); return c5dDir; }
 function wtGame() {
   if (wtDir) return wtDir; wtDir = o('game_candidate'); fs.mkdirSync(wtDir, { recursive: true });
   const files = execFileSync('git', ['-C', REPO, 'ls-files', '-z', '--cached', '--others', '--exclude-standard'], { maxBuffer: 1 << 28 }).toString().split('\0').filter(f => f && !f.startsWith('dev/') && fs.existsSync(path.join(REPO, f)));
@@ -320,6 +326,12 @@ const STEPS = {
     return { ok: d.exit === 0 && !!jd && jd.ok && clientOk && b.exit === 0 && !!jb && jb.ok, cases: nd + nb,
       note: `dev workflow ${jd ? `${nd} of ${jd.steps.length} steps (the compiled client: ${jd.client || '?'})` : 'no report'}; browser contracts ${jb && jb.ok ? 'PASS' : 'FAIL'}: ${nb} checks on B++ and this tree (the 52-member facade, unauthorized access refused, a phone), the two sides agree on ${agree} of 3`, r: b };
   },
+  menu: () => {                                                                         // post-3H Trial 1: the main menu's title drift, against C5d
+    const r = run('menu_drift', ['node', 'dev/tools/checks/menu_drift.js', '--old-dir', c5dGame(), '--new-dir', wtGame(), '--mutants', '1', '--out', o('menu_drift.json'), '--shots', o('menu_shots')], { ms: 3600000 }), j = J(o('menu_drift.json'));
+    const n = j ? Object.keys(j.checks).length : 0, k = j ? Object.values(j.checks).filter(c => c.ok).length : 0, m = j && j.mutants ? j.mutants.length : 0;
+    return { ok: r.exit === 0 && !!j && j.ok && m === 8 && j.mutantsCaught === 8, cases: n + m,
+      note: j ? `the title's drift against C5d: ${k} of ${n} checks (the drift, a hidden tab, reduced motion, a run, the pointer; the menu's controls, text, Tab order and title at 4 sizes, the logo, the theme); its mutants ${j.mutantsCaught} of ${m} caught` : 'no report', r };
+  },
   contact_lab: () => {
     const scenes = 'geometry,lights,peers', res = [];
     for (const [label, g] of [['bpp', bppGame()], ['cand', wtGame()]]) {
@@ -342,7 +354,7 @@ const STEPS = {
 const QUICK = ['s_humanqa_hotfix', 's_ir', 'interp_test', 'test_3bn', 'ir_net'];
 function suiteNote(j) { return Object.entries(j.suites).map(([n, x]) => `${n} ${x.summary ? x.summary.passed + '/' + x.summary.total : x.ran}${x.ok ? '' : ' FAIL'}`).join(', ') + ' (only the known B++ failures fail)'; }
 const FAST = ['build', 'port', 'lineage', 'parts', 'modules', 'contracts', 'docs', 'scope', 'srv_golden', 'bpp_golden', 'session', 'sim', 'page', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites', 'bundle'];
-const FULL = FAST.concat(['cli_mutants', 'live_wire', 'bpp_checks', 'browsers', 'workflow', 'contact_lab', 'suites', 'perf']);
+const FULL = FAST.concat(['cli_mutants', 'live_wire', 'bpp_checks', 'browsers', 'workflow', 'menu', 'contact_lab', 'suites', 'perf']);
 const steps = ARG.only ? ARG.only.split(',') : ARG.tier === 'full' ? FULL : FAST;
 const R = { tool: 'dev/tools/gate/gate.js', tier: ARG.tier, declared: 'dev/tools/gate/declared_changes.json', base: BPP, head: execFileSync('git', ['-C', REPO, 'rev-parse', 'HEAD']).toString().trim(), startedAt: new Date().toISOString(), out: OUT, steps: {}, ok: true };
 for (const s of steps) {
@@ -356,7 +368,7 @@ for (const s of steps) {
 R.finishedAt = new Date().toISOString();
 /* the bulky intermediates (two game copies, the kept traces, the client build's work tree, the harness's web roots: about 650 MB a run) are removed once every step has used them, unless
  * --keep-heavy 1; the reports and logs stay */
-if (!ARG['keep-heavy']) { R.removed = []; for (const d of ['game_bpp', 'game_candidate', 'srv_keep', 'bpp_keep', 'cli_keep', 'cli_h2_keep', 'cli_c3c_keep', 'client_work', path.join('bundle', 'ref_lineage_root'), path.join('bundle', 'cand_root')]) { const p = o(d); if (p.startsWith(OUT + path.sep) && fs.existsSync(p)) { fs.rmSync(p, { recursive: true, force: true }); R.removed.push(d); } } }
+if (!ARG['keep-heavy']) { R.removed = []; for (const d of ['game_bpp', 'game_candidate', 'game_c5d', 'srv_keep', 'bpp_keep', 'cli_keep', 'cli_h2_keep', 'cli_c3c_keep', 'client_work', path.join('bundle', 'ref_lineage_root'), path.join('bundle', 'cand_root')]) { const p = o(d); if (p.startsWith(OUT + path.sep) && fs.existsSync(p)) { fs.rmSync(p, { recursive: true, force: true }); R.removed.push(d); } } }
 fs.writeFileSync(o('gate_report.json'), JSON.stringify(R, null, 1) + '\n');
 console.log(`MODERNIZATION GATE (${ARG.tier}${ARG.only ? ': ' + ARG.only : ''}): ${R.ok ? 'PASS' : 'FAIL'}  - report ${o('gate_report.json')}`);
 process.exitCode = R.ok ? 0 : 1;

@@ -63,7 +63,8 @@ html.rm *,html.rm *::before,html.rm *::after{animation:none!important;transition
    wanderer, sound, help); the version in the bottom-right corner. Phones keep the same places: the identity block top left,
    the utility rail top right, the title, then PLAY at the bottom.
    Nothing here moves while the menu idles (QA2: no entrance; the boot gate reveals the menu whole): the title's light dips only when ui.js asks for it (every
-   half minute or so), and the title leans with the pointer (one style write per frame, only while the mouse moves). */
+   half minute or so), and the title leans with the pointer (one style write per frame, only while the mouse moves). Since post-3H Trial 1
+   the title also drifts on its own, a few pixels (below: --dx, --dy from ui.js), unless motion is reduced; nothing else moves. */
 #menu{position:fixed;inset:0;top:0;left:0;z-index:15;width:auto;max-width:none;max-height:none;overflow:hidden;color:var(--u-text);font-family:var(--u-mono);-webkit-tap-highlight-color:transparent;
   --edge:clamp(16px,3.2vw,40px);
   --sl:max(var(--edge),env(safe-area-inset-left));--sr:max(var(--edge),env(safe-area-inset-right));--st:max(var(--edge),env(safe-area-inset-top));--sb:max(var(--edge),env(safe-area-inset-bottom));
@@ -88,8 +89,10 @@ html.tfb-black{background:#000}
    image: every pixel of the file that is not fully transparent lies inside it), centred; the image is placed so its sign fills
    that box, never cropped, stretched, recoloured or filtered. The rest of the image - alpha 0 everywhere - is clipped by the box,
    so it adds nothing to the page's layout (no overflow to scroll). Its glow is the image's own. It dips only on request. */
-.mm-title{position:absolute;left:50%;top:var(--ttop);width:var(--lw);aspect-ratio:1230/422;margin:0;overflow:hidden;pointer-events:none;
-  transform:translate3d(calc(-50% + var(--mx,0) * 6px),calc(var(--my,0) * 4px),0)}
+/* post-3H Trial 1: the drift is ui.js's --dx and --dy (each within -1..1) times --drx and --dry, added to the pointer's lean; the
+   title takes no pointer events, so no control moves with it. Reduced motion leaves --dx and --dy unset (0): the title rests as before. */
+.mm-title{position:absolute;left:50%;top:var(--ttop);width:var(--lw);aspect-ratio:1230/422;margin:0;overflow:hidden;pointer-events:none;--drx:3px;--dry:3px;
+  transform:translate3d(calc(-50% + var(--mx,0) * 6px + var(--dx,0) * var(--drx)),calc(var(--my,0) * 4px + var(--dy,0) * var(--dry)),0)}
 .mm-logo{position:absolute;left:-33.252%;top:-97.156%;width:166.504%;height:auto;max-width:none;pointer-events:none;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
 @keyframes mmHum{0%,100%{opacity:1}14%{opacity:.5}20%{opacity:.94}31%{opacity:.68}44%{opacity:1}}
 .mm-title.hum .mm-logo{animation:mmHum .9s linear}
@@ -119,6 +122,7 @@ html.rm #menu.mm-intro.mm-go .mm-util{animation:mmFade .18s ease .28s both!impor
 html.rm #menu.mm-intro.mm-go .mm-foot{animation:mmFade .18s ease .32s both!important}
 #menu.mm-tight .mm-title{visibility:hidden}
 @media (hover:hover) and (pointer:fine){.mm-title{will-change:transform}}   /* the logo is one cached layer: the pointer lean only moves it */
+#menu.mm-drift .mm-title{will-change:transform}   /* post-3H Trial 1: while it drifts (touch screens too), the same cached layer */
 
 /* PLAY and its row: one block, low and centred */
 .mm-stage{position:absolute;left:0;right:0;bottom:var(--stb);width:var(--stw);margin:0 auto}

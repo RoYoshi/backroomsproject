@@ -4,10 +4,10 @@ A multiplayer survival game in the browser, set in Level 0 of the Backrooms. Eve
 Hounds and the Smilers, the blackouts, the glitched walls, the deaths and the bodies; each player's browser draws the world and moves
 its wanderer.
 
-**This branch (`stage-3h-engine-modernization`):** the engine's code is reorganised by owner. The game is meant to play exactly as the
-accepted build does. **HUMAN QA PENDING:** only the owner can accept it
-([`HUMAN_QA.md`](dev/stage-3h-modernization/HUMAN_QA.md); the report: [`REPORT.md`](dev/stage-3h-modernization/REPORT.md)). The deployed
-game is `main`.
+**This branch (`post-3h-trials-1-2-4`):** the owner-accepted Stage 3H engine (C5d, `4beba2f`: its report and Human QA page are in
+[`dev/stage-3h-modernization/`](dev/stage-3h-modernization/)) plus the post-3H integration trials the owner authorized, one at a time
+([`dev/post-3h-trials/`](dev/post-3h-trials/README.md)). **Trial 1, the main menu's title drift: IN PROGRESS** (its state and, once
+verified, its report and Human QA page are in that folder). Nothing else changes how the game plays. The deployed game is `main`; nothing here is merged or deployed.
 
 ## Run it
 
