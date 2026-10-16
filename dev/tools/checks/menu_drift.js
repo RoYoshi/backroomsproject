@@ -37,6 +37,7 @@
  *   checks above must fail (the amplitude tripled; reduced motion ignored; a hidden tab ignored; a second loop on each switch; no drift
  *   at all; a control moved; the run ignored; the drift's clock reset on each pause), the unchanged copy having passed above.
  * --only candidate|compare: one of the two halves (while developing; the gate runs both).
+ * --work DIR: where the mutants' game copies are made (default: the system's temporary folder); each is removed after its run.
  * Each server is stopped by its PID.  Exit 0 only when every check holds (and, with --mutants, every mutant is caught). */
 'use strict';
 const fs = require('fs'), path = require('path'), http = require('http'), net = require('net'), crypto = require('crypto'), os = require('os');
@@ -225,7 +226,7 @@ const MUTANTS = [
   ['run_ignored', 'assets/ui.js', '!!(menu && titleEl && revealed && vis(\'menu\') && ', '!!(menu && titleEl && revealed && ', 'play'],
   ['clock_reset', 'assets/ui.js', '    drift.last = 0;\n    if (rest && ', '    drift.last = 0; drift.t = 0;\n    if (rest && ', 'hidden'],
 ];
-function copyGame(src, dst) { fs.mkdirSync(dst, { recursive: true }); execFileSync('cp', ['-a', path.join(src, '.') , dst]); }
+function copyGame(src, dst) { fs.mkdirSync(dst, { recursive: true }); execFileSync('cp', ['-a', src + path.sep + '.', dst]); }   // (src/. : its contents)
 
 (async () => {
   const R = { tool: 'dev/tools/checks/menu_drift.js', new: NEW, old: OLD, bounds: BOUND, chromium: null, checks: {}, ok: true };
@@ -244,7 +245,7 @@ function copyGame(src, dst) { fs.mkdirSync(dst, { recursive: true }); execFileSy
     }
     if (ARG.mutants === '1') {
       await stop(sn); sn = null;
-      const work = fs.mkdtempSync(path.join(os.tmpdir(), 't1-mutants-')); R.mutants = [];
+      const work = fs.mkdtempSync(path.join(ARG.work ? path.resolve(ARG.work) : os.tmpdir(), 't1-mutants-')); R.mutants = [];
       try {
         for (const [id, file, from, to, check] of MUTANTS) {
           const dir = path.join(work, id); copyGame(NEW, dir); const f = path.join(dir, 'public', file), t = fs.readFileSync(f, 'utf8');

@@ -327,7 +327,7 @@ const STEPS = {
       note: `dev workflow ${jd ? `${nd} of ${jd.steps.length} steps (the compiled client: ${jd.client || '?'})` : 'no report'}; browser contracts ${jb && jb.ok ? 'PASS' : 'FAIL'}: ${nb} checks on B++ and this tree (the 52-member facade, unauthorized access refused, a phone), the two sides agree on ${agree} of 3`, r: b };
   },
   menu: () => {                                                                         // post-3H Trial 1: the main menu's title drift, against C5d
-    const r = run('menu_drift', ['node', 'dev/tools/checks/menu_drift.js', '--old-dir', c5dGame(), '--new-dir', wtGame(), '--mutants', '1', '--out', o('menu_drift.json'), '--shots', o('menu_shots')], { ms: 3600000 }), j = J(o('menu_drift.json'));
+    const r = run('menu_drift', ['node', 'dev/tools/checks/menu_drift.js', '--old-dir', c5dGame(), '--new-dir', wtGame(), '--mutants', '1', '--work', OUT, '--out', o('menu_drift.json'), '--shots', o('menu_shots')], { ms: 3600000 }), j = J(o('menu_drift.json'));
     const n = j ? Object.keys(j.checks).length : 0, k = j ? Object.values(j.checks).filter(c => c.ok).length : 0, m = j && j.mutants ? j.mutants.length : 0;
     return { ok: r.exit === 0 && !!j && j.ok && m === 8 && j.mutantsCaught === 8, cases: n + m,
       note: j ? `the title's drift against C5d: ${k} of ${n} checks (the drift, a hidden tab, reduced motion, a run, the pointer; the menu's controls, text, Tab order and title at 4 sizes, the logo, the theme); its mutants ${j.mutantsCaught} of ${m} caught` : 'no report', r };

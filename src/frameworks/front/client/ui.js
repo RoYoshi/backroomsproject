@@ -1167,7 +1167,7 @@
      weights sum to 1, so the offset stays within -1..1 of ui.css's --drx / --dry (3 px); it is added to the pointer's lean (--mx,
      --my, written exactly as before), never instead of it. One animation-frame loop, and only while the boot has revealed the menu,
      the menu is shown, the tab is visible and motion is not reduced (Settings, or the system's under System): every change of those
-     comes through drift.sync (the menu's state observer, the reveal, visibilitychange, applyMotion), which starts the loop if it is
+     comes through driftSync (the menu's state observer, the reveal, visibilitychange, applyMotion), which starts the loop if it is
      not running and stops it otherwise, so no second loop can start. Reduced motion puts the title back where it rests (offset 0) and
      the drift starts from 0 when allowed again; a hidden tab or a run pauses it where it is, and it resumes from there. The offsets
      are a function of the drift's own clock, which runs only with the loop (a long gap counts as 100 ms, never as a jump). No layout
