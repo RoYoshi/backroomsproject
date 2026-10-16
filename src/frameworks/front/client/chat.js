@@ -252,6 +252,9 @@
       el.append(txt, arrow); L0.append(el);
       b = { el, txt, arrow, mode: '', x: NaN, y: NaN, a: NaN }; B.set(m.id, b);
     }
+    // A per-message color is validated and room-scoped by the speech server. Older servers have no 'c'.
+    const color = typeof m.c === 'string' && /^#[0-9a-fA-F]{6}$/.test(m.c) ? m.c : '#e3c768';
+    b.el.style.setProperty('--bb-accent', color);
     b.txt.textContent = m.text; b.el.classList.remove('bb-out'); b.el.classList.toggle('bb-big', S.big);
     const now = performance.now(); b.born = now; b.until = now + Math.max(3000, Math.min(5000, 3000 + 12.5 * cps(m.text))); b.w = 0; shownN++;
     if (!own) announce(`${names.get(m.id) || 'Someone'} nearby says: ${m.text}`);
@@ -316,7 +319,10 @@
       e.preventDefault();
       const t = input.value.trim(), N = NET();
       if (t && cps(t) > MAXCP) { toast(WHY.long()); return; }
-      if (t && typeof sendSay === 'function') sendSay(t);
+      if (t && typeof sendSay === 'function') {
+        const v = window.__settings && window.__settings.get ? window.__settings.get().c : '';
+        sendSay(t, typeof v === 'string' && /^#[0-9a-fA-F]{6}$/.test(v) ? v.toLowerCase() : '');
+      }
       closeComposer();
     });
     more.addEventListener('click', () => { const o = more.getAttribute('aria-expanded') !== 'true'; more.setAttribute('aria-expanded', String(o)); opts.hidden = !o; if (o) renderOptions(); });

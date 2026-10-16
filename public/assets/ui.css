@@ -916,3 +916,8 @@ html.rm .bb{transition:none}
 .say-keyhint kbd{margin-right:5px;color:#f3e7a7;font:600 11px/1.4 var(--u-mono)}
 .say-keyhint[hidden]{display:none}
 @media (pointer:coarse){.say-keyhint{display:none!important}}
+
+/* Trial 4 — sender-owned, server-sanitized speech accents. Text remains cream on a dark substrate. */
+.bb{border-color:var(--bb-accent,#e3c768);background:#0b0906f2;color:#f6eed9}
+.bb.bb-own{border-color:var(--bb-accent,#e3c768)}
+.bb.bb-hint .bb-arrow{border-left-color:var(--bb-accent,#e3c768)}

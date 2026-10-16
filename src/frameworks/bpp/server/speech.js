@@ -59,7 +59,10 @@ function say(sock, m) {
   if (!c.ok) return refuse(st, c.why);
   if (c.text === st.last && now - st.lastAt < REPEAT) return refuse(st, 'repeat');
   st.last = c.text; st.lastAt = now;
-  const ev = { t: 'heard', id: me.id, text: c.text, seq: ++seq };
+  // The color belongs to the authenticated speaker's accepted message. Ignore every client-supplied identity
+  // and never interpolate unchecked values into client CSS. Old clients simply get the neutral bubble accent.
+  const color = typeof m.c === 'string' && /^#[0-9a-fA-F]{6}$/.test(m.c) ? m.c.toLowerCase() : '';
+  const ev = { t: 'heard', id: me.id, text: c.text, seq: ++seq, c: color };
   stats.said++;
   const x = p.x, y = p.y;
   for (const o of room.clients.values()) {
