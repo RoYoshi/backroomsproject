@@ -40,8 +40,10 @@
       slider.addEventListener('change', () => picker.dispatchEvent(new Event('change', { bubbles: true })));
     }
     // Keep picker inside its original label: attach beside the label to avoid nested-label pointer confusion.
+    const swatches = id === 'stColor' && picker.closest('#stSw');
     const parent = picker.closest('label');
-    if (parent && parent.parentElement) parent.insertAdjacentElement('afterend', trio);
+    if (swatches && swatches.parentElement) swatches.insertAdjacentElement('afterend', trio);
+    else if (parent && parent.parentElement) parent.insertAdjacentElement('afterend', trio);
     else picker.insertAdjacentElement('afterend', trio);
     picker.addEventListener('input', () => sync(picker));
     picker.addEventListener('change', () => sync(picker));
