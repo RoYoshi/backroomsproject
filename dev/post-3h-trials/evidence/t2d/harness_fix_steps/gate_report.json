@@ -1,0 +1,46 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "74abf9e7822c28180e974ab4bfa9529eaef4276d",
+ "startedAt": "2026-10-16T16:29:29.646Z",
+ "out": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/gfix",
+ "steps": {
+  "live_wire": {
+   "ok": true,
+   "cases": 65,
+   "note": "structurally identical, ui {\"menuAfterFirst\":true,\"refusedLabel\":\"NEW RUN · WAIT N S\",\"menuAfterRefused\":false,\"menuAfterAdmin\":true}",
+   "exit": 0,
+   "seconds": 431
+  },
+  "browsers": {
+   "ok": false,
+   "cases": 108,
+   "note": "two_browser FAIL (93), col_head ok (5), col_aside ok (5), gameplay_smoke FAIL (5)",
+   "exit": null,
+   "seconds": 265
+  },
+  "workflow": {
+   "ok": true,
+   "cases": 30,
+   "note": "dev workflow 22 of 22 steps (the compiled client: checked); browser contracts PASS: 8 checks on B++ and this tree (the 52-member facade, unauthorized access refused, a phone), the two sides agree on 3 of 3",
+   "exit": 0,
+   "seconds": 271
+  },
+  "contact_lab": {
+   "ok": true,
+   "cases": 23,
+   "note": "23 images byte-identical in pixels",
+   "exit": null,
+   "seconds": 779
+  }
+ },
+ "ok": false,
+ "finishedAt": "2026-10-16T16:58:34.967Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate",
+  "client_work"
+ ]
+}

@@ -1,0 +1,73 @@
+{
+ "tool": "dev/stage-3h/golden/live_wire_h2.js",
+ "ok": false,
+ "error": "page.click: Timeout 28000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#reset')\u001b[22m\n\u001b[2m    - locator resolved to <button id=\"reset\" class=\"secondary\" data-label=\"NEW RUN\">NEW RUN</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    3 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+ "diag": {
+  "variant": "new",
+  "phase": "A_new_run_admin",
+  "A": {
+   "started": false,
+   "paused": false,
+   "caught": false,
+   "hidden": {
+    "menu": true,
+    "dialog": true,
+    "runMenu": false,
+    "caught": true,
+    "won": true
+   },
+   "reset": "NEW RUN",
+   "focus": "DIV",
+   "nr": {
+    "q": 2,
+    "busy": 2,
+    "w": 2,
+    "last": {
+     "q": 2,
+     "ok": 1,
+     "why": "",
+     "de": 2,
+     "at": 1792170916.37
+    }
+   },
+   "online": true,
+   "ws": 1
+  },
+  "B": {
+   "started": true,
+   "paused": false,
+   "caught": false,
+   "hidden": {
+    "menu": true,
+    "dialog": true,
+    "runMenu": true,
+    "caught": true,
+    "won": true
+   },
+   "reset": "NEW RUN",
+   "focus": "BODY",
+   "nr": {
+    "q": 0,
+    "busy": 0,
+    "w": 2,
+    "last": null
+   },
+   "online": true,
+   "ws": 1
+  },
+  "serverLog": [
+   "The Far Backrooms → http://localhost:8622  (share  ?room=NAME  to group up)",
+   "[admin] WANDERER#2 unlocked admin (room h2livenew)",
+   "[admin] room=h2livenew WANDERER#2: hound remove x10 -> 2",
+   "[admin] room=h2livenew WANDERER#2: smiler remove x10 -> 2",
+   "[admin] room=h2livenew WANDERER#2: god WANDERER -> true",
+   "[admin] room=h2livenew WANDERER#2: god WANDERER -> true",
+   "[newrun] room=h2livenew #1 de=1: approved",
+   "[death] room=h2livenew #1 de=1: Boom  corpse placed",
+   "[newrun] room=h2livenew #1 de=2: approved",
+   "[death] room=h2livenew #1 de=2: Boom  corpse placed",
+   "[admin] RUN-A#1 unlocked admin (room h2livenew)",
+   "[admin] room=h2livenew RUN-A#1: unlimited new run on"
+  ]
+ }
+}

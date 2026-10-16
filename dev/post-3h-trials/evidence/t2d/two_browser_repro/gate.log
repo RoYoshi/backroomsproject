@@ -1,0 +1,6 @@
+FAIL live_wire: 0 compared; first run ERROR (page.click: Timeout 28000ms exceeded.
+Call log:
+[2m  - waiting for locator('#reset')[22m
+[2m    - locator resolved to), run again; no comparison (756 s)
+FAIL browsers: 105 compared; two_browser FAIL (90), col_head ok (5), col_aside ok (5), gameplay_smoke ok (5) (289 s)
+MODERNIZATION GATE (full: live_wire,browsers): FAIL  - report /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/gdbg/gate_report.json

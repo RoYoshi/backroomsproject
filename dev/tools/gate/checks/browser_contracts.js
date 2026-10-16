@@ -40,7 +40,8 @@ async function serve(dir, port) {
 const stop = async p => { if (!p) return; try { process.kill(p.pid); } catch (e) { } for (let i = 0; i < 50 && p.exitCode === null && p.signalCode === null; i++) await sleep(50); };
 /* a tap on the page's WebSocket: what it receives (types; the latest admin snapshot) - the page's own socket, nothing replaced */
 const TAP = `(() => { const S = window.WebSocket; window.__c5 = { types: [], admin: null, ares: [], logins: [], ads: 0 };
-  window.WebSocket = function (u, p) { const ws = new S(u, p); window.__c5.ws = ws;
+  window.WebSocket = function (u, p) { const ws = new S(u, p); if (!/\\/ws(\\?|$)/.test(String(u))) return ws;   // (post-3H Trial 2: only the game's socket, not the lounge's /social)
+    window.__c5.ws = ws;
     ws.addEventListener('message', e => { try { const m = JSON.parse(e.data); window.__c5.types.push(m.t);
       if (m.ad) { window.__c5.admin = m.ad; window.__c5.ads++; }                  // the admin's view of the room rides in the snapshots
       if (m.t === 'admin') window.__c5.logins.push({ ok: !!m.ok, waiting: !!m.wait });   // the login's answer (waiting: it says to wait)

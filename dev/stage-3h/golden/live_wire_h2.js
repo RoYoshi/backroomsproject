@@ -51,7 +51,9 @@ async function variant(dir, port, label) {
     const room = 'h2live' + label;
     const frames = { A: [], B: [] };
     let phase = 'boot';
-    const tap = who => async s => { await s.cdp.send('Network.enable'); s.cdp.on('Network.webSocketFrameSent', e => frames[who].push([phase, 'tx', e.response.payloadData])); s.cdp.on('Network.webSocketFrameReceived', e => frames[who].push([phase, 'rx', e.response.payloadData])); };
+    /* (post-3H Trial 2) only the game's socket's frames: the page now also opens the main menu's lounge (/social), which is not the game's wire */
+    const tap = who => async s => { const other = new Set(); await s.cdp.send('Network.enable'); s.cdp.on('Network.webSocketCreated', e => { if (!/\/ws(\?|$)/.test(e.url)) other.add(e.requestId); });
+      s.cdp.on('Network.webSocketFrameSent', e => { if (!other.has(e.requestId)) frames[who].push([phase, 'tx', e.response.payloadData]); }); s.cdp.on('Network.webSocketFrameReceived', e => { if (!other.has(e.requestId)) frames[who].push([phase, 'rx', e.response.payloadData]); }); };
     const A = await Q.page(b, port, { room, viewport: { width: 1280, height: 720 }, before: tap('A') });
     const B = await Q.page(b, port, { room, viewport: { width: 1280, height: 720 }, before: tap('B') });
     const ids = {}, phaseIds = {}, log = [];

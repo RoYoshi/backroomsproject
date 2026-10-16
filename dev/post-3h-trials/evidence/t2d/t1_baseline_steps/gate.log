@@ -1,0 +1,3 @@
+PASS live_wire: 65 compared; structurally identical, ui {"menuAfterFirst":true,"refusedLabel":"NEW RUN · WAIT N S","menuAfterRefused":false,"menuAfterAdmin":true} (456 s)
+FAIL browsers: 106 compared; two_browser FAIL (91), col_head ok (5), col_aside ok (5), gameplay_smoke ok (5) (269 s)
+MODERNIZATION GATE (full: live_wire,browsers): FAIL  - report /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/g_t1/gate_report.json

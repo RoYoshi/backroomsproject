@@ -47,7 +47,7 @@ INIT = r"""(() => { const real = performance.now.bind(performance); let fz = nul
   window.requestAnimationFrame = cb => raf(ts => cb(fz === null ? ts : fz));
   const adv = () => { if (fz !== null) fz += .001; raf(adv); }; raf(adv);
   window.__clk = { freeze(v) { fz = v === undefined ? real() : v; }, thaw() { fz = null; }, get() { return fz; } };
-  const S = window.WebSocket; window.WebSocket = function (u, p) { const ws = new S(u, p); window.__ws = ws; return ws; };
+  const S = window.WebSocket; window.WebSocket = function (u, p) { const ws = new S(u, p); if (!/\/ws(\?|$)/.test(String(u))) return ws; window.__ws = ws; return ws; };
   window.WebSocket.prototype = S.prototype; Object.assign(window.WebSocket, { OPEN: 1, CLOSED: 3, CONNECTING: 0, CLOSING: 2 });
 })();"""
 HOOKS = r"""() => {

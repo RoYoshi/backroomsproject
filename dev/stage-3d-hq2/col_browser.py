@@ -29,7 +29,7 @@ SAMPLER = r"""()=>{ if(window.__h2c) return 'already'; const S=window.__h2c={row
   S.iv=setInterval(()=>{ try{ const A=window.__api; S.rows.push([+(Date.now()/1000).toFixed(3), +A.H.x.toFixed(1), +A.H.y.toFixed(1)]); if(S.rows.length>8000) S.rows.splice(0,3000) }catch(e){} },50); return 'ok' }"""
 ROWS = "(since)=>window.__h2c?window.__h2c.rows.filter(r=>r[0]>=since):null"
 SPY = r"""(()=>{ const W0=window.WebSocket; const S=window.__wsSpy={tp:[],n:{}};
-  window.WebSocket=function(u,p){ const ws=p===undefined?new W0(u):new W0(u,p); S.ws=ws;
+  window.WebSocket=function(u,p){ const ws=p===undefined?new W0(u):new W0(u,p); if(!/\/ws(\?|$)/.test(String(u))) return ws; S.ws=ws;
     ws.addEventListener('message',e=>{ try{ const m=JSON.parse(e.data); S.n[m.t]=(S.n[m.t]||0)+1; if(m.t==='tp') S.tp.push([+(Date.now()/1000).toFixed(3),m.x,m.y,m.pc|0]); }catch(err){} }); return ws; };
   window.WebSocket.prototype=W0.prototype; Object.assign(window.WebSocket,{CONNECTING:0,OPEN:1,CLOSING:2,CLOSED:3}); })()"""
 

@@ -41,7 +41,7 @@ A_ = ap.parse_args(); A_.game = os.path.abspath(A_.game)
 W, H = 480, 320
 Y, XA, XB = 720, 862, 1012
 SPY = r"""(()=>{ const W0=window.WebSocket; const S=window.__e0spy={n:{},sent:{}};
-  window.WebSocket=function(u,p){ const ws=p===undefined?new W0(u):new W0(u,p); S.ws=ws; const snd=ws.send.bind(ws);
+  window.WebSocket=function(u,p){ const ws=p===undefined?new W0(u):new W0(u,p); if(!/\/ws(\?|$)/.test(String(u))) return ws; S.ws=ws; const snd=ws.send.bind(ws);
     ws.send=d=>{ try{ const m=JSON.parse(d); S.sent[m.t]=(S.sent[m.t]||0)+1; }catch(e){} return snd(d); };
     ws.addEventListener('message',e=>{ try{ const m=JSON.parse(e.data); S.n[m.t]=(S.n[m.t]||0)+1; }catch(err){} }); return ws; };
   window.WebSocket.prototype=W0.prototype; Object.assign(window.WebSocket,{CONNECTING:0,OPEN:1,CLOSING:2,CLOSED:3}); })()"""

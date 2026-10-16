@@ -22,7 +22,8 @@ const INIT = `(() => { const real = performance.now.bind(performance); let fz = 
   window.__clock = { freeze(exact) { fz = real(); step = exact ? 0 : .001; }, thaw() { fz = null; }, get frozen() { return fz !== null; },
     get() { return fz; }, set(v, s) { fz = v; if (s !== undefined) step = s; } };   // set: jump the frozen clock (and its per-frame step), e.g. run 1 s forward then rewind to the same instant
   const S = window.WebSocket; window.__sent = []; window.__wsTap = { id: 0, admin: null };
-  window.WebSocket = function (u, p) { const ws = new S(u, p); window.__ws = ws; const send = ws.send.bind(ws);
+  window.WebSocket = function (u, p) { const ws = new S(u, p); if (!/\\/ws(\\?|$)/.test(String(u))) return ws;   // (post-3H Trial 2: the page's other socket, the lounge's /social, is not the game's)
+    window.__ws = ws; const send = ws.send.bind(ws);
     ws.send = d => { try { window.__sent.push([performance.now(), String(d)]); } catch (e) { } return send(d); };
     ws.addEventListener('message', e => { try { const m = JSON.parse(e.data); if (m.t === 'hi') window.__wsTap.id = m.id; else if (m.t === 'admin') window.__wsTap.admin = m; } catch (x) { } });
     return ws; };

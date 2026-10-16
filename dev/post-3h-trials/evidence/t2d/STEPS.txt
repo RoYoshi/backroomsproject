@@ -1,0 +1,28 @@
+Post-3H Trial 2, checkpoint T2-D (1 of 2): the browser harnesses tap the game's socket only - no runtime change
+===========================================================================================================
+
+Machine: 2 CPUs, headless Chromium 141 with SwiftShader; Node v22.22.2; Python 3.11.
+
+1. The full gate on a fresh clone of T2-C (74abf9e; first_full_gate_t2c/): the fast tier's 21 steps PASS, cli_mutants and bpp_checks
+   PASS; live_wire FAILED (34 structural differences), browsers FAILED (two_browser), workflow FAILED (browser contracts). The run was
+   stopped there (its remaining steps would have checked the same superseded tools).
+   Why: those harnesses were written when a page opened one WebSocket. They wrap window.WebSocket and keep the LAST socket created to
+   send admin commands or to inject messages, and live_wire records every socket's frames. The page now also opens the lounge's
+   /social on the main menu (after the game's /ws), so they sent their admin commands to the lounge (which ignores them: no monster
+   removed, no death) and live_wire mixed lounge frames into the game's wire.
+   Fix (development tools only): dev/shadows/harness_lib.js, dev/tools/gate/checks/browser_contracts.js, dev/stage-3e-0/two_browser.py,
+   dev/stage-3d-hq2/col_browser.py and dev/stage-3d-hq5/contact_lab.py keep only a socket whose URL is the game's /ws; live_wire_h2.js
+   drops the frames of any other socket (Network.webSocketCreated tells it which). On B++ (one socket) nothing changes. Other old
+   harnesses with the same habit that the gate does not run are left as they were.
+2. The affected steps again on the working tree (harness_fix_steps/): live_wire PASS (structurally identical), workflow PASS (browser
+   contracts 8 checks, both sides agree), contact_lab PASS (23 images identical); browsers FAILED: two_browser (one frame of 93 with
+   Alice's avatar 104 px from her drawn pose) and gameplay_smoke's NEW RUN case (after SPAWN the walk south moved 9 px where 30 are needed; it passed in the T2-C clone run and in Trial 1's gate).
+3. two_browser (two_browser_repro/): run alone three times on Trial 2's game folder: PASS each time (86, 95, 93 frames, worst 0.005 px).
+   In the gate's order (after live_wire), with a line printing the mismatching frame: FAIL again, one frame of 90, the avatar at
+   x 874.4 while the drawn pose (and its target) was x 766 - a frame where the avatar was drawn before the newest snapshot snapped the
+   pose. In the same run live_wire's new side stopped twice at "A_new_run_admin": the second NEW RUN inside the 30 s cooldown had been
+   approved (more than 30 s had passed on this slow machine), so the run menu was already open.
+4. The same two steps, in the same order, on a fresh clone of Trial 1's accepted 4a39b53 (t1_baseline_steps/): live_wire PASS;
+   browsers FAILED with the same two_browser signature (one frame of 91, 104.8 px). The race is the accepted game's and this machine's
+   timing, not the chat's (chat.js does nothing on a frame without bubbles). Reported, not hidden; the final full gate follows.
+5. The full gate on a fresh clone of this commit: next checkpoint.

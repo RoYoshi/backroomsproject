@@ -1,0 +1,41 @@
+$ node dev/stage-3h/golden/live_wire_h2.js --old-dir /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/final/gate_full/game_bpp --new-dir /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/final/gate_full/game_candidate --shots /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/final/gate_full/live_wire_shots --save-raw /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/final/gate_full/live_wire_raw --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t2/final/gate_full/live_wire.json
+old: 4275 + 4024 frames in 209530 ms; errors A 0 B 0; ui {"menuAfterFirst":true,"refusedLabel":"NEW RUN · WAIT N S","menuAfterRefused":false,"menuAfterAdmin":true}
+new: 3988 + 3737 frames in 194058 ms; errors A 3 B 0; ui {"menuAfterFirst":true,"refusedLabel":"NEW RUN · WAIT N S","menuAfterRefused":false,"menuAfterAdmin":true}
+STRUCTURAL DIFFERENCES: 34
+  A_admin_death|A|rx events
+    old {"ares":"present","bodies":"present"}
+    new {}
+  A_admin_death|A|rx keys
+    old {"ares":["t,ok,msg"],"bodies":["t,v,w,b"],"s":["t,p,e,me,ms,cp,w,k"]}
+    new {"s":["t,p,e,me,ms,cp,w,k"]}
+  A_admin_death|A|tx events
+    old {"a":2}
+    new {}
+  A_admin_death|A|tx keys
+    old {"a":["t,c,k","t,c,k,var"],"p":["t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"]}
+    new {"p":["t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"]}
+  A_admin_death|B|rx events
+    old {"bodies":"present","fx":"present"}
+    new {}
+  A_admin_death|B|rx keys
+    old {"bodies":["t,v,w,b"],"fx":["t,k,id,c,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex,srv,de,wn,lo,lf"],"s":["t,p,e,me,ms,cp,w,k"]}
+    new {"s":["t,p,e,me,ms,cp,w,k"]}
+  A_end|A|rx events
+    old {}
+    new {"social_count":"present","social_welcome":"present"}
+  A_end|A|rx keys
+    old {"s":["t,p,e,me,ms,cp,w,k"]}
+    new {"s":["t,p,e,me,ms,cp,w,k"],"social_count":["t,online"],"social_welcome":["t,v,id,nick,online"]}
+  A_end|A|tx events
+    old {}
+    new {"social_hello":"present"}
+  A_end|A|tx keys
+    old {"p":["t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"]}
+    new {"p":["t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"],"social_hello":["t,nick"]}
+  A_enters|A|tx events
+    old {"join":1}
+    new {"join":1,"social_ping":"present"}
+  A_enters|A|tx keys
+    old {"join":["t"],"p":["t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk","t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"]}
+    new {"join":["t"],"p":["t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk","t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"],"social_ping":["t"]}
+LIVE WIRE: FAIL
