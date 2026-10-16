@@ -940,3 +940,23 @@ body.captured #dread{
   background:radial-gradient(ellipse at center,transparent 24%,rgba(38,6,8,.27) 63%,rgba(6,2,3,.78) 100%)!important;
 }
 html.rm body.captured #dread{animation:none!important}
+
+/* Trial 4: photosensitivity review of inherited effect timelines.
+ * These defaults do not depend on user reduced-motion preferences:
+ *  - no 5+ Hz full-viewport tear movement or screen inversion
+ *  - no high-brightness exit-filter burst
+ *  - no staccato logo or stamina opacity pulse
+ * Keep horror readability through static, muted scene shading and slow fades. */
+#glitchTear{
+  animation:none!important;
+  mix-blend-mode:normal!important;
+  filter:brightness(.3) saturate(.55)!important;
+}
+body.gl-out #game canvas,body.gl-out #mp{
+  animation:none!important;
+  filter:brightness(.55) saturate(.7)!important;
+}
+.staminaHud em[data-lv=low]{animation:none!important}
+.mm-title.hum .mm-logo{animation:none!important}
+#menu.mm-intro.mm-go .mm-logo{animation:mmFade .55s ease both!important}
+html.rm #menu.mm-intro.mm-go .mm-logo{animation:none!important}
