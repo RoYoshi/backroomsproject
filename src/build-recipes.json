@@ -130,6 +130,12 @@
    ]
   },
   {
+   "out": "public/assets/rgb.js",
+   "parts": [
+    "src/frameworks/front/client/rgb.js"
+   ]
+  },
+  {
    "out": "public/assets/ui.js",
    "parts": [
     "src/frameworks/front/client/ui.js"
