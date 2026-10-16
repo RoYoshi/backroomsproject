@@ -921,3 +921,13 @@ html.rm .bb{transition:none}
 .bb{border-color:var(--bb-accent,#e3c768);background:#0b0906f2;color:#f6eed9}
 .bb.bb-own{border-color:var(--bb-accent,#e3c768)}
 .bb.bb-hint .bb-arrow{border-left-color:var(--bb-accent,#e3c768)}
+
+/* Trial 4 — additive RGB channels beside existing pickers. */
+.rgb-trio{display:grid;gap:5px;min-width:0;width:100%;padding:8px 10px;margin:8px 0 12px;
+  border:1px solid var(--u-line2,#555);background:#0b0905b5;color:var(--u-cream,#eee)}
+.rgb-trio legend{padding:0 5px;font:600 10px/1.4 var(--u-mono,monospace);letter-spacing:.1em}
+.rgb-channel{display:grid;grid-template-columns:42px minmax(72px,1fr) 33px;align-items:center;gap:9px;
+  font:500 11px/1.4 var(--u-mono,monospace)}
+.rgb-channel input{width:100%;min-width:0;accent-color:#b5c793;cursor:pointer}
+.rgb-channel output{text-align:right;font-variant-numeric:tabular-nums}
+.rgb-channel:focus-within{color:#f3e7a7}
