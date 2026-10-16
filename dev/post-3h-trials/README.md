@@ -17,8 +17,8 @@ Development only. Nothing here is served or loaded by the game.
 
 | Trial | What it changes, on purpose | State |
 |---|---|---|
-| 1 | The main menu's title drifts a few pixels on its own, as well as leaning with the pointer | **ENGINEERING COMPLETE; HUMAN QA PENDING** at T1-B (`T1_REPORT.md`, `HUMAN_QA_T1.md`) |
-| 2 | A global chat on the main menu; nearby speech in a run, as bubbles, sent only to players close enough in the same room | not started: waits for the owner's PASS on Trial 1 |
+| 1 | The main menu's title drifts a few pixels on its own, as well as leaning with the pointer | **ACCEPTED by the owner** (PASS / ACCEPT, 2026-10-16) at T1-B `4a39b53` (`T1_REPORT.md`, `HUMAN_QA_T1.md`) |
+| 2 | A global chat on the main menu; nearby speech in a run, as bubbles, sent only to players close enough in the same room | **in progress** (authorized 2026-10-16): `T2_DESIGN.md` |
 | 4 | NEW RUN's button reads "Spontaneously Combust?"; red, green and blue sliders for the wanderer's colours; no rapid full-screen flashing | not started: waits for the owner's PASS on Trial 2 |
 
 ## What is where

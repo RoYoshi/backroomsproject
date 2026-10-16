@@ -57,7 +57,23 @@ const { rooms, getRoom, worldReset } = require('./src/core/server/rooms.js')({ c
 const { adminCommand } = require('./src/frameworks/overseer/server/admin.js')({ send, aftOf, moveTo, worldReset });   // H3M-2: OVERSEER, the admin panel's commands
 
 const { adminLogin } = require('./src/frameworks/ward/server/admin_login.js')({ crypto, ADMIN_PASS, send });   // (C2) W.A.R.D.: the admin login
-require('./src/frameworks/bpp/server/session.js')({ srv, crypto, MAX_ROOM, FAST_GAP, getRoom, rooms, send, reader, PEERS, num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook, MV, PD, blockers, placeFree, mvReset, mvCheck, adminMove, nrIntent, adminCommand, adminLogin });   // (C2) B++: the WebSocket session
+/* Post-3H Trial 2 (docs/architecture/CHAT.md): chat, in two separate places.  The main menu's lounge is its own WebSocket, /social
+ * (bpp/server/lounge.js: no world, no player, no room slot); nearby speech in a run is one more message on the game's socket, {t:'say'},
+ * delivered by the server to the players near the speaker in its room (bpp/server/speech.js).  Every text passes W.A.R.D.'s chat_text.js.
+ * One upgrade handler on the HTTP server, the dispatcher below: /social goes to the lounge, every other request to the session's own
+ * handler exactly as before (the session registers it on `upgrades`, which keeps it for the dispatcher).  The session is given
+ * speech.readerFor(reader): the same reader, which hands it every message as before but {t:'say'} (the session never read one). */
+const { cleanText, cleanNick } = require('./src/frameworks/ward/server/chat_text.js');
+const lounge = require('./src/frameworks/bpp/server/lounge.js')({ crypto, frame, reader, cleanText, cleanNick });
+const speech = require('./src/frameworks/bpp/server/speech.js')({ rooms, send, cleanText });
+let gameUpgrade = null;
+const upgrades = { on: (ev, fn) => { if (ev === 'upgrade') gameUpgrade = fn; else srv.on(ev, fn); } };
+srv.on('upgrade', (req, sock, head) => {
+  let at = ''; try { at = new URL(req.url, 'http://x').pathname; } catch (e) { }
+  if (at === '/social') return lounge.upgrade(req, sock, head);
+  gameUpgrade(req, sock, head);
+});
+require('./src/frameworks/bpp/server/session.js')({ srv: upgrades, crypto, MAX_ROOM, FAST_GAP, getRoom, rooms, send, reader: speech.readerFor(reader), PEERS, num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook, MV, PD, blockers, placeFree, mvReset, mvCheck, adminMove, nrIntent, adminCommand, adminLogin });   // (C2) B++: the WebSocket session
 
 const { poseSend } = require('./src/frameworks/bpp/server/poses.js')({ send });   // H3M-2: B++, the fresher poses between two snapshots
 setInterval(require('./src/core/server/loop.js')({ rooms, poseSend, aftStart, aftSend, aftTick, bodyAt, send, SNAP_EVERY, ADMIN_EVERY }).tick, TICK_MS);   // H3M-2: core, the loop

@@ -2,11 +2,11 @@
 
 ```text
 THE FAR BACKROOMS — POST-3H INTEGRATION TRIAL 1
-STATUS: ENGINEERING COMPLETE — HUMAN QA PENDING
+STATUS: OWNER ACCEPTED — PASS / ACCEPT (owner's verdict of 2026-10-16, after Human QA); not merged, not deployed
 BRANCH: post-3h-trials-1-2-4
 BASELINE C5d: 4beba2f36deaf17473ad3b955eeefdd6fcfbd90b
-REMOTE COMMIT / TREE / PARENT: the T1-B commit, named in the delivery (a commit cannot name its own hash); its parent is
-  ecbef39ea4facb91d5a0a4ba6f6d0d6b556b1a3a (T1-B 1 of 2, the code the verification ran on)
+REMOTE COMMIT / TREE / PARENT: 4a39b537aeb03bb86990652bfb05f25bc00dce00 / 5f5bdbe64bf5033ace15a7111a21baaa4cb06418 /
+  ecbef39ea4facb91d5a0a4ba6f6d0d6b556b1a3a (T1-B 1 of 2, the code the verification ran on); receipt evidence/remote/verify_t1b_4a39b53.json
 INTENDED CHANGES: the main menu's title drifts a few pixels on its own
 UNINTENDED BEHAVIOR DELTAS: NONE VERIFIED
 TEST RESULTS: full gate PASS, 29 of 29 steps at the first run (117.5 min, on a fresh clone of ecbef39); the drift check 11 of 11, its 8
@@ -15,7 +15,8 @@ PERFORMANCE: on the idle menu, the drift costs about 0.1 ms of script and 0.3 ms
   unchanged within the A/A noise (headless, software-rendered)
 SECURITY AND PRIVACY: no server, protocol, authentication or storage change; no secret; secret scans clean
 HUMAN QA EVIDENCE: HUMAN_QA_T1.md; captures in evidence/t1/
-ZIP, SHA-256, CHECKSUMS, RECEIPTS: in the delivery (made from the T1-B commit by m8_package.js --trial 1)
+ZIP, SHA-256, CHECKSUMS, RECEIPTS: THE_FAR_BACKROOMS_POST_3H_TRIAL_1_HUMAN_QA.zip (made from 4a39b53 by m8_package.js --trial 1),
+  SHA-256 6ace0c9916d086701280f1e237e9806041a35e59754ed41dbb784b9cbf995da3, 32,407,740 bytes
 PROTECTED BRANCHES VERIFIED: stage-3h-engine-modernization (C5d), main, stage-3h (3H2), stage-3e-0-bplusplus (B++) unchanged at
   every push; M8 and B++ ancestors
 ROLL BACK TO: C5d 4beba2f36deaf17473ad3b955eeefdd6fcfbd90b

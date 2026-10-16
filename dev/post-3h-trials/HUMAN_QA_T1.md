@@ -1,4 +1,7 @@
-# POST-3H TRIAL 1 — THE MAIN MENU'S DRIFT — HUMAN QA PENDING
+# POST-3H TRIAL 1 — THE MAIN MENU'S DRIFT — ACCEPTED BY THE OWNER
+
+**Owner's verdict (2026-10-16): PASS / ACCEPT** of commit `4a39b537aeb03bb86990652bfb05f25bc00dce00`, tree
+`5f5bdbe64bf5033ace15a7111a21baaa4cb06418`. Not merged, not deployed. The page below is kept as it was delivered.
 
 **Only the owner can accept this trial.** Nothing is merged, deployed or promoted. Trial 2 does not start until you decide.
 

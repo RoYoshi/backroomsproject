@@ -24,9 +24,11 @@ The network boundary. A message's name and fields are a contract (`docs/architec
 | [`client/mp.session.js`](client/mp.session.js) | B++: the session: the WebSocket, window.__net (what the game bundle calls), NEW RUN, the world epoch, the other players' poses; a module: bppSession | `public/mp.js` (a part) |
 | [`client/net-interp.js`](client/net-interp.js) | net-interp.js - the snapshot interpolation of the multiplayer layer (mp.js). | `public/assets/net-interp.js` |
 | [`client/net-wire.js`](client/net-wire.js) | net-wire.js - the look / light / corpse field codec of the multiplayer layer (mp.js). | `public/assets/net-wire.js` |
+| [`server/lounge.js`](server/lounge.js) | src/frameworks/bpp/server/lounge.js - B++ on the server: the main menu's lounge (post-3H Trial 2; docs/architecture/CHAT.md). | a server module: `server.js` requires it |
 | [`server/newrun.js`](server/newrun.js) | server/newrun.js - NEW RUN's decision on the server. | a server module: `server.js` requires it |
 | [`server/poses.js`](server/poses.js) | src/frameworks/bpp/server/poses.js - B++ on the server: the fresher player poses ('q') between two snapshots (Stage 3E-0 B+), for the | a server module: `server.js` requires it |
 | [`server/session.js`](server/session.js) | src/frameworks/bpp/server/session.js - B++ on the server: the WebSocket session.  It answers the HTTP server's upgrades on /ws | a server module: `server.js` requires it |
+| [`server/speech.js`](server/speech.js) | src/frameworks/bpp/server/speech.js - B++ on the server: nearby speech in a run (post-3H Trial 2; docs/architecture/CHAT.md). | a server module: `server.js` requires it |
 | [`server/ws.js`](server/ws.js) | server/ws.js - the WebSocket framing of server.js. | a server module: `server.js` requires it |
 <!-- end of generated block -->
 

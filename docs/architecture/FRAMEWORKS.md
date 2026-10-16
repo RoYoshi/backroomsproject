@@ -12,7 +12,7 @@ names the lineage step it ports and that step's owners (`core/client/game/PORT_L
 <!-- generated: frameworks (dev/tools/docs/docs.js) -->
 | Framework | Folder | What it owns | Its files | They go into |
 |---|---|---|---|---|
-| [B++](../../src/frameworks/bpp/README.md) | `src/frameworks/bpp/` | networking and replication | 3 client, 4 server | page: `assets/net-interp.js`, `assets/net-wire.js`, `mp.js`; 4 server modules |
+| [B++](../../src/frameworks/bpp/README.md) | `src/frameworks/bpp/` | networking and replication | 3 client, 6 server | page: `assets/net-interp.js`, `assets/net-wire.js`, `mp.js`; 6 server modules |
 | [BR-RoLE](../../src/frameworks/br-role/README.md) | `src/frameworks/br-role/` | lighting and shadows | 2 client | page: `assets/br-role.js`, `light.js` |
 | [BR-R](../../src/frameworks/br-r/README.md) | `src/frameworks/br-r/` | world and actor rendering | 11 client, 1 shared | page: `assets/l0-remaster.js`, `camcorder.js`, `camera_policy.js`, `ents.js`, `move.js`, `mp.js`, `world.js`; server: `world.js` |
 | [Spacious Audio](../../src/frameworks/spacious-audio/README.md) | `src/frameworks/spacious-audio/` | sound presentation | 7 client | page: `assets/mp-hum.js`, `camcorder.js`, `ents.js`, `glitch.js`, `move.js`, `mp.js`, `sfx.js` |
@@ -27,7 +27,7 @@ names the lineage step it ports and that step's owners (`core/client/game/PORT_L
 | [LogicZ](../../src/frameworks/logicz/README.md) | `src/frameworks/logicz/` | vertical world rules (future) | none: a README only | - |
 | [P.O.C.K.E.T.](../../src/frameworks/pocket/README.md) | `src/frameworks/pocket/` | inventory and usable items | 2 client, 1 server, 1 shared | page: `inventory.js`, `mp.js`; 1 server module |
 | [F.R.O.N.T.](../../src/frameworks/front/README.md) | `src/frameworks/front/` | menus and HUD | 4 client | page: `assets/credits_data.js`, `assets/net-newrun.js`, `assets/ui.js`, `hud.js` |
-| [W.A.R.D.](../../src/frameworks/ward/README.md) | `src/frameworks/ward/` | trust and deployment security | 3 server | 3 server modules |
+| [W.A.R.D.](../../src/frameworks/ward/README.md) | `src/frameworks/ward/` | trust and deployment security | 4 server | 4 server modules |
 | [A.T.L.A.S.](../../src/frameworks/atlas/README.md) | `src/frameworks/atlas/` | asset provenance and packaging | none: a README only | - |
 | [S.T.A.G.E.](../../src/frameworks/stage/README.md) | `src/frameworks/stage/` | testing and QA gates | none: a README only | - |
 | [V.A.U.L.T.](../../src/frameworks/vault/README.md) | `src/frameworks/vault/` | local settings and future saves | none: a README only | - |

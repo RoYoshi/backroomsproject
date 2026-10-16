@@ -1,0 +1,17 @@
+Post-3H Trial 2, checkpoint T2-A: the chat's server side (lounge, nearby speech, the text check) and its check
+==============================================================================================================
+
+Machine: 2 CPUs; Node v22.22.2. Every chat text in these runs is synthetic; no text is written to the reports.
+
+1. dev/tools/checks/chat_server.js --mutants 1 on the working tree that became T2-A's server files (chat_server.json, .log):
+   PASS, 81 of 81 cases (unit: the text check, speech.js on hand-made rooms, lounge.js on fake sockets; sockets: the real server
+   driven by raw WebSocket clients - nearby speech by radius, room, life and spoofed fields, rate, repeat, invalid input, a dead speaker
+   and listener, a reconnect; the lounge across game rooms, its handshake and Origin rules, hello, limits, no replay, the join and socket
+   caps; game sockets never get a lounge line; the game's snapshot pace unchanged while the lounge is busy; the server's own output
+   holds no chat text); mutants 13 of 13 caught. 275 s.
+   Earlier runs while writing the check (not kept): its own mistakes fixed - the snapshot never lists its own player (placement is
+   read from the admin snapshot's list instead), the rate case's listener stood outside the speaker's radius, the socket-cap case's
+   sockets were closed by the hello timeout before the cap was reached, a layer that threw lost the whole report (now a failed case).
+2. The light gate steps on the working tree (build, lineage, parts, modules, contracts, docs, scope): docs was stale (the frameworks'
+   generated file lists did not yet name the three new modules); regenerated (docs.js), the others PASS.
+3. The fast gate runs on a fresh clone of this commit after it is made; its result is in the next checkpoint's evidence.
