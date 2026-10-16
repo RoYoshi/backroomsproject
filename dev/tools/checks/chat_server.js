@@ -184,8 +184,16 @@ function unitSpeech(tree) {
   say(sp, { t: 'say', text: 'unit line one', x: 1000, y: 1577, id: 4, room: 'b' });
   const to = new Set(sent.filter(s => s[1].t === 'heard').map(s => s[0]));
   check('unit_speech_recipients', to.has(1) && to.has(2) && to.has(3) && to.has(5) && !to.has(4) && !to.has(6) && !to.has(7) && !to.has(8), [...to].sort().join(','));
-  check('unit_speech_event_shape', sent.filter(s => s[1].t === 'heard').every(s => Object.keys(s[1]).sort().join() === 'id,seq,t,text' && s[1].id === 1 && s[1].text === 'unit line one'));
+  check('unit_speech_event_shape', sent.filter(s => s[1].t === 'heard').every(s => Object.keys(s[1]).sort().join() === 'c,id,seq,t,text' && s[1].c === '' && s[1].id === 1 && s[1].text === 'unit line one'));
   check('unit_speech_hear_constant', S.HEAR === 576, S.HEAR);
+  // Trial 4: authenticated speaker color is canonicalized, never client-controlled identity/CSS injection.
+  sent.length = 0;
+  say(sp, { t: 'say', text: 'colored unit', c: '#AaBBcc', id: 999, room: 'b' });
+  check('unit_speech_color_valid', sent.filter(q => q[1].t === 'heard').every(q => q[1].id === 1 && q[1].c === '#aabbcc'));
+  sent.length = 0;
+  say(sp, { t: 'say', text: 'bad color unit', c: 'red; background:url(https://bad.invalid)' });
+  check('unit_speech_color_rejected', sent.filter(q => q[1].t === 'heard').every(q => q[1].c === ''));
+
   sent.length = 0; say(menu, { t: 'say', text: 'from the menu' });
   check('unit_speech_menu_refused', sent.length === 1 && sent[0][0] === 6 && sent[0][1].t === 'said' && sent[0][1].why === 'menu');
   sent.length = 0; say(dead, { t: 'say', text: 'from the dead' });
@@ -285,7 +293,7 @@ async function sockSpeech(port) {
   check('sock_speech_outside_none', no.every(c => got(c).length === 0 && heardBy(c).length === 0), no.map(c => heardBy(c).length).join(','));
   check('sock_speech_other_room_none', heardBy(ob).length === 0);
   check('sock_speech_menu_none', heardBy(menu).length === 0);
-  check('sock_speech_event_shape', yes.every(c => got(c).every(m => Object.keys(m).filter(k => k !== '_at').sort().join() === 'id,seq,t,text')));
+  check('sock_speech_event_shape', yes.every(c => got(c).every(m => Object.keys(m).filter(k => k !== '_at').sort().join() === 'c,id,seq,t,text' && m.c === '')));
   // spoofed fields: a position next to the far player, another's id, another room, a name, admin
   const t2 = synth('spoof');
   near.send({ t: 'say', text: t2, x: X + 1500, y: Y, id: far.id, room: RB, n: 'SOMEONE ELSE', name: 'x', admin: true, a: 1 });
@@ -498,7 +506,7 @@ const MUTANTS = [
   { name: 'speech rate limit removed', file: 'src/frameworks/bpp/server/speech.js', from: 'if (st.tokens < 1) {', to: 'if (false) {', only: 'sock_speech,unit_speech', expect: ['sock_speech_rate', 'unit_speech_bucket'] },
   { name: 'lounge rate limit removed', file: 'src/frameworks/bpp/server/lounge.js', from: 'if (s.tokens >= 1) { s.tokens -= 1; return true; }', to: 'return true;', only: 'sock_lounge', expect: ['sock_lounge_rate'] },
   { name: 'Origin check removed', file: 'src/frameworks/bpp/server/lounge.js', from: "if (!sameOrigin(req)) return deny(sock, 403, 'Forbidden', 'origin');", to: '', only: 'sock_lounge,unit_lounge', expect: ['sock_lounge_origin', 'unit_lounge_origin'] },
-  { name: 'speaker position sent', file: 'src/frameworks/bpp/server/speech.js', from: "const ev = { t: 'heard', id: me.id, text: c.text, seq: ++seq };", to: "const ev = { t: 'heard', id: me.id, text: c.text, seq: ++seq, x: Math.round(p.x), y: Math.round(p.y) };", only: 'sock_speech,unit_speech', expect: ['sock_speech_event_shape', 'unit_speech_event_shape'] },
+  { name: 'speaker position sent', file: 'src/frameworks/bpp/server/speech.js', from: "const ev = { t: 'heard', id: me.id, text: c.text, seq: ++seq, c: color };", to: "const ev = { t: 'heard', id: me.id, text: c.text, seq: ++seq, c: color, x: Math.round(p.x), y: Math.round(p.y) };", only: 'sock_speech,unit_speech', expect: ['sock_speech_event_shape', 'unit_speech_event_shape'] },
   { name: 'lounge lines to game sockets', file: 'server.js', from: 'gameUpgrade(req, sock, head);\n});', to: "gameUpgrade(req, sock, head);\n});\n{ const u0 = lounge.upgrade; lounge.upgrade = (req, sock, head) => { const w = sock.write.bind(sock); sock.write = b => { if (Buffer.isBuffer(b) && b[0] === 0x81) for (const r of rooms.values()) for (const c of r.clients.values()) c.sock.write(b); return w(b); }; return u0(req, sock, head); }; }", only: 'sock_lounge', expect: ['sock_lounge_not_on_game'] },
   { name: 'hello not required', file: 'src/frameworks/bpp/server/lounge.js', from: "    if (s.nick === null) return bad();                                   // nothing before hello", to: "    if (s.nick === null) { s.nick = 'x'; members.add(s); }", only: 'sock_lounge,unit_lounge', expect: ['sock_lounge_hello_required', 'unit_lounge_hello_first'] },
 ];
