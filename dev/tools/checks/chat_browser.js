@@ -204,6 +204,9 @@ async function nearby(b, port, shots) {
   // the listener is brought beside the speaker with the admin tools (players of one room can spawn far apart)
   check('nearby_listener_placed', await together(B, A));
   const pa = await pos(A.P);
+  // Trial 4: the desktop control hint appears only while nearby speech can open.
+  const hintVisible = await until(A.P, () => { const el = document.getElementById('chatKeyHint'); return !!el && !el.hidden && getComputedStyle(el).display !== 'none' && el.textContent.includes('Nearby Chat'); }, null, 4000);
+  check('t4_nearby_hint_visible', !!hintVisible);
   // Enter opens the composer; held keys are let go; typing walks nobody; Esc closes without pausing
   await A.P.keyboard.down('KeyD'); await sleep(250);
   await A.P.keyboard.press('Enter');
@@ -216,6 +219,8 @@ async function nearby(b, port, shots) {
   const l1 = await A.P.evaluate(() => __api.lightOn());
   await A.P.keyboard.up('KeyD');
   check('nearby_composer_opens', op.c && op.keys === 0 && op.f === 'sayText', JSON.stringify(op));
+  const hintDuringChat = await A.P.evaluate(() => { const el = document.getElementById('chatKeyHint'); return !el || el.hidden; });
+  check('t4_hint_hides_while_typing', hintDuringChat);
   check('nearby_typing_walks_nobody', Math.hypot(p1.x - p0.x, p1.y - p0.y) < 2 && l1 === l0, `${Math.round(Math.hypot(p1.x - p0.x, p1.y - p0.y))} px; the light ${l0 ? 'on' : 'off'} -> ${l1 ? 'on' : 'off'} after typing F three times`);
   await A.P.keyboard.press('Escape'); await sleep(200);
   const esc = await A.P.evaluate(() => ({ c: window.__chat.state().nearby.composer, paused: __api.paused(), dialog: !document.getElementById('dialog').hidden }));
@@ -233,11 +238,19 @@ async function nearby(b, port, shots) {
   await A.P.keyboard.down('KeyW'); await sleep(500); await A.P.keyboard.up('KeyW');
   check('nearby_keys_back_after', Math.hypot(q1.x - q0.x, q1.y - q0.y) > 20, `${Math.round(Math.hypot(q1.x - q0.x, q1.y - q0.y))} px`);
   // a line: a bubble over the speaker on both screens, literal text, gone within 5 s
+  // Trial 4: the listener must see the speaker's HUD color rather than the listener's.
+  await A.P.evaluate(() => __settings.set('c', '#8dff9f'));
+  await B.P.evaluate(() => __settings.set('c', '#ffb347'));
   const t1 = synth('near');
   await speak(A, t1);
   const bb = await until(B.P, ([t, id]) => { const s = window.__chat.state().nearby.bubbles.find(x => x.id === id); const e = [...document.querySelectorAll('#chatLayer .bb .bb-text')].find(e => e.textContent === t); return s && e && s.w ? s : null; }, [t1, pa.id], 12000);
   const own = await until(A.P, ([t, id]) => { const s = window.__chat.state().nearby.bubbles.find(x => x.id === id); return s && s.mode === 'bb-on' && [...document.querySelectorAll('#chatLayer .bb-text')].some(e => e.textContent === t); }, [t1, pa.id]);
   check('nearby_bubble_both_screens', !!bb && bb.mode === 'bb-on' && !!own, JSON.stringify(bb));
+  const speakerAccent = await B.P.evaluate(() => {
+    const el = document.querySelector('#chatLayer .bb');
+    return el && el.style.getPropertyValue('--bb-accent');
+  });
+  check('t4_sender_hud_color_not_recipient', speakerAccent === '#8dff9f', String(speakerAccent));
   if (shots) { await B.P.bringToFront(); await sleep(1200); await B.P.screenshot({ path: path.join(shots, 'nearby_bubble_listener.png') }); await A.P.bringToFront(); await sleep(800); await A.P.screenshot({ path: path.join(shots, 'nearby_bubble_speaker.png') }); }   // (a software-rendered page paints late)
   await sleep(600);
   const cNone = await C.P.evaluate(() => window.__chat.state().nearby.heard === 0 && !document.querySelector('#chatLayer .bb'));
