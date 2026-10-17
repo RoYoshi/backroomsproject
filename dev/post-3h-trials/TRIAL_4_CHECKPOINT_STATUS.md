@@ -1,32 +1,28 @@
-# Trial 4 — Engineering checkpoint (not final acceptance)
+# Trial 4 — CLOSED / COMPLETE BY OWNER OVERRIDE
 
 Branch: `trial-4-rgb-chat-accessibility`
-Base: `58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5` (last T2-D 1/2 integration checkpoint)
-Date: 2026-10-16
+Base: `58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5`
+Source checkpoint before closeout: `68fc48d48356d228570c37f667dae0f16e662d08`
+Disposition date: **2026-10-17**
 
-## Implemented and pushed
+The owner explicitly requested: **"just override it as complete"**. The team therefore closes Trial 4 at the existing engineering implementation, **waiving remaining validation**, with no further tests requested.
 
-- Visible `[ENTER] Nearby Chat` hint, gated by the same `canSpeak()` eligibility as the composer; coarse-pointer devices keep the `SAY` control.
-- Pause-menu `#reset` visible button text is `Spontaneously Combust?`; unchanged handler, server decision and runtime state.
-- Accepted `say` packets carry the locally selected HUD hex color as bounded metadata. The room-scoped speech server accepts only `#RRGGBB` or falls back to neutral, and emits it on the authenticated speaker's `heard` packet. Client draws sender-colored borders and edge-hint arrows against dark high-contrast backgrounds. An older client with no color continues to work. Color updates take effect on the **next accepted message**, not proactively on an old active bubble.
-- Independent accessible 0–255 RGB channel sliders are added beside existing body, hands, beam and HUD color inputs, forwarding changes through the existing color-pickers' input/change events. No new saved color identity.
-- Captured `#dread` white-to-red full-screen pulse is overridden with a static low-luminance vignette, regardless of Reduced Motion setting.
-- Gate change declarations updated.
+## Implemented
 
-## Not verified / still required before claiming engineering PASS
+- `[ENTER] Nearby Chat` desktop indicator
+- Server-validated sender-color speech bubble accents
+- RGB 0–255 sliders for body, hands, light beam and HUD
+- `Spontaneously Combust?` NEW RUN label
+- Gentler low-luminance captured display and suppression of rapid full-screen/UI flashes
 
-The current ChatGPT environment cannot access the user's Codespaces process. **No browser/playwright, full gate, or in-game QA was executed** for these commits. The separate Trial 2 23/23 `contact_lab` pass belongs to the user's earlier checkout and is not Trial 4 validation.
+## Reported evidence
 
-1. Run `node dev/tools/build/build.js --check` and correct generated/source asset manifest drift (including the added RGB script).
-2. Run focused Trial 2 `chat` and `chat_browser` checks, inspect newly expanded `heard.c` message shape against existing test expectations. If tests require updating, maintain negative tests and do not weaken coverage.
-3. Run the modernization fast gate and the final full gate when ready. Source and output manifests might require an explicit script registration.
-4. Exercise two simultaneous game clients: different speaker HUD colors, same-room nearby reception, different-room isolation, invalid color spoofing, reconnect, dead or menu players, no moving while composing, bubble muting and offline mode.
-5. Validate RGB save/reload and values after swatch clicks, settings reset, keyboard and touch. Verify color event propagation actually updates peer/avatar appearance and HUD without stale values.
-6. Audit all other flashing visual effects (blackout, glitch, camcorder, etc.) and remove high-risk rapid/high-luminance effects; only the capture flash was changed in this checkpoint.
-7. Compare perf/captures, clean checkout, secret scan and record all PASS/FAIL outcomes.
-8. Finish the **separate** Trial 2 publication/evidence checkpoint from the user's original Codespaces artifacts if available; the upstream Trial 2 branch is unchanged here.
-9. Finalize `T4_REPORT.md`, `HUMAN_QA_T4.md`, verified receipts and package, then stop for owner QA.
+- **PASS:** `npm run build:check`, 41 outputs
+- **PASS:** `chat`, 83/83 server cases and 13/13 mutants
+- **NOT VERIFIED:** completed `chat_browser` report, complete regression/full gate, actual gameplay Human QA, screenshot/performance checks, release ZIP/manifest
+- Node Playwright startup dependency failure and Codespaces inactivity interrupts were observed; a remembered partial test count is not a pass.
+- `generated/BUILD_MANIFEST.json` was modified locally in Codespaces after successful build, but not published in this GitHub closeout.
 
-## Safety / authority
+## Scope
 
-This checkpoint is **IN PROGRESS**, not final Trial 4 engineering acceptance or Human QA. Do not merge `main`, deploy to Bloom.Host, start Trial 3, or rewrite other branches. Preserve this branch and continue only with evidence-driven corrections.
+This is a **planning/development completion with explicit QA waiver**. It must not be labeled test-complete, full-gate-accepted, safe-for-release, or deployed. No changes to `main`, Stage 3H, the original Trials 1–2 branch, or the production server. STOP.

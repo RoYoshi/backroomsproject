@@ -1,21 +1,22 @@
-# THE FAR BACKROOMS — Trial 4 Human QA (PENDING)
+# THE FAR BACKROOMS — Trial 4 Human QA
 
-The owner must test the new `trial-4-rgb-chat-accessibility` branch after the build and targeted gates succeed. Existing Trial 2 owner's approval does **not** automatically approve Trial 4.
+**Owner disposition: CLOSED / COMPLETE BY VALIDATION WAIVER — 2026-10-17.**
+This is **not** a Human QA gameplay PASS. The owner directed: **"just override it as complete"**, explicitly ending remaining validation effort after multiple Codespaces interruptions.
 
-## Manual acceptance script
+## Evidence used
 
-1. **Discovery** — Join Level 0 online on desktop. An unobtrusive `ENTER Nearby Chat` hint is visible in a live run but disappears when the composer opens, paused/dead, offline/solo, or blocking menus are displayed. On touch, use `SAY`. Movement stops when typing; Esc doesn't pause the world while closing the composer.
-2. **RGB** — Open Customize > Wanderer and Loadout. Each body/hands/beam color picker has three labeled 0–255 sliders. Choose a unique `#RRGGBB`; verify preview/skin/beam, swatch selection, keyboard/touch operation, and preservation after reload. Settings > HUD should have equivalent RGB sliders. The four color controls must remain independent.
-3. **Colored speech** — Two clients online in the same room choose **different HUD colors**. Speaker A sends Nearby. Listener B sees the speaker's chosen accent, not B's; text is readable on extremely dark/light colors. Test within 576 px, beyond 576 px, separate room, mute, hide bubbles, off-screen edge hint, death/leaving/reconnect. Change speaker color and send another line; its new bubble should use the new color.
-4. **Spontaneously Combust?** — Pause and check exact label, click online. Assert server-authoritative cooldown/denial, explosion, persistent bodies/gibs, spawn flow and reset epoch match pre-Trial-4 behavior. Offline still uses previous local flow.
-5. **Visual comfort** — Test capture and glitch/exit effects, title entrance and stamina low, on desktop and phone, Reduced Motion On/Off/System. No abrupt large-area bright white/red flash or fast strobe; atmospheric tension is retained. No medical safety certification is claimed.
-6. **Regression** — Trial 1 main-menu title drift and Trial 2 lounge/nearby chat should still behave the same.
+- Build: `npm run build` / `npm run build:check` PASS (41 build outputs, reported by owner from Codespaces).
+- Server chat: `chat` fast gate PASS (83/83 checks, 13/13 mutants; 96 compared).
+- Browser: immediate environment startup failures were observed, including missing Node `playwright`; later Codespaces inactivity closures prevented retaining a final result. No verifiable completed Chromium/browser PASS report.
+- Trial 4 in-game owner inspection and full-gate confirmation: **not recorded; waived**.
 
-## Verdict
+## Optional future manual checklist (not required for closure)
 
-- [ ] PASS / ACCEPT
-- [ ] NEEDS CHANGES
-- [ ] ROLL BACK
+- [ ] Nearby chat hint on desktop; `SAY` on mobile; Enter/Escape/focus behavior
+- [ ] RGB channels for body, hands, light and HUD; saved values and swatches after reload
+- [ ] Sender-color display to a different nearby client; invalid colors, rooms and death boundaries
+- [ ] Spontaneously Combust? authorization, cooldown, reset and persistent-world behavior
+- [ ] Gentler capture/glitch/title effects across reduced-motion configurations
+- [ ] Trial 1 and Trial 2 gameplay regression check
 
-Record machine/browser, screenshots, exact reproduction steps and any regressions.
-**Status: NOT YET RUN.**
+**Owner closure recorded: COMPLETE BY WAIVER.** No claim that any unchecked box passed. No merge or deployment authorization.
