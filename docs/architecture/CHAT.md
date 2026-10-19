@@ -86,7 +86,7 @@ unread; it answers pings and closes on a close frame; unparseable frames are dro
    WeakMap. No queue, history or index of texts exists anywhere. Stuck sockets: hello and idle timeouts, the output limit, and the
    byte budget close them.
 5. **Mute and controls on a phone.** Yes (see [The page](#the-page)): the Lounge button, mute by the sender's name, Turn the lounge off,
-   and in a run SAY, Options, hide and mute are all buttons, used by touch in the browser check (`chat_browser.js`).
+   and in a run the chat icon, Options, hide and mute are all buttons, used by touch in the browser check (`chat_browser.js`).
 6. **What is kept, logged, broadcast or given to an AI.** Nothing of a text is kept or logged by the server (the check reads the
    server's own output and finds no test text). A line is broadcast only to the receivers above. No AI, monster or other module gets
    any of it: the future-entity hook below is inert.
@@ -146,8 +146,8 @@ sender until the page is left; "Undo" and "Unmute everyone" put it back) and the
 that names are not verified and nothing is kept. **Turn the lounge off** closes its socket (and so leaves the count); **Turn the lounge
 on** opens it again. At most 80 lines are kept on the page.
 
-**Nearby (IN LEVEL).** Only in a live run, online, alive and with nothing open over the game: **Enter** (or **SAY** on a touch screen,
-at the right edge) opens a one-line composer labelled *Nearby* (its field is announced as "Say to players near you"); every key the game was holding is
+**Nearby (IN LEVEL).** Only in a live run, online, alive and with nothing open over the game: **Enter** (or a click or tap on the
+chat icon, low on the right) opens a one-line composer labelled *Nearby* (its field is announced as "Say to players near you"); every key the game was holding is
 let go first. Enter sends and closes; Esc or a click elsewhere closes. A line heard shows as a bubble over its speaker (yours too:
 your own line comes back from the server as its receipt) for 3 to 5 s (3 s plus 12.5 ms a character), one bubble a speaker, the newest
 replacing the last. A speaker off screen gets the same line as a small one-line hint at the screen's edge, with an arrow pointing their
@@ -156,8 +156,16 @@ connection. **Options** in the composer: speech bubbles shown or hidden, text si
 each one muted or heard (by the server's id for that connection, never by name). A refused line says why for a few seconds (too fast,
 too long, not while dead...). Offline (SOLO), Enter does what it always did.
 
-**Trial 4.** On a desktop (a fine pointer), while the composer could open and is closed, a small `ENTER Nearby Chat` hint sits at the
-bottom centre (`#chatKeyHint`; touch screens keep SAY instead). Each bubble's border, tail and edge-hint arrow take the speaker's
+**The chat icon** (post-Trial 4 chat polish; it replaced Trial 4's bottom-centre `ENTER Nearby Chat` hint and Trial 2's SAY button).
+While the composer could open and is closed, one small speech-bubble button (`#chatIcon`) sits low on the right, quiet until hovered
+or focused (as the pause button is): on a keyboard screen at the corner the coordinates use (lifted over them while they are on), with
+its key as a small key cap beside it and "Nearby chat" above it on hover or focus, scaled with the HUD; on a touch screen a 48 px square
+just above the right-hand action buttons (a phone on its side: on the bottom row, just left of them), inside the safe area, and the
+passing hints keep clear of its column while it is shown. Its accessible name is "Nearby chat (KEY)". A click or tap opens the composer
+exactly as the key does (held keys let go); the icon hides while the composer is open, and whenever speaking is not possible (offline,
+dead, paused, on the menu, anything open over the game).
+
+**Trial 4.** Each bubble's border, tail and edge-hint arrow take the speaker's
 colour as the server passed it (`c`; the neutral `#e3c768` when it is `''`); the text stays cream on the dark bubble. The page sends
 the HUD colour from Settings (`window.__settings`), or `''` while the HUD colour is Default.
 

@@ -899,23 +899,43 @@ html.rm .bb{transition:none}
 .say-opt-h{margin:8px 0 2px 4px;color:var(--u-moss-dim);font:400 10.5px/1.4 var(--u-mono)}
 .say-toast{position:fixed;z-index:16;left:50%;bottom:calc(var(--touch-h,0px) + 150px);max-width:calc(100vw - 32px);margin:0;padding:7px 12px;transform:translateX(-50%);border:1px solid var(--u-line2);background:#0d0b07f0;color:var(--u-cream);font:500 12px/1.4 var(--u-mono);pointer-events:none}
 .say-toast[hidden]{display:none}
-.say-touch{position:fixed;z-index:6;top:50%;right:max(12px,env(safe-area-inset-right));min-width:58px;height:46px;margin:0;padding:0 10px;transform:translateY(-50%);border:1px solid var(--u-line2);border-radius:0;background:#0c0a06c7;color:var(--u-cream);
-  font:600 13px/1 var(--u-display);letter-spacing:.08em;text-transform:uppercase;-webkit-tap-highlight-color:transparent}
-.say-touch[hidden]{display:none}
-.say-touch:active{background:var(--u-sick);color:var(--u-on-sick)}
 @media (pointer:coarse){
   .say{top:max(12px,env(safe-area-inset-top));bottom:auto}
   .say-opts{top:calc(100% + 6px);bottom:auto}
   .say-toast{top:calc(max(12px,env(safe-area-inset-top)) + 58px);bottom:auto}
 }
 
-/* Trial 4 — visible chat discovery without a permanent game chat panel. */
-.say-keyhint{position:fixed;z-index:6;bottom:calc(var(--touch-h,0px) + 20px);left:50%;transform:translateX(-50%);
-  margin:0;padding:6px 10px;border:1px solid #756b5180;background:#090805da;color:#d5cfb6;
-  font:500 11px/1.4 var(--u-mono);letter-spacing:.04em;pointer-events:none;white-space:nowrap}
-.say-keyhint kbd{margin-right:5px;color:#f3e7a7;font:600 11px/1.4 var(--u-mono)}
-.say-keyhint[hidden]{display:none}
-@media (pointer:coarse){.say-keyhint{display:none!important}}
+/* post-Trial 4 chat polish (C1): the chat icon, low on the right, in place of Trial 4's bottom-centre hint and Trial 2's touch SAY.
+   Quiet like the pause button (dim until hovered or focused); its key as a small cap beside it on keyboard screens; a short label
+   above it on hover or focus.  Desktop: the corner the coordinates use (lifted over them when they are on), scaled with the HUD.
+   Touch: a 48 px square just above the right-hand action buttons, inside the safe area. */
+.chat-icon{position:fixed;z-index:6;right:35px;bottom:25px;display:inline-flex;align-items:center;gap:8px;height:34px;margin:0;padding:0 9px 0 8px;
+  border:1px solid var(--u-line2);border-radius:0;background:#0a0805a6;color:var(--u-cream);opacity:.72;cursor:pointer;
+  transform:scale(var(--hs,1));transform-origin:right bottom;transition:opacity var(--u-fast),border-color var(--u-fast),color var(--u-fast);-webkit-tap-highlight-color:transparent}
+.chat-icon[hidden]{display:none}
+body:not(.hud-nocoords) .chat-icon{bottom:74px}
+.chat-icon svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linejoin:round}
+.chat-icon svg circle{fill:currentColor;stroke:none}
+.chat-icon-k{padding:3px 5px;border:1px solid var(--u-line2);color:var(--u-moss);font:500 9.5px/1 var(--u-mono);letter-spacing:.04em;white-space:nowrap}
+.chat-icon-tip{position:absolute;right:0;bottom:calc(100% + 6px);padding:4px 7px;border:1px solid var(--u-line2);background:#0d0b07f0;color:var(--u-cream);
+  font:500 10.5px/1.2 var(--u-mono);letter-spacing:.04em;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity var(--u-fast)}
+.chat-icon:hover,.chat-icon:focus-visible{opacity:1;border-color:var(--u-line-hi);color:#fff8de;background:#1b160cd9}
+.chat-icon:hover .chat-icon-tip,.chat-icon:focus-visible .chat-icon-tip{opacity:1}
+.chat-icon:focus-visible{outline:2px solid var(--u-sick-hi);outline-offset:3px}
+@media (pointer:coarse){
+  .chat-icon{right:max(16px,env(safe-area-inset-right));bottom:calc(max(16px,env(safe-area-inset-bottom)) + var(--touch-h,0px) + 12px);
+    justify-content:center;width:48px;height:48px;padding:0;opacity:.85;background:#0c0a06c7;transform:none}
+  body:not(.hud-nocoords) .chat-icon{bottom:calc(max(16px,env(safe-area-inset-bottom)) + var(--touch-h,0px) + 12px)}
+  .chat-icon svg{width:22px;height:22px}
+  .chat-icon-k,.chat-icon-tip{display:none}
+  .chat-icon:active{background:var(--u-sick);color:var(--u-on-sick);border-color:var(--u-sick-hi);opacity:1}
+  /* the passing hints stay clear of the icon's column while it is shown */
+  body.chat-icon-on :is(#encounterHint,#blackoutHint){max-width:calc(100vw - 2 * (max(16px,env(safe-area-inset-right)) + 56px))}
+}
+@media (pointer:coarse) and (orientation:landscape) and (max-height:520px){
+  /* a phone on its side: on the bottom row, just left of the action buttons (four 62 px columns, 10 px apart), clear of the stick */
+  .chat-icon,body:not(.hud-nocoords) .chat-icon{right:calc(max(16px,env(safe-area-inset-right)) + 4 * 62px + 3 * 10px + 12px);bottom:max(16px,env(safe-area-inset-bottom))}
+}
 
 /* Trial 4 — sender-owned, server-sanitized speech accents. Text remains cream on a dark substrate. */
 .bb{border-color:var(--bb-accent,#e3c768);background:#0b0906f2;color:#f6eed9}

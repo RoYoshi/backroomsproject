@@ -1,0 +1,215 @@
+{
+ "tool": "dev/tools/checks/chat_voice_browser.js",
+ "tree": "this repository",
+ "browser": "chromium",
+ "seconds": 594,
+ "ok": true,
+ "cases": [
+  {
+   "name": "icon_absent_on_menu_wide",
+   "ok": true,
+   "detail": "{\"exists\":false,\"shown\":false}"
+  },
+  {
+   "name": "icon_shown_low_right_wide",
+   "ok": true,
+   "detail": "{\"exists\":true,\"shown\":true,\"label\":\"Nearby chat (Enter)\",\"key\":\"Enter\",\"box\":[1157.5,661,1245,695],\"W\":1280,\"H\":720}"
+  },
+  {
+   "name": "icon_named_with_key_wide",
+   "ok": true,
+   "detail": "Nearby chat (Enter) / Enter"
+  },
+  {
+   "name": "icon_clear_of_hud_wide",
+   "ok": true,
+   "detail": "{\"plain\":[],\"coords\":[],\"hints\":[]}"
+  },
+  {
+   "name": "icon_opens_composer_wide",
+   "ok": true,
+   "detail": "{\"f\":\"sayText\",\"keys\":0,\"icon\":false}"
+  },
+  {
+   "name": "icon_back_after_escape_wide",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "icon_hidden_paused_and_customize_wide",
+   "ok": true,
+   "detail": "{\"pz\":true,\"paused\":false,\"customize\":false,\"again\":true}"
+  },
+  {
+   "name": "icon_no_page_errors_wide",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "icon_absent_on_menu_hd",
+   "ok": true,
+   "detail": "{\"exists\":false,\"shown\":false}"
+  },
+  {
+   "name": "icon_shown_low_right_hd",
+   "ok": true,
+   "detail": "{\"exists\":true,\"shown\":true,\"label\":\"Nearby chat (Enter)\",\"key\":\"Enter\",\"box\":[1797.5,1021,1885,1055],\"W\":1920,\"H\":1080}"
+  },
+  {
+   "name": "icon_named_with_key_hd",
+   "ok": true,
+   "detail": "Nearby chat (Enter) / Enter"
+  },
+  {
+   "name": "icon_clear_of_hud_hd",
+   "ok": true,
+   "detail": "{\"plain\":[],\"coords\":[],\"hints\":[]}"
+  },
+  {
+   "name": "icon_opens_composer_hd",
+   "ok": true,
+   "detail": "{\"f\":\"sayText\",\"keys\":0,\"icon\":false}"
+  },
+  {
+   "name": "icon_back_after_escape_hd",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "icon_hidden_paused_and_customize_hd",
+   "ok": true,
+   "detail": "{\"pz\":true,\"paused\":false,\"customize\":false,\"again\":true}"
+  },
+  {
+   "name": "icon_no_page_errors_hd",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "icon_absent_on_menu_phone",
+   "ok": true,
+   "detail": "{\"exists\":false,\"shown\":false}"
+  },
+  {
+   "name": "icon_shown_low_right_phone",
+   "ok": true,
+   "detail": "{\"exists\":true,\"shown\":true,\"label\":\"Nearby chat (Enter)\",\"key\":\"Enter\",\"box\":[326,612,374,660],\"W\":390,\"H\":844}"
+  },
+  {
+   "name": "icon_named_with_key_phone",
+   "ok": true,
+   "detail": "Nearby chat (Enter) / Enter"
+  },
+  {
+   "name": "icon_clear_of_hud_phone",
+   "ok": true,
+   "detail": "{\"plain\":[],\"coords\":[],\"hints\":[]}"
+  },
+  {
+   "name": "icon_opens_composer_phone",
+   "ok": true,
+   "detail": "{\"f\":\"sayText\",\"keys\":0,\"icon\":false}"
+  },
+  {
+   "name": "icon_back_after_escape_phone",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "icon_no_page_errors_phone",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "icon_absent_on_menu_side",
+   "ok": true,
+   "detail": "{\"exists\":false,\"shown\":false}"
+  },
+  {
+   "name": "icon_shown_low_right_side",
+   "ok": true,
+   "detail": "{\"exists\":true,\"shown\":true,\"label\":\"Nearby chat (Enter)\",\"key\":\"Enter\",\"box\":[490,326,538,374],\"W\":844,\"H\":390}"
+  },
+  {
+   "name": "icon_named_with_key_side",
+   "ok": true,
+   "detail": "Nearby chat (Enter) / Enter"
+  },
+  {
+   "name": "icon_clear_of_hud_side",
+   "ok": true,
+   "detail": "{\"plain\":[],\"coords\":[],\"hints\":[]}"
+  },
+  {
+   "name": "icon_opens_composer_side",
+   "ok": true,
+   "detail": "{\"f\":\"sayText\",\"keys\":0,\"icon\":false}"
+  },
+  {
+   "name": "icon_back_after_escape_side",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "icon_no_page_errors_side",
+   "ok": true,
+   "detail": ""
+  }
+ ],
+ "passed": 30,
+ "failed": [],
+ "mutants": [
+  {
+   "name": "icon shown over the pause screen",
+   "caught": true,
+   "failed": [
+    "icon_hidden_paused_and_customize_wide",
+    "icon_hidden_paused_and_customize_hd"
+   ],
+   "expected": [
+    "icon_hidden_paused_and_customize_wide",
+    "icon_absent_on_menu_wide"
+   ]
+  },
+  {
+   "name": "icon in the middle of the screen",
+   "caught": true,
+   "failed": [
+    "icon_shown_low_right_wide"
+   ],
+   "expected": [
+    "icon_shown_low_right_wide"
+   ]
+  },
+  {
+   "name": "icon click does nothing",
+   "caught": true,
+   "failed": [
+    "icon_opens_composer_wide",
+    "icon_back_after_escape_wide",
+    "icon_hidden_paused_and_customize_wide",
+    "icon_opens_composer_hd",
+    "icon_back_after_escape_hd",
+    "icon_hidden_paused_and_customize_hd",
+    "icon_opens_composer_phone",
+    "icon_back_after_escape_phone",
+    "icon_opens_composer_side",
+    "icon_back_after_escape_side"
+   ],
+   "expected": [
+    "icon_opens_composer_wide"
+   ]
+  },
+  {
+   "name": "icon on the touch buttons",
+   "caught": true,
+   "failed": [
+    "icon_clear_of_hud_phone"
+   ],
+   "expected": [
+    "icon_clear_of_hud_phone",
+    "icon_clear_of_hud_side"
+   ]
+  }
+ ]
+}

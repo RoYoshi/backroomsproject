@@ -67,7 +67,7 @@ renaming one breaks the others silently.
 | `window.__inv` | `inventory.js` | `assets/index-DKbV5Nv9.js`, `assets/ui.js`, `mp.js` |
 | `window.__items` | `mp.js` | `glitch.js` |
 | `window.__itemSolo` | `mp.js` | - |
-| `window.__keys` | `assets/ui.js` | `inventory.js` |
+| `window.__keys` | `assets/ui.js` | `assets/chat.js`, `inventory.js` |
 | `window.__kill` | `assets/index-DKbV5Nv9.js`, `mp.js` | - |
 | `window.__killer` | `mp.js` | `assets/index-DKbV5Nv9.js` |
 | `window.__l0v` | `assets/l0-remaster.js` | `assets/index-DKbV5Nv9.js`, `gore.js` |

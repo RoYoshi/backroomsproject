@@ -1,0 +1,35 @@
+ok   icon_absent_on_menu_wide - {"exists":false,"shown":false}
+ok   icon_shown_low_right_wide - {"exists":true,"shown":true,"label":"Nearby chat (Enter)","key":"Enter","box":[1157.5,661,1245,695],"W":1280,"H":720}
+ok   icon_named_with_key_wide - Nearby chat (Enter) / Enter
+ok   icon_clear_of_hud_wide - {"plain":[],"coords":[],"hints":[]}
+ok   icon_opens_composer_wide - {"f":"sayText","keys":0,"icon":false}
+ok   icon_back_after_escape_wide
+ok   icon_hidden_paused_and_customize_wide - {"pz":true,"paused":false,"customize":false,"again":true}
+ok   icon_no_page_errors_wide - 
+ok   icon_absent_on_menu_hd - {"exists":false,"shown":false}
+ok   icon_shown_low_right_hd - {"exists":true,"shown":true,"label":"Nearby chat (Enter)","key":"Enter","box":[1797.5,1021,1885,1055],"W":1920,"H":1080}
+ok   icon_named_with_key_hd - Nearby chat (Enter) / Enter
+ok   icon_clear_of_hud_hd - {"plain":[],"coords":[],"hints":[]}
+ok   icon_opens_composer_hd - {"f":"sayText","keys":0,"icon":false}
+ok   icon_back_after_escape_hd
+ok   icon_hidden_paused_and_customize_hd - {"pz":true,"paused":false,"customize":false,"again":true}
+ok   icon_no_page_errors_hd - 
+ok   icon_absent_on_menu_phone - {"exists":false,"shown":false}
+ok   icon_shown_low_right_phone - {"exists":true,"shown":true,"label":"Nearby chat (Enter)","key":"Enter","box":[326,612,374,660],"W":390,"H":844}
+ok   icon_named_with_key_phone - Nearby chat (Enter) / Enter
+ok   icon_clear_of_hud_phone - {"plain":[],"coords":[],"hints":[]}
+ok   icon_opens_composer_phone - {"f":"sayText","keys":0,"icon":false}
+ok   icon_back_after_escape_phone
+ok   icon_no_page_errors_phone - 
+ok   icon_absent_on_menu_side - {"exists":false,"shown":false}
+ok   icon_shown_low_right_side - {"exists":true,"shown":true,"label":"Nearby chat (Enter)","key":"Enter","box":[490,326,538,374],"W":844,"H":390}
+ok   icon_named_with_key_side - Nearby chat (Enter) / Enter
+ok   icon_clear_of_hud_side - {"plain":[],"coords":[],"hints":[]}
+ok   icon_opens_composer_side - {"f":"sayText","keys":0,"icon":false}
+ok   icon_back_after_escape_side
+ok   icon_no_page_errors_side - 
+MUTANT icon shown over the pause screen: caught (icon_hidden_paused_and_customize_wide, icon_hidden_paused_and_customize_hd)
+MUTANT icon in the middle of the screen: caught (icon_shown_low_right_wide)
+MUTANT icon click does nothing: caught (icon_opens_composer_wide, icon_back_after_escape_wide, icon_hidden_paused_and_customize_wide, icon_opens_composer_hd, icon_back_after_escape_hd, icon_hidden_paused_and_customize_hd, icon_opens_composer_phone, icon_back_after_escape_phone, icon_opens_composer_side, icon_back_after_escape_side)
+MUTANT icon on the touch buttons: caught (icon_clear_of_hud_phone)
+CHAT VOICE BROWSER: PASS - 30 of 30 cases; mutants 4 of 4 caught (594 s)

@@ -14,7 +14,9 @@
  *              let go, typing walks nobody, Esc closes it without pausing; a line shows as a bubble over the speaker on both screens,
  *              as literal text, and is gone within 5 s; a listener moved off screen (but within 576 px) gets an edge hint pointing
  *              the right way, one moved beyond the radius gets nothing, the other room nothing; hiding speech and muting the
- *              speaker work at once; a speaker who leaves takes its bubble along; the phone's SAY button opens the composer.
+ *              speaker work at once; a speaker who leaves takes its bubble along; the chat icon is shown in the run (and hidden while
+ *              the composer is open), and on a phone a tap on it opens the composer (post-Trial 4 chat polish: the icon replaced
+ *              Trial 4's Enter hint and Trial 2's SAY button).
  *   mutants    (--mutants 1) copies of the page's chat.js with one fault each (a bubble written as HTML, the composer opening over the
  *              pause screen, held keys kept, the lounge left open in a run, no edge hint, mutes ignored, bubbles that never end):
  *              each must fail its cases.  The server is the tree's own; only public/assets/chat.js differs (a copy of public/).
@@ -204,9 +206,9 @@ async function nearby(b, port, shots) {
   // the listener is brought beside the speaker with the admin tools (players of one room can spawn far apart)
   check('nearby_listener_placed', await together(B, A));
   const pa = await pos(A.P);
-  // Trial 4: the desktop control hint appears only while nearby speech can open.
-  const hintVisible = await until(A.P, () => { const el = document.getElementById('chatKeyHint'); return !!el && !el.hidden && getComputedStyle(el).display !== 'none' && el.textContent.includes('Nearby Chat'); }, null, 4000);
-  check('t4_nearby_hint_visible', !!hintVisible);
+  // the chat icon (post-Trial 4 chat polish; it replaced Trial 4's Enter hint) is shown while nearby speech can open, named with its key
+  const iconVisible = await until(A.P, () => { const el = document.getElementById('chatIcon'); return !!el && !el.hidden && getComputedStyle(el).display !== 'none' && /^Nearby chat \(.+\)$/.test(el.getAttribute('aria-label') || ''); }, null, 4000);
+  check('nearby_icon_visible', !!iconVisible);
   // Enter opens the composer; held keys are let go; typing walks nobody; Esc closes without pausing
   await A.P.keyboard.down('KeyD'); await sleep(250);
   await A.P.keyboard.press('Enter');
@@ -219,8 +221,8 @@ async function nearby(b, port, shots) {
   const l1 = await A.P.evaluate(() => __api.lightOn());
   await A.P.keyboard.up('KeyD');
   check('nearby_composer_opens', op.c && op.keys === 0 && op.f === 'sayText', JSON.stringify(op));
-  const hintDuringChat = await A.P.evaluate(() => { const el = document.getElementById('chatKeyHint'); return !el || el.hidden; });
-  check('t4_hint_hides_while_typing', hintDuringChat);
+  const iconDuringChat = await A.P.evaluate(() => { const el = document.getElementById('chatIcon'); return !el || el.hidden; });
+  check('nearby_icon_hides_while_typing', iconDuringChat);
   check('nearby_typing_walks_nobody', Math.hypot(p1.x - p0.x, p1.y - p0.y) < 2 && l1 === l0, `${Math.round(Math.hypot(p1.x - p0.x, p1.y - p0.y))} px; the light ${l0 ? 'on' : 'off'} -> ${l1 ? 'on' : 'off'} after typing F three times`);
   await A.P.keyboard.press('Escape'); await sleep(200);
   const esc = await A.P.evaluate(() => ({ c: window.__chat.state().nearby.composer, paused: __api.paused(), dialog: !document.getElementById('dialog').hidden }));
@@ -330,13 +332,13 @@ async function nearbyPhone(b, port, shots) {
   const M = await open(b, port, room, { mobile: true }); M.mobile = true;
   const D = await open(b, port, room, { viewport: { width: 1280, height: 720 } });
   const ok = (await startRun(M, 'T2 Phone')) && (await startRun(D, 'T2 Desk')) && (await together(D, M));
-  const say = await until(M.P, () => { const e = document.getElementById('chatSay'); return !!e && !e.hidden && getComputedStyle(e).display !== 'none'; });
-  if (say) { await M.P.tap('#chatSay'); await until(M.P, () => window.__chat.state().nearby.composer, null, 4000); }
+  const say = await until(M.P, () => { const e = document.getElementById('chatIcon'); return !!e && !e.hidden && getComputedStyle(e).display !== 'none'; });
+  if (say) { await M.P.tap('#chatIcon'); await until(M.P, () => window.__chat.state().nearby.composer, null, 4000); }
   const c = await M.P.evaluate(() => ({ c: window.__chat.state().nearby.composer, f: document.activeElement && document.activeElement.id, keys: __api.keys.size, top: document.getElementById('sayBox').getBoundingClientRect().top }));
   if (shots) await M.P.screenshot({ path: path.join(shots, 'nearby_phone_composer.png') });
   const t = synth('phone'); await M.P.keyboard.type(t); await M.P.keyboard.press('Enter');
   const heard = await until(D.P, t => [...document.querySelectorAll('#chatLayer .bb-text')].some(e => e.textContent === t), t);
-  check('nearby_phone_say_button', ok && !!say && c.c && c.f === 'sayText' && c.keys === 0 && c.top < 120 && !!heard, JSON.stringify(c));
+  check('nearby_phone_icon_opens', ok && !!say && c.c && c.f === 'sayText' && c.keys === 0 && c.top < 120 && !!heard, JSON.stringify(c));
   check('nearby_phone_no_page_errors', !M.errs.length && !D.errs.length, M.errs.concat(D.errs).slice(0, 2).join(' | '));
   await M.ctx.close(); await D.ctx.close();
 }

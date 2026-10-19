@@ -224,7 +224,7 @@
   /* ================================================================ IN LEVEL · NEARBY */
   const B = new Map();                                                   // speaker id -> its bubble { el, txt, arrow, until, born, w, h, mode, x, y, a }
   const names = new Map(), recent = new Map(), muted = new Set();        // game session ids (this visit only)
-  let hintEl = null, hintShown = false, sendSay = null, layer = null, comp = null, sayBtn = null, toastEl = null, toastT = 0, epoch = null, sayShown = false, heardN = 0, shownN = 0;
+  let iconEl = null, iconShown = false, iconKey = '', sendSay = null, layer = null, comp = null, toastEl = null, toastT = 0, epoch = null, heardN = 0, shownN = 0;
   const coarse = matchMedia('(pointer:coarse)');
   const myGameId = () => { const A = API(); return A && A.H ? A.H.id : null; };
   // (post-Trial 4 review: this runs every frame since the Enter hint; the open-sheet test reads a live list of the sheets instead of
@@ -263,19 +263,37 @@
     const now = performance.now(); b.born = now; b.until = now + Math.max(3000, Math.min(5000, 3000 + 12.5 * cps(m.text))); b.w = 0; shownN++;
     if (!own) announce(`${names.get(m.id) || 'Someone'} nearby says: ${m.text}`);
   }
-  // where the bubbles go: called by mp.js every frame (after the other players are drawn), with the frame's camera
-  function ensureHint() {
-    if (!hintEl) { hintEl = mk('p', 'say-keyhint', null, { id: 'chatKeyHint', hidden: '' });   // (its words name it: no aria-label on a paragraph)
-      hintEl.append(mk('kbd', null, 'ENTER'), document.createTextNode(' Nearby Chat')); document.body.appendChild(hintEl); }
-    return hintEl;
+  /* the chat icon (post-Trial 4 chat polish C1): one small speech-bubble button low on the right, on every screen, shown only while
+     nearby speech can open; it replaces Trial 4's bottom-centre Enter hint and Trial 2's touch SAY button.  Its key (the Nearby chat
+     binding, Settings -> Controls) sits beside it as a small key cap on a keyboard screen and in its accessible name everywhere. */
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  function bubbleSvg() {
+    const svg = document.createElementNS(SVGNS, 'svg'); svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('aria-hidden', 'true'); svg.setAttribute('focusable', 'false');
+    const p = document.createElementNS(SVGNS, 'path'); p.setAttribute('d', 'M5.5 5h13A1.5 1.5 0 0 1 20 6.5v8a1.5 1.5 0 0 1-1.5 1.5H10.5L6.5 19.5V16h-1A1.5 1.5 0 0 1 4 14.5v-8A1.5 1.5 0 0 1 5.5 5z'); svg.append(p);
+    for (const x of [8.5, 12, 15.5]) { const c = document.createElementNS(SVGNS, 'circle'); c.setAttribute('cx', String(x)); c.setAttribute('cy', '10.5'); c.setAttribute('r', '1'); svg.append(c); }
+    return svg;
   }
+  const chatKeyName = () => { const K = window.__keys, l = K && K.labels ? K.labels('chat') : null; return (l && l.length && l[0]) || 'Enter'; };
+  function ensureIcon() {
+    if (iconEl) return iconEl;
+    iconEl = mk('button', 'chat-icon', null, { type: 'button', id: 'chatIcon', hidden: '', 'aria-controls': 'sayBox' });
+    iconEl.append(bubbleSvg(), mk('span', 'chat-icon-k', '', { 'aria-hidden': 'true' }), mk('span', 'chat-icon-tip', 'Nearby chat', { 'aria-hidden': 'true' }));
+    for (const ev of ['pointerdown', 'mousedown']) iconEl.addEventListener(ev, e => e.stopPropagation());   // a press here is the button's, never the game's
+    iconEl.addEventListener('touchstart', e => e.stopPropagation(), { passive: true });
+    iconEl.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); openComposer(); });
+    document.body.appendChild(iconEl); iconKey = ''; iconLabel();
+    return iconEl;
+  }
+  function iconLabel() {                                                 // the key it shows follows the binding
+    if (!iconEl) return; const k = chatKeyName(); if (k === iconKey) return; iconKey = k;
+    iconEl.querySelector('.chat-icon-k').textContent = k; iconEl.setAttribute('aria-label', `Nearby chat (${k})`);
+  }
+  // where the bubbles go: called by mp.js every frame (after the other players are drawn), with the frame's camera
   function frame(f) {
     const can = canSpeak();                                              // (post-Trial 4 review: asked once a frame, not up to three times)
     if (comp && !comp.form.hidden && !can) closeComposer();
-    const showHint = !coarse.matches && can && (!comp || comp.form.hidden);
-    if (showHint !== hintShown) { hintShown = showHint; ensureHint().hidden = !showHint; }
-    if (coarse.matches) { const w = can && (!comp || comp.form.hidden); if (w !== sayShown) { sayShown = w; ensureSay().hidden = !w; } }
-    else if (sayShown) { sayShown = false; if (sayBtn) sayBtn.hidden = true; }
+    const showIcon = can && (!comp || comp.form.hidden);
+    if (showIcon !== iconShown) { iconShown = showIcon; ensureIcon().hidden = !showIcon; document.body.classList.toggle('chat-icon-on', showIcon); }
     if (!B.size) return;
     const A = API(), N = NET();
     const w = window.__epochDebug ? window.__epochDebug().w : null;
@@ -354,7 +372,7 @@
     const c = ensureComposer(), A = API();
     if (A && A.keys && A.keys.clear) A.keys.clear();                     // nobody walks on while typing
     c.form.hidden = false; c.opts.hidden = true; c.more.setAttribute('aria-expanded', 'false');
-    if (sayBtn) { sayBtn.hidden = true; sayShown = false; }
+    if (iconEl && iconShown) { iconShown = false; iconEl.hidden = true; document.body.classList.remove('chat-icon-on'); }
     c.input.focus({ preventScroll: true });
     return true;
   }
@@ -362,12 +380,6 @@
     if (!comp || comp.form.hidden) return;
     comp.form.hidden = true; comp.input.value = '';
     if (comp.form.contains(document.activeElement)) document.activeElement.blur();
-  }
-  function ensureSay() {
-    if (sayBtn) return sayBtn;
-    sayBtn = mk('button', 'say-touch', 'Say', { type: 'button', id: 'chatSay', hidden: '', 'aria-label': 'Say something nearby' });
-    sayBtn.addEventListener('click', () => openComposer());
-    document.body.appendChild(sayBtn); return sayBtn;
   }
 
   /* ---------------------------------------------------------------- keys: a chat field's keys are its own; Enter opens the composer */
@@ -394,7 +406,7 @@
     net(m, peer) { if (!m) return; if (m.t === 'heard') heard(m, peer); else if (m.t === 'said' && m.ok === 0) toast(why(m)); },
     state: () => ({
       lounge: { state: S.on ? L.state : 'off', id: L.id, online: L.online, lines: lg ? lg.logEl.querySelectorAll('li.lg-line').length : 0, unread: L.unread, muted: L.muted.size, sheet: L.sheet, open: !!L.ws, opens: L.opens, sent: L.sent, got: L.got, wide: wideMQ.matches, folded: S.fold },
-      nearby: { bubbles: [...B].map(([id, b]) => ({ id, mode: b.mode, x: b.x, y: b.y, w: b.w, h: b.h, a: Number.isFinite(b.a) ? +b.a.toFixed(3) : null })), composer: !!comp && !comp.form.hidden, say: sayShown, heard: heardN, shown: shownN, muted: muted.size },
+      nearby: { bubbles: [...B].map(([id, b]) => ({ id, mode: b.mode, x: b.x, y: b.y, w: b.w, h: b.h, a: Number.isFinite(b.a) ? +b.a.toFixed(3) : null })), composer: !!comp && !comp.form.hidden, say: iconShown, icon: iconShown, heard: heardN, shown: shownN, muted: muted.size },
       settings: Object.assign({}, S),
     }),
     open: () => openComposer(),
