@@ -1,0 +1,62 @@
+{
+ "tool": "dev/tools/checks/chat_voice_browser.js",
+ "tree": "this repository",
+ "browser": "chromium",
+ "seconds": 231,
+ "ok": true,
+ "cases": [
+  {
+   "name": "type_schedule_rules",
+   "ok": true,
+   "detail": "{\"gaps\":[42,162,302,42,42,422,42],\"pauses\":true,\"graphemes\":true,\"speed\":4,\"long\":{\"write\":6500,\"life\":10500},\"short\":3000,\"mid\":{\"write\":2726,\"life\":5714},\"bounds\":true}"
+  },
+  {
+   "name": "type_reveals_progressively",
+   "ok": true,
+   "detail": "{\"writes\":14,\"mids\":13,\"mono\":true,\"prefixes\":true,\"box\":1,\"span\":2814,\"st\":{\"id\":1,\"mode\":\"bb-on\",\"x\":304,\"y\":171,\"w\":240,\"h\":69,\"a\":null,\"shown\":54,\"of\":54,\"write\":2726,\"life\":5714}}"
+  },
+  {
+   "name": "type_life_bounded",
+   "ok": true,
+   "detail": "{\"gone\":true,\"life\":5714,\"write\":2726}"
+  },
+  {
+   "name": "type_screen_reader_once",
+   "ok": true,
+   "detail": "{\"announcements\":1,\"whole\":1,\"parts\":0}"
+  },
+  {
+   "name": "type_graphemes_whole",
+   "ok": true,
+   "detail": "{\"writes\":9,\"bad\":[]}"
+  },
+  {
+   "name": "type_newer_line_replaces",
+   "ok": true,
+   "detail": "{\"rep\":{\"n\":1},\"l3WrittenWhenReplaced\":66,\"of\":154}"
+  },
+  {
+   "name": "type_nothing_extra_sent",
+   "ok": true,
+   "detail": "[54,60,154,11]"
+  },
+  {
+   "name": "type_instant_option",
+   "ok": true,
+   "detail": "{\"sw0\":\"true\",\"sw1\":\"false\",\"saved\":false,\"first\":34,\"of\":34}"
+  },
+  {
+   "name": "type_no_page_errors",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "type_reduced_motion",
+   "ok": true,
+   "detail": "{\"first\":50,\"of\":50,\"rm\":true}"
+  }
+ ],
+ "passed": 10,
+ "failed": [],
+ "mutants": null
+}

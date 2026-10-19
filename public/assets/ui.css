@@ -879,6 +879,10 @@ html.rm #menu.mm-intro.mm-go .lg{animation:mmFade .18s ease .3s both!important}
 .bb.bb-hint .bb-arrow{display:block;flex:none;width:0;height:0;border:5px solid transparent;border-left:8px solid var(--u-sick-hi);border-right:0}
 .bb.bb-out{opacity:0}
 html.rm .bb{transition:none}
+/* post-Trial 4 chat polish (C3): a typed-out line is one flow, its written part then the rest laid out but invisible, so the bubble's
+   size and line breaks never move while it writes; an edge hint keeps its one clipped line */
+.bb-yet{visibility:hidden}
+.bb.bb-hint .bb-line{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* in a run: the composer, its options, its toast; SAY on touch screens */
 .say{position:fixed;z-index:16;left:50%;bottom:calc(var(--touch-h,0px) + 92px);display:flex;align-items:stretch;width:min(580px,calc(100vw - 32px));transform:translateX(-50%);

@@ -699,6 +699,7 @@
   <h3>Display</h3>
   <div class="us-row wide"><span>Lighting and shadows<small>How finely the lights and their shadows are drawn. Every setting lights the same places: higher only draws them more finely. Low suits phones and older computers.</small></span><div class="us-seg" role="radiogroup" aria-label="Lighting and shadows quality" id="stLq">${['low', 'medium', 'high'].map(q => `<button type="button" class="u-btn" role="radio" data-lq="${q}">${q}</button>`).join('')}</div></div>
   <div class="us-row wide"><span>Reduced motion<small>Stops the menus' flicker and slides, the title's lean and light, the HUD's fades, and the screen effects' animation. System follows your device's setting.</small></span><div class="us-seg" role="radiogroup" aria-label="Reduced motion" id="stRm">${[['auto', 'System'], ['on', 'On'], ['off', 'Off']].map(([v, n]) => `<button type="button" class="u-btn" role="radio" data-rm="${v}">${n}</button>`).join('')}</div><p class="u-note" id="stRmNow"></p></div>
+  <div class="us-row"><span>Typed-out speech<small>Nearby speech bubbles write each line out as it is spoken. Off, or with reduced motion on, the whole line shows at once.</small></span><button type="button" class="u-switch" role="switch" id="stChatType" aria-label="Typed-out speech"></button></div>
 </section>
 <section class="us-page" id="stPage_controls" role="tabpanel" aria-labelledby="stTab_controls" hidden>
   <h3>Controls</h3><p class="u-note">Choose the keys. Each action can have a second key. Changes save on this device and apply at once; Esc, the mouse and the touch controls stay as they are.</p>
@@ -730,6 +731,7 @@
     q('#stColor').addEventListener('input', e => { S() && S().set('c', e.target.value.toLowerCase()); syncSettings(); });
     q('#stHudReset').addEventListener('click', () => { S() && S().reset('hud'); syncSettings(); });
     q('#stLq').addEventListener('click', e => { const b = e.target.closest('[data-lq]'); if (!b) return; setQuality(b.dataset.lq); syncSettings(); });
+    q('#stChatType').addEventListener('click', () => { const C = window.__chat; if (C && C.pref) C.pref('type', !(C.state().settings.type)); syncSettings(); });   // (chat polish C3) chat.js keeps it
     q('#stRm').addEventListener('click', e => { const b = e.target.closest('[data-rm]'); if (!b || !S()) return; S().set('rm', b.dataset.rm); applyMotion(); syncSettings(); });
     // radio groups: arrow keys move the choice (and the focus) along the group
     settingsEl.addEventListener('keydown', e => {
@@ -766,6 +768,7 @@
     const pv = q('#stPrev'); pv.style.setProperty('--ps', Math.min(s.s, 1.4));
     const lq = window.__brRole && __brRole.quality ? __brRole.quality() : '';
     settingsEl.querySelectorAll('[data-lq]').forEach(b => b.setAttribute('aria-checked', b.dataset.lq === lq ? 'true' : 'false'));
+    { const C = window.__chat, t = q('#stChatType'); if (t) t.setAttribute('aria-checked', String(!!(C && C.state && C.state().settings.type))); }
     const rm = s.rm || 'auto';
     settingsEl.querySelectorAll('[data-rm]').forEach(b => b.setAttribute('aria-checked', b.dataset.rm === rm ? 'true' : 'false'));
     q('#stRmNow').textContent = rm === 'auto' ? (mq.matches ? 'Your device asks for reduced motion, so it is on.' : 'Your device does not ask for reduced motion, so it is off.') : '';

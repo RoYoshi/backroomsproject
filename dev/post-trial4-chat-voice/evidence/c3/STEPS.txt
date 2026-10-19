@@ -1,0 +1,11 @@
+C3 - typed-out bubbles (the working tree before the commit; headless Chromium, SwiftShader)
+- chat_voice_browser.js --only type: PASS 10 of 10 (type.json); --mutants 1: 6 of 6 caught (type_mutants.*, about 31 minutes: each mutant
+  replays the whole section).  Two of the cases were made robust before that run, neither by loosening what they check: the listener's
+  page is brought to the front (a page behind another gets no animation frames here, so its bubble would not write at all), and the
+  "newer line replaces" case fills its second line at once (typing it key by key into a page behind another took longer than the first
+  line's whole writing).  The first line was 66 of 154 characters written when the second replaced it.
+- chat_browser.js --only nearby,nearby_phone,reduced with typing on: PASS 23 of 23 (chat_browser_nearby.*); its "bubble as HTML" mutant
+  now aims at the written part of a typed-out line (checked with every mutant at the final verification).
+- The chat hook's cost with typing (dev/post-3h-trials/tools/t2_client_perf.js, 2 rounds of 10 s, hook_perf.*): per frame, 0.017 ms
+  with no bubble, 0.096 ms with one typing bubble, 0.19 ms with nine typing at once (re-said every 2.5 s, so always writing).  The page's
+  frame pacing against the review head 1a89863: within the tool's noise (fps 6.0 against 5.2, task time -7 ms/s).

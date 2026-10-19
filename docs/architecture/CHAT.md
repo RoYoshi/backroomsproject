@@ -149,12 +149,26 @@ on** opens it again. At most 80 lines are kept on the page.
 **Nearby (IN LEVEL).** Only in a live run, online, alive and with nothing open over the game: **Enter** (or a click or tap on the
 chat icon, low on the right) opens a one-line composer labelled *Nearby* (its field is announced as "Say to players near you"); every key the game was holding is
 let go first. Enter sends and closes; Esc or a click elsewhere closes. A line heard shows as a bubble over its speaker (yours too:
-your own line comes back from the server as its receipt) for 3 to 5 s (3 s plus 12.5 ms a character), one bubble a speaker, the newest
-replacing the last. A speaker off screen gets the same line as a small one-line hint at the screen's edge, with an arrow pointing their
+your own line comes back from the server as its receipt), written out as if spoken (below), one bubble a speaker, the newest
+replacing the last at once. A speaker off screen gets the same line as a small one-line hint at the screen's edge, with an arrow pointing their
 way. Bubbles end at once when their speaker leaves, dies or the world resets, and all of them when you die, leave the run or lose the
-connection. **Options** in the composer: speech bubbles shown or hidden, text size normal or large, and the people heard this visit,
+connection. **Options** in the composer: speech bubbles shown or hidden, text size normal or large, speech text typed out or all at once, and the people heard this visit,
 each one muted or heard (by the server's id for that connection, never by name). A refused line says why for a few seconds (too fast,
 too long, not while dead...). Offline (SOLO), Enter does what it always did.
+
+**Typed-out speech** (post-Trial 4 chat polish C3). The server receives, checks and passes on each line whole, exactly as before;
+nothing about typing ever leaves a page (no keystroke, no part of a line, no progress). Only the bubble writes the line out, one
+grapheme at a time (`Intl.Segmenter`: an emoji, a flag, a skin tone or a letter with its accents is one step, never split) at the
+speaker's pace - 42 ms a grapheme at 100 % (C4's voice speed, 50 to 200 %) - with a pause after a comma, semicolon or colon (+120 ms),
+after a sentence's end (+260 ms) and after an ellipsis (+380 ms), and only where the marks end a word. A long line is written faster
+rather than for longer: the writing never takes more than 6.5 s. The whole line then stays for a hold of 1.8 s plus 22 ms a grapheme
+(at most 4 s); the bubble's life is never under 3 s nor over 10.5 s and never ends before the writing has finished and been held (a
+bubble still ends at once when its speaker leaves or dies, when the world resets, or when you die or leave). The bubble holds the
+whole line from the start, the part not yet written laid out but invisible (`.bb-text` then `.bb-yet`, one flow), so its size and line
+breaks never move while it writes; the page writes to it only when a grapheme more is shown (several at once after a slow frame),
+never every frame. Reduced motion, or **Typed-out speech** switched off (Settings -> Display, or the composer's Options; saved in
+`tfb.chat.v1` as `type`), shows the whole line at once, for the same life. Screen readers hear the whole line once, when it arrives
+(the bubbles' layer is hidden from them); every text is still written with `textContent`.
 
 **The chat icon** (post-Trial 4 chat polish; it replaced Trial 4's bottom-centre `ENTER Nearby Chat` hint and Trial 2's SAY button).
 While the composer could open and is closed, one small speech-bubble button (`#chatIcon`) sits low on the right, quiet until hovered

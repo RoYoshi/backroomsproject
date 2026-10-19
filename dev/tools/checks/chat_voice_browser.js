@@ -19,6 +19,13 @@
  *             the light on T, T toggles the light and never opens the chat (the adapter's re-sent F is not a chat key); Reset brings Enter
  *             back; a save from before the action keeps every key (a crouch already on Enter stays, chat gets T, and Enter then crouches);
  *             a damaged save falls back to the defaults; offline (chat moved to T), T and Enter reach the game exactly as pressed.
+ *   type_*    typed-out bubbles: the writing's rules computed in the page (a pause after a comma, a sentence's end and an ellipsis and
+ *             nowhere else; graphemes kept whole - an emoji family, a flag, a skin tone; a slow speaker 4x a fast one; a long line written
+ *             within 6.5 s; life between 3 and 10.5 s and never shorter than the writing plus its hold); between two players, every write
+ *             to the listener's bubble recorded in the page: the line appears a grapheme at a time, each step a prefix ending on a
+ *             grapheme boundary, never shrinking, the bubble's box unmoved, the whole line at the end and gone within its life; a newer
+ *             line replaces the last at once; screen readers get the whole line once and never a part; reduced motion, and Settings ->
+ *             Display's typed-out speech switched off (saved), show the whole line at once; one 'say' per line leaves the speaker.
  * (Later sections are added with their checkpoints.)
  * --mutants 1: copies of the tree's public/ with one fault each; each must fail the cases named for it.
  * Exit 0 only if every case passes (and every mutant is caught).  Servers are stopped by their PIDs. */
@@ -233,13 +240,107 @@ async function keysOffline(b, port) {
   await s.ctx.close();
 }
 async function keys(b, port, shots) { const w = (ARG.parts || "main,saves,offline").split(","); if (w.includes("main")) await keysMain(b, port, shots); if (w.includes("saves")) await keysSaves(b, port); if (w.includes("offline")) await keysOffline(b, port); }
+/* ================================================================ C3: typed-out bubbles */
+// every write to a bubble's line, recorded in the page as it happens (a slow test cannot miss one)
+const TYPE_REC = () => { if (window.__cvType) return; window.__cvType = []; window.__cvLive = [];
+  const rec = () => { for (const el of document.querySelectorAll('#chatLayer .bb')) { const t = el.querySelector('.bb-text'), y = el.querySelector('.bb-yet'); if (!t) continue;
+    const r = el.getBoundingClientRect(), last = window.__cvType[window.__cvType.length - 1], text = t.textContent, yet = y ? y.textContent : '';
+    if (!last || last.text !== text || last.yet !== yet) window.__cvType.push({ t: performance.now(), text, yet, w: Math.round(r.width * 10) / 10, h: Math.round(r.height * 10) / 10 }); } };
+  new MutationObserver(rec).observe(document.body, { subtree: true, childList: true, characterData: true });
+  const live = () => { const l = document.getElementById('chatLive'); if (l && l.textContent !== window.__cvLive[window.__cvLive.length - 1]) window.__cvLive.push(l.textContent); };
+  new MutationObserver(live).observe(document.body, { subtree: true, childList: true, characterData: true }); };
+async function say(S, text) { await S.P.keyboard.press('Enter'); if (!await until(S.P, () => window.__chat.state().nearby.composer, null, 4000)) return false; await S.P.keyboard.type(text); await S.P.keyboard.press('Enter'); return true; }
+const recFor = (P, text) => P.evaluate(t => window.__cvType.filter(r => (r.text + r.yet) === t), text);
+const RULES = () => {
+  const T = window.__chat.typeSchedule, R = {};
+  const a = T('a, b. c... d e', 100), gap = i => Math.round(a.at[i + 1] - a.at[i]);
+  R.gaps = [gap(0), gap(1), gap(4), gap(7), gap(8), gap(9), gap(10)];                // a , (comma) b . (stop) c . . . (ellipsis) d
+  R.pauses = R.gaps[0] === 42 && R.gaps[1] === 162 && R.gaps[2] === 302 && R.gaps[3] === 42 && R.gaps[4] === 42 && R.gaps[5] === 422 && R.gaps[6] === 42;
+  const em = 'hi 👨‍👩‍👧 and 🇯🇵 wave 👋🏽 café…', e = T(em, 100), seg = [...new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(em)].map(x => x.index + x.segment.length);
+  R.graphemes = e.n === seg.length && e.off.every((o, i) => o === seg[i]);
+  const slow = T('the same plain words for both', 50), fast = T('the same plain words for both', 200);
+  R.speed = Math.round(slow.write / fast.write * 100) / 100;
+  const long = T('x'.repeat(40) + ' ' + 'y'.repeat(119), 50), short = T('hi', 100), mid = T('I think something is following us... stay close, okay?', 100);
+  R.long = { write: Math.round(long.write), life: Math.round(long.life) }; R.short = Math.round(short.life); R.mid = { write: Math.round(mid.write), life: Math.round(mid.life) };
+  R.bounds = long.write <= 6500.5 && long.life <= 10500 && long.life >= long.write + 1800 && short.life === 3000 && mid.life >= mid.write + 1800 && mid.write > 2000;
+  return R;
+};
+async function typed(b, port, shots) {
+  const room = 'cvt' + (Date.now() % 100000);
+  const A = await open(b, port, room), B = await open(b, port, room, { viewport: { width: 960, height: 540 } });
+  const R = await B.P.evaluate(RULES);
+  check('type_schedule_rules', R.pauses && R.graphemes && R.speed === 4 && R.bounds, JSON.stringify(R));
+  const ok = (await startRun(A, 'CV Speaker')) && (await startRun(B, 'CV Listener')) && (await together(B, A));
+  await B.P.evaluate(TYPE_REC); await A.P.evaluate(() => { window.__cv.sent.length = 0; });
+  await B.P.bringToFront();                                              // (a page behind another gets no animation frames here: the listener's is in front)
+  // a line typed out on the listener's screen
+  const L1 = 'I think something is following us... stay close, okay?';
+  await say(A, L1);
+  const done = await until(B.P, t => { const e = [...document.querySelectorAll('#chatLayer .bb-text')].find(x => x.textContent === t); return !!e; }, L1, 15000);
+  const r1 = await recFor(B.P, L1), st1 = await B.P.evaluate(() => window.__chat.state().nearby.bubbles[0] || null);
+  const segs = await B.P.evaluate(t => [0, ...[...new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(t)].map(x => x.index + x.segment.length)], L1);
+  const lens = r1.map(r => r.text.length), mono = lens.every((v, i) => !i || v >= lens[i - 1]), prefixes = r1.every(r => L1.startsWith(r.text) && segs.includes(r.text.length));
+  const mids = new Set(lens.filter(n => n > 0 && n < L1.length)).size, box = new Set(r1.map(r => r.w + 'x' + r.h)).size;
+  const span = r1.length > 1 ? Math.round(r1[r1.length - 1].t - r1[0].t) : 0;
+  check('type_reveals_progressively', ok && !!done && r1.length >= 4 && mids >= 3 && mono && prefixes && lens[lens.length - 1] === L1.length && box === 1 && span >= 1500,
+    JSON.stringify({ writes: r1.length, mids, mono, prefixes, box, span, st: st1 }));
+  if (shots) { await B.P.bringToFront(); await sleep(300); await B.P.screenshot({ path: path.join(shots, 'type_listener.png') }); }
+  const gone = await until(B.P, () => !window.__chat.state().nearby.bubbles.length, null, 12000);
+  const life = st1 ? st1.life : 0;
+  check('type_life_bounded', !!gone && st1 && life >= st1.write + 1800 && life <= 10500, JSON.stringify({ gone: !!gone, life, write: st1 && st1.write }));
+  // screen readers: the whole line, once, never a part
+  const lv = await B.P.evaluate(() => window.__cvLive.slice());
+  const whole = lv.filter(x => x.includes(L1)).length, parts = lv.filter(x => /nearby says: /.test(x) && !x.includes(L1) && L1.startsWith(x.split('nearby says: ')[1] || '\u0000')).length;
+  check('type_screen_reader_once', whole === 1 && !parts, JSON.stringify({ announcements: lv.length, whole, parts }));
+  // graphemes on screen: an emoji family, a flag, a skin tone are never split
+  const L2 = 'ok 👨‍👩‍👧 then 🇯🇵 and 👋🏽 again 👨‍👩‍👧 🇯🇵 👋🏽 done';
+  await sleep(1800); await say(A, L2);
+  await until(B.P, t => [...document.querySelectorAll('#chatLayer .bb-text')].some(x => x.textContent === t), L2, 15000);
+  const r2 = await recFor(B.P, L2), segs2 = await B.P.evaluate(t => [0, ...[...new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(t)].map(x => x.index + x.segment.length)], L2);
+  check('type_graphemes_whole', r2.length >= 2 && r2.every(r => segs2.includes(r.text.length)) && r2[r2.length - 1].text === L2, JSON.stringify({ writes: r2.length, bad: r2.filter(r => !segs2.includes(r.text.length)).map(r => r.text.length) }));
+  // a newer line replaces the last at once
+  await until(B.P, () => !window.__chat.state().nearby.bubbles.length, null, 12000); await sleep(1800);
+  const L3 = 'first line, long enough to be still writing itself out when the next one arrives: it goes on and on through the halls, past the lights and the damp carpet', L4 = 'second line';
+  await say(A, L3); await until(B.P, t => window.__cvType.some(r => (r.text + r.yet) === t), L3, 8000); await sleep(400);
+  await A.P.evaluate(() => window.__chat.open()); await A.P.fill('#sayText', L4); await A.P.press('#sayText', 'Enter');   // (filled at once: typing key by key into a page behind another takes longer than the first line's writing)
+  const rep = await until(B.P, t => { const els = document.querySelectorAll('#chatLayer .bb'); const e = els[0]; return els.length === 1 && e && (e.querySelector('.bb-text').textContent + e.querySelector('.bb-yet').textContent) === t ? { n: els.length } : null; }, L4, 8000);
+  const r3 = await recFor(B.P, L3), cut3 = r3.length ? r3[r3.length - 1].text.length < L3.length : false;
+  check('type_newer_line_replaces', !!rep && cut3, JSON.stringify({ rep, l3WrittenWhenReplaced: r3.length ? r3[r3.length - 1].text.length : null, of: L3.length }));
+  // one 'say' per line left the speaker: no keystroke, no part, no progress
+  const sent = await A.P.evaluate(() => window.__cv.sent.map(m => m.text));
+  check('type_nothing_extra_sent', sent.length === 4 && sent[0] === L1 && sent[1] === L2 && sent[2] === L3 && sent[3] === L4, JSON.stringify(sent.map(t => t.length)));
+  // typed-out speech off (Settings -> Display, saved): the next line whole at once
+  await until(B.P, () => !window.__chat.state().nearby.bubbles.length, null, 12000);
+  await B.P.keyboard.press('Escape'); await until(B.P, () => __api.paused(), null, 4000);
+  await B.P.evaluate(() => window.__ui.go('settings', 'graphics')); await B.P.waitForSelector('#stChatType', { state: 'visible', timeout: 10000 });
+  const sw0 = await B.P.getAttribute('#stChatType', 'aria-checked'); await B.P.click('#stChatType'); await sleep(300);
+  const sw1 = await B.P.getAttribute('#stChatType', 'aria-checked'), saved = await B.P.evaluate(() => JSON.parse(localStorage.getItem('tfb.chat.v1')).type);
+  await B.P.keyboard.press('Escape'); await sleep(300); if (await B.P.evaluate(() => __api.paused())) await B.P.click('#resume').catch(() => { }); await until(B.P, () => !__api.paused(), null, 4000);
+  await B.P.bringToFront();
+  await sleep(1800); const L5 = 'all at once please, no typing here'; await say(A, L5);
+  await until(B.P, t => window.__cvType.some(r => (r.text + r.yet) === t), L5, 8000);
+  const r5 = await recFor(B.P, L5);
+  check('type_instant_option', sw0 === 'true' && sw1 === 'false' && saved === false && r5.length >= 1 && r5[0].text === L5 && r5[0].yet === '', JSON.stringify({ sw0, sw1, saved, first: r5[0] && r5[0].text.length, of: L5.length }));
+  check('type_no_page_errors', !A.errs.length && !B.errs.length, A.errs.concat(B.errs).slice(0, 2).join(' | '));
+  await A.ctx.close(); await B.ctx.close();
+  // reduced motion: whole at once
+  const room2 = 'cvr' + (Date.now() % 100000);
+  const C = await open(b, port, room2), D = await open(b, port, room2, { reduced: true });
+  const ok2 = (await startRun(C, 'CV Calm Speaker')) && (await startRun(D, 'CV Calm Listener')) && (await together(D, C));
+  await D.P.evaluate(TYPE_REC); await D.P.bringToFront();
+  const L6 = 'reduced motion shows this whole line straight away';
+  await say(C, L6); await until(D.P, t => window.__cvType.some(r => (r.text + r.yet) === t), L6, 8000);
+  const r6 = await recFor(D.P, L6);
+  check('type_reduced_motion', ok2 && r6.length >= 1 && r6[0].text === L6 && r6[0].yet === '', JSON.stringify({ first: r6[0] && r6[0].text.length, of: L6.length, rm: await D.P.evaluate(() => document.documentElement.classList.contains('rm')) }));
+  await C.ctx.close(); await D.ctx.close();
+}
 async function icon(b, port, shots) { for (const size of (ARG.sizes || 'wide,hd,phone,side').split(',')) await iconAt(b, port, size, shots); }
 
 async function suite(tree, shots) {
   const S = await serve(tree);
   const b = await pw.chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] });
   try {
-    for (const [n, f] of [['icon', icon], ['keys', keys]]) {
+    for (const [n, f] of [['icon', icon], ['keys', keys], ['type', typed]]) {
       if (!want(n)) continue;
       try { await f(b, S.port, shots); } catch (e) { check(n + '_ran', false, String(e && e.message || e).split('\n')[0].slice(0, 200)); }
       for (const c of b.contexts()) await c.close().catch(() => { });
@@ -258,6 +359,12 @@ const MUTANTS = [
   { name: 'chat remapped as a game key', file: 'assets/ui.js', from: 'T = new Map(); for (const [a] of KB) if (!PAGE.has(a)) for', to: 'T = new Map(); for (const [a] of KB) for', only: 'keys', expect: ['keys_offline_untouched'] },
   { name: 'old saves reset', file: 'assets/ui.js', from: "      if (PAGE.has(a) && !Array.isArray(r.b[a])) continue;", to: '', only: 'keys', expect: ['keys_migration_keeps_saves'] },
   { name: 'the icon keeps its first key', file: 'assets/chat.js', from: "    if (!iconEl) return; const k = chatKeyName(); if (k === iconKey) return; iconKey = k;", to: "    if (!iconEl) return; const k = chatKeyName(); if (iconKey) return; iconKey = k;", only: 'keys', expect: ['keys_icon_follows', 'keys_reset_restores'] },
+  { name: 'whole line at once always', file: 'assets/chat.js', from: 'b.k = typedOut() ? Math.min(1, sch.n) : sch.n; paint(b);', to: 'b.k = sch.n; paint(b);', only: 'type', expect: ['type_reveals_progressively'] },
+  { name: 'reduced motion ignored', file: 'assets/chat.js', from: 'const typedOut = () => S.type && !reduced();', to: 'const typedOut = () => S.type;', only: 'type', expect: ['type_reduced_motion'] },
+  { name: 'code points, not graphemes', file: 'assets/chat.js', from: 'const graphemes = t => segmenter ? Array.from(segmenter.segment(t), x => x.segment) : Array.from(t);', to: 'const graphemes = t => Array.from(t);', only: 'type', expect: ['type_schedule_rules', 'type_graphemes_whole'] },
+  { name: 'no bound on a long line', file: 'assets/chat.js', from: 'const f = n && at[n - 1] > TYPE.MAX ? TYPE.MAX / at[n - 1] : 1;', to: 'const f = 1;', only: 'type', expect: ['type_schedule_rules'] },
+  { name: 'cut off before written', file: 'assets/chat.js', from: 'life: clamp(write + hold, TYPE.LIFE_MIN, TYPE.LIFE_MAX)', to: 'life: TYPE.LIFE_MIN', only: 'type', expect: ['type_schedule_rules', 'type_life_bounded'] },
+  { name: 'pause after every mark', file: 'assets/chat.js', from: "if (next === undefined || /^\\s$/u.test(next)) {", to: 'if (true) {', only: 'type', expect: ['type_schedule_rules'] },
 ];
 async function mutants(work) {
   const res = [];

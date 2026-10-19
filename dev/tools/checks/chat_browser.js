@@ -12,7 +12,7 @@
  *              back on the button; a page that enters a run closes its lounge socket and receives nothing more of it.
  *   nearby_*   two players in one room (and a third in another room): Enter opens the composer only in the run, every held key is
  *              let go, typing walks nobody, Esc closes it without pausing; a line shows as a bubble over the speaker on both screens,
- *              as literal text, and is gone within 5 s; a listener moved off screen (but within 576 px) gets an edge hint pointing
+ *              as literal text (once written out: post-Trial 4 chat polish C3), and is gone within its life (a short line about 3 s); a listener moved off screen (but within 576 px) gets an edge hint pointing
  *              the right way, one moved beyond the radius gets nothing, the other room nothing; hiding speech and muting the
  *              speaker work at once; a speaker who leaves takes its bubble along; the chat icon is shown in the run (and hidden while
  *              the composer is open), and on a phone a tap on it opens the composer (post-Trial 4 chat polish: the icon replaced
@@ -259,7 +259,7 @@ async function nearby(b, port, shots) {
   check('nearby_other_room_nothing', cNone);
   const gone = await until(B.P, id => !window.__chat.state().nearby.bubbles.some(x => x.id === id), pa.id, 9000);
   const goneA = await until(A.P, id => !window.__chat.state().nearby.bubbles.some(x => x.id === id), pa.id, 3000);
-  check('nearby_bubble_bounded', !!gone && !!goneA, `listener ${!!gone}, speaker ${!!goneA} (a bubble lives 3 to 5 s)`);
+  check('nearby_bubble_bounded', !!gone && !!goneA, `listener ${!!gone}, speaker ${!!goneA} (a short line lives 3 s or a little more; a long one at most 10.5 s)`);
   // markup stays text
   await speak(A, XSS);
   const xb = await until(B.P, t => { const e = [...document.querySelectorAll('#chatLayer .bb-text')].find(e => e.textContent === t); return e ? { kids: e.children.length, img: document.querySelectorAll('#chatLayer img').length } : null; }, XSS);
@@ -366,7 +366,7 @@ async function suite(tree, shots) {
 }
 
 const MUTANTS = [
-  { name: 'bubble as HTML', from: "b.txt.textContent = m.text;", to: "b.txt.innerHTML = m.text;", only: 'nearby', expect: ['nearby_markup_literal'] },
+  { name: 'bubble as HTML', from: "b.txt.textContent = b.text.slice(0, cut);", to: "b.txt.innerHTML = b.text.slice(0, cut);", only: 'nearby', expect: ['nearby_markup_literal'] },   // (post-Trial 4 chat polish C3: the written part of a typed-out line)
   { name: 'the composer opens over the pause screen', from: "A.started && A.started() && !A.paused() && !(A.G && A.G.caught) && !overlayOpen());", to: "A.started && A.started() && !(A.G && A.G.caught));", only: 'nearby', expect: ['nearby_not_over_pause'] },
   { name: 'held keys kept', from: "if (A && A.keys && A.keys.clear) A.keys.clear();", to: "", only: 'nearby', expect: ['nearby_composer_opens', 'nearby_typing_walks_nobody'] },
   { name: 'lounge left open in a run', from: "  const inMenu = () => vis('menu') && !(API() && API().started && API().started());", to: "  const inMenu = () => true;", only: 'lounge', expect: ['lounge_closed_in_run'] },

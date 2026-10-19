@@ -29,7 +29,7 @@
   if (window.__chat) return;
   const KEY = 'tfb.chat.v1', MAXCP = 160, LOG_MAX = 80, LIVE_GAP = 2500;
   const S = (() => {                                                     // the saved switches (nothing else is ever saved)
-    const d = { on: true, fold: false, bubbles: true, big: false };
+    const d = { on: true, fold: false, bubbles: true, big: false, type: true };   // (type: post-Trial 4 chat polish C3, typed-out speech)
     let r = null; try { r = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { }
     if (r && r.v === 1) for (const k of Object.keys(d)) if (typeof r[k] === 'boolean') d[k] = r[k];
     return d;
@@ -222,7 +222,45 @@
   }
 
   /* ================================================================ IN LEVEL · NEARBY */
-  const B = new Map();                                                   // speaker id -> its bubble { el, txt, arrow, until, born, w, h, mode, x, y, a }
+  /* typed-out speech (post-Trial 4 chat polish C3).  A line the server accepted and passed on arrives whole, as before; only its bubble
+     writes it out, grapheme by grapheme (Intl.Segmenter: an emoji, a flag or a letter with its accents is one step, never split), at
+     the speaker's pace (C4's speed; 42 ms a grapheme at 100 %), with a pause after a comma, a sentence's end and an ellipsis.  A long
+     line is written faster rather than for longer: the writing never takes more than TYPE.MAX ms.  The whole line then stays for a
+     hold that grows with its length; its life (from arrival to gone) is never under 3 s nor over TYPE.LIFE_MAX ms, and never ends before
+     the writing has finished and been held.  Nothing goes to the server: no keystroke, no part of a line, no progress.
+     The bubble holds the whole line from the start (the part not yet written is laid out but invisible), so its size and line breaks
+     never move while it writes; the page writes to it only when a grapheme more is shown, never every frame.  Reduced motion, or the
+     player's own "typed-out speech: off" (Settings -> Display, or the composer's Options), shows the whole line at once (the same life).
+     Screen readers hear the whole line once, when it arrives (the layer itself is hidden from them). */
+  const TYPE = { STEP: 42, COMMA: 120, STOP: 260, ELLIPSIS: 380, MAX: 6500, HOLD_MIN: 1800, HOLD_PER: 22, HOLD_MAX: 4000, LIFE_MIN: 3000, LIFE_MAX: 10500 };
+  const segmenter = typeof Intl !== 'undefined' && Intl.Segmenter ? new Intl.Segmenter(undefined, { granularity: 'grapheme' }) : null;
+  const graphemes = t => segmenter ? Array.from(segmenter.segment(t), x => x.segment) : Array.from(t);
+  const clamp = (v, a, z) => Math.max(a, Math.min(z, v));
+  function typeSchedule(text, speed) {                                   // speed: percent, 50..200 (100: the default pace)
+    const g = graphemes(text), n = g.length, k = 100 / clamp(+speed || 100, 50, 200), at = new Array(n), off = new Array(n);
+    let t = 0, o = 0;
+    for (let i = 0; i < n; i++) {
+      at[i] = t; o += g[i].length; off[i] = o;
+      let d = TYPE.STEP;
+      const c = g[i], next = g[i + 1];
+      if (next === undefined || /^\s$/u.test(next)) {                    // a pause only where a run of marks ends a word
+        if (c === '\u2026' || (c === '.' && g[i - 1] === '.')) d += TYPE.ELLIPSIS;
+        else if (/^[.!?]$/.test(c)) d += TYPE.STOP;
+        else if (/^[,;:]$/.test(c)) d += TYPE.COMMA;
+      }
+      t += d * k;
+    }
+    const f = n && at[n - 1] > TYPE.MAX ? TYPE.MAX / at[n - 1] : 1;      // a long line is written faster, never for longer
+    if (f < 1) for (let i = 0; i < n; i++) at[i] *= f;
+    const write = n ? at[n - 1] : 0, hold = clamp(TYPE.HOLD_MIN + TYPE.HOLD_PER * n, TYPE.HOLD_MIN, TYPE.HOLD_MAX);
+    return { g, at, off, n, write, life: clamp(write + hold, TYPE.LIFE_MIN, TYPE.LIFE_MAX) };
+  }
+  const typedOut = () => S.type && !reduced();
+  function paint(b) {                                                    // the written part and the rest (invisible, laid out) of a bubble's line
+    const cut = b.k ? b.sch.off[b.k - 1] : 0;
+    b.txt.textContent = b.text.slice(0, cut); b.yet.textContent = b.text.slice(cut);
+  }
+  const B = new Map();                                                   // speaker id -> its bubble { el, txt, yet, arrow, text, sch, k, until, born, w, h, mode, x, y, a }
   const names = new Map(), recent = new Map(), muted = new Set();        // game session ids (this visit only)
   let iconEl = null, iconShown = false, iconKey = '', sendSay = null, layer = null, comp = null, toastEl = null, toastT = 0, epoch = null, heardN = 0, shownN = 0;
   const coarse = matchMedia('(pointer:coarse)');
@@ -252,15 +290,18 @@
     const L0 = ensureLayer();
     let b = B.get(m.id);
     if (!b) {
-      const el = mk('div', own ? 'bb bb-own' : 'bb'), txt = mk('span', 'bb-text'), arrow = mk('i', 'bb-arrow');
-      el.append(txt, arrow); L0.append(el);
-      b = { el, txt, arrow, mode: '', x: NaN, y: NaN, a: NaN }; B.set(m.id, b);
+      const el = mk('div', own ? 'bb bb-own' : 'bb'), line = mk('span', 'bb-line'), txt = mk('span', 'bb-text'), yet = mk('span', 'bb-yet'), arrow = mk('i', 'bb-arrow');
+      line.append(txt, yet); el.append(line, arrow); L0.append(el);
+      b = { el, txt, yet, arrow, mode: '', x: NaN, y: NaN, a: NaN }; B.set(m.id, b);
     }
     // A per-message color is validated and room-scoped by the speech server. Older servers have no 'c'.
     const color = typeof m.c === 'string' && /^#[0-9a-fA-F]{6}$/.test(m.c) ? m.c : '#e3c768';
     b.el.style.setProperty('--bb-accent', color);
-    b.txt.textContent = m.text; b.el.classList.remove('bb-out'); b.el.classList.toggle('bb-big', S.big);
-    const now = performance.now(); b.born = now; b.until = now + Math.max(3000, Math.min(5000, 3000 + 12.5 * cps(m.text))); b.w = 0; shownN++;
+    // (C3) a newer line from the same speaker replaces the last at once: its own schedule from its first grapheme
+    const now = performance.now(), sch = typeSchedule(m.text, 100);
+    b.text = m.text; b.sch = sch; b.k = typedOut() ? Math.min(1, sch.n) : sch.n; paint(b);
+    b.el.classList.remove('bb-out'); b.el.classList.toggle('bb-big', S.big);
+    b.born = now; b.until = now + sch.life; b.w = 0; shownN++;
     if (!own) announce(`${names.get(m.id) || 'Someone'} nearby says: ${m.text}`);
   }
   /* the chat icon (post-Trial 4 chat polish C1): one small speech-bubble button low on the right, on every screen, shown only while
@@ -307,6 +348,11 @@
       if (id === me) { x = f.p.x; y = f.p.y; }
       else { const o = pos.get(id); if (!o || o.d) { b.el.remove(); B.delete(id); continue; } x = o.x; y = o.y; }   // gone, or dead: its words go too
       if (now >= b.until) { b.el.remove(); B.delete(id); continue; }
+      if (b.k < b.sch.n) {                                               // (C3) one grapheme more (or several, after a slow frame): written once
+        let k = b.k; const e = now - b.born;
+        if (!typedOut()) k = b.sch.n; else while (k < b.sch.n && b.sch.at[k] <= e) k++;
+        if (k !== b.k) { b.k = k; paint(b); }
+      }
       b.el.classList.toggle('bb-out', !reduced() && b.until - now < 400);
       const sx = W / 2 + (x - cam.x) * sc, sy = H / 2 + (y - cam.y) * sc;
       const on = sx > M && sx < W - M && sy > M && sy < H - M;
@@ -353,6 +399,7 @@
       const b = e.target && e.target.closest && e.target.closest('button'); if (!b) return;
       if (b.dataset.opt === 'bubbles') { S.bubbles = !S.bubbles; save(); if (!S.bubbles) clearBubbles(); }
       else if (b.dataset.opt === 'big') { S.big = !S.big; save(); for (const x of B.values()) { x.el.classList.toggle('bb-big', S.big); x.w = 0; } render(); }
+      else if (b.dataset.opt === 'type') setPref('type', !S.type);
       else if (b.dataset.mute) { const id = +b.dataset.mute; if (muted.has(id)) muted.delete(id); else { muted.add(id); const x = B.get(id); if (x) { x.el.remove(); B.delete(id); } } }
       renderOptions(); const again = opts.querySelector(`[data-opt="${b.dataset.opt || ''}"]${b.dataset.mute ? `,[data-mute="${b.dataset.mute}"]` : ''}`); if (again) again.focus();
     });
@@ -362,7 +409,8 @@
   function renderOptions() {
     const o = comp.opts; o.textContent = '';
     o.append(mk('button', 'say-opt', `Speech bubbles: ${S.bubbles ? 'shown' : 'hidden'}`, { type: 'button', 'data-opt': 'bubbles', 'aria-pressed': String(S.bubbles) }),
-      mk('button', 'say-opt', `Text size: ${S.big ? 'large' : 'normal'}`, { type: 'button', 'data-opt': 'big', 'aria-pressed': String(S.big) }));
+      mk('button', 'say-opt', `Text size: ${S.big ? 'large' : 'normal'}`, { type: 'button', 'data-opt': 'big', 'aria-pressed': String(S.big) }),
+      mk('button', 'say-opt', `Speech text: ${S.type ? 'typed out' : 'all at once'}`, { type: 'button', 'data-opt': 'type', 'aria-pressed': String(S.type) }));
     const ids = [...recent.keys()].reverse();
     const h = mk('p', 'say-opt-h', ids.length ? 'People you heard (mute for this visit):' : 'Nobody nearby has spoken yet.'); o.append(h);
     for (const id of ids) { const n = names.get(id) || `Wanderer ${id}`, m = muted.has(id); o.append(mk('button', 'say-opt', `${n}: ${m ? 'muted' : 'heard'}`, { type: 'button', 'data-mute': String(id), 'aria-pressed': String(m), 'aria-label': `${m ? 'Unmute' : 'Mute'} ${n}` })); }
@@ -409,16 +457,25 @@
   }, true);
   addEventListener('keypress', e => { if (inChat(e.target)) e.stopImmediatePropagation(); }, true);
 
+  // (C3) a switch set from Settings or the composer's Options: saved, and the bubbles on screen follow it at once
+  function setPref(k, v) {
+    if (k !== 'type') return; S.type = !!v; save();
+    if (!typedOut()) for (const b of B.values()) if (b.k < b.sch.n) { b.k = b.sch.n; paint(b); }
+    if (comp && comp.more.getAttribute('aria-expanded') === 'true') renderOptions();
+  }
+
   /* ---------------------------------------------------------------- wiring */
   window.__chat = {
     link(api) { if (api && typeof api.say === 'function') sendSay = api.say; },   // mp.js's session: its send of {t:'say'}
     net(m, peer) { if (!m) return; if (m.t === 'heard') heard(m, peer); else if (m.t === 'said' && m.ok === 0) toast(why(m)); },
     state: () => ({
       lounge: { state: S.on ? L.state : 'off', id: L.id, online: L.online, lines: lg ? lg.logEl.querySelectorAll('li.lg-line').length : 0, unread: L.unread, muted: L.muted.size, sheet: L.sheet, open: !!L.ws, opens: L.opens, sent: L.sent, got: L.got, wide: wideMQ.matches, folded: S.fold },
-      nearby: { bubbles: [...B].map(([id, b]) => ({ id, mode: b.mode, x: b.x, y: b.y, w: b.w, h: b.h, a: Number.isFinite(b.a) ? +b.a.toFixed(3) : null })), composer: !!comp && !comp.form.hidden, say: iconShown, icon: iconShown, heard: heardN, shown: shownN, muted: muted.size },
+      nearby: { bubbles: [...B].map(([id, b]) => ({ id, mode: b.mode, x: b.x, y: b.y, w: b.w, h: b.h, a: Number.isFinite(b.a) ? +b.a.toFixed(3) : null, shown: b.k, of: b.sch.n, write: Math.round(b.sch.write), life: Math.round(b.until - b.born) })), composer: !!comp && !comp.form.hidden, say: iconShown, icon: iconShown, heard: heardN, shown: shownN, muted: muted.size },
       settings: Object.assign({}, S),
     }),
     open: () => openComposer(),
+    pref: (k, v) => setPref(k, v),                                       // (C3) Settings -> Display's typed-out speech switch
+    typeSchedule,                                                        // (C3) the writing's timing (C4's voice preview uses it)
   };
   window.__chatFrame = frame;
   const start = () => {

@@ -39,7 +39,7 @@ renaming one breaks the others silently.
 | `window.__c` | `assets/index-DKbV5Nv9.js` | - |
 | `window.__cam` | `camcorder.js` | `assets/br-role.js`, `assets/index-DKbV5Nv9.js`, `assets/shadows-2d.js`, `light.js`, `mp.js` |
 | `window.__cameraPolicy` | `camera_policy.js` | `assets/index-DKbV5Nv9.js`, `assets/l0-remaster.js` |
-| `window.__chat` | `assets/chat.js` | `mp.js` |
+| `window.__chat` | `assets/chat.js` | `assets/ui.js`, `mp.js` |
 | `window.__chatFrame` | `assets/chat.js` | `mp.js` |
 | `window.__dcamK` | `dphys.js` | `assets/index-DKbV5Nv9.js` |
 | `window.__deathLight` | `mp.js` | `assets/br-role.js`, `assets/index-DKbV5Nv9.js`, `light.js` |
