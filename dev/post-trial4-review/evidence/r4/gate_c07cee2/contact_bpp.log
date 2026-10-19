@@ -1,0 +1,2 @@
+$ python3 -I -B dev/stage-3d-hq5/contact_lab.py --game /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/p4/final3/gate/game_bpp --variant bpp=/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/p4/final3/gate/game_bpp/assets/br-role.js --scenes geometry,lights,peers --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/p4/final3/gate/contact
+bpp: br-role 1.2-candidate served 136342 (expected 136342); scenes ['geometry', 'lights', 'peers']; page errors 0; BR-RoLE errors 0; 200 s

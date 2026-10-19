@@ -2,7 +2,7 @@
 
 Branch: `post-trial4-review-polish`, created from Trial 4's closed head `518b99021b601963cfe0ee79e9bfd2cccd2f3748` (tree
 `72e60eb7b68a8dc3d2f735599d8ab828fc21691e`), after confirming that the remote head and tree matched.
-Final checkpoint: {{FINAL}}. Checkpoints and receipts: [`CHECKPOINTS.md`](CHECKPOINTS.md), [`evidence/`](evidence/).
+Final checkpoint: **R4**, the commit that adds this report. A commit cannot name its own hash; R4's hash is in its remote receipt and in the handoff. Its game code is R1's (`0542327`). Checkpoints and receipts: [`CHECKPOINTS.md`](CHECKPOINTS.md), [`evidence/`](evidence/).
 
 **Status: review and corrections complete — awaiting the owner's Human QA.** This is a review of Trials 1, 2 and 4, not a feature trial:
 no gameplay was added, no engine work restarted, Trial 3 not started. Nothing merged or deployed; `main`, Stage 3H, B++, the Trials 1–2
@@ -66,7 +66,10 @@ Fixes:
 - `menu_drift.js` now removes exactly the RGB script tag and the label. This was checked: the current page becomes C5d's byte for
   byte, and C5d's page is unchanged by the normalisation.
 
-No check was relaxed.
+The final full gate found a fifth such check: `live_wire` compares the pause button's refused label with B++'s, and
+reported `Spontaneously Combust? · WAIT N S` against `NEW RUN · WAIT N S` while every recorded behaviour was identical. Fixed in R3
+(`dev/stage-3h/golden/live_wire_h2.js`): only the label's leading words are mapped; the refusal's words and every menu state are still
+compared, and a changed refusal message still fails. No check was relaxed.
 
 **M2 — The RGB sliders' layout.** Fixed in R1 (`public/assets/ui.css`).
 - In Customize, the game's `.appearance-fields input` rule (42 px tall, margin, padding, border, field background) also applied to
@@ -136,21 +139,63 @@ bubble accent.
   `getElementById` calls. Negligible; left as is.
 - **No new dependency.** No change to the server's rates, rooms, authority, admin authentication, secrets or deployment.
 
-## What changed (R1, R2)
+## What changed (R1–R4)
 
 See [`CHANGED_FILES.md`](CHANGED_FILES.md) for every file with its reason.
 
 ## Results
 
-{{TESTS}}
+Labels: **PASS** = ran to completion and held; **FAIL** = ran and did not hold; **NOT RUN** = not run here; **WAIVED** = the owner's
+Trial 4 waiver. Everything ran in this cloud workspace: headless Chromium with SwiftShader, Node 22.22.2.
+
+### The final code
+
+The game code is unchanged since R1 `0542327`. R2–R4 change only documents and one development check.
+
+| Check | On | Result |
+|---|---|---|
+| `npm run build` / `npm run build:check` | fresh clones of R2 and R3 | **PASS**: 41 outputs, the manifest matches |
+| Full-tier gate, fast tier (21 steps: build, port, lineage, parts, modules, contracts, docs, scope, goldens, session, sim, page, cli_golden, protocol, mutants, static, raw_live, quick_suites, bundle 9 of 9 scenes, chat 83 of 83 with 13 of 13 mutants) | fresh clone of R2 `a3b508c` | **PASS**, 21 of 21 |
+| cli_mutants (35 of 35), bpp_checks, workflow (22 of 22, browser contracts 8) | R2 | **PASS** |
+| browsers (two_browser, col_head, col_aside, gameplay_smoke) | R2 | **PASS**. gameplay_smoke passed on the gate's own built-in re-run, after its first run's player was killed by a Smiler before the script cleared the monsters |
+| menu: Trial 1's drift against C5d (11 checks) and its 8 mutants | R2 | **PASS**, 11 of 11, 8 of 8 |
+| **chat_browser**: Trial 2 and 4's chat in Chromium, 40 cases including Trial 4's hint and speaker-colour cases, 7 mutants | R2 | **PASS**, 40 of 40, 7 of 7. The first complete browser-suite pass for Trial 4's chat code, as corrected here |
+| **rgb** (new): the RGB sliders, 14 cases and 6 mutants | R2 | **PASS**, 14 of 14, 6 of 6 |
+| live_wire | R2 | **FAIL**: one difference, the renamed button's words (M1). Corrected in R3 |
+| live_wire | fresh clone of R3 `c07cee2` | **PASS**: structurally identical in every phase |
+| contact_lab | R3 | **PASS**: 23 of 23 images identical in pixels |
+| suites | R3 | **PASS**: only the known B++ failures fail |
+| perf | R3 | **PASS**: within the gate's bounds (lifecycle +8.91%, deaths −1.54%, admin −4.24%, schedule +6.26% against B++; noisy here, and no server code changed in this review) |
+
+Every one of the 32 full-tier steps has passed on the final code. They ran as two runs on fresh clones of R2 and R3, because this
+workspace stops a background job after 2 hours. The R2 run reached 29 steps before the stop; the 4 remaining steps (live_wire again,
+contact_lab, suites, perf) ran on R3. The game code of R2, R3 and R4 is identical. Evidence: `evidence/r3/`, `evidence/r4/`.
+
+### Before and after the review
+
+| Check | Trial 4 head `518b990` | This branch |
+|---|---|---|
+| `npm run build:check` | **FAIL**: stale manifest | **PASS** |
+| fast gate | **FAIL**, 18 of 21: build, docs, scope | **PASS**, 21 of 21 |
+| menu step | **FAIL**, 10 of 11: index.html | **PASS**, 11 of 11 |
+| rgb_browser.js | **FAIL**, 2 of 14 | **PASS**, 14 of 14 |
+| chat hook, idle, per frame | 0.117 ms (Trial 2: 0.015) | 0.043 ms |
+| chat_browser, the full gate | **NOT RUN** on 518b990 by this review; **WAIVED** by the owner for Trial 4 | **PASS** (above) |
+
+### Not run, or not covered
+
+- **NOT RUN:** a real GPU, a real phone, a screen reader, a long play session, and cross-browser runs (only Chromium).
+- **NOT RUN:** a release ZIP. None was asked for, and nothing here is to be deployed.
+- The owner's Human QA: **pending** (`HUMAN_QA.md`).
 
 ## Rollback
 
 | To undo | Do |
 |---|---|
 | everything in this review | use `518b990` (`trial-4-rgb-chat-accessibility`, untouched) |
-| the reports only | `git checkout {{R2SHORT}}` (R2) |
-| the docs update | `git checkout 0542327` (R1) |
+| the reports and the last evidence | `git checkout c07cee2` (R3) |
+| the live_wire correction | `git checkout a3b508c` (R2) |
+| the CHAT.md update | `git checkout 0542327` (R1) |
 
 Rollback is by checking out or branching from an earlier commit; no history is rewritten.
 

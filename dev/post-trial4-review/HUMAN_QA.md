@@ -1,6 +1,6 @@
 # Post-Trial 4 review — Human QA for the owner
 
-Commit to test: {{FINAL}} on `post-trial4-review-polish`. To run it, check out the branch and start `node server.js` (Node 18 or
+Commit to test: the head of `post-trial4-review-polish` (R4, the commit that adds this page; its game code is R1's `0542327`). To run it, check out the branch and start `node server.js` (Node 18 or
 later, nothing to install). For the admin tools, set your own `ADMIN_PASSCODE` in the environment; never use the built-in default
 and never write the passcode into notes.
 

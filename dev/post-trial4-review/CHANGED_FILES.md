@@ -25,6 +25,7 @@ and stylesheet, `package.json`, the save keys, the protocol and the network rate
 | `dev/tools/checks/menu_drift.js` | R1 | M1: index.html is compared after removing exactly Trial 4's two page edits (the RGB script tag, the NEW RUN label), as Trial 2's tag already was |
 | `dev/tools/gate/declared_changes.json` | R1 | M1: the source `rgb.js` was wrongly declared as a runtime file; Trial 2's descriptions are restored, with Trial 4's and this review's notes appended |
 | `dev/tools/gate/README.md`, `dev/tools/README.md` | R1 | the new check and step |
+| `dev/stage-3h/golden/live_wire_h2.js` | R3 | M1: the refused label's leading words "Spontaneously Combust?" read as B++'s "NEW RUN"; the refusal's words and every menu state still compared |
 
 ## Documents
 
@@ -33,4 +34,4 @@ and stylesheet, `package.json`, the save keys, the protocol and the network rate
 | `docs/architecture/BUILD_PIPELINE.md`, `CONTRACTS.md`, `FRAMEWORKS.md`, `src/frameworks/front/README.md` | R1 | M1: their generated blocks regenerated (`node dev/tools/docs/docs.js`): Trial 4's `rgb.js` and its use of `window.__settings` |
 | `docs/architecture/CHAT.md` | R2 | M5: the colour field `c` in `say` and `heard`, older pages, the Enter hint and the bubble accent |
 | `README.md` | R1 | L5: what this branch is |
-| `dev/post-trial4-review/` | R1–R3 | this review: `REVIEW_REPORT.md`, `HUMAN_QA.md`, this file, `CHECKPOINTS.md`, `tools/verify_remote_r.py`, `inventory/remote_heads_before.json`, `evidence/` |
+| `dev/post-trial4-review/` | R1–R4 | this review: `REVIEW_REPORT.md`, `HUMAN_QA.md`, this file, `CHECKPOINTS.md`, `tools/verify_remote_r.py`, `inventory/remote_heads_before.json`, `evidence/` |
