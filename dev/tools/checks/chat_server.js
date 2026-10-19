@@ -184,7 +184,7 @@ function unitSpeech(tree) {
   say(sp, { t: 'say', text: 'unit line one', x: 1000, y: 1577, id: 4, room: 'b' });
   const to = new Set(sent.filter(s => s[1].t === 'heard').map(s => s[0]));
   check('unit_speech_recipients', to.has(1) && to.has(2) && to.has(3) && to.has(5) && !to.has(4) && !to.has(6) && !to.has(7) && !to.has(8), [...to].sort().join(','));
-  check('unit_speech_event_shape', sent.filter(s => s[1].t === 'heard').every(s => Object.keys(s[1]).sort().join() === 'c,id,seq,t,text' && s[1].c === '' && s[1].id === 1 && s[1].text === 'unit line one'));
+  check('unit_speech_event_shape', sent.filter(s => s[1].t === 'heard').every(s => Object.keys(s[1]).sort().join() === 'c,id,seq,t,text,v' && s[1].c === '' && s[1].v === null && s[1].id === 1 && s[1].text === 'unit line one'));
   check('unit_speech_hear_constant', S.HEAR === 576, S.HEAR);
   // Trial 4: authenticated speaker color is canonicalized, never client-controlled identity/CSS injection.
   sent.length = 0;
@@ -193,6 +193,26 @@ function unitSpeech(tree) {
   sent.length = 0;
   say(sp, { t: 'say', text: 'bad color unit', c: 'red; background:url(https://bad.invalid)' });
   check('unit_speech_color_rejected', sent.filter(q => q[1].t === 'heard').every(q => q[1].c === ''));
+  // post-Trial 4 chat polish C4: the speaker's voice {p, h, s}: a known preset and whole numbers in range, or null; nothing else passes,
+  // and it changes nobody's hearing (a second speech module with room for many lines from one speaker)
+  const S2 = require(path.join(tree, 'src/frameworks/bpp/server/speech.js'))({ rooms, send, cleanText, limits: { BURST: 1000, REPEAT: 0 } });
+  const say2 = (me, m) => { let h; S2.readerFor((sock, f) => { h = f; return () => { }; })(me.sock, () => { }); h(m); };
+  let vn = 0; const vOf = extra => { sent.length = 0; say2(sp, Object.assign({ t: 'say', text: 'voice unit ' + (++vn) }, extra)); return sent.filter(q => q[1].t === 'heard'); };
+  const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  const good = [[{ p: 'deep', h: -5, s: 70 }], [{ p: 'chime', h: 12, s: 200 }], [{ p: 'static', h: -12, s: 50 }], [{ p: 'classic', h: 0, s: 100 }], [{ p: 'hollow', h: 3, s: 130 }]];
+  check('unit_speech_voice_valid', good.every(([v]) => { const h = vOf({ v }); return h.length && h.every(q => same(q[1].v, v)); }));
+  const D = (p, h, s) => ({ p, h, s });
+  const bad = [[{ p: 'nope', h: 0, s: 100 }, null], [{ p: 'Deep', h: 0, s: 100 }, null], ['deep', null], [['deep', 1, 100], null], [{ h: 1, s: 100 }, null], [{ p: '__proto__' }, null], [{ p: 'toString' }, null], [7, null],
+    [{ p: 'deep', h: 13, s: 100 }, D('deep', 0, 100)], [{ p: 'deep', h: -13, s: 100 }, D('deep', 0, 100)], [{ p: 'deep', h: 2.5, s: 100 }, D('deep', 0, 100)], [{ p: 'deep', h: '3', s: 100 }, D('deep', 0, 100)],
+    [{ p: 'deep', h: 1, s: 49 }, D('deep', 1, 100)], [{ p: 'deep', h: 1, s: 201 }, D('deep', 1, 100)], [{ p: 'deep', h: 1, s: '90' }, D('deep', 1, 100)], [{ p: 'deep', h: 1, s: Infinity }, D('deep', 1, 100)],
+    [{ p: 'deep' }, D('deep', 0, 100)], [{ p: 'deep', h: 1, s: 100, x: '<b>x</b>', id: 999, url: 'https://bad.invalid', audio: 'AAAA' }, D('deep', 1, 100)]];
+  const badOut = bad.map(([v, want]) => { const h = vOf({ v }); return h.length && h.every(q => same(q[1].v, want)) ? null : JSON.stringify(v); }).filter(Boolean);
+  const none = vOf({}); const nul = vOf({ v: null });
+  check('unit_speech_voice_rejected', !badOut.length && none.every(q => q[1].v === null) && nul.every(q => q[1].v === null), badOut.join(' | '));
+  const toV = new Set(vOf({ v: { p: 'deep', h: -5, s: 70 }, x: 1000, y: 1577, id: 4 }).map(q => q[0])), toN = new Set(vOf({}).map(q => q[0]));
+  check('unit_speech_voice_same_hearers', same([...toV].sort(), [...toN].sort()) && same([...toN].sort(), [1, 2, 3, 5]), [...toV].sort().join(','));
+  const page = fs.readFileSync(path.join(tree, 'src/frameworks/front/client/voice.js'), 'utf8'), ids = [...page.matchAll(/^\s*\['([a-z]+)', '[A-Z][a-z]+', '/gm)].map(m => m[1]);
+  check('unit_speech_voice_presets_match_page', same(ids, S2.VOICES) && ids.length === 7, ids.join(',') + ' / ' + S2.VOICES.join(','));
 
   sent.length = 0; say(menu, { t: 'say', text: 'from the menu' });
   check('unit_speech_menu_refused', sent.length === 1 && sent[0][0] === 6 && sent[0][1].t === 'said' && sent[0][1].why === 'menu');
@@ -293,12 +313,18 @@ async function sockSpeech(port) {
   check('sock_speech_outside_none', no.every(c => got(c).length === 0 && heardBy(c).length === 0), no.map(c => heardBy(c).length).join(','));
   check('sock_speech_other_room_none', heardBy(ob).length === 0);
   check('sock_speech_menu_none', heardBy(menu).length === 0);
-  check('sock_speech_event_shape', yes.every(c => got(c).every(m => Object.keys(m).filter(k => k !== '_at').sort().join() === 'c,id,seq,t,text' && m.c === '')));
+  check('sock_speech_event_shape', yes.every(c => got(c).every(m => Object.keys(m).filter(k => k !== '_at').sort().join() === 'c,id,seq,t,text,v' && m.c === '' && m.v === null)));
   // spoofed fields: a position next to the far player, another's id, another room, a name, admin
   const t2 = synth('spoof');
   near.send({ t: 'say', text: t2, x: X + 1500, y: Y, id: far.id, room: RB, n: 'SOMEONE ELSE', name: 'x', admin: true, a: 1 });
   await sleep(600);
   const g2 = c => c.msgs.filter(m => m.t === 'heard' && m.text === t2);
+  // post-Trial 4 chat polish C4: a voice sent with a line reaches every hearer as the speaker's, checked; a bad one as null
+  const tv = synth('voice'); sp.send({ t: 'say', text: tv, v: { p: 'deep', h: -5, s: 70, junk: 'x' } }); await sleep(600);
+  const tw = synth('voicebad'); near.send({ t: 'say', text: tw, v: { p: 'shout', h: 99, s: 1 } }); await sleep(600);
+  const gv = c => c.msgs.filter(m => m.t === 'heard' && m.text === tv), gw = c => c.msgs.filter(m => m.t === 'heard' && m.text === tw);
+  check('sock_speech_voice_passed', yes.every(c => gv(c).length === 1 && JSON.stringify(gv(c)[0].v) === '{"p":"deep","h":-5,"s":70}') && no.every(c => gv(c).length === 0) && gw(sp).length === 1 && gw(sp)[0].v === null,
+    yes.map(c => gv(c).length).join(','));
   check('sock_speech_spoof_ignored', g2(sp).length === 1 && g2(sp)[0].id === near.id && g2(far).length === 0 && g2(ob).length === 0 && g2(near).length === 1, `far ${g2(far).length}, other room ${g2(ob).length}`);
   // the menu speaker
   menu.send({ t: 'say', text: synth('menu') }); const r1 = await menu.next(m => m.t === 'said', 1500);
@@ -506,7 +532,8 @@ const MUTANTS = [
   { name: 'speech rate limit removed', file: 'src/frameworks/bpp/server/speech.js', from: 'if (st.tokens < 1) {', to: 'if (false) {', only: 'sock_speech,unit_speech', expect: ['sock_speech_rate', 'unit_speech_bucket'] },
   { name: 'lounge rate limit removed', file: 'src/frameworks/bpp/server/lounge.js', from: 'if (s.tokens >= 1) { s.tokens -= 1; return true; }', to: 'return true;', only: 'sock_lounge', expect: ['sock_lounge_rate'] },
   { name: 'Origin check removed', file: 'src/frameworks/bpp/server/lounge.js', from: "if (!sameOrigin(req)) return deny(sock, 403, 'Forbidden', 'origin');", to: '', only: 'sock_lounge,unit_lounge', expect: ['sock_lounge_origin', 'unit_lounge_origin'] },
-  { name: 'speaker position sent', file: 'src/frameworks/bpp/server/speech.js', from: "const ev = { t: 'heard', id: me.id, text: c.text, seq: ++seq, c: color };", to: "const ev = { t: 'heard', id: me.id, text: c.text, seq: ++seq, c: color, x: Math.round(p.x), y: Math.round(p.y) };", only: 'sock_speech,unit_speech', expect: ['sock_speech_event_shape', 'unit_speech_event_shape'] },
+  { name: 'speaker position sent', file: 'src/frameworks/bpp/server/speech.js', from: "const ev = { t: 'heard', id: me.id, text: c.text, seq: ++seq, c: color, v: voiceOf(m.v) };", to: "const ev = { t: 'heard', id: me.id, text: c.text, seq: ++seq, c: color, v: voiceOf(m.v), x: Math.round(p.x), y: Math.round(p.y) };", only: 'sock_speech,unit_speech', expect: ['sock_speech_event_shape', 'unit_speech_event_shape'] },
+  { name: 'voice passed on unchecked', file: 'src/frameworks/bpp/server/speech.js', from: "c: color, v: voiceOf(m.v) };", to: "c: color, v: m.v === undefined ? null : m.v };", only: 'sock_speech,unit_speech', expect: ['unit_speech_voice_rejected', 'sock_speech_voice_passed'] },
   { name: 'lounge lines to game sockets', file: 'server.js', from: 'gameUpgrade(req, sock, head);\n});', to: "gameUpgrade(req, sock, head);\n});\n{ const u0 = lounge.upgrade; lounge.upgrade = (req, sock, head) => { const w = sock.write.bind(sock); sock.write = b => { if (Buffer.isBuffer(b) && b[0] === 0x81) for (const r of rooms.values()) for (const c of r.clients.values()) c.sock.write(b); return w(b); }; return u0(req, sock, head); }; }", only: 'sock_lounge', expect: ['sock_lounge_not_on_game'] },
   { name: 'hello not required', file: 'src/frameworks/bpp/server/lounge.js', from: "    if (s.nick === null) return bad();                                   // nothing before hello", to: "    if (s.nick === null) { s.nick = 'x'; members.add(s); }", only: 'sock_lounge,unit_lounge', expect: ['sock_lounge_hello_required', 'unit_lounge_hello_first'] },
 ];

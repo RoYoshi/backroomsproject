@@ -4,9 +4,9 @@
  *                      Its own WebSocket (/social), open only while the main menu is shown (never during a run), closed when the lounge
  *                      is turned off.  Wide screens: a panel at the lower right, foldable to its title.  Smaller screens: a Lounge
  *                      button at the end of the left rail opens it over the menu; Close or Esc puts it away.
- *   IN LEVEL · NEARBY  in a run, online: Enter (or the SAY button on a touch screen) opens a one-line composer; what is said goes to the
+ *   IN LEVEL · NEARBY  in a run, online: the Nearby chat key (Enter by default) or the chat icon opens a one-line composer; what is said goes to the
  *                      server ({t:'say'} through the send mp.js's session links in), which delivers it only to players near the speaker in the same room.
- *                      Each line heard shows as a bubble over its speaker for 3 to 5 s; a speaker off screen gets a small hint at the
+ *                      Each line heard shows as a bubble over its speaker, written out as spoken (and, with voice.js, in the speaker's voice), then held; a speaker off screen gets a small hint at the
  *                      screen's edge pointing their way instead.  No list, no history, no sidebar.
  *
  * Every text is shown with textContent (no markup, no links).  While a chat field has focus, every key goes to it alone: this script is
@@ -256,6 +256,11 @@
     return { g, at, off, n, write, life: clamp(write + hold, TYPE.LIFE_MIN, TYPE.LIFE_MAX) };
   }
   const typedOut = () => S.type && !reduced();
+  /* voices (post-Trial 4 chat polish C4; F.R.O.N.T.'s voice.js): a heard line's voice is the speaker's (m.v, checked by the server),
+     its pace sets the writing's speed, and it speaks along the same schedule whether the bubble shows or not (the listener's voices
+     switch and volume are voice.js's; a muted speaker gets neither bubble nor voice).  This frame hook tells voice.js where each
+     speaker is (quieter with distance, panned to its side) and stops a voice whose speaker has gone, died, or whose world ended. */
+  const VO = () => window.__voice, NONE = [];
   function paint(b) {                                                    // the written part and the rest (invisible, laid out) of a bubble's line
     const cut = b.k ? b.sch.off[b.k - 1] : 0;
     b.txt.textContent = b.text.slice(0, cut); b.yet.textContent = b.text.slice(cut);
@@ -263,7 +268,6 @@
   const B = new Map();                                                   // speaker id -> its bubble { el, txt, yet, arrow, text, sch, k, until, born, w, h, mode, x, y, a }
   const names = new Map(), recent = new Map(), muted = new Set();        // game session ids (this visit only)
   let iconEl = null, iconShown = false, iconKey = '', sendSay = null, layer = null, comp = null, toastEl = null, toastT = 0, epoch = null, heardN = 0, shownN = 0;
-  const coarse = matchMedia('(pointer:coarse)');
   const myGameId = () => { const A = API(); return A && A.H ? A.H.id : null; };
   // (post-Trial 4 review: this runs every frame since the Enter hint; the open-sheet test reads a live list of the sheets instead of
   // searching the whole document with a selector each time - the same answer)
@@ -286,7 +290,10 @@
     const own = m.id === myGameId();
     if (!own && peer && typeof peer.n === 'string') names.set(m.id, peer.n);
     if (!own) { recent.set(m.id, Date.now()); if (recent.size > 8) recent.delete(recent.keys().next().value); if (comp && comp.more.getAttribute('aria-expanded') === 'true') renderOptions(); }
-    if (muted.has(m.id) || !S.bubbles) return;
+    if (muted.has(m.id)) return;                                         // a muted speaker: no bubble, no voice
+    const now = performance.now(), vm = VO() ? VO().meta(m.v) : null, sch = typeSchedule(m.text, vm ? vm.s : 100);
+    if (VO()) VO().say(m.id, m.v, sch, now);                             // (C4) its voice, along the writing's schedule, bubble or not
+    if (!S.bubbles) return;
     const L0 = ensureLayer();
     let b = B.get(m.id);
     if (!b) {
@@ -297,8 +304,7 @@
     // A per-message color is validated and room-scoped by the speech server. Older servers have no 'c'.
     const color = typeof m.c === 'string' && /^#[0-9a-fA-F]{6}$/.test(m.c) ? m.c : '#e3c768';
     b.el.style.setProperty('--bb-accent', color);
-    // (C3) a newer line from the same speaker replaces the last at once: its own schedule from its first grapheme
-    const now = performance.now(), sch = typeSchedule(m.text, 100);
+    // (C3) a newer line from the same speaker replaces the last at once: its own schedule from its first grapheme (C4: at its speed)
     b.text = m.text; b.sch = sch; b.k = typedOut() ? Math.min(1, sch.n) : sch.n; paint(b);
     b.el.classList.remove('bb-out'); b.el.classList.toggle('bb-big', S.big);
     b.born = now; b.until = now + sch.life; b.w = 0; shownN++;
@@ -335,10 +341,11 @@
     if (comp && !comp.form.hidden && !can) closeComposer();
     const showIcon = can && (!comp || comp.form.hidden);
     if (showIcon !== iconShown) { iconShown = showIcon; ensureIcon().hidden = !showIcon; document.body.classList.toggle('chat-icon-on', showIcon); }
-    if (!B.size) return;
+    const vids = VO() ? VO().ids() : NONE;
+    if (!B.size && !vids.length) return;
     const A = API(), N = NET();
     const w = window.__epochDebug ? window.__epochDebug().w : null;
-    if (!f || !f.run || !N || !N.on || !A || !A.started() || (A.G && A.G.caught) || vis('caught') || (epoch !== null && w !== epoch)) { epoch = w; clearBubbles(); return; }
+    if (!f || !f.run || !N || !N.on || !A || !A.started() || (A.G && A.G.caught) || vis('caught') || (epoch !== null && w !== epoch)) { epoch = w; clearBubbles(); if (vids.length) VO().stopAll(); return; }
     epoch = w;
     const now = performance.now(), me = myGameId(), list = window.__peerNet ? window.__peerNet().peers : [], pos = new Map();
     for (const o of list) pos.set(o.id, o);
@@ -346,7 +353,7 @@
     for (const [id, b] of B) {
       let x, y;
       if (id === me) { x = f.p.x; y = f.p.y; }
-      else { const o = pos.get(id); if (!o || o.d) { b.el.remove(); B.delete(id); continue; } x = o.x; y = o.y; }   // gone, or dead: its words go too
+      else { const o = pos.get(id); if (!o || o.d) { b.el.remove(); B.delete(id); if (VO()) VO().stop(id); continue; } x = o.x; y = o.y; }   // gone, or dead: its words go too (and its voice)
       if (now >= b.until) { b.el.remove(); B.delete(id); continue; }
       if (b.k < b.sch.n) {                                               // (C3) one grapheme more (or several, after a slow frame): written once
         let k = b.k; const e = now - b.born;
@@ -370,6 +377,12 @@
       if (px !== b.x || py !== b.y) { b.el.style.transform = `translate3d(${px}px,${py}px,0)`; b.x = px; b.y = py; }
       if (!on && !(Math.abs(ang - b.a) <= .02)) { b.arrow.style.transform = `rotate(${ang.toFixed(3)}rad)`; b.a = ang; }
     }
+    for (const id of vids) {                                             // (C4) each voice: quieter with distance (to 576 px), panned to its side
+      if (id === me) { VO().place(id, 1, 0); continue; }
+      const o = pos.get(id); if (!o || o.d) { VO().stop(id); continue; }
+      const dx = o.x - f.p.x, dy = o.y - f.p.y;
+      VO().place(id, 1 - .55 * Math.min(1, Math.hypot(dx, dy) / 576), dx / 420);
+    }
   }
   // the composer
   function ensureComposer() {
@@ -390,7 +403,7 @@
       if (t && cps(t) > MAXCP) { toast(WHY.long()); return; }
       if (t && typeof sendSay === 'function') {
         const v = window.__settings && window.__settings.get ? window.__settings.get().c : '';
-        sendSay(t, typeof v === 'string' && /^#[0-9a-fA-F]{6}$/.test(v) ? v.toLowerCase() : '');
+        sendSay(t, typeof v === 'string' && /^#[0-9a-fA-F]{6}$/.test(v) ? v.toLowerCase() : '', VO() ? VO().mine() : null);   // (C4) my voice with my line
       }
       closeComposer();
     });
@@ -400,7 +413,8 @@
       if (b.dataset.opt === 'bubbles') { S.bubbles = !S.bubbles; save(); if (!S.bubbles) clearBubbles(); }
       else if (b.dataset.opt === 'big') { S.big = !S.big; save(); for (const x of B.values()) { x.el.classList.toggle('bb-big', S.big); x.w = 0; } render(); }
       else if (b.dataset.opt === 'type') setPref('type', !S.type);
-      else if (b.dataset.mute) { const id = +b.dataset.mute; if (muted.has(id)) muted.delete(id); else { muted.add(id); const x = B.get(id); if (x) { x.el.remove(); B.delete(id); } } }
+      else if (b.dataset.opt === 'voices') { if (VO()) VO().set({ on: !VO().prefs().on }); }
+      else if (b.dataset.mute) { const id = +b.dataset.mute; if (muted.has(id)) muted.delete(id); else { muted.add(id); const x = B.get(id); if (x) { x.el.remove(); B.delete(id); } if (VO()) VO().stop(id); } }
       renderOptions(); const again = opts.querySelector(`[data-opt="${b.dataset.opt || ''}"]${b.dataset.mute ? `,[data-mute="${b.dataset.mute}"]` : ''}`); if (again) again.focus();
     });
     form.addEventListener('focusout', e => { if (!form.contains(e.relatedTarget)) setTimeout(() => { if (!form.contains(document.activeElement)) closeComposer(); }, 0); });
@@ -411,6 +425,7 @@
     o.append(mk('button', 'say-opt', `Speech bubbles: ${S.bubbles ? 'shown' : 'hidden'}`, { type: 'button', 'data-opt': 'bubbles', 'aria-pressed': String(S.bubbles) }),
       mk('button', 'say-opt', `Text size: ${S.big ? 'large' : 'normal'}`, { type: 'button', 'data-opt': 'big', 'aria-pressed': String(S.big) }),
       mk('button', 'say-opt', `Speech text: ${S.type ? 'typed out' : 'all at once'}`, { type: 'button', 'data-opt': 'type', 'aria-pressed': String(S.type) }));
+    if (VO()) { const on = VO().prefs().on; o.append(mk('button', 'say-opt', `Voices: ${on ? 'on' : 'off'}`, { type: 'button', 'data-opt': 'voices', 'aria-pressed': String(on) })); }
     const ids = [...recent.keys()].reverse();
     const h = mk('p', 'say-opt-h', ids.length ? 'People you heard (mute for this visit):' : 'Nobody nearby has spoken yet.'); o.append(h);
     for (const id of ids) { const n = names.get(id) || `Wanderer ${id}`, m = muted.has(id); o.append(mk('button', 'say-opt', `${n}: ${m ? 'muted' : 'heard'}`, { type: 'button', 'data-mute': String(id), 'aria-pressed': String(m), 'aria-label': `${m ? 'Unmute' : 'Mute'} ${n}` })); }

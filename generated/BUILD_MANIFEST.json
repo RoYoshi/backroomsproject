@@ -1,7 +1,7 @@
 {
  "note": "Written by dev/tools/build/build.js. Every built output, its parts in order and their SHA-256. Do not edit: run npm run build.",
  "recipes": "src/build-recipes.json",
- "recipesSha256": "69c60aad2ab81486bd965416c2b07497b0f477072ff038c69acde8dd0c148905",
+ "recipesSha256": "3b096cdd945c3f0b6428bedc978864978a18e4a054bfbf0fe80b7d54efe1b02a",
  "tool": "dev/tools/build/build.js",
  "toolSha256": "6afae04820edaef19a49e8c9f2fe0f99eb8b719976bcd92571ed63b7c7a53f0e",
  "outputs": [
@@ -127,12 +127,24 @@
   },
   {
    "out": "public/assets/chat.js",
-   "bytes": 37908,
-   "sha256": "b5b36a8f3e9347a428290b8d1228f43e9e55b433d65501040be98c0bd1ccbc29",
+   "bytes": 39714,
+   "sha256": "cc29cf1b6563c41c0adb8f9b6aff808c6c6caef69dffbe7677d3b221ab6e1544",
    "parts": [
     {
      "path": "src/frameworks/front/client/chat.js",
-     "sha256": "b5b36a8f3e9347a428290b8d1228f43e9e55b433d65501040be98c0bd1ccbc29",
+     "sha256": "cc29cf1b6563c41c0adb8f9b6aff808c6c6caef69dffbe7677d3b221ab6e1544",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/assets/voice.js",
+   "bytes": 20234,
+   "sha256": "d85d9d0ae8d775f8678838815258b1351912def5d6f340f2a2733d714b395a25",
+   "parts": [
+    {
+     "path": "src/frameworks/front/client/voice.js",
+     "sha256": "d85d9d0ae8d775f8678838815258b1351912def5d6f340f2a2733d714b395a25",
      "headerBytes": 0
     }
    ]
@@ -277,12 +289,12 @@
   },
   {
    "out": "public/assets/ui.js",
-   "bytes": 104156,
-   "sha256": "a6ee664668ff43a17d81e0b8463e2edd7d822ae4d9e075b251f2adad0bf3969f",
+   "bytes": 105291,
+   "sha256": "811d07c18193760fb1cda29f0d327cc5abfe81d7873f86c3f5eecd0b41146e77",
    "parts": [
     {
      "path": "src/frameworks/front/client/ui.js",
-     "sha256": "a6ee664668ff43a17d81e0b8463e2edd7d822ae4d9e075b251f2adad0bf3969f",
+     "sha256": "811d07c18193760fb1cda29f0d327cc5abfe81d7873f86c3f5eecd0b41146e77",
      "headerBytes": 0
     }
    ]
@@ -484,8 +496,8 @@
   },
   {
    "out": "public/mp.js",
-   "bytes": 101035,
-   "sha256": "16a617f7a13c8592dc727488144cb859db27ed412c31ed87a9cd6b99fb0e9a08",
+   "bytes": 101201,
+   "sha256": "f4cb826bcddf01bef89ad9523ecd810816447571c80251c5841cda3142d986cc",
    "parts": [
     {
      "path": "src/core/client/mp.js",
@@ -494,7 +506,7 @@
     },
     {
      "path": "src/frameworks/bpp/client/mp.session.js",
-     "sha256": "69dfce74c8b07ddc946c6ff6c470674d0cc818cb5667479e415148a4b77dacdc",
+     "sha256": "ee9f1186a5a5208ebcea48bcde8e5d40dedd581996f99f05e3ad949dbb897942",
      "headerBytes": 2500
     },
     {

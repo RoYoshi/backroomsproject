@@ -683,6 +683,8 @@
   <h3>Sound</h3><p class="u-note">Headphones recommended. The halls are quiet; footsteps and what moves in the dark carry.</p>
   <div class="us-row"><span>Sound<small>The menu music, the ambience, footsteps, hum and entities.</small></span><button type="button" class="u-switch" role="switch" id="stSound" aria-label="Sound"></button></div>
   <div class="us-row wide"><label class="us-slider"><span>Master volume</span><output id="stVolV"></output><input class="u-range" type="range" id="stVol" min="0" max="100" step="5" aria-label="Master volume"></label></div>
+  <div class="us-row"><span>Wanderer voices<small>The short sounds nearby players' words make as they appear, each in its speaker's own voice. Yours is set in Customize.</small></span><button type="button" class="u-switch" role="switch" id="stVoices" aria-label="Wanderer voices"></button></div>
+  <div class="us-row wide"><label class="us-slider"><span>Voice volume</span><output id="stVoiceVolV"></output><input class="u-range" type="range" id="stVoiceVol" min="0" max="100" step="5" aria-label="Voice volume"></label></div>
 </section>
 <section class="us-page" id="stPage_hud" role="tabpanel" aria-labelledby="stTab_hud" hidden>
   <h3>HUD</h3><p class="u-note">The world is the interface: during play the screen shows stamina only while it changes, and names where you are only as you arrive. The camera and what you can see never change.</p>
@@ -731,6 +733,8 @@
     q('#stColor').addEventListener('input', e => { S() && S().set('c', e.target.value.toLowerCase()); syncSettings(); });
     q('#stHudReset').addEventListener('click', () => { S() && S().reset('hud'); syncSettings(); });
     q('#stLq').addEventListener('click', e => { const b = e.target.closest('[data-lq]'); if (!b) return; setQuality(b.dataset.lq); syncSettings(); });
+    q('#stVoices').addEventListener('click', () => { const V = window.__voice; if (V) V.set({ on: !V.prefs().on }); syncSettings(); });   // (chat polish C4) voice.js keeps them
+    q('#stVoiceVol').addEventListener('input', e => { const V = window.__voice; if (V) V.set({ vol: +e.target.value }); syncSettings(); });
     q('#stChatType').addEventListener('click', () => { const C = window.__chat; if (C && C.pref) C.pref('type', !(C.state().settings.type)); syncSettings(); });   // (chat polish C3) chat.js keeps it
     q('#stRm').addEventListener('click', e => { const b = e.target.closest('[data-rm]'); if (!b || !S()) return; S().set('rm', b.dataset.rm); applyMotion(); syncSettings(); });
     // radio groups: arrow keys move the choice (and the focus) along the group
@@ -769,6 +773,8 @@
     const lq = window.__brRole && __brRole.quality ? __brRole.quality() : '';
     settingsEl.querySelectorAll('[data-lq]').forEach(b => b.setAttribute('aria-checked', b.dataset.lq === lq ? 'true' : 'false'));
     { const C = window.__chat, t = q('#stChatType'); if (t) t.setAttribute('aria-checked', String(!!(C && C.state && C.state().settings.type))); }
+    { const V = window.__voice, p = V ? V.prefs() : { on: false, vol: 0 }, sw = q('#stVoices'), r = q('#stVoiceVol');
+      if (sw) sw.setAttribute('aria-checked', String(!!p.on)); if (r) { r.value = p.vol; rangeFill(r); r.disabled = !p.on; q('#stVoiceVolV').textContent = p.vol + '%'; } }
     const rm = s.rm || 'auto';
     settingsEl.querySelectorAll('[data-rm]').forEach(b => b.setAttribute('aria-checked', b.dataset.rm === rm ? 'true' : 'false'));
     q('#stRmNow').textContent = rm === 'auto' ? (mq.matches ? 'Your device asks for reduced motion, so it is on.' : 'Your device does not ask for reduced motion, so it is off.') : '';

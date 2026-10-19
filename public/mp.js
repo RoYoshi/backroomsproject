@@ -116,7 +116,7 @@ function peerPoses(m) {
 }
 /* post-3H Trial 2: F.R.O.N.T.'s chat.js (loaded before this script) is handed the one way to speak nearby, {t:'say'} on this socket; the
  * server decides who hears it.  window.__net itself is unchanged.  Without chat.js nothing happens. */
-if (window.__chat && window.__chat.link) window.__chat.link({ say: (text, c) => tx({ t: 'say', text: String(text), c: String(c || '') }) });
+if (window.__chat && window.__chat.link) window.__chat.link({ say: (text, c, v) => tx({ t: 'say', text: String(text), c: String(c || ''), v: v && typeof v === 'object' ? { p: String(v.p), h: +v.h, s: +v.s } : undefined }) });   // (post-Trial 4 chat polish C4: v, the speaker's voice; the server checks it)
 window.__peerNet = () => ({ mode: PEER_MODE, fast: fastAck, sendMs: fastAck ? 25 : 50, lastK, counts: Object.assign({}, PN),   // DEV only (tests): what B+ did
   peers: [...peers.values()].map(o => ({ id: o.id, x: +o.x.toFixed(2), y: +o.y.toFixed(2), tx: o.tx, ty: o.ty, a: o.a, ang: o.ang === undefined ? null : +o.ang.toFixed(4), d: o.d })) });
 /* the world epoch: an admin world reset ({t:'world', w, x, y}), or the first snapshot of a world a lone player's new run started.

@@ -25,6 +25,7 @@ The words on screen reflect what the server actually answered.
 | [`client/net-newrun.js`](client/net-newrun.js) | net-newrun.js - the NEW RUN button's words and the run menu's, for the multiplayer layer (mp.js). | `public/assets/net-newrun.js` |
 | [`client/rgb.js`](client/rgb.js) | Trial 4: R/G/B sliders enhance existing color controls; original inputs retain all persistence and network ownership. | `public/assets/rgb.js` |
 | [`client/ui.js`](client/ui.js) | THE FAR BACKROOMS - Stage 3C UI controller (QA1: the main menu rebuilt from the user's rough draft, and its theme; QA2: the | `public/assets/ui.js` |
+| [`client/voice.js`](client/voice.js) | src/frameworks/front/client/voice.js -> public/assets/voice.js - F.R.O.N.T.: the wanderers' voices (post-Trial 4 chat polish C4; | `public/assets/voice.js` |
 <!-- end of generated block -->
 
 A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header.

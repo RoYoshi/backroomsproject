@@ -68,6 +68,12 @@
    ]
   },
   {
+   "out": "public/assets/voice.js",
+   "parts": [
+    "src/frameworks/front/client/voice.js"
+   ]
+  },
+  {
    "out": "public/assets/credits_data.js",
    "parts": [
     "src/frameworks/front/client/credits_data.js"

@@ -22,6 +22,13 @@
  * {t:'say'}, which the session never read (it had no branch for it), and which comes here instead.  The connection's room and record are
  * found once, by its socket, in the rooms' client maps, and checked again at every line (a connection that has left speaks no more).
  *
+ * The speaker's voice (post-Trial 4 chat polish C4; docs/architecture/CHAT.md, "Voices"): a line may carry v = {p, h, s}, the voice its
+ * speaker chose (a preset name, a pitch in semitones, a speed in percent).  It is checked here and passed on with the accepted line as
+ * {p, h, s} or null: p one of VOICES (exactly, nothing else; otherwise the whole voice is null), h a whole number -12..12 (else 0), s a
+ * whole number 50..200 (else 100); every other field of v is dropped.  It decides nothing: who hears, the room, the radius, life, the
+ * rate and the text rules are exactly as without it; the speaker is still the connection, never anything in the packet.  No sound,
+ * no audio and nothing but these three small values travels: each page makes its own chirps (F.R.O.N.T.'s voice.js).
+ *
  * The future-entity contract (docs/architecture/CHAT.md, "onLocallyHeardSpeech"): INERT.  No AI, monster or other module is given these
  * lines; ON_HEARD below is null and nothing assigns it.  Menu lounge lines never come through this module at all.
  *
@@ -30,6 +37,12 @@ module.exports = ({ rooms, send, cleanText, limits }) => {
 // HEAR: px, 6 cells of 96 px (about 1.6 s at the fastest legal motion, 360 px/s).  limits: only the unit checks pass it (server.js never does)
 const { HEAR, BURST, WINDOW, REPEAT, SLOW_BYTES } = Object.assign({ HEAR: 576, BURST: 3, WINDOW: 5000, REPEAT: 3000, SLOW_BYTES: 256 * 1024 }, limits);
 const ON_HEARD = null;                  // the inert future-entity hook (see above): never assigned, never called
+const VOICES = ['classic', 'soft', 'deep', 'electronic', 'static', 'hollow', 'chime'];   // (C4) the page's presets (voice.js), checked equal by chat_server.js
+const whole = (v, a, z, d) => Number.isInteger(v) && v >= a && v <= z ? v : d;
+function voiceOf(v) {                   // (C4) the speaker's voice, checked: {p, h, s} or null
+  if (v === null || typeof v !== 'object' || Array.isArray(v) || typeof v.p !== 'string' || !VOICES.includes(v.p)) return null;
+  return { p: v.p, h: whole(v.h, -12, 12, 0), s: whole(v.s, 50, 200, 100) };
+}
 const conns = new WeakMap();            // socket -> { room, me, tokens, at, slowAt, last, lastAt }
 const stats = { said: 0, heard: 0, refused: {} };
 let seq = 0;
@@ -62,7 +75,7 @@ function say(sock, m) {
   // The color belongs to the authenticated speaker's accepted message. Ignore every client-supplied identity
   // and never interpolate unchecked values into client CSS. Old clients simply get the neutral bubble accent.
   const color = typeof m.c === 'string' && /^#[0-9a-fA-F]{6}$/.test(m.c) ? m.c.toLowerCase() : '';
-  const ev = { t: 'heard', id: me.id, text: c.text, seq: ++seq, c: color };
+  const ev = { t: 'heard', id: me.id, text: c.text, seq: ++seq, c: color, v: voiceOf(m.v) };
   stats.said++;
   const x = p.x, y = p.y;
   for (const o of room.clients.values()) {
@@ -76,5 +89,5 @@ function say(sock, m) {
 }
 const readerFor = reader => (sock, onMessage) => reader(sock, m => (m !== null && typeof m === 'object' && m.t === 'say') ? say(sock, m) : onMessage(m));
 
-return { HEAR, BURST, WINDOW, readerFor, stats: () => JSON.parse(JSON.stringify(stats)), ON_HEARD };
+return { HEAR, BURST, WINDOW, VOICES: VOICES.slice(), readerFor, stats: () => JSON.parse(JSON.stringify(stats)), ON_HEARD };
 };

@@ -32,8 +32,8 @@ unread; it answers pings and closes on a close frame; unparseable frames are dro
 
 | Direction | Message | Meaning |
 |---|---|---|
-| client → server | `{t:'say', text[, c]}` | say one line. Only `text` and (since Trial 4) `c`, the speaker's HUD colour, are read: an `x`, `y`, `room`, `id`, name or admin flag in the packet is ignored |
-| server → listener | `{t:'heard', id, text, seq, c}` | `id`: the speaker's session id (which every client of the room already has, with its position, from the snapshots); `seq`: the server's counter; `c` (Trial 4): the speaker's colour if it was exactly `#RRGGBB` (sent lower-cased), otherwise `''` - never anything that could reach a page's CSS unchecked, and it changes nobody's hearing. No position, room or name is added |
+| client → server | `{t:'say', text[, c][, v]}` | say one line. Only `text`, (since Trial 4) `c`, the speaker's HUD colour, and (since the post-Trial 4 chat polish) `v`, the speaker's voice `{p, h, s}`, are read: an `x`, `y`, `room`, `id`, name or admin flag in the packet is ignored |
+| server → listener | `{t:'heard', id, text, seq, c, v}` | `id`: the speaker's session id (which every client of the room already has, with its position, from the snapshots); `seq`: the server's counter; `c` (Trial 4): the speaker's colour if it was exactly `#RRGGBB` (sent lower-cased), otherwise `''` - never anything that could reach a page's CSS unchecked, and it changes nobody's hearing; `v` (post-Trial 4 chat polish): the speaker's voice as `{p, h, s}` - `p` exactly one of `classic, soft, deep, electronic, static, hollow, chime` (otherwise the whole of `v` is `null`), `h` a whole number -12..12 (else 0), `s` a whole number 50..200 (else 100), every other field dropped - or `null`; it too changes nobody's hearing. No position, room or name is added |
 | server → speaker | `{t:'said', ok:0, why[, wait]}` | refused: `menu` (not in the world), `dead`, `slow` (with `wait`, seconds), `repeat`, `empty`, `long`, `bad`. A line that was accepted comes back to its speaker as `heard` |
 
 **The lounge, on `/social`:**
@@ -156,6 +156,26 @@ connection. **Options** in the composer: speech bubbles shown or hidden, text si
 each one muted or heard (by the server's id for that connection, never by name). A refused line says why for a few seconds (too fast,
 too long, not while dead...). Offline (SOLO), Enter does what it always did.
 
+**Voices** (post-Trial 4 chat polish C4; F.R.O.N.T.'s `voice.js`). Not recorded speech, text-to-speech or voice chat: as a bubble
+writes its line out, the page plays a short synthesized chirp for its letters, digits and emoji (none for a space or a mark, never
+closer than 55 ms, so a fast speaker chirps every other step), in the speaker's own voice. Everything is made in the page with Web Audio:
+one small oscillator, filter and envelope per chirp (a little shared, fixed noise for Static, Soft and Hollow, a second partial for
+Chime); no sound file, library or download, nothing recorded and nothing taken from any game; no audio ever travels. Seven original
+presets: Classic (the default), Soft, Deep, Electronic, Static, Hollow, Chime, each as loud as the others within a factor of two.
+*The speaker owns the voice*: Customize -> Wanderer -> **Voice** (the presets as a radio group, Pitch -12..+12 semitones, Speed 50..200 %,
+Preview - the sample line written out with its chirps, heard even with voices off since it was asked for - and Reset voice), saved as
+`tfb.voice.v1`; each line carries it (`v`, checked by the server, above), and its speed also sets the line's writing pace, so every
+listener hears and reads the speaker's voice, never its own. *The listener owns the hearing*: Settings -> Sound -> **Wanderer voices**
+(on or off) and **Voice volume**, the composer's Options (Voices on or off), the game's master volume and mute, and its own per-speaker
+mutes (a muted speaker gets neither bubble nor voice). Voices do not depend on the text's display: with the bubbles hidden, reduced
+motion or typed-out speech off, a line's voice still follows its (unseen) writing schedule. Timing: a 40 ms timer, running only while a
+voice speaks, schedules what falls in the next 350 ms on the audio clock (a busy page whose timer runs late keeps its voices); a chirp
+already more than 100 ms late is dropped, never played in a burst. So only a few chirps ever wait, and a newer line from the same speaker, a mute, the speaker leaving or dying, or the run
+ending stops them at once. At most two voices speak together (the newest); each is quieter with distance (to 55 % at 576 px) and panned
+to its side; the bus has a compressor (and no chirp's raw peak is over 0.5). A line without `v` (a page from before) speaks in the
+default voice. Text never waits for sound: until the browser allows audio (its autoplay rule), bubbles write as always and the voices
+start after the player's next key or tap.
+
 **Typed-out speech** (post-Trial 4 chat polish C3). The server receives, checks and passes on each line whole, exactly as before;
 nothing about typing ever leaves a page (no keystroke, no part of a line, no progress). Only the bubble writes the line out, one
 grapheme at a time (`Intl.Segmenter`: an emoji, a flag, a skin tone or a letter with its accents is one step, never split) at the
@@ -226,4 +246,9 @@ bubbles that never end).
 (unit cases); the real server driven by raw WebSocket clients (every rule above, positive and negative); and, with `--mutants 1`,
 copies of the server with one deliberate fault each (a cross-room leak, the radius ignored, a spoofed position or id trusted, the menu
 or the dead allowed to speak, dead listeners, the cleaning bypassed, either rate limit removed, the Origin check removed, a position
-added to the event, lounge lines written to game sockets, hello not required), each of which its cases must catch.
+added to the event, lounge lines written to game sockets, hello not required, a voice passed on unchecked), each of which its cases
+must catch.
+
+`node dev/tools/checks/chat_voice_browser.js [--only icon,keys,type,voice] [--mutants 1] [--shots DIR]` (post-Trial 4 chat polish): the
+chat icon, the Nearby chat key, typed-out bubbles and the voices in real pages, as listed in `dev/tools/gate/README.md` (`chat_voice`);
+22 mutants.

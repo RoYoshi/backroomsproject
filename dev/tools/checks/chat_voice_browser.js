@@ -26,7 +26,14 @@
  *             grapheme boundary, never shrinking, the bubble's box unmoved, the whole line at the end and gone within its life; a newer
  *             line replaces the last at once; screen readers get the whole line once and never a part; reduced motion, and Settings ->
  *             Display's typed-out speech switched off (saved), show the whole line at once; one 'say' per line leaves the speaker.
- * (Later sections are added with their checkpoints.)
+ *   voice_*   the wanderers' voices: Customize -> Wanderer -> Voice (seven presets as a radio group, pitch, speed, Preview, Reset voice), a
+ *             choice saved (tfb.voice.v1) and kept after a reload, Reset back to the default; Preview writes its sample line out with
+ *             chirps; every preset rendered offline (an OfflineAudioContext): audible, no peak over 0.5, each its own sound, a lower voice
+ *             lower, an octave up about twice as high, every voice within a factor of two of the default's loudness; two players with different voices: each line carries its speaker's voice (checked
+ *             by the server) and both pages speak it in that voice and at its speed, never the listener's own; the listener's voices
+ *             switch (Settings -> Sound, saved) silences every voice while the bubbles still write; the volume and the game's mute set the
+ *             level; a muted speaker is silent; a newer line stops the last line's waiting chirps; a line without a voice (a page from
+ *             before) speaks in the default voice; reduced motion writes the line at once but the voice still speaks.
  * --mutants 1: copies of the tree's public/ with one fault each; each must fail the cases named for it.
  * Exit 0 only if every case passes (and every mutant is caught).  Servers are stopped by their PIDs. */
 'use strict';
@@ -47,10 +54,10 @@ async function serve(dir) {
   for (let i = 0; i < 150; i++) { if (await get(port, '/index.html') === 200) return { p, port }; await sleep(100); }
   try { process.kill(p.pid); } catch (e) { } throw new Error('no server in ' + dir);
 }
-const TAP = `(() => { const S = window.WebSocket; window.__cv = { game: null, admin: null, unlocked: false, sent: [] };
+const TAP = `(() => { const S = window.WebSocket; window.__cv = { game: null, admin: null, unlocked: false, sent: [], heard: [] };
   window.WebSocket = function (u, p) { const ws = new S(u, p);
     if (/\\/ws(\\?|$)/.test(u)) { window.__cv.game = ws; const send = ws.send.bind(ws); ws.send = d => { try { const m = JSON.parse(d); if (m && m.t === 'say') window.__cv.sent.push(m); } catch (x) { } return send(d); };
-      ws.addEventListener('message', e => { try { const m = JSON.parse(e.data); if (m.ad) window.__cv.admin = m.ad; if (m.t === 'admin' && m.ok) window.__cv.unlocked = true; } catch (x) { } }); }
+      ws.addEventListener('message', e => { try { const m = JSON.parse(e.data); if (m.ad) window.__cv.admin = m.ad; if (m.t === 'admin' && m.ok) window.__cv.unlocked = true; if (m.t === 'heard') window.__cv.heard.push(m); } catch (x) { } }); }
     return ws; };
   window.WebSocket.prototype = S.prototype; Object.assign(window.WebSocket, { OPEN: 1, CLOSED: 3, CONNECTING: 0, CLOSING: 2 }); })();`;
 const SIZES = { wide: { viewport: { width: 1280, height: 720 } }, hd: { viewport: { width: 1920, height: 1080 } }, phone: { mobile: true }, side: { mobile: true, landscape: true } };
@@ -334,13 +341,149 @@ async function typed(b, port, shots) {
   check('type_reduced_motion', ok2 && r6.length >= 1 && r6[0].text === L6 && r6[0].yet === '', JSON.stringify({ first: r6[0] && r6[0].text.length, of: L6.length, rm: await D.P.evaluate(() => document.documentElement.classList.contains('rm')) }));
   await C.ctx.close(); await D.ctx.close();
 }
+/* ================================================================ C4: voices */
+const VSTAT = P => P.evaluate(() => window.__voice.stats());
+const SYNTH = () => (async () => {
+  const V = window.__voice, ids = V.presets().map(p => p[0]), R = { each: {} }, sr = 44100;
+  const render = async (id, semis, salt) => { const c = new OfflineAudioContext(1, Math.round(sr * .4), sr); V.chirp(c, c.destination, .02, id, semis, salt, 1);
+    const d = (await c.startRendering()).getChannelData(0); let pk = 0, sq = 0, zc = 0; for (let i = 0; i < d.length; i++) { const v = d[i]; pk = Math.max(pk, Math.abs(v)); sq += v * v; if (i && (d[i - 1] < 0) !== (v < 0)) zc++; }
+    return { peak: +pk.toFixed(4), rms: +Math.sqrt(sq / d.length).toFixed(5), zc }; };
+  for (const id of ids) R.each[id] = await render(id, 0, 0);
+  R.up = await render('classic', 12, 0); R.down = await render('deep', 0, 0);
+  // two voices at their top level, chirping into one sum 30 ms apart for a second: the raw sum (before the page's compressor)
+  const c = new OfflineAudioContext(1, sr * 1.2, sr); for (let i = 0; i < 30; i++) { V.chirp(c, c.destination, .02 + i * .03, ids[i % ids.length], 12, i, 1); V.chirp(c, c.destination, .035 + i * .03, ids[(i + 3) % ids.length], 0, i, 1); }
+  const d = (await c.startRendering()).getChannelData(0); let pk = 0; for (const v of d) pk = Math.max(pk, Math.abs(v)); R.sumPeak = +pk.toFixed(4);
+  return R; })();
+async function voices(b, port, shots) {
+  // Customize -> Voice: the section, a choice saved and kept, Reset; Preview
+  const s = await open(b, port, 'cvv' + (Date.now() % 10000));
+  await s.P.evaluate(() => window.__ui.go('customize', 'wanderer')); await s.P.waitForSelector('#czVoice', { state: 'visible', timeout: 10000 });
+  const sec = await s.P.evaluate(() => { const f = document.getElementById('czVoice'); const chips = [...f.querySelectorAll('[role=radio][data-voice]')];
+    return { chips: chips.map(c => c.dataset.voice), checked: chips.filter(c => c.getAttribute('aria-checked') === 'true').map(c => c.dataset.voice), group: !!f.querySelector('[role=radiogroup]'),
+      pitch: (document.getElementById('vxPitch') || {}).getAttribute && document.getElementById('vxPitch').getAttribute('aria-label'), speed: document.getElementById('vxSpeed') && document.getElementById('vxSpeed').getAttribute('aria-label'),
+      preview: !!document.getElementById('vxPreview'), reset: document.getElementById('vxReset') && document.getElementById('vxReset').disabled }; });
+  check('voice_customize_section', sec.chips.join() === 'classic,soft,deep,electronic,static,hollow,chime' && sec.checked.join() === 'classic' && sec.group && /pitch/i.test(sec.pitch) && /speed/i.test(sec.speed) && sec.preview && sec.reset === true, JSON.stringify(sec));
+  await s.P.click('[data-voice="deep"]'); await sleep(200);
+  const pi = await s.P.$('#vxPitch'); await pi.scrollIntoViewIfNeeded(); await pi.focus(); for (let i = 0; i < 5; i++) await s.P.keyboard.press('ArrowLeft');
+  const sp = await s.P.$('#vxSpeed'); await sp.focus(); for (let i = 0; i < 3; i++) await s.P.keyboard.press('ArrowLeft');
+  await sleep(300);
+  const saved = await s.P.evaluate(() => JSON.parse(localStorage.getItem('tfb.voice.v1')));
+  if (shots) { await (await s.P.$('#czVoice')).scrollIntoViewIfNeeded(); await sleep(400); await s.P.screenshot({ path: path.join(shots, 'voice_customize.png') }); }
+  // Preview: its sample written out, with chirps
+  const v0 = await VSTAT(s.P); await s.P.click('#vxPreview');
+  const samp = []; for (let i = 0; i < 40; i++) { samp.push(await s.P.evaluate(() => document.querySelector('#vxSample .vx-said').textContent.length)); if (i > 4 && samp[samp.length - 1] === samp[samp.length - 2] && samp[samp.length - 1] > 20) break; await sleep(150); }
+  await sleep(600); const v1 = await VSTAT(s.P), full = await s.P.evaluate(() => document.querySelector('#vxSample .vx-said').textContent);
+  check('voice_preview', v1.previews === v0.previews + 1 && v1.scheduled > v0.scheduled && new Set(samp.filter(n => n > 0)).size >= 3 && /down here/.test(full) && v1.ctx === 'running', JSON.stringify({ chirps: v1.scheduled - v0.scheduled, ctx: v1.ctx, steps: [...new Set(samp)].length, full }));
+  await s.P.reload({ waitUntil: 'commit' }); await s.P.waitForFunction(() => !!window.__voice, null, { timeout: 60000 });
+  for (let i = 0; i < 300; i++) { const st = await s.P.evaluate(() => window.__boot ? __boot.state() : 'menu').catch(() => null); if (st === 'ready') await s.P.keyboard.press('Space'); if (st === 'menu') break; await sleep(100); }
+  const kept = await s.P.evaluate(() => window.__voice.prefs());
+  await s.P.evaluate(() => window.__ui.go('customize', 'wanderer')); await s.P.waitForSelector('#vxReset', { state: 'visible', timeout: 10000 }); await (await s.P.$('#vxReset')).scrollIntoViewIfNeeded(); await s.P.click('#vxReset'); await sleep(200);
+  const back = await s.P.evaluate(() => ({ p: window.__voice.prefs(), checked: document.querySelector('[data-voice][aria-checked=true]').dataset.voice, dis: document.getElementById('vxReset').disabled }));
+  check('voice_customize_saves', saved.preset === 'deep' && saved.pitch === -5 && saved.speed === 70 && kept.preset === 'deep' && kept.pitch === -5 && kept.speed === 70 && back.p.preset === 'classic' && back.p.pitch === 0 && back.p.speed === 100 && back.checked === 'classic' && back.dis,
+    JSON.stringify({ saved, kept: { p: kept.preset, h: kept.pitch, s: kept.speed }, back }));
+  // the section on a phone: inside the screen, nothing sideways, touch-sized chips
+  { const M = await open(b, port, 'cvvp' + (Date.now() % 10000), { mobile: true });
+    await M.P.evaluate(() => window.__ui.go('customize', 'wanderer')); await M.P.waitForSelector('#czVoice', { state: 'attached', timeout: 10000 });
+    await (await M.P.$('#czVoice')).scrollIntoViewIfNeeded(); await sleep(400);
+    const fit = await M.P.evaluate(() => { const f = document.getElementById('czVoice'), r = f.getBoundingClientRect(), kids = [...f.querySelectorAll('button, input, output, .vx-sample')];
+      return { left: Math.round(r.left), right: Math.round(r.right), W: innerWidth, out: kids.filter(k => { const q = k.getBoundingClientRect(); return q.left < -.5 || q.right > innerWidth + .5; }).length,
+        chip: Math.round(Math.min(...[...f.querySelectorAll('[data-voice]')].map(c => c.getBoundingClientRect().height))), scroll: document.scrollingElement.scrollWidth <= innerWidth }; });
+    if (shots) await M.P.screenshot({ path: path.join(shots, 'voice_customize_phone.png') });
+    check('voice_customize_phone_fits', fit.left >= 0 && fit.right <= fit.W && !fit.out && fit.chip >= 40 && fit.scroll, JSON.stringify(fit));
+    await M.ctx.close(); }
+  // every preset, rendered offline
+  const R = await s.P.evaluate(SYNTH), e = R.each, ids = Object.keys(e);
+  // each as loud as the others (within a factor of two of the default's), no peak over 0.5, each its own sound
+  const audible = ids.every(k => e[k].rms > .5 * e.classic.rms && e[k].rms < 2 * e.classic.rms && e[k].peak < .5), distinct = new Set(ids.map(k => e[k].zc + ':' + e[k].rms.toFixed(4))).size === ids.length;
+  const lower = e.deep.zc < e.classic.zc && e.classic.zc < e.chime.zc, octave = R.up.zc / e.classic.zc;
+  check('voice_synthesis_offline', audible && distinct && lower && octave > 1.6 && octave < 2.6 && R.sumPeak < 1, JSON.stringify(R));
+  check('voice_no_page_errors_customize', !s.errs.length, s.errs.slice(0, 2).join(' | '));
+  await s.ctx.close();
+
+  // two wanderers with their own voices
+  const room = 'cvx' + (Date.now() % 100000);
+  const A = await open(b, port, room), B = await open(b, port, room, { viewport: { width: 960, height: 540 } });
+  await A.P.evaluate(() => window.__voice.set({ preset: 'deep', pitch: -5, speed: 70 })); await B.P.evaluate(() => window.__voice.set({ preset: 'soft', pitch: 4, speed: 130 }));
+  const ok = (await startRun(A, 'CV Deep')) && (await startRun(B, 'CV Soft')) && (await together(B, A));
+  const ia = (await pos(A.P)).id, ib = (await pos(B.P)).id;
+  await B.P.bringToFront();
+  const LA = 'deep and slow, this is my own voice talking';
+  const b0 = await VSTAT(B.P); await say(A, LA);
+  const onB = await until(B.P, id => { const s = window.__voice.stats(); const u = s.speaking.find(x => x.id === id); return u ? Object.assign({ scheduled: s.scheduled }, u) : null; }, ia, 8000);
+  const hB = await B.P.evaluate(t => (window.__cv.heard.find(m => m.text === t) || {}).v || null, LA);
+  const bbB = await until(B.P, id => { const x = window.__chat.state().nearby.bubbles.find(q => q.id === id); return x && x.write ? x : null; }, ia, 4000);
+  const wantW = await B.P.evaluate(t => Math.round(window.__chat.typeSchedule(t, 70).write), LA);
+  await sleep(2500); const b1 = await VSTAT(B.P);
+  await A.P.bringToFront(); await sleep(2500);
+  const LB = 'soft and quick, and this one is mine';
+  const a0 = await VSTAT(A.P); await say(B, LB);
+  const onA = await until(A.P, id => { const s = window.__voice.stats(); const u = s.speaking.find(x => x.id === id); return u || null; }, ib, 8000);
+  const hA = await A.P.evaluate(t => (window.__cv.heard.find(m => m.text === t) || {}).v || null, LB);
+  const ownA = await A.P.evaluate(t => (window.__cv.heard.find(m => m.text === t) || {}).v || null, LA);
+  await sleep(2500); const a1 = await VSTAT(A.P);
+  check('voice_multiplayer', ok && !!onB && onB.p === 'deep' && onB.h === -5 && onB.s === 70 && hB && hB.p === 'deep' && hB.h === -5 && hB.s === 70 && !!bbB && Math.abs(bbB.write - wantW) <= 1
+    && !!onA && onA.p === 'soft' && onA.h === 4 && onA.s === 130 && hA && hA.p === 'soft' && ownA && ownA.p === 'deep' && b1.scheduled > b0.scheduled && a1.scheduled > a0.scheduled,
+    JSON.stringify({ onB, hB, write: bbB && bbB.write, wantW, onA, hA, ownA, chirpsB: b1.scheduled - b0.scheduled, chirpsA: a1.scheduled - a0.scheduled, ctx: [b1.ctx, a1.ctx] }));
+  if (shots) { await B.P.bringToFront(); await sleep(300); await B.P.screenshot({ path: path.join(shots, 'voice_listener.png') }); }
+  // the level: the volume and the game's mute (read once it has settled, the page in front: its audio clock runs)
+  await B.P.bringToFront();
+  const lv = await B.P.evaluate(async () => { const V = window.__voice, w = ms => new Promise(r => setTimeout(r, ms)), m = __settings.get().vol;
+    const settle = async want => { let v = V.stats().level; for (let i = 0; i < 40 && Math.abs(v - want) > .01; i++) { await w(100); v = V.stats().level; } return v; };
+    V.set({ vol: 50 }); const half = await settle(.45 * m); V.set({ vol: 100 }); const full = await settle(.9 * m);
+    const Z = __api.audio(); const was = Z.muted; if (!was) Z.toggle(); V.set({ vol: 100 }); const muted = await settle(0); if (!was) Z.toggle(); V.set({ vol: 70 }); await settle(.63 * m);
+    return { master: m, half, full, muted }; });
+  check('voice_level_follows_volume_and_mute', Math.abs(lv.half - .45 * lv.master) < .03 && Math.abs(lv.full - .9 * lv.master) < .03 && lv.muted < .01, JSON.stringify(lv));
+  // a newer line stops the last line's waiting chirps
+  await B.P.bringToFront(); await sleep(2500);
+  const r0 = await VSTAT(B.P);
+  await say(A, 'a first long line that keeps on talking for a good while, on and on through the empty halls and the hum');
+  await until(B.P, id => window.__voice.stats().speaking.some(x => x.id === id && x.chirps >= 3), ia, 8000);
+  await A.P.evaluate(() => window.__chat.open()); await A.P.fill('#sayText', 'and then this one'); await A.P.press('#sayText', 'Enter');
+  const rep2 = await until(B.P, t => window.__cv.heard.some(m => m.text === t), 'and then this one', 8000); await sleep(400);
+  const r1 = await VSTAT(B.P);
+  check('voice_newer_line_stops_old', !!rep2 && r1.stopped > r0.stopped && r1.speaking.filter(x => x.id === ia).length <= 1, JSON.stringify({ stopped: r1.stopped - r0.stopped, chirpsCut: r1.cut - r0.cut }));
+  // the listener's voices off (Settings -> Sound): silent, the bubbles still write; on again
+  await sleep(2500);
+  await B.P.keyboard.press('Escape'); await until(B.P, () => __api.paused(), null, 4000);
+  await B.P.evaluate(() => window.__ui.go('settings', 'sound')); await B.P.waitForSelector('#stVoices', { state: 'visible', timeout: 10000 });
+  await B.P.click('#stVoices'); await sleep(300);
+  const off = await B.P.evaluate(() => ({ aria: document.getElementById('stVoices').getAttribute('aria-checked'), saved: JSON.parse(localStorage.getItem('tfb.voice.v1')).on, vol: document.getElementById('stVoiceVol').disabled }));
+  if (shots) await B.P.screenshot({ path: path.join(shots, 'voice_settings_sound.png') });
+  await B.P.keyboard.press('Escape'); await sleep(300); if (await B.P.evaluate(() => __api.paused())) await B.P.click('#resume').catch(() => { }); await until(B.P, () => !__api.paused(), null, 4000); await B.P.bringToFront();
+  const s0 = await VSTAT(B.P); const LO = 'nobody hears my voice now, only my words'; await say(A, LO);
+  const wrote = await until(B.P, t => [...document.querySelectorAll('#chatLayer .bb-text')].some(e => e.textContent === t), LO, 12000); const s1 = await VSTAT(B.P);
+  check('voice_listener_off', off.aria === 'false' && off.saved === false && off.vol && !!wrote && s1.said === s0.said && s1.scheduled === s0.scheduled && !s1.speaking.length, JSON.stringify({ off, wrote: !!wrote, said: s1.said - s0.said, chirps: s1.scheduled - s0.scheduled }));
+  await B.P.evaluate(() => window.__voice.set({ on: true }));
+  // a muted speaker: no voice (and no bubble)
+  await sleep(2000);
+  await B.P.evaluate(() => window.__chat.open()); await B.P.click('#sayBox .say-more'); const mb = await B.P.$(`#sayOpts [data-mute="${ia}"]`); if (mb) await mb.click(); await B.P.keyboard.press('Escape');
+  const m0 = await VSTAT(B.P); await sleep(1800); const LM = 'you have muted me, so you hear nothing'; await say(A, LM);
+  await until(A.P, t => window.__cv.heard.some(m => m.text === t), LM, 8000); await sleep(1200); const m1 = await VSTAT(B.P);
+  const anyM = await B.P.evaluate(t => [...document.querySelectorAll('#chatLayer .bb-text')].some(e => e.textContent === t), LM);
+  check('voice_muted_speaker_silent', !!mb && m1.said === m0.said && !anyM, JSON.stringify({ mute: !!mb, said: m1.said - m0.said, bubble: anyM }));
+  await B.P.evaluate(() => window.__chat.open()); await B.P.click('#sayBox .say-more'); const ub = await B.P.$(`#sayOpts [data-mute="${ia}"]`); if (ub) await ub.click(); await B.P.keyboard.press('Escape');
+  // a line without a voice (a page from before): the default voice
+  const d0 = await B.P.evaluate(id => { window.__chat.net({ t: 'heard', id, text: 'an old page has no voice to send', seq: 1, c: '' }, null); const u = window.__voice.stats().speaking.find(x => x.id === id); return u || null; }, ia);
+  check('voice_old_line_default_voice', !!d0 && d0.p === 'classic' && d0.h === 0 && d0.s === 100, JSON.stringify(d0));
+  check('voice_no_page_errors_two', !A.errs.length && !B.errs.length, A.errs.concat(B.errs).slice(0, 2).join(' | '));
+  await A.ctx.close(); await B.ctx.close();
+  // reduced motion: the line at once, the voice still speaks
+  const room2 = 'cvq' + (Date.now() % 100000);
+  const C = await open(b, port, room2), D = await open(b, port, room2, { reduced: true });
+  const ok2 = (await startRun(C, 'CV Calm Voice')) && (await startRun(D, 'CV Calm Ear')) && (await together(D, C));
+  await D.P.bringToFront(); const q0 = await VSTAT(D.P); const LR = 'still my voice, though the words come all at once';
+  await say(C, LR); const at = await until(D.P, t => [...document.querySelectorAll('#chatLayer .bb-text')].some(e => e.textContent === t) ? window.__chat.state().nearby.bubbles[0] : null, LR, 8000);
+  await sleep(2500); const q1 = await VSTAT(D.P);
+  check('voice_reduced_motion_still_speaks', ok2 && !!at && at.shown === at.of && q1.scheduled > q0.scheduled, JSON.stringify({ at, chirps: q1.scheduled - q0.scheduled }));
+  await C.ctx.close(); await D.ctx.close();
+}
 async function icon(b, port, shots) { for (const size of (ARG.sizes || 'wide,hd,phone,side').split(',')) await iconAt(b, port, size, shots); }
 
 async function suite(tree, shots) {
   const S = await serve(tree);
   const b = await pw.chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] });
   try {
-    for (const [n, f] of [['icon', icon], ['keys', keys], ['type', typed]]) {
+    for (const [n, f] of [['icon', icon], ['keys', keys], ['type', typed], ['voice', voices]]) {
       if (!want(n)) continue;
       try { await f(b, S.port, shots); } catch (e) { check(n + '_ran', false, String(e && e.message || e).split('\n')[0].slice(0, 200)); }
       for (const c of b.contexts()) await c.close().catch(() => { });
@@ -365,6 +508,13 @@ const MUTANTS = [
   { name: 'no bound on a long line', file: 'assets/chat.js', from: 'const f = n && at[n - 1] > TYPE.MAX ? TYPE.MAX / at[n - 1] : 1;', to: 'const f = 1;', only: 'type', expect: ['type_schedule_rules'] },
   { name: 'cut off before written', file: 'assets/chat.js', from: 'life: clamp(write + hold, TYPE.LIFE_MIN, TYPE.LIFE_MAX)', to: 'life: TYPE.LIFE_MIN', only: 'type', expect: ['type_schedule_rules', 'type_life_bounded'] },
   { name: 'pause after every mark', file: 'assets/chat.js', from: "if (next === undefined || /^\\s$/u.test(next)) {", to: 'if (true) {', only: 'type', expect: ['type_schedule_rules'] },
+  { name: 'the listener\'s own voice', file: 'assets/chat.js', from: 'if (VO()) VO().say(m.id, m.v, sch, now);', to: 'if (VO()) VO().say(m.id, VO().mine(), sch, now);', only: 'voice', expect: ['voice_multiplayer'] },
+  { name: 'voices ignore the switch', file: 'assets/voice.js', from: 'if (!sch || !sch.n || !S.on) return false;', to: 'if (!sch || !sch.n) return false;', only: 'voice', expect: ['voice_listener_off'] },
+  { name: 'a newer line leaves the old chirps', file: 'assets/voice.js', from: '  function say(id, v, sch, at) {                                         // at: the line\'s arrival (performance.now)\n    stop(id);', to: '  function say(id, v, sch, at) {\n    V.delete(id);', only: 'voice', expect: ['voice_newer_line_stops_old'] },
+  { name: 'a line without a voice is silent', file: 'assets/voice.js', from: 'if (!sch || !sch.n || !S.on) return false;', to: 'if (!sch || !sch.n || !S.on || !v) return false;', only: 'voice', expect: ['voice_old_line_default_voice'] },
+  { name: 'pitch ignored', file: 'assets/voice.js', from: 'Math.pow(2, (semis + P.steps[salt % P.steps.length]) / 12)', to: 'Math.pow(2, (P.steps[salt % P.steps.length]) / 12)', only: 'voice', expect: ['voice_synthesis_offline'] },
+  { name: 'one voice far too loud', file: 'assets/voice.js', from: "steps: [0, 2, 4, 5, 7], level: .11 },", to: "steps: [0, 2, 4, 5, 7], level: .66 },", only: 'voice', expect: ['voice_synthesis_offline'] },
+  { name: 'the volume ignored', file: 'assets/voice.js', from: '(S.vol / 100) * master() * .9', to: 'master() * .9', only: 'voice', expect: ['voice_level_follows_volume_and_mute'] },
 ];
 async function mutants(work) {
   const res = [];

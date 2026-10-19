@@ -957,6 +957,18 @@ body:not(.hud-nocoords) .chat-icon{bottom:74px}
    background) reached these sliders in Customize; a slider is drawn as a slider there as in Settings */
 .rgb-channel input[type=range]{height:auto;margin:0;padding:0;border:0;background:none}
 .rgb-channel output{min-width:0;text-align:right;font-variant-numeric:tabular-nums}   /* (post-Trial 4 review: Settings' .us-row output is 44 px wide; the column is 33) */
+
+/* post-Trial 4 chat polish (C4): Customize -> Wanderer -> Voice. The chips are the texture and hat chips; pitch and speed are drawn as
+   the RGB sliders are (the game's field style undone); Preview writes its sample line out as a bubble does. */
+.vx-about{margin:-2px 0 2px;color:var(--u-mute);font:400 11px/1.5 var(--u-mono)}
+.vx-row{display:grid;grid-template-columns:52px minmax(80px,1fr) 44px;align-items:center;gap:10px;margin:0;color:var(--u-cream);font:500 11px/1.4 var(--u-mono)}
+.vx-row input[type=range]{width:100%;min-width:0;height:auto;margin:0;padding:0;border:0;background:none;accent-color:#b5c793;cursor:pointer}
+.vx-row output{text-align:right;color:var(--u-sick-hi);font-variant-numeric:tabular-nums}
+.vx-row:focus-within{color:#f3e7a7}
+.vx-actions{display:flex;flex-wrap:wrap;gap:8px}
+#appearancePanel .vx-actions .u-btn{min-height:38px;width:auto;margin:0;padding:0 14px;font-size:11px}
+.vx-sample{min-height:1.5em;margin:0;padding:7px 10px;border:1px solid var(--u-line);background:#0b0906b5;color:#f6eed9;font:400 12px/1.45 var(--u-mono)}
+.vx-yet{visibility:hidden}
 .rgb-channel:focus-within{color:#f3e7a7}
 
 /* Trial 4: no photosensitive full-screen white/red capture pulse, even when reduced motion is switched off.

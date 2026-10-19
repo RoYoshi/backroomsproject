@@ -226,10 +226,12 @@ function compare(oldL, newL, oldM, newM) {
 /* ---------------------------------------------------------------- the check's own mutants */
 /* index.html less the trials' own authorized edits, each removed exactly (every other byte must still be C5d's): post-3H Trial 2's chat
  * script tag; Trial 4's RGB script tag and the pause dialog's NEW RUN label, "Spontaneously Combust?" (added by the post-Trial 4 review:
- * Trial 4 changed the page without listing its edits here, so this check failed on index.html alone) */
+ * Trial 4 changed the page without listing its edits here, so this check failed on index.html alone); and the chat polish's voices
+ * script tag (post-Trial 4 chat polish C4) */
 function pageAsC5d(t) {
   return t.replace(/<script src="\.\/assets\/chat\.js"><\/script>(<!--[^>]*-->)?\n/, '')
     .replace(/<script src="\.\/assets\/rgb\.js"><\/script>\n/, '')
+    .replace(/<script src="\.\/assets\/voice\.js"><\/script>\n/, '')   // (post-Trial 4 chat polish C4: the voices' script)
     .replace('<button class="secondary" id="reset">Spontaneously Combust?</button>', '<button class="secondary" id="reset">NEW RUN</button>');
 }
 const MUTANTS = [

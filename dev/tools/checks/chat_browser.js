@@ -371,7 +371,7 @@ const MUTANTS = [
   { name: 'held keys kept', from: "if (A && A.keys && A.keys.clear) A.keys.clear();", to: "", only: 'nearby', expect: ['nearby_composer_opens', 'nearby_typing_walks_nobody'] },
   { name: 'lounge left open in a run', from: "  const inMenu = () => vis('menu') && !(API() && API().started && API().started());", to: "  const inMenu = () => true;", only: 'lounge', expect: ['lounge_closed_in_run'] },
   { name: 'no edge hint', from: "const on = sx > M && sx < W - M && sy > M && sy < H - M;", to: "const on = true;", only: 'nearby', expect: ['nearby_offscreen_hint'] },
-  { name: 'mutes ignored', from: "if (muted.has(m.id) || !S.bubbles) return;", to: "if (!S.bubbles) return;", only: 'nearby', expect: ['nearby_hide_and_mute'] },
+  { name: 'mutes ignored', from: "if (muted.has(m.id)) return;", to: "if (false) return;", only: 'nearby', expect: ['nearby_hide_and_mute'] },   // (post-Trial 4 chat polish C4: the muted check now comes before the voice)
   { name: 'bubbles never end', from: "if (now >= b.until) { b.el.remove(); B.delete(id); continue; }", to: "", only: 'nearby', expect: ['nearby_bubble_bounded'] },
 ];
 async function mutants(work) {
