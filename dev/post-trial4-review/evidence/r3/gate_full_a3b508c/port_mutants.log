@@ -1,0 +1,62 @@
+$ node dev/stage-3h-modernization/tools/c4_port_mutants.mjs --rolldown /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/p4/final/gate_full/client_work/repo/src/core/client/game/node_modules/rolldown --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/p4/final/gate_full/port_mutants.json
+SAME      control: an unchanged copy of src/core/client/game/shared/movement.ts (1 config entries)
+CAUGHT  B02-drain: a number: a sprint drains 23.5 stamina a second, not 23
+           #1: #1 function Yc = function step.body[0].else[5].then[0].expression.right.arguments[1].right.left.value: 23 vs 23.5
+CAUGHT  B02-recover: a comparison: >= became >
+           #1: #1 function Yc = function step.body[0].else[3].if.right.operator: ">=" vs ">"
+CAUGHT  B02-and-or: && became ||
+           #1: #1 function Yc = function step.body[0].else[3].if.operator: "&&" vs "||"
+CAUGHT  B02-order: two statements in the other order: the sprint test before the recovery
+           #1: #1 function Yc = function step.body[0].else[3]: If vs Var: {"type":"If","test":{"type":"LogicalExpression","left":{"type":"MemberExpression","object":{"type":"Identifier","name":"H"},"property":{"
+SAME      control: an unchanged copy of src/core/client/game/client/death.ts (1 config entries)
+CAUGHT  B07-hits: a time in the Hound's capture: its third hit 50 ms later
+           #0: #0 var ql = var captureHits.properties[0].value.elements[2].value: 1.2 vs 1.25
+SAME      control: an unchanged copy of src/core/client/game/client/audio.ts (2 config entries)
+CAUGHT  B07-compressor: the capture sound's compressor ratio
+           #0: #0 var nu = class Ambience.body[13].value.body[0].then[6].expression.right.value: 5 vs 6
+SAME      control: an unchanged copy of src/core/client/game/client/arrival.ts (1 config entries)
+CAUGHT  B12-landing: the moment a fall lands
+           Ff=drawArrival: Ff=drawArrival.body[3].then[2].then[1].init.value: 0.62 vs 0.63
+CAUGHT  B12-dropped: a statement dropped: a vanishing wanderer's light would stay drawn
+           Ff=drawArrival: Ff=drawArrival.body[3].then[0].then: 7 items vs 6: [{"type":"Var","kind":"let","id":{"type":"Identifier","name":"v"},"init":{"type":"CallExpression","callee":{"type":"MemberExpression"
+CAUGHT  B12-binding: another variable in scope read (t for p)
+           Ff=drawArrival: Ff=drawArrival.body[3].then[2].then: 3 declarations vs 4: p,k,h | p,landing,t,h
+CAUGHT  B12-arguments: two values swapped: the fall's whoosh sweeps down, not up
+           Ff=drawArrival: Ff=drawArrival.body[3].then[2].then[2].then[1].expression.arguments[0].elements[0].value: 250 vs 1400
+CAUGHT  B12-member: a property's name
+           Ff=drawArrival: Ff=drawArrival.body[3].then[0].then[6].expression.left.property.name: "alpha" vs "visible"
+SAME      control: an unchanged copy of src/core/client/game/shared/vision.ts (1 config entries)
+CAUGHT  B30-mitre: a convex corner's choice of band ends
+           #13: #13 function Hl = function visibilityPolygon.body[24].then[6].body[3].then[0].expression.right.value: 2 vs 1
+SAME      control: an unchanged copy of src/core/client/game/client/main.ts (1 config entries)
+CAUGHT  hud-label: a string: the pace label
+           #64: #64 function Ou0 = function frameBody.body[17].then[6].expression.right.alternate.consequent.alternate.consequent.value: "SPRINTING" vs "SPRINTlNG"
+CAUGHT  loose-equality: === became == with a string: the normal form makes them one only when an operand is a number
+           #54: #54 ExpressionStatement = ExpressionStatement.expression.arguments[1].body[0].then[0].if.operator: "===" vs "=="
+SAME      control: an unchanged copy of src/core/client/game/client/render.ts (2 config entries)
+CAUGHT  corpse-owner: a corpse recorded under the wanderer's name, not its id
+           #0: #0 var tu = class Renderer.body[28].value.body[1].then[0].expression.right.object.arguments[0].properties[0].value.property.name: "id" vs "name"
+SAME      control: an unchanged copy of src/frameworks/lost/shared/level0.json (2 config entries read it)
+CAUGHT  B02-corridor: the level: one corridor a cell longer
+           #7: #7 ExpressionStatement = ExpressionStatement.expression.callee.object.elements[1].elements[3].value: 4 vs 5
+CAUGHT  B02-blackout: the level: the first blackout a second later
+           #19: #19 var V = var lighting.properties[2].value.value: 36 vs 37
+SAME      control: an unchanged copy of src/frameworks/pocket/shared/lights.json (2 config entries read it)
+CAUGHT  B10-B11-headlamp: the headlamp's range
+           #5: #5 var Gc = var LIGHT_SPECS.properties[1].value.properties[1].value.value: 262 vs 263
+SAME      control: an unchanged copy of src/core/client/game/client/style-after-v11.css
+CAUGHT  css-value: a value
+           [0].decls[2][1]: "7px" vs "8px"
+CAUGHT  css-dropped: a declaration dropped
+           [1].decls[0][0]: "min-width" vs "color"
+CAUGHT  css-selector: a selector: a child became a descendant
+           [1].prelude: ".staminaHud>b" vs ".staminaHud b"
+CAUGHT  css-order: two rules in the other order
+           [1].prelude: ".staminaHud>b" vs ".staminaHud i"
+CAUGHT  css-important: !important dropped
+           [10].decls[0][1]: "1!important" vs "1"
+CAUGHT  css-media: an @media rule's condition
+           [113].at: "@media (prefers-reduced-motion:reduce)" vs "@media (prefers-reduced-motion:no-preference)"
+CAUGHT  css-custom-property: a custom property's value
+           [63].decls[0][1]: "#f3e7a7" vs "#f3e7a8"
+PORT MUTANTS: PASS (25 of 25 caught; 10 of 10 controls SAME)

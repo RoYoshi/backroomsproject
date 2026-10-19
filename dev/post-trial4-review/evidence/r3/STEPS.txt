@@ -1,0 +1,25 @@
+Post-Trial 4 review, checkpoint R3 - the final verification of R2 (a3b508c), and the one correction it led to.
+
+1. The full-tier gate on a fresh clone of a3b508c from GitHub (tree 99aa936), packages as in Stage 3H (2026-10-19, started 04:41 UTC)
+   npm run build:check before it: PASS (41 outputs).
+   The run was stopped by this workspace's 2-hour limit for one background job after its 29th step (rgb), so contact_lab, suites and
+   perf did not run in it (they ran on R3's clone instead: STEPS in the next checkpoint's evidence).  Its 29 results
+   (gate_full_a3b508c.log, and each step's own files in gate_full_a3b508c/; the bundle step's frame traces (48 MB) and the copy of C5d's
+   game the menu step serves (69 MB) are left out: both are rebuilt by running the step):
+     PASS  build, port, lineage, parts, modules, contracts, docs, scope, srv_golden, bpp_golden, session, sim, page, cli_golden,
+           protocol, mutants, static, raw_live, quick_suites (only the known B++ failures fail), bundle (9 of 9 scenes, 5 of 5 harness
+           mutants), chat (83 of 83, 13 of 13 mutants)                                                       - the whole fast tier
+     PASS  cli_mutants (35 of 35 seams), bpp_checks, workflow (22 of 22, browser contracts 8), menu (11 of 11 checks, 8 of 8 mutants)
+     PASS  browsers: two_browser, col_head, col_aside, gameplay_smoke - the last after the gate's own one re-run (its first run's
+           player was killed by a Smiler before the script removed the monsters; the gate re-runs that case by design)
+     PASS  chat_browser: 40 of 40 cases (Trial 4's t4_nearby_hint_visible, t4_hint_hides_while_typing and
+           t4_sender_hud_color_not_recipient among them), 7 of 7 mutants - the first complete run of the browser suite on Trial 4's chat
+     PASS  rgb: 14 of 14, 6 of 6 mutants
+     FAIL  live_wire: one structural difference, the pause button's refused label: B++ "NEW RUN · WAIT N S", this branch
+           "Spontaneously Combust? · WAIT N S".  Every behaviour it records was identical (the run menu after the first press, none after
+           the refusal, one after the admin's unlimited press; every phase's message types, keys, counts and peer lists).  This is
+           Trial 4's authorized label, which Trial 4 never told this check about.
+2. The correction (dev/stage-3h/golden/live_wire_h2.js): the label's leading words "Spontaneously Combust?" are read as B++'s
+   "NEW RUN" before the two sides' button states are compared; the refusal's words after it and every menu state are still compared.
+   The same recordings of step 1 compared again with --compare-raw: PASS, "structurally identical in every phase".  The same with the
+   candidate's refusal words changed (WAIT -> HOLD, a scratch copy): FAIL, as it must.

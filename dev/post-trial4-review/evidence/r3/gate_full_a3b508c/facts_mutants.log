@@ -1,0 +1,3 @@
+$ node dev/tools/checks/facts.js --mutants 1 --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/p4/final/gate_full/facts_mutants.json
+PASS    control: every fact as it is (41 facts, 169 copies)
+FACTS MUTANTS: PASS (169 of 169 copies, each changed alone, caught; the control PASS)

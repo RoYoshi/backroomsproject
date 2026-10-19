@@ -191,7 +191,10 @@ function summarize(v) {
     if (k.startsWith('run|')) { if (a && n && JSON.stringify(a.keys) !== JSON.stringify(n.keys)) diffs.push({ at: k, field: 'keys', old: JSON.stringify(a.keys), new: JSON.stringify(n.keys) }); continue; }   // (SPARSE: key sets only, when both saw it)
     for (const f of ['events', 'periodic', 'keys', 'peersSeen']) { const x = JSON.stringify(a && a[f]), y = JSON.stringify(n && n[f]); if (x !== y) diffs.push({ at: k, field: f, old: x, new: y }); }
   }
-  if (JSON.stringify(res.old.ui) !== JSON.stringify(res.new.ui)) diffs.push({ at: 'ui', field: 'NEW RUN button and run menu', old: JSON.stringify(res.old.ui), new: JSON.stringify(res.new.ui) });
+  // (post-Trial 4 review: Trial 4 renamed the button "Spontaneously Combust?", an authorized change of its words only; that one label is
+  // read as B++'s NEW RUN, and what follows it - the refusal's words - and every menu state are still compared)
+  const asBpp = ui => Object.assign({}, ui, { refusedLabel: typeof ui.refusedLabel === 'string' ? ui.refusedLabel.replace(/^Spontaneously Combust\?(?= · |$)/, 'NEW RUN') : ui.refusedLabel });
+  if (JSON.stringify(asBpp(res.old.ui)) !== JSON.stringify(asBpp(res.new.ui))) diffs.push({ at: 'ui', field: 'NEW RUN button and run menu', old: JSON.stringify(res.old.ui), new: JSON.stringify(res.new.ui) });
   const empty = ['old', 'new'].filter(l => !res[l].frames.A || !res[l].frames.B);
   const ok = !diffs.length && !empty.length;
   const report = { tool: 'dev/stage-3h/golden/live_wire_h2.js', comparedAt: new Date().toISOString(), phases: keys, structurallyIdentical: !diffs.length, emptySides: empty, ok, diffs, old: res.old, new: res.new };

@@ -1,0 +1,49 @@
+$ node dev/tools/checks/chat_browser.js --mutants 1 --work /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/p4/final/gate_full/chat_bmut --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/p4/final/gate_full/chat_browser.json --shots /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/p4/final/gate_full/chat_shots
+ok   lounge_online_in_two_rooms - ids 1, 2
+ok   lounge_line_arrives
+ok   lounge_own_line_marked
+ok   lounge_typing_isolated - {"keys":0,"st":"menu","entry":false,"sheets":0,"v":"wasd mcnbzw"}
+ok   lounge_markup_literal - {"kids":0,"img":0}
+ok   lounge_mute - removed true, silent true, back true
+ok   lounge_fold - {"f":true,"body":"none","saved":true}
+ok   lounge_off_closes_socket - off true, count true, on true
+ok   lounge_closed_in_run - run true, closed true
+ok   lounge_no_page_errors - 
+ok   lounge_layout_1920x1080 - {"mine":["lounge"],"clash":[],"scroll":true,"inView":true}
+ok   lounge_layout_1280x720 - {"mine":["lounge"],"clash":[],"scroll":true,"inView":true}
+ok   lounge_layout_1366x768 - {"mine":["lounge"],"clash":[],"scroll":true,"inView":true}
+ok   lounge_layout_390x844 - {"mine":["mmLounge"],"clash":[],"scroll":true,"inView":true}
+ok   lounge_layout_844x390 - {"mine":["mmLounge"],"clash":[],"scroll":true,"inView":true}
+ok   lounge_phone_sheet - [{"panel":"none","btn":"inline-flex"},{"sheet":true,"panel":"flex","focus":"lgText"},{"sheet":false,"focus":"mmLounge","st":"menu"}]
+ok   lounge_phone_no_page_errors - 
+ok   nearby_runs_started
+ok   nearby_spawned_in_one_world - 2990 px apart at spawn
+ok   nearby_listener_placed
+ok   t4_nearby_hint_visible
+ok   nearby_composer_opens - {"c":true,"keys":0,"f":"sayText","why":{"started":true,"paused":false,"caught":false,"on":true,"sheets":0,"shown":[]}}
+ok   t4_hint_hides_while_typing
+ok   nearby_typing_walks_nobody - 0 px; the light on -> on after typing F three times
+ok   nearby_escape_closes_only - {"c":false,"paused":false,"dialog":false}
+ok   nearby_not_over_pause - paused true, composer over it false, resumed true
+ok   nearby_keys_back_after - 43 px
+ok   nearby_bubble_both_screens - {"id":9,"mode":"bb-on","x":357,"y":180,"w":188,"h":33,"a":null}
+ok   t4_sender_hud_color_not_recipient - #8dff9f
+ok   nearby_other_room_nothing
+ok   nearby_bubble_bounded - listener true, speaker true (a bubble lives 3 to 5 s)
+ok   nearby_markup_literal - {"kids":0,"img":0}
+ok   nearby_offscreen_hint - bb-hint, angle off by 0.00 rad, at 390,12
+ok   nearby_beyond_radius_nothing - own bubble true, listener heard 0 more
+ok   nearby_hide_and_mute - [{"shown":3,"any":false},{"any":false,"muted":1},true]
+ok   nearby_leaver_bubble_goes
+ok   nearby_no_page_errors - 
+ok   nearby_phone_say_button - {"c":true,"f":"sayText","keys":0,"top":12}
+ok   nearby_phone_no_page_errors - 
+ok   nearby_reduced_motion - {"rm":true,"tr":"0.01s","an":"none"}
+MUTANT bubble as HTML: caught (nearby_markup_literal)
+MUTANT the composer opens over the pause screen: caught (nearby_not_over_pause, nearby_keys_back_after, nearby_bubble_both_screens, t4_sender_hud_color_not_recipient, nearby_offscreen_hint)
+MUTANT held keys kept: caught (nearby_composer_opens)
+MUTANT lounge left open in a run: caught (lounge_closed_in_run)
+MUTANT no edge hint: caught (nearby_offscreen_hint)
+MUTANT mutes ignored: caught (nearby_hide_and_mute)
+MUTANT bubbles never end: caught (nearby_bubble_bounded)
+CHAT BROWSER: PASS - 40 of 40 cases; mutants 7 of 7 caught (2625 s)
