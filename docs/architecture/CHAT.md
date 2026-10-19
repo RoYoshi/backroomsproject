@@ -32,8 +32,8 @@ unread; it answers pings and closes on a close frame; unparseable frames are dro
 
 | Direction | Message | Meaning |
 |---|---|---|
-| client → server | `{t:'say', text}` | say one line. Only `text` is read: an `x`, `y`, `room`, `id`, name or admin flag in the packet is ignored |
-| server → listener | `{t:'heard', id, text, seq}` | `id`: the speaker's session id (which every client of the room already has, with its position, from the snapshots); `seq`: the server's counter. No position, room or name is added |
+| client → server | `{t:'say', text[, c]}` | say one line. Only `text` and (since Trial 4) `c`, the speaker's HUD colour, are read: an `x`, `y`, `room`, `id`, name or admin flag in the packet is ignored |
+| server → listener | `{t:'heard', id, text, seq, c}` | `id`: the speaker's session id (which every client of the room already has, with its position, from the snapshots); `seq`: the server's counter; `c` (Trial 4): the speaker's colour if it was exactly `#RRGGBB` (sent lower-cased), otherwise `''` - never anything that could reach a page's CSS unchecked, and it changes nobody's hearing. No position, room or name is added |
 | server → speaker | `{t:'said', ok:0, why[, wait]}` | refused: `menu` (not in the world), `dead`, `slow` (with `wait`, seconds), `repeat`, `empty`, `long`, `bad`. A line that was accepted comes back to its speaker as `heard` |
 
 **The lounge, on `/social`:**
@@ -126,7 +126,8 @@ Today `speech.js` holds `ON_HEARD = null`, never assigned and never called (the 
 - **Walls do not block speech.** The radius is the rule (no line-of-sight is invented).
 - **Fragmented frames** are not reassembled by the reader (browsers do not fragment such small messages); a fragment is read as it
   is and fails to parse.
-- **Old clients** (a page loaded before the update) ignore `heard` like any message they do not know, and never send `say`.
+- **Old clients** (a page loaded before the update) ignore `heard` like any message they do not know, and never send `say`. A page from
+  before Trial 4 sends no `c` (its lines get `c: ''`, the neutral accent) and ignores the `c` it receives.
 
 ## The page
 
@@ -154,6 +155,11 @@ way. Bubbles end at once when their speaker leaves, dies or the world resets, an
 connection. **Options** in the composer: speech bubbles shown or hidden, text size normal or large, and the people heard this visit,
 each one muted or heard (by the server's id for that connection, never by name). A refused line says why for a few seconds (too fast,
 too long, not while dead...). Offline (SOLO), Enter does what it always did.
+
+**Trial 4.** On a desktop (a fine pointer), while the composer could open and is closed, a small `ENTER Nearby Chat` hint sits at the
+bottom centre (`#chatKeyHint`; touch screens keep SAY instead). Each bubble's border, tail and edge-hint arrow take the speaker's
+colour as the server passed it (`c`; the neutral `#e3c768` when it is `''`); the text stays cream on the dark bubble. The page sends
+the HUD colour from Settings (`window.__settings`), or `''` while the HUD colour is Default.
 
 **Keys.** While a chat field (or anything inside the lounge or the composer) has focus, chat.js's window capture listener stops each
 keydown and keypress there from reaching the game, the menus or the key remapping (key releases still pass, so nothing stays held); the
