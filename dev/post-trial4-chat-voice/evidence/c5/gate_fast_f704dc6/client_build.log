@@ -1,0 +1,3 @@
+$ node dev/tools/build/client.js --packages /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c1/pkgs/tfb-v11-packages --stage /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/cv/c5/gate_fast/client_stage --work /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/cv/c5/gate_fast/client_work --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/cv/c5/gate_fast/client_build.json
+staged 13 files in /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/cv/c5/gate_fast/client_stage/assets
+toolchain: Node v22.22.2, Version 7.0.2, vite/8.3.1 linux-x64 node-v22.22.2; added 31 packages in 4s

@@ -1,6 +1,7 @@
 # Nearby chat UX and character voices — Human QA for the owner
 
-Test the head of `post-trial4-chat-voice-polish` ({{FINAL}}). Start it with `node server.js` (Node 18 or later, nothing to install).
+Test the head of `post-trial4-chat-voice-polish`: checkpoint C5, the commit that adds this page. Its game code is C4's (`f704dc6`), and its
+hash is in the handoff message. Start it with `node server.js` (Node 18 or later, nothing to install).
 For two players, open two browser windows, or a computer and a phone, with the same `?room=` name, and stand close together.
 Headphones help with the voices. Tick only what you actually saw or heard. Anything you skip stays **NOT CHECKED**.
 

@@ -1,0 +1,1197 @@
+{
+ "tool": "dev/tools/checks/facts.js --mutants",
+ "control": "PASS",
+ "mutants": [
+  {
+   "id": "level0-columns @ src/frameworks/lost/shared/level0.json",
+   "caught": true,
+   "problems": [
+    "level0-columns: src/frameworks/bpp/server/session.js: holds 96, not 97",
+    "level0-columns: src/frameworks/lost/client/mp.glitch.js: holds 96, not 97",
+    "level0-columns: src/frameworks/lost/client/mp.glitch.js: holds 96, not 97"
+   ]
+  },
+  {
+   "id": "level0-columns @ src/frameworks/bpp/server/session.js",
+   "caught": true,
+   "problems": [
+    "level0-columns: src/frameworks/bpp/server/session.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "level0-columns @ src/frameworks/lost/client/mp.glitch.js",
+   "caught": true,
+   "problems": [
+    "level0-columns: src/frameworks/lost/client/mp.glitch.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "level0-columns @ src/frameworks/lost/client/mp.glitch.js",
+   "caught": true,
+   "problems": [
+    "level0-columns: src/frameworks/lost/client/mp.glitch.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "level0-columns @ src/frameworks/pocket/client/mp.cartograph.js",
+   "caught": true,
+   "problems": [
+    "level0-columns: src/frameworks/pocket/client/mp.cartograph.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "level0-columns @ src/frameworks/br-r/client/l0-remaster.js",
+   "caught": true,
+   "problems": [
+    "level0-columns: src/frameworks/br-r/client/l0-remaster.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "level0-columns @ src/frameworks/br-r/client/l0-remaster.js",
+   "caught": true,
+   "problems": [
+    "level0-columns: src/frameworks/br-r/client/l0-remaster.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "level0-rows @ src/frameworks/lost/shared/level0.json",
+   "caught": true,
+   "problems": [
+    "level0-rows: src/frameworks/bpp/server/session.js: holds 72, not 73",
+    "level0-rows: src/frameworks/lost/client/mp.glitch.js: holds 72, not 73",
+    "level0-rows: src/frameworks/lost/client/mp.glitch.js: holds 72, not 73"
+   ]
+  },
+  {
+   "id": "level0-rows @ src/frameworks/bpp/server/session.js",
+   "caught": true,
+   "problems": [
+    "level0-rows: src/frameworks/bpp/server/session.js: holds 82, not 72"
+   ]
+  },
+  {
+   "id": "level0-rows @ src/frameworks/lost/client/mp.glitch.js",
+   "caught": true,
+   "problems": [
+    "level0-rows: src/frameworks/lost/client/mp.glitch.js: holds 82, not 72"
+   ]
+  },
+  {
+   "id": "level0-rows @ src/frameworks/lost/client/mp.glitch.js",
+   "caught": true,
+   "problems": [
+    "level0-rows: src/frameworks/lost/client/mp.glitch.js: holds 82, not 72"
+   ]
+  },
+  {
+   "id": "level0-rows @ src/frameworks/pocket/client/mp.cartograph.js",
+   "caught": true,
+   "problems": [
+    "level0-rows: src/frameworks/pocket/client/mp.cartograph.js: holds 82, not 72"
+   ]
+  },
+  {
+   "id": "level0-rows @ src/frameworks/br-r/client/l0-remaster.js",
+   "caught": true,
+   "problems": [
+    "level0-rows: src/frameworks/br-r/client/l0-remaster.js: holds 82, not 72"
+   ]
+  },
+  {
+   "id": "level0-rows @ src/frameworks/br-r/client/l0-remaster.js",
+   "caught": true,
+   "problems": [
+    "level0-rows: src/frameworks/br-r/client/l0-remaster.js: holds 82, not 72"
+   ]
+  },
+  {
+   "id": "cell-px @ src/core/client/game/shared/world.ts",
+   "caught": true,
+   "problems": [
+    "cell-px: src/core/client/game/shared/world.ts: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/space/shared/world.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/space/shared/world.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/lost/server/sim.level0.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/lost/server/sim.level0.js: 27 matches, not 28"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/nani/server/sim.ai.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/nani/server/sim.ai.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/nani/server/sim.ai.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/nani/server/sim.ai.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/nani/server/ai.geo.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/nani/server/ai.geo.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/nani/server/ai.geo.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/nani/server/ai.geo.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/bpp/server/session.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/bpp/server/session.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/bpp/server/session.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/bpp/server/session.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/br-role/client/br-role.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/br-role/client/br-role.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/br-r/client/l0-remaster.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/br-r/client/l0-remaster.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/lost/client/mp.glitch.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/lost/client/mp.glitch.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/lost/client/mp.glitch.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/lost/client/mp.glitch.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/pocket/client/mp.cartograph.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/pocket/client/mp.cartograph.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/pocket/client/mp.cartograph.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/pocket/client/mp.cartograph.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/space/client/move.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/space/client/move.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/lost/server/sim.glitches.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/lost/server/sim.glitches.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "cell-px @ src/frameworks/lost/server/sim.glitches.js",
+   "caught": true,
+   "problems": [
+    "cell-px: src/frameworks/lost/server/sim.glitches.js: holds 6, not 96"
+   ]
+  },
+  {
+   "id": "path-grid-subdivision @ src/core/client/game/shared/navigation.ts",
+   "caught": true,
+   "problems": [
+    "path-grid-subdivision: src/core/client/game/shared/navigation.ts: holds 3, not 2"
+   ]
+  },
+  {
+   "id": "path-grid-subdivision @ src/core/client/game/shared/navigation.ts",
+   "caught": true,
+   "problems": [
+    "path-grid-subdivision: src/core/client/game/shared/navigation.ts: holds 3, not 2"
+   ]
+  },
+  {
+   "id": "path-grid-subdivision @ src/core/client/game/shared/navigation.ts",
+   "caught": true,
+   "problems": [
+    "path-grid-subdivision: src/core/client/game/shared/navigation.ts: holds 3, not 2"
+   ]
+  },
+  {
+   "id": "path-grid-subdivision @ src/frameworks/lost/server/sim.level0.js",
+   "caught": true,
+   "problems": [
+    "path-grid-subdivision: src/frameworks/lost/server/sim.level0.js: holds 1.6551724137931034, not 2"
+   ]
+  },
+  {
+   "id": "path-grid-subdivision @ src/frameworks/lost/server/sim.level0.js",
+   "caught": true,
+   "problems": [
+    "path-grid-subdivision: src/frameworks/lost/server/sim.level0.js: holds 3, not 2"
+   ]
+  },
+  {
+   "id": "path-grid-subdivision @ src/frameworks/lost/server/sim.level0.js",
+   "caught": true,
+   "problems": [
+    "path-grid-subdivision: src/frameworks/lost/server/sim.level0.js: holds 3, not 2"
+   ]
+  },
+  {
+   "id": "path-clearance @ src/core/client/game/shared/navigation.ts",
+   "caught": true,
+   "problems": [
+    "path-clearance: src/core/client/game/shared/navigation.ts: holds 31, not 21"
+   ]
+  },
+  {
+   "id": "path-clearance @ src/frameworks/lost/server/sim.level0.js",
+   "caught": true,
+   "problems": [
+    "path-clearance: src/frameworks/lost/server/sim.level0.js: holds 31, not 21"
+   ]
+  },
+  {
+   "id": "path-clearance @ src/frameworks/nani/server/ai.hound.js",
+   "caught": true,
+   "problems": [
+    "path-clearance: src/frameworks/nani/server/ai.hound.js: holds 31, not 21"
+   ]
+  },
+  {
+   "id": "path-clearance @ src/frameworks/nani/server/ai.smiler.js",
+   "caught": true,
+   "problems": [
+    "path-clearance: src/frameworks/nani/server/ai.smiler.js: holds 31, not 21"
+   ]
+  },
+  {
+   "id": "level0-rooms-by-index @ src/core/client/game/client/render.ts",
+   "caught": true,
+   "problems": [
+    "level0-rooms-by-index: src/core/client/game/client/render.ts: holds \"DAMP ROOMS\", not \"BLACKOUT ZONE\""
+   ]
+  },
+  {
+   "id": "level0-rooms-by-index @ src/core/client/game/client/render.ts",
+   "caught": true,
+   "problems": [
+    "level0-rooms-by-index: src/core/client/game/client/render.ts: holds \"ARCH GALLERY\", not \"RED ROOMS\""
+   ]
+  },
+  {
+   "id": "level0-rooms-by-index @ src/core/client/game/client/render.ts",
+   "caught": true,
+   "problems": [
+    "level0-rooms-by-index: src/core/client/game/client/render.ts: holds null, not \"DEEP CARPET\""
+   ]
+  },
+  {
+   "id": "level0-rooms-by-index @ src/core/client/game/client/render.ts",
+   "caught": true,
+   "problems": [
+    "level0-rooms-by-index: src/core/client/game/client/render.ts: holds \"RED ROOMS\", not \"DAMP ROOMS\""
+   ]
+  },
+  {
+   "id": "level0-rooms-by-index @ src/core/client/game/client/render.ts",
+   "caught": true,
+   "problems": [
+    "level0-rooms-by-index: src/core/client/game/client/render.ts: holds \"YELLOW HALL\", not \"ARCH GALLERY\""
+   ]
+  },
+  {
+   "id": "level0-rooms-by-index @ src/core/client/game/shared/movement.ts",
+   "caught": true,
+   "problems": [
+    "level0-rooms-by-index: src/core/client/game/shared/movement.ts: holds null, not \"DEEP CARPET\""
+   ]
+  },
+  {
+   "id": "level0-rooms-by-index @ src/frameworks/space/client/move.js",
+   "caught": true,
+   "problems": [
+    "level0-rooms-by-index: src/frameworks/space/client/move.js: holds null, not \"DEEP CARPET\""
+   ]
+  },
+  {
+   "id": "level0-rooms-by-index @ src/frameworks/lost/shared/world.lamps.js",
+   "caught": true,
+   "problems": [
+    "level0-rooms-by-index: src/frameworks/lost/shared/world.lamps.js: holds \"DAMP ROOMS\", not \"BLACKOUT ZONE\""
+   ]
+  },
+  {
+   "id": "level0-room-names @ src/frameworks/lost/shared/level0.json",
+   "caught": true,
+   "problems": [
+    "level0-rooms-by-index: src/core/client/game/client/render.ts: holds \"DAMP ROOMZ\", not \"DAMP ROOMS\"",
+    "level0-room-names: src/frameworks/br-role/client/br-role.js: holds [\"DEEP CARPET\",\"RED ROOMS\",\"LONG ROOM\",\"DAMP ROOMS\"], not within [\"YELLOW HALL\",\"REPEATING ROOMS\",\"SEGMENTED ROOMS\",\"HUMMING ROOMS\",\"NORTH ROOMS\",\"LONG ROOM\",\"BLACKOUT ZONE\",\"DAMP ROOMZ\",\"RED ROOMS\",\"ARCH GALLERY\",\"PILLAR HAL",
+    "level0-room-names: src/frameworks/lost/shared/world.lamps.js: holds [\"DAMP ROOMS\"], not within [\"YELLOW HALL\",\"REPEATING ROOMS\",\"SEGMENTED ROOMS\",\"HUMMING ROOMS\",\"NORTH ROOMS\",\"LONG ROOM\",\"BLACKOUT ZONE\",\"DAMP ROOMZ\",\"RED ROOMS\",\"ARCH GALLERY\",\"PILLAR HAL"
+   ]
+  },
+  {
+   "id": "level0-room-names @ src/frameworks/br-role/client/br-role.js",
+   "caught": true,
+   "problems": [
+    "level0-room-names: src/frameworks/br-role/client/br-role.js: holds [\"Q\",\"ARCH GALLERY\",\"RED ROOMS\"], not within [\"YELLOW HALL\",\"REPEATING ROOMS\",\"SEGMENTED ROOMS\",\"HUMMING ROOMS\",\"NORTH ROOMS\",\"LONG ROOM\",\"BLACKOUT ZONE\",\"DAMP ROOMS\",\"RED ROOMS\",\"ARCH GALLERY\",\"PILLAR HAL"
+   ]
+  },
+  {
+   "id": "level0-room-names @ src/frameworks/br-role/client/br-role.js",
+   "caught": true,
+   "problems": [
+    "level0-room-names: src/frameworks/br-role/client/br-role.js: holds [\"Q\",\"DEEP CARPET\",\"RED ROOMS\",\"LONG ROOM\",\"DAMP ROOMS\"], not within [\"YELLOW HALL\",\"REPEATING ROOMS\",\"SEGMENTED ROOMS\",\"HUMMING ROOMS\",\"NORTH ROOMS\",\"LONG ROOM\",\"BLACKOUT ZONE\",\"DAMP ROOMS\",\"RED ROOMS\",\"ARCH GALLERY\",\"PILLAR HAL"
+   ]
+  },
+  {
+   "id": "level0-room-names @ src/frameworks/lost/shared/world.lamps.js",
+   "caught": true,
+   "problems": [
+    "level0-room-names: src/frameworks/lost/shared/world.lamps.js: holds [\"DAMP ROOMSQ\"], not within [\"YELLOW HALL\",\"REPEATING ROOMS\",\"SEGMENTED ROOMS\",\"HUMMING ROOMS\",\"NORTH ROOMS\",\"LONG ROOM\",\"BLACKOUT ZONE\",\"DAMP ROOMS\",\"RED ROOMS\",\"ARCH GALLERY\",\"PILLAR HAL"
+   ]
+  },
+  {
+   "id": "level0-room-names @ src/frameworks/lost/shared/world.surfaces.js",
+   "caught": true,
+   "problems": [
+    "level0-room-names: src/frameworks/lost/shared/world.surfaces.js: holds \"DAMP ROOMSQ\", not within [\"YELLOW HALL\",\"REPEATING ROOMS\",\"SEGMENTED ROOMS\",\"HUMMING ROOMS\",\"NORTH ROOMS\",\"LONG ROOM\",\"BLACKOUT ZONE\",\"DAMP ROOMS\",\"RED ROOMS\",\"ARCH GALLERY\",\"PILLAR HAL"
+   ]
+  },
+  {
+   "id": "level0-room-names @ src/core/client/game/client/main.ts",
+   "caught": true,
+   "problems": [
+    "level0-room-names: src/core/client/game/client/main.ts: holds \"DAMP ROOMSQ\", not within [\"YELLOW HALL\",\"REPEATING ROOMS\",\"SEGMENTED ROOMS\",\"HUMMING ROOMS\",\"NORTH ROOMS\",\"LONG ROOM\",\"BLACKOUT ZONE\",\"DAMP ROOMS\",\"RED ROOMS\",\"ARCH GALLERY\",\"PILLAR HAL"
+   ]
+  },
+  {
+   "id": "level0-room-codes @ src/frameworks/lost/shared/level0.json",
+   "caught": true,
+   "problems": [
+    "level0-room-codes: src/frameworks/lost/client/level0_visuals.js: holds \"01:YELLOW HALL\", not within [\"01:YELLOW HALLQ\",\"02:REPEATING ROOMS\",\"03:SEGMENTED ROOMS\",\"04:HUMMING ROOMS\",\"05:NORTH ROOMS\",\"06:LONG ROOM\",\"07:BLACKOUT ZONE\",\"08:DAMP ROOMS\",\"09:RED ROOMS"
+   ]
+  },
+  {
+   "id": "level0-room-codes @ src/frameworks/lost/client/level0_visuals.js",
+   "caught": true,
+   "problems": [
+    "level0-room-codes: src/frameworks/lost/client/level0_visuals.js: holds \"01:YELLOW HALLQ\", not within [\"01:YELLOW HALL\",\"02:REPEATING ROOMS\",\"03:SEGMENTED ROOMS\",\"04:HUMMING ROOMS\",\"05:NORTH ROOMS\",\"06:LONG ROOM\",\"07:BLACKOUT ZONE\",\"08:DAMP ROOMS\",\"09:RED ROOMS\""
+   ]
+  },
+  {
+   "id": "light-kinds @ src/frameworks/pocket/shared/lights.json",
+   "caught": true,
+   "problems": [
+    "light-kinds: src/frameworks/ward/server/fields.js: holds [\"flashlight\",\"headlamp\",\"lantern\",\"camcorder\"], not [\"flashlightQ\",\"headlamp\",\"lantern\",\"camcorder\"]",
+    "light-kinds: src/core/client/game/shared/equipment.ts: holds [\"flashlight\",\"headlamp\",\"lantern\",\"camcorder\"], not [\"flashlightQ\",\"headlamp\",\"lantern\",\"camcorder\"]"
+   ]
+  },
+  {
+   "id": "light-kinds @ src/frameworks/ward/server/fields.js",
+   "caught": true,
+   "problems": [
+    "light-kinds: src/frameworks/ward/server/fields.js: holds [\"Qflashlight\",\"headlamp\",\"lantern\",\"camcorder\"], not [\"flashlight\",\"headlamp\",\"lantern\",\"camcorder\"]"
+   ]
+  },
+  {
+   "id": "light-kinds @ src/core/client/game/shared/equipment.ts",
+   "caught": true,
+   "problems": [
+    "light-kinds: src/core/client/game/shared/equipment.ts: holds [\"Qflashlight\",\"headlamp\",\"lantern\",\"camcorder\"], not [\"flashlight\",\"headlamp\",\"lantern\",\"camcorder\"]"
+   ]
+  },
+  {
+   "id": "hats @ src/frameworks/ward/server/fields.js",
+   "caught": true,
+   "problems": [
+    "hats: src/frameworks/ward/server/fields.js: holds [\"Qnone\",\"cap\",\"beanie\",\"hardhat\"], not [\"none\",\"cap\",\"beanie\",\"hardhat\"]"
+   ]
+  },
+  {
+   "id": "hats @ src/core/client/game/client/appearance.ts",
+   "caught": true,
+   "problems": [
+    "hats: src/core/client/game/client/appearance.ts: holds [\"Qnone\",\"cap\",\"beanie\",\"hardhat\"], not [\"none\",\"cap\",\"beanie\",\"hardhat\"]"
+   ]
+  },
+  {
+   "id": "textures @ src/frameworks/ward/server/fields.js",
+   "caught": true,
+   "problems": [
+    "textures: src/frameworks/ward/server/fields.js: holds [\"Qplain\",\"freckles\",\"stripes\",\"patched\"], not [\"plain\",\"freckles\",\"stripes\",\"patched\"]"
+   ]
+  },
+  {
+   "id": "textures @ src/core/client/game/client/appearance.ts",
+   "caught": true,
+   "problems": [
+    "textures: src/core/client/game/client/appearance.ts: holds [\"Qplain\",\"freckles\",\"stripes\",\"patched\"], not [\"plain\",\"freckles\",\"stripes\",\"patched\"]"
+   ]
+  },
+  {
+   "id": "backpacks @ src/frameworks/ward/server/fields.js",
+   "caught": true,
+   "problems": [
+    "backpacks: src/frameworks/ward/server/fields.js: holds [\"Qnone\",\"canvas\",\"utility\"], not [\"none\",\"canvas\",\"utility\"]"
+   ]
+  },
+  {
+   "id": "backpacks @ src/core/client/game/client/appearance.ts",
+   "caught": true,
+   "problems": [
+    "backpacks: src/core/client/game/client/appearance.ts: holds [\"Qnone\",\"canvas\",\"utility\"], not [\"none\",\"canvas\",\"utility\"]"
+   ]
+  },
+  {
+   "id": "default-look @ src/frameworks/ward/server/fields.js",
+   "caught": true,
+   "problems": [
+    "default-look: src/frameworks/ward/server/fields.js: holds \"none|plain|#e6bb76|#ffcc77|noneQ\", not \"none|plain|#e6bb76|#ffcc77|none\""
+   ]
+  },
+  {
+   "id": "default-look @ src/frameworks/bpp/client/net-wire.js",
+   "caught": true,
+   "problems": [
+    "default-look: src/frameworks/bpp/client/net-wire.js: holds \"none|plain|#e6bb76|#ffcc77|noneQ\", not \"none|plain|#e6bb76|#ffcc77|none\""
+   ]
+  },
+  {
+   "id": "default-look @ src/core/client/game/shared/avatar.ts",
+   "caught": true,
+   "problems": [
+    "default-look: src/core/client/game/shared/avatar.ts: holds \"none|plain|#e6bb76|#ffcc77|noneQ\", not \"none|plain|#e6bb76|#ffcc77|none\""
+   ]
+  },
+  {
+   "id": "name-length @ src/frameworks/bpp/server/session.js",
+   "caught": true,
+   "problems": [
+    "name-length: src/frameworks/bpp/server/session.js: holds 30, not 20"
+   ]
+  },
+  {
+   "id": "name-length @ src/frameworks/bpp/client/mp.session.js",
+   "caught": true,
+   "problems": [
+    "name-length: src/frameworks/bpp/client/mp.session.js: holds 30, not 20"
+   ]
+  },
+  {
+   "id": "name-length @ src/frameworks/front/client/ui.js",
+   "caught": true,
+   "problems": [
+    "name-length: src/frameworks/front/client/ui.js: holds 30, not 20"
+   ]
+  },
+  {
+   "id": "name-length @ public/index.html",
+   "caught": true,
+   "problems": [
+    "name-length: public/index.html: holds 30, not 20"
+   ]
+  },
+  {
+   "id": "colour-test @ src/frameworks/ward/server/fields.js",
+   "caught": true,
+   "problems": [
+    "colour-test: src/frameworks/ward/server/fields.js: 1 matches, not 2"
+   ]
+  },
+  {
+   "id": "colour-test @ src/frameworks/front/client/hud.js",
+   "caught": true,
+   "problems": [
+    "colour-test: src/frameworks/front/client/hud.js: 0 matches, not 1"
+   ]
+  },
+  {
+   "id": "colour-test @ src/core/client/game/shared/equipment.ts",
+   "caught": true,
+   "problems": [
+    "colour-test: src/core/client/game/shared/equipment.ts: 1 matches, not 2"
+   ]
+  },
+  {
+   "id": "colour-test @ src/core/client/game/client/appearance.ts",
+   "caught": true,
+   "problems": [
+    "colour-test: src/core/client/game/client/appearance.ts: 0 matches, not 1"
+   ]
+  },
+  {
+   "id": "colour-test @ src/core/client/game/client/render.ts",
+   "caught": true,
+   "problems": [
+    "colour-test: src/core/client/game/client/render.ts: 0 matches, not 1"
+   ]
+  },
+  {
+   "id": "colour-test @ src/frameworks/br-role/client/br-role.js",
+   "caught": true,
+   "problems": [
+    "colour-test: src/frameworks/br-role/client/br-role.js: 1 matches, not 2"
+   ]
+  },
+  {
+   "id": "colour-test @ src/frameworks/gib/client/gore.js",
+   "caught": true,
+   "problems": [
+    "colour-test: src/frameworks/gib/client/gore.js: 0 matches, not 1"
+   ]
+  },
+  {
+   "id": "infrared-levels @ src/frameworks/bpp/server/session.js",
+   "caught": true,
+   "problems": [
+    "infrared-levels: src/frameworks/bpp/server/session.js: holds 3, not 2"
+   ]
+  },
+  {
+   "id": "infrared-levels @ src/frameworks/br-r/client/camcorder.view.js",
+   "caught": true,
+   "problems": [
+    "infrared-levels: src/frameworks/br-r/client/camcorder.view.js: holds 4, not 3"
+   ]
+  },
+  {
+   "id": "entity-states @ src/frameworks/nani/server/ai.head.js",
+   "caught": true,
+   "problems": [
+    "entity-states: src/frameworks/br-r/client/ents.head.js: holds [\"DORMANT\",\"ROAMING\",\"CURIOUS\",\"ALERT\",\"WATCHING\",\"STALKING\",\"HUNTING\",\"SEARCHING\",\"CAUTIOUS\",\"FRUSTRATED\",\"EXCITED\",\"FEEDING\",\"PLAYING\",\"RETREATING\",\"HIDDEN\",\", not [\"DORMANT\",\"ROAMINGQ\",\"CURIOUS\",\"ALERT\",\"WATCHING\",\"STALKING\",\"HUNTING\",\"SEARCHING\",\"CAUTIOUS\",\"FRUSTRATED\",\"EXCITED\",\"FEEDING\",\"PLAYING\",\"RETREATING\",\"HIDDEN\","
+   ]
+  },
+  {
+   "id": "entity-states @ src/frameworks/br-r/client/ents.head.js",
+   "caught": true,
+   "problems": [
+    "entity-states: src/frameworks/br-r/client/ents.head.js: holds [\"QDORMANT\",\"ROAMING\",\"CURIOUS\",\"ALERT\",\"WATCHING\",\"STALKING\",\"HUNTING\",\"SEARCHING\",\"CAUTIOUS\",\"FRUSTRATED\",\"EXCITED\",\"FEEDING\",\"PLAYING\",\"RETREATING\",\"HIDDEN\",, not [\"DORMANT\",\"ROAMING\",\"CURIOUS\",\"ALERT\",\"WATCHING\",\"STALKING\",\"HUNTING\",\"SEARCHING\",\"CAUTIOUS\",\"FRUSTRATED\",\"EXCITED\",\"FEEDING\",\"PLAYING\",\"RETREATING\",\"HIDDEN\",\""
+   ]
+  },
+  {
+   "id": "hound-actions @ src/frameworks/nani/server/ai.hound.js",
+   "caught": true,
+   "problems": [
+    "hound-actions: src/frameworks/br-r/client/ents.head.js: holds [\"\",\"listen\",\"sniff\",\"freeze\",\"wind\",\"lunge\",\"recover\",\"feed\",\"vault\",\"circle\",\"stare\",\"drag\",\"growl\",\"rest\",\"pace\",\"back\",\"guard\"], not [\"Q\",\"listen\",\"sniff\",\"freeze\",\"wind\",\"lunge\",\"recover\",\"feed\",\"vault\",\"circle\",\"stare\",\"drag\",\"growl\",\"rest\",\"pace\",\"back\",\"guard\"]"
+   ]
+  },
+  {
+   "id": "hound-actions @ src/frameworks/br-r/client/ents.head.js",
+   "caught": true,
+   "problems": [
+    "hound-actions: src/frameworks/br-r/client/ents.head.js: holds [\"Q\",\"listen\",\"sniff\",\"freeze\",\"wind\",\"lunge\",\"recover\",\"feed\",\"vault\",\"circle\",\"stare\",\"drag\",\"growl\",\"rest\",\"pace\",\"back\",\"guard\"], not [\"\",\"listen\",\"sniff\",\"freeze\",\"wind\",\"lunge\",\"recover\",\"feed\",\"vault\",\"circle\",\"stare\",\"drag\",\"growl\",\"rest\",\"pace\",\"back\",\"guard\"]"
+   ]
+  },
+  {
+   "id": "smiler-actions @ src/frameworks/nani/server/ai.smiler.js",
+   "caught": true,
+   "problems": [
+    "smiler-actions: src/frameworks/br-r/client/ents.head.js: holds [\"\",\"watch\",\"follow\",\"wait\",\"creep\",\"rush\",\"fade\",\"cornered\",\"lightfail\",\"stare\",\"back\",\"circle\",\"block\",\"hold\",\"lurk\",\"drawn\",\"search\",\"chase\",\"drift\"], not [\"Q\",\"watch\",\"follow\",\"wait\",\"creep\",\"rush\",\"fade\",\"cornered\",\"lightfail\",\"stare\",\"back\",\"circle\",\"block\",\"hold\",\"lurk\",\"drawn\",\"search\",\"chase\",\"drift\"]"
+   ]
+  },
+  {
+   "id": "smiler-actions @ src/frameworks/br-r/client/ents.head.js",
+   "caught": true,
+   "problems": [
+    "smiler-actions: src/frameworks/br-r/client/ents.head.js: holds [\"Q\",\"watch\",\"follow\",\"wait\",\"creep\",\"rush\",\"fade\",\"cornered\",\"lightfail\",\"stare\",\"back\",\"circle\",\"block\",\"hold\",\"lurk\",\"drawn\",\"search\",\"chase\",\"drift\"], not [\"\",\"watch\",\"follow\",\"wait\",\"creep\",\"rush\",\"fade\",\"cornered\",\"lightfail\",\"stare\",\"back\",\"circle\",\"block\",\"hold\",\"lurk\",\"drawn\",\"search\",\"chase\",\"drift\"]"
+   ]
+  },
+  {
+   "id": "movement-events @ src/frameworks/nani/server/ai.engine.js",
+   "caught": true,
+   "problems": [
+    "movement-events: src/frameworks/nani/server/ai.engine.js: holds [22,23,24,25,26,30,31], not [21,22,23,24,25,26,30]"
+   ]
+  },
+  {
+   "id": "movement-events @ src/frameworks/space/client/move.js",
+   "caught": true,
+   "problems": [
+    "movement-events: src/frameworks/space/client/move.js: holds 31, not 21"
+   ]
+  },
+  {
+   "id": "movement-events @ src/frameworks/space/client/move.js",
+   "caught": true,
+   "problems": [
+    "movement-events: src/frameworks/space/client/move.js: holds 34, not 24"
+   ]
+  },
+  {
+   "id": "movement-events @ src/frameworks/space/client/move.js",
+   "caught": true,
+   "problems": [
+    "movement-events: src/frameworks/space/client/move.js: holds 40, not 30"
+   ]
+  },
+  {
+   "id": "movement-events-per-packet @ src/frameworks/space/client/move.js",
+   "caught": true,
+   "problems": [
+    "movement-events-per-packet: src/frameworks/space/client/move.js: holds 7, not 6"
+   ]
+  },
+  {
+   "id": "movement-events-per-packet @ src/frameworks/space/server/sim.movement.js",
+   "caught": true,
+   "problems": [
+    "movement-events-per-packet: src/frameworks/space/server/sim.movement.js: holds 7, not 6"
+   ]
+  },
+  {
+   "id": "body-distance @ src/frameworks/space/server/peers.js",
+   "caught": true,
+   "problems": [
+    "body-distance: src/frameworks/space/server/peers.js: holds 46, not 36"
+   ]
+  },
+  {
+   "id": "body-distance @ src/frameworks/space/client/move.js",
+   "caught": true,
+   "problems": [
+    "body-distance: src/frameworks/space/client/move.js: holds 46.75, not 36.75"
+   ]
+  },
+  {
+   "id": "hound-kill-time @ src/frameworks/gib/shared/dphys.js",
+   "caught": true,
+   "problems": [
+    "hound-kill-time: src/frameworks/nani/server/ai.capture.js: holds {\"A\":4.5,\"B\":4.7,\"C\":4.3,\"D\":4.5}, not {\"A\":5.5,\"B\":4.7,\"C\":4.3,\"D\":4.5}"
+   ]
+  },
+  {
+   "id": "hound-kill-time @ src/frameworks/nani/server/ai.capture.js",
+   "caught": true,
+   "problems": [
+    "hound-kill-time: src/frameworks/nani/server/ai.capture.js: holds {\"A\":5.5,\"B\":4.7,\"C\":4.3,\"D\":4.5}, not {\"A\":4.5,\"B\":4.7,\"C\":4.3,\"D\":4.5}"
+   ]
+  },
+  {
+   "id": "hound-kill-time @ src/frameworks/nani/server/ai.capture.js",
+   "caught": true,
+   "problems": [
+    "hound-kill-time: src/frameworks/nani/server/ai.capture.js: holds 5.5, not 4.5"
+   ]
+  },
+  {
+   "id": "hound-kill-time @ src/frameworks/gib/shared/dphys.js",
+   "caught": true,
+   "problems": [
+    "hound-kill-time: src/frameworks/gib/shared/dphys.js: holds 5.4, not 4.4"
+   ]
+  },
+  {
+   "id": "entity-slots @ src/frameworks/nani/server/sim.ai.js",
+   "caught": true,
+   "problems": [
+    "entity-slots: src/frameworks/nani/server/sim.ai.js: holds 74, not 64"
+   ]
+  },
+  {
+   "id": "entity-slots @ src/frameworks/nani/server/sim.ai.js",
+   "caught": true,
+   "problems": [
+    "entity-slots: src/frameworks/nani/server/sim.ai.js: holds 74, not 64"
+   ]
+  },
+  {
+   "id": "entity-slots @ src/frameworks/nani/client/mp.monsters.js",
+   "caught": true,
+   "problems": [
+    "entity-slots: src/frameworks/nani/client/mp.monsters.js: holds 74, not 64"
+   ]
+  },
+  {
+   "id": "entity-slots @ src/frameworks/overseer/client/mp.admin.js",
+   "caught": true,
+   "problems": [
+    "entity-slots: src/frameworks/overseer/client/mp.admin.js: holds 74, not 64"
+   ]
+  },
+  {
+   "id": "entity-slots @ src/frameworks/overseer/client/mp.admin.js",
+   "caught": true,
+   "problems": [
+    "entity-slots: src/frameworks/overseer/client/mp.admin.js: holds 74, not 64"
+   ]
+  },
+  {
+   "id": "entity-slots @ src/core/client/game/client/render.ts",
+   "caught": true,
+   "problems": [
+    "entity-slots: src/core/client/game/client/render.ts: holds 74, not 64"
+   ]
+  },
+  {
+   "id": "entity-slots @ src/core/client/game/shared/entity.ts",
+   "caught": true,
+   "problems": [
+    "entity-slots: src/core/client/game/shared/entity.ts: holds 74, not 64"
+   ]
+  },
+  {
+   "id": "spawn-protection @ src/frameworks/space/server/sim.players.js",
+   "caught": true,
+   "problems": [
+    "spawn-protection: src/frameworks/space/server/sim.players.js: holds 4, not 3"
+   ]
+  },
+  {
+   "id": "spawn-protection @ src/frameworks/bpp/client/mp.session.js",
+   "caught": true,
+   "problems": [
+    "spawn-protection: src/frameworks/bpp/client/mp.session.js: holds 5, not 4"
+   ]
+  },
+  {
+   "id": "lamp-reach @ src/frameworks/nani/server/ai.geo.js",
+   "caught": true,
+   "problems": [
+    "lamp-reach: src/frameworks/nani/server/ai.geo.js: holds 480, not 380"
+   ]
+  },
+  {
+   "id": "lamp-reach @ src/frameworks/nani/server/ai.geo.js",
+   "caught": true,
+   "problems": [
+    "lamp-reach: src/frameworks/nani/server/ai.geo.js: holds 480, not 380"
+   ]
+  },
+  {
+   "id": "lamp-reach @ src/frameworks/br-role/client/light.js",
+   "caught": true,
+   "problems": [
+    "lamp-reach: src/frameworks/br-role/client/light.js: holds 480, not 380"
+   ]
+  },
+  {
+   "id": "lamp-reach @ src/frameworks/br-role/client/light.js",
+   "caught": true,
+   "problems": [
+    "lamp-reach: src/frameworks/br-role/client/light.js: holds 480, not 380"
+   ]
+  },
+  {
+   "id": "lamp-reach @ src/frameworks/br-role/client/light.js",
+   "caught": true,
+   "problems": [
+    "lamp-reach: src/frameworks/br-role/client/light.js: holds 480, not 380"
+   ]
+  },
+  {
+   "id": "lamp-reach @ src/frameworks/br-role/client/light.js",
+   "caught": true,
+   "problems": [
+    "lamp-reach: src/frameworks/br-role/client/light.js: holds 480, not 380"
+   ]
+  },
+  {
+   "id": "lamp-reach @ src/frameworks/br-role/client/light.js",
+   "caught": true,
+   "problems": [
+    "lamp-reach: src/frameworks/br-role/client/light.js: holds 480, not 380"
+   ]
+  },
+  {
+   "id": "lamp-reach @ src/frameworks/br-role/client/light.js",
+   "caught": true,
+   "problems": [
+    "lamp-reach: src/frameworks/br-role/client/light.js: holds 480, not 380"
+   ]
+  },
+  {
+   "id": "lamp-reach @ src/core/client/game/shared/vision.ts",
+   "caught": true,
+   "problems": [
+    "lamp-reach: src/core/client/game/shared/vision.ts: holds 480, not 380"
+   ]
+  },
+  {
+   "id": "lamp-reach @ src/core/client/game/shared/vision.ts",
+   "caught": true,
+   "problems": [
+    "lamp-reach: src/core/client/game/shared/vision.ts: holds 480, not 380"
+   ]
+  },
+  {
+   "id": "lamp-reach @ src/core/client/game/client/render.ts",
+   "caught": true,
+   "problems": [
+    "lamp-reach: src/core/client/game/client/render.ts: holds 480, not 380"
+   ]
+  },
+  {
+   "id": "lamp-reach @ src/frameworks/br-role/client/br-role.js",
+   "caught": true,
+   "problems": [
+    "lamp-reach: src/frameworks/br-role/client/br-role.js: holds 480, not 380"
+   ]
+  },
+  {
+   "id": "lamp-falloff @ src/frameworks/nani/server/ai.geo.js",
+   "caught": true,
+   "problems": [
+    "lamp-falloff: src/frameworks/nani/server/ai.geo.js: holds 50, not 40"
+   ]
+  },
+  {
+   "id": "lamp-falloff @ src/frameworks/br-role/client/light.js",
+   "caught": true,
+   "problems": [
+    "lamp-falloff: src/frameworks/br-role/client/light.js: holds 50, not 40"
+   ]
+  },
+  {
+   "id": "lamp-falloff @ src/core/client/game/shared/vision.ts",
+   "caught": true,
+   "problems": [
+    "lamp-falloff: src/core/client/game/shared/vision.ts: holds 50, not 40"
+   ]
+  },
+  {
+   "id": "lamp-strength @ src/frameworks/nani/server/ai.geo.js",
+   "caught": true,
+   "problems": [
+    "lamp-strength: src/frameworks/nani/server/ai.geo.js: holds 0.53, not 0.43"
+   ]
+  },
+  {
+   "id": "lamp-strength @ src/frameworks/br-role/client/light.js",
+   "caught": true,
+   "problems": [
+    "lamp-strength: src/frameworks/br-role/client/light.js: holds 0.53, not 0.43"
+   ]
+  },
+  {
+   "id": "lamp-strength @ src/core/client/game/shared/vision.ts",
+   "caught": true,
+   "problems": [
+    "lamp-strength: src/core/client/game/shared/vision.ts: holds 0.53, not 0.43"
+   ]
+  },
+  {
+   "id": "lamp-failure-dimming @ src/frameworks/nani/server/ai.geo.js",
+   "caught": true,
+   "problems": [
+    "lamp-failure-dimming: src/frameworks/nani/server/ai.geo.js: holds 0.16, not 0.06"
+   ]
+  },
+  {
+   "id": "lamp-failure-dimming @ src/frameworks/overseer/client/ents.debug.js",
+   "caught": true,
+   "problems": [
+    "lamp-failure-dimming: src/frameworks/overseer/client/ents.debug.js: holds 0.04, not 0.94"
+   ]
+  },
+  {
+   "id": "fixed-step-hz @ src/frameworks/space/shared/timing_policy.js",
+   "caught": true,
+   "problems": [
+    "fixed-step-hz: src/frameworks/space/shared/timing_policy.js: holds 70, not 60"
+   ]
+  },
+  {
+   "id": "fixed-step-hz @ src/core/client/game/client/main.ts",
+   "caught": true,
+   "problems": [
+    "fixed-step-hz: src/core/client/game/client/main.ts: holds 70, not 60"
+   ]
+  },
+  {
+   "id": "fixed-step-hz @ src/core/server/loop.js",
+   "caught": true,
+   "problems": [
+    "fixed-step-hz: src/core/server/loop.js: holds 70, not 60"
+   ]
+  },
+  {
+   "id": "fixed-step-hz @ src/core/server/loop.js",
+   "caught": true,
+   "problems": [
+    "fixed-step-hz: src/core/server/loop.js: holds 70, not 60"
+   ]
+  },
+  {
+   "id": "fixed-step-hz @ src/core/server/loop.js",
+   "caught": true,
+   "problems": [
+    "fixed-step-hz: src/core/server/loop.js: holds 70, not 60"
+   ]
+  },
+  {
+   "id": "catch-up-steps @ src/frameworks/space/shared/timing_policy.js",
+   "caught": true,
+   "problems": [
+    "catch-up-steps: src/frameworks/space/shared/timing_policy.js: holds 25, not 15"
+   ]
+  },
+  {
+   "id": "catch-up-steps @ src/core/client/game/client/main.ts",
+   "caught": true,
+   "problems": [
+    "catch-up-steps: src/core/client/game/client/main.ts: holds 25, not 15"
+   ]
+  },
+  {
+   "id": "catch-up-steps @ src/core/server/loop.js",
+   "caught": true,
+   "problems": [
+    "catch-up-steps: src/core/server/loop.js: holds 25, not 15"
+   ]
+  },
+  {
+   "id": "frame-cap @ src/core/client/game/client/main.ts",
+   "caught": true,
+   "problems": [
+    "frame-cap: src/core/client/game/client/main.ts: holds 0.35, not 0.25"
+   ]
+  },
+  {
+   "id": "frame-cap @ src/core/server/loop.js",
+   "caught": true,
+   "problems": [
+    "frame-cap: src/core/server/loop.js: holds 1.25, not 0.25"
+   ]
+  },
+  {
+   "id": "movement-floors @ src/frameworks/space/shared/world.move.js",
+   "caught": true,
+   "problems": [
+    "movement-floors: src/frameworks/space/shared/world.move.js: holds 272, not 172"
+   ]
+  },
+  {
+   "id": "movement-floors @ src/frameworks/space/shared/world.move.js",
+   "caught": true,
+   "problems": [
+    "movement-floors: src/frameworks/space/shared/world.move.js: holds 385, not 285"
+   ]
+  },
+  {
+   "id": "movement-floors @ src/frameworks/space/shared/world.move.js",
+   "caught": true,
+   "problems": [
+    "movement-floors: src/frameworks/space/shared/world.move.js: holds 248, not 148"
+   ]
+  },
+  {
+   "id": "movement-floors @ src/frameworks/space/server/sim.movement.js",
+   "caught": true,
+   "problems": [
+    "movement-floors: src/frameworks/space/server/sim.movement.js: 0 matches, not 1"
+   ]
+  },
+  {
+   "id": "movement-floors @ src/frameworks/space/server/sim.movement.js",
+   "caught": true,
+   "problems": [
+    "movement-floors: src/frameworks/space/server/sim.movement.js: holds 250, not 150"
+   ]
+  },
+  {
+   "id": "movement-floors @ src/frameworks/space/server/sim.movement.js",
+   "caught": true,
+   "problems": [
+    "movement-floors: src/frameworks/space/server/sim.movement.js: holds 325, not 225"
+   ]
+  },
+  {
+   "id": "movement-floors @ src/frameworks/space/server/sim.movement.js",
+   "caught": true,
+   "problems": [
+    "movement-floors: src/frameworks/space/server/sim.movement.js: holds 325, not 225"
+   ]
+  },
+  {
+   "id": "movement-states @ src/frameworks/space/shared/world.move.js",
+   "caught": true,
+   "problems": [
+    "movement-states: src/frameworks/space/shared/world.move.js: holds {\"stand\":1,\"walk\":1,\"run\":2,\"crouch\":3,\"crawl\":4,\"slide\":5,\"vault\":6,\"down\":7}, not {\"stand\":0,\"walk\":1,\"run\":2,\"crouch\":3,\"crawl\":4,\"slide\":5,\"vault\":6,\"down\":7}"
+   ]
+  },
+  {
+   "id": "movement-states @ src/frameworks/space/shared/world.move.js",
+   "caught": true,
+   "problems": [
+    "movement-states: src/frameworks/space/shared/world.move.js: holds [\"Qstand\",\"walk\",\"run\",\"crouch\",\"crawl\",\"slide\",\"vault\",\"down\"], not [\"stand\",\"walk\",\"run\",\"crouch\",\"crawl\",\"slide\",\"vault\",\"down\"]"
+   ]
+  },
+  {
+   "id": "route-check-distance @ src/frameworks/space/server/movement.js",
+   "caught": true,
+   "problems": [
+    "route-check-distance: src/frameworks/space/server/movement.js: holds 220, not 120"
+   ]
+  },
+  {
+   "id": "route-check-distance @ src/frameworks/space/server/movement.js",
+   "caught": true,
+   "problems": [
+    "route-check-distance: src/frameworks/space/server/movement.js: holds 220, not 120"
+   ]
+  },
+  {
+   "id": "route-check-distance @ src/frameworks/space/server/sim.movement.js",
+   "caught": true,
+   "problems": [
+    "route-check-distance: src/frameworks/space/server/sim.movement.js: holds 220, not 120"
+   ]
+  },
+  {
+   "id": "exhausted-stamina @ src/frameworks/nani/server/ai.hound.js",
+   "caught": true,
+   "problems": [
+    "exhausted-stamina: src/frameworks/nani/server/ai.hound.js: holds 32, not 22"
+   ]
+  },
+  {
+   "id": "exhausted-stamina @ src/frameworks/gib/server/aftermath.js",
+   "caught": true,
+   "problems": [
+    "exhausted-stamina: src/frameworks/gib/server/aftermath.js: holds 32, not 22"
+   ]
+  },
+  {
+   "id": "glitched-walls @ src/frameworks/lost/server/sim.glitches.js",
+   "caught": true,
+   "problems": [
+    "glitched-walls: src/frameworks/lost/server/sim.glitches.js: holds 4, not 3"
+   ]
+  },
+  {
+   "id": "glitched-walls @ src/frameworks/lost/server/sim.glitches.js",
+   "caught": true,
+   "problems": [
+    "glitched-walls: src/frameworks/lost/server/sim.glitches.js: holds 4, not 3"
+   ]
+  },
+  {
+   "id": "glitched-walls @ src/frameworks/lost/client/mp.glitch.js",
+   "caught": true,
+   "problems": [
+    "glitched-walls: src/frameworks/lost/client/mp.glitch.js: holds 4, not 3"
+   ]
+  },
+  {
+   "id": "glitched-wall-spacing @ src/frameworks/lost/server/sim.glitches.js",
+   "caught": true,
+   "problems": [
+    "glitched-wall-spacing: src/frameworks/lost/server/sim.glitches.js: holds 3600, not 2600"
+   ]
+  },
+  {
+   "id": "glitched-wall-spacing @ src/frameworks/lost/server/sim.glitches.js",
+   "caught": true,
+   "problems": [
+    "glitched-wall-spacing: src/frameworks/lost/server/sim.glitches.js: holds 3600, not 2600"
+   ]
+  },
+  {
+   "id": "glitched-wall-spacing @ src/frameworks/lost/client/mp.glitch.js",
+   "caught": true,
+   "problems": [
+    "glitched-wall-spacing: src/frameworks/lost/client/mp.glitch.js: holds 3600, not 2600"
+   ]
+  },
+  {
+   "id": "glitched-wall-spacing @ src/frameworks/lost/client/mp.glitch.js",
+   "caught": true,
+   "problems": [
+    "glitched-wall-spacing: src/frameworks/lost/client/mp.glitch.js: holds 3600, not 2600"
+   ]
+  },
+  {
+   "id": "glitched-wall-face @ src/frameworks/lost/server/sim.glitches.js",
+   "caught": true,
+   "problems": [
+    "glitched-wall-face: src/frameworks/lost/server/sim.glitches.js: holds 58, not 48"
+   ]
+  },
+  {
+   "id": "glitched-wall-face @ src/frameworks/lost/server/sim.glitches.js",
+   "caught": true,
+   "problems": [
+    "glitched-wall-face: src/frameworks/lost/server/sim.glitches.js: holds 58, not 48"
+   ]
+  },
+  {
+   "id": "glitched-wall-face @ src/frameworks/lost/client/mp.glitch.js",
+   "caught": true,
+   "problems": [
+    "glitched-wall-face: src/frameworks/lost/client/mp.glitch.js: holds 58, not 48"
+   ]
+  },
+  {
+   "id": "glitched-wall-face @ src/frameworks/lost/client/mp.glitch.js",
+   "caught": true,
+   "problems": [
+    "glitched-wall-face: src/frameworks/lost/client/mp.glitch.js: holds 58, not 48"
+   ]
+  },
+  {
+   "id": "glitched-wall-reach @ src/core/server/sim.step.js",
+   "caught": true,
+   "problems": [
+    "glitched-wall-reach: src/core/server/sim.step.js: holds 64, not 54"
+   ]
+  },
+  {
+   "id": "glitched-wall-reach @ src/frameworks/lost/client/mp.glitch.js",
+   "caught": true,
+   "problems": [
+    "glitched-wall-reach: src/frameworks/lost/client/mp.glitch.js: holds 64, not 54"
+   ]
+  },
+  {
+   "id": "cartograph-distance @ src/frameworks/pocket/server/sim.items.js",
+   "caught": true,
+   "problems": [
+    "cartograph-distance: src/frameworks/pocket/server/sim.items.js: holds 2800, not 1800"
+   ]
+  },
+  {
+   "id": "cartograph-distance @ src/frameworks/pocket/client/mp.cartograph.js",
+   "caught": true,
+   "problems": [
+    "cartograph-distance: src/frameworks/pocket/client/mp.cartograph.js: holds 2800, not 1800"
+   ]
+  }
+ ],
+ "ok": true
+}

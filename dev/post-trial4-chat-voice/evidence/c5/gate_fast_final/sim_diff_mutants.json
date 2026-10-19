@@ -1,0 +1,96 @@
+{
+ "tool": "dev/tools/gate/golden/sim_diff.js",
+ "mutants": [
+  {
+   "id": "run_freeze_ignored",
+   "file": "src/core/server/sim.step.js",
+   "caught": true,
+   "first": "5 admin 0"
+  },
+  {
+   "id": "run_speed_ignored",
+   "file": "src/core/server/sim.step.js",
+   "caught": true,
+   "first": "54 admin 1"
+  },
+  {
+   "id": "run_blackout_ignored",
+   "file": "src/core/server/sim.step.js",
+   "caught": true,
+   "first": "49 admin 2"
+  },
+  {
+   "id": "blackout_forced_wrong",
+   "file": "src/frameworks/lost/server/sim.level0.js",
+   "caught": true,
+   "first": "105 step 0.05"
+  },
+  {
+   "id": "reset_items_first",
+   "file": "src/core/server/sim.step.js",
+   "caught": true,
+   "first": "the first world"
+  },
+  {
+   "id": "reset_bodies_kept",
+   "file": "src/core/server/sim.step.js",
+   "caught": true,
+   "first": "the first world"
+  },
+  {
+   "id": "clock_double",
+   "file": "src/frameworks/gib/server/sim.bodies.js",
+   "caught": true,
+   "first": "6 step 0.03333333333333333"
+  },
+  {
+   "id": "walls_stale",
+   "file": "src/frameworks/lost/server/sim.glitches.js",
+   "caught": true,
+   "first": "the first world"
+  },
+  {
+   "id": "items_stale",
+   "file": "src/frameworks/pocket/server/sim.items.js",
+   "caught": true,
+   "first": "the first world"
+  },
+  {
+   "id": "debug_never",
+   "file": "src/frameworks/overseer/server/sim.admin.js",
+   "caught": true,
+   "first": "128 admin 3"
+  },
+  {
+   "id": "run_time_zero",
+   "file": "src/core/server/sim.step.js",
+   "caught": true,
+   "first": "85 step 0.016666666666666666"
+  },
+  {
+   "id": "world_count_one",
+   "file": "src/core/server/sim.step.js",
+   "caught": true,
+   "first": "4 admin 5"
+  },
+  {
+   "id": "body_version_one",
+   "file": "src/frameworks/gib/server/sim.bodies.js",
+   "caught": true,
+   "first": "the first world"
+  },
+  {
+   "id": "roster_copied",
+   "file": "src/core/server/sim.js",
+   "caught": true,
+   "first": "58 admin 5"
+  },
+  {
+   "id": "cap_run_time_61",
+   "file": "src/frameworks/overseer/server/sim.admin.js",
+   "caught": false,
+   "first": ""
+  }
+ ],
+ "ok": false
+}

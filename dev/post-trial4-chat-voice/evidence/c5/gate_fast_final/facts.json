@@ -1,0 +1,2179 @@
+{
+ "tool": "dev/tools/checks/facts.js",
+ "spec": "dev/tools/checks/facts.json",
+ "facts": [
+  {
+   "id": "level0-columns",
+   "finding": "M-003, M-028 (9)",
+   "value": 96,
+   "copies": [
+    {
+     "file": "src/frameworks/lost/shared/level0.json",
+     "lines": [],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/bpp/server/session.js",
+     "lines": [
+      47
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "lines": [
+      30
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "lines": [
+      31
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/pocket/client/mp.cartograph.js",
+     "lines": [
+      32
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-r/client/l0-remaster.js",
+     "lines": [
+      47
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-r/client/l0-remaster.js",
+     "lines": [
+      1444
+     ],
+     "value": 96,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "level0-rows",
+   "finding": "M-003, M-028 (9)",
+   "value": 72,
+   "copies": [
+    {
+     "file": "src/frameworks/lost/shared/level0.json",
+     "lines": [],
+     "value": 72,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/bpp/server/session.js",
+     "lines": [
+      47
+     ],
+     "value": 72,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "lines": [
+      30
+     ],
+     "value": 72,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "lines": [
+      31
+     ],
+     "value": 72,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/pocket/client/mp.cartograph.js",
+     "lines": [
+      32
+     ],
+     "value": 72,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-r/client/l0-remaster.js",
+     "lines": [
+      47
+     ],
+     "value": 72,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-r/client/l0-remaster.js",
+     "lines": [
+      1444
+     ],
+     "value": 72,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "cell-px",
+   "finding": "M-003, M-028 (9)",
+   "value": 96,
+   "copies": [
+    {
+     "file": "src/core/client/game/shared/world.ts",
+     "lines": [
+      4
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/space/shared/world.js",
+     "lines": [
+      24
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.level0.js",
+     "lines": [
+      28,
+      28,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      29,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30
+     ],
+     "value": [
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96,
+      96
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/nani/server/sim.ai.js",
+     "lines": [
+      30
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/nani/server/sim.ai.js",
+     "lines": [
+      30
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.geo.js",
+     "lines": [
+      28
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.geo.js",
+     "lines": [
+      28
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/bpp/server/session.js",
+     "lines": [
+      47
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/bpp/server/session.js",
+     "lines": [
+      47
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-role/client/br-role.js",
+     "lines": [
+      99
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-r/client/l0-remaster.js",
+     "lines": [
+      37
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "lines": [
+      32
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "lines": [
+      32
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/pocket/client/mp.cartograph.js",
+     "lines": [
+      33
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/pocket/client/mp.cartograph.js",
+     "lines": [
+      33
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/space/client/move.js",
+     "lines": [
+      214,
+      214,
+      214,
+      214
+     ],
+     "value": [
+      96,
+      96,
+      96,
+      96
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "lines": [
+      18
+     ],
+     "value": 96,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "lines": [
+      18
+     ],
+     "value": 96,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "path-grid-subdivision",
+   "finding": "M-003",
+   "value": 2,
+   "copies": [
+    {
+     "file": "src/core/client/game/shared/navigation.ts",
+     "lines": [
+      4
+     ],
+     "value": 2,
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/shared/navigation.ts",
+     "lines": [
+      4
+     ],
+     "value": 2,
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/shared/navigation.ts",
+     "lines": [
+      4
+     ],
+     "value": 2,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.level0.js",
+     "lines": [
+      30
+     ],
+     "value": 2,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.level0.js",
+     "lines": [
+      30
+     ],
+     "value": 2,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.level0.js",
+     "lines": [
+      30
+     ],
+     "value": 2,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "path-clearance",
+   "finding": "M-003",
+   "value": 21,
+   "copies": [
+    {
+     "file": "src/core/client/game/shared/navigation.ts",
+     "lines": [
+      4
+     ],
+     "value": 21,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.level0.js",
+     "lines": [
+      30
+     ],
+     "value": 21,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.hound.js",
+     "lines": [
+      12
+     ],
+     "value": 21,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.smiler.js",
+     "lines": [
+      44
+     ],
+     "value": 21,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "level0-rooms-by-index",
+   "finding": "M-003",
+   "copies": [
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "lines": [
+      93
+     ],
+     "value": "BLACKOUT ZONE",
+     "ok": true,
+     "own": "BLACKOUT ZONE"
+    },
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "lines": [
+      93
+     ],
+     "value": "RED ROOMS",
+     "ok": true,
+     "own": "RED ROOMS"
+    },
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "lines": [
+      93
+     ],
+     "value": "DEEP CARPET",
+     "ok": true,
+     "own": "DEEP CARPET"
+    },
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "lines": [
+      93
+     ],
+     "value": "DAMP ROOMS",
+     "ok": true,
+     "own": "DAMP ROOMS"
+    },
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "lines": [
+      93
+     ],
+     "value": "ARCH GALLERY",
+     "ok": true,
+     "own": "ARCH GALLERY"
+    },
+    {
+     "file": "src/core/client/game/shared/movement.ts",
+     "lines": [
+      20
+     ],
+     "value": "DEEP CARPET",
+     "ok": true,
+     "own": "DEEP CARPET"
+    },
+    {
+     "file": "src/frameworks/space/client/move.js",
+     "lines": [
+      214
+     ],
+     "value": "DEEP CARPET",
+     "ok": true,
+     "own": "DEEP CARPET"
+    },
+    {
+     "file": "src/frameworks/lost/shared/world.lamps.js",
+     "lines": [
+      33
+     ],
+     "value": "BLACKOUT ZONE",
+     "ok": true,
+     "own": "BLACKOUT ZONE"
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "level0-room-names",
+   "finding": "M-003",
+   "value": [
+    "YELLOW HALL",
+    "REPEATING ROOMS",
+    "SEGMENTED ROOMS",
+    "HUMMING ROOMS",
+    "NORTH ROOMS",
+    "LONG ROOM",
+    "BLACKOUT ZONE",
+    "DAMP ROOMS",
+    "RED ROOMS",
+    "ARCH GALLERY",
+    "PILLAR HALL",
+    "DEEP CARPET"
+   ],
+   "copies": [
+    {
+     "file": "src/frameworks/lost/shared/level0.json",
+     "lines": [],
+     "value": [
+      "YELLOW HALL",
+      "REPEATING ROOMS",
+      "SEGMENTED ROOMS",
+      "HUMMING ROOMS",
+      "NORTH ROOMS",
+      "LONG ROOM",
+      "BLACKOUT ZONE",
+      "DAMP ROOMS",
+      "RED ROOMS",
+      "ARCH GALLERY",
+      "PILLAR HALL",
+      "DEEP CARPET"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-role/client/br-role.js",
+     "lines": [
+      144
+     ],
+     "value": [
+      "ARCH GALLERY",
+      "RED ROOMS"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-role/client/br-role.js",
+     "lines": [
+      144
+     ],
+     "value": [
+      "DEEP CARPET",
+      "RED ROOMS",
+      "LONG ROOM",
+      "DAMP ROOMS"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/shared/world.lamps.js",
+     "lines": [
+      25
+     ],
+     "value": [
+      "DAMP ROOMS"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/shared/world.surfaces.js",
+     "lines": [
+      21
+     ],
+     "value": "DAMP ROOMS",
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/client/main.ts",
+     "lines": [
+      208,
+      208
+     ],
+     "value": [
+      "DAMP ROOMS",
+      "LONG ROOM"
+     ],
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "level0-room-codes",
+   "finding": "M-003",
+   "value": [
+    "01:YELLOW HALL",
+    "02:REPEATING ROOMS",
+    "03:SEGMENTED ROOMS",
+    "04:HUMMING ROOMS",
+    "05:NORTH ROOMS",
+    "06:LONG ROOM",
+    "07:BLACKOUT ZONE",
+    "08:DAMP ROOMS",
+    "09:RED ROOMS",
+    "10:ARCH GALLERY",
+    "11:PILLAR HALL",
+    "12:DEEP CARPET"
+   ],
+   "copies": [
+    {
+     "file": "src/frameworks/lost/shared/level0.json",
+     "lines": [],
+     "value": [
+      "01:YELLOW HALL",
+      "02:REPEATING ROOMS",
+      "03:SEGMENTED ROOMS",
+      "04:HUMMING ROOMS",
+      "05:NORTH ROOMS",
+      "06:LONG ROOM",
+      "07:BLACKOUT ZONE",
+      "08:DAMP ROOMS",
+      "09:RED ROOMS",
+      "10:ARCH GALLERY",
+      "11:PILLAR HALL",
+      "12:DEEP CARPET"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/client/level0_visuals.js",
+     "lines": [
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46
+     ],
+     "value": [
+      "01:YELLOW HALL",
+      "02:REPEATING ROOMS",
+      "03:SEGMENTED ROOMS",
+      "04:HUMMING ROOMS",
+      "05:NORTH ROOMS",
+      "06:LONG ROOM",
+      "07:BLACKOUT ZONE",
+      "08:DAMP ROOMS",
+      "09:RED ROOMS",
+      "10:ARCH GALLERY",
+      "11:PILLAR HALL",
+      "12:DEEP CARPET"
+     ],
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "light-kinds",
+   "finding": "M-028 (7)",
+   "value": [
+    "flashlight",
+    "headlamp",
+    "lantern",
+    "camcorder"
+   ],
+   "copies": [
+    {
+     "file": "src/frameworks/pocket/shared/lights.json",
+     "lines": [],
+     "value": [
+      "flashlight",
+      "headlamp",
+      "lantern",
+      "camcorder"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/ward/server/fields.js",
+     "lines": [
+      13
+     ],
+     "value": [
+      "flashlight",
+      "headlamp",
+      "lantern",
+      "camcorder"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/shared/equipment.ts",
+     "lines": [
+      42
+     ],
+     "value": [
+      "flashlight",
+      "headlamp",
+      "lantern",
+      "camcorder"
+     ],
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "hats",
+   "finding": "M-028 (7)",
+   "value": [
+    "none",
+    "cap",
+    "beanie",
+    "hardhat"
+   ],
+   "copies": [
+    {
+     "file": "src/frameworks/ward/server/fields.js",
+     "lines": [
+      19
+     ],
+     "value": [
+      "none",
+      "cap",
+      "beanie",
+      "hardhat"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/client/appearance.ts",
+     "lines": [
+      4
+     ],
+     "value": [
+      "none",
+      "cap",
+      "beanie",
+      "hardhat"
+     ],
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "textures",
+   "finding": "M-028 (7)",
+   "value": [
+    "plain",
+    "freckles",
+    "stripes",
+    "patched"
+   ],
+   "copies": [
+    {
+     "file": "src/frameworks/ward/server/fields.js",
+     "lines": [
+      19
+     ],
+     "value": [
+      "plain",
+      "freckles",
+      "stripes",
+      "patched"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/client/appearance.ts",
+     "lines": [
+      4
+     ],
+     "value": [
+      "plain",
+      "freckles",
+      "stripes",
+      "patched"
+     ],
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "backpacks",
+   "finding": "M-028 (7)",
+   "value": [
+    "none",
+    "canvas",
+    "utility"
+   ],
+   "copies": [
+    {
+     "file": "src/frameworks/ward/server/fields.js",
+     "lines": [
+      20
+     ],
+     "value": [
+      "none",
+      "canvas",
+      "utility"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/client/appearance.ts",
+     "lines": [
+      4
+     ],
+     "value": [
+      "none",
+      "canvas",
+      "utility"
+     ],
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "default-look",
+   "finding": "M-028 (7)",
+   "value": "none|plain|#e6bb76|#ffcc77|none",
+   "copies": [
+    {
+     "file": "src/frameworks/ward/server/fields.js",
+     "lines": [
+      16
+     ],
+     "value": "none|plain|#e6bb76|#ffcc77|none",
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/bpp/client/net-wire.js",
+     "lines": [
+      16
+     ],
+     "value": "none|plain|#e6bb76|#ffcc77|none",
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/shared/avatar.ts",
+     "lines": [
+      2
+     ],
+     "value": "none|plain|#e6bb76|#ffcc77|none",
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "name-length",
+   "finding": "M-028 (7)",
+   "value": 20,
+   "copies": [
+    {
+     "file": "src/frameworks/bpp/server/session.js",
+     "lines": [
+      63
+     ],
+     "value": 20,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/bpp/client/mp.session.js",
+     "lines": [
+      210
+     ],
+     "value": 20,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/front/client/ui.js",
+     "lines": [
+      355
+     ],
+     "value": 20,
+     "ok": true
+    },
+    {
+     "file": "public/index.html",
+     "lines": [
+      66
+     ],
+     "value": 20,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "colour-test",
+   "finding": "M-028 (7)",
+   "value": "^#[0-9a-f]{6}$",
+   "copies": [
+    {
+     "file": "src/frameworks/ward/server/fields.js",
+     "lines": [
+      15,
+      16
+     ],
+     "value": [
+      "^#[0-9a-f]{6}$",
+      "^#[0-9a-f]{6}$"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/front/client/hud.js",
+     "lines": [
+      25
+     ],
+     "value": "^#[0-9a-f]{6}$",
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/shared/equipment.ts",
+     "lines": [
+      14,
+      42
+     ],
+     "value": [
+      "^#[0-9a-f]{6}$",
+      "^#[0-9a-f]{6}$"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/client/appearance.ts",
+     "lines": [
+      4
+     ],
+     "value": "^#[0-9a-f]{6}$",
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "lines": [
+      269
+     ],
+     "value": "^#[0-9a-f]{6}$",
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-role/client/br-role.js",
+     "lines": [
+      705,
+      911
+     ],
+     "value": [
+      "^#[0-9a-f]{6}$",
+      "^#[0-9a-f]{6}$"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/gib/client/gore.js",
+     "lines": [
+      230
+     ],
+     "value": "^#[0-9a-f]{6}$",
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "infrared-levels",
+   "finding": "M-028 (7)",
+   "copies": [
+    {
+     "file": "src/frameworks/bpp/server/session.js",
+     "lines": [
+      61
+     ],
+     "value": 2,
+     "ok": true,
+     "own": 2
+    },
+    {
+     "file": "src/frameworks/br-r/client/camcorder.view.js",
+     "lines": [
+      168
+     ],
+     "value": 3,
+     "ok": true,
+     "own": 3
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "entity-states",
+   "finding": "M-028 (1)",
+   "value": [
+    "DORMANT",
+    "ROAMING",
+    "CURIOUS",
+    "ALERT",
+    "WATCHING",
+    "STALKING",
+    "HUNTING",
+    "SEARCHING",
+    "CAUTIOUS",
+    "FRUSTRATED",
+    "EXCITED",
+    "FEEDING",
+    "PLAYING",
+    "RETREATING",
+    "HIDDEN",
+    "FOLLOWING",
+    "PROVOKED",
+    "ATTACKING",
+    "DISAPPEARING"
+   ],
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.head.js",
+     "lines": [
+      35
+     ],
+     "value": [
+      "DORMANT",
+      "ROAMING",
+      "CURIOUS",
+      "ALERT",
+      "WATCHING",
+      "STALKING",
+      "HUNTING",
+      "SEARCHING",
+      "CAUTIOUS",
+      "FRUSTRATED",
+      "EXCITED",
+      "FEEDING",
+      "PLAYING",
+      "RETREATING",
+      "HIDDEN",
+      "FOLLOWING",
+      "PROVOKED",
+      "ATTACKING",
+      "DISAPPEARING"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-r/client/ents.head.js",
+     "lines": [
+      25
+     ],
+     "value": [
+      "DORMANT",
+      "ROAMING",
+      "CURIOUS",
+      "ALERT",
+      "WATCHING",
+      "STALKING",
+      "HUNTING",
+      "SEARCHING",
+      "CAUTIOUS",
+      "FRUSTRATED",
+      "EXCITED",
+      "FEEDING",
+      "PLAYING",
+      "RETREATING",
+      "HIDDEN",
+      "FOLLOWING",
+      "PROVOKED",
+      "ATTACKING",
+      "DISAPPEARING"
+     ],
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "hound-actions",
+   "finding": "M-028 (1)",
+   "value": [
+    "",
+    "listen",
+    "sniff",
+    "freeze",
+    "wind",
+    "lunge",
+    "recover",
+    "feed",
+    "vault",
+    "circle",
+    "stare",
+    "drag",
+    "growl",
+    "rest",
+    "pace",
+    "back",
+    "guard"
+   ],
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.hound.js",
+     "lines": [
+      10
+     ],
+     "value": [
+      "",
+      "listen",
+      "sniff",
+      "freeze",
+      "wind",
+      "lunge",
+      "recover",
+      "feed",
+      "vault",
+      "circle",
+      "stare",
+      "drag",
+      "growl",
+      "rest",
+      "pace",
+      "back",
+      "guard"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-r/client/ents.head.js",
+     "lines": [
+      26
+     ],
+     "value": [
+      "",
+      "listen",
+      "sniff",
+      "freeze",
+      "wind",
+      "lunge",
+      "recover",
+      "feed",
+      "vault",
+      "circle",
+      "stare",
+      "drag",
+      "growl",
+      "rest",
+      "pace",
+      "back",
+      "guard"
+     ],
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "smiler-actions",
+   "finding": "M-028 (1)",
+   "value": [
+    "",
+    "watch",
+    "follow",
+    "wait",
+    "creep",
+    "rush",
+    "fade",
+    "cornered",
+    "lightfail",
+    "stare",
+    "back",
+    "circle",
+    "block",
+    "hold",
+    "lurk",
+    "drawn",
+    "search",
+    "chase",
+    "drift"
+   ],
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.smiler.js",
+     "lines": [
+      42
+     ],
+     "value": [
+      "",
+      "watch",
+      "follow",
+      "wait",
+      "creep",
+      "rush",
+      "fade",
+      "cornered",
+      "lightfail",
+      "stare",
+      "back",
+      "circle",
+      "block",
+      "hold",
+      "lurk",
+      "drawn",
+      "search",
+      "chase",
+      "drift"
+     ],
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-r/client/ents.head.js",
+     "lines": [
+      27
+     ],
+     "value": [
+      "",
+      "watch",
+      "follow",
+      "wait",
+      "creep",
+      "rush",
+      "fade",
+      "cornered",
+      "lightfail",
+      "stare",
+      "back",
+      "circle",
+      "block",
+      "hold",
+      "lurk",
+      "drawn",
+      "search",
+      "chase",
+      "drift"
+     ],
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "movement-events",
+   "finding": "M-028 (4)",
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.engine.js",
+     "lines": [
+      15
+     ],
+     "value": [
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      30
+     ],
+     "ok": true,
+     "own": [
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      30
+     ]
+    },
+    {
+     "file": "src/frameworks/space/client/move.js",
+     "lines": [
+      154
+     ],
+     "value": 21,
+     "ok": true,
+     "own": 21
+    },
+    {
+     "file": "src/frameworks/space/client/move.js",
+     "lines": [
+      168
+     ],
+     "value": 24,
+     "ok": true,
+     "own": 24
+    },
+    {
+     "file": "src/frameworks/space/client/move.js",
+     "lines": [
+      182
+     ],
+     "value": 30,
+     "ok": true,
+     "own": 30
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "movement-events-per-packet",
+   "finding": "M-028 (4)",
+   "value": 6,
+   "copies": [
+    {
+     "file": "src/frameworks/space/client/move.js",
+     "lines": [
+      45
+     ],
+     "value": 6,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/space/server/sim.movement.js",
+     "lines": [
+      41
+     ],
+     "value": 6,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "body-distance",
+   "finding": "M-028 (2)",
+   "copies": [
+    {
+     "file": "src/frameworks/space/server/peers.js",
+     "lines": [
+      25
+     ],
+     "value": 36,
+     "ok": true,
+     "own": 36
+    },
+    {
+     "file": "src/frameworks/space/client/move.js",
+     "lines": [
+      55
+     ],
+     "value": 36.75,
+     "ok": true,
+     "own": 36.75
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "hound-kill-time",
+   "finding": "M-028 (3)",
+   "value": {
+    "A": 4.5,
+    "B": 4.7,
+    "C": 4.3,
+    "D": 4.5
+   },
+   "copies": [
+    {
+     "file": "src/frameworks/gib/shared/dphys.js",
+     "lines": [
+      569
+     ],
+     "value": {
+      "A": 4.5,
+      "B": 4.7,
+      "C": 4.3,
+      "D": 4.5
+     },
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.capture.js",
+     "lines": [
+      89
+     ],
+     "value": {
+      "A": 4.5,
+      "B": 4.7,
+      "C": 4.3,
+      "D": 4.5
+     },
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.capture.js",
+     "lines": [
+      91
+     ],
+     "value": 4.5,
+     "ok": true,
+     "own": 4.5
+    },
+    {
+     "file": "src/frameworks/gib/shared/dphys.js",
+     "lines": [
+      588,
+      633
+     ],
+     "value": [
+      4.4,
+      4.4
+     ],
+     "ok": true,
+     "own": 4.4
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "entity-slots",
+   "finding": "M-028 (6)",
+   "value": 64,
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/sim.ai.js",
+     "lines": [
+      22
+     ],
+     "value": 64,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/nani/server/sim.ai.js",
+     "lines": [
+      22
+     ],
+     "value": 64,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/nani/client/mp.monsters.js",
+     "lines": [
+      17
+     ],
+     "value": 64,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/overseer/client/mp.admin.js",
+     "lines": [
+      81
+     ],
+     "value": 64,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/overseer/client/mp.admin.js",
+     "lines": [
+      81
+     ],
+     "value": 64,
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "lines": [
+      24
+     ],
+     "value": 64,
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/shared/entity.ts",
+     "lines": [
+      82
+     ],
+     "value": 64,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "spawn-protection",
+   "finding": "M-028 (10)",
+   "copies": [
+    {
+     "file": "src/frameworks/space/server/sim.players.js",
+     "lines": [
+      16
+     ],
+     "value": 3,
+     "ok": true,
+     "own": 3
+    },
+    {
+     "file": "src/frameworks/bpp/client/mp.session.js",
+     "lines": [
+      63,
+      64
+     ],
+     "value": [
+      4,
+      4
+     ],
+     "ok": true,
+     "own": 4
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "lamp-reach",
+   "finding": "M-028 (5)",
+   "value": 380,
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.geo.js",
+     "lines": [
+      31
+     ],
+     "value": 380,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.geo.js",
+     "lines": [
+      32
+     ],
+     "value": 380,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "lines": [
+      51
+     ],
+     "value": 380,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "lines": [
+      51
+     ],
+     "value": 380,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "lines": [
+      51
+     ],
+     "value": 380,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "lines": [
+      51
+     ],
+     "value": 380,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "lines": [
+      52
+     ],
+     "value": 380,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "lines": [
+      54
+     ],
+     "value": 380,
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/shared/vision.ts",
+     "lines": [
+      301
+     ],
+     "value": 380,
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/shared/vision.ts",
+     "lines": [
+      302
+     ],
+     "value": 380,
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/client/render.ts",
+     "lines": [
+      33
+     ],
+     "value": 380,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-role/client/br-role.js",
+     "lines": [
+      132
+     ],
+     "value": 380,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "lamp-falloff",
+   "finding": "M-028 (5)",
+   "value": 40,
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.geo.js",
+     "lines": [
+      32
+     ],
+     "value": 40,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "lines": [
+      54
+     ],
+     "value": 40,
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/shared/vision.ts",
+     "lines": [
+      302
+     ],
+     "value": 40,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "lamp-strength",
+   "finding": "M-028 (5)",
+   "value": 0.43,
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.geo.js",
+     "lines": [
+      32
+     ],
+     "value": 0.43,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/br-role/client/light.js",
+     "lines": [
+      54
+     ],
+     "value": 0.43,
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/shared/vision.ts",
+     "lines": [
+      302
+     ],
+     "value": 0.43,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "lamp-failure-dimming",
+   "finding": "M-028 (5)",
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.geo.js",
+     "lines": [
+      94
+     ],
+     "value": 0.06,
+     "ok": true,
+     "own": 0.06
+    },
+    {
+     "file": "src/frameworks/overseer/client/ents.debug.js",
+     "lines": [
+      289
+     ],
+     "value": 0.94,
+     "ok": true,
+     "own": 0.94
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "fixed-step-hz",
+   "finding": "M-028 (8)",
+   "value": 60,
+   "copies": [
+    {
+     "file": "src/frameworks/space/shared/timing_policy.js",
+     "lines": [
+      15
+     ],
+     "value": 60,
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/client/main.ts",
+     "lines": [
+      27
+     ],
+     "value": 60,
+     "ok": true
+    },
+    {
+     "file": "src/core/server/loop.js",
+     "lines": [
+      19
+     ],
+     "value": 60,
+     "ok": true
+    },
+    {
+     "file": "src/core/server/loop.js",
+     "lines": [
+      19
+     ],
+     "value": 60,
+     "ok": true
+    },
+    {
+     "file": "src/core/server/loop.js",
+     "lines": [
+      19
+     ],
+     "value": 60,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "catch-up-steps",
+   "finding": "M-028 (8)",
+   "value": 15,
+   "copies": [
+    {
+     "file": "src/frameworks/space/shared/timing_policy.js",
+     "lines": [
+      17
+     ],
+     "value": 15,
+     "ok": true
+    },
+    {
+     "file": "src/core/client/game/client/main.ts",
+     "lines": [
+      27
+     ],
+     "value": 15,
+     "ok": true
+    },
+    {
+     "file": "src/core/server/loop.js",
+     "lines": [
+      19
+     ],
+     "value": 15,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "frame-cap",
+   "finding": "M-028 (8)",
+   "value": 0.25,
+   "copies": [
+    {
+     "file": "src/core/client/game/client/main.ts",
+     "lines": [
+      27
+     ],
+     "value": 0.25,
+     "ok": true
+    },
+    {
+     "file": "src/core/server/loop.js",
+     "lines": [
+      16
+     ],
+     "value": 0.25,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "movement-floors",
+   "finding": "M-028 (11)",
+   "copies": [
+    {
+     "file": "src/frameworks/space/shared/world.move.js",
+     "lines": [
+      13
+     ],
+     "value": 172,
+     "ok": true,
+     "own": 172
+    },
+    {
+     "file": "src/frameworks/space/shared/world.move.js",
+     "lines": [
+      13
+     ],
+     "value": 285,
+     "ok": true,
+     "own": 285
+    },
+    {
+     "file": "src/frameworks/space/shared/world.move.js",
+     "lines": [
+      13
+     ],
+     "value": 148,
+     "ok": true,
+     "own": 148
+    },
+    {
+     "file": "src/frameworks/space/server/sim.movement.js",
+     "lines": [
+      51
+     ],
+     "value": "ov<20?0:ov<=106?3:ov<=225?1:2",
+     "ok": true,
+     "own": "ov<20?0:ov<=106?3:ov<=225?1:2"
+    },
+    {
+     "file": "src/frameworks/space/server/sim.movement.js",
+     "lines": [
+      53
+     ],
+     "value": 150,
+     "ok": true,
+     "own": 150
+    },
+    {
+     "file": "src/frameworks/space/server/sim.movement.js",
+     "lines": [
+      53
+     ],
+     "value": 225,
+     "ok": true,
+     "own": 225
+    },
+    {
+     "file": "src/frameworks/space/server/sim.movement.js",
+     "lines": [
+      54
+     ],
+     "value": 225,
+     "ok": true,
+     "own": 225
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "movement-states",
+   "finding": "M-028 (inside the server)",
+   "value": {
+    "stand": 0,
+    "walk": 1,
+    "run": 2,
+    "crouch": 3,
+    "crawl": 4,
+    "slide": 5,
+    "vault": 6,
+    "down": 7
+   },
+   "copies": [
+    {
+     "file": "src/frameworks/space/shared/world.move.js",
+     "lines": [
+      19
+     ],
+     "value": {
+      "stand": 0,
+      "walk": 1,
+      "run": 2,
+      "crouch": 3,
+      "crawl": 4,
+      "slide": 5,
+      "vault": 6,
+      "down": 7
+     },
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/space/shared/world.move.js",
+     "lines": [
+      20
+     ],
+     "value": [
+      "stand",
+      "walk",
+      "run",
+      "crouch",
+      "crawl",
+      "slide",
+      "vault",
+      "down"
+     ],
+     "ok": true,
+     "own": [
+      "stand",
+      "walk",
+      "run",
+      "crouch",
+      "crawl",
+      "slide",
+      "vault",
+      "down"
+     ]
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "route-check-distance",
+   "finding": "M-028 (inside the server)",
+   "value": 120,
+   "copies": [
+    {
+     "file": "src/frameworks/space/server/movement.js",
+     "lines": [
+      80
+     ],
+     "value": 120,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/space/server/movement.js",
+     "lines": [
+      115
+     ],
+     "value": 120,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/space/server/sim.movement.js",
+     "lines": [
+      20
+     ],
+     "value": 120,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "exhausted-stamina",
+   "finding": "M-028 (inside the server)",
+   "value": 22,
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.hound.js",
+     "lines": [
+      644
+     ],
+     "value": 22,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/gib/server/aftermath.js",
+     "lines": [
+      31
+     ],
+     "value": 22,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "glitched-walls",
+   "finding": "M-028 (offline)",
+   "value": 3,
+   "copies": [
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "lines": [
+      12
+     ],
+     "value": 3,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "lines": [
+      27
+     ],
+     "value": 3,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "lines": [
+      29
+     ],
+     "value": 3,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "glitched-wall-spacing",
+   "finding": "M-028 (offline)",
+   "value": 2600,
+   "copies": [
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "lines": [
+      20
+     ],
+     "value": 2600,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "lines": [
+      20
+     ],
+     "value": 2600,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "lines": [
+      34
+     ],
+     "value": 2600,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "lines": [
+      34
+     ],
+     "value": 2600,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "glitched-wall-face",
+   "finding": "M-028 (offline)",
+   "value": 48,
+   "copies": [
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "lines": [
+      19
+     ],
+     "value": 48,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/server/sim.glitches.js",
+     "lines": [
+      19
+     ],
+     "value": 48,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "lines": [
+      33
+     ],
+     "value": 48,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "lines": [
+      33
+     ],
+     "value": 48,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "glitched-wall-reach",
+   "finding": "M-028 (offline)",
+   "value": 54,
+   "copies": [
+    {
+     "file": "src/core/server/sim.step.js",
+     "lines": [
+      29
+     ],
+     "value": 54,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/lost/client/mp.glitch.js",
+     "lines": [
+      39
+     ],
+     "value": 54,
+     "ok": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "id": "cartograph-distance",
+   "finding": "M-028 (offline)",
+   "value": 1800,
+   "copies": [
+    {
+     "file": "src/frameworks/pocket/server/sim.items.js",
+     "lines": [
+      13
+     ],
+     "value": 1800,
+     "ok": true
+    },
+    {
+     "file": "src/frameworks/pocket/client/mp.cartograph.js",
+     "lines": [
+      33
+     ],
+     "value": 1800,
+     "ok": true
+    }
+   ],
+   "ok": true
+  }
+ ],
+ "copies": 169,
+ "problems": [],
+ "ok": true
+}

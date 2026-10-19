@@ -1,0 +1,681 @@
+{
+ "tool": "dev/tools/gate/golden/cli_golden_c3c.js",
+ "oldRef": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "newSide": "working tree",
+ "chromium": "141.0.7390.37",
+ "helpers": {
+  "old": [
+   "assets/net-wire.js",
+   "assets/net-interp.js"
+  ],
+  "new": [
+   "assets/net-newrun.js",
+   "assets/mp-hum.js",
+   "assets/net-wire.js",
+   "assets/net-interp.js"
+  ]
+ },
+ "startedAt": "2026-10-19T21:00:09.184Z",
+ "scenes": [
+  {
+   "scene": "load",
+   "old": {
+    "entries": 20,
+    "sha256": "7610e6d85b3dd6ed56f0051af1758a2507d4b83f7deaa03800344ccd9c8b73ce",
+    "errors": []
+   },
+   "new": {
+    "entries": 20,
+    "sha256": "7610e6d85b3dd6ed56f0051af1758a2507d4b83f7deaa03800344ccd9c8b73ce",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": null,
+   "thrown": [],
+   "ok": true
+  },
+  {
+   "scene": "menu_online",
+   "old": {
+    "entries": 1844,
+    "sha256": "2636fe01a314c1791edadef371fe4ba28ab77e9efada9daf25cd6a7ba39579e9",
+    "errors": []
+   },
+   "new": {
+    "entries": 1844,
+    "sha256": "2636fe01a314c1791edadef371fe4ba28ab77e9efada9daf25cd6a7ba39579e9",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": null,
+   "thrown": [],
+   "ok": true
+  },
+  {
+   "scene": "run_online",
+   "old": {
+    "entries": 7413,
+    "sha256": "51995af81336a1b8a35909c33882aab5b8336886adec6f4544866b15f2706728",
+    "errors": []
+   },
+   "new": {
+    "entries": 7413,
+    "sha256": "51995af81336a1b8a35909c33882aab5b8336886adec6f4544866b15f2706728",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": null,
+   "thrown": [],
+   "ok": true
+  },
+  {
+   "scene": "interp",
+   "old": {
+    "entries": 11483,
+    "sha256": "4c69588c48a3b74138077f2de8ffb389831735ca8ae4a994a705044bb529e1ab",
+    "errors": []
+   },
+   "new": {
+    "entries": 11483,
+    "sha256": "4c69588c48a3b74138077f2de8ffb389831735ca8ae4a994a705044bb529e1ab",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": null,
+   "thrown": [],
+   "ok": true
+  },
+  {
+   "scene": "fx_bodies",
+   "old": {
+    "entries": 22762,
+    "sha256": "a94dd7857b83adc44e4fd038d46cb5776dc69ca35c0d621566c53c8de149db12",
+    "errors": []
+   },
+   "new": {
+    "entries": 22762,
+    "sha256": "a94dd7857b83adc44e4fd038d46cb5776dc69ca35c0d621566c53c8de149db12",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": null,
+   "thrown": [],
+   "ok": true
+  },
+  {
+   "scene": "facade",
+   "old": {
+    "entries": 1164,
+    "sha256": "e50e808162793307e8a3bdd6899910774d4ea8a25606c84ec3314657f1c4894b",
+    "errors": []
+   },
+   "new": {
+    "entries": 1164,
+    "sha256": "e50e808162793307e8a3bdd6899910774d4ea8a25606c84ec3314657f1c4894b",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": null,
+   "thrown": [],
+   "ok": true
+  },
+  {
+   "scene": "admin",
+   "old": {
+    "entries": 1333,
+    "sha256": "b7ffb34a699af7169d2698dc6ad0df9b128a3a81610f4d9d5a3962208afd714b",
+    "errors": []
+   },
+   "new": {
+    "entries": 1333,
+    "sha256": "b7ffb34a699af7169d2698dc6ad0df9b128a3a81610f4d9d5a3962208afd714b",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": null,
+   "thrown": [],
+   "ok": true
+  },
+  {
+   "scene": "reconnect_solo",
+   "old": {
+    "entries": 739,
+    "sha256": "395aaf696d33abf49b9061aff1099f84c5f6d928313697e68aac5e96eb120770",
+    "errors": []
+   },
+   "new": {
+    "entries": 739,
+    "sha256": "395aaf696d33abf49b9061aff1099f84c5f6d928313697e68aac5e96eb120770",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": null,
+   "thrown": [],
+   "ok": true
+  },
+  {
+   "scene": "hum_dread",
+   "old": {
+    "entries": 4876,
+    "sha256": "d415d0bf6bbf0bfca5e901b25c00d09caf15a791891cd4b21043bee1bfc6ddad",
+    "errors": []
+   },
+   "new": {
+    "entries": 4876,
+    "sha256": "d415d0bf6bbf0bfca5e901b25c00d09caf15a791891cd4b21043bee1bfc6ddad",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": null,
+   "thrown": [],
+   "ok": true
+  },
+  {
+   "scene": "nr_answers",
+   "old": {
+    "entries": 229,
+    "sha256": "06a819be3a1df505658f6db43aad174c7bc1e10581adb330e4498d87f624a070",
+    "errors": []
+   },
+   "new": {
+    "entries": 229,
+    "sha256": "06a819be3a1df505658f6db43aad174c7bc1e10581adb330e4498d87f624a070",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": null,
+   "thrown": [],
+   "ok": true
+  },
+  {
+   "scene": "nr_reconnect",
+   "old": {
+    "entries": 96,
+    "sha256": "b877c98793945dd166f862f13ce0034097614a120e172c85d9b3f1c8fc597bad",
+    "errors": []
+   },
+   "new": {
+    "entries": 96,
+    "sha256": "b877c98793945dd166f862f13ce0034097614a120e172c85d9b3f1c8fc597bad",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": null,
+   "thrown": [],
+   "ok": true
+  },
+  {
+   "scene": "hum_fixtures",
+   "old": {
+    "entries": 8788,
+    "sha256": "3961c4258ee11c8a9f5bc3d4b266ce501a4cc8ebdf8716a50b09baff0d7fa4f8",
+    "errors": []
+   },
+   "new": {
+    "entries": 8788,
+    "sha256": "3961c4258ee11c8a9f5bc3d4b266ce501a4cc8ebdf8716a50b09baff0d7fa4f8",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": null,
+   "thrown": [],
+   "ok": true
+  },
+  {
+   "scene": "c3c_poses",
+   "old": {
+    "entries": 3094,
+    "sha256": "469cb724e456a524edbb319f6b5310cbfaf815d0d2c017791d99f661e4895182",
+    "errors": []
+   },
+   "new": {
+    "entries": 3094,
+    "sha256": "469cb724e456a524edbb319f6b5310cbfaf815d0d2c017791d99f661e4895182",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": 38,
+   "thrown": [],
+   "baseline": {
+    "sha256": "469cb724e456a524edbb319f6b5310cbfaf815d0d2c017791d99f661e4895182",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "c3c_epoch",
+   "old": {
+    "entries": 1258,
+    "sha256": "0d328c0e192934040a209c67da67ba0bf66c0018a932b91bae921c118f8b05ab",
+    "errors": []
+   },
+   "new": {
+    "entries": 1258,
+    "sha256": "0d328c0e192934040a209c67da67ba0bf66c0018a932b91bae921c118f8b05ab",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": 15,
+   "thrown": [],
+   "baseline": {
+    "sha256": "0d328c0e192934040a209c67da67ba0bf66c0018a932b91bae921c118f8b05ab",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "c3c_deathlight",
+   "old": {
+    "entries": 7733,
+    "sha256": "bf649b877ca1467f95b3e7b0d6821feb4e67e6b78215ab5adff6946981624bcc",
+    "errors": []
+   },
+   "new": {
+    "entries": 7733,
+    "sha256": "bf649b877ca1467f95b3e7b0d6821feb4e67e6b78215ab5adff6946981624bcc",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": 23,
+   "thrown": [],
+   "baseline": {
+    "sha256": "bf649b877ca1467f95b3e7b0d6821feb4e67e6b78215ab5adff6946981624bcc",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "c3c_misc",
+   "old": {
+    "entries": 1427,
+    "sha256": "20365f36096af374634495e6a9da8eb9640856a16d959d9973b2d35c26d69076",
+    "errors": []
+   },
+   "new": {
+    "entries": 1427,
+    "sha256": "20365f36096af374634495e6a9da8eb9640856a16d959d9973b2d35c26d69076",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": 20,
+   "thrown": [],
+   "baseline": {
+    "sha256": "20365f36096af374634495e6a9da8eb9640856a16d959d9973b2d35c26d69076",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "c3c_mode_a",
+   "old": {
+    "entries": 1109,
+    "sha256": "3a1ae0bcbfe91ae3189e727614d8a6bf641d192164b30ae9a22aed83fe89f16f",
+    "errors": []
+   },
+   "new": {
+    "entries": 1109,
+    "sha256": "3a1ae0bcbfe91ae3189e727614d8a6bf641d192164b30ae9a22aed83fe89f16f",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": 3,
+   "thrown": [],
+   "baseline": {
+    "sha256": "3a1ae0bcbfe91ae3189e727614d8a6bf641d192164b30ae9a22aed83fe89f16f",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "c3c_mode_b",
+   "old": {
+    "entries": 1109,
+    "sha256": "ec0a2bb4e1eba312510aff41f9c4db550c62319be2b7596ca60e8ad147149eb8",
+    "errors": []
+   },
+   "new": {
+    "entries": 1109,
+    "sha256": "ec0a2bb4e1eba312510aff41f9c4db550c62319be2b7596ca60e8ad147149eb8",
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": 3,
+   "thrown": [],
+   "baseline": {
+    "sha256": "ec0a2bb4e1eba312510aff41f9c4db550c62319be2b7596ca60e8ad147149eb8",
+    "equal": true
+   },
+   "ok": true
+  }
+ ],
+ "ok": true,
+ "reach": {
+  "old": {
+   "functions": 169,
+   "ran": 169,
+   "unrun": [],
+   "notAllowed": [],
+   "missedLines": [
+    "   13 part const room = new URLSearchParams(location.search).get('room') || 'main';",
+    "   67 part nrBusy = 1; nrBusyAt = t; const q = ++nrQ; nrSent.set(q, ok); if (nrSent.size > 8) nrSent.delete(nrSent.keys().next().value);",
+    "   86 part const b = document.getElementById('reset'); if (!b) return;",
+    "  100 part const r = document.getElementById('runMenu'), e = r && r.querySelector('.eyebrow'), i = r && r.querySelector('.intro'); if (!e || !i) return",
+    "  114 part const held = new Set(); if (m.e) for (const k of ['h', 'm']) for (const e of m.e[k] || []) if (e && e.cp) held.add(e.cp);",
+    "  135 part peers: [...peers.values()].map(o => ({ id: o.id, x: +o.x.toFixed(2), y: +o.y.toFixed(2), tx: o.tx, ty: o.ty, a: o.a, ang: o.ang === undefine",
+    "  172 part if (location.protocol === 'file:') return;",
+    "  173 part try { ws = new WebSocket((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws?room=' + encodeURIComponent(room)); } ",
+    "  200 part if (adm.rv && adm.rv.stage === 0) { if (!m.ok) adm.rv = null; else if (adm.opts.close && /^PLAYING/.test(adm.res.msg)) { adm.open = false; r",
+    "  204 part else if (m.t === 'bodies') { if (oldWorld(m.w)) return; bodiesList = m.b || []; const tb = performance.now() / 1000; for (const b of bodiesL",
+    "  227 part if (m.ad) { adm.data = m.ad; adm.you = m.you; adm.nf = m.nf ? 1 : 0; renderAdminData(); }   // (nf: Stage 3D HQ3, every admin snapshot says ",
+    "  254 part const E = EN(); if (!E) return;",
+    "  255 part for (const q of e.sn || []) if (Array.isArray(q) && ['growl', 'snarl', 'lungecue', 'guard', 'kill'].includes(q[0])) E.houndVoice(q[1], q[2],",
+    "  256 part E.setFails(e.lf || []);",
+    "  262 part if (!A || !s || !E) return;",
+    "  291 part window.__glitches = s.gw || []; window.__items = s.it || [];",
+    "  296 part const A = window.__api, mv = window.__mv, E = EN(); if (!A || !mv) return;",
+    "  310 part const box = document.getElementById('wonStats'); if (box) box.textContent = 'Time in Level 0 · ' + Math.floor((secs || 0) / 60) + ':' + Stri",
+    "  318 part const A = window.__api; if (!A || !A.zc) return;",
+    "  338 part const list = window.__items || [], A = window.__api;",
+    "  351 part const A = window.__api; if (!A || !A.zc || window.__itemSolo === true) return; window.__itemSolo = true;",
+    "  365 part const soundOn = () => /ON/.test(document.getElementById('sound')?.textContent || 'ON');",
+    "  374 part } catch {}",
+    "  409 part setInterval(() => { for (const [id, o] of [...peers]) if (!peers.has(id)) dropAvatar(o); }, 2000);",
+    "  418 part for (const x of [f.av, f.jl && f.jl.blood, f.jl && f.jl.foreground, f.jl && f.jl.debris, f.att, f.gib]) { if (!x) continue; try { x.parent &",
+    "  423 part if (m.k === 'end') { for (const f of fxs) if (f.id === m.id && (m.de == null || f.de === m.de)) f.end = true; return; }   // Stage 3D: an ad",
+    "  424 part if (m.de != null && fxs.some(f => f.de === m.de && !f.gone)) return;           // Stage 3D: one death plays once",
+    "  426 part const look = parseLook(m.lk), gear = { kind: m.ek || 'flashlight', color: m.ec || '#ffe7b2', parts: {} }; gear.parts[gear.kind] = partObj(ge",
+    "  433 part if (!(+m.el > .3) && EN() && EN().deathVoice) EN().deathVoice(m.c, m.x, m.y, jl.ph && jl.ph.ctx ? jl.ph.ctx.hits.slice() : null);   // Stage",
+    "  437 part bd = 240; (A.q || []).forEach((s, i) => { const d = Math.hypot(s.x - m.sx, s.y - m.sy); if (!s.off && d < bd) { bd = d; f.kill.s = i; } });",
+    "  441 part const d = +m.d || 0, jl = new A.Jl(); jl.start('Boom', now, { x: m.x - Math.cos(d), y: m.y - Math.sin(d) }, -1, { x: m.x, y: m.y, angle: m.a",
+    "  442 part if (!jl.ph) { killFx(f); return; }                                             // (the blast is physics only: never the scripted fallback)",
+    "  443 part f.gib = jl.ph.gib && window.__gore && window.__gore.gibs ? new (jl.foreground.constructor)() : null;   // Stage 3D HQ3: the pieces and the h",
+    "  455 part const S = jl.ph, G = window.__gore; if (!S || !S.gib || !G) return;",
+    "  484 part else { f.doneAt = f.doneAt || now; const nb = bodiesList.find(x => x.k === f.id); if ((nb && (f.de != null && nb.de != null ? nb.de === f.de",
+    "  489 part const SNAMES = (window.WORLD && window.WORLD.SN) || ['stand', 'walk', 'run', 'crouch', 'crawl', 'slide', 'vault', 'down'];",
+    "  491 part const a = o.mv; if (!Array.isArray(a)) return undefined;",
+    "  492 part const s = SNAMES[a[0]] || 'stand';",
+    "  494 part const t = now - (o.mvT0 || now);",
+    "  495 part return { s, t, sp: a[1] || 0, st: a[2] === undefined ? 100 : a[2], ex: a[3] ? 1 : 0, vp: s === 'vault' ? Math.min(1, t / .55) : 0, lean: o.m",
+    "  501 part const A = window.__api; if (!A || !A.bodyList) return;",
+    "  506 part if (d && d.active && b.id === d.corpseId) continue;                         // Stage 3D HQ1: our own corpse while our death is still on scre",
+    "  526 part function relOf(de, cand) { if (de == null || cand == null) return cand; let v = relAt.get(de); if (v === undefined || cand < v) { if (v === ",
+    "  528 part function stNote(de, k, v) { if (de == null || !Number.isFinite(v)) return; let o = srvSt.get(de); if (!o || o.ep !== NET.epoch) { srvSt.set(",
+    "  530 part function srvAnchors() { if (NET.off == null) return; for (const [de, o] of srvSt) { if (o.ep !== NET.epoch) continue; if (o.r !== undefined)",
+    "  531 part const relRun = S => !S ? null : window.__dphys && window.__dphys.releaseOf ? window.__dphys.releaseOf(S) : S.ctx && S.ctx.eqKind === 'headla",
+    "  533 part const D = window.__dphys, now = lnow(), pw = rel == null ? 1 : D && D.lightPower ? D.lightPower(lf, now - rel) : 1;",
+    "  534 part if (DLOG.length < 32) DLOG.push({ src, de, kind, lf: lf || null, rel: rel == null ? null : +rel.toFixed(4), now: +now.toFixed(4), pw: +pw.to",
+    "  539 part if (!localDe.has(b.id) && ownDeath) localDe.set(b.id, ownDeath.de);",
+    "  540 part const de = localDe.get(b.id), mineNow = ownDeath && ownDeath.de === de;",
+    "  541 part if (mineNow && ownDeath.srv && !ownDeath.lf) return 0;                       // the server's record says this light was not a lit emitter wh",
+    "  542 part const cand = mineNow && ownDeath.rel != null ? ownDeath.t0 + ownDeath.rel : (b.createdAt != null ? b.createdAt : performance.now() / 1000);",
+    "  543 part return powerAt('own corpse', de, mineNow ? ownDeath.lf : null, relOf(de != null ? de : 'l:' + b.id, cand), b.equipment.kind);",
+    "  546 part const A = window.__api, d = A && A.death && A.death(); if (!d || !d.active || !ownDeath) return 1;",
+    "  548 part const r = relRun(d.ph); if (r == null) return 1;",
+    "  567 part if (!b.remote && ownDeath) { if (!localDe.has(b.id)) { localDe.set(b.id, ownDeath.de); if (localDe.size > 8) localDe.delete(localDe.keys().n",
+    "  580 part const r = relRun(f.jl.ph); if (r != null) eqKnown(f.de, r); const pw = powerAt('replay', f.de, f.lf, r == null ? null : relOf(f.de, f.t0 + r",
+    "  593 part const ft = Number.isFinite(dt) ? Math.min(.25, Math.max(0, dt)) : 0, aP = PEER_MODE === 'a' ? .3 : 1 - Math.pow(.7, 60 * ft), aR = PEER_MODE",
+    "  601 part if (!o.av) { o.look = parseLook(o.lk); o.gear = { kind: o.k || 'flashlight', color: o.c || '#ffe7b2', parts: {} }; o.av = A.mkAvatar(o.look,",
+    "  602 part Object.assign(o.look, parseLook(o.lk)); o.gear.kind = o.k || 'flashlight'; o.gear.color = o.c || '#ffe7b2'; o.gear.parts[o.gear.kind] = part",
+    "  614 part const bm = o.av && o.av.beam; if (dist < 950) lights.push({ x: bm ? bm.x : o.x, y: bm ? bm.y : o.y, angle: bm ? bm.angle : o.ang, kind: o.k ",
+    "  629 part tip.textContent = (hover.o.n || 'WANDERER') + (hover.o.d ? ' · DEAD' : '');",
+    "  634 part sx: view.W / 2 + (o.x - view.cam.x) * view.sc, sy: view.H / 2 + (o.y - view.cam.y) * view.sc })) : [];",
+    "  644 part const LS = { get(k, d) { try { const v = localStorage.getItem('adm.' + k); return v === null ? d : JSON.parse(v); } catch { return d; } }, s",
+    "  646 part adm.tab = LS.get('tab', 'players'); if (!TABS.some(t => t[0] === adm.tab)) adm.tab = 'players';",
+    "  647 part adm.side = LS.get('side', 'left') === 'right' ? 'right' : 'left';",
+    "  679 part const SNM = (window.WORLD && window.WORLD.SN) || ['stand', 'walk', 'run', 'crouch', 'crawl', 'slide', 'vault', 'down'];",
+    "  680 part const btn = (label, attrs, on, cls) => `<button class=\"adm${on ? ' on' : ''}${cls ? ' ' + cls : ''}\" ${attrs}>${label}</button>`;",
+    "  690 part const line = (SNM[pl.st] || 'stand') + ' · ' + pl.x + ',' + pl.y + (!you && mine ? ' · ' + Math.round(Math.hypot(pl.x - mine.x, pl.y - mine.",
+    "  691 part return `<div class=\"adm-player\"><div><b>${esc(pl.n || 'WANDERER')}</b> <i>${tags}</i></div><div class=\"adm-sub\">${live('p' + pl.id, line)}</",
+    "  699 part const ents = (d.es || []).slice().sort((a, b) => a[0] - b[0]);",
+    "  700 part const mh = d.mh || 64, ms = d.ms || 64;",
+    "  701 part return sec(`MONSTERS · ${d.hn} HOUND${d.hn === 1 ? '' : 'S'} (ADMIN MAX ${mh})${d.pk ? ' · PACK' : ''} · ${d.sn} SMILER${d.sn === 1 ? '' : '",
+    "  702 part rowW(btn(d.fz ? 'FROZEN' : 'FREEZE', `data-c=\"freeze\" data-on=\"${d.fz ? 0 : 1}\"`, d.fz) + btn('SUMMON HOUND TO ME', 'data-c=\"summon\"') + btn",
+    "  707 part const dist = mine ? ' · ' + Math.round(Math.hypot(e[3] - mine.x, e[4] - mine.y)) + ' px' : '';",
+    "  708 part return `<div class=\"adm-ent\"><span class=\"k ${e[1] ? 's' : 'h'}\">${e[1] ? 'S' : 'H'}#${e[0]}</span><span class=\"st\">${live('e' + e[0], e[2] ",
+    "  709 part }).join('') : '<p class=\"adm-help\">No entities right now.</p>');",
+    "  715 part if (k === 'speed') L.speed = +v; else if (k === 'pause') L.paused = !L.paused; else if (k === 'step') { L.paused = true; L.step = (L.step | ",
+    "  720 part const A = window.__api; if (!A || !A.sl || !A.Uc) return null; const H = A.H, gl = window.__glitches || [], lamps = A.lamps || [], TAU2 = Ma",
+    "  723 part if (kind === 'crawl') { const W0 = window.WORLD; let b = null, bd = 1e9; for (const c of (W0 && W0.CRAWL) || []) for (const x of c.exits) { ",
+    "  728 part if (kind === 'door') { for (const [ax, px] of [[0, Math.PI / 2], [Math.PI / 2, 0]]) { const w = ray(x, y, px) + ray(x, y, px + Math.PI); if ",
+    "  729 part if (kind === 'pillar') { let hit = 0, nearA = 0; for (let k = 0; k < 16; k++) { const d = ray(x, y, k / 16 * TAU2); if (d < 130) { hit++; ne",
+    "  730 part if (kind === 'open') { let good = true; for (let k = 0; k < 8; k++) if (ray(x, y, k / 8 * TAU2) < 210) { good = false; break; } if (good) re",
+    "  733 part if (kind === 'wall') { const dd = ray(x, y, a); if (dd > 72 && dd < 108 && ray(x, y, a + .5) > 60 && ray(x, y, a - .5) > 60 && ray(x, y, a +",
+    "  734 part else { const d1 = ray(x, y, a), d2 = ray(x, y, a + Math.PI / 2); if (d1 > 60 && d1 < 115 && d2 > 60 && d2 < 115 && ray(x, y, a + Math.PI) > ",
+    "  741 part const cm = d.cm || 'auto', cb = (m, l) => btn(l, `data-c=\"capmode\" data-mode=\"${m}\"`, cm === m);",
+    "  749 part const nf = adm.nf, last = nrLast, lastTxt = !last ? 'NOT PRESSED YET ON THIS CONNECTION' : last.ok ? 'APPROVED (EVENT ' + last.de + ')' : la",
+    "  750 part const mine = sec('YOUR NEW RUN · INSTANT GIB') + rowW(btn(nf ? '● UNLIMITED NEW RUN ON' : '○ UNLIMITED NEW RUN OFF', `data-c=\"nrfree\" data-o",
+    "  751 part `<div class=\"adm-sub\">SERVER SAYS: ${nf ? 'ON' : 'OFF'} · LAST NEW RUN: ${live('nrlast', lastTxt)}</div>` +",
+    "  763 part sec(`CARTOGRAPH · ${d.it ? 'ON THE FLOOR' : 'TAKEN'}`) + rowW(btn('GO TO IT', 'data-c=\"item\" data-mode=\"tp\"') + btn('MOVE IT', 'data-c=\"item",
+    "  783 part sec('TOOLS') + rowW(btn('COPY REPORT', 'data-a=\"copy\"') + btn(d.fz ? 'UNFREEZE' : 'FREEZE THE HALLS', `data-c=\"freeze\" data-on=\"${d.fz ? 0 :",
+    "  789 part const el = $a('admStatus'); if (!el) return;",
+    "  804 part const html = (BODIES[adm.tab] || bodyPlayers)(d), sig = adm.tab + '|' + html.replace(/(<span data-live=\"[^\"]+\">)[^<]*(<\\/span>)/g, '$1$2'), ",
+    "  806 part else for (const el of body.querySelectorAll('[data-live]')) { const t = liveMap[el.dataset.live]; if (t !== undefined && el.textContent !== ",
+    "  818 part const fallback = () => { const ta = Object.assign(document.createElement('textarea'), { value: text }); ta.style.cssText = 'position:fixed;l",
+    "  823 part const A = window.__api, E = EN(), d = adm.data || {}, mv = window.__mv || {};",
+    "  825 part when: new Date().toISOString(), room, you: adm.you, at: A ? { x: Math.round(A.H.x), y: Math.round(A.H.y), stamina: Math.round(A.H.stamina) }",
+    "  833 part if (now - r.t0 > 60000 || !adm.unlocked) { adm.rv = null; return; }",
+    "  834 part if (r.stage === 0) { if (A.G.caught) r.stage = 1; else if (now - r.t0 > 8000) adm.rv = null; }",
+    "  837 part if (adm.opts.auto && !r.sent && now - r.t1 > 1300) { r.sent = true; tx({ t: 'a', c: 'revive', id: myId }); }",
+    "  839 part } else if (r.stage === 3 && A.fall && A.fall() < 0) { if (adm.opts.back) { A.tp(r.pos.x, r.pos.y); A.H.angle = r.pos.a; } adm.rv = null; }",
+    "  842 part const b = e.target.closest('button'); if (!b) return;",
+    "  844 part if (a === 'close') { adm.open = false; renderAdmin(); return; }",
+    "  855 part const L = (EN() && EN().dbg) || [], A = window.__api; if (b.dataset.v === 'none') adm.sel = 0;",
+    "  856 part else if (!L.length) adm.res = { ok: false, msg: 'TURN DEBUG MODE ON FIRST (the list comes from the server)', at: performance.now() };",
+    "  861 part if (a === 'navgo') { const d = ((EN() && EN().dbg) || []).find(q => q.i === adm.sel); if (d) tx({ t: 'a', c: 'entgoto', eid: d.i }); else { ",
+    "  863 part if (a === 'replay') { const r = adm.lastPv; if (!r) { adm.res = { ok: false, msg: 'NOTHING TO REPLAY YET', at: performance.now() }; renderSt",
+    "  865 part if (a === 'copy') { copyText(report()).then(ok => { adm.res = { ok, msg: ok ? 'REPORT COPIED TO THE CLIPBOARD' : 'COULD NOT COPY: CLIPBOARD ",
+    "  866 part if (!b.dataset.c) return;",
+    "  867 part if (b.dataset.confirm && !confirm(b.dataset.confirm)) return;",
+    "  878 part if (o.c === 'nav') { if (!adm.sel) { adm.res = { ok: false, msg: 'SELECT AN ENTITY FIRST', at: performance.now() }; renderStatus(); return; ",
+    "  879 part if (o.c === 'preview') { adm.lastPv = { k: o.k, var: o.var }; const A = window.__api; adm.rv = A ? { stage: 0, t0: performance.now(), pos: {",
+    "  896 part const pan = ctx.createStereoPanner ? ctx.createStereoPanner() : null;",
+    "  897 part if (pan) { out.connect(pan); pan.connect(dest); } else out.connect(dest);",
+    "  929 part const g = c.createGain(); g.gain.value = vol; s.connect(hp); hp.connect(g); g.connect(h.out); s.start(when ?? c.currentTime);",
+    "  946 part const A = window.__api; if (!A || !A.audio || !A.lamps) return;",
+    "  996 part const dpr = devicePixelRatio || 1, W = innerWidth, H = innerHeight;",
+    " 1005 part else { if (window.__mv && window.__mv.down) { window.__mv.down = 0; window.__mv.dragTo = null; } if (started && !exited) { soloGlitches(p); ",
+    " 1017 part a: +p.angle.toFixed(2), r: p.sprinting ? 1 : 0, l: lightOn ? 1 : 0, ir: window.__cam ? window.__cam.irNet : 0, k: p.equipment?.kind, lp: par",
+    " 1018 part n: (document.getElementById('nameplate')?.textContent || 'WANDERER').slice(0, 20), c: p.equipment?.color,",
+    " 1019 part f: window.__api && window.__api.fall ? +window.__api.fall().toFixed(2) : -1,",
+    " 1020 part lk: window.__api ? lookStr(window.__api.look) : undefined,"
+   ]
+  },
+  "new": {
+   "functions": 233,
+   "ran": 232,
+   "unrun": [
+    {
+     "name": "say",
+     "at": 10860,
+     "text": "(text, c, v) => tx({ t: 'say', text: String(text), c: String(c || ''),"
+    }
+   ],
+   "notAllowed": [],
+   "missedLines": [
+    "   14 part const room = new URLSearchParams(location.search).get('room') || 'main';",
+    "   83 part nrBusy = 1; nrBusyAt = t; const q = ++nrQ; nrSent.set(q, ok); if (nrSent.size > 8) nrSent.delete(nrSent.keys().next().value);",
+    "  119 part if (window.__chat && window.__chat.link) window.__chat.link({ say: (text, c, v) => tx({ t: 'say', text: String(text), c: String(c || ''), v:",
+    "  121 part peers: [...peers.values()].map(o => ({ id: o.id, x: +o.x.toFixed(2), y: +o.y.toFixed(2), tx: o.tx, ty: o.ty, a: o.a, ang: o.ang === undefine",
+    "  143 part if (location.protocol === 'file:') return;",
+    "  144 part try { ws = new WebSocket((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws?room=' + encodeURIComponent(room)); } ",
+    "  173 part else if (m.t === 'heard' || m.t === 'said') { if (window.__chat) window.__chat.net(m, peers.get(m.id) || null); }   // post-3H Trial 2: near",
+    "  213 part a: +p.angle.toFixed(2), r: p.sprinting ? 1 : 0, l: lightOn ? 1 : 0, ir: window.__cam ? window.__cam.irNet : 0, k: p.equipment?.kind, lp: par",
+    "  214 part n: (document.getElementById('nameplate')?.textContent || 'WANDERER').slice(0, 20), c: p.equipment?.color,",
+    "  215 part f: window.__api && window.__api.fall ? +window.__api.fall().toFixed(2) : -1,",
+    "  216 part lk: window.__api ? lookStr(window.__api.look) : undefined,",
+    "  234 part const box = document.getElementById('wonStats'); if (box) box.textContent = 'Time in Level 0 · ' + Math.floor((secs || 0) / 60) + ':' + Stri",
+    "  242 part const A = window.__api; if (!A || !A.zc) return;",
+    "  261 part const glitchesFrom = gw => { window.__glitches = gw || []; };          // the server's walls, from each snapshot (N.A.N.I.'s mirror)",
+    "  269 part const list = window.__items || [], A = window.__api;",
+    "  282 part const A = window.__api; if (!A || !A.zc || window.__itemSolo === true) return; window.__itemSolo = true;",
+    "  292 part const itemsFrom = it => { window.__items = it || []; };              // the server's items, from each snapshot (N.A.N.I.'s mirror)",
+    "  309 part const E = EN(); if (!E) return;",
+    "  310 part for (const q of e.sn || []) if (Array.isArray(q) && ['growl', 'snarl', 'lungecue', 'guard', 'kill'].includes(q[0])) E.houndVoice(q[1], q[2],",
+    "  311 part E.setFails(e.lf || []);",
+    "  317 part if (!A || !s || !E) return;",
+    "  351 part const A = window.__api, mv = window.__mv, E = EN(); if (!A || !mv) return;",
+    "  387 part const held = new Set(); if (m.e) for (const k of ['h', 'm']) for (const e of m.e[k] || []) if (e && e.cp) held.add(e.cp);",
+    "  420 part const soundOn = () => /ON/.test(document.getElementById('sound')?.textContent || 'ON');",
+    "  429 part } catch {}",
+    "  467 part setInterval(() => { for (const [id, o] of [...peers]) if (!peers.has(id)) dropAvatar(o); }, 2000);",
+    "  471 part tip.textContent = (hover.o.n || 'WANDERER') + (hover.o.d ? ' · DEAD' : '');",
+    "  498 part for (const x of [f.av, f.jl && f.jl.blood, f.jl && f.jl.foreground, f.jl && f.jl.debris, f.att, f.gib]) { if (!x) continue; try { x.parent &",
+    "  503 part if (m.k === 'end') { for (const f of fxs) if (f.id === m.id && (m.de == null || f.de === m.de)) f.end = true; return; }   // Stage 3D: an ad",
+    "  504 part if (m.de != null && fxs.some(f => f.de === m.de && !f.gone)) return;           // Stage 3D: one death plays once",
+    "  506 part const look = parseLook(m.lk), gear = { kind: m.ek || 'flashlight', color: m.ec || '#ffe7b2', parts: {} }; gear.parts[gear.kind] = partObj(ge",
+    "  513 part if (!(+m.el > .3) && EN() && EN().deathVoice) EN().deathVoice(m.c, m.x, m.y, jl.ph && jl.ph.ctx ? jl.ph.ctx.hits.slice() : null);   // Stage",
+    "  517 part bd = 240; (A.q || []).forEach((s, i) => { const d = Math.hypot(s.x - m.sx, s.y - m.sy); if (!s.off && d < bd) { bd = d; f.kill.s = i; } });",
+    "  521 part const d = +m.d || 0, jl = new A.Jl(); jl.start('Boom', now, { x: m.x - Math.cos(d), y: m.y - Math.sin(d) }, -1, { x: m.x, y: m.y, angle: m.a",
+    "  522 part if (!jl.ph) { killFx(f); return; }                                             // (the blast is physics only: never the scripted fallback)",
+    "  523 part f.gib = jl.ph.gib && window.__gore && window.__gore.gibs ? new (jl.foreground.constructor)() : null;   // Stage 3D HQ3: the pieces and the h",
+    "  535 part const S = jl.ph, G = window.__gore; if (!S || !S.gib || !G) return;",
+    "  564 part else { f.doneAt = f.doneAt || now; const nb = bodiesList.find(x => x.k === f.id); if ((nb && (f.de != null && nb.de != null ? nb.de === f.de",
+    "  569 part const SNAMES = (window.WORLD && window.WORLD.SN) || ['stand', 'walk', 'run', 'crouch', 'crawl', 'slide', 'vault', 'down'];",
+    "  571 part const a = o.mv; if (!Array.isArray(a)) return undefined;",
+    "  572 part const s = SNAMES[a[0]] || 'stand';",
+    "  574 part const t = now - (o.mvT0 || now);",
+    "  575 part return { s, t, sp: a[1] || 0, st: a[2] === undefined ? 100 : a[2], ex: a[3] ? 1 : 0, vp: s === 'vault' ? Math.min(1, t / .55) : 0, lean: o.m",
+    "  581 part const A = window.__api; if (!A || !A.bodyList) return;",
+    "  586 part if (d && d.active && b.id === d.corpseId) continue;                         // Stage 3D HQ1: our own corpse while our death is still on scre",
+    "  606 part function relOf(de, cand) { if (de == null || cand == null) return cand; let v = relAt.get(de); if (v === undefined || cand < v) { if (v === ",
+    "  608 part function stNote(de, k, v) { if (de == null || !Number.isFinite(v)) return; let o = srvSt.get(de); if (!o || o.ep !== NET.epoch) { srvSt.set(",
+    "  610 part function srvAnchors() { if (NET.off == null) return; for (const [de, o] of srvSt) { if (o.ep !== NET.epoch) continue; if (o.r !== undefined)",
+    "  611 part const relRun = S => !S ? null : window.__dphys && window.__dphys.releaseOf ? window.__dphys.releaseOf(S) : S.ctx && S.ctx.eqKind === 'headla",
+    "  613 part const D = window.__dphys, now = lnow(), pw = rel == null ? 1 : D && D.lightPower ? D.lightPower(lf, now - rel) : 1;",
+    "  614 part if (DLOG.length < 32) DLOG.push({ src, de, kind, lf: lf || null, rel: rel == null ? null : +rel.toFixed(4), now: +now.toFixed(4), pw: +pw.to",
+    "  619 part if (!localDe.has(b.id) && ownDeath) localDe.set(b.id, ownDeath.de);",
+    "  620 part const de = localDe.get(b.id), mineNow = ownDeath && ownDeath.de === de;",
+    "  621 part if (mineNow && ownDeath.srv && !ownDeath.lf) return 0;                       // the server's record says this light was not a lit emitter wh",
+    "  622 part const cand = mineNow && ownDeath.rel != null ? ownDeath.t0 + ownDeath.rel : (b.createdAt != null ? b.createdAt : performance.now() / 1000);",
+    "  623 part return powerAt('own corpse', de, mineNow ? ownDeath.lf : null, relOf(de != null ? de : 'l:' + b.id, cand), b.equipment.kind);",
+    "  626 part const A = window.__api, d = A && A.death && A.death(); if (!d || !d.active || !ownDeath) return 1;",
+    "  628 part const r = relRun(d.ph); if (r == null) return 1;",
+    "  647 part if (!b.remote && ownDeath) { if (!localDe.has(b.id)) { localDe.set(b.id, ownDeath.de); if (localDe.size > 8) localDe.delete(localDe.keys().n",
+    "  660 part const r = relRun(f.jl.ph); if (r != null) eqKnown(f.de, r); const pw = powerAt('replay', f.de, f.lf, r == null ? null : relOf(f.de, f.t0 + r",
+    "  674 part const ft = Number.isFinite(dt) ? Math.min(.25, Math.max(0, dt)) : 0, aP = PEER_MODE === 'a' ? .3 : 1 - Math.pow(.7, 60 * ft), aR = PEER_MODE",
+    "  682 part if (!o.av) { o.look = parseLook(o.lk); o.gear = { kind: o.k || 'flashlight', color: o.c || '#ffe7b2', parts: {} }; o.av = A.mkAvatar(o.look,",
+    "  683 part Object.assign(o.look, parseLook(o.lk)); o.gear.kind = o.k || 'flashlight'; o.gear.color = o.c || '#ffe7b2'; o.gear.parts[o.gear.kind] = part",
+    "  695 part const bm = o.av && o.av.beam; if (dist < 950) lights.push({ x: bm ? bm.x : o.x, y: bm ? bm.y : o.y, angle: bm ? bm.angle : o.ang, kind: o.k ",
+    "  712 part sx: view.W / 2 + (o.x - view.cam.x) * view.sc, sy: view.H / 2 + (o.y - view.cam.y) * view.sc })) : [];",
+    "  725 part function takeBodies(list) { bodiesList = list || []; const tb = performance.now() / 1000; for (const b of bodiesList) if (b && b.de != null ",
+    "  739 part const LS = { get(k, d) { try { const v = localStorage.getItem('adm.' + k); return v === null ? d : JSON.parse(v); } catch { return d; } }, s",
+    "  741 part adm.tab = LS.get('tab', 'players'); if (!TABS.some(t => t[0] === adm.tab)) adm.tab = 'players';",
+    "  742 part adm.side = LS.get('side', 'left') === 'right' ? 'right' : 'left';",
+    "  774 part const SNM = (window.WORLD && window.WORLD.SN) || ['stand', 'walk', 'run', 'crouch', 'crawl', 'slide', 'vault', 'down'];",
+    "  775 part const btn = (label, attrs, on, cls) => `<button class=\"adm${on ? ' on' : ''}${cls ? ' ' + cls : ''}\" ${attrs}>${label}</button>`;",
+    "  785 part const line = (SNM[pl.st] || 'stand') + ' · ' + pl.x + ',' + pl.y + (!you && mine ? ' · ' + Math.round(Math.hypot(pl.x - mine.x, pl.y - mine.",
+    "  786 part return `<div class=\"adm-player\"><div><b>${esc(pl.n || 'WANDERER')}</b> <i>${tags}</i></div><div class=\"adm-sub\">${live('p' + pl.id, line)}</",
+    "  794 part const ents = (d.es || []).slice().sort((a, b) => a[0] - b[0]);",
+    "  795 part const mh = d.mh || 64, ms = d.ms || 64;",
+    "  796 part return sec(`MONSTERS · ${d.hn} HOUND${d.hn === 1 ? '' : 'S'} (ADMIN MAX ${mh})${d.pk ? ' · PACK' : ''} · ${d.sn} SMILER${d.sn === 1 ? '' : '",
+    "  797 part rowW(btn(d.fz ? 'FROZEN' : 'FREEZE', `data-c=\"freeze\" data-on=\"${d.fz ? 0 : 1}\"`, d.fz) + btn('SUMMON HOUND TO ME', 'data-c=\"summon\"') + btn",
+    "  802 part const dist = mine ? ' · ' + Math.round(Math.hypot(e[3] - mine.x, e[4] - mine.y)) + ' px' : '';",
+    "  803 part return `<div class=\"adm-ent\"><span class=\"k ${e[1] ? 's' : 'h'}\">${e[1] ? 'S' : 'H'}#${e[0]}</span><span class=\"st\">${live('e' + e[0], e[2] ",
+    "  804 part }).join('') : '<p class=\"adm-help\">No entities right now.</p>');",
+    "  810 part if (k === 'speed') L.speed = +v; else if (k === 'pause') L.paused = !L.paused; else if (k === 'step') { L.paused = true; L.step = (L.step | ",
+    "  815 part const A = window.__api; if (!A || !A.sl || !A.Uc) return null; const H = A.H, gl = glitches() || [], lamps = A.lamps || [], TAU2 = Math.PI *",
+    "  818 part if (kind === 'crawl') { const W0 = window.WORLD; let b = null, bd = 1e9; for (const c of (W0 && W0.CRAWL) || []) for (const x of c.exits) { ",
+    "  823 part if (kind === 'door') { for (const [ax, px] of [[0, Math.PI / 2], [Math.PI / 2, 0]]) { const w = ray(x, y, px) + ray(x, y, px + Math.PI); if ",
+    "  824 part if (kind === 'pillar') { let hit = 0, nearA = 0; for (let k = 0; k < 16; k++) { const d = ray(x, y, k / 16 * TAU2); if (d < 130) { hit++; ne",
+    "  825 part if (kind === 'open') { let good = true; for (let k = 0; k < 8; k++) if (ray(x, y, k / 8 * TAU2) < 210) { good = false; break; } if (good) re",
+    "  828 part if (kind === 'wall') { const dd = ray(x, y, a); if (dd > 72 && dd < 108 && ray(x, y, a + .5) > 60 && ray(x, y, a - .5) > 60 && ray(x, y, a +",
+    "  829 part else { const d1 = ray(x, y, a), d2 = ray(x, y, a + Math.PI / 2); if (d1 > 60 && d1 < 115 && d2 > 60 && d2 < 115 && ray(x, y, a + Math.PI) > ",
+    "  836 part const cm = d.cm || 'auto', cb = (m, l) => btn(l, `data-c=\"capmode\" data-mode=\"${m}\"`, cm === m);",
+    "  844 part const nf = adm.nf, last = nrLast(), lastTxt = !last ? 'NOT PRESSED YET ON THIS CONNECTION' : last.ok ? 'APPROVED (EVENT ' + last.de + ')' : ",
+    "  845 part const mine = sec('YOUR NEW RUN · INSTANT GIB') + rowW(btn(nf ? '● UNLIMITED NEW RUN ON' : '○ UNLIMITED NEW RUN OFF', `data-c=\"nrfree\" data-o",
+    "  846 part `<div class=\"adm-sub\">SERVER SAYS: ${nf ? 'ON' : 'OFF'} · LAST NEW RUN: ${live('nrlast', lastTxt)}</div>` +",
+    "  858 part sec(`CARTOGRAPH · ${d.it ? 'ON THE FLOOR' : 'TAKEN'}`) + rowW(btn('GO TO IT', 'data-c=\"item\" data-mode=\"tp\"') + btn('MOVE IT', 'data-c=\"item",
+    "  878 part sec('TOOLS') + rowW(btn('COPY REPORT', 'data-a=\"copy\"') + btn(d.fz ? 'UNFREEZE' : 'FREEZE THE HALLS', `data-c=\"freeze\" data-on=\"${d.fz ? 0 :",
+    "  884 part const el = $a('admStatus'); if (!el) return;",
+    "  899 part const html = (BODIES[adm.tab] || bodyPlayers)(d), sig = adm.tab + '|' + html.replace(/(<span data-live=\"[^\"]+\">)[^<]*(<\\/span>)/g, '$1$2'), ",
+    "  901 part else for (const el of body.querySelectorAll('[data-live]')) { const t = liveMap[el.dataset.live]; if (t !== undefined && el.textContent !== ",
+    "  913 part const fallback = () => { const ta = Object.assign(document.createElement('textarea'), { value: text }); ta.style.cssText = 'position:fixed;l",
+    "  918 part const A = window.__api, E = EN(), d = adm.data || {}, mv = window.__mv || {};",
+    "  920 part when: new Date().toISOString(), room, you: adm.you, at: A ? { x: Math.round(A.H.x), y: Math.round(A.H.y), stamina: Math.round(A.H.stamina) }",
+    "  928 part if (now - r.t0 > 60000 || !adm.unlocked) { adm.rv = null; return; }",
+    "  929 part if (r.stage === 0) { if (A.G.caught) r.stage = 1; else if (now - r.t0 > 8000) adm.rv = null; }",
+    "  932 part if (adm.opts.auto && !r.sent && now - r.t1 > 1300) { r.sent = true; tx({ t: 'a', c: 'revive', id: myId() }); }",
+    "  934 part } else if (r.stage === 3 && A.fall && A.fall() < 0) { if (adm.opts.back) { A.tp(r.pos.x, r.pos.y); A.H.angle = r.pos.a; } adm.rv = null; }",
+    "  937 part const b = e.target.closest('button'); if (!b) return;",
+    "  939 part if (a === 'close') { adm.open = false; renderAdmin(); return; }",
+    "  950 part const L = (EN() && EN().dbg) || [], A = window.__api; if (b.dataset.v === 'none') adm.sel = 0;",
+    "  951 part else if (!L.length) adm.res = { ok: false, msg: 'TURN DEBUG MODE ON FIRST (the list comes from the server)', at: performance.now() };",
+    "  956 part if (a === 'navgo') { const d = ((EN() && EN().dbg) || []).find(q => q.i === adm.sel); if (d) tx({ t: 'a', c: 'entgoto', eid: d.i }); else { ",
+    "  958 part if (a === 'replay') { const r = adm.lastPv; if (!r) { adm.res = { ok: false, msg: 'NOTHING TO REPLAY YET', at: performance.now() }; renderSt",
+    "  960 part if (a === 'copy') { copyText(report()).then(ok => { adm.res = { ok, msg: ok ? 'REPORT COPIED TO THE CLIPBOARD' : 'COULD NOT COPY: CLIPBOARD ",
+    "  961 part if (!b.dataset.c) return;",
+    "  962 part if (b.dataset.confirm && !confirm(b.dataset.confirm)) return;",
+    "  973 part if (o.c === 'nav') { if (!adm.sel) { adm.res = { ok: false, msg: 'SELECT AN ENTITY FIRST', at: performance.now() }; renderStatus(); return; ",
+    "  974 part if (o.c === 'preview') { adm.lastPv = { k: o.k, var: o.var }; const A = window.__api; adm.rv = A ? { stage: 0, t0: performance.now(), pos: {",
+    " 1001 part if (adm.rv && adm.rv.stage === 0) { if (!m.ok) adm.rv = null; else if (adm.opts.close && /^PLAYING/.test(adm.res.msg)) { adm.open = false; r",
+    " 1006 part function adminData(m) { adm.data = m.ad; adm.you = m.you; adm.nf = m.nf ? 1 : 0; renderAdminData(); }   // (nf: Stage 3D HQ3, every admin sn",
+    " 1017 part const dpr = devicePixelRatio || 1, W = innerWidth, H = innerHeight;",
+    " 1026 part else { if (window.__mv && window.__mv.down) unhold(); if (started && !exited()) { soloGlitches(p); soloItems(); } }",
+    " 1037 part if (window.__chatFrame) window.__chatFrame({ p, cam, sc, W, H, run: run && !exited() });   // post-3H Trial 2: F.R.O.N.T.'s speech bubbles, "
+   ]
+  },
+  "allowed": [
+   {
+    "name": "say",
+    "why": "post-3H Trial 2: the send of {t:'say'} the session links into F.R.O.N.T.'s chat.js (window.__chat.link); chat.js is not one of the scenes' scripts, so no scene makes or calls it; dev/tools/checks/chat_browser.js runs it in real pages"
+   }
+  ],
+  "complete": true
+ },
+ "reached": true,
+ "finishedAt": "2026-10-19T21:00:17.462Z"
+}

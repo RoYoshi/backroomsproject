@@ -1,0 +1,6 @@
+$ node dev/tools/gate/golden/page_scripts.js --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/cv/c5/gate_fast/page_scripts.json
+SAME move.js: 15215 trace lines (27 kinds) equal, the page's elements equal, errors 0/0; functions run: B++ 44 of 45, this tree 48 of 49
+SAME camcorder.js: 11336 trace lines (25 kinds) equal, the page's elements equal, errors 0/0; functions run: B++ 78 of 80, this tree 82 of 84
+SAME glitch.js: 21927 trace lines (22 kinds) equal, the page's elements equal, errors 0/0; functions run: B++ 13 of 13, this tree 16 of 16
+SAME ents.js: 1204222 trace lines (39 kinds) equal, the page's elements equal, errors 0/0; functions run: B++ 141 of 143, this tree 147 of 149
+PAGE SCRIPTS: SAME (4 scripts, B++'s against this tree's; the debug fixture: 30 frames, 90 records)

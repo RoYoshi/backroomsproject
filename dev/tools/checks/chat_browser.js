@@ -245,13 +245,12 @@ async function nearby(b, port, shots) {
   await B.P.evaluate(() => __settings.set('c', '#ffb347'));
   const t1 = synth('near');
   await speak(A, t1);
-  const bb = await until(B.P, ([t, id]) => { const s = window.__chat.state().nearby.bubbles.find(x => x.id === id); const e = [...document.querySelectorAll('#chatLayer .bb .bb-text')].find(e => e.textContent === t); return s && e && s.w ? s : null; }, [t1, pa.id], 12000);
+  // (the speaker's accent is read here, from the bubble holding A's line, while it is surely on screen: read later, after the speaker's own
+  // wait, a 3 s bubble on a slow software-rendered page could already have gone)
+  const bb = await until(B.P, ([t, id]) => { const s = window.__chat.state().nearby.bubbles.find(x => x.id === id); const e = [...document.querySelectorAll('#chatLayer .bb .bb-text')].find(e => e.textContent === t); return s && e && s.w ? Object.assign({}, s, { accent: e.closest('.bb').style.getPropertyValue('--bb-accent') }) : null; }, [t1, pa.id], 12000);
   const own = await until(A.P, ([t, id]) => { const s = window.__chat.state().nearby.bubbles.find(x => x.id === id); return s && s.mode === 'bb-on' && [...document.querySelectorAll('#chatLayer .bb-text')].some(e => e.textContent === t); }, [t1, pa.id]);
   check('nearby_bubble_both_screens', !!bb && bb.mode === 'bb-on' && !!own, JSON.stringify(bb));
-  const speakerAccent = await B.P.evaluate(() => {
-    const el = document.querySelector('#chatLayer .bb');
-    return el && el.style.getPropertyValue('--bb-accent');
-  });
+  const speakerAccent = bb ? bb.accent : null;
   check('t4_sender_hud_color_not_recipient', speakerAccent === '#8dff9f', String(speakerAccent));
   if (shots) { await B.P.bringToFront(); await sleep(1200); await B.P.screenshot({ path: path.join(shots, 'nearby_bubble_listener.png') }); await A.P.bringToFront(); await sleep(800); await A.P.screenshot({ path: path.join(shots, 'nearby_bubble_speaker.png') }); }   // (a software-rendered page paints late)
   await sleep(600);
@@ -315,7 +314,8 @@ async function nearby(b, port, shots) {
   await B.P.keyboard.press('Escape');
   await sleep(1800); const t6 = synth('muted'); await speak(A, t6);
   await sleep(1200);
-  const mu = await B.P.evaluate(t => ({ any: [...document.querySelectorAll('#chatLayer .bb-text')].some(e => e.textContent === t), muted: window.__chat.state().nearby.muted }), t6);
+  // (the whole line, written or not yet: a bubble types its line out since the post-Trial 4 chat polish, so after a fixed wait its written part may still be short)
+  const mu = await B.P.evaluate(t => ({ any: [...document.querySelectorAll('#chatLayer .bb')].some(e => (e.querySelector('.bb-line') || e.querySelector('.bb-text')).textContent === t), muted: window.__chat.state().nearby.muted }), t6);
   check('nearby_hide_and_mute', !!arrived && hid.shown === hb0 && !hid.any && !!muteBtn && mu.muted === 1 && !mu.any, JSON.stringify([hid, mu, !!muteBtn]));
   // unmute, then the speaker leaves: its bubble goes with it
   await composer(B); await B.P.click('#sayBox .say-more'); const um = await B.P.$(`#sayOpts [data-mute="${pa.id}"]`); if (um) await um.click(); await B.P.keyboard.press('Escape');

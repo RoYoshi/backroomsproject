@@ -1,0 +1,70 @@
+ok   icon_absent_on_menu_wide - {"exists":false,"shown":false}
+ok   icon_shown_low_right_wide - {"exists":true,"shown":true,"label":"Nearby chat (Enter)","key":"Enter","box":[1157.5,661,1245,695],"W":1280,"H":720}
+ok   icon_named_with_key_wide - Nearby chat (Enter) / Enter
+ok   icon_clear_of_hud_wide - {"plain":[],"coords":[],"hints":[]}
+ok   icon_opens_composer_wide - {"f":"sayText","keys":0,"icon":false}
+ok   icon_back_after_escape_wide
+ok   icon_hidden_paused_and_customize_wide - {"pz":true,"paused":false,"customize":false,"again":true}
+ok   icon_no_page_errors_wide - 
+ok   icon_absent_on_menu_hd - {"exists":false,"shown":false}
+ok   icon_shown_low_right_hd - {"exists":true,"shown":true,"label":"Nearby chat (Enter)","key":"Enter","box":[1797.5,1021,1885,1055],"W":1920,"H":1080}
+ok   icon_named_with_key_hd - Nearby chat (Enter) / Enter
+ok   icon_clear_of_hud_hd - {"plain":[],"coords":[],"hints":[]}
+ok   icon_opens_composer_hd - {"f":"sayText","keys":0,"icon":false}
+ok   icon_back_after_escape_hd
+ok   icon_hidden_paused_and_customize_hd - {"pz":true,"paused":false,"customize":false,"again":true}
+ok   icon_no_page_errors_hd - 
+ok   icon_absent_on_menu_phone - {"exists":false,"shown":false}
+ok   icon_shown_low_right_phone - {"exists":true,"shown":true,"label":"Nearby chat (Enter)","key":"Enter","box":[326,612,374,660],"W":390,"H":844}
+ok   icon_named_with_key_phone - Nearby chat (Enter) / Enter
+ok   icon_clear_of_hud_phone - {"plain":[],"coords":[],"hints":[]}
+ok   icon_opens_composer_phone - {"f":"sayText","keys":0,"icon":false}
+ok   icon_back_after_escape_phone
+ok   icon_no_page_errors_phone - 
+ok   icon_absent_on_menu_side - {"exists":false,"shown":false}
+ok   icon_shown_low_right_side - {"exists":true,"shown":true,"label":"Nearby chat (Enter)","key":"Enter","box":[490,326,538,374],"W":844,"H":390}
+ok   icon_named_with_key_side - Nearby chat (Enter) / Enter
+ok   icon_clear_of_hud_side - {"plain":[],"coords":[],"hints":[]}
+ok   icon_opens_composer_side - {"f":"sayText","keys":0,"icon":false}
+ok   icon_back_after_escape_side
+ok   icon_no_page_errors_side - 
+ok   keys_controls_row - ["Enter","Num Enter"]
+ok   keys_rebind_saved - {"r1":{"msg":"Nearby chat: T.","warn":false},"chat":["KeyT","NumpadEnter"],"saved":["KeyT","NumpadEnter"]}
+ok   keys_conflict_swap_cancel - {"r2":{"msg":"F is already used for Light on / off, raise the camcorder. Swap them (Light on / off, raise the camcorder gets T), or cancel. Swap keys Cancel","warn":true},"r3":{"msg":"M is already used for Cartograph (once you carry it). Swap them (Cartograph (once you carry it) gets F), or cancel. Swap keys Cancel","warn":true},"chat":["KeyF","NumpadEnter"],"light":["KeyT",null],"map":["KeyM",null]}
+ok   keys_icon_follows - {"exists":true,"shown":true,"label":"Nearby chat (F)","key":"F","box":[1181.9,661,1245,695],"W":1280,"H":720}
+ok   keys_old_enter_free - {"e1":{"c":false,"paused":false},"game":["Enter"]}
+ok   keys_swapped_keys_in_run - {"l0":true,"t1":{"c":false,"light":false},"l2":true,"game":["~KeyF"]}
+ok   keys_bound_key_opens - {"op":{"v":"","f":"sayText","keys":0,"light":true},"game":[]}
+ok   keys_typing_isolated_enter_sends - {"ty":{"v":"fcwasdt","light":true},"moved":0,"game":[],"sent":{"c":false,"last":"fcwasdt"}}
+ok   keys_escape_closes_only - {"c":false,"paused":false,"dialog":false}
+ok   keys_reset_restores - {"capC":{"c":false,"msg":"F is Nearby chat's only key, and nothing would be left for it. Give Nearby chat another key first."},"chat":["Enter","NumpadEnter"],"light":["KeyF",null],"icon":"Nearby chat (Enter)","back":true}
+ok   keys_no_page_errors - 
+ok   keys_migration_keeps_saves - {"up":["KeyW","ArrowUp"],"left":["KeyA","ArrowLeft"],"down":["KeyS","ArrowDown"],"right":["KeyD","ArrowRight"],"run":["ShiftLeft","ShiftRight"],"crouch":["Enter",null],"light":["KeyF",null],"nv":["KeyN",null],"ir":["KeyB",null],"zoom":["KeyZ",null],"inventory":["Tab",null],"map":["KeyM","NumpadEnter"],"chat":["KeyT",null]}
+ok   keys_migrated_enter_is_crouch - {"composerOnEnter":false,"game":["~KeyC"],"tOpens":true}
+ok   keys_damaged_save_defaults - {"crouch":["KeyC",null],"chat":["Enter","NumpadEnter"]}
+ok   keys_offline_untouched - {"st":{"on":false,"chat":"KeyT","c":false,"icon":false},"game":["KeyT","Enter"]}
+ok   type_schedule_rules - {"gaps":[42,162,302,42,42,422,42],"pauses":true,"graphemes":true,"speed":4,"long":{"write":6500,"life":10500},"short":3000,"mid":{"write":2726,"life":5714},"bounds":true}
+ok   type_reveals_progressively - {"writes":10,"mids":9,"mono":true,"prefixes":true,"box":1,"span":2977,"st":{"id":8,"mode":"bb-on","x":304,"y":171,"w":240,"h":69,"a":null,"shown":54,"of":54,"write":2726,"life":5714}}
+ok   type_life_bounded - {"gone":true,"life":5714,"write":2726}
+ok   type_screen_reader_once - {"announcements":1,"whole":1,"parts":0}
+ok   type_graphemes_whole - {"writes":6,"bad":[]}
+ok   type_newer_line_replaces - {"rep":{"n":1},"l3WrittenWhenReplaced":95,"of":154}
+ok   type_nothing_extra_sent - [54,60,154,11]
+ok   type_instant_option - {"sw0":"true","sw1":"false","saved":false,"first":34,"of":34}
+ok   type_no_page_errors - 
+ok   type_reduced_motion - {"first":50,"of":50,"rm":true}
+ok   voice_customize_section - {"chips":["classic","soft","deep","electronic","static","hollow","chime"],"checked":["classic"],"group":true,"pitch":"Voice pitch","speed":"Voice speed","preview":true,"reset":true}
+ok   voice_preview - {"chirps":25,"ctx":"running","steps":8,"full":"Hello? Is anyone else down here..."}
+ok   voice_customize_saves - {"saved":{"v":1,"preset":"deep","pitch":-5,"speed":70,"on":true,"vol":70},"kept":{"p":"deep","h":-5,"s":70},"back":{"p":{"preset":"classic","pitch":0,"speed":100,"on":true,"vol":70},"checked":"classic","dis":true}}
+ok   voice_customize_phone_fits - {"left":18,"right":372,"W":390,"out":0,"chip":40,"scroll":true}
+ok   voice_synthesis_offline - {"each":{"classic":{"peak":0.1133,"rms":0.01049,"zc":58},"soft":{"peak":0.1417,"rms":0.01317,"zc":112},"deep":{"peak":0.1312,"rms":0.01119,"zc":34},"electronic":{"peak":0.1187,"rms":0.00809,"zc":84},"static":{"peak":0.2719,"rms":0.00914,"zc":472},"hollow":{"peak":0.0864,"rms":0.01179,"zc":64},"chime":{"peak":0.145,"rms":0.0145,"zc":352}},"up":{"peak":0.1211,"rms":0.01055,"zc":102},"down":{"peak":0.1312,"rms":0.01119,"zc":34},"sumPeak":0.3942}
+ok   voice_no_page_errors_customize - 
+ok   voice_multiplayer - {"onB":{"scheduled":5,"id":15,"p":"deep","h":-5,"s":70,"chirps":5},"hB":{"p":"deep","h":-5,"s":70},"write":2691,"wantW":2691,"onA":{"id":16,"p":"soft","h":4,"s":130,"chirps":5},"hA":{"p":"soft","h":4,"s":130},"ownA":{"p":"deep","h":-5,"s":70},"chirpsB":33,"chirpsA":13,"ctx":["running","running"]}
+ok   voice_level_follows_volume_and_mute - {"master":1,"half":0.45,"full":0.9,"muted":0}
+ok   voice_newer_line_stops_old - {"stopped":1,"chirpsCut":5}
+ok   voice_listener_off - {"off":{"aria":"false","saved":false,"vol":true},"wrote":true,"said":0,"chirps":0}
+ok   voice_muted_speaker_silent - {"mute":true,"said":0,"bubble":false}
+ok   voice_old_line_default_voice - {"id":15,"p":"classic","h":0,"s":100,"chirps":4}
+ok   voice_no_page_errors_two - 
+ok   voice_reduced_motion_still_speaks - {"at":{"id":17,"mode":"","x":null,"y":null,"w":0,"a":null,"shown":49,"of":49,"write":2136,"life":5014},"chirps":20}
+CHAT VOICE BROWSER: PASS - 69 of 69 cases (788 s)

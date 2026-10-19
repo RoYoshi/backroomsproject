@@ -1,0 +1,192 @@
+{
+ "tool": "dev/post-3h-trials/tools/t2_client_perf.js",
+ "old": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/cv/c5/clone",
+ "new": "/home/claude/review-polish",
+ "rounds": 2,
+ "seconds": 10,
+ "runs": [
+  {
+   "round": 0,
+   "order": "old then new",
+   "old": {
+    "fps": 5.51,
+    "p50": 183.3,
+    "p95": 250,
+    "p99": 266.6,
+    "taskMsPerS": 1031.553,
+    "scriptMsPerS": 204.342,
+    "styleMsPerS": 1.023,
+    "layoutMsPerS": 0.014
+   },
+   "new": {
+    "fps": 5.91,
+    "p50": 166.7,
+    "p95": 216.7,
+    "p99": 216.8,
+    "taskMsPerS": 1022.501,
+    "scriptMsPerS": 187.883,
+    "styleMsPerS": 1.107,
+    "layoutMsPerS": 0.015
+   }
+  },
+  {
+   "round": 1,
+   "order": "new then old",
+   "new": {
+    "fps": 5.42,
+    "p50": 183.3,
+    "p95": 233.3,
+    "p99": 250,
+    "taskMsPerS": 1026.768,
+    "scriptMsPerS": 188.44,
+    "styleMsPerS": 1.256,
+    "layoutMsPerS": 0.014
+   },
+   "old": {
+    "fps": 5.35,
+    "p50": 183.3,
+    "p95": 250,
+    "p99": 266.7,
+    "taskMsPerS": 1041.963,
+    "scriptMsPerS": 184.784,
+    "styleMsPerS": 1.57,
+    "layoutMsPerS": 0.011
+   }
+  }
+ ],
+ "hook": [
+  {
+   "round": 0,
+   "mode": "idle",
+   "bubbles": 0,
+   "hints": 0,
+   "calls": 60,
+   "msPerS": 0.23,
+   "msPerCall": 0.0383
+  },
+  {
+   "round": 0,
+   "mode": "one",
+   "bubbles": 1,
+   "hints": 0,
+   "calls": 61,
+   "msPerS": 0.38,
+   "msPerCall": 0.0623
+  },
+  {
+   "round": 0,
+   "mode": "nine",
+   "bubbles": 9,
+   "hints": 0,
+   "calls": 61,
+   "msPerS": 0.95,
+   "msPerCall": 0.1557
+  },
+  {
+   "round": 1,
+   "mode": "idle",
+   "bubbles": 0,
+   "hints": 0,
+   "calls": 57,
+   "msPerS": 0.18,
+   "msPerCall": 0.0316
+  },
+  {
+   "round": 1,
+   "mode": "one",
+   "bubbles": 1,
+   "hints": 0,
+   "calls": 62,
+   "msPerS": 0.66,
+   "msPerCall": 0.1065
+  },
+  {
+   "round": 1,
+   "mode": "nine",
+   "bubbles": 9,
+   "hints": 0,
+   "calls": 63,
+   "msPerS": 0.63,
+   "msPerCall": 0.1
+  }
+ ],
+ "chromium": "141.0.7390.37",
+ "summary": {
+  "fps": {
+   "old": 5.43,
+   "new": 5.665,
+   "pairedDiffMedian": 0.23500000000000032,
+   "min": 0.07000000000000028,
+   "max": 0.40000000000000036
+  },
+  "p50": {
+   "old": 183.3,
+   "new": 175,
+   "pairedDiffMedian": -8.300000000000011,
+   "min": -16.600000000000023,
+   "max": 0
+  },
+  "p95": {
+   "old": 250,
+   "new": 225,
+   "pairedDiffMedian": -25,
+   "min": -33.30000000000001,
+   "max": -16.69999999999999
+  },
+  "p99": {
+   "old": 266.65,
+   "new": 233.4,
+   "pairedDiffMedian": -33.25,
+   "min": -49.80000000000001,
+   "max": -16.69999999999999
+  },
+  "taskMsPerS": {
+   "old": 1036.758,
+   "new": 1024.6345000000001,
+   "pairedDiffMedian": -12.123500000000035,
+   "min": -15.194999999999936,
+   "max": -9.052000000000135
+  },
+  "scriptMsPerS": {
+   "old": 194.563,
+   "new": 188.1615,
+   "pairedDiffMedian": -6.401499999999999,
+   "min": -16.459000000000003,
+   "max": 3.656000000000006
+  },
+  "styleMsPerS": {
+   "old": 1.2965,
+   "new": 1.1815,
+   "pairedDiffMedian": -0.11499999999999999,
+   "min": -0.31400000000000006,
+   "max": 0.08400000000000007
+  },
+  "layoutMsPerS": {
+   "old": 0.0125,
+   "new": 0.014499999999999999,
+   "pairedDiffMedian": 0.002,
+   "min": 0.0009999999999999992,
+   "max": 0.003000000000000001
+  }
+ },
+ "hookSummary": {
+  "idle": {
+   "bubbles": 0,
+   "hints": 0,
+   "msPerS": 0.20500000000000002,
+   "msPerCall": 0.03495
+  },
+  "one": {
+   "bubbles": 1,
+   "hints": 0,
+   "msPerS": 0.52,
+   "msPerCall": 0.0844
+  },
+  "nine": {
+   "bubbles": 9,
+   "hints": 0,
+   "msPerS": 0.79,
+   "msPerCall": 0.12785000000000002
+  }
+ }
+}

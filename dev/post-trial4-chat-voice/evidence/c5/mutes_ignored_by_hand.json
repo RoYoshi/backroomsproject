@@ -1,0 +1,115 @@
+{
+ "tool": "dev/tools/checks/chat_browser.js",
+ "tree": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/cv/tmp/mute_mut",
+ "browser": "chromium",
+ "seconds": 307,
+ "ok": false,
+ "cases": [
+  {
+   "name": "nearby_runs_started",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_spawned_in_one_world",
+   "ok": true,
+   "detail": "4879 px apart at spawn"
+  },
+  {
+   "name": "nearby_listener_placed",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_icon_visible",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_composer_opens",
+   "ok": true,
+   "detail": "{\"c\":true,\"keys\":0,\"f\":\"sayText\",\"why\":{\"started\":true,\"paused\":false,\"caught\":false,\"on\":true,\"sheets\":0,\"shown\":[]}}"
+  },
+  {
+   "name": "nearby_icon_hides_while_typing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_typing_walks_nobody",
+   "ok": true,
+   "detail": "0 px; the light on -> on after typing F three times"
+  },
+  {
+   "name": "nearby_escape_closes_only",
+   "ok": true,
+   "detail": "{\"c\":false,\"paused\":false,\"dialog\":false}"
+  },
+  {
+   "name": "nearby_not_over_pause",
+   "ok": true,
+   "detail": "paused true, composer over it false, resumed true"
+  },
+  {
+   "name": "nearby_keys_back_after",
+   "ok": true,
+   "detail": "86 px"
+  },
+  {
+   "name": "nearby_bubble_both_screens",
+   "ok": true,
+   "detail": "{\"id\":1,\"mode\":\"bb-on\",\"x\":363,\"y\":207,\"w\":188,\"h\":33,\"a\":null,\"shown\":22,\"of\":22,\"write\":882,\"life\":3166}"
+  },
+  {
+   "name": "t4_sender_hud_color_not_recipient",
+   "ok": false,
+   "detail": "null"
+  },
+  {
+   "name": "nearby_other_room_nothing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_bubble_bounded",
+   "ok": true,
+   "detail": "listener true, speaker true (a short line lives 3 s or a little more; a long one at most 10.5 s)"
+  },
+  {
+   "name": "nearby_markup_literal",
+   "ok": true,
+   "detail": "{\"kids\":0,\"img\":0}"
+  },
+  {
+   "name": "nearby_offscreen_hint",
+   "ok": true,
+   "detail": "bb-hint, angle off by 0.00 rad, at 390,12"
+  },
+  {
+   "name": "nearby_beyond_radius_nothing",
+   "ok": true,
+   "detail": "own bubble true, listener heard 0 more"
+  },
+  {
+   "name": "nearby_hide_and_mute",
+   "ok": false,
+   "detail": "[{\"shown\":3,\"any\":false},{\"any\":true,\"muted\":1},true]"
+  },
+  {
+   "name": "nearby_leaver_bubble_goes",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nearby_no_page_errors",
+   "ok": true,
+   "detail": ""
+  }
+ ],
+ "passed": 18,
+ "failed": [
+  "t4_sender_hud_color_not_recipient",
+  "nearby_hide_and_mute"
+ ],
+ "mutants": null
+}

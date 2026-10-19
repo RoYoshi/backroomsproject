@@ -1,0 +1,21 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "f704dc636770325d92b5e1baf2c0cb0db9b14851",
+ "startedAt": "2026-10-19T19:06:41.736Z",
+ "out": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/cv/c5/gate_chat_browser",
+ "steps": {
+  "chat_browser": {
+   "ok": false,
+   "cases": 47,
+   "note": "the lounge and nearby speech in Chromium: 40 of 40 cases (the lounge across rooms, typing isolated, markup literal, mute, fold, off, the phone, closed in a run, its place at 5 sizes; the composer, bubbles, the edge hint, the radius, the other room, hide, mute, a leaver, SAY, reduced motion); its mutants 6 of 7 caught",
+   "exit": 1,
+   "seconds": 2543
+  }
+ },
+ "ok": false,
+ "finishedAt": "2026-10-19T19:49:05.092Z",
+ "removed": []
+}

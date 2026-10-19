@@ -1,0 +1,20 @@
+{
+ "tool": "dev/stage-3h/gate/protocol_v2.js",
+ "contract": "dev/stage-3h/gate/protocol_bpp.json",
+ "read": {
+  "serverToClient": 0,
+  "clientToServer": 874
+ },
+ "violations": [],
+ "violationCount": 0,
+ "typesSeen": {
+  "serverToClient": {},
+  "clientToServer": {
+   "caps": 10,
+   "join": 18,
+   "p": 818,
+   "nr": 28
+  }
+ },
+ "ok": true
+}

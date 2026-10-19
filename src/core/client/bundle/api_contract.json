@@ -159,6 +159,12 @@
    ],
    "getters": [],
    "memberCount": 6
+  },
+  "assets/voice.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [],
+   "getters": [],
+   "memberCount": 1
   }
  },
  "readsOfNamesNotInTheLiteral": {},
@@ -1014,7 +1020,8 @@
     "inventory.js": 2,
     "move.js": 2,
     "sfx.js": 2,
-    "assets/mp-hum.js": 2
+    "assets/mp-hum.js": 2,
+    "assets/voice.js": 2
    }
   },
   {

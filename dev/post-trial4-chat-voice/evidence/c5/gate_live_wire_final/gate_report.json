@@ -1,0 +1,24 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "80d4881e13139b7e32f6af525e06ac66aa934f58",
+ "startedAt": "2026-10-19T21:08:15.156Z",
+ "out": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/cv/c5/gate_live_wire",
+ "steps": {
+  "live_wire": {
+   "ok": true,
+   "cases": 65,
+   "note": "structurally identical, ui {\"menuAfterFirst\":true,\"refusedLabel\":\"Spontaneously Combust? · WAIT N S\",\"menuAfterRefused\":false,\"menuAfterAdmin\":true}",
+   "exit": 0,
+   "seconds": 302
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-19T21:13:17.007Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate"
+ ]
+}

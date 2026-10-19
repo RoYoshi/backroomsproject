@@ -1,0 +1,39 @@
+C5 - final targeted verification (headless Chromium with SwiftShader and a fake audio output; every text and passcode synthetic)
+
+1. A fresh clone of C4 (f704dc6), job1.log:
+   - npm run build:check: PASS (42 outputs).
+   - gate --tier fast (gate_fast_f704dc6/): 20 of 21 PASS.  lineage FAIL: the __api contract record (api_contract.json) was not
+     current - voice.js (new in C4) reads __api.audio and the record did not list it.  Regenerated in C5 with
+     dev/stage-3h-modernization/tools/api_contract.js and lineage_doc.js; api_contract.js --check 1: CURRENT.
+   - gate --tier full --only menu,rgb (gate_menu_rgb_f704dc6/): PASS - the title drift 11 of 11, 8 of 8 mutants; the RGB sliders
+     14 of 14, 6 of 6 mutants.
+   - t2_client_perf.js both ways round against the review's head 1a89863 (hook_final_f704dc6.json: old = the review's head, new = C4;
+     hook_review_head_1a89863.json: the order swapped).  The chat hook per call (final / review head): idle 0.021 / 0.035 ms, one
+     bubble 0.079 / 0.084 ms, nine typing bubbles 0.22 / 0.13 ms.  The page (final first): frame rate 5.92 against 5.99 and 5.43
+     against 5.67 fps (within 0.25 fps); main-thread total +7.8 and +12.1 ms/s for the final (of about 1030); script time -14.5 and +6.4 ms/s (noise).
+2. The chat_browser gate step on the C4 clone (job2): 40 of 40 cases, 6 of 7 mutants.  "mutes ignored" escaped: its expected case
+   nearby_hide_and_mute looked, 1.2 s after a muted speaker's line, for a bubble whose WRITTEN part was the whole line - with typed-out
+   text the line was still being written, so a broken mute looked like a working one.  The case now compares each bubble's whole line
+   (written and unwritten parts).  Under that mutant and "the composer opens over the pause screen", t4_sender_hud_color_not_recipient
+   also failed (detail null: no bubble on screen): it read the first bubble only after waiting for the speaker's own page, and on a
+   slow page the listener's 3 s bubble could be gone by then.  It now reads the accent of the bubble holding the speaker's line at the
+   moment that bubble is first found; still exactly the speaker's colour, never the listener's.
+   - "mutes ignored" alone, by hand, with the fixed case (chat_browser.js --only nearby on a copy of public/ with the mutation):
+     nearby_hide_and_mute FAILS ({"any":true,"muted":1}) - caught.  The colour case also failed in that run (detail null), before
+     the colour fix.
+3. Every mutant anchor of chat_voice_browser.js (22) and chat_browser.js (7) found exactly once in the final public/ files.
+4. The working tree with both check fixes (job3.log): gate --tier full --only lineage,docs,scope,chat_browser
+   (gate_lineage_docs_scope_chat_browser_final/): PASS.  lineage PASS (the __api contract current), docs 23 of 23, scope PASS;
+   chat_browser 40 of 40 cases, 7 of 7 mutants (2588 s).  Each mutant failed its expected case; "mutes ignored" only
+   nearby_hide_and_mute; the colour case failed under none.  ("The composer opens over the pause screen" also broke three later
+   cases, and "bubbles never end" also nearby_keys_back_after, the frame-pacing-sensitive movement case seen at C2.)
+   chat_voice_browser.js, all four sections, no mutants (chat_voice_all_final.*): PASS 69 of 69
+   (icon 30, keys 15, type 10, voice 14; 788 s).
+   After job3 only wording changed: gate.js's description of chat_browser and three documents named SAY where the check now tests the
+   chat icon; docs.js --check PASS.
+5. A local snapshot commit of the final code, checks and wording (80d4881, tree d69febe; never pushed, its temporary ref deleted),
+   cloned (job4.log).  It differs from C5 only in this folder's documents and evidence, written afterwards.
+   - npm run build:check: PASS (42 outputs).
+   - gate --tier fast (gate_fast_final/): PASS, 21 of 21 steps (lineage PASS; chat 88 of 88, 14 of 14 mutants).
+   - gate --tier full --only live_wire (gate_live_wire_final/): PASS - two players' every phase structurally identical to B++'s
+     (302 s).

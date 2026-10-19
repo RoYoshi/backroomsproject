@@ -237,8 +237,8 @@ Never a text, a name or a mute.
 across two rooms, typing isolated from the game and the menu, markup kept literal, mute, fold, off, the phone's Lounge button, the
 lounge closed during a run, and its place at five screen sizes (covering nothing of the menu); nearby speech between players in one
 room with a third elsewhere: the composer (held keys let go, nobody walks while typing, Esc only closes), bubbles on both screens and
-gone within 5 s, an edge hint pointing the right way for a listener off screen, nothing beyond the radius or in the other room, hide
-and mute, a leaver's bubble going with it, SAY on a phone, reduced motion. Its mutants break the page's chat.js seven ways (a bubble
+gone within their life, an edge hint pointing the right way for a listener off screen, nothing beyond the radius or in the other room, hide
+and mute, a leaver's bubble going with it, the chat icon on a phone, reduced motion. Its mutants break the page's chat.js seven ways (a bubble
 written as HTML, the composer opening over the pause screen, held keys kept, the lounge left open in a run, no edge hint, mutes ignored,
 bubbles that never end).
 

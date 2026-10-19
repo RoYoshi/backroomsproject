@@ -354,7 +354,7 @@ const STEPS = {
     const r = run('chat_browser', ['node', 'dev/tools/checks/chat_browser.js', '--mutants', '1', '--work', o('chat_bmut'), '--out', o('chat_browser.json'), '--shots', o('chat_shots')], { ms: 7200000 }), j = J(o('chat_browser.json'));
     const m = j && j.mutants ? j.mutants.length : 0, mc = j && j.mutants ? j.mutants.filter(x => x.caught).length : 0;
     return { ok: r.exit === 0 && !!j && j.ok && m === 7 && mc === 7, cases: (j ? j.cases.length : 0) + m,
-      note: j ? `the lounge and nearby speech in Chromium: ${j.passed} of ${j.cases.length} cases (the lounge across rooms, typing isolated, markup literal, mute, fold, off, the phone, closed in a run, its place at 5 sizes; the composer, bubbles, the edge hint, the radius, the other room, hide, mute, a leaver, SAY, reduced motion); its mutants ${mc} of ${m} caught` : 'no report', r };
+      note: j ? `the lounge and nearby speech in Chromium: ${j.passed} of ${j.cases.length} cases (the lounge across rooms, typing isolated, markup literal, mute, fold, off, the phone, closed in a run, its place at 5 sizes; the chat icon, the composer, bubbles, the edge hint, the radius, the other room, hide, mute, a leaver, reduced motion); its mutants ${mc} of ${m} caught` : 'no report', r };
   },
   chat_voice: () => {                                                                   // post-Trial 4 chat polish: the icon, the key, typed-out bubbles, voices
     const r = run('chat_voice', ['node', 'dev/tools/checks/chat_voice_browser.js', '--tree', wtGame(), '--mutants', '1', '--work', OUT, '--out', o('chat_voice.json'), '--shots', o('chat_voice_shots')], { ms: 9000000 }), j = J(o('chat_voice.json'));

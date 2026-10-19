@@ -1,0 +1,42 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "f704dc636770325d92b5e1baf2c0cb0db9b14851",
+ "startedAt": "2026-10-19T19:58:36.330Z",
+ "out": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/cv/c5/gate_cb2",
+ "steps": {
+  "lineage": {
+   "ok": true,
+   "cases": 83,
+   "note": "steps replayed (bundle, stylesheet, page); blame.json what the ledger gives; the v11 snapshot's tree proven; the __api contract (52 members) current; its pages current",
+   "exit": 0,
+   "seconds": 2
+  },
+  "docs": {
+   "ok": true,
+   "cases": 23,
+   "note": "DOCS CHECK: PASS (23 generated blocks in 23 documents)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "scope": {
+   "ok": true,
+   "cases": 218,
+   "note": "runtime changed (declared): assets/index-D7hdwmUU.css, assets/index-DKbV5Nv9.js, assets/ui.css, assets/ui.js, camcorder.js, death_srv.js, ents.js, glitch.js, index.html, move.js, mp.js, package.json, server.js, server/static.js, sim.js, world.js; added: assets/chat.js, assets/mp-hum.js, assets/net-newrun.js, assets/rgb.js, assets/voice.js, server/aftermath.js, server/newrun.js, src/core/server/loop.js, src/core/server/rooms.js, src/core/server/sim.step.js, src/frameworks/bpp/server/lounge.js, src/frameworks/bpp/server/poses.js, src/frameworks/bpp/server/session.js, src/frameworks/bpp/server/speech.js, src/frameworks/gib/server/sim.bodies.js, src/frameworks/lost/server/sim.glitches.js, src/frameworks/lost/server/sim.level0.js, src/frameworks/lost/shared/level0.json, src/frameworks/nani/server/sim.ai.js, src/frameworks/nani/server/sim.feed.js, src/frameworks/overseer/server/admin.js, src/frameworks/overseer/server/sim.admin.js, src/frameworks/pocket/server/sim.items.js, src/frameworks/pocket/shared/lights.json, src/frameworks/space/server/movement.js, src/frameworks/space/server/sim.movement.js, src/frameworks/space/server/sim.players.js, src/frameworks/ward/server/admin_login.js, src/frameworks/ward/server/chat_text.js; other files: 5 identical, 129 moved, 1 replaced (declared)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "chat_browser": {
+   "ok": true,
+   "cases": 47,
+   "note": "the lounge and nearby speech in Chromium: 40 of 40 cases (the lounge across rooms, typing isolated, markup literal, mute, fold, off, the phone, closed in a run, its place at 5 sizes; the composer, bubbles, the edge hint, the radius, the other room, hide, mute, a leaver, SAY, reduced motion); its mutants 7 of 7 caught",
+   "exit": 0,
+   "seconds": 2588
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-19T20:41:46.889Z",
+ "removed": []
+}

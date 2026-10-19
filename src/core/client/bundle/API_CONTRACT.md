@@ -7,7 +7,7 @@
 minified internal names, so those one- and two-letter names are a public API: any rebuild of the bundle must keep every member, with
 the same name and the same meaning, for every reader below.
 
-- **Readers:** 17 scripts the page loads, plus `assets/shadows-2d.js` (retired, not loaded), plus the bundle's own reads.
+- **Readers:** 18 scripts the page loads, plus `assets/shadows-2d.js` (retired, not loaded), plus the bundle's own reads.
 - **The served bundle:** built from src/core/client/game/ (generated/CLIENT_BUILD.json); it publishes the same 52 members, in the same order, and reads the same members of `window.__api`, as often. The columns below describe the bundle the lineage records (the one it was ported from).
 - **"Written by"** is the lineage step whose text holds the member: the v11 build had no `__api` at all.
 - **"Is"** names what the member's value refers to. For an original v11 name, it gives the TypeScript module and declaration it compiled from. For a later name, it gives the step that wrote it.
@@ -51,7 +51,7 @@ the same name and the same meaning, for every reader below.
 | `bodies` | function | B09 | `Yl` = shared/remains.ts `corpses` | mp.js ×2 |
 | `look` | value | B06 | `U` = shared/avatar.ts `defaults` | mp.js ×1, assets/ui.js ×1, assets/index-DKbV5Nv9.js (itself) ×2 |
 | `lamps` | value | B06 | `Fc` = shared/world.ts `lights` | light.js ×2, mp.js ×1, assets/br-role.js ×6, assets/mp-hum.js ×6, assets/shadows-2d.js ×1 |
-| `audio` | function | B06 | `Z` = client/main.ts `audio` | camcorder.js ×2, ents.js ×3, glitch.js ×4, hud.js ×4, inventory.js ×2, move.js ×2, sfx.js ×2, assets/mp-hum.js ×2 |
+| `audio` | function | B06 | `Z` = client/main.ts `audio` | camcorder.js ×2, ents.js ×3, glitch.js ×4, hud.js ×4, inventory.js ×2, move.js ×2, sfx.js ×2, assets/mp-hum.js ×2, assets/voice.js ×2 |
 | `revive` | function | B06 | `G` = shared/entity.ts `entity`; `xu` = client/main.ts `function respawn` | mp.js ×1 |
 | `worldEnd` | function | B39 | `Xwr` (written by B39) | mp.js ×2 |
 | `tp` | function | B06 | `H` = shared/movement.ts `player`; `X` = client/main.ts `renderer` | mp.js ×3 |
@@ -91,3 +91,4 @@ the same name and the same meaning, for every reader below.
 | `assets/net-wire.js` | yes | `A` | 1 |
 | `assets/shadows-2d.js` | no (retired) | `A` | 12 |
 | `assets/ui.js` | yes | `A` | 6 |
+| `assets/voice.js` | yes | - | 1 |

@@ -1,0 +1,172 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "fast",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "80d4881e13139b7e32f6af525e06ac66aa934f58",
+ "startedAt": "2026-10-19T20:55:09.144Z",
+ "out": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/cv/c5/gate_fast_final",
+ "steps": {
+  "build": {
+   "ok": true,
+   "cases": 42,
+   "note": "BUILD CHECK: PASS (42 outputs and the manifest are what src/ builds)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "port": {
+   "ok": true,
+   "cases": 410,
+   "note": "the client build gives 13 files, its record the shipped one byte for byte (Version 7.0.2, Vite vite/8.3.1 linux-x64 node-v22.22.2); the alpha check SAME: 22 port entries, 195 of the shipped app's 197 statements compared, 2 reviewed; the stylesheet the same (177 later rules); the port ledger current; the checks' mutants 25 of 25 caught",
+   "exit": 0,
+   "seconds": 59
+  },
+  "lineage": {
+   "ok": true,
+   "cases": 83,
+   "note": "steps replayed (bundle, stylesheet, page); blame.json what the ledger gives; the v11 snapshot's tree proven; the __api contract (52 members) current; its pages current",
+   "exit": 0,
+   "seconds": 2
+  },
+  "parts": {
+   "ok": true,
+   "cases": 55,
+   "note": "8 outputs built from parts; every header agrees with the code (TypeScript 6.0.3)",
+   "exit": 0,
+   "seconds": 3
+  },
+  "modules": {
+   "ok": true,
+   "cases": 61,
+   "note": "29 server files, 23 factories; the sim: 10 modules, wired in order; the page: 6 scripts, 32 modules (TypeScript 6.0.3)",
+   "exit": 0,
+   "seconds": 2
+  },
+  "contracts": {
+   "ok": true,
+   "cases": 381,
+   "note": "the window contract: 35 members, every rule holds, 8 of 8 breaks refused (TypeScript 6.0.3); the facts: 41 facts, 169 copies agree, 169 of 169 copies changed alone caught",
+   "exit": 0,
+   "seconds": 7
+  },
+  "docs": {
+   "ok": true,
+   "cases": 23,
+   "note": "DOCS CHECK: PASS (23 generated blocks in 23 documents)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "scope": {
+   "ok": true,
+   "cases": 218,
+   "note": "runtime changed (declared): assets/index-D7hdwmUU.css, assets/index-DKbV5Nv9.js, assets/ui.css, assets/ui.js, camcorder.js, death_srv.js, ents.js, glitch.js, index.html, move.js, mp.js, package.json, server.js, server/static.js, sim.js, world.js; added: assets/chat.js, assets/mp-hum.js, assets/net-newrun.js, assets/rgb.js, assets/voice.js, server/aftermath.js, server/newrun.js, src/core/server/loop.js, src/core/server/rooms.js, src/core/server/sim.step.js, src/frameworks/bpp/server/lounge.js, src/frameworks/bpp/server/poses.js, src/frameworks/bpp/server/session.js, src/frameworks/bpp/server/speech.js, src/frameworks/gib/server/sim.bodies.js, src/frameworks/lost/server/sim.glitches.js, src/frameworks/lost/server/sim.level0.js, src/frameworks/lost/shared/level0.json, src/frameworks/nani/server/sim.ai.js, src/frameworks/nani/server/sim.feed.js, src/frameworks/overseer/server/admin.js, src/frameworks/overseer/server/sim.admin.js, src/frameworks/pocket/server/sim.items.js, src/frameworks/pocket/shared/lights.json, src/frameworks/space/server/movement.js, src/frameworks/space/server/sim.movement.js, src/frameworks/space/server/sim.players.js, src/frameworks/ward/server/admin_login.js, src/frameworks/ward/server/chat_text.js; other files: 5 identical, 129 moved, 1 replaced (declared)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "srv_golden": {
+   "ok": true,
+   "cases": 11,
+   "note": "HTTP lines about changed files: index.html, mp.js, world.js, move.js, ents.js, glitch.js, camcorder.js, assets/ui.css, assets/ui.js, assets/index-DKbV5Nv9.js, assets/index-D7hdwmUU.css",
+   "exit": 0,
+   "seconds": 12
+  },
+  "bpp_golden": {
+   "ok": true,
+   "cases": 7,
+   "note": "",
+   "exit": 0,
+   "seconds": 10
+  },
+  "session": {
+   "ok": true,
+   "cases": 18,
+   "note": "3 session scenarios identical to B++'s traces; 15 of 15 session mutants caught",
+   "exit": 0,
+   "seconds": 21
+  },
+  "sim": {
+   "ok": true,
+   "cases": 20065,
+   "note": "20050 calls give B++'s results; 15 of 15 seam mutants caught (by the server scenarios 13, by the differential run 14)",
+   "exit": 0,
+   "seconds": 103
+  },
+  "page": {
+   "ok": true,
+   "cases": 1255007,
+   "note": "world.js: 2295 comparisons equal; move, camcorder, glitch, ents: 1252700 trace lines equal, each scene reaching its script; 12 of 12 seam mutants caught",
+   "exit": 0,
+   "seconds": 75
+  },
+  "cli_golden": {
+   "ok": true,
+   "cases": 30,
+   "note": "B++ client scenes 3; all 18 scenes in one page, running 232 of mp.js's 233 functions",
+   "exit": 0,
+   "seconds": 14
+  },
+  "protocol": {
+   "ok": true,
+   "cases": 52740,
+   "note": "messages checked; selftest PASS",
+   "exit": null,
+   "seconds": 3
+  },
+  "mutants": {
+   "ok": true,
+   "cases": 18,
+   "note": "guard_off@src/frameworks/space/server/movement.js grace_1000@src/frameworks/space/server/movement.js admin_checked@src/frameworks/bpp/server/session.js q_self@src/frameworks/bpp/server/poses.js nr_gap_200@src/frameworks/bpp/server/newrun.js nr_wait_round@src/frameworks/bpp/server/newrun.js nr_no_memory@src/frameworks/bpp/server/newrun.js nr_free_off@src/frameworks/bpp/server/newrun.js nr_held_free@src/frameworks/space/server/sim.players.js aft_el_half@src/frameworks/gib/server/aftermath.js aft_every_tick@src/frameworks/gib/server/aftermath.js aft_victim_replay@src/frameworks/gib/server/aftermath.js aft_one_per_player@src/frameworks/gib/server/aftermath.js aft_world_tick@src/frameworks/gib/server/aftermath.js aft_killer_end@src/frameworks/gib/server/aftermath.js aft_boom_revive@src/frameworks/gib/server/aftermath.js aft_revive_end@src/frameworks/overseer/server/admin.js",
+   "exit": 0,
+   "seconds": 25
+  },
+  "static": {
+   "ok": true,
+   "cases": 4,
+   "note": "",
+   "exit": 0,
+   "seconds": 1
+  },
+  "raw_live": {
+   "ok": true,
+   "cases": 173,
+   "note": "responses for changed files: index.html, mp.js, assets/index-DKbV5Nv9.js, assets/ui.css",
+   "exit": 0,
+   "seconds": 23
+  },
+  "quick_suites": {
+   "ok": true,
+   "cases": 23,
+   "note": "s_humanqa_hotfix 5/6, s_ir 3/3, interp_test 3, test_3bn 7/7, ir_net 4/4 (only the known B++ failures fail)",
+   "exit": 0,
+   "seconds": 8
+  },
+  "bundle": {
+   "ok": true,
+   "cases": 824,
+   "note": "2 of 2 scenes identical to the recorded client (820 frames, 4 captures)",
+   "exit": 0,
+   "seconds": 118
+  },
+  "chat": {
+   "ok": true,
+   "cases": 102,
+   "note": "the lounge and nearby speech on the server: 88 of 88 cases (the text check, speech by radius, room and life, spoofed fields, limits, the lounge's handshake, Origin, caps, no crossing between the two, the game's pace under lounge load); its mutants 14 of 14 caught",
+   "exit": 0,
+   "seconds": 297
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-19T21:08:13.782Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate",
+  "srv_keep",
+  "bpp_keep",
+  "cli_keep",
+  "cli_h2_keep",
+  "cli_c3c_keep",
+  "client_work",
+  "bundle/ref_lineage_root",
+  "bundle/cand_root"
+ ]
+}

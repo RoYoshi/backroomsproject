@@ -4,15 +4,16 @@ A multiplayer survival game in the browser, set in Level 0 of the Backrooms. Eve
 Hounds and the Smilers, the blackouts, the glitched walls, the deaths and the bodies; each player's browser draws the world and moves
 its wanderer.
 
-**This branch (`post-trial4-review-polish`):** the owner-accepted Stage 3H engine (C5d, `4beba2f`: its report and Human QA page are in
+**This branch (`post-trial4-chat-voice-polish`):** the owner-accepted Stage 3H engine (C5d, `4beba2f`: its report and Human QA page are in
 [`dev/stage-3h-modernization/`](dev/stage-3h-modernization/)) plus the post-3H integration trials the owner authorized
 ([`dev/post-3h-trials/`](dev/post-3h-trials/README.md)): **Trial 1**, the main menu's title drift (accepted by the owner); **Trial 2**,
 chat - a lounge on the main menu and nearby speech in a run (functional Human QA approved by the owner;
 [`docs/architecture/CHAT.md`](docs/architecture/CHAT.md)); **Trial 4**, RGB colour sliders, the nearby-chat hint and speaker-coloured
 bubbles, the "Spontaneously Combust?" label and gentler capture effects (closed by the owner's validation waiver, not a test pass).
 On top of Trial 4's closed branch, the post-Trial 4 engineering review's corrections
-([`dev/post-trial4-review/`](dev/post-trial4-review/)), awaiting the owner's Human QA. The deployed game is `main`;
-nothing here is merged or deployed.
+([`dev/post-trial4-review/`](dev/post-trial4-review/)), and on top of those the nearby chat polish - the chat icon, a rebindable chat
+key, typed-out speech bubbles and the wanderers' synthesized voices ([`dev/post-trial4-chat-voice/`](dev/post-trial4-chat-voice/REPORT.md)),
+awaiting the owner's Human QA. The deployed game is `main`; nothing here is merged or deployed.
 
 ## Run it
 
