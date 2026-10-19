@@ -1,0 +1,21 @@
+ok   nearby_runs_started
+ok   nearby_spawned_in_one_world - 3126 px apart at spawn
+ok   nearby_listener_placed
+ok   nearby_icon_visible
+ok   nearby_composer_opens - {"c":true,"keys":0,"f":"sayText","why":{"started":true,"paused":false,"caught":false,"on":true,"sheets":0,"shown":[]}}
+ok   nearby_icon_hides_while_typing
+ok   nearby_typing_walks_nobody - 0 px; the light on -> on after typing F three times
+ok   nearby_escape_closes_only - {"c":false,"paused":false,"dialog":false}
+ok   nearby_not_over_pause - paused true, composer over it false, resumed true
+ok   nearby_keys_back_after - 86 px
+ok   nearby_bubble_both_screens - {"id":1,"mode":"bb-on","x":448,"y":207,"w":188,"h":33,"a":null}
+ok   t4_sender_hud_color_not_recipient - #8dff9f
+ok   nearby_other_room_nothing
+ok   nearby_bubble_bounded - listener true, speaker true (a bubble lives 3 to 5 s)
+ok   nearby_markup_literal - {"kids":0,"img":0}
+ok   nearby_offscreen_hint - bb-hint, angle off by 0.00 rad, at 390,12
+ok   nearby_beyond_radius_nothing - own bubble true, listener heard 0 more
+ok   nearby_hide_and_mute - [{"shown":3,"any":false},{"any":false,"muted":1},true]
+ok   nearby_leaver_bubble_goes
+ok   nearby_no_page_errors - 
+CHAT BROWSER: PASS - 20 of 20 cases (272 s)

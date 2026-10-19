@@ -1,0 +1,146 @@
+{
+ "tool": "dev/tools/checks/chat_voice_browser.js",
+ "tree": "this repository",
+ "browser": "chromium",
+ "seconds": 529,
+ "ok": true,
+ "cases": [
+  {
+   "name": "keys_controls_row",
+   "ok": true,
+   "detail": "[\"Enter\",\"Num Enter\"]"
+  },
+  {
+   "name": "keys_rebind_saved",
+   "ok": true,
+   "detail": "{\"r1\":{\"msg\":\"Nearby chat: T.\",\"warn\":false},\"chat\":[\"KeyT\",\"NumpadEnter\"],\"saved\":[\"KeyT\",\"NumpadEnter\"]}"
+  },
+  {
+   "name": "keys_conflict_swap_cancel",
+   "ok": true,
+   "detail": "{\"r2\":{\"msg\":\"F is already used for Light on / off, raise the camcorder. Swap them (Light on / off, raise the camcorder gets T), or cancel. Swap keys Cancel\",\"warn\":true},\"r3\":{\"msg\":\"M is already used for Cartograph (once you carry it). Swap them (Cartograph (once you carry it) gets F), or cancel. Swap keys Cancel\",\"warn\":true},\"chat\":[\"KeyF\",\"NumpadEnter\"],\"light\":[\"KeyT\",null],\"map\":[\"KeyM\",null]}"
+  },
+  {
+   "name": "keys_icon_follows",
+   "ok": true,
+   "detail": "{\"exists\":true,\"shown\":true,\"label\":\"Nearby chat (F)\",\"key\":\"F\",\"box\":[1181.9,661,1245,695],\"W\":1280,\"H\":720}"
+  },
+  {
+   "name": "keys_old_enter_free",
+   "ok": true,
+   "detail": "{\"e1\":{\"c\":false,\"paused\":false},\"game\":[\"Enter\"]}"
+  },
+  {
+   "name": "keys_swapped_keys_in_run",
+   "ok": true,
+   "detail": "{\"l0\":true,\"t1\":{\"c\":false,\"light\":false},\"l2\":true,\"game\":[\"~KeyF\"]}"
+  },
+  {
+   "name": "keys_bound_key_opens",
+   "ok": true,
+   "detail": "{\"op\":{\"v\":\"\",\"f\":\"sayText\",\"keys\":0,\"light\":true},\"game\":[]}"
+  },
+  {
+   "name": "keys_typing_isolated_enter_sends",
+   "ok": true,
+   "detail": "{\"ty\":{\"v\":\"fcwasdt\",\"light\":true},\"moved\":0,\"game\":[],\"sent\":{\"c\":false,\"last\":\"fcwasdt\"}}"
+  },
+  {
+   "name": "keys_escape_closes_only",
+   "ok": true,
+   "detail": "{\"c\":false,\"paused\":false,\"dialog\":false}"
+  },
+  {
+   "name": "keys_reset_restores",
+   "ok": true,
+   "detail": "{\"capC\":{\"c\":false,\"msg\":\"F is Nearby chat's only key, and nothing would be left for it. Give Nearby chat another key first.\"},\"chat\":[\"Enter\",\"NumpadEnter\"],\"light\":[\"KeyF\",null],\"icon\":\"Nearby chat (Enter)\",\"back\":true}"
+  },
+  {
+   "name": "keys_no_page_errors",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "keys_migration_keeps_saves",
+   "ok": true,
+   "detail": "{\"up\":[\"KeyW\",\"ArrowUp\"],\"left\":[\"KeyA\",\"ArrowLeft\"],\"down\":[\"KeyS\",\"ArrowDown\"],\"right\":[\"KeyD\",\"ArrowRight\"],\"run\":[\"ShiftLeft\",\"ShiftRight\"],\"crouch\":[\"Enter\",null],\"light\":[\"KeyF\",null],\"nv\":[\"KeyN\",null],\"ir\":[\"KeyB\",null],\"zoom\":[\"KeyZ\",null],\"inventory\":[\"Tab\",null],\"map\":[\"KeyM\",\"NumpadEnter\"],\"chat\":[\"KeyT\",null]}"
+  },
+  {
+   "name": "keys_migrated_enter_is_crouch",
+   "ok": true,
+   "detail": "{\"composerOnEnter\":false,\"game\":[\"~KeyC\"],\"tOpens\":true}"
+  },
+  {
+   "name": "keys_damaged_save_defaults",
+   "ok": true,
+   "detail": "{\"crouch\":[\"KeyC\",null],\"chat\":[\"Enter\",\"NumpadEnter\"]}"
+  },
+  {
+   "name": "keys_offline_untouched",
+   "ok": true,
+   "detail": "{\"st\":{\"on\":false,\"chat\":\"KeyT\",\"c\":false,\"icon\":false},\"game\":[\"KeyT\",\"Enter\"]}"
+  }
+ ],
+ "passed": 15,
+ "failed": [],
+ "mutants": [
+  {
+   "name": "Enter hard-wired again",
+   "caught": true,
+   "failed": [
+    "keys_old_enter_free",
+    "keys_swapped_keys_in_run",
+    "keys_bound_key_opens",
+    "keys_typing_isolated_enter_sends",
+    "keys_migrated_enter_is_crouch"
+   ],
+   "expected": [
+    "keys_old_enter_free"
+   ]
+  },
+  {
+   "name": "re-sent keys taken for chat",
+   "caught": true,
+   "failed": [
+    "keys_swapped_keys_in_run",
+    "keys_bound_key_opens",
+    "keys_typing_isolated_enter_sends"
+   ],
+   "expected": [
+    "keys_swapped_keys_in_run"
+   ]
+  },
+  {
+   "name": "chat remapped as a game key",
+   "caught": true,
+   "failed": [
+    "keys_offline_untouched"
+   ],
+   "expected": [
+    "keys_offline_untouched"
+   ]
+  },
+  {
+   "name": "old saves reset",
+   "caught": true,
+   "failed": [
+    "keys_migration_keeps_saves",
+    "keys_migrated_enter_is_crouch"
+   ],
+   "expected": [
+    "keys_migration_keeps_saves"
+   ]
+  },
+  {
+   "name": "the icon keeps its first key",
+   "caught": true,
+   "failed": [
+    "keys_reset_restores"
+   ],
+   "expected": [
+    "keys_icon_follows",
+    "keys_reset_restores"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+C2 - the Nearby chat key (all on the working tree before the commit; headless Chromium, SwiftShader)
+- chat_voice_browser.js --only icon,keys: PASS 45 of 45 (icon_keys.*), the offline case then extended (rebinding chat to T offline) and
+  run again with the keys section and its mutants: PASS 15 of 15, mutants 5 of 5 (keys_mutants2.*).
+- The first keys mutant run (keys_mutants.log) missed "chat remapped as a game key": online, chat.js always takes the chat key before
+  the adapter, so the fault only shows offline with a rebound key; the offline case was extended to that (T must reach the game as T)
+  and the mutant is caught since.
+- chat_browser.js --only nearby,nearby_phone,reduced: 22 of 23; nearby_keys_back_after moved 9 px in 500 ms (needs 20; 86 px in C1's
+  run): the game caps movement per frame, and a software-rendered page here draws one or two frames a second.  The nearby scenario run
+  again alone: PASS 20 of 20, 86 px (chat_browser_nearby_rerun.*).  Both results are kept; the failure is frame pacing, not the change
+  (nothing in C2 touches movement keys outside the chat key, and the same case passed before and after).

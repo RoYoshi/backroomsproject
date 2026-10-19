@@ -176,6 +176,21 @@ stop is a second wall, which is why the browser check tests what a player would 
 only closes - rather than the stop itself.) Esc leaves the field (closes the composer or the phone's lounge). The admin
 key, pause and every game key behave as before whenever no chat field has focus.
 
+**The Nearby chat key** (post-Trial 4 chat polish C2). Opening the composer is an action in Settings -> Controls, **Nearby chat**, in
+the same table as the game's actions (`tfb.keys.v1`, ui.js's `window.__keys`): Enter and the keypad's Enter by default, a first and a
+second key, the same conflict prompt (Swap / Cancel), "Every action keeps a first key", and Reset. It is the page's action, not the
+game's: chat.js reads its keys itself, by physical code, in its window capture listener, which runs before ui.js's remapping adapter,
+and ui.js never translates or holds back a chat key for the game (`PAGE` in ui.js). So: the key opens the composer only when speaking
+is possible, and then nothing after it (the adapter, the game) sees that key; otherwise it passes on untouched (offline, paused or in
+a menu every key does what it did). Only a key really pressed counts: the adapter re-sends a remapped game key as an untrusted event
+with the game's code, which is never taken for the chat (the light moved to T and chat to F: T toggles the light). A key that opened
+nothing is no longer special: rebound away from Enter, Enter reaches the game as any other unbound key. Inside the composer Enter
+always sends (the form's own submit), whatever key opened it; Esc closes it without pausing. Typing never moves, crouches, toggles the
+light or reaches any other control (see Keys above). The icon's key cap and name follow the binding. A save from before the action
+keeps every key it holds: Nearby chat gets Enter, or (if Enter is already taken) the first free of T, Y, U, H, and the keypad's Enter as
+its second key if that is free; a damaged save (a key twice) falls back to the defaults as before. The pause screen's control list and
+Help name the key.
+
 **Accessibility.** Every control is a real button or field with a label, reachable by keyboard and by touch. New lines are announced
 through one polite region at most every 2.5 s (more waiting lines become one count, never a flood): nearby lines always, lounge lines
 only while the focus is inside the lounge. A bubble appears at once and fades out over its last 0.4 s; with reduced motion (Settings,

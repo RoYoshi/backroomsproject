@@ -382,7 +382,14 @@
     if (comp.form.contains(document.activeElement)) document.activeElement.blur();
   }
 
-  /* ---------------------------------------------------------------- keys: a chat field's keys are its own; Enter opens the composer */
+  /* ---------------------------------------------------------------- keys: a chat field's keys are its own; the Nearby chat key opens the composer
+     (post-Trial 4 chat polish C2) The key is the player's Nearby chat binding (Settings -> Controls, ui.js's window.__keys; Enter and the
+     keypad's Enter by default), read by its physical code: this listener is registered before ui.js's adapter, so it sees the key as
+     pressed and, when it opens the composer, nothing after it (the adapter, the game) sees that key at all.  When speaking is not
+     possible the key passes on untouched, so offline, paused or in a menu every key does what it did.  Inside the composer Enter always
+     sends (the form's own submit), whatever key opened it. */
+  let chatCodes = ['Enter', 'NumpadEnter'];
+  const chatKeys = () => { const K = window.__keys, b = K && K.bindings ? K.bindings().chat : null; chatCodes = Array.isArray(b) ? b.filter(c => typeof c === 'string' && c) : ['Enter', 'NumpadEnter']; iconLabel(); };
   const typing = t => t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement || t instanceof HTMLSelectElement || !!(t && t.isContentEditable);
   const inChat = t => !!(t && t.closest && t.closest('[data-chat]'));
   addEventListener('keydown', e => {
@@ -396,7 +403,9 @@
       }
       e.stopImmediatePropagation(); return;                              // the game, the menus and the key remapping never see it
     }
-    if (e.key === 'Enter' && !e.repeat && !e.ctrlKey && !e.metaKey && !e.altKey && !typing(t) && canSpeak()) { e.preventDefault(); e.stopImmediatePropagation(); openComposer(); }
+    // (only a key really pressed: ui.js's adapter re-sends a remapped key as an untrusted event with the game's code, which may be
+    // a code the chat binding uses - light moved to T and chat to F: T's re-sent F is the light's, never the chat's)
+    if (e.isTrusted && chatCodes.includes(e.code) && !e.ctrlKey && !e.metaKey && !e.altKey && !typing(t) && canSpeak()) { e.preventDefault(); e.stopImmediatePropagation(); if (!e.repeat) openComposer(); }
   }, true);
   addEventListener('keypress', e => { if (inChat(e.target)) e.stopImmediatePropagation(); }, true);
 
@@ -414,6 +423,7 @@
   window.__chatFrame = frame;
   const start = () => {
     build(); sync();
+    chatKeys(); if (window.__keys && window.__keys.on) window.__keys.on(chatKeys);   // the binding, and every change to it (the icon's key follows)
     const mo = new MutationObserver(sync);
     for (const id of ['menu', 'hud']) { const e = $(id); if (e) mo.observe(e, { attributes: true, attributeFilter: ['hidden'] }); }
     document.addEventListener('visibilitychange', sync);

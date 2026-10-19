@@ -104,7 +104,12 @@
      window's capture phase before any game listener sees it; a default key that no longer belongs to its own action is held
      back. With the default bindings nothing is intercepted at all, so the game behaves exactly as before. Only while a run is
      live (started, not paused, nothing open over it); a release always follows the press it belongs to. Esc (pause), the mouse
-     (aim, right-click night vision, wheel zoom) and the admin key are fixed and never offered. Saved as tfb.keys.v1. */
+     (aim, right-click night vision, wheel zoom) and the admin key are fixed and never offered. Saved as tfb.keys.v1.
+     Post-Trial 4 chat polish (C2): Nearby chat is an action here too (Enter, and the keypad's Enter, by default). It is the page's,
+     not the game's: chat.js reads its keys itself (its window listener runs before this adapter) and opens the composer only when
+     speaking is possible, so the adapter never translates or holds back a chat key (PAGE below). It shares the one table with the
+     game's actions, so no key can be both chat and a game action (the same conflict, swap, cancel and reset). A save from before it
+     has no chat entry: chat gets Enter, or the first of T, Y, U, H that is free, and every saved key stays where it was. */
   const KB_KEY = 'tfb.keys.v1';
   const KB = [                                                             // [action, name, group, the game's own codes per slot]
     ['up', 'Move up', 'Moving', ['KeyW', 'ArrowUp']], ['left', 'Move left', 'Moving', ['KeyA', 'ArrowLeft']],
@@ -114,7 +119,10 @@
     ['nv', 'Night vision', 'Night Vision Camcorder', ['KeyN', null]], ['ir', 'Infrared illuminator: off / low / high', 'Night Vision Camcorder', ['KeyB', null]],
     ['zoom', 'Zoom', 'Night Vision Camcorder', ['KeyZ', null]],
     ['inventory', 'Inventory', 'Everything else', ['Tab', null]], ['map', 'Cartograph (once you carry it)', 'Everything else', ['KeyM', null]],
+    ['chat', 'Nearby chat', 'Chat', ['Enter', 'NumpadEnter']],
   ];
+  const PAGE = new Set(['chat']);                                         // actions the page's scripts read themselves: never remapped for the game
+  const CHAT_FREE = ['Enter', 'KeyT', 'KeyY', 'KeyU', 'KeyH'];            // a save from before the chat action: its first key, the first of these free
   const KB_DEF = Object.fromEntries(KB.map(a => [a[0], a[3].slice()]));
   const kbClone = b => Object.fromEntries(Object.entries(b).map(([k, v]) => [k, v.slice()]));
   const GAME = (a, i) => KB_DEF[a][i] || KB_DEF[a][0];                   // the code the game reads for that action and slot
@@ -125,17 +133,23 @@
     if (!r || r.v !== 1 || !r.b || typeof r.b !== 'object') return kbClone(KB_DEF);   // no save (or not ours): the defaults
     const b = kbClone(KB_DEF), seen = new Set();
     for (const [a] of KB) {
+      if (PAGE.has(a) && !Array.isArray(r.b[a])) continue;                  // added after this save was made: placed below, around its keys
       const s = Array.isArray(r.b[a]) ? r.b[a] : KB_DEF[a];
       const ok = c => typeof c === 'string' && /^[A-Za-z0-9]+$/.test(c) && !NOBIND.test(c);
       b[a] = [ok(s[0]) ? s[0] : KB_DEF[a][0], s[1] === null ? null : ok(s[1]) ? s[1] : KB_DEF[a][1]];
       for (const c of b[a]) if (c) { if (seen.has(c)) return kbClone(KB_DEF); seen.add(c); }   // a damaged save never double-binds a key
     }
+    if (!Array.isArray(r.b.chat)) {                                          // (C2) a save from before Nearby chat was an action
+      const first = CHAT_FREE.find(c => !seen.has(c)) || null, second = seen.has('NumpadEnter') ? null : 'NumpadEnter';
+      if (!first) return kbClone(KB_DEF);                                   // (every candidate taken: the defaults, as for a damaged save)
+      b.chat = [first, second];
+    }
     return b;
   }
   let KBS = kbLoad(), T = new Map(), SWALLOW = new Set(), IDENT = true;
   function kbBuild() {
-    T = new Map(); for (const [a] of KB) for (const i of [0, 1]) { const p = KBS[a][i]; if (p) T.set(p, GAME(a, i)); }
-    SWALLOW = new Set(); for (const [a] of KB) for (const g of KB_DEF[a]) if (g && !T.has(g)) SWALLOW.add(g);
+    T = new Map(); for (const [a] of KB) if (!PAGE.has(a)) for (const i of [0, 1]) { const p = KBS[a][i]; if (p) T.set(p, GAME(a, i)); }
+    SWALLOW = new Set(); for (const [a] of KB) if (!PAGE.has(a)) for (const g of KB_DEF[a]) if (g && !T.has(g)) SWALLOW.add(g);
     IDENT = [...T].every(([p, g]) => p === g) && !SWALLOW.size;
   }
   kbBuild();
@@ -246,7 +260,7 @@
       if (grp !== g) { g = grp; h += `<h4>${esc(grp)}</h4>`; }
       const slot = i => { const c = KBS[a][i], cap = capturing && capturing.a === a && capturing.i === i;
         return `<button type="button" class="kb-slot${cap ? ' cap' : ''}${c ? '' : ' empty'}" data-a="${a}" data-i="${i}" aria-label="${esc(name)}, ${i ? 'second' : 'first'} key: ${c ? esc(keyName(c)) : 'none'}. Change">${cap ? 'Press a key' : c ? esc(keyName(c)) : '+'}</button>`; };
-      const extra = a === 'nv' ? '<small>also right click</small>' : a === 'zoom' ? '<small>also the mouse wheel</small>' : '';
+      const extra = a === 'nv' ? '<small>also right click</small>' : a === 'zoom' ? '<small>also the mouse wheel</small>' : a === 'chat' ? '<small>online, in a run; Enter always sends</small>' : '';
       h += `<span>${esc(name)}${extra}</span><span class="kb-pair">${slot(0)}${slot(1)}</span>`;
     }
     h += `<h4>Fixed</h4><span>Pause / resume</span><span class="kb-pair"><b>Esc</b></span><span>Aim a handheld light</span><span class="kb-pair"><b>Mouse</b></span><span>Vault or crawl</span><span class="kb-pair"><b>Walk into it</b></span>`;
@@ -583,8 +597,8 @@
 
   /* ---------------------------------------------------------------- help (the right rail's "i"): how to play, where the controls are */
   let helpEl = null;
-  const helpControls = () => coarse() ? 'On a touch screen: put a thumb down low on the left of the screen and drag to move (the stick appears under your thumb); RUN, CROUCH, LIGHT and INV are at the bottom right; PAUSE is at the top right.'
-    : `Move with ${keys.move()}${KBS.up[1] ? ' or ' + ['up', 'left', 'down', 'right'].map(a => keyName(KBS[a][1])).filter(Boolean).join(' ') : ''}, aim your light with the mouse, hold ${keys.label('run')} to run, ${keys.label('crouch')} to crouch, ${keys.label('light')} for your light, ${keys.label('inventory')} for the inventory, Esc to pause.`;
+  const helpControls = () => coarse() ? 'On a touch screen: put a thumb down low on the left of the screen and drag to move (the stick appears under your thumb); RUN, CROUCH, LIGHT and INV are at the bottom right, with the chat icon beside them for nearby chat when you are online; PAUSE is at the top right.'
+    : `Move with ${keys.move()}${KBS.up[1] ? ' or ' + ['up', 'left', 'down', 'right'].map(a => keyName(KBS[a][1])).filter(Boolean).join(' ') : ''}, aim your light with the mouse, hold ${keys.label('run')} to run, ${keys.label('crouch')} to crouch, ${keys.label('light')} for your light, ${keys.label('inventory')} for the inventory, ${keys.label('chat')} (or the chat icon) to speak to players near you when online, Esc to pause.`;
   /* playing it like an app (Q4): how to add it to a home screen, said once, here; nothing on the menu nags about it */
   const standalone = () => !!((window.matchMedia && (matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches)) || navigator.standalone === true);
   let installEvt = null;
@@ -923,7 +937,7 @@
     const both = a => keys.labels(a).join(' / ');
     const rows = [['Move', keys.move() + (sec ? ' / ' + sec : '')], ['Run (drains stamina)', 'Hold ' + both('run')], ['Crouch / stand', both('crouch')], ['Slide (while running)', both('crouch')],
       ['Vault / crawl', 'Walk into it'], ['Aim handheld light', 'Mouse'], ['Toggle light / raise camcorder', both('light')], ['Night vision (camcorder)', both('nv') + ' / right click'],
-      ['Infrared (camcorder)', both('ir')], ['Camera zoom (camcorder)', 'Wheel / ' + both('zoom')], ['Inventory', both('inventory')], ['Cartograph (once found)', both('map')], ['Pause / resume', 'Esc']];
+      ['Infrared (camcorder)', both('ir')], ['Camera zoom (camcorder)', 'Wheel / ' + both('zoom')], ['Inventory', both('inventory')], ['Cartograph (once found)', both('map')], ['Nearby chat (online)', both('chat')], ['Pause / resume', 'Esc']];
     box.innerHTML = rows.map(([a, b]) => `<p><span>${esc(a)}</span><b>${esc(b.toUpperCase())}</b></p>`).join('');
   }
   // the camcorder's viewfinder line (camcorder.js writes it once and only toggles it afterwards): the same words, the player's keys

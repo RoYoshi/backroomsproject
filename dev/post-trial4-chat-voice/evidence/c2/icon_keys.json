@@ -1,0 +1,237 @@
+{
+ "tool": "dev/tools/checks/chat_voice_browser.js",
+ "tree": "this repository",
+ "browser": "chromium",
+ "seconds": 184,
+ "ok": true,
+ "cases": [
+  {
+   "name": "icon_absent_on_menu_wide",
+   "ok": true,
+   "detail": "{\"exists\":false,\"shown\":false}"
+  },
+  {
+   "name": "icon_shown_low_right_wide",
+   "ok": true,
+   "detail": "{\"exists\":true,\"shown\":true,\"label\":\"Nearby chat (Enter)\",\"key\":\"Enter\",\"box\":[1157.5,661,1245,695],\"W\":1280,\"H\":720}"
+  },
+  {
+   "name": "icon_named_with_key_wide",
+   "ok": true,
+   "detail": "Nearby chat (Enter) / Enter"
+  },
+  {
+   "name": "icon_clear_of_hud_wide",
+   "ok": true,
+   "detail": "{\"plain\":[],\"coords\":[],\"hints\":[]}"
+  },
+  {
+   "name": "icon_opens_composer_wide",
+   "ok": true,
+   "detail": "{\"f\":\"sayText\",\"keys\":0,\"icon\":false}"
+  },
+  {
+   "name": "icon_back_after_escape_wide",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "icon_hidden_paused_and_customize_wide",
+   "ok": true,
+   "detail": "{\"pz\":true,\"paused\":false,\"customize\":false,\"again\":true}"
+  },
+  {
+   "name": "icon_no_page_errors_wide",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "icon_absent_on_menu_hd",
+   "ok": true,
+   "detail": "{\"exists\":false,\"shown\":false}"
+  },
+  {
+   "name": "icon_shown_low_right_hd",
+   "ok": true,
+   "detail": "{\"exists\":true,\"shown\":true,\"label\":\"Nearby chat (Enter)\",\"key\":\"Enter\",\"box\":[1797.5,1021,1885,1055],\"W\":1920,\"H\":1080}"
+  },
+  {
+   "name": "icon_named_with_key_hd",
+   "ok": true,
+   "detail": "Nearby chat (Enter) / Enter"
+  },
+  {
+   "name": "icon_clear_of_hud_hd",
+   "ok": true,
+   "detail": "{\"plain\":[],\"coords\":[],\"hints\":[]}"
+  },
+  {
+   "name": "icon_opens_composer_hd",
+   "ok": true,
+   "detail": "{\"f\":\"sayText\",\"keys\":0,\"icon\":false}"
+  },
+  {
+   "name": "icon_back_after_escape_hd",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "icon_hidden_paused_and_customize_hd",
+   "ok": true,
+   "detail": "{\"pz\":true,\"paused\":false,\"customize\":false,\"again\":true}"
+  },
+  {
+   "name": "icon_no_page_errors_hd",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "icon_absent_on_menu_phone",
+   "ok": true,
+   "detail": "{\"exists\":false,\"shown\":false}"
+  },
+  {
+   "name": "icon_shown_low_right_phone",
+   "ok": true,
+   "detail": "{\"exists\":true,\"shown\":true,\"label\":\"Nearby chat (Enter)\",\"key\":\"Enter\",\"box\":[326,612,374,660],\"W\":390,\"H\":844}"
+  },
+  {
+   "name": "icon_named_with_key_phone",
+   "ok": true,
+   "detail": "Nearby chat (Enter) / Enter"
+  },
+  {
+   "name": "icon_clear_of_hud_phone",
+   "ok": true,
+   "detail": "{\"plain\":[],\"coords\":[],\"hints\":[]}"
+  },
+  {
+   "name": "icon_opens_composer_phone",
+   "ok": true,
+   "detail": "{\"f\":\"sayText\",\"keys\":0,\"icon\":false}"
+  },
+  {
+   "name": "icon_back_after_escape_phone",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "icon_no_page_errors_phone",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "icon_absent_on_menu_side",
+   "ok": true,
+   "detail": "{\"exists\":false,\"shown\":false}"
+  },
+  {
+   "name": "icon_shown_low_right_side",
+   "ok": true,
+   "detail": "{\"exists\":true,\"shown\":true,\"label\":\"Nearby chat (Enter)\",\"key\":\"Enter\",\"box\":[490,326,538,374],\"W\":844,\"H\":390}"
+  },
+  {
+   "name": "icon_named_with_key_side",
+   "ok": true,
+   "detail": "Nearby chat (Enter) / Enter"
+  },
+  {
+   "name": "icon_clear_of_hud_side",
+   "ok": true,
+   "detail": "{\"plain\":[],\"coords\":[],\"hints\":[]}"
+  },
+  {
+   "name": "icon_opens_composer_side",
+   "ok": true,
+   "detail": "{\"f\":\"sayText\",\"keys\":0,\"icon\":false}"
+  },
+  {
+   "name": "icon_back_after_escape_side",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "icon_no_page_errors_side",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "keys_controls_row",
+   "ok": true,
+   "detail": "[\"Enter\",\"Num Enter\"]"
+  },
+  {
+   "name": "keys_rebind_saved",
+   "ok": true,
+   "detail": "{\"r1\":{\"msg\":\"Nearby chat: T.\",\"warn\":false},\"chat\":[\"KeyT\",\"NumpadEnter\"],\"saved\":[\"KeyT\",\"NumpadEnter\"]}"
+  },
+  {
+   "name": "keys_conflict_swap_cancel",
+   "ok": true,
+   "detail": "{\"r2\":{\"msg\":\"F is already used for Light on / off, raise the camcorder. Swap them (Light on / off, raise the camcorder gets T), or cancel. Swap keys Cancel\",\"warn\":true},\"r3\":{\"msg\":\"M is already used for Cartograph (once you carry it). Swap them (Cartograph (once you carry it) gets F), or cancel. Swap keys Cancel\",\"warn\":true},\"chat\":[\"KeyF\",\"NumpadEnter\"],\"light\":[\"KeyT\",null],\"map\":[\"KeyM\",null]}"
+  },
+  {
+   "name": "keys_icon_follows",
+   "ok": true,
+   "detail": "{\"exists\":true,\"shown\":true,\"label\":\"Nearby chat (F)\",\"key\":\"F\",\"box\":[1181.9,661,1245,695],\"W\":1280,\"H\":720}"
+  },
+  {
+   "name": "keys_old_enter_free",
+   "ok": true,
+   "detail": "{\"e1\":{\"c\":false,\"paused\":false},\"game\":[\"Enter\"]}"
+  },
+  {
+   "name": "keys_swapped_keys_in_run",
+   "ok": true,
+   "detail": "{\"l0\":true,\"t1\":{\"c\":false,\"light\":false},\"l2\":true,\"game\":[\"~KeyF\"]}"
+  },
+  {
+   "name": "keys_bound_key_opens",
+   "ok": true,
+   "detail": "{\"op\":{\"v\":\"\",\"f\":\"sayText\",\"keys\":0,\"light\":true},\"game\":[]}"
+  },
+  {
+   "name": "keys_typing_isolated_enter_sends",
+   "ok": true,
+   "detail": "{\"ty\":{\"v\":\"fcwasdt\",\"light\":true},\"moved\":0,\"game\":[],\"sent\":{\"c\":false,\"last\":\"fcwasdt\"}}"
+  },
+  {
+   "name": "keys_escape_closes_only",
+   "ok": true,
+   "detail": "{\"c\":false,\"paused\":false,\"dialog\":false}"
+  },
+  {
+   "name": "keys_reset_restores",
+   "ok": true,
+   "detail": "{\"capC\":{\"c\":false,\"msg\":\"F is Nearby chat's only key, and nothing would be left for it. Give Nearby chat another key first.\"},\"chat\":[\"Enter\",\"NumpadEnter\"],\"light\":[\"KeyF\",null],\"icon\":\"Nearby chat (Enter)\",\"back\":true}"
+  },
+  {
+   "name": "keys_no_page_errors",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "keys_migration_keeps_saves",
+   "ok": true,
+   "detail": "{\"up\":[\"KeyW\",\"ArrowUp\"],\"left\":[\"KeyA\",\"ArrowLeft\"],\"down\":[\"KeyS\",\"ArrowDown\"],\"right\":[\"KeyD\",\"ArrowRight\"],\"run\":[\"ShiftLeft\",\"ShiftRight\"],\"crouch\":[\"Enter\",null],\"light\":[\"KeyF\",null],\"nv\":[\"KeyN\",null],\"ir\":[\"KeyB\",null],\"zoom\":[\"KeyZ\",null],\"inventory\":[\"Tab\",null],\"map\":[\"KeyM\",\"NumpadEnter\"],\"chat\":[\"KeyT\",null]}"
+  },
+  {
+   "name": "keys_migrated_enter_is_crouch",
+   "ok": true,
+   "detail": "{\"composerOnEnter\":false,\"game\":[\"~KeyC\"],\"tOpens\":true}"
+  },
+  {
+   "name": "keys_damaged_save_defaults",
+   "ok": true,
+   "detail": "{\"crouch\":[\"KeyC\",null],\"chat\":[\"Enter\",\"NumpadEnter\"]}"
+  },
+  {
+   "name": "keys_offline_untouched",
+   "ok": true,
+   "detail": "{\"st\":{\"on\":false,\"c\":false,\"icon\":false},\"game\":[\"Enter\"]}"
+  }
+ ],
+ "passed": 45,
+ "failed": [],
+ "mutants": null
+}
