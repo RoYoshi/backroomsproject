@@ -1,0 +1,54 @@
+Post-Trial 4 review, checkpoint R1 - what was run, on what, and what it gave (2026-10-18/19, cloud workspace, Node 22.22.2,
+Playwright's headless Chromium with SwiftShader; every page text and passcode synthetic).
+
+0. The start
+   git ls-remote: trial-4-rgb-chat-accessibility = 518b99021b601963cfe0ee79e9bfd2cccd2f3748, its tree
+   72e60eb7b68a8dc3d2f735599d8ab828fc21691e (as the owner's brief says). post-trial4-review-polish created from exactly that commit.
+   The Codespaces-rebuilt generated/BUILD_MANIFEST.json the brief mentions is not in this workspace (it was never pushed); the manifest
+   was rebuilt here from the branch's own sources instead (step 1) and compared entry by entry.
+
+1. The committed Trial 4 head, as it is (a fresh clone of 518b990)
+   npm run build:check                     FAIL (1 of 42): generated/BUILD_MANIFEST.json differs from what its sources build
+   npm run build (working tree)            the manifest's only differences: recipesSha256, public/assets/chat.js, public/mp.js and the
+                                           new public/assets/rgb.js entry - exactly Trial 4's three built outputs; nothing else
+   gate --tier fast (baseline_518b990/)    FAIL, 18 of 21 steps pass:
+                                           build  - the stale manifest above
+                                           docs   - 4 generated blocks stale (BUILD_PIPELINE outputs, FRAMEWORKS, CONTRACTS globals,
+                                                    src/frameworks/front/README.md): Trial 4 added a file without regenerating them
+                                           scope  - "declared as added but not: src/frameworks/front/client/rgb.js": a source file
+                                                    declared as a runtime file in dev/tools/gate/declared_changes.json
+                                           chat   PASS 83 of 83, 13 of 13 mutants (agrees with the Codespaces result)
+   gate --only menu (full tier)            FAIL, 10 of 11 checks, 8 of 8 mutants: only "logo" fails, on index.html's bytes - Trial 4's
+                                           two page edits (the RGB script tag, the NEW RUN label) were never listed as allowed differences
+
+2. The RGB sliders on 518b990 (scratch probe, then dev/tools/checks/rgb_browser.js)
+   Body picker #ffcc77 at load: its sliders 0 / 0 / 0.  Customize opened: still 0 / 0 / 0.  A swatch (#f3dcb2): still 0 / 0 / 0.
+   Red +5 from the keyboard: the picker and the SAVED appearance became #05dcb2 (red 0xf3 -> 0x05: the stale slider overwrote the
+   channel), the numbers still read 0 / 0 / 0.  HUD: swatch #6fe6ff -> sliders still 243 / 231 / 167; Reset HUD -> the setting is
+   Default ('') but the picker and sliders keep the old custom colour.  Customize draws each slider 42 px tall in a bordered field
+   (the game's .appearance-fields input rule).  rgb_browser.js on 518b990: FAIL, 2 of 14 checks (on_518b990.json).
+   Cause: rgb.js's sync() looked for the group inside picker.parentElement, but the group is inserted after the picker's <label> (or
+   after #stSw for the HUD), so it was never found: no slider or number ever followed its picker after it was built.
+
+3. The fix (src/frameworks/front/client/rgb.js, public/assets/ui.css), on the working tree
+   rgb_browser.js: PASS 14 of 14 (on_working_tree.json); --mutants 1: 6 of 6 caught (mutants.json, about 10 minutes).
+   Screens: rgb_probe/fixed_*.png and rgb_check/shots/.  rgb_probe/t4css_phone_settings_hud_values_clipped.png shows the second CSS
+   defect (Settings' .us-row output min-width 44 px in a 33 px column: the numbers ran into the group's border), fixed after it.
+
+4. The chat in a run on 518b990 (scratch two-player probe)
+   [ENTER] Nearby Chat: absent on the menu, shown in the run, hidden while composing, paused, in Customize; back after Resume; never
+   on a phone (SAY shown instead).  The listener's bubble border is the speaker's colour (#8dff9f), not the listener's (#ffb347).
+   The pause button reads SPONTANEOUSLY COMBUST? (CSS upper-cases it); it fits at 1280x720 and on a phone (no overflow).
+   rgb.js's body MutationObserver (never disconnected until Settings is opened) fired about 3.8 times a second in a run: negligible.
+   Screens: t4head_run_hint.png, t4head_listener_bubble.png, t4head_pause_label.png.
+
+5. The chat's per-frame hook (dev/post-3h-trials/tools/t2_client_perf.js, 2 rounds of 10 s, chat_hook_perf/)
+   window.__chatFrame per call with no bubble: Trial 2 (58fcf5b) 0.015 ms; Trial 4 (518b990) 0.117 ms; fixed 0.043 ms.
+   (Trial 4 asks canSpeak() every frame for the hint; its open-sheet test searched the whole document with a selector each frame.
+   Fixed: canSpeak() once a frame, the sheets read from a live list - the same answer.)  The page's frame pacing is within the
+   tool's run-to-run noise on SwiftShader either way; the hook numbers are the comparison.
+
+6. Gate bookkeeping on the working tree
+   npm run build:check PASS (41 outputs); docs.js --check PASS (23 blocks); scope_m.js PASS.
+   menu_drift.js: pageAsC5d() removes exactly Trial 2's chat script tag and Trial 4's RGB script tag and label; checked: today's page
+   becomes C5d's byte for byte, and C5d's page is left unchanged by it.

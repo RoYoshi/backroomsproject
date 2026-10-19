@@ -23,6 +23,7 @@ The words on screen reflect what the server actually answered.
 | [`client/credits_data.js`](client/credits_data.js) | THE FAR BACKROOMS - credits.  EDIT THIS FILE to change the Credits page; the layout never needs touching. | `public/assets/credits_data.js` |
 | [`client/hud.js`](client/hud.js) | The settings model and the HUD's own polish. | `public/hud.js` |
 | [`client/net-newrun.js`](client/net-newrun.js) | net-newrun.js - the NEW RUN button's words and the run menu's, for the multiplayer layer (mp.js). | `public/assets/net-newrun.js` |
+| [`client/rgb.js`](client/rgb.js) | Trial 4: R/G/B sliders enhance existing color controls; original inputs retain all persistence and network ownership. | `public/assets/rgb.js` |
 | [`client/ui.js`](client/ui.js) | THE FAR BACKROOMS - Stage 3C UI controller (QA1: the main menu rebuilt from the user's rough draft, and its theme; QA2: the | `public/assets/ui.js` |
 <!-- end of generated block -->
 

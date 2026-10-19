@@ -1,0 +1,3 @@
+$ node dev/tools/build/build.js --check
+NOT BUILT: generated/BUILD_MANIFEST.json: differs from what its sources build
+BUILD CHECK: FAIL (1 of 42)

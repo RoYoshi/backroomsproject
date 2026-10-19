@@ -227,7 +227,11 @@
   let hintEl = null, hintShown = false, sendSay = null, layer = null, comp = null, sayBtn = null, toastEl = null, toastT = 0, epoch = null, sayShown = false, heardN = 0, shownN = 0;
   const coarse = matchMedia('(pointer:coarse)');
   const myGameId = () => { const A = API(); return A && A.H ? A.H.id : null; };
-  const overlayOpen = () => vis('dialog') || vis('caught') || vis('won') || vis('runMenu') || vis('appearancePanel') || vis('menu') || !!document.querySelector('.ui-sheet:not([hidden])');
+  // (post-Trial 4 review: this runs every frame since the Enter hint; the open-sheet test reads a live list of the sheets instead of
+  // searching the whole document with a selector each time - the same answer)
+  const sheets = document.getElementsByClassName('ui-sheet');
+  const sheetOpen = () => { for (let i = 0; i < sheets.length; i++) if (!sheets[i].hidden) return true; return false; };
+  const overlayOpen = () => vis('dialog') || vis('caught') || vis('won') || vis('runMenu') || vis('appearancePanel') || vis('menu') || sheetOpen();
   function canSpeak() {
     const A = API(), N = NET();
     return !!(A && N && N.on && typeof sendSay === 'function' && A.started && A.started() && !A.paused() && !(A.G && A.G.caught) && !overlayOpen());
@@ -261,15 +265,16 @@
   }
   // where the bubbles go: called by mp.js every frame (after the other players are drawn), with the frame's camera
   function ensureHint() {
-    if (!hintEl) { hintEl = mk('p', 'say-keyhint', null, { id: 'chatKeyHint', hidden: '', 'aria-label': 'Press Enter for nearby chat' });
+    if (!hintEl) { hintEl = mk('p', 'say-keyhint', null, { id: 'chatKeyHint', hidden: '' });   // (its words name it: no aria-label on a paragraph)
       hintEl.append(mk('kbd', null, 'ENTER'), document.createTextNode(' Nearby Chat')); document.body.appendChild(hintEl); }
     return hintEl;
   }
   function frame(f) {
-    if (comp && !comp.form.hidden && !canSpeak()) closeComposer();
-    const showHint = !coarse.matches && canSpeak() && (!comp || comp.form.hidden);
+    const can = canSpeak();                                              // (post-Trial 4 review: asked once a frame, not up to three times)
+    if (comp && !comp.form.hidden && !can) closeComposer();
+    const showHint = !coarse.matches && can && (!comp || comp.form.hidden);
     if (showHint !== hintShown) { hintShown = showHint; ensureHint().hidden = !showHint; }
-    if (coarse.matches) { const w = canSpeak() && (!comp || comp.form.hidden); if (w !== sayShown) { sayShown = w; ensureSay().hidden = !w; } }
+    if (coarse.matches) { const w = can && (!comp || comp.form.hidden); if (w !== sayShown) { sayShown = w; ensureSay().hidden = !w; } }
     else if (sayShown) { sayShown = false; if (sayBtn) sayBtn.hidden = true; }
     if (!B.size) return;
     const A = API(), N = NET();

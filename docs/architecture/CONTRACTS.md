@@ -88,7 +88,7 @@ renaming one breaks the others silently.
 | `window.__PIXI_APP_INIT__` | - | `assets/RenderTargetSystem-CgUxHIsn.js` |
 | `window.__PIXI_RENDERER_INIT__` | - | `assets/RenderTargetSystem-CgUxHIsn.js` |
 | `window.__pose` | `move.js` | `assets/index-DKbV5Nv9.js` |
-| `window.__settings` | `hud.js` | `assets/ui.js` |
+| `window.__settings` | `hud.js` | `assets/chat.js`, `assets/rgb.js`, `assets/ui.js` |
 | `window.__sfx` | `sfx.js` | `assets/index-DKbV5Nv9.js`, `assets/mp-hum.js`, `mp.js` |
 | `window.__shadows` | `assets/shadows-2d.js` | - |
 | `window.__ui` | `assets/ui.js` | `assets/chat.js` |

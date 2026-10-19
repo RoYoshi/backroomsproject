@@ -1,0 +1,21 @@
+mutant refresh_once: caught (failed: load_wide, body_wide, beam_wide, hud_wide, load_phone, body_phone, beam_phone, hud_phone)
+mutant hud_default_ignored: caught (failed: hud_wide, hud_phone)
+mutant numbers_frozen: caught (failed: load_wide, body_wide, beam_wide, hud_wide, load_phone, body_phone, beam_phone, hud_phone)
+mutant no_load_refresh: caught (failed: load_wide, load_phone)
+mutant field_style_back: caught (failed: fit_wide, fit_phone)
+mutant numbers_announced: caught (failed: mounted_wide, mounted_phone)
+ok   load_wide
+ok   body_wide
+ok   beam_wide
+ok   hud_wide
+ok   fit_wide
+ok   mounted_wide
+ok   errors_wide
+ok   load_phone
+ok   body_phone
+ok   beam_phone
+ok   hud_phone
+ok   fit_phone
+ok   mounted_phone
+ok   errors_phone
+RGB SLIDERS: PASS (14 of 14 checks; mutants 6 of 6 caught)

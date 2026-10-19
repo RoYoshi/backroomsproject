@@ -26,7 +26,7 @@ names the lineage step it ports and that step's owners (`core/client/game/PORT_L
 | [CASHIER](../../src/frameworks/cashier/README.md) | `src/frameworks/cashier/` | cache ownership and budgets | none: a README only | - |
 | [LogicZ](../../src/frameworks/logicz/README.md) | `src/frameworks/logicz/` | vertical world rules (future) | none: a README only | - |
 | [P.O.C.K.E.T.](../../src/frameworks/pocket/README.md) | `src/frameworks/pocket/` | inventory and usable items | 2 client, 1 server, 1 shared | page: `inventory.js`, `mp.js`; 1 server module |
-| [F.R.O.N.T.](../../src/frameworks/front/README.md) | `src/frameworks/front/` | menus and HUD | 5 client | page: `assets/chat.js`, `assets/credits_data.js`, `assets/net-newrun.js`, `assets/ui.js`, `hud.js` |
+| [F.R.O.N.T.](../../src/frameworks/front/README.md) | `src/frameworks/front/` | menus and HUD | 6 client | page: `assets/chat.js`, `assets/credits_data.js`, `assets/net-newrun.js`, `assets/rgb.js`, `assets/ui.js`, `hud.js` |
 | [W.A.R.D.](../../src/frameworks/ward/README.md) | `src/frameworks/ward/` | trust and deployment security | 4 server | 4 server modules |
 | [A.T.L.A.S.](../../src/frameworks/atlas/README.md) | `src/frameworks/atlas/` | asset provenance and packaging | none: a README only | - |
 | [S.T.A.G.E.](../../src/frameworks/stage/README.md) | `src/frameworks/stage/` | testing and QA gates | none: a README only | - |

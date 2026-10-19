@@ -1,0 +1,6 @@
+$ node dev/tools/docs/docs.js --check
+STALE docs/architecture/BUILD_PIPELINE.md: outputs
+STALE docs/architecture/FRAMEWORKS.md: frameworks
+STALE docs/architecture/CONTRACTS.md: globals
+STALE src/frameworks/front/README.md: sources:front
+DOCS CHECK: FAIL (23 generated blocks in 23 documents; 4 stale)

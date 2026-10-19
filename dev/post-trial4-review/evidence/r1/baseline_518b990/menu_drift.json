@@ -1,0 +1,512 @@
+{
+ "tool": "dev/tools/checks/menu_drift.js",
+ "new": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/p4/base/gate_browser/game_candidate",
+ "old": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/p4/base/gate_browser/game_c5d",
+ "bounds": {
+  "x": 3,
+  "y": 3,
+  "step05": 1.5,
+  "step01": 0.6,
+  "resume": 0.25,
+  "rest": 0.02
+ },
+ "chromium": "141.0.7390.37",
+ "checks": {
+  "boot": {
+   "state": "menu",
+   "ok": true
+  },
+  "static": {
+   "samples": {
+    "n": 41,
+    "distinct": 41,
+    "maxX": 2.332,
+    "maxY": 2.493,
+    "maxStep": 0.39664845896587064
+   },
+   "loop": {
+    "uiCalls": 7,
+    "uiFrames": 7,
+    "frames": 6,
+    "maxPerFrame": 1,
+    "one": true
+   },
+   "drift": {
+    "running": true,
+    "t": 0.6,
+    "x": 0.257,
+    "y": 0.395,
+    "frames": 7,
+    "writes": 6,
+    "starts": 1,
+    "stops": 0
+   },
+   "pointerVars": [
+    "",
+    ""
+   ],
+   "ok": true
+  },
+  "hidden": {
+   "quiet": {
+    "uiCalls": 0,
+    "writes": 0,
+    "still": true,
+    "first": {
+     "x": -0.164,
+     "y": 0.849,
+     "mx": 0,
+     "my": 0,
+     "at": 87293.80000000005
+    },
+    "running": false
+   },
+   "before": {
+    "x": -0.179,
+    "y": 0.987,
+    "mx": 0,
+    "my": 0,
+    "at": 86517.1000000001
+   },
+   "after": {
+    "x": -0.164,
+    "y": 0.849,
+    "mx": 0,
+    "my": 0,
+    "at": 90568.1000000001
+   },
+   "resumeJump": 0.139,
+   "loop": {
+    "uiCalls": 9,
+    "uiFrames": 9,
+    "frames": 8,
+    "maxPerFrame": 1,
+    "one": true
+   },
+   "simulated": true,
+   "ok": true
+  },
+  "reduced": {
+   "on": {
+    "uiCalls": 0,
+    "writes": 0,
+    "still": true,
+    "first": {
+     "x": 0,
+     "y": 0,
+     "mx": 0,
+     "my": 0,
+     "at": 94242.90000000014
+    },
+    "running": false
+   },
+   "rest": {
+    "x": 0,
+    "y": 0,
+    "mx": 0,
+    "my": 0,
+    "at": 98915.90000000014
+   },
+   "vars": [
+    "",
+    ""
+   ],
+   "restartedAfterOff": true,
+   "startsAdded": 1,
+   "afterOff": {
+    "uiCalls": 8,
+    "uiFrames": 8,
+    "frames": 7,
+    "maxPerFrame": 1,
+    "one": true
+   },
+   "afterSwitches": {
+    "uiCalls": 11,
+    "uiFrames": 11,
+    "frames": 10,
+    "maxPerFrame": 1,
+    "one": true
+   },
+   "systemReduce": {
+    "uiCalls": 0,
+    "writes": 0,
+    "still": true,
+    "first": {
+     "x": 0,
+     "y": 0,
+     "mx": 0,
+     "my": 0,
+     "at": 110685.6000000001
+    },
+    "running": false
+   },
+   "systemBack": true,
+   "afterSystem": {
+    "uiCalls": 9,
+    "uiFrames": 9,
+    "frames": 8,
+    "maxPerFrame": 1,
+    "one": true
+   },
+   "ok": true
+  },
+  "play": {
+   "inRun": true,
+   "inRunQuiet": {
+    "uiCalls": 0,
+    "writes": 0,
+    "still": true,
+    "first": {
+     "x": 422.4,
+     "y": -2.956,
+     "mx": 0,
+     "my": 0.739,
+     "at": 124617.5
+    },
+    "running": false
+   },
+   "menuBack": true,
+   "driftBack": true,
+   "loop": {
+    "uiCalls": 7,
+    "uiFrames": 7,
+    "frames": 6,
+    "maxPerFrame": 1,
+    "one": true
+   },
+   "samples": {
+    "n": 7,
+    "distinct": 7,
+    "maxX": 1.963,
+    "maxY": 0.729,
+    "maxStep": 0.15852129194527786
+   },
+   "ok": true
+  },
+  "pointer": {
+   "lean": {
+    "mx": 0.7,
+    "my": -0.5
+   },
+   "samples": {
+    "n": 41,
+    "distinct": 41,
+    "maxX": 1.365,
+    "maxY": 2.946,
+    "maxStep": 0.15945218719101956
+   },
+   "ok": true
+  },
+  "pageErrors": {
+   "list": [],
+   "ok": true
+  },
+  "boot_os": {
+   "quiet": {
+    "uiCalls": 0,
+    "writes": 0,
+    "still": true,
+    "first": {
+     "x": 0,
+     "y": 0,
+     "mx": 0,
+     "my": 0,
+     "at": 7403.699999999953
+    },
+    "running": false
+   },
+   "drift": {
+    "running": false,
+    "t": 0,
+    "x": 0,
+    "y": 0,
+    "frames": 0,
+    "writes": 0,
+    "starts": 0,
+    "stops": 0
+   },
+   "ok": true
+  },
+  "layout": {
+   "views": {
+    "1920x1080": {
+     "controls": 12,
+     "tab": [
+      "mmPlay",
+      "mm-item",
+      "mm-item",
+      "mm-item",
+      "Settings",
+      "Customize your wanderer",
+      "mmSound",
+      "Help",
+      "A",
+      "A",
+      "ui-menu hud-nocoords",
+      "name",
+      "u-btn ghost",
+      "mmPlay"
+     ],
+     "diffs": [],
+     "scroll": true,
+     "newDrifting": true,
+     "newOffset": {
+      "x": 1.065,
+      "y": 0.543,
+      "mx": 0,
+      "my": 0,
+      "at": 21090.199999999953
+     },
+     "oldOffset": {
+      "x": 0,
+      "y": 0,
+      "mx": 0,
+      "my": 0,
+      "at": 31651.700000000186
+     },
+     "oldStill": true,
+     "errors": [],
+     "ok": true
+    },
+    "2560x1080": {
+     "controls": 12,
+     "tab": [
+      "mmPlay",
+      "mm-item",
+      "mm-item",
+      "mm-item",
+      "Settings",
+      "Customize your wanderer",
+      "mmSound",
+      "Help",
+      "A",
+      "A",
+      "ui-menu hud-nocoords",
+      "name",
+      "u-btn ghost",
+      "mmPlay"
+     ],
+     "diffs": [],
+     "scroll": true,
+     "newDrifting": true,
+     "newOffset": {
+      "x": 1.086,
+      "y": 0.627,
+      "mx": 0,
+      "my": 0,
+      "at": 36575.39999999991
+     },
+     "oldOffset": {
+      "x": 0,
+      "y": 0,
+      "mx": 0,
+      "my": 0,
+      "at": 36431.30000000005
+     },
+     "oldStill": true,
+     "errors": [],
+     "ok": true
+    },
+    "1366x768@1.5": {
+     "controls": 12,
+     "tab": [
+      "mmPlay",
+      "mm-item",
+      "mm-item",
+      "mm-item",
+      "Settings",
+      "Customize your wanderer",
+      "mmSound",
+      "Help",
+      "A",
+      "A",
+      "ui-menu hud-nocoords",
+      "name",
+      "u-btn ghost",
+      "mmPlay"
+     ],
+     "diffs": [],
+     "scroll": true,
+     "newDrifting": true,
+     "newOffset": {
+      "x": 1.457,
+      "y": 0.435,
+      "mx": 0,
+      "my": 0,
+      "at": 33540.30000000005
+     },
+     "oldOffset": {
+      "x": -0.001,
+      "y": 0,
+      "mx": 0,
+      "my": 0,
+      "at": 33182.10000000009
+     },
+     "oldStill": true,
+     "errors": [],
+     "ok": true
+    },
+    "390x844@3 touch": {
+     "controls": 11,
+     "tab": null,
+     "diffs": [],
+     "scroll": true,
+     "newDrifting": true,
+     "newOffset": {
+      "x": 1.639,
+      "y": 2.268,
+      "mx": 0,
+      "my": 0,
+      "at": 8783.199999999953
+     },
+     "oldOffset": {
+      "x": 0.001,
+      "y": 0,
+      "mx": 0,
+      "my": 0,
+      "at": 9972.600000000093
+     },
+     "oldStill": true,
+     "errors": [],
+     "ok": true
+    }
+   },
+   "ok": true
+  },
+  "logo": {
+   "old": "906e19a8f4423bc7b2a7bf924a05201b3b2ba2c13753df3eec6eb6abc9cb9cb9",
+   "new": "906e19a8f4423bc7b2a7bf924a05201b3b2ba2c13753df3eec6eb6abc9cb9cb9",
+   "html": false,
+   "ok": false
+  },
+  "theme": {
+   "old": {
+    "state": "playing",
+    "want": true,
+    "begun": true,
+    "ctx": "running",
+    "muted": false,
+    "sources": 2,
+    "plays": 1,
+    "loads": 1,
+    "error": null
+   },
+   "new": {
+    "state": "playing",
+    "want": true,
+    "begun": true,
+    "ctx": "running",
+    "muted": false,
+    "sources": 2,
+    "plays": 1,
+    "loads": 1,
+    "error": null
+   },
+   "sound": [
+    [
+     "true",
+     "false"
+    ],
+    [
+     "true",
+     "false"
+    ]
+   ],
+   "ok": true
+  }
+ },
+ "ok": false,
+ "mutants": [
+  {
+   "id": "amplitude",
+   "file": "assets/ui.css",
+   "check": "static",
+   "applied": true,
+   "failed": [
+    "static",
+    "play",
+    "pointer"
+   ],
+   "caught": true
+  },
+  {
+   "id": "reduced_ignored",
+   "file": "assets/ui.js",
+   "check": "reduced",
+   "applied": true,
+   "failed": [
+    "reduced",
+    "boot_os"
+   ],
+   "caught": true
+  },
+  {
+   "id": "hidden_ignored",
+   "file": "assets/ui.js",
+   "check": "hidden",
+   "applied": true,
+   "failed": [
+    "hidden"
+   ],
+   "caught": true
+  },
+  {
+   "id": "second_loop",
+   "file": "assets/ui.js",
+   "check": "reduced",
+   "applied": true,
+   "failed": [
+    "reduced"
+   ],
+   "caught": true
+  },
+  {
+   "id": "no_drift",
+   "file": "assets/ui.js",
+   "check": "static",
+   "applied": true,
+   "failed": [
+    "static",
+    "reduced",
+    "play",
+    "pointer"
+   ],
+   "caught": true
+  },
+  {
+   "id": "control_moved",
+   "file": "assets/ui.css",
+   "check": "layout",
+   "applied": true,
+   "failed": [
+    "layout 1920x1080",
+    "layout 2560x1080",
+    "layout 1366x768@1.5",
+    "layout 390x844@3 touch"
+   ],
+   "caught": true
+  },
+  {
+   "id": "run_ignored",
+   "file": "assets/ui.js",
+   "check": "play",
+   "applied": true,
+   "failed": [
+    "play",
+    "pointer"
+   ],
+   "caught": true
+  },
+  {
+   "id": "clock_reset",
+   "file": "assets/ui.js",
+   "check": "hidden",
+   "applied": true,
+   "failed": [
+    "hidden"
+   ],
+   "caught": true
+  }
+ ],
+ "mutantsCaught": 8
+}

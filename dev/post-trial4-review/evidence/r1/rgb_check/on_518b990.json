@@ -1,0 +1,364 @@
+{
+ "tool": "dev/tools/checks/rgb_browser.js",
+ "dir": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/p4/base/clone",
+ "chromium": "141.0.7390.37",
+ "checks": {
+  "load_wide": {
+   "ok": false,
+   "body": {
+    "picker": "#123456",
+    "sliders": "#000000",
+    "outs": "#000000"
+   },
+   "hands": {
+    "picker": "#abcdef",
+    "sliders": "#000000",
+    "outs": "#000000"
+   },
+   "beam": {
+    "picker": "#4a7bd3",
+    "sliders": "#000000",
+    "outs": "#000000"
+   }
+  },
+  "body_wide": {
+   "ok": false,
+   "opened": {
+    "picker": "#123456",
+    "sliders": "#000000",
+    "outs": "#000000"
+   },
+   "swatch": "#f3dcb2",
+   "afterSwatch": {
+    "picker": "#f3dcb2",
+    "sliders": "#000000",
+    "outs": "#000000"
+   },
+   "afterKeys": {
+    "picker": "#05dcb2",
+    "sliders": "#050000",
+    "outs": "#000000"
+   },
+   "saved": "#05dcb2",
+   "want": "#f8dcb2",
+   "hands": {
+    "picker": "#abcdef",
+    "sliders": "#000000",
+    "outs": "#000000"
+   }
+  },
+  "beam_wide": {
+   "ok": false,
+   "opened": {
+    "picker": "#4a7bd3",
+    "sliders": "#000000",
+    "outs": "#000000"
+   },
+   "swatch": "#ffffff",
+   "afterSwatch": {
+    "picker": "#ffffff",
+    "sliders": "#000000",
+    "outs": "#000000"
+   }
+  },
+  "hud_wide": {
+   "ok": false,
+   "defaultColour": "#f3e7a7",
+   "atDefault": {
+    "picker": "#f3e7a7",
+    "sliders": "#f3e7a7",
+    "outs": "#f3e7a7"
+   },
+   "afterSwatch": {
+    "picker": "#6fe6ff",
+    "sliders": "#f3e7a7",
+    "outs": "#f3e7a7"
+   },
+   "afterKeys": {
+    "c": "#6fe4ff",
+    "read": {
+     "picker": "#6fe4ff",
+     "sliders": "#f3e4a7",
+     "outs": "#f3e7a7"
+    },
+    "want": "#6fe3ff"
+   },
+   "afterReset": {
+    "c": "",
+    "read": {
+     "picker": "#6fe4ff",
+     "sliders": "#f3e4a7",
+     "outs": "#f3e7a7"
+    }
+   }
+  },
+  "fit_wide": {
+   "ok": false,
+   "groups": [
+    {
+     "name": "Body RGB channels",
+     "sliders": [
+      {
+       "h": 42,
+       "border": 1
+      },
+      {
+       "h": 42,
+       "border": 1
+      },
+      {
+       "h": 42,
+       "border": 1
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "Hands RGB channels",
+     "sliders": [
+      {
+       "h": 42,
+       "border": 1
+      },
+      {
+       "h": 42,
+       "border": 1
+      },
+      {
+       "h": 42,
+       "border": 1
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "Beam RGB channels",
+     "sliders": [
+      {
+       "h": 42,
+       "border": 1
+      },
+      {
+       "h": 42,
+       "border": 1
+      },
+      {
+       "h": 42,
+       "border": 1
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "HUD RGB channels",
+     "sliders": [
+      {
+       "h": 46,
+       "border": 1
+      },
+      {
+       "h": 46,
+       "border": 1
+      },
+      {
+       "h": 46,
+       "border": 1
+      }
+     ],
+     "outsInside": false,
+     "wider": false
+    }
+   ]
+  },
+  "mounted_wide": {
+   "ok": false,
+   "groups": 4
+  },
+  "errors_wide": {
+   "ok": true,
+   "errors": []
+  },
+  "load_phone": {
+   "ok": false,
+   "body": {
+    "picker": "#123456",
+    "sliders": "#000000",
+    "outs": "#000000"
+   },
+   "hands": {
+    "picker": "#abcdef",
+    "sliders": "#000000",
+    "outs": "#000000"
+   },
+   "beam": {
+    "picker": "#4a7bd3",
+    "sliders": "#000000",
+    "outs": "#000000"
+   }
+  },
+  "body_phone": {
+   "ok": false,
+   "opened": {
+    "picker": "#123456",
+    "sliders": "#000000",
+    "outs": "#000000"
+   },
+   "swatch": "#f3dcb2",
+   "afterSwatch": {
+    "picker": "#f3dcb2",
+    "sliders": "#000000",
+    "outs": "#000000"
+   },
+   "afterKeys": {
+    "picker": "#05dcb2",
+    "sliders": "#050000",
+    "outs": "#000000"
+   },
+   "saved": "#05dcb2",
+   "want": "#f8dcb2",
+   "hands": {
+    "picker": "#abcdef",
+    "sliders": "#000000",
+    "outs": "#000000"
+   }
+  },
+  "beam_phone": {
+   "ok": false,
+   "opened": {
+    "picker": "#4a7bd3",
+    "sliders": "#000000",
+    "outs": "#000000"
+   },
+   "swatch": "#ffffff",
+   "afterSwatch": {
+    "picker": "#ffffff",
+    "sliders": "#000000",
+    "outs": "#000000"
+   }
+  },
+  "hud_phone": {
+   "ok": false,
+   "defaultColour": "#f3e7a7",
+   "atDefault": {
+    "picker": "#f3e7a7",
+    "sliders": "#f3e7a7",
+    "outs": "#f3e7a7"
+   },
+   "afterSwatch": {
+    "picker": "#6fe6ff",
+    "sliders": "#f3e7a7",
+    "outs": "#f3e7a7"
+   },
+   "afterKeys": {
+    "c": "#6fe4ff",
+    "read": {
+     "picker": "#6fe4ff",
+     "sliders": "#f3e4a7",
+     "outs": "#f3e7a7"
+    },
+    "want": "#6fe3ff"
+   },
+   "afterReset": {
+    "c": "",
+    "read": {
+     "picker": "#6fe4ff",
+     "sliders": "#f3e4a7",
+     "outs": "#f3e7a7"
+    }
+   }
+  },
+  "fit_phone": {
+   "ok": false,
+   "groups": [
+    {
+     "name": "Body RGB channels",
+     "sliders": [
+      {
+       "h": 42,
+       "border": 1
+      },
+      {
+       "h": 42,
+       "border": 1
+      },
+      {
+       "h": 42,
+       "border": 1
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "Hands RGB channels",
+     "sliders": [
+      {
+       "h": 42,
+       "border": 1
+      },
+      {
+       "h": 42,
+       "border": 1
+      },
+      {
+       "h": 42,
+       "border": 1
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "Beam RGB channels",
+     "sliders": [
+      {
+       "h": 42,
+       "border": 1
+      },
+      {
+       "h": 42,
+       "border": 1
+      },
+      {
+       "h": 42,
+       "border": 1
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "HUD RGB channels",
+     "sliders": [
+      {
+       "h": 46,
+       "border": 1
+      },
+      {
+       "h": 46,
+       "border": 1
+      },
+      {
+       "h": 46,
+       "border": 1
+      }
+     ],
+     "outsInside": false,
+     "wider": false
+    }
+   ]
+  },
+  "mounted_phone": {
+   "ok": false,
+   "groups": 4
+  },
+  "errors_phone": {
+   "ok": true,
+   "errors": []
+  }
+ },
+ "ok": false
+}

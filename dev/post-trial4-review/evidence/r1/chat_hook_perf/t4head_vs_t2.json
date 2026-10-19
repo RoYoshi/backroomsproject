@@ -1,0 +1,192 @@
+{
+ "tool": "dev/post-3h-trials/tools/t2_client_perf.js",
+ "old": "/home/claude/backrooms-modern",
+ "new": "/home/claude/review-polish",
+ "rounds": 2,
+ "seconds": 10,
+ "runs": [
+  {
+   "round": 0,
+   "order": "old then new",
+   "old": {
+    "fps": 3.11,
+    "p50": 316.6,
+    "p95": 416.7,
+    "p99": 733.3,
+    "taskMsPerS": 1069.136,
+    "scriptMsPerS": 158.934,
+    "styleMsPerS": 0.698,
+    "layoutMsPerS": 0.008
+   },
+   "new": {
+    "fps": 3.66,
+    "p50": 250,
+    "p95": 483.3,
+    "p99": 566.7,
+    "taskMsPerS": 1042.857,
+    "scriptMsPerS": 149.211,
+    "styleMsPerS": 0.734,
+    "layoutMsPerS": 0.011
+   }
+  },
+  {
+   "round": 1,
+   "order": "new then old",
+   "new": {
+    "fps": 2.97,
+    "p50": 300,
+    "p95": 566.7,
+    "p99": 733.3,
+    "taskMsPerS": 1063.434,
+    "scriptMsPerS": 197.782,
+    "styleMsPerS": 0.559,
+    "layoutMsPerS": 0.016
+   },
+   "old": {
+    "fps": 2.96,
+    "p50": 333.3,
+    "p95": 450,
+    "p99": 466.7,
+    "taskMsPerS": 1120.833,
+    "scriptMsPerS": 176.235,
+    "styleMsPerS": 0.839,
+    "layoutMsPerS": 0.017
+   }
+  }
+ ],
+ "hook": [
+  {
+   "round": 0,
+   "mode": "idle",
+   "bubbles": 0,
+   "hints": 0,
+   "calls": 38,
+   "msPerS": 0.44,
+   "msPerCall": 0.1158
+  },
+  {
+   "round": 0,
+   "mode": "one",
+   "bubbles": 1,
+   "hints": 0,
+   "calls": 53,
+   "msPerS": 0.78,
+   "msPerCall": 0.1472
+  },
+  {
+   "round": 0,
+   "mode": "nine",
+   "bubbles": 9,
+   "hints": 0,
+   "calls": 61,
+   "msPerS": 1.08,
+   "msPerCall": 0.177
+  },
+  {
+   "round": 1,
+   "mode": "idle",
+   "bubbles": 0,
+   "hints": 0,
+   "calls": 33,
+   "msPerS": 0.39,
+   "msPerCall": 0.1182
+  },
+  {
+   "round": 1,
+   "mode": "one",
+   "bubbles": 1,
+   "hints": 0,
+   "calls": 39,
+   "msPerS": 0.76,
+   "msPerCall": 0.1949
+  },
+  {
+   "round": 1,
+   "mode": "nine",
+   "bubbles": 9,
+   "hints": 0,
+   "calls": 38,
+   "msPerS": 0.64,
+   "msPerCall": 0.1684
+  }
+ ],
+ "chromium": "141.0.7390.37",
+ "summary": {
+  "fps": {
+   "old": 3.035,
+   "new": 3.3150000000000004,
+   "pairedDiffMedian": 0.28000000000000025,
+   "min": 0.010000000000000231,
+   "max": 0.5500000000000003
+  },
+  "p50": {
+   "old": 324.95000000000005,
+   "new": 275,
+   "pairedDiffMedian": -49.95000000000002,
+   "min": -66.60000000000002,
+   "max": -33.30000000000001
+  },
+  "p95": {
+   "old": 433.35,
+   "new": 525,
+   "pairedDiffMedian": 91.65000000000003,
+   "min": 66.60000000000002,
+   "max": 116.70000000000005
+  },
+  "p99": {
+   "old": 600,
+   "new": 650,
+   "pairedDiffMedian": 50.00000000000003,
+   "min": -166.5999999999999,
+   "max": 266.59999999999997
+  },
+  "taskMsPerS": {
+   "old": 1094.9845,
+   "new": 1053.1455,
+   "pairedDiffMedian": -41.839000000000055,
+   "min": -57.399000000000115,
+   "max": -26.278999999999996
+  },
+  "scriptMsPerS": {
+   "old": 167.5845,
+   "new": 173.49650000000003,
+   "pairedDiffMedian": 5.912000000000006,
+   "min": -9.722999999999985,
+   "max": 21.546999999999997
+  },
+  "styleMsPerS": {
+   "old": 0.7685,
+   "new": 0.6465000000000001,
+   "pairedDiffMedian": -0.12199999999999994,
+   "min": -0.2799999999999999,
+   "max": 0.03600000000000003
+  },
+  "layoutMsPerS": {
+   "old": 0.0125,
+   "new": 0.0135,
+   "pairedDiffMedian": 0.0009999999999999992,
+   "min": -0.0010000000000000009,
+   "max": 0.002999999999999999
+  }
+ },
+ "hookSummary": {
+  "idle": {
+   "bubbles": 0,
+   "hints": 0,
+   "msPerS": 0.41500000000000004,
+   "msPerCall": 0.11699999999999999
+  },
+  "one": {
+   "bubbles": 1,
+   "hints": 0,
+   "msPerS": 0.77,
+   "msPerCall": 0.17104999999999998
+  },
+  "nine": {
+   "bubbles": 9,
+   "hints": 0,
+   "msPerS": 0.8600000000000001,
+   "msPerCall": 0.1727
+  }
+ }
+}

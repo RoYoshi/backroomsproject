@@ -929,7 +929,10 @@ html.rm .bb{transition:none}
 .rgb-channel{display:grid;grid-template-columns:42px minmax(72px,1fr) 33px;align-items:center;gap:9px;
   font:500 11px/1.4 var(--u-mono,monospace)}
 .rgb-channel input{width:100%;min-width:0;accent-color:#b5c793;cursor:pointer}
-.rgb-channel output{text-align:right;font-variant-numeric:tabular-nums}
+/* post-Trial 4 review: the game's own field style (.appearance-fields input: 42 px tall, a margin, padding, a border and a field
+   background) reached these sliders in Customize; a slider is drawn as a slider there as in Settings */
+.rgb-channel input[type=range]{height:auto;margin:0;padding:0;border:0;background:none}
+.rgb-channel output{min-width:0;text-align:right;font-variant-numeric:tabular-nums}   /* (post-Trial 4 review: Settings' .us-row output is 44 px wide; the column is 33) */
 .rgb-channel:focus-within{color:#f3e7a7}
 
 /* Trial 4: no photosensitive full-screen white/red capture pulse, even when reduced motion is switched off.

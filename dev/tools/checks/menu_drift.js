@@ -33,7 +33,8 @@
  *               Since post-3H Trial 2 the chat's own elements (inside [data-chat], and #mmLounge) are left out of the controls, the
  *               text and the Tab order: they are new on purpose, and dev/tools/checks/chat_browser.js checks them (and that they
  *               cover no other control); every control C5d has must still be where it was.
- *   logo        the logo's bytes as served, and index.html's (less post-3H Trial 2's one chat script tag), the same on both sides
+ *   logo        the logo's bytes as served, and index.html's (less post-3H Trial 2's one chat script tag, and Trial 4's RGB script tag
+ *               and NEW RUN label: pageAsC5d below), the same on both sides
  *   theme       the menu music's state after the gate, and the sound button's state after one press, the same on both sides
  * --shots DIR: a 1920x1080 and a 390x844 capture of each side's menu, and the candidate's title every 5 s for 20 s (PNG crops).
  * --mutants 1: the check's own sensitivity: eight edits of a copy of the candidate's built ui.js or ui.css, each of which one of the
@@ -201,7 +202,7 @@ async function sideMisc(b, port) {
     const press = async () => { await s.P.click('#mmSound'); await sleep(300); return s.P.evaluate(() => document.getElementById('mmSound').getAttribute('aria-pressed')); };
     const before = await s.P.evaluate(() => document.getElementById('mmSound').getAttribute('aria-pressed')), after = await press(); await press();
     const logo = await get(port, '/assets/MAIN_MENU_LOGO_USER_SUPPLIED.png'), html = await get(port, '/index.html');
-    return { theme, sound: [before, after], logo: crypto.createHash('sha256').update(logo.body).digest('hex'), logoStatus: logo.status, html: crypto.createHash('sha256').update(html.body.toString('utf8').replace(/<script src="\.\/assets\/chat\.js"><\/script>(<!--[^>]*-->)?\n/, '')).digest('hex') };   // (post-3H Trial 2: less the chat's script tag)
+    return { theme, sound: [before, after], logo: crypto.createHash('sha256').update(logo.body).digest('hex'), logoStatus: logo.status, html: crypto.createHash('sha256').update(pageAsC5d(html.body.toString('utf8'))).digest('hex') };
   } finally { await s.ctx.close(); }
 }
 function compare(oldL, newL, oldM, newM) {
@@ -223,6 +224,14 @@ function compare(oldL, newL, oldM, newM) {
 }
 
 /* ---------------------------------------------------------------- the check's own mutants */
+/* index.html less the trials' own authorized edits, each removed exactly (every other byte must still be C5d's): post-3H Trial 2's chat
+ * script tag; Trial 4's RGB script tag and the pause dialog's NEW RUN label, "Spontaneously Combust?" (added by the post-Trial 4 review:
+ * Trial 4 changed the page without listing its edits here, so this check failed on index.html alone) */
+function pageAsC5d(t) {
+  return t.replace(/<script src="\.\/assets\/chat\.js"><\/script>(<!--[^>]*-->)?\n/, '')
+    .replace(/<script src="\.\/assets\/rgb\.js"><\/script>\n/, '')
+    .replace('<button class="secondary" id="reset">Spontaneously Combust?</button>', '<button class="secondary" id="reset">NEW RUN</button>');
+}
 const MUTANTS = [
   ['amplitude', 'assets/ui.css', '--drx:3px;--dry:3px;', '--drx:9px;--dry:9px;', 'static'],
   ['reduced_ignored', 'assets/ui.js', '&& !document.hidden && !reduced());', '&& !document.hidden);', 'reduced'],

@@ -1,0 +1,24 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+ "startedAt": "2026-10-19T03:39:15.441Z",
+ "out": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/p4/base/gate_browser",
+ "steps": {
+  "menu": {
+   "ok": false,
+   "cases": 19,
+   "note": "the title's drift against C5d: 10 of 11 checks (the drift, a hidden tab, reduced motion, a run, the pointer; the menu's controls, text, Tab order and title at 4 sizes, the logo, the theme); its mutants 8 of 8 caught",
+   "exit": 1,
+   "seconds": 2053
+  }
+ },
+ "ok": false,
+ "finishedAt": "2026-10-19T04:13:28.574Z",
+ "removed": [
+  "game_candidate",
+  "game_c5d"
+ ]
+}
