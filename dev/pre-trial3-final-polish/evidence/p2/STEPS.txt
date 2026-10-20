@@ -1,0 +1,51 @@
+P2 - the dark oval over the wanderer at a spawn (headless Chromium, SwiftShader, 960x540; every name and passcode synthetic; probe:
+dev/pre-trial3-final-polish/tools/spawn_probe.js)
+
+How the probe sees it: the page's clock (performance.now() and the animation frame's timestamp) is frozen the moment her fall starts
+(a 4 ms watch in the page), so the game draws one moment of the 1.35 s fall again and again; she is stood about 70 px from the nearest
+ceiling lamp (lit, as in the owner's screenshot - in the dark nothing shows on her); the world is frozen and she is in god mode.  Moments
+.3, .45, .55 (falling: drawn 1.35x .. 1x), .66, .8, .95 (landed: the squash, settling), on BR-RoLE LOW, MEDIUM and HIGH.  (PixiJS draws
+only when its clock moves forward: every moment is later than the fall is ever first seen, and the clock is nudged .3 ms after hiding a
+PixiJS object; a first run held .2 when the fall had been seen at .22-.26 and its screenshots were stale - discarded.)
+
+Cause, found in the source (C5, unchanged since the port):
+1. The compiled client's arrival (src/core/client/game/client/arrival.ts, lineage B12) draws "its shadow grows as it falls": a black
+   ellipse 28 x 16 at (x, y + 7), alpha up to .4, held .4 -> .16 after the landing, into view.death.foreground - a Graphics in the
+   creatures layer, which render.ts adds to the world AFTER the wanderer (corpses, blood, debris, person, creatures, ...).  So the
+   oval is painted over her body, hands and light for the whole fall and settle: the owner's screenshot.  Measured on P1 (= C5 here):
+   the layer is above her at every moment on every tier; at the landing (66 %) hiding it brightens her body's middle from 35.3 to 50.7
+   (LOW), 51.4 to 90.1 (MEDIUM), 11.9 to 17.4 (HIGH; a dimmer spot) - see spawn_probe_p1.json and spawn_*_before_after.png (top rows).
+   After the fix the same comparison moves by at most 4.6 either way (the fresh render a hidden PixiJS object needs moves the view a
+   little: noise, which is why this is reported, not judged).
+2. BR-RoLE's silhouette for her (the cast's cut-out and the self-shading disc) was a fixed 18 px body, while the arrival draws her up
+   to 2.25x (1.71x at .2, 1.35x at .3) and squashes her +-11 % as she lands: a smaller dark disc inside her body while she falls; the
+   same for another wanderer falling in (mp.deaths.js draws peers the same way).
+
+Fix (src/frameworks/br-role/client/br-role.js -> public/assets/br-role.js; the bundle is NOT changed):
+1. While she falls and no death plays, BR-RoLE moves that foreground Graphics into the world just below her (same coordinates: the
+   creatures layer has no transform) and puts it back at its own index when the fall ends, a death starts or BR-RoLE is off.  The
+   ellipse and the dust rings stay: they are the fall's height cue, now on the floor under her.  Why not in the bundle's source: the
+   gate's port and bundle steps prove the built client equal to the shipped one statement by statement and frame by frame (its scenes
+   include the fall), with no allowance for a deliberate change; a presentation fix outside it keeps that proof whole.
+2. Her silhouette follows the size she is drawn at (her avatar's scale on each axis, along her rotation), for her and for other
+   wanderers; the cast's start cap too.  At scale 1 every number is as before.
+
+Results (the probe's verdict, 7 cases x 3 tiers):
+- P1 (before; the clean clone of d8cdc00): FAIL 12 of 21 - the arrival's layer above her at all six moments on all three tiers; her
+  cut-out 18 x 18 while she is drawn 24.2 (30 %), 18.8, 18.0, 18.9 x 17.1 (the squash), 17.8 x 18.2, 18.0; a peer drawn at 1.7x cut out
+  at 18 (want 30.6).  spawn_probe_p1.*
+- P2 (after; a snapshot clone of the final tree): PASS 21 of 21 - the layer below her at every moment, still drawn (the height cue
+  kept), back in the creatures layer at its own index (129) after the fall; the cut-out equal to her drawn size on both axes at every
+  moment; the peer's 30.6.  spawn_probe_p2.*  (A first P2 run failed one case - HIGH's fall first seen at 32 %, after the first held
+  moment - while another browser ran beside it; run alone, 21 of 21.)
+- BR-RoLE's own unit checks (dev/br-role/test_br_role.js): 29 of 32 on P1 and on P2 - the same three (U01, U02, U26) fail on both,
+  so before this work (U26 still expects BR2.1's cast to start past the hands, which Stage 3D HQ4 changed).
+- The __api contract record regenerated: BR-RoLE now reads __api.death and __api.fall (api_contract.js, lineage_doc.js).
+- The gate on P2's code (gate_p2_full.log): build, port, lineage, parts, modules, contracts, docs, scope, srv_golden, bpp_golden, session,
+  sim, page, cli_golden, protocol, mutants, static, raw_live, quick_suites, chat PASS; contact_lab PASS (BR-RoLE's geometry, lights and
+  peers scenes: 23 images byte-identical to B++'s); lineage FAILED (the __api contract record had not yet listed BR-RoLE's two new
+  reads - regenerated, then PASS: gate_p2_lineage.log); bundle FAILED one of its nine scenes (solo_walk, the document record at frame
+  55) while other browsers ran beside it.  solo_walk alone on C5, P1 and P2: identical (solo_*.log); the whole step again with nothing
+  beside it: port PASS, bundle 9 of 9 scenes identical (gate_p2_port_bundle.log).
+NOT RUN: a real GPU, a real phone, a second real player falling in beside you (the peer case is an avatar of the page's own kind
+drawn at 1.7x, which is what mp.deaths.js does), human eyes.

@@ -1,0 +1,32 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "bf0fb9b79443c80b9cc8496d27e41cff806531b4",
+ "startedAt": "2026-10-20T01:48:22.173Z",
+ "out": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/fp/p2/gate_bundle",
+ "steps": {
+  "port": {
+   "ok": true,
+   "cases": 410,
+   "note": "the client build gives 13 files, its record the shipped one byte for byte (Version 7.0.2, Vite vite/8.3.1 linux-x64 node-v22.22.2); the alpha check SAME: 22 port entries, 195 of the shipped app's 197 statements compared, 2 reviewed; the stylesheet the same (177 later rules); the port ledger current; the checks' mutants 25 of 25 caught",
+   "exit": 0,
+   "seconds": 70
+  },
+  "bundle": {
+   "ok": true,
+   "cases": 4265,
+   "note": "9 of 9 scenes identical to the recorded client (4239 frames, 26 captures); the harness's mutants 5 of 5 caught in their record",
+   "exit": 0,
+   "seconds": 1414
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-20T02:13:05.809Z",
+ "removed": [
+  "client_work",
+  "bundle/ref_lineage_root",
+  "bundle/cand_root"
+ ]
+}

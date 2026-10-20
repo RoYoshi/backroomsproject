@@ -188,7 +188,7 @@
     return coarse || small ? 'low' : 'medium';
   }
   S.quality = initialQuality();
-  function disable(why, e) { if (S.disabled) return; S.disabled = why; ST.errors++; try { console.warn('[br-role] disabled - the game draws its own (v23.3.6) lighting:', why, e && (e.stack || e)); } catch (x) { } }
+  function disable(why, e) { if (S.disabled) return; S.disabled = why; ST.errors++; try { arrivalHome(); } catch (x) { } try { console.warn('[br-role] disabled - the game draws its own (v23.3.6) lighting:', why, e && (e.stack || e)); } catch (x) { } }
 
   /* ---------- the blockers: every wall side (the wall / floor boundary, merged into straight runs; the level's border
    * counts as wall, as in the game) and the four sides of every pillar, each with its outward normal (into the open) ---------- */
@@ -627,7 +627,30 @@
   }
 
   /* ---------- one frame: every light into the buffer, the buffer out of the overlay ---------- */
+  /* pre-Trial 3 polish P2: a wanderer's arrival shadow UNDER her.  The compiled client draws her fall into the level (NEW RUN's arrival,
+   * lineage B12: 1.35 s, landing at 62 %) with a dark ground ellipse that grows as she falls (and two dust rings at the landing) - into
+   * the death sequence's foreground Graphics, which sits in the creatures layer ABOVE her: the dark oval laid over her body and hands at
+   * a spawn (the owner's screenshot).  While she falls and no death plays (nothing else draws into that Graphics then), it is moved into
+   * the world just below her - same coordinates: the creatures layer has no transform - and put back where it was as soon as the fall
+   * ends, a death starts or BR-RoLE is off, so a Smiler's death shadow is drawn above, as always.  The bundle itself is unchanged (its
+   * port and frames stay proven against the shipped client).  Her floor cast and contact remain BR-RoLE's; the arrival's ellipse is
+   * the fall's own height cue, now on the floor under her. */
+  function arrivalHome() {
+    const h = S.arrival; S.arrival = null;
+    if (h && h.g && h.g.parent !== h.parent && h.parent && !h.parent.destroyed) { if (h.g.parent) h.g.parent.removeChild(h.g); h.parent.addChildAt(h.g, Math.min(Math.max(0, h.index), h.parent.children.length)); }
+  }
+  function arrivalUnder(active) {
+    try {
+      const A = window.__api, D = A && typeof A.death === 'function' ? A.death() : null, g = D && D.foreground, P = S.person, w = S.world;
+      const falling = active && !!(g && P && w && P.parent === w && typeof A.fall === 'function' && A.fall() >= 0 && !D.active);
+      if (falling) {
+        if (!S.arrival && g.parent && g.parent !== w) S.arrival = { g, parent: g.parent, index: g.parent.getChildIndex(g) };
+        if (S.arrival && (g.parent !== w || w.getChildIndex(g) !== w.getChildIndex(P) - 1)) { if (g.parent) g.parent.removeChild(g); w.addChildAt(g, w.getChildIndex(P)); }
+      } else if (S.arrival) arrivalHome();
+    } catch (e) { try { arrivalHome(); } catch (x) { S.arrival = null; } }
+  }
   function draw(n, F) {
+    arrivalUnder(on());
     if (!on()) return false;
     const t0 = now();
     try {
@@ -1090,14 +1113,18 @@
     return r.power * beamGrad(d, r.R) * prof * seenFrom([r.x, r.y], x, y, r.props, r.sh, CARRY.kmax);
   }
   /* an actor's silhouette as ellipses { x, y, A (semi-axis along h), B, h }: a player's round body and two hands (read from
-   * the avatar's own hand positions, never written), a Hound's torso */
+   * the avatar's own hand positions, never written), a Hound's torso.  Pre-Trial 3 polish P2: a player's body and hands as large as she
+   * is DRAWN - her avatar's scale (the arrival draws her up to 2.25x while she falls, then squashes her +-11 % as she lands), along her
+   * own rotation - so the cast's cut-out and the self-shading cover her whole body, never a smaller disc inside it.  At scale 1 (all
+   * the time but a spawn and a vanish) every number is as before. */
   function silhouette(v, kind, x, y, heading) {
     if (kind === 'hound') { const c = Math.cos(heading), s = Math.sin(heading); return [{ x: x + c * 4, y: y + s * 4, A: ACT.hound.la, B: ACT.hound.lb, h: heading }]; }
-    const out = [{ x, y, A: ACT.player.r, B: ACT.player.r, h: 0 }];
+    const r = v.rotation || 0, sx = v.scale && Number.isFinite(v.scale.x) ? v.scale.x : 1, sy = v.scale && Number.isFinite(v.scale.y) ? v.scale.y : 1, ax = Math.abs(sx), ay = Math.abs(sy);
+    const out = [{ x, y, A: ACT.player.r * ax, B: ACT.player.r * ay, h: ax === ay ? 0 : r }];
     if (Array.isArray(v.hands)) {
-      const r = v.rotation || 0, c = Math.cos(r), s = Math.sin(r), sx = v.scale ? v.scale.x : 1, sy = v.scale ? v.scale.y : 1;
+      const c = Math.cos(r), s = Math.sin(r), hr = ACT.player.hand * (ax + ay) / 2;
       for (const hd of v.hands) { if (!hd || !hd.position || hd.visible === false) continue; const lx = hd.position.x * sx, ly = hd.position.y * sy, hx = x + c * lx - s * ly, hy = y + s * lx + c * ly;
-        if (Number.isFinite(hx + hy) && Math.hypot(hx - x, hy - y) < 40) out.push({ x: hx, y: hy, A: ACT.player.hand, B: ACT.player.hand, h: 0 }); }
+        if (Number.isFinite(hx + hy) && Math.hypot(hx - x, hy - y) < 40 * Math.max(1, ax, ay)) out.push({ x: hx, y: hy, A: hr, B: hr, h: 0 }); }
     }
     return out;
   }
@@ -1159,7 +1186,7 @@
           if (kind !== 'player' || q === sil[0]) start = Math.max(start, off + sup); if (q === sil[0]) across = Math.sqrt((q.A * sn) ** 2 + (q.B * cs) ** 2); }
         const ext = clamp(d * ACT.k[e.kind], 6, Pk.len), a = Pk.a * e.w * near * vis * (1 - ACT.fadeLong * ext / Pk.len), shade = Pk.shade * e.s * near * vis * st.contrast;
         if (!(a > .01) && !(shade > .01)) continue;
-        const job = { kind, self, x, y, ang, ext, start: Math.min(start, (kind === 'hound' ? Pk.la : Pk.r) + 10), across, a: a > .01 ? a : 0, shade: shade > .01 ? shade : 0, sil,
+        const job = { kind, self, x, y, ang, ext, start: Math.min(start, (kind === 'hound' ? Pk.la : Math.max(sil[0].A, sil[0].B)) + 10), across, a: a > .01 ? a : 0, shade: shade > .01 ? shade : 0, sil,
           light: key, lightKind: e.kind, dominant: isDom, score: +e.c.s.toFixed(4) };
         if (job.dominant && st.sw && st.sw.f === ST.frames) job.switched = st.sw;
         if (lit) { job.contact = CONTACT.a * cg; job.cofs = Math.min(CONTACT.offMax, CONTACT.off * d * ACT.k[e.kind]); lit.add(e.c.r); S.contactLast.push(job); }   // HQ5: with its cast

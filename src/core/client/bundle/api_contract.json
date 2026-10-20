@@ -106,7 +106,7 @@
     "A"
    ],
    "getters": [],
-   "memberCount": 10
+   "memberCount": 12
   },
   "assets/chat.js": {
    "loadedByIndexHtml": true,
@@ -235,6 +235,7 @@
     "ents.js": 4,
     "light.js": 2,
     "mp.js": 11,
+    "assets/br-role.js": 2,
     "assets/shadows-2d.js": 6
    }
   },
@@ -1275,7 +1276,8 @@
     }
    ],
    "readBy": {
-    "mp.js": 4
+    "mp.js": 4,
+    "assets/br-role.js": 2
    }
   },
   {

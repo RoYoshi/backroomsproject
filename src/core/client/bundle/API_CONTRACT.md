@@ -18,7 +18,7 @@ the same name and the same meaning, for every reader below.
 |---|---|---|---|---|
 | `lightOn` | function | B19 | `au` = client/main.ts `flash` | ents.js ×2 |
 | `bodyList` | function | B14 | `Yl` = shared/remains.ts `corpses` | mp.js ×4 |
-| `death` | function | B14 | `X` = client/main.ts `renderer` | ents.js ×4, light.js ×2, mp.js ×11, assets/shadows-2d.js ×6 |
+| `death` | function | B14 | `X` = client/main.ts `renderer` | ents.js ×4, light.js ×2, mp.js ×11, assets/br-role.js ×2, assets/shadows-2d.js ×6 |
 | `keys` | value | B14 | `Q` = client/main.ts `keys` | move.js ×1, assets/chat.js ×3, assets/ui.js ×2 |
 | `Bc` | binding | B14 | `Bc` = shared/world.ts `function nearby` | dphys.js ×2, ents.js ×2, light.js ×2, move.js ×2, assets/br-role.js ×2, assets/l0-remaster.js ×2, assets/shadows-2d.js ×2 |
 | `Uc` | binding | B14 | `Uc` = shared/world.ts `function rayDistance` | camcorder.js ×4, ents.js ×3, gore.js ×2, light.js ×3, mp.js ×2, assets/br-role.js ×5, assets/shadows-2d.js ×8 |
@@ -62,7 +62,7 @@ the same name and the same meaning, for every reader below.
 | `Wl` | binding | B12 | `Wl` = client/entity-view.ts `EntityView (class)` | mp.js ×1 |
 | `Gl` | binding | B12 | `Gl` = client/entity-view.ts `SmilerView (class)` | mp.js ×1 |
 | `J` | binding | B12 | `J` = shared/vision.ts `smooth` | - |
-| `fall` | function | B12 | `FL` (written by B12) | mp.js ×4 |
+| `fall` | function | B12 | `FL` (written by B12) | mp.js ×4, assets/br-role.js ×2 |
 | `started` | function | B05 | `$` = client/main.ts `started` | inventory.js ×4, mp.js ×1, assets/chat.js ×5, assets/ui.js ×9 |
 | `paused` | function | B05 | `iu` = client/main.ts `paused` | mp.js ×2, assets/chat.js ×1, assets/ui.js ×5 |
 | `unpause` | function | B18 | `iu` = client/main.ts `paused`; `_u` = client/main.ts `function pause` | mp.js ×2 |
@@ -84,7 +84,7 @@ the same name and the same meaning, for every reader below.
 | `move.js` | yes | `a`, `A()` | 5 |
 | `mp.js` | yes | `A` | 28 |
 | `sfx.js` | yes | - | 1 |
-| `assets/br-role.js` | yes | `A` | 10 |
+| `assets/br-role.js` | yes | `A` | 12 |
 | `assets/chat.js` | yes | `A`, `API()` | 5 |
 | `assets/l0-remaster.js` | yes | `A`, `api()` | 5 |
 | `assets/mp-hum.js` | yes | `A` | 4 |
