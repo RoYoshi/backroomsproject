@@ -5,7 +5,8 @@ owner plays. Trial 3's own values (`dev/trial-3-skin-stealer/BALANCE_TABLE.md`) 
 vision, the pounce, the hungry grab, the departure (1200–2200 px, at most 45 s), the hunt cooldown (30–60 s; 12 s starving), the
 encounter budget.
 
-Status at B0: the starting proposal. The values actually built are filled in as each checkpoint lands (`CHECKPOINTS.md`).
+Status: B1's values are built as proposed, plus `pFast` and `rxGap` (below). B2 and B3 are still the starting proposal; the values actually built are
+filled in as each checkpoint lands (`CHECKPOINTS.md`).
 
 ## Awareness (B1)
 
@@ -14,12 +15,16 @@ Status at B0: the starting proposal. The values actually built are filled in as 
 | `awMax` | 4 | awareness records it keeps (the oldest, least pressing goes first) |
 | `awTtl` | 30 s | a record nobody has renewed for this long is dropped |
 | `awNear` | 200 px | its personal space, while it sees them |
+| `pNear` / `capNear` | 0.12 per s / 0.35 | pressure while they are in its space, × closeness (0 at 200 px, 1 at 90 px), × 1.3 coming at it or × 0.4 going away (their motion relative to its own); presence alone never goes beyond 0.35 |
+| `pFast` | 1.6 | × up to this much for fast motion close by (their speed relative to it, 100–300 px/s): somebody running round it is noticed sooner. *Added at B1:* without it, a runner circling at 130 px was first looked at up to 3.3 s after it first saw them close; with it, 0.4–2.0 s (BR02) |
+| `pDecay` | 8 s | e-folding time of the fade (halves in about 5.5 s) |
 | `pAware` | 0.12 | pressure at which it looks at them |
 | `ackGap` | 3–5 s | the least time between two looks at the same person |
 | `look` | 0.8–1.6 s | how long a look lasts (stopped, facing them) |
 | `soundLook` | 420 px | a fresh sound this close makes it turn to look (no name, the sound's own fuzzy position) |
 | `soundLookI` | 0.2 | the least loudness for that |
 | `soundGap` | 4 s | the least time between two looks at sounds |
+| `rxGap` | 1.5 s | *added at B1:* the least time after any reaction ends before it turns to a sound (without it, a look at a person was sometimes followed 0.06 s later by a look at their footsteps) |
 
 ## Provocation (B2)
 
@@ -30,13 +35,11 @@ Status at B0: the starting proposal. The values actually built are filled in as 
 | `orbitArc` | 4.0 rad (about 230°) | their motion relative to it, round it, one way, before circling counts; then every further half-turn |
 | `awTail` | 220 px, `tailMin` 3 s | following it, beside or behind, for this long while it walks |
 | `awBlock` | 150 px | standing in its lane ahead of it |
-| `pNear` / ceiling | 0.12 per s / 0.35 | in its space (scaled by closeness, approach) |
 | `pCrowd` / ceiling | 0.16 per s / 0.65 | crowding |
 | `pOrbit` / ceiling | 0.22 per event / 1.2 | circling |
 | `pTail` / ceiling | 0.10 per s / 0.9 | tailing |
 | `pBlock` / ceiling | 0.12 per s / 0.9 | in its way |
 | `pPress` / ceiling | 0.25 per s / 1.2 | still pressing after a warning |
-| `pDecay` | 8 s | e-folding time of the fade (halves in about 5.5 s) |
 | `pWarn` | 0.45 | pressure at which it warns (after `warnAfter`) |
 | `warnAfter` | 3 s | it must have noticed them this long first |
 | `warnTime` | 1.2–1.8 s | how long a warning lasts (stopped, facing, hunched, backing away) |

@@ -1,7 +1,7 @@
 /** @part generated/server/ai.js - N.A.N.I.: the Skin-Stealer (Trial 3): a patient, deceptive predator with hunger, stamina and its own plans
  * provides: KACT, SK, SKIN
- * uses: S, SCODE, TAU, approach, clamp, commitTick, deriveSeed, directOk, directTo, facedBy, faceToward, follow, goTo, hearEvent, lerp,
- *       mkRng, moveCollide, perc, plan, rand, randomFloor, setAct, setState, setTarget, stopMoving, tgtGone
+ * uses: S, SCODE, TAU, angDiff, approach, clamp, commitTick, deriveSeed, directOk, directTo, facedBy, faceToward, follow, goTo, hearEvent,
+ *       lerp, mkRng, moveCollide, perc, plan, rand, randomFloor, setAct, setState, setTarget, stopMoving, tgtGone
  * writes: -
  */
 
@@ -72,7 +72,16 @@
  *     name, stiff arms, a slightly slow walk (150 px/s) and long stares.  In it, it does not hide when seen: it walks up openly, stands
  *     and stares, may speak, then walks on - or, hungry, comes closer and springs from SK.mingleStrike.  The skin drops at its
  *     wind-up, when it breaks into a run, when its time is up; it is gone with the entity and with a world reset.  The same collider in
- *     every form (no crawlspace; LogicZ does not exist).  No light, no item, no corpse is ever touched (CAPABILITY_MATRIX.md §6). */
+ *     every form (no crawlspace; LogicZ does not exist).  No light, no item, no corpse is ever touched (CAPABILITY_MATRIX.md §6).
+ * BEHAVIOUR REFINEMENT (dev/trial-3-behavior-refinement/; Trial 3 is not owner-approved).  It may choose not to hunt somebody; it may
+ *   not behave as if it had not noticed somebody it really perceives.
+ *   B1 AWARENESS: e.aw keeps one record per person it has SEEN in its personal space (SK.awNear) - people it has decided not to hunt
+ *     (e.left) as well: leaving somebody alone is a choice about hunting, never a reason not to see them.  Each record has a pressure
+ *     (A.p) that grows only from what it sees and fades (SK.pDecay); at SK.pAware it has noticed them.  While it roams or leaves it then
+ *     reacts without dropping its plan (e.rx, an overlay): it stops, turns to face them and looks (SK.look), no more often than SK.ackGap;
+ *     while it walks it turns its head to keep a noticed person in view (e.head: the engine's sight is centred on it, so it learns only
+ *     what it then sees); a fresh sound nearby (SK.soundLook) turns it toward where it heard it - the sound's own fuzzy place, no name.
+ *     Nothing in B1 can attack, and nothing reads where an unsensed person is. */
 const KACT = { '': 0, watch: 1, back: 2, leave: 3, wait: 4, lure: 5, intercept: 6, search: 7, listen: 8, approach: 9, creep: 10, chase: 11, wind: 12, pounce: 13, recover: 14, feed: 15, mimic: 16, rest: 17, pace: 18 };
 /* the balance table (proposed; every value is named so it can be tested and tuned) */
 const SK = Object.freeze({
@@ -117,6 +126,16 @@ const SK = Object.freeze({
   heardMax: 4, heardTtl: 90, heardUses: 2,       // lines kept; seconds kept; times each may be repeated
   sayGap: [10, 18], sayEnc: 3, sayLure: 1.5,     // seconds between its lines; lines in one encounter; seconds into a wait before it calls
   sayWords: 6, echo: .35,                        // the most words it repeats; how often it repeats its last word again
+  // behaviour refinement B1: awareness (dev/trial-3-behavior-refinement/BALANCE_TABLE.md; all PROPOSED)
+  awMax: 4, awTtl: 30,                           // awareness records it keeps; seconds a record nobody renews is kept
+  awNear: 200, awCrowd: 90,                      // its personal space (while it sees them); crowding
+  pNear: .12, capNear: .35,                      // pressure per second in its space (x closeness, approach); presence alone never goes beyond capNear
+  pFast: 1.6,                                    // x this much for fast motion close by (their speed relative to it, 100..300 px/s)
+  pDecay: 8,                                     // seconds (e-folding) for pressure to fade
+  pAware: .12,                                   // pressure at which it has noticed them
+  ackGap: [3, 5], look: [.8, 1.6],               // seconds between two looks at the same person; how long a look lasts
+  rxGap: 1.5,                                    // seconds after a reaction ends before it turns to a sound (no look at footsteps on the heels of a look)
+  soundLook: 420, soundLookI: .2, soundGap: 4,   // a fresh sound this close and loud turns it to look; seconds between such looks
 });
 /* (T6) the generic calls, used only when it has heard nothing it may repeat: none of them claims to know anything about anybody */
 const SK_BAIT = Object.freeze(['hello?', 'is someone there?', 'over here', 'wait for me', 'can you help me?', "i'm lost", 'this way']);
@@ -155,12 +174,14 @@ const SKIN = {
     e.voice = { h: Math.round(lerp(-4, 2, e.sayRng())), s: Math.round(lerp(78, 92, e.sayRng())) };   // its voice (pitch, pace): slow and a little low
     e.roam = { goal: null, until: 0, pause: 0 }; e.dbg.why = 'roaming'; e.dbg.decide = null; e.dbg.predict = null; e.dbg.soundSeen = 0;
     e.tally = { lure: 0, lureCame: 0, intercept: 0, interceptCame: 0, chase: 0, chaseLost: 0, search: 0, searchFound: 0, pounce: 0, grab: 0, hit: 0, miss: 0, wall: 0, kills: 0,
-      mingle: 0, say: 0, sayHeard: 0, sayBait: 0, skin: 0, skinLost: 0, reveal: 0 };   // its record (debug, tests, the balance report)
+      mingle: 0, say: 0, sayHeard: 0, sayBait: 0, skin: 0, skinLost: 0, reveal: 0, look: 0, lookSound: 0 };   // its record (debug, tests, the balance report)
     e.pounceCool = 0;
+    e.aw = new Map(); e.rx = null; e.awAt = 0; e.awSound = 0; e.soundLookAt = 0;                // (B1) its awareness records; a reaction in progress
+    e.awRng = mkRng(deriveSeed(eng.seed, 'skinstealer-aware', e.id));                           // (B1) its own stream: noticing never moves its other choices
   },
   /* the engine's hooks (ai.engine.js): it never borrows a Hound's or a Smiler's own functions */
   onFar(eng, e) {
-    e.pounce = null; e.recover = 0; if (e.plan && e.plan.k === 'feed') return;                // feeding at its kill it carries on, alone
+    e.pounce = null; e.recover = 0; e.rx = null; e.head = 0; if (e.plan && e.plan.k === 'feed') return;   // feeding at its kill it carries on, alone
     e.plan = null; e.roam.goal = null; e.roam.pause = 0; setState(e, S.ROAMING, ''); e.dbg.why = 'nobody within reach: it waits where it is';
   },
   farTick(eng, e, dt) {                                           // far from everyone it stands still, and is still hungry (or still feeding)
@@ -169,7 +190,7 @@ const SKIN = {
   },
   still(e) { return e.still; },                                  // (the engine's stuck watchdog: it held still this tick on purpose)
   onStuck(eng, e) { if (e.plan && e.plan.k !== 'lure') e.plan.stuck = (e.plan.stuck || 0) + 1; e.roam.goal = null; e.dbg.why = 'stuck: the watchdog cleared its route'; },
-  onClear(eng, e) { e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; setState(e, S.ROAMING, ''); },
+  onClear(eng, e) { e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.aw.clear(); e.rx = null; e.head = 0; setState(e, S.ROAMING, ''); },
   debugHunt(eng, e, r) { e.left.delete(r.id); setTarget(e, r.id, eng.now); skBegin(eng, e, 'watch', r, 'admin: it was given a record of you'); return 'WATCHING YOU (real AI)'; },
   /* its own target scoring and commitment (ai.intelligence.js's debug asks for them; never the Smiler's sScore) */
   targetScore(eng, e, r) { const age = eng.now - Math.max(r.seenAt, r.heardAt); return r.aw * .8 + r.conf * .7 - Math.min(1, age / 30) * .3 + (r.seen ? .5 : 0) + (r.id === e.target ? .4 : 0); },
@@ -516,6 +537,71 @@ function skUndress(eng, e, why) {
   if (e.plan && e.plan.k === 'mingle') { e.plan = null; e.dbg.why = why; }
 }
 
+/* ---- behaviour refinement B1: what it notices of the people it sees (never hunting, never an attack) ---- */
+const skClose = d => clamp((SK.awNear - d) / (SK.awNear - SK.awCrowd), 0, 1);   // 0 at the edge of its space, 1 when they crowd it
+/* more pressure of one kind, never beyond that kind's ceiling (and never lowered by it: another kind may have raised it higher) */
+function skBump(A, amt, cap, why, now) { if (amt > 0 && A.p < cap) { A.p = Math.min(cap, A.p + amt); A.why = why; A.whyAt = now; } }
+/* on its think, before deciding: its records fade; everyone it SEES now in its space updates one (seen bodies only: e.seenNow) */
+function skAware(eng, e) {
+  const now = eng.now, dt = clamp(now - (e.awAt || now), 0, .25); e.awAt = now;
+  for (const [id, A] of e.aw) {
+    A.p *= Math.exp(-dt / SK.pDecay);
+    if (!eng.byId.has(id) || now - A.last > SK.awTtl) { e.aw.delete(id); continue; }    // gone, or not seen close for a long while
+    if (A.tier && A.p < SK.pAware * .5) A.tier = 0;                                   // well below the threshold it stops minding them
+  }
+  const cvx = Math.cos(e.ang) * e.speed, cvy = Math.sin(e.ang) * e.speed;
+  for (const r of skSeen(eng, e)) {                                                  // (its own hunt cooldown, e.left, does not hide anybody here)
+    const v = r.visual, d = r.dist; if (d > SK.awNear) continue;
+    let A = e.aw.get(r.id);
+    if (!A) {
+      if (e.aw.size >= SK.awMax) { let w = null; for (const q of e.aw.values()) if (!w || q.p < w.p || (q.p === w.p && q.last < w.last)) w = q; e.aw.delete(w.pid); }
+      e.aw.set(r.id, A = { pid: r.id, t0: now, last: now, d: 0, p: 0, tier: 0, ack: 0, nextAck: 0, looks: 0, why: '', whyAt: -99 });
+    }
+    A.last = now; A.d = Math.round(d);
+    // in its space: the closer the more; coming at it (their motion relative to its own) more, going away less; fast motion close by
+    // catches the eye more (up to SK.pFast times)
+    const ux = (v.x - e.x) / Math.max(1, d), uy = (v.y - e.y) / Math.max(1, d), rvx = v.vx - cvx, rvy = v.vy - cvy, vr = rvx * ux + rvy * uy;
+    const fast = 1 + (SK.pFast - 1) * clamp((Math.hypot(rvx, rvy) - 100) / 200, 0, 1);
+    skBump(A, SK.pNear * skClose(d) * (vr < -40 ? 1.3 : vr > 80 ? .4 : 1) * fast * dt, SK.capNear, 'close by', now);
+    if (!A.tier && A.p >= SK.pAware) { A.tier = 1; A.ack = now; }
+  }
+}
+/* after deciding: while it roams or leaves (and is itself), it reacts to what it has noticed - an overlay, the plan is kept */
+function skAttend(eng, e) {
+  const now = eng.now, P = e.plan;
+  if (e.rx || e.disguise || e.pounce || e.recover > 0 || (P && P.k !== 'leave')) return;
+  let A = null; for (const q of e.aw.values()) if (q.tier && now - q.last < .05 && (!A || q.p > A.p)) A = q;   // noticed, and seen on this very think
+  if (A && now >= A.nextAck) {
+    e.rx = { k: 'look', pid: A.pid, at: null, t0: now, until: now + lerp(SK.look[0], SK.look[1], e.awRng()) };
+    A.nextAck = e.rx.until + lerp(SK.ackGap[0], SK.ackGap[1], e.awRng()); A.looks++; e.tally.look++;
+    e.dbg.rx = `it stops and looks at P${A.pid} (${A.why})`; return;
+  }
+  const H = e.hear;                                                                  // a fresh sound nobody it sees made: it turns to where it heard it
+  if (H && !H.pid && H.src !== -1 && now - H.t < .3 && H.id > e.awSound && H.I >= SK.soundLookI && now >= e.soundLookAt && now >= (e.rxEnd || 0) + SK.rxGap && Math.hypot(H.x - e.x, H.y - e.y) < SK.soundLook) {
+    e.awSound = H.id;
+    e.rx = { k: 'look', pid: 0, at: { x: H.x, y: H.y }, t0: now, until: now + lerp(SK.look[0], SK.look[1], e.awRng()) * .8 };
+    e.soundLookAt = e.rx.until + SK.soundGap; e.tally.lookSound++;
+    e.dbg.rx = `it heard ${H.type || 'something'}: it turns to look`;
+  }
+}
+/* the reaction in progress (every tick): it stands and faces what it noticed; at the end its plan goes on as it was */
+function skReact(eng, e, dt) {
+  const R = e.rx, now = eng.now, P = e.plan;
+  if (now >= R.until || (P && P.k !== 'leave') || e.disguise) { e.rx = null; e.dbg.rx = ''; e.rxEnd = now; return false; }
+  stopMoving(eng, e, dt); e.still = true;                                           // (its route is kept: it walks on along it afterwards)
+  const r = R.pid ? e.mem.p.get(R.pid) : null, q = r && !tgtGone(eng, e, r) ? perc(eng, e, r) : R.at;
+  if (q) faceToward(e, q.x, q.y, dt, 3.2);
+  if (e.act !== 'watch') setAct(e, 'watch');
+  return true;
+}
+/* its head while it roams or leaves: toward the person it has noticed most, while it has them in view (or a moment after) */
+function skGaze(eng, e, dt) {
+  const now = eng.now; let want = 0, best = null;
+  if (!e.disguise) for (const A of e.aw.values()) if (A.tier && now - A.last < 1 && (!best || A.p > best.p)) best = A;
+  if (best) { const r = e.mem.p.get(best.pid); if (r && !tgtGone(eng, e, r)) { const q = perc(eng, e, r); want = clamp(angDiff(Math.atan2(q.y - e.y, q.x - e.x), e.ang), -1, 1); } }
+  const h = (e.head || 0) + (want - (e.head || 0)) * Math.min(1, dt * 5); e.head = Math.abs(h) < 1e-3 && !want ? 0 : h;
+}
+
 /* ---- the decision: what it does about the people it perceives (on its think, 10 Hz near) ---- */
 function skDecide(eng, e) {
   const now = eng.now, P = e.plan;
@@ -595,6 +681,8 @@ function skUnseen(eng, e) {
 /* ---- carrying a plan out (every tick) ---- */
 function skAct(eng, e, dt, thinkNow) {
   const P = e.plan, now = eng.now;
+  if (!P || P.k === 'leave') skGaze(eng, e, dt); else if (e.head) e.head = Math.abs(e.head) < .02 ? 0 : e.head * Math.max(0, 1 - dt * 6);   // (B1)
+  if (e.rx && skReact(eng, e, dt)) return;                                          // (B1) a look, over the plan
   if (!P) { skRoam(eng, e, dt, thinkNow); return; }
   const r = P.pid ? e.mem.p.get(P.pid) : null;
   switch (P.k) {
@@ -737,6 +825,7 @@ function skAct(eng, e, dt, thinkNow) {
     }
     case 'leave': {
       if (!P.goal) { e.plan = null; return; }
+      if (e.act !== 'leave') setAct(e, 'leave');                                     // (B1: after a look)
       if (thinkNow && !e.path.length && e.pathAge > 2) plan(eng, e, P.goal.x, P.goal.y, { why: 'leave' });
       follow(eng, e, dt, skSpeed(e, 'roam'), { arrive: 60 });
       return;
@@ -771,7 +860,7 @@ function skinTick(eng, e, dt, thinkNow) {
   if (e.cap) { skHold(eng, e, dt); return null; }
   if (e.pounce || e.recover > 0) return skStrikeStep(eng, e, dt);                 // a strike, once begun, is carried through
   if (thinkNow && skStrike(eng, e)) return skStrikeStep(eng, e, dt);              // (before deciding: at striking distance it does not stop to think)
-  if (thinkNow) skDecide(eng, e);
+  if (thinkNow) { skAware(eng, e); skDecide(eng, e); skAttend(eng, e); }           // (B1: what it notices, then the decision, then any reaction)
   skAct(eng, e, dt, thinkNow);
   return null;
 }
@@ -785,7 +874,13 @@ function skDebug(eng, e) {
     cm: e.commit ? e.commit.v : '', rg: e.roam.goal ? [Math.round(e.roam.goal.x), Math.round(e.roam.goal.y)] : null,
     // (T6) its skin and its ears: whose skin and how long it has left; how many lines it holds and how old (never a word of them); its last line's kind
     dg: e.disguise ? { from: e.disguise.from, left: Math.round(e.disguise.until - eng.now) } : 0, sk: e.skin ? e.skin.pid : 0, sn: e.dbg.skin || '',
-    hd: e.heard.map(q => Math.round(eng.now - q.at)), sd: e.dbg.said ? { ago: +(eng.now - e.dbg.said.at).toFixed(1), src: e.dbg.said.src, why: e.dbg.said.why } : null };
+    hd: e.heard.map(q => Math.round(eng.now - q.at)), sd: e.dbg.said ? { ago: +(eng.now - e.dbg.said.at).toFixed(1), src: e.dbg.said.src, why: e.dbg.said.why } : null,
+    // (B1) the person it is most aware of (only ever somebody it has seen): pressure, whether it has noticed them, why, how long since it saw them; its reaction
+    aw: skAwTop(eng, e), awN: e.aw.size, rx: e.rx ? { k: e.rx.k, pid: e.rx.pid, left: +(e.rx.until - eng.now).toFixed(1), why: e.dbg.rx || '' } : null };
+}
+function skAwTop(eng, e) {
+  let A = null; for (const q of e.aw.values()) if (!A || q.p > A.p) A = q;
+  return A ? { pid: A.pid, p: +A.p.toFixed(2), tier: ['-', 'noticed'][A.tier] || String(A.tier), why: A.why, ago: +(eng.now - A.last).toFixed(1), d: A.d, looks: A.looks } : null;
 }
 SKIN.tick = skinTick;
 SKIN.debug = skDebug;
