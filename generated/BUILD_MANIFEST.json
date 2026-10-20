@@ -1,9 +1,9 @@
 {
  "note": "Written by dev/tools/build/build.js. Every built output, its parts in order and their SHA-256. Do not edit: run npm run build.",
  "recipes": "src/build-recipes.json",
- "recipesSha256": "3b096cdd945c3f0b6428bedc978864978a18e4a054bfbf0fe80b7d54efe1b02a",
+ "recipesSha256": "93df8c0c138889f917e278b0eb8bf5ac66e580e37c492f8e4d341a6da028dec9",
  "tool": "dev/tools/build/build.js",
- "toolSha256": "6afae04820edaef19a49e8c9f2fe0f99eb8b719976bcd92571ed63b7c7a53f0e",
+ "toolSha256": "3d0d0f257f70756d5b910c060ce058f67669899e680216c176b40629eda2a8fd",
  "outputs": [
   {
    "out": "public/assets/BufferResource-B-thlpip.js",
@@ -151,12 +151,12 @@
   },
   {
    "out": "public/assets/credits_data.js",
-   "bytes": 2170,
-   "sha256": "6c071316591cbd1f380b6528e5bc3e538beb5686544dee3097c71c6c3d60c80c",
+   "bytes": 2222,
+   "sha256": "ae27384e080de6bc30d65b59930be359ac514b0608c624480f205478e4717eaf",
    "parts": [
     {
      "path": "src/frameworks/front/client/credits_data.js",
-     "sha256": "6c071316591cbd1f380b6528e5bc3e538beb5686544dee3097c71c6c3d60c80c",
+     "sha256": "ae27384e080de6bc30d65b59930be359ac514b0608c624480f205478e4717eaf",
      "headerBytes": 0
     }
    ]
@@ -289,15 +289,25 @@
   },
   {
    "out": "public/assets/ui.js",
-   "bytes": 107571,
-   "sha256": "16788270f8ef91b458d9f394c16338ef6d506ddb651b1892bba6bc1fa19bff36",
+   "bytes": 107709,
+   "sha256": "cf44e2ccba578139106842621fe328c0b23996c43138fbf56e07e181bb3f637f",
    "parts": [
     {
      "path": "src/frameworks/front/client/ui.js",
-     "sha256": "16788270f8ef91b458d9f394c16338ef6d506ddb651b1892bba6bc1fa19bff36",
+     "sha256": "cf44e2ccba578139106842621fe328c0b23996c43138fbf56e07e181bb3f637f",
      "headerBytes": 0
     }
    ]
+  },
+  {
+   "out": "public/assets/version.js",
+   "bytes": 469,
+   "sha256": "01f68d3c95e7c2f91b54022ba05edc9654bbb2fb9046804102a7aff2ecd4b884",
+   "version": {
+    "from": "package.json",
+    "package": "23.3.6-hqa-search-polish",
+    "display": "23.3.6"
+   }
   },
   {
    "out": "public/camcorder.js",

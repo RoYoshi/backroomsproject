@@ -1,0 +1,44 @@
+P5 - one authoritative version: package.json's "version", built into public/assets/version.js, shown by the main menu
+(check: dev/pre-trial3-final-polish/tools/version_check.js; headless Chromium; every passcode synthetic)
+
+What was there (C5 63805e9):
+- package.json "version": "23.3.6-hqa-search-polish" - the project's own record of its version.
+- src/frameworks/front/client/credits_data.js -> public/assets/credits_data.js: `version: '23.3.6'`, a hand copy, which ui.js showed
+  in the main menu's corner as "v23.3.6".  Nothing tied the two: change package.json and the menu still said v23.3.6, and the build
+  passed (version_c5.*: follows_package FAIL - the copy's package.json said 99.1.2-check, its menu still read "v23.3.6", build:check
+  PASS).  version_check on C5: FAIL 1 of 5 (built_from_it, no_hand_copies, menu_shows_it, follows_package).
+- ui.js's own `const VERSION = 'stage-3c-qa2'` (window.__ui.version) is the interface controller's revision tag, not the product's
+  version; it is not shown to players and stays as it is (reported by the check as uiTag).  The many "v23.3.6" in code comments
+  (br-role.js, l0-remaster.js, level0_visuals.js, shadows-2d.js) name the historical baseline the renderers were measured against,
+  not the running version; they are history and stay.
+
+The choice (documented, no new number): package.json is the one source - it already holds the version, npm and the build read it,
+and it is the file a release would change.  The players see its major.minor.patch ("v23.3.6"), exactly what C5 showed; the
+pre-release tag (-hqa-search-polish) stays in package.json and in version.js's `package` field.  No version number was invented or
+changed: the owner decides the next one by editing package.json and running npm run build (HUMAN_QA.md lists the decision).
+
+Changed:
+- dev/tools/build/build.js: a new output kind, { "out": ..., "version": "package.json" }: writes
+  `window.TFB_VERSION = Object.freeze({ display: "<major.minor.patch>", package: "<the whole string>" });` - a version without
+  major.minor.patch stops the build; build:check fails while the file says anything else; the manifest records
+  version: { from, package, display }.
+- src/build-recipes.json: public/assets/version.js from package.json (after assets/ui.js); its note says so.
+- public/assets/version.js: built (do not edit).  public/index.html: loads it before the credits data.
+- src/frameworks/front/client/credits_data.js -> public/assets/credits_data.js: the hand copy removed (its comment says where the
+  version comes from).  src/frameworks/front/client/ui.js -> public/assets/ui.js: the corner reads window.TFB_VERSION.display.
+- dev/tools/docs/docs.js: the build table knows the new kind; docs/architecture/BUILD_PIPELINE.md and CONTRACTS.md regenerated
+  (version.js in the build table; window.TFB_VERSION, written by assets/version.js, read by assets/ui.js: 67 window names).
+- dev/tools/checks/menu_drift.js (the gate's menu step): the new script tag mapped back to C5d (pageAsC5d) - checked here by mapping
+  P5's index.html and C5d's (4beba2f) and comparing: identical.  The menu step itself runs at P6 (P6 changes the menu's corner).
+- dev/tools/gate/declared_changes.json: assets/version.js added; assets/credits_data.js, assets/ui.js and index.html noted.
+- generated/BUILD_MANIFEST.json rebuilt (43 outputs).
+
+Results:
+- version_check.js on P5: PASS 5 of 5 (version_p5.*) - one_source; built_from_it (build:check PASS, version.js says both); no hand
+  copies (the credits data holds none, ui.js reads TFB_VERSION.display, no other served file quotes "23.3.6"); the menu's corner
+  reads "v23.3.6" in Chromium; in a copy, package.json alone changed to 99.1.2-check -> build:check FAILS naming version.js, built ->
+  the menu reads "v99.1.2", and a version "next" stops the build.
+- version_check.js on C5: FAIL 1 of 5 (version_c5.*), as above.
+- Gate steps on P5 (gate_p5.log): build (43), lineage, parts, modules, contracts, docs, scope (assets/version.js added, declared),
+  srv_golden, static, raw_live, page (12 of 12 seam mutants), cli_golden - 12 of 12 PASS.
+- npm run build:check PASS (43); docs PASS.

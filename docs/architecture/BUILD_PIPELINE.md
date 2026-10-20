@@ -62,6 +62,7 @@ sounds and web manifest, and the retired `assets/shadows-2d.js` (still served, u
 | `public/assets/net-wire.js` | one source file | `frameworks/bpp/client/net-wire.js` |
 | `public/assets/rgb.js` | one source file | `frameworks/front/client/rgb.js` |
 | `public/assets/ui.js` | one source file | `frameworks/front/client/ui.js` |
+| `public/assets/version.js` | written from `package.json`'s version (its one source; pre-Trial 3 polish P5) | `package.json` (`version`) |
 | `public/camcorder.js` | 4 parts, joined in order | `frameworks/br-r/client/camcorder.js`<br>`frameworks/spacious-audio/client/camcorder.audio.js`<br>`frameworks/br-r/client/camcorder.view.js`<br>`frameworks/br-r/client/camcorder.compose.js` |
 | `public/camera_policy.js` | one source file | `frameworks/br-r/client/camera_policy.js` |
 | `public/dphys.js` | one source file | `frameworks/gib/shared/dphys.js` |

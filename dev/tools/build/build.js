@@ -18,6 +18,10 @@
  * (src/core/client/bundle/README.md).  That history stays checked by dev/tools/lineage/lineage.js after the replay is retired;
  * or the record of the compiled client's build (from continuation C4b: the bundle and its stylesheet):
  *   { "out": "public/assets/index-DKbV5Nv9.js", "client": "generated/CLIENT_BUILD.json" }
+ * or (pre-Trial 3 polish P5) the game's version, written from package.json's "version" - its one source:
+ *   { "out": "public/assets/version.js", "version": "package.json" }
+ * The output sets window.TFB_VERSION = { display, package }: display is the version's major.minor.patch (what players see), package the
+ * whole string.  A version without major.minor.patch stops the build; --check fails while the file says anything else.
  * Those are built from the maintained TypeScript and CSS in src/core/client/game/ by dev/tools/build/client.js, which needs the locked
  * npm packages (TypeScript, Vite, PixiJS: installed offline from verified tarballs).  This tool has no dependencies, so it does not
  * build them: it checks them against client.js's record, as `client.js --record-check` does.  Every source file of the tree, and every
@@ -48,6 +52,12 @@ function load() {
   if (!Array.isArray(r.outputs) || !r.outputs.length) throw new Error(`${RECIPES}: no outputs`);
   const seenOut = new Set();
   for (const o of r.outputs) {
+    if (o.version) {                                                // the game's version, from package.json (pre-Trial 3 polish P5)
+      if (!o.out || o.parts || o.replay || o.client || o.version !== 'package.json') throw new Error(`${RECIPES}: ${o.out}: a version output is written from "package.json" and has nothing else`);
+      if (!/^public\//.test(o.out)) throw new Error(`${RECIPES}: ${o.out} is outside public/`);
+      if (seenOut.has(o.out)) throw new Error(`${RECIPES}: ${o.out} listed twice`); seenOut.add(o.out);
+      continue;
+    }
     if (o.client) {                                                 // the compiled client's build (C4)
       if (!o.out || o.parts || o.replay || !/^generated\/[\w.-]+\.json$/.test(o.client)) throw new Error(`${RECIPES}: ${o.out}: a client output names its record under generated/ and has no parts`);
       if (!/^public\//.test(o.out)) throw new Error(`${RECIPES}: ${o.out} is outside public/`);
@@ -123,8 +133,21 @@ function client(o) {
   const buf = fs.readFileSync(f); if (sha(buf) !== entry.sha256) throw new Error(`${o.out}: not the file the client build gave (${o.client}): rebuild with node dev/tools/build/client.js --packages <folder> --write`);
   return { out: o.out, bytes: buf.length, sha256: entry.sha256, client: { record: o.client, recordSha256: sha(rd(o.client)) }, buf };
 }
+/* the game's version, in memory: package.json's "version" (its one source), for the page */
+function version(o) {
+  const v = String(JSON.parse(rd('package.json').toString('utf8')).version || ''), m = /^(\d+)\.(\d+)\.(\d+)(?:[-+][0-9A-Za-z.+-]*)?$/.exec(v);
+  if (!m) throw new Error(`package.json: the version "${v}" has no major.minor.patch`);
+  const display = m.slice(1, 4).join('.');
+  const buf = Buffer.from(`/* ${o.out} - the game's version, written by dev/tools/build/build.js from package.json's "version", its one source.  Do not
+ * edit: change package.json and run npm run build (npm run build:check fails while this file says anything else).  display: what players
+ * see (the major.minor.patch of the package version); package: the whole package version. */
+window.TFB_VERSION = Object.freeze({ display: ${JSON.stringify(display)}, package: ${JSON.stringify(v)} });
+`, 'utf8');
+  return { out: o.out, bytes: buf.length, sha256: sha(buf), version: { from: 'package.json', package: v, display }, buf };
+}
 /* one output, in memory */
 function assemble(o) {
+  if (o.version) return version(o);
   if (o.client) return client(o);
   if (o.replay) return replay(o);
   const parts = o.parts.map(p => {
@@ -144,7 +167,7 @@ function manifest(r, built) {
 }
 function main() {
   const r = load();
-  if (mode === '--list') { for (const o of r.outputs) console.log(o.out + '\n  ' + (o.client ? `the client build (dev/tools/build/client.js), recorded in ${o.client}` : o.replay ? `replay of ${o.replay.ledger} (${o.replay.chain})` : o.parts.join('\n  '))); return 0; }
+  if (mode === '--list') { for (const o of r.outputs) console.log(o.out + '\n  ' + (o.version ? 'the version, from package.json' : o.client ? `the client build (dev/tools/build/client.js), recorded in ${o.client}` : o.replay ? `replay of ${o.replay.ledger} (${o.replay.chain})` : o.parts.join('\n  '))); return 0; }
   if (mode === '--clean') {                                         // (a client output stays: only client.js, with the packages, makes it)
     let n = 0; for (const o of r.outputs.filter(x => !x.client).map(x => x.out).concat(MANIFEST)) { const f = path.join(REPO, o); if (fs.existsSync(f)) { fs.unlinkSync(f); n++; } }
     console.log(`removed ${n} built files`); return 0;

@@ -57,8 +57,8 @@ const blocks = {};
 {
   const L = ['| Output | How | From |', '|---|---|---|'];
   for (const o of recipes) {
-    const how = o.client ? 'the client build (TypeScript and Vite: `dev/tools/build/client.js`), checked against its record' : o.replay ? 'a replay of the lineage ledger' : o.parts.length > 1 ? `${o.parts.length} parts, joined in order` : /original-v11/.test(o.parts[0]) ? 'a copy of the v11 build output' : 'one source file';
-    const from = o.client ? `\`core/client/game/\`${/\.js$/.test(o.out) && CLIENT_INPUTS.length ? ', with ' + CLIENT_INPUTS.map(p => '`' + p.replace(/^src\//, '') + '`').join(' and ') : ''} (record \`${o.client}\`)` :   // (C4c) the bundle is built with the definitions too
+    const how = o.version ? 'written from `package.json`\'s version (its one source; pre-Trial 3 polish P5)' : o.client ? 'the client build (TypeScript and Vite: `dev/tools/build/client.js`), checked against its record' : o.replay ? 'a replay of the lineage ledger' : o.parts.length > 1 ? `${o.parts.length} parts, joined in order` : /original-v11/.test(o.parts[0]) ? 'a copy of the v11 build output' : 'one source file';
+    const from = o.version ? '`package.json` (`version`)' : o.client ? `\`core/client/game/\`${/\.js$/.test(o.out) && CLIENT_INPUTS.length ? ', with ' + CLIENT_INPUTS.map(p => '`' + p.replace(/^src\//, '') + '`').join(' and ') : ''} (record \`${o.client}\`)` :   // (C4c) the bundle is built with the definitions too
                 o.replay ? `\`${o.replay.ledger}\` (chain \`${o.replay.chain}\`)` : o.parts.map(p => '`' + p.replace(/^src\//, '') + '`').join('<br>');
     L.push(`| \`${o.out}\` | ${how} | ${from} |`);
   }

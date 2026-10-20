@@ -390,7 +390,8 @@
       if (enter) enter.addEventListener('click', () => closeAccount(false), true);
     }
     // (#mmNote is written by labelsRefresh(): the keys it names are the player's own)
-    const ver = $('mmVer'), V = window.TFB_CREDITS && TFB_CREDITS.version; if (ver && V) ver.textContent = 'v' + V;
+    // the version: package.json's, as the build writes it (assets/version.js; pre-Trial 3 polish P5 - it was a copy in the credits data)
+    const ver = $('mmVer'), V = window.TFB_VERSION && TFB_VERSION.display; if (ver && V) ver.textContent = 'v' + V;
   }
   addEventListener('keydown', e => {
     const t = e.target;

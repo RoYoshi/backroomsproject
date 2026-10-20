@@ -97,9 +97,10 @@ renaming one breaks the others silently.
 | `window.__vol` | `hud.js` | `assets/index-DKbV5Nv9.js`, `assets/ui.js` |
 | `window.TFB_CREDITS` | `assets/credits_data.js` | `assets/ui.js` |
 | `window.TFB_TIMING` | `timing_policy.js` | `assets/index-DKbV5Nv9.js` |
+| `window.TFB_VERSION` | `assets/version.js` | `assets/ui.js` |
 | `window.WORLD` | `world.js` | `assets/br-role.js`, `assets/index-DKbV5Nv9.js`, `assets/l0-remaster.js`, `assets/shadows-2d.js`, `dphys.js`, `ents.js`, `gore.js`, `move.js`, `mp.js` |
 
-66 names. Counted: `window.NAME` (and a UMD's `root.NAME`) in the served scripts, the compiled bundle and `index.html`'s own scripts. Not counted: a bare `__name` used without `window.`. A name nobody writes is a hook a test or the console may set.
+67 names. Counted: `window.NAME` (and a UMD's `root.NAME`) in the served scripts, the compiled bundle and `index.html`'s own scripts. Not counted: a bare `__name` used without `window.`. A name nobody writes is a hook a test or the console may set.
 <!-- end of generated block -->
 
 `window.__api` is the bundle's facade. Its 52 members (some of them minified names) are their own contract, with each member's

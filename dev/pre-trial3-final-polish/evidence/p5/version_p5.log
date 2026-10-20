@@ -1,0 +1,6 @@
+ok   one_source - package.json "version": "23.3.6-hqa-search-polish" -> displayed "v23.3.6"
+ok   built_from_it - BUILD CHECK: PASS (43 outputs and the manifest are what src/ builds); version.js: window.TFB_VERSION = Object.freeze({ display: "23.3.6", package: "23.3.6-hqa-search-polish" });
+ok   no_hand_copies - {"creditsWithAVersion":[],"uiReadsTfbVersion":true,"otherServedCopies":[]}
+ok   menu_shows_it - {"shown":"v23.3.6","tfb":{"display":"23.3.6","package":"23.3.6-hqa-search-polish"},"uiTag":"stage-3c-qa2","errors":[]}
+ok   follows_package - {"versionJs":"window.TFB_VERSION = Object.freeze({ display: \"99.1.2\", package: \"99.1.2-check\" });","staleCheck":"NOT BUILT: public/assets/version.js: differs from what its sources build | BUILD CHECK: FAIL (2 of 44)","built":0,"recheck":0,"copyMenu":"v99.1.2","badVersion":"BUILD ERROR: package.json: the version \"next\" has no major.minor.patch"}
+VERSION: PASS - 5 of 5 cases

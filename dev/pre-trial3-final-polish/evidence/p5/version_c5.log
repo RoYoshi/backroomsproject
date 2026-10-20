@@ -1,0 +1,6 @@
+ok   one_source - package.json "version": "23.3.6-hqa-search-polish" -> displayed "v23.3.6"
+FAIL built_from_it - BUILD CHECK: PASS (42 outputs and the manifest are what src/ builds); version.js: 
+FAIL no_hand_copies - {"creditsWithAVersion":["src/frameworks/front/client/credits_data.js","public/assets/credits_data.js"],"uiReadsTfbVersion":false,"otherServedCopies":["public/assets/credits_data.js"]}
+FAIL menu_shows_it - {"shown":"v23.3.6","tfb":null,"uiTag":"stage-3c-qa2","creditsVersion":"23.3.6","errors":[]}
+FAIL follows_package - {"versionJs":"(none)","staleCheck":"","built":0,"recheck":0,"copyMenu":"v23.3.6","badVersion":"built 42 outputs (0 files written, 43 already up to date)"}
+VERSION: FAIL - 1 of 5 cases

@@ -1,5 +1,5 @@
 {
- "note": "Every built output, in order (dev/tools/build/build.js). public/ is the web root; generated/server/ holds what the server loads that is assembled from parts. Most outputs list their parts: they are concatenated as they are, less a leading \"/** @part\" header. The compiled client bundle and its stylesheet are built from the maintained TypeScript and CSS (src/core/client/game/) by dev/tools/build/client.js, which needs the locked npm packages: build.js checks them against that build's record, generated/CLIENT_BUILD.json (since Stage 3H continuation C4b; until then they were a replay of the client lineage ledger, src/core/client/bundle/README.md). The PixiJS chunks are the v11 build output's own files, unchanged.",
+ "note": "Every built output, in order (dev/tools/build/build.js). public/ is the web root; generated/server/ holds what the server loads that is assembled from parts. Most outputs list their parts: they are concatenated as they are, less a leading \"/** @part\" header. The compiled client bundle and its stylesheet are built from the maintained TypeScript and CSS (src/core/client/game/) by dev/tools/build/client.js, which needs the locked npm packages: build.js checks them against that build's record, generated/CLIENT_BUILD.json (since Stage 3H continuation C4b; until then they were a replay of the client lineage ledger, src/core/client/bundle/README.md). The PixiJS chunks are the v11 build output's own files, unchanged. public/assets/version.js is written from package.json's \"version\", the game's one version source (pre-Trial 3 polish P5).",
  "outputs": [
   {
    "out": "public/assets/BufferResource-B-thlpip.js",
@@ -146,6 +146,10 @@
    "parts": [
     "src/frameworks/front/client/ui.js"
    ]
+  },
+  {
+   "out": "public/assets/version.js",
+   "version": "package.json"
   },
   {
    "out": "public/camcorder.js",
