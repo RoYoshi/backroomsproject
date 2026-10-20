@@ -64,7 +64,9 @@
  *     offline rendering, two players' own voices, the listener's switch, volume and mutes) in Chromium; 22 mutants caught;
  *   - rgb (added at the post-Trial 4 review, full tier): dev/tools/checks/rgb_browser.js --mutants 1: Trial 4's red, green and blue
  *     sliders in Chromium at 1280x720 and a phone: four groups, each following its colour (the saved one at load, a swatch, a reset to
- *     the HUD's Default) and moving only its own channel from the keyboard, drawn as sliders inside their boxes; 6 mutants caught;
+ *     the HUD's Default) and moving only its own channel from the keyboard, drawn as sliders inside their boxes; since the pre-Trial 3
+ *     polish (P4) each channel's typed number too (committed, clamped, put back, Escape) and a typed colour reaching another player;
+ *     11 mutants caught (P4 added five);
  *   - bundle (added at continuation C4): golden/bundle_diff.js --ref-lineage --cand-assets: the port step's build against the client
  *     the lineage records (what the page was served up to C4a), both in the real page, frame by frame (state, randomness, the document,
  *     2D canvas and audio calls, the shared window objects, pixels, computed styles): fast, the title and a walk; full, every scene of
@@ -365,8 +367,8 @@ const STEPS = {
   rgb: () => {                                                                          // post-Trial 4 review: the RGB sliders in real pages
     const r = run('rgb_browser', ['node', 'dev/tools/checks/rgb_browser.js', '--dir', wtGame(), '--mutants', '1', '--work', OUT, '--out', o('rgb_browser.json'), '--shots', o('rgb_shots')], { ms: 3600000 }), j = J(o('rgb_browser.json'));
     const n = j ? Object.keys(j.checks).length : 0, k = j ? Object.values(j.checks).filter(c => c.ok).length : 0, m = j && j.mutants ? j.mutants.length : 0;
-    return { ok: r.exit === 0 && !!j && j.ok && m === 6 && j.mutantsCaught === 6, cases: n + m,
-      note: j ? `Trial 4's RGB sliders in Chromium: ${k} of ${n} checks (mounted once, the saved colours at load, Body, Beam, HUD with its Default and reset, drawn to fit; at 1280x720 and a phone); its mutants ${j.mutantsCaught} of ${m} caught` : 'no report', r };
+    return { ok: r.exit === 0 && !!j && j.ok && m === 11 && j.mutantsCaught === 11, cases: n + m,   // (pre-Trial 3 polish P4: 6 + 5 mutants)
+      note: j ? `Trial 4's RGB sliders in Chromium: ${k} of ${n} checks (mounted once, the saved colours at load, Body, Beam, HUD with its Default and reset, drawn to fit; at 1280x720 and a phone; P4: typed numbers, a typed colour replicated); its mutants ${j.mutantsCaught} of ${m} caught` : 'no report', r };
   },
   contact_lab: () => {
     const scenes = 'geometry,lights,peers', res = [];

@@ -1,0 +1,34 @@
+{
+ "tool": "dev/pre-trial3-final-polish/tools/version_check.js",
+ "dir": "/home/claude/final-polish",
+ "version": "23.3.6-hqa-search-polish",
+ "display": "23.3.6",
+ "cases": [
+  {
+   "name": "one_source",
+   "ok": true,
+   "detail": "package.json \"version\": \"23.3.6-hqa-search-polish\" -> displayed \"v23.3.6\""
+  },
+  {
+   "name": "built_from_it",
+   "ok": true,
+   "detail": "BUILD CHECK: PASS (43 outputs and the manifest are what src/ builds); version.js: window.TFB_VERSION = Object.freeze({ display: \"23.3.6\", package: \"23.3.6-hqa-search-polish\" });"
+  },
+  {
+   "name": "no_hand_copies",
+   "ok": true,
+   "detail": "{\"creditsWithAVersion\":[],\"uiReadsTfbVersion\":true,\"otherServedCopies\":[]}"
+  },
+  {
+   "name": "menu_shows_it",
+   "ok": true,
+   "detail": "{\"shown\":\"v23.3.6\",\"tfb\":{\"display\":\"23.3.6\",\"package\":\"23.3.6-hqa-search-polish\"},\"uiTag\":\"stage-3c-qa2\",\"errors\":[]}"
+  },
+  {
+   "name": "follows_package",
+   "ok": true,
+   "detail": "{\"versionJs\":\"window.TFB_VERSION = Object.freeze({ display: \\\"99.1.2\\\", package: \\\"99.1.2-check\\\" });\",\"staleCheck\":\"NOT BUILT: public/assets/version.js: differs from what its sources build | BUILD CHECK: FAIL (2 of 44)\",\"built\":0,\"recheck\":0,\"copyMenu\":\"v99.1.2\",\"badVersion\":\"BUILD ERROR: package.json: the version \\\"next\\\" has no major.minor.patch\"}"
+  }
+ ],
+ "ok": true
+}

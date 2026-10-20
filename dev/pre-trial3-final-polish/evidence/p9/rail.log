@@ -1,0 +1,24 @@
+ok   rail_hd_four_cells - [["settings",1812,48,60,60],["mmAccount",1812,107,60,60],["mmSound",1812,166,60,60],["help",1812,225,60,60]]
+ok   rail_hd_gear_centred - {"gear":{"x":3.180000066757202,"y":3.180000066757202,"w":17.639999389648438,"h":17.639999389648438},"info":{"x":3.3000001907348633,"y":3.3000001907348633,"w":17.400001525878906,"h":17.400001525878906}}
+ok   account_hd_opens - {"shown":true,"text":"Accounts Coming Soon...","role":"dialog","name":"Accounts Coming Soon...","expanded":"true","focus":"mmAccountClose","customize":false,"state":"menu","inside":true,"overRail":false,"box":[1582,107,1802,204]}
+ok   account_hd_close - {"shown":false,"text":"Accounts Coming Soon...","role":"dialog","name":"Accounts Coming Soon...","expanded":"false","focus":"mmAccount","customize":false,"state":"menu","inside":true,"overRail":false,"box":[0,0,0,0]}
+ok   rail_wide_four_cells - [["settings",1188,32,60,60],["mmAccount",1188,91,60,60],["mmSound",1188,150,60,60],["help",1188,209,60,60]]
+ok   rail_wide_gear_centred - {"gear":{"x":3.180000066757202,"y":3.180000066757202,"w":17.639999389648438,"h":17.639999389648438},"info":{"x":3.3000001907348633,"y":3.3000001907348633,"w":17.400001525878906,"h":17.400001525878906}}
+ok   account_wide_opens - {"shown":true,"text":"Accounts Coming Soon...","role":"dialog","name":"Accounts Coming Soon...","expanded":"true","focus":"mmAccountClose","customize":false,"state":"menu","inside":true,"overRail":false,"box":[958,91,1178,188]}
+ok   account_wide_close - {"shown":false,"text":"Accounts Coming Soon...","role":"dialog","name":"Accounts Coming Soon...","expanded":"false","focus":"mmAccount","customize":false,"state":"menu","inside":true,"overRail":false,"box":[0,0,0,0]}
+ok   account_keyboard_escape - {"reached":"mmAccount","open":{"shown":true,"text":"Accounts Coming Soon...","role":"dialog","name":"Accounts Coming Soon...","expanded":"true","focus":"mmAccountClose","customize":false,"state":"menu","inside":true,"overRail":false,"box":[958,91,1178,188]},"after":{"shown":false,"text":"Accounts Coming Soon...","role":"dialog","name":"Accounts Coming Soon...","expanded":"false","focus":"mmAccount","customize":false,"state":"menu","inside":true,"overRail":false,"box":[0,0,0,0]},"quietAfter":{"entry":false,"sheet":false,"paused":false}}
+ok   account_press_elsewhere - {"shown":false,"text":"Accounts Coming Soon...","role":"dialog","name":"Accounts Coming Soon...","expanded":"false","focus":"BODY","customize":false,"state":"menu","inside":true,"overRail":false,"box":[0,0,0,0]}
+ok   account_tab_away - {"shown":false,"text":"Accounts Coming Soon...","role":"dialog","name":"Accounts Coming Soon...","expanded":"false","focus":"lgFold","customize":false,"state":"menu","inside":true,"overRail":false,"box":[0,0,0,0]}
+ok   account_toggle - {"first":true,"second":false,"focus":"mmAccount"}
+ok   customize_still_there - Customize opened by the menu's Customize button: true
+ok   gear_opens_settings - Settings opened by the gear: true
+ok   rail_phone_four_cells - [["settings",330,16,44,44],["mmAccount",330,59,44,44],["mmSound",330,102,44,44],["help",330,145,44,44]]
+ok   rail_phone_gear_centred - {"gear":{"x":3.180000066757202,"y":3.180000066757202,"w":17.639999389648438,"h":17.639999389648438},"info":{"x":3.3000001907348633,"y":3.3000001907348633,"w":17.400001525878906,"h":17.400001525878906}}
+ok   account_phone_opens - {"shown":true,"text":"Accounts Coming Soon...","role":"dialog","name":"Accounts Coming Soon...","expanded":"true","focus":"mmAccountClose","customize":false,"state":"menu","inside":true,"overRail":false,"box":[100,59,320,164]}
+ok   account_phone_close - {"shown":false,"text":"Accounts Coming Soon...","role":"dialog","name":"Accounts Coming Soon...","expanded":"false","focus":"mmAccount","customize":false,"state":"menu","inside":true,"overRail":false,"box":[0,0,0,0]}
+ok   rail_side_four_cells - [["settings",660,27,40,40],["mmAccount",699,27,40,40],["mmSound",738,27,40,40],["help",777,27,40,40]]
+ok   rail_side_gear_centred - {"gear":{"x":3.180000066757202,"y":3.180000066757202,"w":17.639999389648438,"h":17.639999389648438},"info":{"x":3.3000001907348633,"y":3.3000001907348633,"w":17.400001525878906,"h":17.400001525878906}}
+ok   account_side_opens - {"shown":true,"text":"Accounts Coming Soon...","role":"dialog","name":"Accounts Coming Soon...","expanded":"true","focus":"mmAccountClose","customize":false,"state":"menu","inside":true,"overRail":false,"box":[597,75,817,180]}
+ok   account_side_close - {"shown":false,"text":"Accounts Coming Soon...","role":"dialog","name":"Accounts Coming Soon...","expanded":"false","focus":"mmAccount","customize":false,"state":"menu","inside":true,"overRail":false,"box":[0,0,0,0]}
+ok   no_page_errors - []
+MENU RAIL: PASS - 23 of 23 cases (73 s)

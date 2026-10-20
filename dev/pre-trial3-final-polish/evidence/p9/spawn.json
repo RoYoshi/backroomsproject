@@ -1,0 +1,1117 @@
+{
+ "tool": "dev/pre-trial3-final-polish/tools/spawn_probe.js",
+ "dir": "/home/claude/final-polish",
+ "chromium": "141.0.7390.37",
+ "tiers": {
+  "low": {
+   "fallSeenAt": 0.09629629629629621,
+   "quality": "low",
+   "moments": [
+    {
+     "f": 0.3,
+     "fall": 0.30000000000000016,
+     "scale": [
+      1.343,
+      1.343
+     ],
+     "alpha": 1,
+     "bodyR": 24.18,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "low",
+     "jobs": [
+      {
+       "light": "L92",
+       "a": 0.726,
+       "shade": 0.42,
+       "start": 24.18,
+       "silR": 24.18,
+       "silB": 24.18
+      }
+     ],
+     "wantA": 24.18,
+     "wantB": 24.18,
+     "groundDrawn": 36.9,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 69.37,
+      "r": 14
+     },
+     "noBrRole": {
+      "bodyBright": 76.53,
+      "r": 14
+     },
+     "noGround": {
+      "bodyBright": 58.17,
+      "r": 14
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.45,
+     "fall": 0.4499999999999999,
+     "scale": [
+      1.042,
+      1.042
+     ],
+     "alpha": 1,
+     "bodyR": 18.76,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "low",
+     "jobs": [
+      {
+       "light": "L92",
+       "a": 0.726,
+       "shade": 0.42,
+       "start": 18.76,
+       "silR": 18.76,
+       "silB": 18.76
+      }
+     ],
+     "wantA": 18.76,
+     "wantB": 18.76,
+     "groundDrawn": 49.3,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 55.67,
+      "r": 11
+     },
+     "noBrRole": {
+      "bodyBright": 59.79,
+      "r": 11
+     },
+     "noGround": {
+      "bodyBright": 58.58,
+      "r": 11
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.55,
+     "fall": 0.5499999999999997,
+     "scale": [
+      1.002,
+      1.002
+     ],
+     "alpha": 1,
+     "bodyR": 18.03,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "low",
+     "jobs": [
+      {
+       "light": "L92",
+       "a": 0.726,
+       "shade": 0.42,
+       "start": 18.03,
+       "silR": 18.03,
+       "silB": 18.03
+      }
+     ],
+     "wantA": 18.03,
+     "wantB": 18.03,
+     "groundDrawn": 54.7,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 57.54,
+      "r": 10
+     },
+     "noBrRole": {
+      "bodyBright": 62,
+      "r": 10
+     },
+     "noGround": {
+      "bodyBright": 58.02,
+      "r": 10
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.66,
+     "fall": 0.6599999999999999,
+     "scale": [
+      1.048,
+      0.952
+     ],
+     "alpha": 1,
+     "bodyR": 18,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "low",
+     "jobs": [
+      {
+       "light": "L92",
+       "a": 0.726,
+       "shade": 0.42,
+       "start": 18.86,
+       "silR": 18.86,
+       "silB": 17.14
+      }
+     ],
+     "wantA": 18.86,
+     "wantB": 17.14,
+     "groundDrawn": 64.5,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 57.45,
+      "r": 10
+     },
+     "noBrRole": {
+      "bodyBright": 63.21,
+      "r": 10
+     },
+     "noGround": {
+      "bodyBright": 68.51,
+      "r": 10
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.8,
+     "fall": 0.8,
+     "scale": [
+      0.991,
+      1.009
+     ],
+     "alpha": 1,
+     "bodyR": 18,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "low",
+     "jobs": [
+      {
+       "light": "L92",
+       "a": 0.726,
+       "shade": 0.42,
+       "start": 17.84,
+       "silR": 17.84,
+       "silB": 18.16
+      }
+     ],
+     "wantA": 17.84,
+     "wantB": 18.16,
+     "groundDrawn": 132.6,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 60.62,
+      "r": 10
+     },
+     "noBrRole": {
+      "bodyBright": 66.89,
+      "r": 10
+     },
+     "noGround": {
+      "bodyBright": 56.68,
+      "r": 10
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.95,
+     "fall": 0.9500000000000004,
+     "scale": [
+      1,
+      1
+     ],
+     "alpha": 1,
+     "bodyR": 18,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "low",
+     "jobs": [
+      {
+       "light": "L92",
+       "a": 0.726,
+       "shade": 0.42,
+       "start": 18.01,
+       "silR": 18.01,
+       "silB": 17.99
+      }
+     ],
+     "wantA": 18.01,
+     "wantB": 17.99,
+     "groundDrawn": 205.7,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 58.52,
+      "r": 10
+     },
+     "noBrRole": {
+      "bodyBright": 63.31,
+      "r": 10
+     },
+     "noGround": {
+      "bodyBright": 58.01,
+      "r": 10
+     },
+     "groundHidable": true
+    }
+   ],
+   "errors": [],
+   "litSpot": {
+    "x": 790,
+    "y": 4080,
+    "lamp": {
+     "x": 720,
+     "y": 4080
+    },
+    "r": 70
+   },
+   "home": {
+    "inCreatures": true,
+    "index": 129
+   },
+   "afterFall": {
+    "fall": -1,
+    "scale": [
+     1,
+     1
+    ],
+    "alpha": 1,
+    "bodyR": 18,
+    "groundFound": true,
+    "groundAbove": true,
+    "quality": "low",
+    "jobs": [
+     {
+      "light": "L92",
+      "a": 0.726,
+      "shade": 0.42,
+      "start": 18,
+      "silR": 18,
+      "silB": 18
+     }
+    ],
+    "wantA": 18,
+    "wantB": 18,
+    "groundDrawn": 0,
+    "groundIn": "creatures",
+    "groundIndex": 129,
+    "screen": {
+     "x": 480,
+     "y": 270,
+     "sc": 0.625
+    }
+   },
+   "peer": {
+    "silA": 30.6,
+    "silB": 30.6,
+    "want": 30.6,
+    "light": "L92"
+   }
+  },
+  "medium": {
+   "fallSeenAt": 0.13651851851769045,
+   "quality": "medium",
+   "moments": [
+    {
+     "f": 0.3,
+     "fall": 0.30000000000000016,
+     "scale": [
+      1.343,
+      1.343
+     ],
+     "alpha": 1,
+     "bodyR": 24.18,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "medium",
+     "jobs": [
+      {
+       "light": "L97",
+       "a": 0.726,
+       "shade": 0.42,
+       "start": 24.18,
+       "silR": 24.18,
+       "silB": 24.18
+      }
+     ],
+     "wantA": 24.18,
+     "wantB": 24.18,
+     "groundDrawn": 36.9,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 53.62,
+      "r": 14
+     },
+     "noBrRole": {
+      "bodyBright": 58.14,
+      "r": 14
+     },
+     "noGround": {
+      "bodyBright": 49.41,
+      "r": 14
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.45,
+     "fall": 0.4499999999999999,
+     "scale": [
+      1.042,
+      1.042
+     ],
+     "alpha": 1,
+     "bodyR": 18.76,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "medium",
+     "jobs": [
+      {
+       "light": "L97",
+       "a": 0.726,
+       "shade": 0.42,
+       "start": 18.76,
+       "silR": 18.76,
+       "silB": 18.76
+      }
+     ],
+     "wantA": 18.76,
+     "wantB": 18.76,
+     "groundDrawn": 49.3,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 47.34,
+      "r": 11
+     },
+     "noBrRole": {
+      "bodyBright": 51.37,
+      "r": 11
+     },
+     "noGround": {
+      "bodyBright": 49.83,
+      "r": 11
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.55,
+     "fall": 0.5499999999999997,
+     "scale": [
+      1.002,
+      1.002
+     ],
+     "alpha": 1,
+     "bodyR": 18.03,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "medium",
+     "jobs": [
+      {
+       "light": "L97",
+       "a": 0.726,
+       "shade": 0.42,
+       "start": 18.03,
+       "silR": 18.03,
+       "silB": 18.03
+      }
+     ],
+     "wantA": 18.03,
+     "wantB": 18.03,
+     "groundDrawn": 54.7,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 49.35,
+      "r": 10
+     },
+     "noBrRole": {
+      "bodyBright": 53.51,
+      "r": 10
+     },
+     "noGround": {
+      "bodyBright": 49.66,
+      "r": 10
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.66,
+     "fall": 0.6599999999999999,
+     "scale": [
+      1.048,
+      0.952
+     ],
+     "alpha": 1,
+     "bodyR": 18,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "medium",
+     "jobs": [
+      {
+       "light": "L97",
+       "a": 0.726,
+       "shade": 0.42,
+       "start": 18.86,
+       "silR": 18.86,
+       "silB": 17.14
+      }
+     ],
+     "wantA": 18.86,
+     "wantB": 17.14,
+     "groundDrawn": 64.5,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 51.84,
+      "r": 10
+     },
+     "noBrRole": {
+      "bodyBright": 56.5,
+      "r": 10
+     },
+     "noGround": {
+      "bodyBright": 59.53,
+      "r": 10
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.8,
+     "fall": 0.8000000000000007,
+     "scale": [
+      0.991,
+      1.009
+     ],
+     "alpha": 1,
+     "bodyR": 18,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "medium",
+     "jobs": [
+      {
+       "light": "L97",
+       "a": 0.726,
+       "shade": 0.42,
+       "start": 17.84,
+       "silR": 17.84,
+       "silB": 18.16
+      }
+     ],
+     "wantA": 17.84,
+     "wantB": 18.16,
+     "groundDrawn": 132.6,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 55.64,
+      "r": 10
+     },
+     "noBrRole": {
+      "bodyBright": 59.48,
+      "r": 10
+     },
+     "noGround": {
+      "bodyBright": 48.6,
+      "r": 10
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.95,
+     "fall": 0.9499999999999997,
+     "scale": [
+      1,
+      1
+     ],
+     "alpha": 1,
+     "bodyR": 18,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "medium",
+     "jobs": [
+      {
+       "light": "L97",
+       "a": 0.726,
+       "shade": 0.42,
+       "start": 18.01,
+       "silR": 18.01,
+       "silB": 17.99
+      }
+     ],
+     "wantA": 18.01,
+     "wantB": 17.99,
+     "groundDrawn": 205.7,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 47.77,
+      "r": 10
+     },
+     "noBrRole": {
+      "bodyBright": 51.66,
+      "r": 10
+     },
+     "noGround": {
+      "bodyBright": 49.66,
+      "r": 10
+     },
+     "groundHidable": true
+    }
+   ],
+   "errors": [],
+   "litSpot": {
+    "x": 1846,
+    "y": 3600,
+    "lamp": {
+     "x": 1776,
+     "y": 3600
+    },
+    "r": 70
+   },
+   "home": {
+    "inCreatures": true,
+    "index": 129
+   },
+   "afterFall": {
+    "fall": -1,
+    "scale": [
+     1,
+     1
+    ],
+    "alpha": 1,
+    "bodyR": 18,
+    "groundFound": true,
+    "groundAbove": true,
+    "quality": "medium",
+    "jobs": [
+     {
+      "light": "L97",
+      "a": 0.726,
+      "shade": 0.42,
+      "start": 18,
+      "silR": 18,
+      "silB": 18
+     }
+    ],
+    "wantA": 18,
+    "wantB": 18,
+    "groundDrawn": 0,
+    "groundIn": "creatures",
+    "groundIndex": 129,
+    "screen": {
+     "x": 480,
+     "y": 270,
+     "sc": 0.625
+    }
+   },
+   "peer": {
+    "silA": 30.6,
+    "silB": 30.6,
+    "want": 30.6,
+    "light": "L97"
+   }
+  },
+  "high": {
+   "fallSeenAt": 0.17948148148203294,
+   "quality": "high",
+   "moments": [
+    {
+     "f": 0.3,
+     "fall": 0.3000000000000008,
+     "scale": [
+      1.343,
+      1.343
+     ],
+     "alpha": 1,
+     "bodyR": 24.18,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "high",
+     "jobs": [
+      {
+       "light": "L6",
+       "a": 0.726,
+       "shade": 0.375,
+       "start": 24.18,
+       "silR": 24.18,
+       "silB": 24.18
+      }
+     ],
+     "wantA": 24.18,
+     "wantB": 24.18,
+     "groundDrawn": 36.9,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 58.59,
+      "r": 14
+     },
+     "noBrRole": {
+      "bodyBright": 63.01,
+      "r": 14
+     },
+     "noGround": {
+      "bodyBright": 56.53,
+      "r": 14
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.45,
+     "fall": 0.4499999999999999,
+     "scale": [
+      1.042,
+      1.042
+     ],
+     "alpha": 1,
+     "bodyR": 18.76,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "high",
+     "jobs": [
+      {
+       "light": "L6",
+       "a": 0.726,
+       "shade": 0.375,
+       "start": 18.76,
+       "silR": 18.76,
+       "silB": 18.76
+      }
+     ],
+     "wantA": 18.76,
+     "wantB": 18.76,
+     "groundDrawn": 49.3,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 53.57,
+      "r": 11
+     },
+     "noBrRole": {
+      "bodyBright": 57.83,
+      "r": 11
+     },
+     "noGround": {
+      "bodyBright": 56.44,
+      "r": 11
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.55,
+     "fall": 0.5499999999999997,
+     "scale": [
+      1.002,
+      1.002
+     ],
+     "alpha": 1,
+     "bodyR": 18.03,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "high",
+     "jobs": [
+      {
+       "light": "L6",
+       "a": 0.726,
+       "shade": 0.375,
+       "start": 18.03,
+       "silR": 18.03,
+       "silB": 18.03
+      }
+     ],
+     "wantA": 18.03,
+     "wantB": 18.03,
+     "groundDrawn": 54.7,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 55.56,
+      "r": 10
+     },
+     "noBrRole": {
+      "bodyBright": 60.1,
+      "r": 10
+     },
+     "noGround": {
+      "bodyBright": 55.94,
+      "r": 10
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.66,
+     "fall": 0.6599999999999999,
+     "scale": [
+      1.048,
+      0.952
+     ],
+     "alpha": 1,
+     "bodyR": 18,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "high",
+     "jobs": [
+      {
+       "light": "L6",
+       "a": 0.726,
+       "shade": 0.375,
+       "start": 18.86,
+       "silR": 18.86,
+       "silB": 17.14
+      }
+     ],
+     "wantA": 18.86,
+     "wantB": 17.14,
+     "groundDrawn": 64.5,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 45.34,
+      "r": 10
+     },
+     "noBrRole": {
+      "bodyBright": 53.68,
+      "r": 10
+     },
+     "noGround": {
+      "bodyBright": 47.95,
+      "r": 10
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.8,
+     "fall": 0.8,
+     "scale": [
+      0.991,
+      1.009
+     ],
+     "alpha": 1,
+     "bodyR": 18,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "high",
+     "jobs": [
+      {
+       "light": "L6",
+       "a": 0.726,
+       "shade": 0.375,
+       "start": 17.84,
+       "silR": 17.84,
+       "silB": 18.16
+      }
+     ],
+     "wantA": 17.84,
+     "wantB": 18.16,
+     "groundDrawn": 132.6,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 61.41,
+      "r": 10
+     },
+     "noBrRole": {
+      "bodyBright": 65.82,
+      "r": 10
+     },
+     "noGround": {
+      "bodyBright": 56.15,
+      "r": 10
+     },
+     "groundHidable": true
+    },
+    {
+     "f": 0.95,
+     "fall": 0.9500000000000004,
+     "scale": [
+      1,
+      1
+     ],
+     "alpha": 1,
+     "bodyR": 18,
+     "groundFound": true,
+     "groundAbove": false,
+     "quality": "high",
+     "jobs": [
+      {
+       "light": "L6",
+       "a": 0.726,
+       "shade": 0.375,
+       "start": 18.01,
+       "silR": 18.01,
+       "silB": 17.99
+      }
+     ],
+     "wantA": 18.01,
+     "wantB": 17.99,
+     "groundDrawn": 205.7,
+     "groundIn": "world",
+     "groundIndex": 8,
+     "screen": {
+      "x": 480,
+      "y": 270,
+      "sc": 0.625
+     },
+     "asIs": {
+      "bodyBright": 54.71,
+      "r": 10
+     },
+     "noBrRole": {
+      "bodyBright": 59.2,
+      "r": 10
+     },
+     "noGround": {
+      "bodyBright": 55.63,
+      "r": 10
+     },
+     "groundHidable": true
+    }
+   ],
+   "errors": [],
+   "litSpot": {
+    "x": 1558,
+    "y": 2832,
+    "lamp": {
+     "x": 1488,
+     "y": 2832
+    },
+    "r": 70
+   },
+   "home": {
+    "inCreatures": true,
+    "index": 129
+   },
+   "afterFall": {
+    "fall": -1,
+    "scale": [
+     1,
+     1
+    ],
+    "alpha": 1,
+    "bodyR": 18,
+    "groundFound": true,
+    "groundAbove": true,
+    "quality": "high",
+    "jobs": [
+     {
+      "light": "L6",
+      "a": 0.726,
+      "shade": 0.375,
+      "start": 18,
+      "silR": 18,
+      "silB": 18
+     }
+    ],
+    "wantA": 18,
+    "wantB": 18,
+    "groundDrawn": 0,
+    "groundIn": "creatures",
+    "groundIndex": 129,
+    "screen": {
+     "x": 480,
+     "y": 270,
+     "sc": 0.625
+    }
+   },
+   "peer": {
+    "silA": 30.6,
+    "silB": 30.6,
+    "want": 30.6,
+    "light": "L6"
+   }
+  }
+ },
+ "cases": [
+  {
+   "name": "low_fall_held",
+   "ok": true,
+   "detail": "fall seen at 0.09629629629629621 (before the first moment, 0.3); 6 moments"
+  },
+  {
+   "name": "low_arrival_shadow_below_her",
+   "ok": true,
+   "detail": "[false,false,false,false,false,false]"
+  },
+  {
+   "name": "low_arrival_shadow_kept",
+   "ok": true,
+   "detail": "[36.9,49.3,54.7,64.5,132.6,205.7]"
+  },
+  {
+   "name": "low_arrival_layer_back_after",
+   "ok": true,
+   "detail": "{\"home\":{\"inCreatures\":true,\"index\":129},\"after\":[\"creatures\",129]}"
+  },
+  {
+   "name": "low_cutout_follows_her_size",
+   "ok": true,
+   "detail": "[[0.3,24.18,24.18,[[24.18,24.18]]],[0.45,18.76,18.76,[[18.76,18.76]]],[0.55,18.03,18.03,[[18.03,18.03]]],[0.66,18.86,17.14,[[18.86,17.14]]],[0.8,17.84,18.16,[[17.84,18.16]]],[0.95,18.01,17.99,[[18.01,17.99]]]]"
+  },
+  {
+   "name": "low_peer_cutout_follows_size",
+   "ok": true,
+   "detail": "{\"silA\":30.6,\"silB\":30.6,\"want\":30.6,\"light\":\"L92\"}"
+  },
+  {
+   "name": "low_no_page_errors",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "name": "medium_fall_held",
+   "ok": true,
+   "detail": "fall seen at 0.13651851851769045 (before the first moment, 0.3); 6 moments"
+  },
+  {
+   "name": "medium_arrival_shadow_below_her",
+   "ok": true,
+   "detail": "[false,false,false,false,false,false]"
+  },
+  {
+   "name": "medium_arrival_shadow_kept",
+   "ok": true,
+   "detail": "[36.9,49.3,54.7,64.5,132.6,205.7]"
+  },
+  {
+   "name": "medium_arrival_layer_back_after",
+   "ok": true,
+   "detail": "{\"home\":{\"inCreatures\":true,\"index\":129},\"after\":[\"creatures\",129]}"
+  },
+  {
+   "name": "medium_cutout_follows_her_size",
+   "ok": true,
+   "detail": "[[0.3,24.18,24.18,[[24.18,24.18]]],[0.45,18.76,18.76,[[18.76,18.76]]],[0.55,18.03,18.03,[[18.03,18.03]]],[0.66,18.86,17.14,[[18.86,17.14]]],[0.8,17.84,18.16,[[17.84,18.16]]],[0.95,18.01,17.99,[[18.01,17.99]]]]"
+  },
+  {
+   "name": "medium_peer_cutout_follows_size",
+   "ok": true,
+   "detail": "{\"silA\":30.6,\"silB\":30.6,\"want\":30.6,\"light\":\"L97\"}"
+  },
+  {
+   "name": "medium_no_page_errors",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "name": "high_fall_held",
+   "ok": true,
+   "detail": "fall seen at 0.17948148148203294 (before the first moment, 0.3); 6 moments"
+  },
+  {
+   "name": "high_arrival_shadow_below_her",
+   "ok": true,
+   "detail": "[false,false,false,false,false,false]"
+  },
+  {
+   "name": "high_arrival_shadow_kept",
+   "ok": true,
+   "detail": "[36.9,49.3,54.7,64.5,132.6,205.7]"
+  },
+  {
+   "name": "high_arrival_layer_back_after",
+   "ok": true,
+   "detail": "{\"home\":{\"inCreatures\":true,\"index\":129},\"after\":[\"creatures\",129]}"
+  },
+  {
+   "name": "high_cutout_follows_her_size",
+   "ok": true,
+   "detail": "[[0.3,24.18,24.18,[[24.18,24.18]]],[0.45,18.76,18.76,[[18.76,18.76]]],[0.55,18.03,18.03,[[18.03,18.03]]],[0.66,18.86,17.14,[[18.86,17.14]]],[0.8,17.84,18.16,[[17.84,18.16]]],[0.95,18.01,17.99,[[18.01,17.99]]]]"
+  },
+  {
+   "name": "high_peer_cutout_follows_size",
+   "ok": true,
+   "detail": "{\"silA\":30.6,\"silB\":30.6,\"want\":30.6,\"light\":\"L6\"}"
+  },
+  {
+   "name": "high_no_page_errors",
+   "ok": true,
+   "detail": "[]"
+  }
+ ],
+ "ok": true
+}

@@ -1,0 +1,21 @@
+ok   danger_monster_close - the red vignette reached 0.422316
+ok   danger_no_scene_lightening - #light shown below full opacity on 0 of 47 frames (lowest 1); the dread hook's own flicker written into its inline style on 2 of them (lowest 0.690485)
+ok   danger_keeps_shake - 47 of 47 frames shaken
+ok   danger_keeps_vignette - vignette up to 0.779032
+ok   danger_keeps_heartbeat - 43 heartbeat oscillators in 12 s
+ok   capture_happened - normal true, reduced true
+ok   capture_one_red_animation - [{"name":"tfbCaptureRed","pseudo":"::after","duration":1250,"iterations":1,"state":"finished"}]
+ok   capture_red_impact - redness 4.11 -> 83.79 at 75 ms
+ok   capture_red_not_white - at its peak: redness 83.79, brightness 31.98
+ok   capture_fades_once - redness 24.2 at 500 ms, 4.11 at 1300 ms, 4.11 at 1900 ms
+ok   capture_one_burst - 1 capture bursts
+ok   reduced_calm_red_animation - rm true; [{"name":"tfbCaptureRedCalm","pseudo":"::after","duration":1900,"iterations":1,"state":"finished"}]
+ok   reduced_no_sharp_onset - redness 4.11 -> 5.98 at 75 ms
+ok   reduced_softer_but_seen - redness 43.67 at 500 ms, highest 43.67 (normal 83.79)
+ok   reduced_fades_once - redness 4.11 at 1900 ms
+ok   reduced_one_burst - 1 capture bursts
+ok   no_page_errors - []
+VFX PROBE: PASS - 17 of 17 cases
+danger {"dreadReached":0.422316,"frames":47,"fps":3.92,"lightBelow1Frames":0,"lightMin":1,"flickerWrites":2,"flickerInlineMin":0.690485,"dreadInlineMax":0.779032,"shakeFrames":47,"heartbeatOscillators":43,"brightMedian":10.42,"brightMax":12.05,"brightOver130pct":0,"look":{"asDrawn":{"bright":11.33,"red":22.86},"light038":{"bright":33.39,"red":46.03},"light075":{"bright":20.55,"red":31.41}}}
+capture {"captured":true,"rm":false,"frames":11,"bursts":1,"anims":[{"name":"tfbCaptureRed","pseudo":"::after","duration":1250,"iterations":1,"state":"finished"}],"held":[{"ms":0,"anims":1,"bright":3.09,"red":4.11},{"ms":75,"anims":1,"bright":31.98,"red":83.79},{"ms":250,"anims":1,"bright":20.83,"red":54.81},{"ms":500,"anims":1,"bright":10.09,"red":24.2},{"ms":900,"anims":1,"bright":3.15,"red":7.22},{"ms":1300,"anims":1,"bright":3.09,"red":4.11},{"ms":1900,"anims":1,"bright":3.09,"red":4.11}],"redPeak":14.48,"redPeakAt":590,"redLast":14.48}
+captureReduced {"captured":true,"rm":true,"frames":11,"bursts":1,"anims":[{"name":"tfbCaptureRedCalm","pseudo":"::after","duration":1900,"iterations":1,"state":"finished"}],"held":[{"ms":0,"anims":1,"bright":3.09,"red":4.11},{"ms":75,"anims":1,"bright":2.74,"red":5.98},{"ms":250,"anims":1,"bright":8.84,"red":21.52},{"ms":500,"anims":1,"bright":16.7,"red":43.67},{"ms":900,"anims":1,"bright":14.79,"red":37.75},{"ms":1300,"anims":1,"bright":8.01,"red":19.7},{"ms":1900,"anims":1,"bright":3.09,"red":4.11}],"redPeak":34.23,"redPeakAt":429,"redLast":15.48}

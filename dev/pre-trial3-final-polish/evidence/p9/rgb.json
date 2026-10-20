@@ -1,0 +1,514 @@
+{
+ "tool": "dev/tools/checks/rgb_browser.js",
+ "dir": "/home/claude/final-polish",
+ "chromium": "141.0.7390.37",
+ "checks": {
+  "load_wide": {
+   "ok": true,
+   "body": {
+    "picker": "#123456",
+    "sliders": "#123456",
+    "outs": "#123456"
+   },
+   "hands": {
+    "picker": "#abcdef",
+    "sliders": "#abcdef",
+    "outs": "#abcdef"
+   },
+   "beam": {
+    "picker": "#4a7bd3",
+    "sliders": "#4a7bd3",
+    "outs": "#4a7bd3"
+   }
+  },
+  "body_wide": {
+   "ok": true,
+   "opened": {
+    "picker": "#123456",
+    "sliders": "#123456",
+    "outs": "#123456"
+   },
+   "swatch": "#f3dcb2",
+   "afterSwatch": {
+    "picker": "#f3dcb2",
+    "sliders": "#f3dcb2",
+    "outs": "#f3dcb2"
+   },
+   "afterKeys": {
+    "picker": "#f8dcb2",
+    "sliders": "#f8dcb2",
+    "outs": "#f8dcb2"
+   },
+   "saved": "#f8dcb2",
+   "want": "#f8dcb2",
+   "hands": {
+    "picker": "#abcdef",
+    "sliders": "#abcdef",
+    "outs": "#abcdef"
+   }
+  },
+  "beam_wide": {
+   "ok": true,
+   "opened": {
+    "picker": "#4a7bd3",
+    "sliders": "#4a7bd3",
+    "outs": "#4a7bd3"
+   },
+   "swatch": "#ffffff",
+   "afterSwatch": {
+    "picker": "#ffffff",
+    "sliders": "#ffffff",
+    "outs": "#ffffff"
+   }
+  },
+  "hud_wide": {
+   "ok": true,
+   "defaultColour": "#f3e7a7",
+   "atDefault": {
+    "picker": "#f3e7a7",
+    "sliders": "#f3e7a7",
+    "outs": "#f3e7a7"
+   },
+   "afterSwatch": {
+    "picker": "#6fe6ff",
+    "sliders": "#6fe6ff",
+    "outs": "#6fe6ff"
+   },
+   "afterKeys": {
+    "c": "#6fe3ff",
+    "read": {
+     "picker": "#6fe3ff",
+     "sliders": "#6fe3ff",
+     "outs": "#6fe3ff"
+    },
+    "want": "#6fe3ff"
+   },
+   "afterReset": {
+    "c": "",
+    "read": {
+     "picker": "#6fe3ff",
+     "sliders": "#f3e7a7",
+     "outs": "#f3e7a7"
+    }
+   }
+  },
+  "fit_wide": {
+   "ok": true,
+   "groups": [
+    {
+     "name": "Body RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "Hands RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "Beam RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "HUD RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    }
+   ]
+  },
+  "mounted_wide": {
+   "ok": true,
+   "groups": 4
+  },
+  "errors_wide": {
+   "ok": true,
+   "errors": []
+  },
+  "load_phone": {
+   "ok": true,
+   "body": {
+    "picker": "#123456",
+    "sliders": "#123456",
+    "outs": "#123456"
+   },
+   "hands": {
+    "picker": "#abcdef",
+    "sliders": "#abcdef",
+    "outs": "#abcdef"
+   },
+   "beam": {
+    "picker": "#4a7bd3",
+    "sliders": "#4a7bd3",
+    "outs": "#4a7bd3"
+   }
+  },
+  "body_phone": {
+   "ok": true,
+   "opened": {
+    "picker": "#123456",
+    "sliders": "#123456",
+    "outs": "#123456"
+   },
+   "swatch": "#f3dcb2",
+   "afterSwatch": {
+    "picker": "#f3dcb2",
+    "sliders": "#f3dcb2",
+    "outs": "#f3dcb2"
+   },
+   "afterKeys": {
+    "picker": "#f8dcb2",
+    "sliders": "#f8dcb2",
+    "outs": "#f8dcb2"
+   },
+   "saved": "#f8dcb2",
+   "want": "#f8dcb2",
+   "hands": {
+    "picker": "#abcdef",
+    "sliders": "#abcdef",
+    "outs": "#abcdef"
+   }
+  },
+  "beam_phone": {
+   "ok": true,
+   "opened": {
+    "picker": "#4a7bd3",
+    "sliders": "#4a7bd3",
+    "outs": "#4a7bd3"
+   },
+   "swatch": "#ffffff",
+   "afterSwatch": {
+    "picker": "#ffffff",
+    "sliders": "#ffffff",
+    "outs": "#ffffff"
+   }
+  },
+  "hud_phone": {
+   "ok": true,
+   "defaultColour": "#f3e7a7",
+   "atDefault": {
+    "picker": "#f3e7a7",
+    "sliders": "#f3e7a7",
+    "outs": "#f3e7a7"
+   },
+   "afterSwatch": {
+    "picker": "#6fe6ff",
+    "sliders": "#6fe6ff",
+    "outs": "#6fe6ff"
+   },
+   "afterKeys": {
+    "c": "#6fe3ff",
+    "read": {
+     "picker": "#6fe3ff",
+     "sliders": "#6fe3ff",
+     "outs": "#6fe3ff"
+    },
+    "want": "#6fe3ff"
+   },
+   "afterReset": {
+    "c": "",
+    "read": {
+     "picker": "#6fe3ff",
+     "sliders": "#f3e7a7",
+     "outs": "#f3e7a7"
+    }
+   }
+  },
+  "fit_phone": {
+   "ok": true,
+   "groups": [
+    {
+     "name": "Body RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "Hands RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "Beam RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "HUD RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    }
+   ]
+  },
+  "mounted_phone": {
+   "ok": true,
+   "groups": 4
+  },
+  "errors_phone": {
+   "ok": true,
+   "errors": []
+  },
+  "typing_wide": {
+   "pale": {
+    "picker": "#f3dcb2",
+    "sliders": "#f3dcb2",
+    "outs": "#f3dcb2"
+   },
+   "pending": {
+    "picker": "#f3dcb2",
+    "sliders": "#f3dcb2",
+    "outs": "#05dcb2"
+   },
+   "pendingSaved": "#f3dcb2",
+   "five": {
+    "picker": "#05dcb2",
+    "sliders": "#05dcb2",
+    "outs": "#05dcb2"
+   },
+   "fiveSaved": "#05dcb2",
+   "green": {
+    "picker": "#05deb2",
+    "sliders": "#05deb2",
+    "outs": "#05deb2"
+   },
+   "arrow": {
+    "picker": "#06deb2",
+    "sliders": "#06deb2",
+    "outs": "#06deb2"
+   },
+   "t0": {
+    "picker": "#00deb2",
+    "sliders": "#00deb2",
+    "outs": "#00deb2"
+   },
+   "t255": {
+    "picker": "#ffdeb2",
+    "sliders": "#ffdeb2",
+    "outs": "#ffdeb2"
+   },
+   "t128": {
+    "picker": "#80deb2",
+    "sliders": "#80deb2",
+    "outs": "#80deb2"
+   },
+   "cleared": {
+    "picker": "#80deb2",
+    "sliders": "#80deb2",
+    "outs": "#00deb2"
+   },
+   "t64": {
+    "picker": "#40deb2",
+    "sliders": "#40deb2",
+    "outs": "#40deb2"
+   },
+   "neg": {
+    "picker": "#00deb2",
+    "sliders": "#00deb2",
+    "outs": "#00deb2"
+   },
+   "big": {
+    "picker": "#ffdeb2",
+    "sliders": "#ffdeb2",
+    "outs": "#ffdeb2"
+   },
+   "letters": {
+    "picker": "#ffdeb2",
+    "sliders": "#ffdeb2",
+    "outs": "#ffdeb2"
+   },
+   "esc": {
+    "picker": "#ffdeb2",
+    "sliders": "#ffdeb2",
+    "outs": "#ffdeb2"
+   },
+   "escOpen": true,
+   "custom": {
+    "focus": "Body Red, 0 to 255",
+    "pickerClicks": 0
+   },
+   "escClosed": true,
+   "reload": {
+    "picker": "#ffdeb2",
+    "sliders": "#ffdeb2",
+    "outs": "#ffdeb2"
+   },
+   "reloadSaved": "#ffdeb2",
+   "hudDefault": {
+    "c": "",
+    "read": {
+     "picker": "#f3e7a7",
+     "sliders": "#f3e7a7",
+     "outs": "#f3e7a7"
+    },
+    "def": "#f3e7a7"
+   },
+   "hudAfterSwatchReset": {
+    "c": "",
+    "picker": "#6fe6ff",
+    "read": {
+     "picker": "#6fe6ff",
+     "sliders": "#f3e7a7",
+     "outs": "#f3e7a7"
+    }
+   },
+   "rainbow": "HUD Red, 0 to 255",
+   "hud10": {
+    "c": "#f30aa7",
+    "read": {
+     "picker": "#f30aa7",
+     "sliders": "#f30aa7",
+     "outs": "#f30aa7"
+    }
+   },
+   "hudEsc": {
+    "c": "#f30aa7",
+    "open": true,
+    "read": {
+     "picker": "#f30aa7",
+     "sliders": "#f30aa7",
+     "outs": "#f30aa7"
+    }
+   },
+   "hudReset": {
+    "c": "",
+    "read": {
+     "picker": "#f30aa7",
+     "sliders": "#f3e7a7",
+     "outs": "#f3e7a7"
+    }
+   },
+   "want": {
+    "five": "#05dcb2",
+    "green": "#05deb2",
+    "last": "#ffdeb2",
+    "hud": "#f30aa7"
+   },
+   "ok": true,
+   "errors": []
+  },
+  "replicated_wide": {
+   "typed": {
+    "picker": "#1134c9",
+    "sliders": "#1134c9",
+    "outs": "#1134c9"
+   },
+   "aId": 5,
+   "aSent": "none|plain|#abcdef|#1134c9|none",
+   "bSees": "none|plain|#abcdef|#1134c9|none",
+   "ok": true,
+   "errors": []
+  }
+ },
+ "ok": true
+}

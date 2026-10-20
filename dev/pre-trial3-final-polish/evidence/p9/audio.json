@@ -1,0 +1,69 @@
+{
+ "tool": "dev/pre-trial3-final-polish/tools/ui_audio_check.js",
+ "dir": "/home/claude/final-polish",
+ "chromium": "141.0.7390.37",
+ "cases": [
+  {
+   "name": "files",
+   "ok": true,
+   "detail": "[{\"ch\":1,\"rate\":44100,\"n\":1984,\"peakDb\":-24.44,\"first\":0.00003,\"last\":0,\"file\":\"ui_hover\",\"status\":200,\"bytes\":1253,\"inventory\":1253,\"ok\":true},{\"ch\":1,\"rate\":44100,\"n\":4851,\"peakDb\":-12.47,\"first\":0.00537,\"last\":0,\"file\":\"ui_click\",\"status\":200,\"bytes\":2194,\"inventory\":2194,\"ok\":true},{\"ch\":1,\"rate\":44100,\"n\":7056,\"peakDb\":-13.37,\"first\":0.0007,\"last\":0,\"file\":\"ui_back\",\"status\":200,\"bytes\":2821,\"inventory\":2821,\"ok\":true},{\"ch\":1,\"rate\":44100,\"n\":6615,\"peakDb\":-13.45,\"first\":0.00003,\"last\":0,\"file\":\"ui_toggle_on\",\"status\":200,\"bytes\":2507,\"inventory\":2507,\"ok\":true},{\"ch\":1,\"rate\":44100,\"n\":6615,\"peakDb\":-14.45,\"first\":0,\"last\":0,\"file\":\"ui_toggle_off\",\"status\":200,\"bytes\":2507,\"inventory\":2507,\"ok\":true},{\"ch\":1,\"rate\":44100,\"n\":15023,\"peakDb\":-12.42,\"first\":0.00098,\"last\":0,\"file\":\"ui_open\",\"status\":200,\"bytes\":5015,\"inventory\":5015,\"ok\":true},{\"ch\":1,\"rate\":44100,\"n\":9702,\"peakDb\":-15.45,\"first\":0,\"last\":0,\"file\":\"ui_unavailable\",\"status\":200,\"bytes\":3448,\"inventory\":3448,\"ok\":true}]"
+  },
+  {
+   "name": "loaded",
+   "ok": true,
+   "detail": "{\"loaded\":[\"back\",\"click\",\"hover\",\"open\",\"toggleOff\",\"toggleOn\",\"unavailable\"],\"errors\":[],\"music\":\"playing\",\"ctx\":\"running\"}"
+  },
+  {
+   "name": "one_each",
+   "ok": true,
+   "detail": "[{\"what\":\"Settings\",\"started\":{\"open\":1},\"want\":{\"open\":1},\"skipped\":0,\"dropped\":0},{\"what\":\"Sound switch off\",\"started\":{},\"want\":{},\"skipped\":1,\"dropped\":0},{\"what\":\"Sound switch on\",\"started\":{\"toggleOn\":1},\"want\":{\"toggleOn\":1},\"skipped\":0,\"dropped\":0},{\"what\":\"Close\",\"started\":{\"back\":1},\"want\":{\"back\":1},\"skipped\":0,\"dropped\":0},{\"what\":\"Account\",\"started\":{\"unavailable\":1},\"want\":{\"unavailable\":1},\"skipped\":0,\"dropped\":0},{\"what\":\"Escape (Account panel)\",\"started\":{\"back\":1},\"want\":{\"back\":1},\"skipped\":0,\"dropped\":0},{\"what\":\"PLAY\",\"started\":{\"open\":1},\"want\":{\"open\":1},\"skipped\":0,\"dropped\":0},{\"what\":\"Escape (entry)\",\"started\":{\"back\":1},\"want\":{\"back\":1},\"skipped\":0,\"dropped\":0},{\"what\":\"Credits\",\"started\":{\"open\":1},\"want\":{\"open\":1},\"skipped\":0,\"dropped\":0},{\"what\":\"Escape (Credits)\",\"started\":{\"back\":1},\"want\":{\"back\":1},\"skipped\":0,\"dropped\":0},{\"what\":\"Master volume let go\",\"started\":{},\"want\":{},\"skipped\":0,\"dropped\":0}]"
+  },
+  {
+   "name": "hover",
+   "ok": true,
+   "detail": "[{\"what\":\"mouse onto three controls\",\"plays\":{},\"hovers\":3,\"ms\":735,\"skipped\":0,\"cues\":{\"hover\":3},\"dropped\":0},{\"what\":\"six Tab presses at once\",\"plays\":{},\"hovers\":1,\"ms\":357,\"skipped\":0,\"cues\":{\"hover\":1},\"dropped\":0,\"focusMoves\":\"mmAccount\"},{\"what\":\"moving on one control\",\"plays\":{},\"hovers\":0,\"ms\":856,\"skipped\":0,\"cues\":{},\"dropped\":0}]"
+  },
+  {
+   "name": "quiet",
+   "ok": true,
+   "detail": "[{\"what\":\"a script's click()\",\"plays\":{},\"hovers\":0,\"ms\":158,\"skipped\":0,\"cues\":{},\"dropped\":0},{\"what\":\"typing in the lounge\",\"plays\":{},\"hovers\":0,\"ms\":3628,\"skipped\":0,\"cues\":{},\"dropped\":0},{\"what\":\"hidden tab\",\"plays\":{},\"hovers\":0,\"ms\":1730,\"skipped\":2,\"cues\":{\"hover\":1,\"open\":1},\"dropped\":0}]"
+  },
+  {
+   "name": "one_context",
+   "ok": true,
+   "detail": "{\"atMenu\":[\"ensure (assets/ui.js:503:19) < Object.allowed (assets/ui.js:555:17)\"],\"afterEveryPress\":[\"ensure (assets/ui.js:503:19) < Object.allowed (assets/ui.js:555:17)\",\"initAudio (mp.js:424:10)\"],\"errors\":[]}"
+  },
+  {
+   "name": "sliders",
+   "ok": true,
+   "detail": "{\"sliders\":[{\"id\":\"stVol\",\"label\":\"Master volume\",\"min\":\"0\",\"max\":\"100\",\"step\":\"5\",\"value\":\"100\",\"shown\":\"100%\",\"top\":351},{\"id\":\"stMusic\",\"label\":\"Music volume\",\"min\":\"0\",\"max\":\"100\",\"step\":\"5\",\"value\":\"100\",\"shown\":\"100%\",\"top\":452},{\"id\":\"stUi\",\"label\":\"UI volume\",\"min\":\"0\",\"max\":\"100\",\"step\":\"5\",\"value\":\"100\",\"shown\":\"100%\",\"top\":553},{\"id\":\"stVoiceVol\",\"label\":\"Voice volume\",\"min\":\"0\",\"max\":\"100\",\"step\":\"5\",\"value\":\"70\",\"shown\":\"70%\",\"top\":719}],\"afterTwoLeftArrows\":{\"music\":0.9,\"shown\":\"90%\"},\"uiLetGo\":{\"what\":\"stUi let go\",\"plays\":{\"click\":1},\"hovers\":0,\"ms\":785,\"skipped\":0,\"cues\":{\"click\":1},\"dropped\":0},\"musicLetGo\":{\"what\":\"stMusic let go\",\"plays\":{},\"hovers\":0,\"ms\":1054,\"skipped\":0,\"cues\":{},\"dropped\":0}}"
+  },
+  {
+   "name": "routing",
+   "ok": true,
+   "detail": "{\"base\":{\"master\":1,\"music\":0.7,\"ui\":1,\"masterLevel\":1,\"musicLevel\":0.7,\"uiLevel\":1},\"baseClick\":{\"plays\":{\"click\":1},\"bus\":{\"master\":1,\"music\":0.7,\"ui\":1,\"masterLevel\":1,\"musicLevel\":0.7,\"uiLevel\":1}},\"ui30\":{\"plays\":{\"click\":1},\"bus\":{\"master\":1,\"music\":0.7,\"ui\":0.3,\"masterLevel\":1,\"musicLevel\":0.7,\"uiLevel\":0.3}},\"music0\":{\"bus\":{\"master\":1,\"music\":0,\"ui\":1,\"masterLevel\":1,\"musicLevel\":0,\"uiLevel\":1},\"click\":{\"click\":1}},\"ui0\":{\"bus\":{\"master\":1,\"music\":0.7,\"ui\":0,\"masterLevel\":1,\"musicLevel\":0.7,\"uiLevel\":0},\"click\":{},\"skipped\":2},\"master50\":{\"master\":0.5,\"music\":0.7,\"ui\":1,\"masterLevel\":0.5,\"musicLevel\":0.7,\"uiLevel\":1},\"muted\":{\"bus\":{\"master\":0,\"music\":0.7,\"ui\":1,\"masterLevel\":0,\"musicLevel\":0.7,\"uiLevel\":1},\"gameMuted\":true,\"account\":{},\"skipped\":2},\"voice0\":{\"bus\":{\"master\":1,\"music\":0.7,\"ui\":1,\"masterLevel\":1,\"musicLevel\":0.7,\"uiLevel\":1},\"voice\":{\"preset\":\"classic\",\"pitch\":0,\"speed\":100,\"on\":true,\"vol\":0}}}"
+  },
+  {
+   "name": "smooth",
+   "ok": true,
+   "detail": "{\"t0\":[0.06,0.06],\"plays\":[1,1],\"sources\":2,\"musicGainSampled\":[0.7,0.1434,0.14,0.14,0.14,0.14,0.14,0.14],\"settled\":0.14}"
+  },
+  {
+   "name": "persist",
+   "ok": true,
+   "detail": "{\"saved\":{\"music\":0.4,\"ui\":0.6,\"vol\":1},\"afterReload\":{\"settings\":{\"music\":0.4,\"ui\":0.6},\"bus\":{\"master\":1,\"music\":0.28,\"ui\":0.6,\"masterLevel\":1,\"musicLevel\":0.27999999999999997,\"uiLevel\":0.6},\"audioContextsMade\":1,\"musicStarts\":1,\"shown\":{\"music\":[\"40\",\"40%\"],\"ui\":[\"60\",\"60%\"]}}}"
+  },
+  {
+   "name": "old_saves",
+   "ok": true,
+   "detail": "[{\"label\":\"a save from before P8\",\"saved\":{\"c\":\"\",\"s\":1,\"o\":1,\"vol\":0.8,\"rm\":\"auto\",\"v\":2},\"read\":[1,1],\"bus\":{\"master\":0.8,\"music\":0.7,\"ui\":1,\"masterLevel\":0.8,\"musicLevel\":0.7,\"uiLevel\":1},\"ok\":true},{\"label\":\"damaged values\",\"saved\":{\"vol\":1,\"music\":\"x\",\"ui\":-3,\"rm\":\"auto\",\"v\":2},\"read\":[1,0],\"bus\":{\"master\":1,\"music\":0.7,\"ui\":0,\"masterLevel\":1,\"musicLevel\":0.7,\"uiLevel\":0},\"ok\":true},{\"label\":\"too loud\",\"saved\":{\"vol\":1,\"music\":7,\"ui\":2,\"rm\":\"auto\",\"v\":2},\"read\":[1,1],\"bus\":{\"master\":1,\"music\":0.7,\"ui\":1,\"masterLevel\":1,\"musicLevel\":0.7,\"uiLevel\":1},\"ok\":true}]"
+  }
+ ],
+ "contextsAtMenu": {
+  "made": 1,
+  "who": [
+   "ensure (assets/ui.js:503:19) < Object.allowed (assets/ui.js:555:17)"
+  ]
+ },
+ "ok": true
+}

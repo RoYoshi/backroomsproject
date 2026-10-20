@@ -1,0 +1,34 @@
+P9 - integration checks on the final game code (P8's 7f91ffd) with P9's gate bookkeeping, one after another (no two browser runs at
+once), then the reports.  Headless Chromium (SwiftShader); every name and passcode synthetic.
+
+P9's own change (bookkeeping, no game code): the gate's full-tier rgb step expected rgb_browser.js to have 6 mutants; P4 gave it 11,
+so the step would have failed on a correct run.  dev/tools/gate/gate.js now expects 11 (its header and note say what P4 added), and
+dev/tools/gate/README.md and dev/tools/README.md describe the check as it is.  Found while choosing P9's checks; the step itself is
+full-tier only and was not run here (rgb_browser.js was run directly, and with its 11 mutants at P4).
+
+Run (each line: the tool, its exit, its time, its last line - the files beside this one are their full output):
+- npm run -s build:check                                   PASS - 43 outputs and the manifest are what src/ builds        build_check.log
+- node dev/tools/docs/docs.js --check                      PASS - 23 generated blocks in 23 documents                      docs_check.log
+- dev/tools/gate/gate.js --tier fast                       PASS 21 of 21 steps (830 s)               gate_fast.log, gate_fast_report.json
+  build, port, lineage, parts, modules, contracts, docs, scope (226 compared, every runtime change declared), srv_golden, bpp_golden,
+  session, sim, page, cli_golden, protocol, mutants, static, raw_live, quick_suites (only the known B++ failures, as at P1), bundle,
+  chat (the chat server, 14 of 14 mutants).
+- tools/vfx_probe.js --check 1 (P1)                         PASS 17 of 17 (103 s)                                   vfx.log, vfx.json
+- tools/spawn_probe.js --check 1 (P2)                       PASS 21 of 21 (96 s)                                spawn.log, spawn.json
+- tools/menu_rail_check.js (P3)                             PASS 23 of 23 (73 s)                                  rail.log, rail.json
+- dev/tools/checks/rgb_browser.js (P4; no mutants)          PASS 16 of 16 (223 s)                                   rgb.log, rgb.json
+- tools/version_check.js (P5)                               PASS 5 of 5 (16 s)                              version.log, version.json
+- tools/credits_check.js --ref C5 (P6)                      PASS 8 of 8 (68 s)                              credits.log, credits.json
+- tools/ui_sounds.py check (P7)                             PASS 7 of 7 (1 s)                                 sounds.log, sounds.json
+- tools/ui_audio_check.js (P7 + P8; no mutants)             PASS 11 of 11 (123 s)                               audio.log, audio.json
+- dev/tools/checks/chat_voice_browser.js (C5's own check of its chat icon, key, typed-out bubbles and voices; no mutants)
+                                                            PASS 69 of 69 (877 s)                     chat_voice.log, chat_voice.json
+- dev/tools/gate/gate.js --tier full --only menu            PASS (1461 s): against C5d 11 of 11 checks at four sizes - the
+                                                            title's drift, a hidden tab, reduced motion, a run, the pointer, the
+                                                            controls, text, Tab order, the logo and index.html, the theme - and its
+                                                            8 of 8 mutants                   gate_menu.log, gate_menu_report.json,
+                                                                                                                  menu_drift.json
+
+Every check PASS.  Not run here: the full modernization gate's remaining full-tier steps (the pack says not to start the multi-hour
+gate by default; they cover code this stage did not change, or ran above in their targeted form), and anything that needs a person:
+how it looks on a real GPU and phone, how it sounds through speakers, a screen reader (HUMAN_QA.md).
