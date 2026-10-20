@@ -1,7 +1,7 @@
 # Trial 3 — Skin-Stealer: owner Human QA (about 45–60 minutes)
 
 **What to run:** branch `trial-3-skin-stealer` at its head — not `main`, not P9. (A commit cannot name its own hash: the final
-hash and tree are in the handoff message and in `evidence/remote/t8.json`.)
+hash and tree are in the handoff message.)
 
 ```
 git fetch origin trial-3-skin-stealer
@@ -40,7 +40,7 @@ wait a minute, or spawn another.
 
 - [ ] **It can leave.** Sometimes it sees you, looks, and goes away — and does not come back for you for a while. (Satiated, more
       than one of you in view, lit and watched, tired, or its time with you spent.)
-- [ ] **The bait.** Meet its eyes when it is hungry: it backs slowly round a corner and waits there. Do not follow — it gives up
+- [ ] **The bait.** Meet its eyes when it is very hungry: it backs slowly round a corner and waits there (less hungry, it just backs out of sight and may wait). Do not follow — it gives up
       and leaves. Follow — you come round that corner close to it (careful).
 - [ ] **Its guess.** Let it see you moving, then get out of its sight. It may appear ahead of you, waiting beside the way it thinks
       you will take. Double back or take the other turn: it guesses wrong, waits, and gives up (the overlay's GUESS shows where).
@@ -78,7 +78,7 @@ The skin is earned: it wears the look of someone it has killed, after feeding on
       Back away before that: it walks after you, but slower than you walk.
 - [ ] **Its words.** Tab 2 hides behind a wall near it and says something (Enter). Tab 3 then walks into its sight: it repeats the
       opening words of tab 2's line — lower case, sometimes with its last word again ("wait for me... me") — in a low, breathy voice
-      that is nobody's. With nothing heard it uses a few generic calls ("hello?", "is someone there?", "this way" ...). A hungry one
+      that is nobody's. With nothing heard it uses a few generic calls ("hello?", "is someone there?", "this way" ...). A very hungry one
       may also call out from hiding while it waits round a corner.
 - [ ] Its line is a bubble over it (or an edge hint toward it), only for players near it in the same room — never in the menu
       lounge, never in another room, never far away. A screen reader hears "A voice nearby says: ...".

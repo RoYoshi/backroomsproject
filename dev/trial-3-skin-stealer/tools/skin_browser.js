@@ -56,7 +56,8 @@ const INIT = `(() => {
     if (/\\/ws(\\?|$)/.test(u)) { window.__k3.game = ws; ws.addEventListener('message', e => { try { const m = JSON.parse(e.data);
       if (m.t === 'admin' && m.ok) window.__k3.unlocked = true;
       if (m.t === 'ares') window.__k3.ares.push(m.msg);
-      if (m.t === 's' && m.e) { window.__k3.snaps++; window.__k3.ss = m.e.ss || null; window.__k3.keys = Object.keys(m.e).join(','); } } catch (x) { } }); }
+      if (m.t === 'eheard') window.__k3.eh = (window.__k3.eh | 0) + 1;   // (an entity's line as it arrives, before chat.js sees it)
+      if (m.t === 's' && m.e) { window.__k3.snaps++; window.__k3.ss = m.e.ss || null; window.__k3.keys = Object.keys(m.e).join(','); window.__k3.hm = [Array.isArray(m.e.h) ? m.e.h.length : 0, Array.isArray(m.e.m) ? m.e.m.length : 0]; } } catch (x) { } }); }
     return ws; };
   window.WebSocket.prototype = S.prototype; Object.assign(window.WebSocket, { OPEN: 1, CLOSED: 3, CONNECTING: 0, CLOSING: 2 });
   // the frame hook's camera, to find a world point on the screen (aim the mouse - the player's facing - at it)
@@ -360,7 +361,7 @@ const VIEWS = `() => { const A = window.__api, L = A.layer(); return L.children.
       T.dg = await until(L.P, () => { const t = (window.__k3.ss || [])[0]; return t && t.dg ? t.dg : null; }, null, 45000, 100);
       V.cmd({ c: 'speed', v: 1 }); V.cmd({ c: 'freeze', on: true }); await sleep(600);
       // the speaker: hidden behind a wall 250-540 px from it (speech goes through walls: the radius is the rule); the listener beside them
-      const K0 = await ssOf(L.P); T.k0 = K0 && { x: Math.round(K0.x), y: Math.round(K0.y) };
+      const K0 = await ssOf(L.P); T.k0 = K0 && { x: Math.round(K0.x), y: Math.round(K0.y), a: +(+K0.a || 0).toFixed(3) };
       T.sAt = await S.P.evaluate(k => { const A = __api; for (const r of [420, 340, 500, 260, 540]) for (let i = 0; i < 48; i++) { const a = i / 48 * Math.PI * 2, x = k.x + Math.cos(a) * r, y = k.y + Math.sin(a) * r;
         if (A.sl(x, y, 26) && A.Uc(k.x, k.y, a, r) < r - 40) { A.tp(x, y); return { x: Math.round(x), y: Math.round(y), r }; } } return null; }, T.k0);
       await sleep(400);
@@ -373,10 +374,10 @@ const VIEWS = `() => { const A = window.__api, L = A.layer(); return L.children.
       S.cmd({ c: 'debug', on: true });
       T.dbg = await until(S.P, eid => { const d = (window.__ents.dbg || []).find(x => x.i === eid && x.sk); return d ? { hd: d.sk.hd, dg: d.sk.dg, words: /exit/i.test(JSON.stringify(d)) } : null; }, T.eid, 10000, 200);
       S.cmd({ c: 'debug', on: false });
-      // the speaker leaves; the listener steps into its sight, 380 px off, facing it, light on
+      // the speaker leaves; the listener steps into its sight - 260-500 px off (380 first), within 1.18 rad of where it looks (its field of view is 2.5 rad), facing it, light on
       await S.P.evaluate(`(${AWAY})(${JSON.stringify(T.k0)}, 2600, 2)`);
-      T.lAt2 = await L.P.evaluate(k => { const A = __api; for (const r of [380, 320, 440]) for (let i = 0; i < 48; i++) { const a = i / 48 * Math.PI * 2, x = k.x + Math.cos(a) * r, y = k.y + Math.sin(a) * r;
-        if (A.sl(x, y, 26) && A.Uc(k.x, k.y, a, r) >= r - 4) { A.tp(x, y); A.H.angle = Math.atan2(k.y - y, k.x - x); return { x: Math.round(x), y: Math.round(y) }; } } return null; }, T.k0);
+      T.lAt2 = await L.P.evaluate(k => { const A = __api; for (const r of [380, 320, 440, 260, 500]) for (let i = 0; i < 19; i++) { const a = (+k.a || 0) + (i % 2 ? 1 : -1) * Math.ceil(i / 2) / 48 * Math.PI * 2, x = k.x + Math.cos(a) * r, y = k.y + Math.sin(a) * r;
+        if (A.sl(x, y, 26) && A.Uc(k.x, k.y, a, r) >= r - 4) { A.tp(x, y); A.H.angle = Math.atan2(k.y - y, k.x - x); return { x: Math.round(x), y: Math.round(y), r, off: +(a - (+k.a || 0)).toFixed(2) }; } } return null; }, T.k0);
       V.cmd({ c: 'god', id: ids.l }); await sleep(800);                                       // (the listener is a person again: it can be seen)
       await aimAt(L.P); if (!(await L.P.evaluate(() => __api.lightOn()))) await L.P.keyboard.press('KeyF');
       await L.P.evaluate(() => { window.__k3.live = []; window.__k3.liveObs = setInterval(() => { const r = document.getElementById('chatLive'); if (r && r.textContent && window.__k3.live[window.__k3.live.length - 1] !== r.textContent) window.__k3.live.push(r.textContent); }, 50); });
@@ -441,19 +442,23 @@ const VIEWS = `() => { const A = window.__api, L = A.layer(); return L.children.
       V.cmd({ c: 'freeze', on: false }); V.cmd({ c: 'speed', v: 2 });
       T.dg = await until(A.P, () => { const t = (window.__k3.ss || [])[0]; return t && t.dg ? t.dg : null; }, null, 45000, 100);
       V.cmd({ c: 'speed', v: 1 }); V.cmd({ c: 'freeze', on: true }); await sleep(600);
-      T.lists = await A.P.evaluate(() => { const k = window.__k3; return { keys: k.keys, ss: (k.ss || []).length }; });
+      T.lists = await A.P.evaluate(() => { const k = window.__k3; return { keys: k.keys, ss: (k.ss || []).length, hounds: k.hm[0], smilers: k.hm[1] }; });
       T.monsters = await V.P.evaluate(() => { const s = window.__k3; return s.keys; });
-      // the phone: within 576 px of it (god: unperceived); the desktop: into its sight, light on, a person again
+      // the desktop: into its sight - 260-500 px off, within 1.18 rad of where it looks - light on, a person again (after the phone is placed beside it)
       const K0 = await A.P.evaluate(() => (window.__k3.ss || [])[0]);
-      T.mAt = await M.P.evaluate(k => { const Z = __api; for (const r of [420, 340, 500, 260]) for (let i = 0; i < 48; i++) { const a = (i + .25) / 48 * Math.PI * 2, x = k.x + Math.cos(a) * r, y = k.y + Math.sin(a) * r; if (Z.sl(x, y, 26)) { Z.tp(x, y); Z.H.angle = Math.atan2(k.y - y, k.x - x); return { x: Math.round(x), y: Math.round(y) }; } } return null; }, K0);   // (in god mode: no creature perceives it, wherever it stands)
-      T.aAt = await A.P.evaluate(k => { const Z = __api; for (const r of [380, 320, 440]) for (let i = 0; i < 48; i++) { const a = i / 48 * Math.PI * 2, x = k.x + Math.cos(a) * r, y = k.y + Math.sin(a) * r; if (Z.sl(x, y, 26) && Z.Uc(k.x, k.y, a, r) >= r - 4) { Z.tp(x, y); Z.H.angle = Math.atan2(k.y - y, k.x - x); return { x: Math.round(x), y: Math.round(y) }; } } return null; }, K0);
+      T.aAt = await A.P.evaluate(k => { const Z = __api; for (const r of [380, 320, 440, 260, 500]) for (let i = 0; i < 19; i++) { const a = (+k.a || 0) + (i % 2 ? 1 : -1) * Math.ceil(i / 2) / 48 * Math.PI * 2, x = k.x + Math.cos(a) * r, y = k.y + Math.sin(a) * r; if (Z.sl(x, y, 26) && Z.Uc(k.x, k.y, a, r) >= r - 4) { Z.tp(x, y); Z.H.angle = Math.atan2(k.y - y, k.x - x); return { x: Math.round(x), y: Math.round(y), r, off: +(a - (+k.a || 0)).toFixed(2) }; } } return null; }, K0);
+      // the phone beside the desktop player (god: unperceived), 110-200 px off, so both are within 576 px wherever it stops to stare
+      T.mAt = await M.P.evaluate(([a, k]) => { const Z = __api; for (const r of [140, 110, 170, 200]) for (let i = 0; i < 32; i++) { const t = i / 32 * Math.PI * 2, x = a.x + Math.cos(t) * r, y = a.y + Math.sin(t) * r; if (Z.sl(x, y, 26) && Math.hypot(x - k.x, y - k.y) <= 520) { Z.tp(x, y); Z.H.angle = Math.atan2(k.y - y, k.x - x); return { x: Math.round(x), y: Math.round(y) }; } } return null; }, [T.aAt, K0]);
       V.cmd({ c: 'god', id: ids.a }); await sleep(800);
+      T.k1 = await A.P.evaluate(() => { const t = (window.__k3.ss || [])[0]; return t ? [Math.round(t.x), Math.round(t.y), Math.round(Math.hypot(t.x - __api.H.x, t.y - __api.H.y))] : null; });
       if (!(await A.P.evaluate(() => __api.lightOn()))) await A.P.keyboard.press('KeyF');
       const v0 = { a: await A.P.evaluate(() => window.__voice.stats().said), m: await M.P.evaluate(() => window.__voice.stats().said) };
       V.cmd({ c: 'freeze', on: false });
-      const line = P => P.evaluate(() => { const N = window.__chat.state().nearby, x = N.bubbles.find(q => typeof q.id === 'string' && q.id[0] === 'e'); return x ? { id: x.id, shown: x.shown, of: x.of } : null; });
+      A.cmd({ c: 'debug', on: true }); T.trace = [];   // (its decisions once a second from the admin overlay data, and whether the desktop player is alive - kept in the report)
+      const tr7 = setInterval(async () => { try { T.trace.push(await A.P.evaluate(eid => { const d = (window.__ents.dbg || []).find(x => x.i === eid), H = __api.H, D = __api.death(); return [d ? Math.round(Math.hypot(d.x - H.x, d.y - H.y)) : null, [Math.round(H.x), Math.round(H.y)], d ? [d.x, d.y] : null, d && d.ac, d && d.sk && d.sk.pl, d && d.sk && d.sk.why, d && d.sk && d.sk.hu, D && D.active ? 'dead:' + D.kind : 'alive']; }, T.eid)); } catch (e) { } }, 1000);
       T.aLine = await until(A.P, () => { const N = window.__chat.state().nearby, x = N.bubbles.find(q => typeof q.id === 'string' && q.id[0] === 'e'); return x ? { id: x.id, shown: x.shown, of: x.of } : null; }, null, 30000, 100);
-      T.mLine = await line(M.P);
+      T.mLine = await until(M.P, () => { const N = window.__chat.state().nearby, x = N.bubbles.find(q => typeof q.id === 'string' && q.id[0] === 'e'); return x ? { id: x.id, shown: x.shown, of: x.of } : null; }, null, 5000, 100);   // (the phone's page gets the same packet; its own page may handle it a moment later)
+      T.eh = { a: await A.P.evaluate(() => window.__k3.eh | 0), m: await M.P.evaluate(() => window.__k3.eh | 0) }; clearInterval(tr7); A.cmd({ c: 'debug', on: false });
       T.voices = { a: (await A.P.evaluate(() => window.__voice.stats().said)) - v0.a, m: (await M.P.evaluate(() => window.__voice.stats().said)) - v0.m };
       T.mSkin = await M.P.evaluate(() => { const L0 = __api.layer(); return L0.children.some(c => /^skinstealer-skin#/.test(c.label || '') && c.visible) || L0.children.some(c => /^skinstealer-skin#/.test(c.label || '')); });
       if (SHOTS) await Promise.all([A.P.screenshot({ path: path.join(SHOTS, 't7_desktop_1280.png') }), M.P.screenshot({ path: path.join(SHOTS, 't7_phone_844x390.png') })]);
@@ -469,8 +474,8 @@ const VIEWS = `() => { const A = window.__api, L = A.layer(); return L.children.
       await V.P.keyboard.press('KeyK'); await sleep(300); await V.P.click('#adminPanel [data-a="tab"][data-t="skin"]'); await sleep(1500);
       T.tab = await V.P.evaluate(() => document.getElementById('admBody').textContent.slice(0, 60));
       T.errors = { victim: V.errs, desktop: A.errs, phone: M.errs, other: X.errs };
-      check('t7_world_has_all_three', T.dg && /(^|,)h(,|$)/.test(T.lists.keys) && /(^|,)m(,|$)/.test(T.lists.keys) && /(^|,)ss(,|$)/.test(T.lists.keys), JSON.stringify({ dg: T.dg, lists: T.lists, kill: T.kill }));
-      check('t7_line_each_as_set', T.aLine && T.aLine.id === 'e' + T.eid && T.mLine && T.mLine.id === T.aLine.id && T.mLine.shown === T.mLine.of && T.voices.a >= 1 && T.voices.m === 0, JSON.stringify({ a: T.aLine, m: T.mLine, voices: T.voices, mAt: T.mAt, aAt: T.aAt }));
+      check('t7_world_has_all_three', T.dg && T.lists.hounds >= 1 && T.lists.smilers >= 1 && T.lists.ss === 1, JSON.stringify({ dg: T.dg, lists: T.lists, kill: T.kill }));   // (the snapshot's own Hound and Smiler lists, not only their keys)
+      check('t7_line_each_as_set', T.aLine && T.aLine.id === 'e' + T.eid && T.mLine && T.mLine.id === T.aLine.id && T.mLine.shown === T.mLine.of && T.voices.a >= 1 && T.voices.m === 0, JSON.stringify({ a: T.aLine, m: T.mLine, voices: T.voices, eheard: T.eh, mAt: T.mAt, aAt: T.aAt, k0: K0 && [Math.round(K0.x), Math.round(K0.y), +(+K0.a || 0).toFixed(2)], k1: T.k1, trace: T.trace.slice(0, 8) }));
       check('t7_phone_draws_the_skin', T.mSkin, String(T.mSkin));
       check('t7_other_room_nothing', T.other.heard === 0 && !T.other.ss && T.other.views === 0 && !/(^|,)ss(,|$)/.test(T.other.keys), JSON.stringify(T.other));
       check('t7_disconnect_goes_on', T.afterPhone.ss === 1, JSON.stringify(T.afterPhone));

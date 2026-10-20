@@ -4,6 +4,10 @@
 (`SK` table) or in `dphys.js` (`CFG.SkinStealer`, `DURS.SkinStealer`), derived from the P9 player and monster numbers below. The
 owner's QA decides pacing; the table is updated at each checkpoint that changes a value.
 
+**Where the final values are (T8):** the sections "As built after T3", "after T4", "after T5" and "after T6" below hold the values the
+code has now, a later section overriding an earlier one (T4's `runFrom` 200 px/s replaces T3's 150 in the stamina drain row, for
+instance); the T0 table shows the first proposals, kept for the record of what changed and why.  Server cost: `CHECKPOINTS.md` T7.
+
 ## Reference numbers in P9 (read from the source)
 
 | Source | Value |
@@ -83,7 +87,7 @@ Where a value differs from the T0 proposal above, the T0 line is superseded by t
 | Name | Value | Notes |
 |---|---|---|
 | `pounceRange` | 55-185 px | and only a leap that can reach them: start distance + their seen speed away x (wind-up + leap) - (its radius + 16) <= 0.85 x 430 x 0.36 |
-| `pounceWind` / `pounceSpeed` / `pounceDur` | 0.22 s / 430 px/s / 0.36 s | as proposed; a leap covers about 110-150 px |
+| `pounceWind` / `pounceSpeed` / `pounceDur` | 0.22 s / 430 px/s / 0.36 s | as proposed; its speed falls to 0.7x over the leap, so a full leap covers about 130 px |
 | `pounceCost` | 22 stamina per leap, hit or miss | the leap itself is not also charged as running |
 | `pounceCool` / `recoverMiss` / `recoverWall` | 2-3 s / 0.9-1.3 s / 1.1 s | as proposed |
 | contact | centres within its radius (24) + 18 px, nothing solid between | lethal only at contact |
@@ -102,7 +106,7 @@ Where a value differs from the T0 proposal above, the T0 line is superseded by t
 |---|---|---|
 | footfall | every half stride (96 / 118 / 150 px strides by speed); heard to 950 px (full to 120 px) | a wall between: half as loud, muffled (as every entity sound) |
 | stalking footfall (creep, approach) | 0.45 of the level; heard to 520 px (full to 80 px) | quieter, never silent |
-| the wind-up's tell / the leap / a miss's skid | heard to 700 / 800 / 700 px | the tell sounds 0.22 s before the leap lands |
+| the wind-up's tell / the leap / a miss's skid | heard to 700 / 800 / 700 px | the tell sounds as the 0.22 s wind-up begins, before the leap starts |
 | feeding | every 0.8-1.5 s, heard to 520 px | |
 | breath while still | at most every 25-45 s, only within 260 px | never a proximity cue |
 | art | skin 0xbcab9a (shadow 0x7f6c5e, light 0xdfd1bf); leg 5.4 / 4 px, arm 5 / 3.8 px | interim; shaded by BR-RoLE's light sample, black in the dark |
@@ -114,10 +118,10 @@ Where a value differs from the T0 proposal above, the T0 line is superseded by t
 | `skinFeed` | 8 s at its meal | before it can wear the skin; disturbed sooner, none.  A meal now lasts at least this long |
 | `disguiseTime` | 240-420 s | hunger rises about 0.1 a minute, so a fed one in a skin is satiated at first and hungry again within its time |
 | speed in a skin | 150 px/s (`speeds.disguise`) | a person walks at 172: it is a little slow, and a walker can leave it behind |
-| `mingleStop` / `stare` / `mingleStrike` | 170 px / 3-7 s (x 0.7..1.3 PATIENCE) / 120 px | it stands, stares, then (hungry, >= 0.2) closes in; it springs only from 120 px in a skin (185 out of one) |
+| `mingleStop` / `stare` / `mingleStrike` | 170 px / 3-7 s (x 0.7..1.3 PATIENCE) / 120 px | it stands, stares, then (hungry, >= 0.4) closes in; it springs only from 120 px in a skin (185 out of one) |
 | chase in a skin | very hungry (>= 0.6), the person fleeing | it drops the skin to run |
 | `hearSpeech` / `heardMax` / `heardTtl` / `heardUses` | 576 px / 4 lines / 90 s / 2 repeats each | the players' own speech radius |
-| `sayGap` / `sayEnc` / `sayLure` | 10-18 s / 3 an encounter / 1.5 s into a wait | it calls from hiding only when hungry (>= 0.4) and unseen |
+| `sayGap` / `sayEnc` / `sayLure` | 10-18 s / 3 an encounter / 1.5 s into a wait | it calls from hiding only when very hungry (>= 0.6) and unseen |
 | `sayWords` / `echo` | 6 words / 35 % | its echo of a heard line: the opening words, lower case, sometimes the last word again |
 | server bucket | 1 line / 6 s per entity | B++'s speech.js, whatever the AI asks |
 | entity voice | pitch -4..+2 semitones, pace 78-92 % (seeded per creature) | `voice.js`'s `mimic`: low, breathy, sliding down |

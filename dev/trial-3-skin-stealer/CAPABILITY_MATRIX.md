@@ -127,7 +127,7 @@ Each is either extended for the third species or proven harmless by a test at T1
 11. `dphys.js`: `create`; `PLAN`; `DURS`; `begin`; `prepare`; `frame` (Smiler alpha); `stepAttacker`.
 12. Clients: `mp.monsters.js`; `net-interp.js`; `mp.deaths.js` (`m.c === 'Smiler' ? … : Hound`); `ents.death.js` (`deathPlan`, `localKill`); `ents.head.js` tables; TS `death.ts`, `render.ts`, `main.ts`, `entity.ts`, `corpse-view.ts`; `br-role.js` actors; `ents.audio.js`.
 
-## Status after T6 (the rows above as built so far)
+## Final status (as built at T6; unchanged at T7 and T8)
 
 | Row | Status | Where |
 |---|---|---|
@@ -147,7 +147,7 @@ Each is either extended for the third species or proven harmless by a test at T1
 | Debug overlay | DONE (T5): its own colour and block (hunger, stamina, plan, why, encounter, route guess, record) | `ents.debug.js` |
 | Art pass | DONE (T5), interim: sallow skin palette, heavier limbs; checked in a gallery of every act at three quality tiers and three screen sizes | `skinstealer.js` (skin.body.js) |
 | Entity hearing hook | DONE (T6): B++'s `ON_HEARD` = server.js's `onHeard`, accepted lines only, to the room's engine (`eng.hearSpeech`); only a Skin-Stealer within 576 px keeps a line (4 lines, 90 s) | `speech.js`, `server.js`, `ai.engine.js`, `ai.skinstealer.js` |
-| Entity speech out | DONE (T6): `speech.entitySay`, `{t:'eheard', e, text, seq, v, o}` (never a session id), same room, living, 576 px, per-entity bucket, slow-socket skip | `speech.js`, `server.js` (`eng.voiceOut`) |
+| Entity speech out | DONE (T6): `speech.entitySay`, `{t:'eheard', e, text, seq, v, o}` (never a session id as its speaker; `o` names the person it echoes), same room, living, 576 px, per-entity bucket, slow-socket skip | `speech.js`, `server.js` (`eng.voiceOut`) |
 | Validated looks / disguise | DONE (T6): the victim's look from G.I.B.'s aftermath (`eng.skinFrom`), earned by 8 s at its meal, four fields re-checked; snapshot `dg` only while worn | `aftermath.js`, `ai.skinstealer.js` |
 | Disguise drawing | DONE (T6): the page's wanderer avatar (`__api.mkAvatar`) with its tells; BR-RoLE casts it as a wanderer; never in a player list | `skinstealer.js` (skin.body.js) |
 | Nearby chat (the entity's line) | DONE (T6): bubble where it is drawn, the entity voice, its own mute entry and the origin's mute, "A voice nearby says" | `chat.js`, `voice.js`, `mp.js` (session) |

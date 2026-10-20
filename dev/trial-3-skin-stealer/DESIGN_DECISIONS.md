@@ -161,7 +161,7 @@ avatar with its tells.  The bullets below are the T0 decision, kept.
 As built: as designed below, with these specifics.  The hook is B++'s `ON_HEARD` (server.js's `onHeard`), called once per accepted
 line after every rule; server.js hands it to the room's engine (`eng.hearSpeech`), and gives each world's engine its voice
 (`eng.voiceOut` = `speech.entitySay`).  The creature also hears a voice as a sound (the engine's own hearing).  It speaks from hiding
-when it lies in wait, hungry (`SK.band[2]`), unseen, 1.5 s into the wait; and when it stares in a borrowed skin.  Its words: the
+when it lies in wait, very hungry (`SK.band[2]`, 0.6), unseen, 1.5 s into the wait; and when it stares in a borrowed skin.  Its words: the
 opening (at most six) words of a line it heard, in lower case, sometimes with its last word again ("wait for me... me"),
 preferring the words of the person whose skin it wears, then anybody else's, then the person's own; with nothing heard, one of the
 generic calls.  At most one line every 10-18 s and three an encounter; the server's bucket allows one every 6 s per entity.  Its

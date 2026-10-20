@@ -2315,7 +2315,7 @@ SMILER.snap = e => ({ i: e.id, x: Math.round(e.x * 10) / 10, y: Math.round(e.y *
  *     positions); never the menu lounge.  It keeps at most SK.heardMax lines for SK.heardTtl seconds (and none of a person who has left the
  *     room); it never logs them and the admin overlay shows only how many and how old.  A voice is also a sound: where it came from goes
  *     through the engine's own hearing (walls muffle it; it names nobody it has not seen) - talking near it can draw it.
- *   Its lines: from hiding while it lies in wait (hungry), and when it stands staring in a borrowed skin - the opening words of a line it
+ *   Its lines: from hiding while it lies in wait (very hungry), and when it stands staring in a borrowed skin - the opening words of a line it
  *     heard (lower case, sometimes its last word again: the echo is a little wrong), preferring the words of the person whose skin it
  *     wears, then anybody else's, then the person's own; with nothing heard, one of a few generic calls that claim no knowledge
  *     (SK_BAIT).  At most one every SK.sayGap seconds and SK.sayEnc an encounter; the server's own bucket limits it again.  It is said
@@ -2899,7 +2899,7 @@ function skAct(eng, e, dt, thinkNow) {
       skHold(eng, e, dt); if (P.face) faceToward(e, P.face.x, P.face.y, dt, 1.6);
       if (e.act !== 'lure' && !(e.act === 'mimic' && now < e.mimicT)) setAct(e, 'lure');
       if (thinkNow) {
-        // (T6) hungry, unseen, a moment into the wait: it calls out once - words it heard, or a generic call
+        // (T6) very hungry, unseen, a moment into the wait: it calls out once - words it heard, or a generic call
         if (!P.spoke && now - P.t0 > SK.sayLure && e.hunger >= SK.band[2] && !(r && r.seen) && skSay(eng, e, r, 'from hiding')) P.spoke = now;
         if (skComing(eng, e, P)) { P.until = Math.min(Math.max(P.until, now + 2.5), P.t0 + SK.lureMax); if (r && now - r.heardAt < 2.5) P.face = { x: r.hx, y: r.hy }; e.dbg.why = 'it hears them coming: it waits, ready'; }
         if (P.came === undefined && skHeardNear(eng, e, r, 320)) { P.came = now; e.tally.lureCame++; }

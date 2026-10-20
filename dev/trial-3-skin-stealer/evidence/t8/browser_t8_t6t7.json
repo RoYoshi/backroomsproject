@@ -1,0 +1,359 @@
+{
+ "tool": "dev/trial-3-skin-stealer/tools/skin_browser.js",
+ "dir": "/home/claude/skin-stealer",
+ "chromium": "141.0.7390.37",
+ "sections": {
+  "t6": {
+   "alive": true,
+   "away": [
+    {
+     "x": 4208,
+     "y": 3528
+    },
+    {
+     "x": 4096,
+     "y": 4283
+    }
+   ],
+   "eid": 11,
+   "kill": {
+    "kind": "SkinStealer",
+    "v": "B"
+   },
+   "dg": "none|plain|#e6bb76|#ffcc77",
+   "k0": {
+    "x": 1608,
+    "y": 3515,
+    "a": 3.934
+   },
+   "sAt": {
+    "x": 1398,
+    "y": 3879,
+    "r": 420
+   },
+   "lAt": {
+    "x": 1398,
+    "y": 3969
+   },
+   "sState": {
+    "started": true,
+    "paused": false,
+    "caught": false,
+    "on": true,
+    "dlg": [],
+    "sheets": [],
+    "open": true
+   },
+   "lHeardSpeaker": true,
+   "dbg": {
+    "hd": [
+     0
+    ],
+    "dg": {
+     "from": 1,
+     "left": 252
+    },
+    "words": false
+   },
+   "lAt2": {
+    "x": 1242,
+    "y": 3414
+   },
+   "trace": [
+    null,
+    [
+     262,
+     "pace",
+     "mingle",
+     "in P1's skin it walks up to P3",
+     null,
+     0.027
+    ],
+    [
+     164,
+     "watch",
+     "mingle",
+     "it stands and stares at P3",
+     null,
+     0.029
+    ],
+    [
+     164,
+     "mimic",
+     "mingle",
+     "it stands and stares at P3",
+     {
+      "ago": 0.5,
+      "src": "heard",
+      "why": "staring"
+     },
+     0.03
+    ]
+   ],
+   "eheard": {
+    "id": "e11",
+    "mode": "",
+    "of": 20
+   },
+   "drawn": {
+    "avatar": true,
+    "avVisible": true,
+    "gear": false,
+    "hands": [
+     [
+      -16,
+      -2
+     ],
+     [
+      16,
+      -2
+     ]
+    ],
+    "creatureVisible": false,
+    "peers": "K3Prey,K3Speaker"
+   },
+   "live": [
+    "K3Speaker nearby says: The Exit Is This Way",
+    "A voice nearby says: the exit is this way"
+   ],
+   "voice": {
+    "ctx": "running",
+    "level": 0.63,
+    "speaking": [],
+    "scheduled": 11,
+    "late": 15,
+    "stopped": 0,
+    "cut": 0,
+    "said": 2,
+    "capped": 0,
+    "previews": 0
+   },
+   "mute": {
+    "speakerButton": true,
+    "echoOfMutedSilent": true,
+    "genericShown": true,
+    "entityLabel": "An unknown voice: heard",
+    "entityMuteSilent": true
+   },
+   "errors": {
+    "victim": [],
+    "speaker": [],
+    "listener": []
+   }
+  },
+  "t7": {
+   "eid": 10,
+   "kill": {
+    "kind": "SkinStealer",
+    "v": "A"
+   },
+   "dg": "none|plain|#e6bb76|#ffcc77",
+   "lists": {
+    "keys": "st,h,m,b,p,gw,it,lf,sn,ss",
+    "ss": 1,
+    "hounds": 2,
+    "smilers": 3
+   },
+   "monsters": "st,h,m,b,p,gw,it,lf,sn,ss",
+   "aAt": {
+    "x": 4647,
+    "y": 5543
+   },
+   "mAt": {
+    "x": 4787,
+    "y": 5543
+   },
+   "k1": [
+    5017,
+    5631,
+    380
+   ],
+   "trace": [
+    [
+     null,
+     [
+      4647,
+      5543
+     ],
+     null,
+     null,
+     null,
+     null,
+     null,
+     "alive"
+    ],
+    [
+     257,
+     [
+      4647,
+      5543
+     ],
+     [
+      4900,
+      5593
+     ],
+     "pace",
+     "mingle",
+     "in P4's skin it walks up to P5",
+     0.008,
+     "alive"
+    ],
+    [
+     163,
+     [
+      4647,
+      5543
+     ],
+     [
+      4807,
+      5575
+     ],
+     "watch",
+     "mingle",
+     "it stands and stares at P5",
+     0.01,
+     "alive"
+    ],
+    [
+     163,
+     [
+      4647,
+      5543
+     ],
+     [
+      4807,
+      5575
+     ],
+     "mimic",
+     "mingle",
+     "it stands and stares at P5",
+     0.011,
+     "alive"
+    ],
+    [
+     163,
+     [
+      4647,
+      5543
+     ],
+     [
+      4807,
+      5575
+     ],
+     "mimic",
+     "mingle",
+     "it stands and stares at P5",
+     0.012,
+     "alive"
+    ]
+   ],
+   "aLine": {
+    "id": "e10",
+    "shown": 1,
+    "of": 16
+   },
+   "mLine": {
+    "id": "e10",
+    "shown": 16,
+    "of": 16
+   },
+   "voices": {
+    "a": 1,
+    "m": 0
+   },
+   "mSkin": true,
+   "other": {
+    "heard": 0,
+    "ss": null,
+    "keys": "st,h,m,b,p,gw,it,lf,sn",
+    "views": 0
+   },
+   "afterPhone": {
+    "ss": 1,
+    "snaps": 3250
+   },
+   "afterReset": {
+    "ss": null,
+    "skinViews": 0,
+    "skins": 0,
+    "bubbles": 0,
+    "keys": "st,h,m,b,p,gw,it,lf,sn"
+   },
+   "tab": "SKIN-STEALER · 0 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SK",
+   "errors": {
+    "victim": [],
+    "desktop": [],
+    "phone": [],
+    "other": []
+   }
+  }
+ },
+ "cases": [
+  {
+   "name": "t6_skin_earned",
+   "ok": true,
+   "detail": "{\"kill\":{\"kind\":\"SkinStealer\",\"v\":\"B\"},\"dg\":\"none|plain|#e6bb76|#ffcc77\"}"
+  },
+  {
+   "name": "t6_heard_counts_only",
+   "ok": true,
+   "detail": "{\"sAt\":{\"x\":1398,\"y\":3879,\"r\":420},\"lAt\":{\"x\":1398,\"y\":3969},\"lHeard\":true,\"dbg\":{\"hd\":[0],\"dg\":{\"from\":1,\"left\":252},\"words\":false}}"
+  },
+  {
+   "name": "t6_entity_line",
+   "ok": true,
+   "detail": "{\"eheard\":{\"id\":\"e11\",\"mode\":\"\",\"of\":20},\"live\":[\"K3Speaker nearby says: The Exit Is This Way\",\"A voice nearby says: the exit is this way\"],\"voice\":{\"ctx\":\"running\",\"level\":0.63,\"speaking\":[],\"scheduled\":11,\"late\":15,\"stopped\":0,\"cut\":0,\"said\":2,\"capped\":0,\"previews\":0}}"
+  },
+  {
+   "name": "t6_disguise_drawn",
+   "ok": true,
+   "detail": "{\"avatar\":true,\"avVisible\":true,\"gear\":false,\"hands\":[[-16,-2],[16,-2]],\"creatureVisible\":false,\"peers\":\"K3Prey,K3Speaker\"}"
+  },
+  {
+   "name": "t6_mutes",
+   "ok": true,
+   "detail": "{\"speakerButton\":true,\"echoOfMutedSilent\":true,\"genericShown\":true,\"entityLabel\":\"An unknown voice: heard\",\"entityMuteSilent\":true}"
+  },
+  {
+   "name": "t6_no_page_errors",
+   "ok": true,
+   "detail": "{\"victim\":[],\"speaker\":[],\"listener\":[]}"
+  },
+  {
+   "name": "t7_world_has_all_three",
+   "ok": true,
+   "detail": "{\"dg\":\"none|plain|#e6bb76|#ffcc77\",\"lists\":{\"keys\":\"st,h,m,b,p,gw,it,lf,sn,ss\",\"ss\":1,\"hounds\":2,\"smilers\":3},\"kill\":{\"kind\":\"SkinStealer\",\"v\":\"A\"}}"
+  },
+  {
+   "name": "t7_line_each_as_set",
+   "ok": true,
+   "detail": "{\"a\":{\"id\":\"e10\",\"shown\":1,\"of\":16},\"m\":{\"id\":\"e10\",\"shown\":16,\"of\":16},\"voices\":{\"a\":1,\"m\":0},\"mAt\":{\"x\":4787,\"y\":5543},\"aAt\":{\"x\":4647,\"y\":5543},\"k0\":[5017,5631],\"k1\":[5017,5631,380],\"trace\":[[null,[4647,5543],null,null,null,null,null,\"alive\"],[257,[4647,5543],[4900,5593],\"pace\",\"mingle\",\"in P4's skin it walks up to P5\",0.008,\"alive\"],[163,[4647,5543],[4807,5575],\"watch\",\"mingle\",\"it stands and stares at P5\",0.01,\"alive\"],[163,[4647,5543],[4807,5575],\"mimic\",\"mingle\",\"it stands and stares at P5\",0.011,\"alive\"],[163,[4647,5543],[4807,5575],\"mimic\",\"mingle\",\"it stands and stares at P5\",0.012,\""
+  },
+  {
+   "name": "t7_phone_draws_the_skin",
+   "ok": true,
+   "detail": "true"
+  },
+  {
+   "name": "t7_other_room_nothing",
+   "ok": true,
+   "detail": "{\"heard\":0,\"ss\":null,\"keys\":\"st,h,m,b,p,gw,it,lf,sn\",\"views\":0}"
+  },
+  {
+   "name": "t7_disconnect_goes_on",
+   "ok": true,
+   "detail": "{\"ss\":1,\"snaps\":3250}"
+  },
+  {
+   "name": "t7_world_reset_clears",
+   "ok": true,
+   "detail": "{\"reset\":{\"ss\":null,\"skinViews\":0,\"skins\":0,\"bubbles\":0,\"keys\":\"st,h,m,b,p,gw,it,lf,sn\"},\"tab\":\"SKIN-STEALER · 0 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SK\"}"
+  },
+  {
+   "name": "t7_no_page_errors",
+   "ok": true,
+   "detail": "{\"victim\":[],\"desktop\":[],\"phone\":[],\"other\":[]}"
+  }
+ ],
+ "ok": true
+}

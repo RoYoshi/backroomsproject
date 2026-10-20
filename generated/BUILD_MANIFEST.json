@@ -289,8 +289,8 @@
   },
   {
    "out": "public/assets/skinstealer.js",
-   "bytes": 28835,
-   "sha256": "0e354f084126e0533ec4cb4df165e5a9e879a22d54a5a6d7375cb1ba15c56ff9",
+   "bytes": 29146,
+   "sha256": "807fe28cd07f58fbe1fe0d35158ca26258ff214e77d0b64c2b2dcf5ca33b6593",
    "parts": [
     {
      "path": "src/frameworks/nani/client/skin.head.js",
@@ -314,7 +314,7 @@
     },
     {
      "path": "src/frameworks/spacious-audio/client/skin.audio.js",
-     "sha256": "00f00e891b3cd1340c7ca4326eb58f98452cd28a1605de0c93988c286f2a8a90",
+     "sha256": "2d328c9ed9af41b2a5344fc77649316cea68419656082ec9406073f65ff22345",
      "headerBytes": 1476
     },
     {
@@ -676,8 +676,8 @@
   },
   {
    "out": "generated/server/ai.js",
-   "bytes": 275712,
-   "sha256": "a91e24a40fe99614e83a035844b88b7b10c7ab3b8a563f8eb295bdacc6d64026",
+   "bytes": 275722,
+   "sha256": "0e0ac0f7400857b9a0b752b9185f7de3a728e1349e9c0591c74f2d44cdac078c",
    "parts": [
     {
      "path": "src/frameworks/nani/server/ai.head.js",
@@ -726,7 +726,7 @@
     },
     {
      "path": "src/frameworks/nani/server/ai.skinstealer.js",
-     "sha256": "eede60f37a6850fcd95c6dc557f0f4a37d9db3452fa34c6d21d33264290a5483",
+     "sha256": "15acdf9b4317b5e3a418fc2b3d17b212f181c81220f9e1caa0cce81f3043c37d",
      "headerBytes": 433
     },
     {

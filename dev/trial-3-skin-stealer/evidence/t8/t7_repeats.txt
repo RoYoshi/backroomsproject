@@ -1,0 +1,30 @@
+Trial 3 T8 - tools/skin_browser.js t7 (and the final full run), repeated on the final runtime tree.  Only the harness changed between runs.
+Per run: its result, then t7's line case (a: the desktop's line, m: the phone's, voices: lines spoken aloud on each, eheard: entity packets that
+reached each page, mAt / aAt: where the phone and the desktop player were put (r, off: px from it and rad off its facing), k0: the creature
+[x, y, facing], k1: [x, y, distance to the desktop player] once it is unfrozen).  For a failed line, its first seconds from the admin overlay.
+
+the run after the first fix (t6 + t7): PASS 13 / 13
+    ok     {"a":{"id":"e10","shown":1,"of":16},"m":{"id":"e10","shown":16,"of":16},"voices":{"a":1,"m":0},"mAt":{"x":4787,"y":5543},"aAt":{"x":4647,"y":5543},"k0":[5017,5631],"k1":[5017,5631,380]}
+repeat 1: the phone checked once, the moment the desktop showed the line: FAIL 6 / 7
+    FAILED {"a":{"id":"e14","shown":1,"of":16},"m":null,"voices":{"a":1,"m":0},"mAt":{"x":1503,"y":1151},"aAt":{"x":1503,"y":1011},"k0":[1513,1391],"k1":[1513,1391,380]}
+    first seconds (distance, player, creature, act, plan, why, hunger, alive): [[null,[1503,1011],null,null,null,null,null,"alive"],[197,[1503,1011],[1484,1207],"pace","mingle","in P1's skin it walks up to P2",0.011,"alive"],[197,[1503,1011],[1484,1207],"pace","mingle","in P1's skin it walks up to P2",0.011,"alive"]]}
+repeat 2: the same: FAIL 6 / 7
+    FAILED {"a":{"id":"e12","shown":1,"of":8},"m":null,"voices":{"a":1,"m":0},"mAt":{"x":4944,"y":1371},"aAt":{"x":4866,"y":1255},"k0":[4920,1631],"k1":[4920,1631,380]}
+    first seconds (distance, player, creature, act, plan, why, hunger, alive): [[null,[4866,1255],null,null,null,null,null,"alive"],[193,[4866,1255],[4864,1448],"pace","mingle","in P1's skin it walks up to P2",0.029,"alive"],[165,[4866,1255],[4855,1420],"mimic","mingle","it stands and stares at P2",0.031,"alive"]]}
+repeat 3: the phone waits up to 5 s; arriving packets counted: PASS 7 / 7
+    ok     {"a":{"id":"e12","shown":1,"of":17},"m":{"id":"e12","shown":17,"of":17},"voices":{"a":1,"m":0},"eheard":{"a":1,"m":1},"mAt":{"x":1311,"y":723},"aAt":{"x":1171,"y":723},"k0":[1176,1103],"k1":[1176,1103,380]}
+repeat 4: the same: FAIL 6 / 7
+    FAILED {"a":null,"m":null,"voices":{"a":0,"m":0},"eheard":{"a":0,"m":0},"mAt":{"x":5988,"y":2740},"aAt":{"x":5848,"y":2740},"k0":[6217,2831],"k1":[6217,2831,380]}
+    first seconds (distance, player, creature, act, plan, why, hunger, alive): [[null,[5848,2740],null,null,null,null,null,"alive"],[430,[5848,2740],[6255,2879],"-","roam","roaming the dark",0.029,"alive"],[522,[5848,2740],[6301,2998],"-","roam","roaming the dark",0.031,"alive"],[522,[5848,2740],[6301,2998],"-","roam","roaming the dark",0.031,"alive"],[640,[5848,2740],[6353,3133],"-","roam","roaming the dark",0.033,"alive"],[737,[5848,2740],[6393,3236],"-","roam","roaming the dark",0.034,"alive"],[767,[5848,274
+repeat 5: the same: PASS 7 / 7
+    ok     {"a":{"id":"e9","shown":1,"of":16},"m":{"id":"e9","shown":16,"of":16},"voices":{"a":1,"m":0},"eheard":{"a":1,"m":1},"mAt":{"x":1356,"y":1299},"aAt":{"x":1216,"y":1299},"k0":[1225,1679],"k1":[1225,1679,380]}
+repeat 6: the player put within 1.18 rad of where it looks: PASS 7 / 7
+    ok     {"a":{"id":"e12","shown":3,"of":6},"m":{"id":"e12","shown":6,"of":6},"voices":{"a":1,"m":0},"eheard":{"a":1,"m":1},"mAt":{"x":1519,"y":819},"aAt":{"x":1379,"y":819,"r":380,"off":0},"k0":[1367,1199,4.74],"k1":[1367,1199,380]}
+repeat 7: the same: PASS 7 / 7
+    ok     {"a":{"id":"e11","shown":1,"of":11},"m":{"id":"e11","shown":11,"of":11},"voices":{"a":1,"m":0},"eheard":{"a":1,"m":1},"mAt":{"x":3289,"y":1062},"aAt":{"x":3190,"y":963,"r":380,"off":0},"k0":[3192,1343,4.71],"k1":[3192,1343,380]}
+repeat 8: the same: PASS 7 / 7
+    ok     {"a":{"id":"e11","shown":1,"of":8},"m":{"id":"e11","shown":8,"of":8},"voices":{"a":1,"m":0},"eheard":{"a":1,"m":1},"mAt":{"x":1155,"y":2908},"aAt":{"x":1015,"y":2908,"r":380,"off":0.79},"k0":[982,3287,4.01],"k1":[982,3287,380]}
+repeat 9: the same: PASS 7 / 7
+    ok     {"a":{"id":"e14","shown":1,"of":8},"m":{"id":"e14","shown":8,"of":8},"voices":{"a":1,"m":0},"eheard":{"a":1,"m":1},"mAt":{"x":6597,"y":5312},"aAt":{"x":6468,"y":5258,"r":380,"off":-0.79},"k0":[6745,5519,4.68],"k1":[6745,5519,380]}
+every section, final harness: PASS 40 / 40
+    ok     {"a":{"id":"e12","shown":1,"of":8},"m":{"id":"e12","shown":8,"of":8},"voices":{"a":1,"m":0},"eheard":{"a":1,"m":1},"mAt":{"x":1226,"y":3074},"aAt":{"x":1086,"y":3074,"r":380,"off":0.39},"k0":[935,3423,4.73],"k1":[935,3423,380]}

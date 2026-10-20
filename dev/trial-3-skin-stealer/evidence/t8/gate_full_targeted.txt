@@ -1,0 +1,11 @@
+PASS cli_mutants: 57 compared; 3 in assets/net-newrun.js, 11 in assets/mp-hum.js; mp.js's module seams: 35 of 35 caught (16 s)
+PASS live_wire: 65 compared; structurally identical, ui {"menuAfterFirst":true,"refusedLabel":"Spontaneously Combust? · WAIT N S","menuAfterRefused":false,"menuAfterAdmin":true} (326 s)
+PASS bpp_checks: 36 compared; proto_check as on B++ (8), place_replay as on B++ (22), place_guard as on B++ (6) (148 s)
+PASS browsers: 151 compared; two_browser ok (136), col_head ok (5), col_aside ok (5), gameplay_smoke ok (5) (194 s)
+PASS workflow: 30 compared; dev workflow 22 of 22 steps (the compiled client: checked); browser contracts PASS: 8 checks on B++ and this tree (the 52-member facade, unauthorized access refused, a phone), the two sides agree on 3 of 3 (188 s)
+PASS menu: 19 compared; the title's drift against C5d: 11 of 11 checks (the drift, a hidden tab, reduced motion, a run, the pointer; the menu's controls, text, Tab order and title at 4 sizes, the logo, the theme); its mutants 8 of 8 caught (1477 s)
+FAIL contact_lab: 23 compared; DIFFERENT images: peers_visible.png (482 s)
+PASS suites: 327 compared; npm_test 183/196, s_humanqa_hotfix 5/6, s_ir 3/3, test_shadows 43/48, test_br_role 29/32, interp_test 3, test_3bn 7/7, audit_net 13/17, audit_net2 8/11, ir_net 4/4 (only the known B++ failures fail) (605 s)
+PASS perf: 9 compared; lifecycle +2.1%, deaths -1.85%, admin -0.15%, schedule +9.86% (68 s)
+MODERNIZATION GATE (full: cli_mutants,live_wire,bpp_checks,browsers,workflow,menu,contact_lab,suites,perf): FAIL  - report /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/t3/t8/gate_full/out/gate_report.json
+gate exit 1

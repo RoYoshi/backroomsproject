@@ -20,7 +20,7 @@ let ctx = null, out = null, nb = null;
 function Z() {
   const A = API(), z = A && A.audio && A.audio(); if (!z || !z.context || !z.gain) return null;
   if (ctx !== z.context) { ctx = z.context; out = z.gain; nb = null; }
-  if (!nb) { nb = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate); const d = nb.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; }
+  if (!nb) { nb = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate); const d = nb.getChannelData(0); let x = 0x5bd1e995; for (let i = 0; i < d.length; i++) { x ^= x << 13; x ^= x >>> 17; x ^= x << 5; d[i] = ((x >>> 0) / 4294967296) * 2 - 1; } }   // (T8: its own fixed noise: the page's Math.random is never drawn on)
   return z;
 }
 const soundOn = () => !(document.getElementById('sound') && /OFF/.test(document.getElementById('sound').textContent));
@@ -81,6 +81,7 @@ function place(x, y, near, far) {
  * moves, when it springs, when it eats, and (rarely, close) when it stands still and breathes */
 const VO = new Map();                                        // entity id -> { dist, acc, act, br, fd }
 function voice(dt, list) {
+  if (!list.length) { if (VO.size) VO.clear(); return; }      // (T8) no Skin-Stealer: nothing at all is done (the page's audio and its random stream untouched)
   if (!soundOn() || !Z()) return;
   const seen = new Set();
   for (const o of list) {
