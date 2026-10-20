@@ -1,5 +1,5 @@
 /* SKIN-STEALER scenarios (Trial 3; dev/trial-3-skin-stealer/).  Each runs on the real simulation (sim.js + ai.js) with the harness's
- * scripted players (the game's own move.js model); seeded and headless.  T1: the species' identity and plumbing. */
+ * scripted players (the game's own move.js model); seeded and headless.  T1: the species' identity and plumbing; T2: the animal; T3: lying in wait, prediction, the race, hearing. */
 'use strict';
 const { World, DT, LONG, over, rate, AI, floorNear } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -222,6 +222,154 @@ add('SK18 navigation: its routes never use crawl or tight-gap cells, and over lo
   w.run(120, () => { for (const e of ks) { for (const wp of e.path) if ((wp.c | 0) > 1) badCell++; if (!e.trav) { samples++; if (!w.ad.clear(e.x, e.y, 12, 'walk')) inside++; } } return true; }, 4);
   const p2 = g.path(1200, 3300, 8500, 6000, ks[0].caps), crawlOnRoute = p2 ? p2.filter(q => (q.c | 0) > 1).length : -1;
   return { ok: !badCell && !inside && crawlOnRoute === 0, note: `${samples} samples: ${inside} inside geometry, ${badCell} crawl / tight waypoints; a cross-map route has ${crawlOnRoute} such cells` };
+});
+
+/* ---------------------------------------------------------------- T3: lying in wait, prediction, interception, the race, hearing */
+/* the dark south-west of Level 0: wall A (x 976..1072) with a gap at y 5300..5460, wall B (y 5018..5066), wall C (x 1552..1648) with
+ * a gap at y 5498..5642.  Every scenario places people and the Skin-Stealer on open floor there. */
+const SW = { gapP: { x: 700, y: 5330 }, gapK: { x: 1300, y: 5330 } };
+
+add('SK20 route prediction is its own guess from a record: the real person (unsensed, or absent) changes nothing; at a fork the guess varies with the seed (it can be wrong) yet one way is preferred', () => {
+  const rec = eng => ({ id: 0, lkx: 1300, lky: 5800, lvx: 0, lvy: -150, seenAt: eng.now, heardAt: -99 });   // walking north toward the low wall at y 5036
+  const once = (seed, where) => {
+    const w = World(seed); if (where) { const q = w.player(where.x, where.y, { light: false }); q.stop('crouch'); }
+    const e = w.eng.spawn('skinstealer', 2000, 5600, { hunger: .6 }); e.tier = 'near';
+    return JSON.stringify(AI.SKIN.predict(w.eng, e, rec(w.eng)));
+  };
+  let same = 0; const guesses = new Map();
+  for (let seed = 1; seed <= 16; seed++) {
+    const a = once(seed, { x: 700, y: 5330 }), b = once(seed, { x: 1720, y: 4900 }), c = once(seed, null);
+    if (a === b && b === c) same++;
+    const g = JSON.parse(a), k = g ? g.turns.map(t => t.a).join('/') || 'straight' : 'none';
+    guesses.set(k, (guesses.get(k) || 0) + 1);
+  }
+  const counts = [...guesses.values()].sort((x, y) => y - x);
+  return { ok: same === 16 && guesses.size >= 2 && counts[0] >= 8 && !guesses.has('none'), note: `${same}/16 identical wherever the real person is (or with nobody there); guesses ${[...guesses].map(([k, n]) => `${k} x${n}`).join(', ')}` };
+});
+
+/* the bait: a person with a torch sees it 600 px off through wall A's gap; it backs away round a corner and waits */
+function baitRun(seed, follow) {
+  const w = World(seed + 400), g = w.eng.geo;
+  const p = w.player(SW.gapP.x, SW.gapP.y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
+  const e = w.eng.spawn('skinstealer', SW.gapK.x, SW.gapK.y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI;
+  const R = { lureAt: -1, moved: 0, lureD: 1e9, d0: 0, endAt: -1, why: '', after: '' };
+  w.run(40, () => {
+    const k = planOf(e);
+    if (k === 'lure' && R.lureAt < 0) { R.lureAt = w.t; R.pos = { x: e.x, y: e.y }; R.hidden = !g.los(p.x, p.y, e.x, e.y); R.d0 = Math.hypot(p.x - e.x, p.y - e.y); }
+    if (k === 'lure') { R.moved = Math.max(R.moved, Math.hypot(e.x - R.pos.x, e.y - R.pos.y)); R.lureD = Math.min(R.lureD, Math.hypot(p.x - e.x, p.y - e.y)); }
+    if (R.lureAt >= 0 && R.endAt < 0 && k !== 'lure') { R.endAt = w.t; R.why = e.dbg.why; R.after = k; }
+    if (follow && R.lureAt >= 0 && !p.going && w.t - R.lureAt > 1) { p.going = 1; p.look = null; p.route([{ x: 1020, y: SW.gapP.y }, { x: SW.gapK.x, y: SW.gapK.y }], 'walk'); }
+    return true;
+  });
+  R.came = e.tally.lureCame; R.dur = R.endAt < 0 ? -1 : +(R.endAt - R.lureAt).toFixed(1); return R;
+}
+add('SK21 the bait: seen, a hungry one backs round a corner and waits there, still; nobody follows - it gives up and leaves; somebody follows - they come round that corner close to it', () => {
+  const stay = over([1, 2, 3, 4, 5, 6, 7, 8], s => baitRun(s, false)), fol = over([1, 2, 3, 4, 5, 6, 7, 8], s => baitRun(s, true));
+  const lured = stay.filter(r => r.lureAt >= 0), lf = fol.filter(r => r.lureAt >= 0);
+  const okStay = lured.length >= 6 && lured.every(r => r.hidden && r.moved < 30 && r.lureD >= r.d0 - 30 && r.after === 'leave' && /did not follow/.test(r.why) && r.dur <= AI.SK.lureMax + .5);
+  const came = lf.filter(r => r.came > 0 && r.lureD < 320);
+  return { ok: okStay && lf.length >= 6 && came.length >= 5, note: `stays put: ${lured.length}/8 lay in wait, hidden ${lured.filter(r => r.hidden).length}, moved at most ${Math.max(...lured.map(r => Math.round(r.moved)))} px, gave up after ${lured.map(r => r.dur).join('/')} s ("${lured[0] && lured[0].why}") | follows: ${lf.length}/8 lay in wait, they came round the corner within ${lf.map(r => Math.round(r.lureD)).join('/')} px of it (${came.length} within 320)`, data: { stay, fol } };
+});
+
+add('SK22 the straight race: a fresh runner on a straight wins - it gives chase, falls behind and gives up for that reason; a winded one does not - it closes to striking distance', () => {
+  const race = (seed, winded) => {
+    const w = World(seed + 300), y = LONG.y;
+    const p = w.player(5300, y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0; if (winded) p.exhaust();
+    const e = w.eng.spawn('skinstealer', 5000, y, { hunger: .7 }); e.tier = 'near'; e.ang = 0;
+    p.go(8700, y, 'run');
+    let chased = false, dmin = 1e9, why = '';
+    w.run(14, () => { if (planOf(e) === 'chase') chased = true; else if (chased && !why) why = e.dbg.why; if (w.t > .5) dmin = Math.min(dmin, Math.hypot(p.x - e.x, p.y - e.y)); return true; });
+    return { chased, dmin: Math.round(dmin), why, end: Math.round(Math.hypot(p.x - e.x, p.y - e.y)), lost: e.tally.chaseLost };
+  };
+  const fresh = over([1, 2, 3, 4], s => race(s, false)), tired = over([1, 2, 3, 4], s => race(s, true));
+  const ok = fresh.every(r => r.chased && /losing the race/.test(r.why) && r.dmin >= 280 && r.end > 1500) && tired.every(r => r.chased && r.dmin <= 185);
+  return { ok, note: `fresh: never closer than ${fresh.map(r => r.dmin).join('/')} px, gave up ("${fresh[0].why}"), ${fresh.map(r => r.end).join('/')} px apart after 14 s | winded: it closed to ${tired.map(r => r.dmin).join('/')} px (striking distance ${AI.SK.approachStop}..185; the pounce is T4's)`, data: { fresh, tired } };
+});
+
+/* interception: a person with a torch walks north past wall C's gap, where it sees them; past the gap they switch the torch off and walk on.
+ * A: they go the way their heading suggested (east along wall B, then north); B: they double back to wall A's gap (west).  Both runs are
+ * the same until the person's routes part. */
+const ROUTE = { A: { x: 1720, y: 4900 }, B: { x: 700, y: 5330 } };          // after (1300, 5150): on, round wall B's east end, or back west
+function interceptRun(seed, v) {
+  const w = World(seed + 500);
+  const p = w.player(1300, 5950, { light: true, angle: -Math.PI / 2 }); p.stop('stand');
+  const e = w.eng.spawn('skinstealer', 1850, 5570, { hunger: .6 }); e.tier = 'near'; e.ang = Math.PI;
+  const R = { tr: [], plan: null, at: -1, endAt: -1, why: '', waitD: 1e9, minD: 1e9, parted: -1 };
+  w.run(35, (ww, i) => {
+    if (w.t > .5 && !p.going) { p.going = 1; p.route([{ x: 1300, y: 5400 }, { x: 1300, y: 5150 }], 'walk'); }
+    if (p.going === 1 && p.path && !p.path.length) { p.going = 2; R.parted = R.tr.length; p.pathTo(ROUTE[v].x, ROUTE[v].y, 'walk'); }   // the routes part here
+    if (p.light && p.y < 5440) p.light = false;
+    const r = e.mem.p.get(p.id);
+    // its position, then everything it has sensed of the person (sighting, record, the last sound and the leads): the evidence
+    const H = e.hear, L = e.mem.leads.map(q => `${q.id}:${Math.round(q.x)}:${Math.round(q.y)}`).join(';');
+    R.tr.push([Math.round(e.x * 10), Math.round(e.y * 10), [e.seenNow.has(p.id) ? 1 : 0, r ? [r.heardAt, r.seenAt, r.hx, r.hy, r.lkx, r.lky, r.lvx, r.lvy].map(v => Math.round(v * 10)).join(':') : '-', H ? `${H.id}:${Math.round(H.x)}:${Math.round(H.y)}` : '-', L].join('|')].join(','));
+    const P = e.plan;
+    if (P && P.k === 'intercept' && R.at < 0) { R.at = w.t; R.plan = P; R.pred = e.dbg.predict; }
+    if (R.plan && e.plan === R.plan) { const d = Math.hypot(p.x - e.x, p.y - e.y); R.minD = Math.min(R.minD, d); if (R.plan.arrived) R.waitD = Math.min(R.waitD, d); }
+    if (R.plan && e.plan !== R.plan && R.endAt < 0) { R.endAt = w.t; R.why = e.dbg.why; R.next = e.plan ? e.plan.k : 'roam'; }
+    return true;
+  });
+  return R;
+}
+add('SK23 interception: when it loses someone it goes round to where it guesses they will be and waits there out of sight; right when they keep to their way, wrong when they double back - and the two runs are the same Skin-Stealer until it senses the difference', () => {
+  const rs = [1, 2, 3, 4, 5, 6, 7, 8].map(seed => { const A = interceptRun(seed, 'A'), B = interceptRun(seed, 'B'); return { seed, A, B }; });
+  // the evidence law: identical until either run's Skin-Stealer senses the person differently (a sighting or a sound only one has)
+  let lawOk = 0;
+  for (const { A, B } of rs) {
+    let i = 0; const n = Math.min(A.tr.length, B.tr.length);
+    for (; i < n; i++) { const a = A.tr[i].split(','), b = B.tr[i].split(','); if (a[2] !== b[2]) break; if (a[0] !== b[0] || a[1] !== b[1]) { i = -1; break; } }
+    if (i < 0) continue; if (i >= Math.min(A.parted, B.parted)) lawOk++;
+  }
+  // A: the guess was right - it met them (they came within 250 px of it, on its way or where it waited) and it noticed (by sight, or
+  // by ear in the dark): the interception ended in a stalk, a chase or following the sound, not "guessed wrong".  B: wherever it got
+  // to wait, nobody came, and it said so (an interception that sighted them again on the way is neither)
+  const ia = rs.filter(r => r.A.plan), ib = rs.filter(r => r.B.plan), ibw = ib.filter(r => r.B.plan.arrived);
+  const right = ia.filter(r => r.A.minD < 250 && !/guessed wrong/.test(r.A.why) && /approach|chase|search|watch|retreat/.test(r.A.next)), wrong = ibw.filter(r => r.B.waitD >= 250 && /guessed wrong/.test(r.B.why));
+  const bounded = rs.every(r => [r.A, r.B].every(R => !R.plan || (R.endAt > 0 && R.endAt - R.at <= AI.SK.interceptMax + 8.5)));
+  return { ok: lawOk === 8 && ia.length >= 3 && ibw.length >= 3 && right.length >= Math.ceil(ia.length * .6) && wrong.length === ibw.length && bounded,
+    note: `identical until it senses a difference: ${lawOk}/8 | A (kept to their way): ${ia.length} interceptions, it met them within ${ia.map(r => Math.round(r.A.minD)).join('/')} px, noticed in ${right.length} (then ${ia.map(r => r.A.next).join('/')}: "${(right[0] || ia[0] || { A: {} }).A.why}") | B (doubled back): ${ibw.length} waited in vain, nearest ${ibw.map(r => Math.round(r.B.waitD)).join('/')} px, ${wrong.length} "guessed wrong" | every interception ended (${bounded})`,
+    data: rs.map(r => ({ seed: r.seed, A: { at: r.A.at, minD: Math.round(r.A.minD), waitD: Math.round(r.A.waitD), why: r.A.why, next: r.A.next, pred: r.A.pred }, B: { at: r.B.at, waitD: Math.round(r.B.waitD), why: r.B.why, next: r.B.next } })) };
+});
+
+add('SK24 hearing: footsteps it really hears (a runner behind a wall) send a hungry one to look where it heard them; a quiet person in the same place sends it nowhere', () => {
+  const runOnce = (seed, mode) => {
+    const w = World(seed + 600);
+    const p = w.player(780, 4950, { light: false, angle: Math.PI / 2 }); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', 1300, 5180, { hunger: .65 }); e.tier = 'near'; e.ang = 0;
+    const R = { first: null, goal: null, there: null, sawFirst: false, dur: -1 };
+    let P0 = null;
+    w.run(30, () => {
+      if (w.t > 1 && !p.going) { p.going = 1; p.route([{ x: 780, y: 5300 }], mode); }
+      if (e.seenNow.has(p.id) && !R.first) R.sawFirst = true;
+      if (!R.first && e.plan && e.plan.k !== 'leave') { R.first = e.plan.k; R.why = e.dbg.why; if (e.plan.k === 'search') { P0 = e.plan; R.goal = e.plan.goal; R.there = { x: p.x, y: p.y }; R.t0 = w.t; } }
+      if (P0 && e.plan !== P0 && R.dur < 0) R.dur = +(w.t - R.t0).toFixed(1);
+      return true;
+    });
+    R.off = R.goal ? Math.round(Math.hypot(R.goal.x - R.there.x, R.goal.y - R.there.y)) : -1; return R;
+  };
+  const run = over([1, 2, 3, 4, 5, 6], s => runOnce(s, 'run')), quiet = over([1, 2, 3, 4, 5, 6], s => runOnce(s, 'crouch'));
+  const went = run.filter(r => r.first === 'search' && /heard/.test(r.why) && !r.sawFirst);
+  const ok = went.length >= 3 && went.every(r => r.off < 250 && r.dur > 0 && r.dur <= AI.SK.searchMax + AI.SK.searchLook[1] + .5) && quiet.every(r => !(r.first === 'search' && /heard/.test(r.why)));
+  return { ok, note: `running: ${went.length}/6 went to look (goal ${went.map(r => r.off).join('/')} px from where the runner was; each search over in ${went.map(r => r.dur).join('/')} s) | crouching: ${quiet.filter(r => r.first === 'search').length}/6 went to look`, data: { run, quiet } };
+});
+
+add('SK25 every plan ends and no encounter outlasts its budget: an hour-like stretch of a person wandering, running, hiding and switching the torch, against a hungry one', () => {
+  const MAX = { watch: AI.SK.watch[1] * 1.3 + .5, lure: AI.SK.lureMax + .5, intercept: AI.SK.interceptMax + 8.5, chase: AI.SK.chaseMax + .5, search: AI.SK.searchMax + AI.SK.searchLook[1] + .5, leave: AI.SK.leaveMax + .5 };
+  const rs = over([1, 2, 3, 4], seed => {
+    const w = World(seed + 700), pts = [{ x: 700, y: 5330 }, { x: 1300, y: 5900 }, { x: 1720, y: 4900 }, { x: 1900, y: 5560 }, { x: 600, y: 5900 }, { x: 1300, y: 5150 }];
+    const p = w.player(700, 5900, { light: true }); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', 1850, 5570, { hunger: .75 }); e.tier = 'near';
+    let cur = null, t0 = 0, over_ = [], longest = {}, engaged = 0, engMax = 0, budget = 0, leg = 0;
+    w.run(150, () => {
+      if ((!p.path || !p.path.length) && !p.tx) { const q = pts[(leg * 7 + seed) % pts.length]; leg++; p.light = leg % 3 !== 0; p.pathTo(q.x, q.y, leg % 4 === 1 ? 'run' : leg % 5 === 2 ? 'crouch' : 'walk'); }
+      if (e.plan !== cur) { if (cur && MAX[cur.k] && w.t - t0 > MAX[cur.k]) over_.push([cur.k, +(w.t - t0).toFixed(1)]); if (cur) longest[cur.k] = Math.max(longest[cur.k] || 0, +(w.t - t0).toFixed(1)); cur = e.plan; t0 = w.t; }
+      if (e.plan && e.plan.pid === p.id) { engaged += DT; engMax = Math.max(engMax, engaged); } else engaged = 0;
+      budget = Math.max(budget, AI.SK.budgetEnc[0] + AI.SK.budgetEnc[1] * e.hunger);
+      return true;
+    });
+    return { ok: !over_.length && engMax <= budget + 2, over: over_, longest, engMax: +engMax.toFixed(1), budget: Math.round(budget), tally: e.tally };
+  });
+  return { ok: rate(rs) === 1, note: rs.map(r => `longest plans ${JSON.stringify(r.longest)}; longest engagement ${r.engMax} s (budget ${r.budget})${r.over.length ? '; OVER ' + JSON.stringify(r.over) : ''}`).join(' | '), data: rs };
 });
 
 module.exports = S;

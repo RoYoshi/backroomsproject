@@ -8,7 +8,8 @@ Each row is filled after its push has been verified on GitHub (`tools/verify_rem
 |---|---|---|---|---|
 | T0 recon, plan, matrix, decisions, baseline | `98d28196d25a1cea6167323548571a99e399a44e` | `40b2191329b2c504c8801462ed30c08bd0cef755` | `1ff9374` | yes: `evidence/remote/t0.json` (ls-remote and the GitHub API agree; every protected branch at its frozen SHA; no other branch moved) |
 | T1 third species, admin-only spawn, bounded snapshot, first view | `23bba42815fa6777a53cccfeb9de46d8766d34de` | `d1172702a720606fecbb4616755969f92f02fd5f` | `98d2819` | yes: `evidence/remote/t1.json`; secret scan of the pushed commit CLEAN |
-| T2 the animal: hunger, stamina, senses, non-engagement, budgets | (this commit; recorded at T3) | | `23bba42` | |
+| T2 the animal: hunger, stamina, senses, non-engagement, budgets | `8b2d734e7cf178f1a90b3036bc0180ed78a6a512` | `7e6923490c36fbed36139be93b0613782815f5a4` | `23bba42` | yes: `evidence/remote/t2.json`; secret scan of the pushed commit CLEAN |
+| T3 lying in wait, prediction, interception, the race, hearing | (this commit; recorded at T4) | | `8b2d734` | |
 
 ## T0 baseline (P9 `1ff9374`, this machine, before any game change)
 
@@ -64,3 +65,38 @@ One fix while porting from the draft: the encounter clock counted nominal think 
 | `npm test` | 166 / 179: SK01–SK08 and SK10–SK18 pass; the 13 failures are exactly P9's (`evidence/t2/npm_test_t2.txt`) |
 | server gate steps (build, parts, modules, contracts, docs, scope, srv_golden, bpp_golden, session, sim, protocol, mutants, quick_suites) | PASS 13 / 13 (`evidence/t2/gate_server_t2.txt`): B++'s server traces, sessions and sim calls unchanged |
 | client / browser | not rerun: T2 changes no client file (the snapshot's `ss` keys and the page script are T1's) |
+
+## T3 — the strategist (results on the T3 tree)
+
+What T3 adds (server only): **lure** (the bait: a hungry one that is seen backs slowly round a corner and lies in wait, still; it gives
+up and leaves when nobody follows), **intercept** (a guess of their route from its last record, the first point it can reach before
+them, a hidden spot beside it; it can be wrong and says so), **chase** (short, only after somebody running from it or winded; it
+gives up when it is losing the race, out of breath, or after 7 s), **search** (where it last knew them, or where it heard something;
+it listens and gives up), and acting on **hearing** (a fresh, real sound sends a hungry one to look; footsteps passing close by in
+the dark, while it waits, make it follow). Design: `DESIGN_DECISIONS.md` D3–D5 (revised as built); numbers: `BALANCE_TABLE.md`
+"As built after T3".  The engine gains one more optional hook, `sp.still` (a deliberate hold is not "stuck" to the watchdog).
+
+Found and fixed while building T3 (each found by a scenario, not assumed):
+- the first predictor (next junction, then an exit) degenerated in Level 0's open, pillared rooms; it was replaced by walking the
+  heading by walkability with guessed turns (sight rays pass over low walls, feet do not), then the first point it can reach first;
+- it guessed right but arrived late (it travelled at stalking speed, and straight-line distance under-estimated the way round a
+  wall): it now runs to an interception and checks its real route length;
+- footsteps it hears near an interception are anonymous (a stale record does not claim them); its "heard close by" now uses any
+  fresh person-made sound, the evidence it actually has;
+- someone simply walking away was treated as fleeing (so it chased instead of stalking): "fleeing" is now running, or hurrying off
+  after eye contact;
+- a deliberate hold left its old route in place and the engine's watchdog took it for being stuck: holds now clear the route and
+  say so through `sp.still`.
+
+| Run | Result |
+|---|---|
+| `npm test` | 172 / 185: SK01–SK08, SK10–SK18, SK20–SK25 pass; the 13 failures are exactly P9's (`evidence/t3/npm_test_t3.txt`; the T3 cases with their measurements: `evidence/t3/sk_t3_results.txt`) |
+| server gate steps (13) | PASS 13 / 13 (`evidence/t3/gate_server_t3.txt`) |
+| client / browser | not rerun: T3 changes no client file |
+
+T3's scenario numbers (seeded; `sk_t3_results.txt`): the predictor's guess is identical wherever the unseen person is (16/16) and
+varies at a fork (10 / 5 / 1 over 16 seeds); bait: 8/8 lay in wait hidden and still, 8/8 gave up after ~10.5 s when nobody followed,
+7/8 followers came round the corner within 320 px; race: a fresh runner was never closer than 346 px and it gave up "losing the
+race", a winded one was reached at 152–154 px; interception: identical runs until its evidence differed (8/8), it met the person who
+kept to their way within 121–244 px (5/5), and waited in vain 651–700 px from the one who doubled back, saying it guessed wrong (3/3);
+hearing: 4/6 went to look at a runner (goal 89–135 px from them), 0/6 at a crouching person.

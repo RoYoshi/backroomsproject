@@ -52,3 +52,28 @@ owner's QA decides pacing; the table is updated at each checkpoint that changes 
 | `feed.time` | 18–35 s | |
 | `ADMIN_MAX_SKINSTEALERS` | 4 | |
 | death lengths A / B / C | 3.2 / 3.4 / 3.5 s | a fast finisher; the body has settled by then |
+
+## As built after T3 (the `SK` table in `ai.skinstealer.js`; still PROPOSED, not owner-approved)
+
+Where a value differs from the T0 proposal above, the T0 line is superseded by this one.
+
+| Name | Value | Notes |
+|---|---|---|
+| `hungerAtSpawn` / `hungerRate` / `band` | 0.45–0.65 / 0.0016 /s / .2 .4 .6 .8 | as proposed |
+| `stamExh` / `stamBack` / `stamLow` | 8 / 40 / 25 | under 25 it runs at its fatigued speed (180 px/s) |
+| `drainRun` (pro rata over 150 px/s) / `regenWalk` / `regenStill` | 14 / 6 / 11 per s | |
+| `watch` | 2–6 s × (0.7 + 0.6 × PATIENCE) | |
+| `near` / `exposed` | 260 px / light 0.45 on its own body | |
+| `hide` | 140–520 px | retreat distance; the bait takes the nearest hidden spot round a corner |
+| `leave` / `leaveMax` / `cooldown` | 1200–2200 px / 45 s / 30–60 s (12 s starving) | |
+| `budgetEnc` | 25 + 45 × hunger real seconds with one person | |
+| `rethink` | a new plan must score 1.3 × the current one | |
+| `retreatHold` | 1 s out of sight before it decides (lie in wait, or go about its business) | T2 drafted 4 s |
+| `approachStop` | 150 px | until T4's pounce |
+| `lure` / `lureMax` | 4 + 12 × hunger × PATIENCE s / 22 s | T0 proposed 5 + 9 × hunger × PATIENCE |
+| `predictLook` / `predictTurns` / `predictMargin` | 1500 px / 2 guesses / 0.8 s | T0 proposed 900 px to the first junction |
+| `interceptMax` / `interceptWait` | 26 s (+ up to 8 s while it hears them coming) / 4–9 s × (0.7 + 0.6 × PATIENCE) | |
+| `searchMax` / `searchLook` | 16 s / 2–4 s listening | |
+| `heardFresh` / `heardMin` | 2.5 s / sound intensity 0.12 | |
+| `chaseFrom` / `chaseMax` / `chaseLose` | 420 px / 7 s / the gap 140 px past the closest it got | T0 proposed a 4 + 8 × hunger s budget |
+| "fleeing" | moving away > 200 px/s, or > 110 px/s within 4 s of eye contact | someone who walks on is stalked, not chased |

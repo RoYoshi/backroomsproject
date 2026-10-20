@@ -33,7 +33,12 @@ here and proposed in `BALANCE_TABLE.md`; none of them is owner-approved.
 - `e.stam` in [0, 100], separate: drained by running and by every pounce (hit or miss), regained only while walking or still; below
   a floor it is exhausted and can only walk until it has recovered past a higher mark. A state change never touches either value.
 - Per-encounter budgets (pursuit seconds, lure seconds, total seconds with one person) are spent and not refilled by switching plans;
-  when spent it leaves and keeps away from that person for a cooldown. This is what stops it pinning a passage forever.
+  when spent it leaves and keeps away from that person for a cooldown. This is what stops it pinning a passage forever. As built:
+  the encounter budget counts real seconds (25 + 45 x hunger), every plan has its own end (SK25 checks each one over long sessions),
+  a chase ends by its own rules (D4) and a lure by its own wait.
+- (T3) Two optional engine hooks keep the animal honest without touching another species: `sp.farTick` (a far one stays hungry) and
+  `sp.still` (a deliberate hold is not mistaken for being stuck by the engine's watchdog, which otherwise counts any 6 s without
+  26 px of movement for a non-Hound).
 
 ## D4. Behaviour: a small arbitrated plan set on the shared state framework
 
@@ -47,23 +52,35 @@ here and proposed in `BALANCE_TABLE.md`; none of them is owner-approved.
 - **Real non-engagement:** satiated, observed by more than one person, exposed in light, exhausted, or out of budget → it really
   leaves (a goal 1200–2200 px away, preferring dark floor away from the people it perceives) and ignores that person for a cooldown.
   Only a person who walks into arm's reach of a hungry one can still be pounced on.
-- **Bait:** seen and hungry, it backs out of the person's line of sight to a spot just past a corner and waits. It holds only while
-  its evidence says someone is coming (footsteps getting nearer, a beam sweeping in, a sighting); with no such evidence the plan
-  fails when its wait runs out and it leaves.
-- **A lost straight race:** a chase is abandoned when the person it sees is pulling away along a long open line (its own estimate of
-  their speed against its sustained speed), and always when the chase budget is spent. It wins at corners and at arm's reach.
+- **Bait (as built at T3):** seen (eye contact) while very hungry and not too close, it backs away slowly, still facing them, to the
+  nearest spot hidden from the person, from the line they would follow and from where it stood - just round a corner - and lies
+  in wait there without moving, facing the corner. Footsteps coming nearer keep it there a little longer (never past 22 s). If they
+  walk toward it unaware it holds still (the ambush; T4 springs it); if nobody comes, the bait failed and it leaves (SK21: 8/8).
+- **A lost straight race (as built at T3):** it gives chase only when hungry, rested, close (< 420 px), alone with the person, and
+  the person is running from it (moving away faster than 200 px/s, or faster than 110 px/s within 4 s of meeting its eyes) or is
+  winded. Somebody who simply walks on has not noticed it: it stalks them instead. A chase ends when the gap has grown 140 px beyond
+  the closest it got (losing the race), when its stamina drops under 25, or after 7 s; it then leaves with a cooldown (SK22).
+- **Hearing (T3):** with nobody in view and nothing else to do, a fresh, real sound (a person's, never another creature's) that it
+  has not gone after yet sends a hungry one to look there, quietly; it listens and gives up (SK24). A quiet person is not heard.
 
-## D5. Prediction and interception
+## D5. Prediction and interception (revised at T3, as built)
 
-- From the last record (position and heading, seen or heard), it walks along the heading over the static grid to the first junction
-  or the end of the hall (bounded: ≤ 900 px, a few rays per step), lists that junction's exits, and picks one weighted by how well it
-  continues the heading, by an observed habit if there is one (`habitBias`), and by a seeded error that shrinks with INTELLIGENCE.
-- It then routes to a point a little past that exit, with a route cost that keeps it off the person's own trail when another way
-  exists (so it comes round the other side), at run speed while stamina allows.
-- If it arrives and nothing is there it listens and looks briefly, its confidence decays, and it leaves. It never re-reads where the
-  person actually went.
-- A test records the goal it chose and runs the same seed twice with the hidden person taking different turns: the goal is identical;
-  the outcomes differ.
+- Level 0 is mostly open rooms with pillars and low walls rather than corridors, so the first design (find the next junction, pick
+  an exit) degenerated in practice. As built (`skPredict`): from the last record (place and heading, seen or heard) it walks the
+  heading through the level **by walkability** (sight passes over low walls; feet do not), up to 1500 px; where something blocks
+  the way it guesses which side they take - the turn that best keeps the heading, plus a seeded error that INTELLIGENCE shrinks
+  and starvation grows - at most two guesses. No observed-habit bias is used (the intelligence module's habits were not wired in;
+  noted, not claimed).
+- On that guessed route it takes the **first point it can reach before them**: their speed from the record, the record's age, its
+  own run speed and its **real route length** (at most four routes worked out), with 0.8 s to spare. Beside that point it picks a
+  spot out of sight of anybody coming along the route, preferring dark floor. If it cannot get ahead of them it does not try.
+- It runs there (a race to be first; it slows for the last 160 px to arrive quietly) by a route that keeps off their own trail, then
+  waits facing the way they would come. Footsteps heard on the way may correct the guess once. If it then hears somebody pass close
+  by in the dark (anonymous footsteps count: it is the evidence it has), it follows the sound; if it sees them, its ordinary
+  decision takes over (stalk, chase, retreat). If nobody comes it says it guessed wrong and searches once (hungry) or leaves.
+- The tests (SK20, SK23): the same record with the real person anywhere (or nowhere) gives the same guess; at a fork the guess varies
+  with the seed (16 seeds: 10 / 5 / 1); two runs that differ only in where the unseen person goes produce the same Skin-Stealer until
+  its own evidence differs; it meets the person who keeps to their way and waits in vain for the one who doubles back.
 
 ## D6. The attack: a short committed pounce, a fast finisher
 
