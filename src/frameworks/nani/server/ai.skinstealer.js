@@ -81,7 +81,17 @@
  *     reacts without dropping its plan (e.rx, an overlay): it stops, turns to face them and looks (SK.look), no more often than SK.ackGap;
  *     while it walks it turns its head to keep a noticed person in view (e.head: the engine's sight is centred on it, so it learns only
  *     what it then sees); a fresh sound nearby (SK.soundLook) turns it toward where it heard it - the sound's own fuzzy place, no name.
- *     Nothing in B1 can attack, and nothing reads where an unsensed person is. */
+ *     Nothing in B1 can attack, and nothing reads where an unsensed person is.
+ *   B2 PROVOCATION: what a seen person does to it raises that person's pressure, each kind only up to its own ceiling, so presence alone
+ *     never escalates: in its space (SK.capNear), crowding it (SK.awCrowd) - both by how much THEY closed the distance lately (somebody
+ *     standing still that it walked up to, or backed into, has done nothing to it) - circling it (their motion relative to its own, round
+ *     it, one way: SK.orbitArc, then each further half-turn - a straight pass sweeps less than half a turn), following it as it walks
+ *     (SK.tailMin), moving into its way (SK.awBlock), and pressing in after it has warned them.  A sound adds nothing: it names nobody it
+ *     does not see.  The fade counts all the time since it last saw them, far away too.
+ *     At SK.pWarn, after it has noticed them for SK.warnAfter, it WARNS: it turns on them, hunches (act creep, state PROVOKED) and backs
+ *     away for SK.warnTime, then turns away by another way out (a departure keeps its time; roaming, it leaves).  No more often than
+ *     SK.warnGap.  A very hungry departure may be reconsidered, after SK.leaveDwell, only on fresh sight of somebody it may hunt - never
+ *     after a lost race, never from hunger rising alone. */
 const KACT = { '': 0, watch: 1, back: 2, leave: 3, wait: 4, lure: 5, intercept: 6, search: 7, listen: 8, approach: 9, creep: 10, chase: 11, wind: 12, pounce: 13, recover: 14, feed: 15, mimic: 16, rest: 17, pace: 18 };
 /* the balance table (proposed; every value is named so it can be tested and tuned) */
 const SK = Object.freeze({
@@ -136,6 +146,17 @@ const SK = Object.freeze({
   ackGap: [3, 5], look: [.8, 1.6],               // seconds between two looks at the same person; how long a look lasts
   rxGap: 1.5,                                    // seconds after a reaction ends before it turns to a sound (no look at footsteps on the heels of a look)
   soundLook: 420, soundLookI: .2, soundGap: 4,   // a fresh sound this close and loud turns it to look; seconds between such looks
+  // behaviour refinement B2: provocation
+  awOrbit: 300, orbitArc: 4,                     // a record is kept within this; circling: radians of their motion round it, one way, before it counts
+  awTail: 220, tailMin: 3,                       // following it as it walks, within this, for this long
+  awBlock: 150,                                  // standing in its way (ahead, in its lane) within this
+  pCrowd: .16, capCrowd: .65,                    // crowding: per second, up to
+  pOrbit: .22, capOrbit: 1.2,                    // circling: per half-turn after the first, up to
+  pTail: .1, capTail: .9, pBlock: .12, capBlock: .9,   // following it; in its way: per second, up to
+  pPress: .25, capPress: 1.2, pressNear: 160, pressFor: 15,   // pressing in (within pressNear, not backing off) for pressFor s after a warning: per second, up to
+  pWarn: .45, warnAfter: 3,                      // pressure at which it warns, once it has noticed them this long
+  warnTime: [1.2, 1.8], warnGap: 4, warnBack: 40,   // a warning lasts; the least time to the next; how fast it backs away meanwhile (px/s)
+  leaveDwell: 4,                                 // a very hungry departure can be reconsidered only after this long (and only on fresh sight)
 });
 /* (T6) the generic calls, used only when it has heard nothing it may repeat: none of them claims to know anything about anybody */
 const SK_BAIT = Object.freeze(['hello?', 'is someone there?', 'over here', 'wait for me', 'can you help me?', "i'm lost", 'this way']);
@@ -174,7 +195,7 @@ const SKIN = {
     e.voice = { h: Math.round(lerp(-4, 2, e.sayRng())), s: Math.round(lerp(78, 92, e.sayRng())) };   // its voice (pitch, pace): slow and a little low
     e.roam = { goal: null, until: 0, pause: 0 }; e.dbg.why = 'roaming'; e.dbg.decide = null; e.dbg.predict = null; e.dbg.soundSeen = 0;
     e.tally = { lure: 0, lureCame: 0, intercept: 0, interceptCame: 0, chase: 0, chaseLost: 0, search: 0, searchFound: 0, pounce: 0, grab: 0, hit: 0, miss: 0, wall: 0, kills: 0,
-      mingle: 0, say: 0, sayHeard: 0, sayBait: 0, skin: 0, skinLost: 0, reveal: 0, look: 0, lookSound: 0 };   // its record (debug, tests, the balance report)
+      mingle: 0, say: 0, sayHeard: 0, sayBait: 0, skin: 0, skinLost: 0, reveal: 0, look: 0, lookSound: 0, warn: 0, reconsider: 0 };   // its record (debug, tests, the balance report)
     e.pounceCool = 0;
     e.aw = new Map(); e.rx = null; e.awAt = 0; e.awSound = 0; e.soundLookAt = 0;                // (B1) its awareness records; a reaction in progress
     e.awRng = mkRng(deriveSeed(eng.seed, 'skinstealer-aware', e.id));                           // (B1) its own stream: noticing never moves its other choices
@@ -251,7 +272,7 @@ function skEnc(eng, e, r, count) {
 }
 const skBudget = e => SK.budgetEnc[0] + SK.budgetEnc[1] * e.hunger;
 /* leave them alone: a goal far away, in the dark, away from everyone it perceives; and a cooldown on that person */
-function skLeave(eng, e, r, why) {
+function skLeaveGoal(eng, e) {
   const pos = [...e.mem.p.values()].filter(q => !tgtGone(eng, e, q) && eng.now - Math.max(q.seenAt, q.heardAt) < 20).map(q => perc(eng, e, q));
   let best = null, bs = -1e9;
   for (let k = 0; k < 8; k++) {
@@ -260,6 +281,10 @@ function skLeave(eng, e, r, why) {
     const s = Math.min(dmin, 2200) - (eng.geo.lamp[eng.geo.cellAt(g.x, g.y)] || 0) * 600 + e.streams.search() * 120;
     if (s > bs) { bs = s; best = g; }
   }
+  return best;
+}
+function skLeave(eng, e, r, why) {
+  const best = skLeaveGoal(eng, e);
   const P = skBegin(eng, e, 'leave', null, why, { until: eng.now + SK.leaveMax, goal: best });
   if (best) plan(eng, e, best.x, best.y, { why: 'leave' });
   if (r) e.left.set(r.id, eng.now + (e.hunger >= SK.band[3] ? SK.cooldownStarving : rand(e, SK.cooldown[0], SK.cooldown[1])));
@@ -398,7 +423,7 @@ function skLost(eng, e, P, r) {
   if (h >= SK.band[1] && !e.exh && moving && fresh) { const g = skPredict(eng, e, r); if (g) { skIntercept(eng, e, r, g); return; } }
   // otherwise a hungry one goes to look where it last knew them, briefly (stale evidence ends it); a less hungry one lets it go
   if (h >= SK.band[2] && !e.exh && r.conf > .3) { skSearch(eng, e, r, `lost P${r.id}: it goes to look where it last knew them`); return; }
-  if (P.k === 'chase') { skLeave(eng, e, r, `lost P${r.id} in the chase; not worth a search`); return; }
+  if (P.k === 'chase') { skLeave(eng, e, r, `lost P${r.id} in the chase; not worth a search`).race = true; return; }   // (B2: a lost race stays a departure)
   e.plan = null; e.target = null; e.dbg.why = 'it lost sight of them';
 }
 /* nobody in view: a fresh, real sound (footsteps, a door, a fall), or a light glimpsed, that it has not gone after yet */
@@ -543,26 +568,44 @@ const skClose = d => clamp((SK.awNear - d) / (SK.awNear - SK.awCrowd), 0, 1);   
 function skBump(A, amt, cap, why, now) { if (amt > 0 && A.p < cap) { A.p = Math.min(cap, A.p + amt); A.why = why; A.whyAt = now; } }
 /* on its think, before deciding: its records fade; everyone it SEES now in its space updates one (seen bodies only: e.seenNow) */
 function skAware(eng, e) {
-  const now = eng.now, dt = clamp(now - (e.awAt || now), 0, .25); e.awAt = now;
+  const now = eng.now, el = Math.max(0, now - (e.awAt || now)), dt = Math.min(el, .25); e.awAt = now;   // el: all the time since its last look at them (far away too)
   for (const [id, A] of e.aw) {
-    A.p *= Math.exp(-dt / SK.pDecay);
+    A.p *= Math.exp(-el / SK.pDecay);
     if (!eng.byId.has(id) || now - A.last > SK.awTtl) { e.aw.delete(id); continue; }    // gone, or not seen close for a long while
     if (A.tier && A.p < SK.pAware * .5) A.tier = 0;                                   // well below the threshold it stops minding them
+    if (now - A.last > 1.2) { A.arc = 0; A.tailT = 0; A.blockT = 0; }                 // (B2) out of its sight a while: no circling, following or blocking goes on
   }
-  const cvx = Math.cos(e.ang) * e.speed, cvy = Math.sin(e.ang) * e.speed;
+  const cvx = Math.cos(e.ang) * e.speed, cvy = Math.sin(e.ang) * e.speed, hx = Math.cos(e.ang), hy = Math.sin(e.ang), P = e.plan, walking = (!P || P.k === 'leave') && e.speed > 40;
   for (const r of skSeen(eng, e)) {                                                  // (its own hunt cooldown, e.left, does not hide anybody here)
-    const v = r.visual, d = r.dist; if (d > SK.awNear) continue;
+    const v = r.visual, d = r.dist; if (d > SK.awOrbit) continue;
     let A = e.aw.get(r.id);
     if (!A) {
+      if (d > SK.awNear) continue;                                                   // a record begins in its personal space
       if (e.aw.size >= SK.awMax) { let w = null; for (const q of e.aw.values()) if (!w || q.p < w.p || (q.p === w.p && q.last < w.last)) w = q; e.aw.delete(w.pid); }
-      e.aw.set(r.id, A = { pid: r.id, t0: now, last: now, d: 0, p: 0, tier: 0, ack: 0, nextAck: 0, looks: 0, why: '', whyAt: -99 });
+      e.aw.set(r.id, A = { pid: r.id, t0: now, last: now, d: 0, p: 0, tier: 0, ack: 0, nextAck: 0, looks: 0, why: '', whyAt: -99,
+        arc: 0, orbits: 0, tailT: 0, blockT: 0, byThem: 0, byIt: 0, warns: 0, warnAt: -99, warnEnd: -99, nextWarn: 0 });
     }
     A.last = now; A.d = Math.round(d);
-    // in its space: the closer the more; coming at it (their motion relative to its own) more, going away less; fast motion close by
-    // catches the eye more (up to SK.pFast times)
-    const ux = (v.x - e.x) / Math.max(1, d), uy = (v.y - e.y) / Math.max(1, d), rvx = v.vx - cvx, rvy = v.vy - cvy, vr = rvx * ux + rvy * uy;
-    const fast = 1 + (SK.pFast - 1) * clamp((Math.hypot(rvx, rvy) - 100) / 200, 0, 1);
-    skBump(A, SK.pNear * skClose(d) * (vr < -40 ? 1.3 : vr > 80 ? .4 : 1) * fast * dt, SK.capNear, 'close by', now);
+    // in its space: the closer the more; coming at it more, going away less, by their OWN motion; and as much as THEY closed the distance
+    // lately (A.byThem against A.byIt: somebody standing still that it walked up to, or backed into, has done nothing to it - B2); fast
+    // motion close by catches the eye more (up to SK.pFast times)
+    const ux = (v.x - e.x) / Math.max(1, d), uy = (v.y - e.y) / Math.max(1, d), rvx = v.vx - cvx, rvy = v.vy - cvy, sp = Math.hypot(v.vx, v.vy);
+    const own = v.vx * ux + v.vy * uy, vr = rvx * ux + rvy * uy, k6 = Math.exp(-dt / 6);   // own: their motion away from it (< 0: coming at it)
+    A.byThem = A.byThem * k6 + Math.max(0, -own) * dt; A.byIt = A.byIt * k6 + Math.max(0, cvx * ux + cvy * uy) * dt;
+    const blame = (A.byThem + 1) / (A.byThem + A.byIt + 2), fast = 1 + (SK.pFast - 1) * clamp((Math.hypot(rvx, rvy) - 100) / 200, 0, 1);
+    if (d < SK.awNear) skBump(A, SK.pNear * skClose(d) * (own < -40 ? 1.3 : own > 60 ? .4 : 1) * (.3 + .7 * blame) * fast * dt, SK.capNear, 'close by', now);
+    if (d < SK.awCrowd && blame > .5) skBump(A, SK.pCrowd * blame * dt, SK.capCrowd, 'crowding it', now);
+    // (B2) circling it: their motion round it, relative to its own, one way (only while it sees them; a straight pass is less than half a turn)
+    A.arc += (((v.x - e.x) * rvy - (v.y - e.y) * rvx) / Math.max(1, d * d)) * dt;
+    if (Math.abs(A.arc) >= SK.orbitArc) { A.orbits++; A.arc -= Math.sign(A.arc) * Math.PI; skBump(A, SK.pOrbit, SK.capOrbit, 'circling it', now); }
+    // following it: moving its way, beside or behind it, while it walks; standing in its way: ahead of it, in its lane, while it has a way to go
+    const along = (v.x - e.x) * hx + (v.y - e.y) * hy, lat = Math.abs((v.y - e.y) * hx - (v.x - e.x) * hy);
+    if (walking && d < SK.awTail && sp > 50 && v.vx * hx + v.vy * hy > .6 * sp && along < 60) A.tailT += dt; else A.tailT = Math.max(0, A.tailT - 2 * dt);
+    if (A.tailT >= SK.tailMin) skBump(A, SK.pTail * dt, SK.capTail, 'following it', now);
+    if ((!P || P.k === 'leave') && e.path.length && sp > 40 && along > 0 && along < SK.awBlock && lat < 60) A.blockT += dt; else A.blockT = Math.max(0, A.blockT - 2 * dt);   // (moving into its way: somebody standing still is not blocking it)
+    if (A.blockT >= .6) skBump(A, SK.pBlock * dt, SK.capBlock, 'in its way', now);
+    // pressing in after it has warned them: close, and not backing off
+    if (now - A.warnEnd < SK.pressFor && d < SK.pressNear && vr < 30) skBump(A, SK.pPress * (.5 + .5 * skClose(d)) * dt, SK.capPress, 'pressing in after its warning', now);
     if (!A.tier && A.p >= SK.pAware) { A.tier = 1; A.ack = now; }
   }
 }
@@ -571,6 +614,7 @@ function skAttend(eng, e) {
   const now = eng.now, P = e.plan;
   if (e.rx || e.disguise || e.pounce || e.recover > 0 || (P && P.k !== 'leave')) return;
   let A = null; for (const q of e.aw.values()) if (q.tier && now - q.last < .05 && (!A || q.p > A.p)) A = q;   // noticed, and seen on this very think
+  if (A && A.p >= SK.pWarn && now - A.ack >= SK.warnAfter && now >= A.nextWarn && A.d < SK.awNear + 60) { skWarn(eng, e, A); return; }   // (B2)
   if (A && now >= A.nextAck) {
     e.rx = { k: 'look', pid: A.pid, at: null, t0: now, until: now + lerp(SK.look[0], SK.look[1], e.awRng()) };
     A.nextAck = e.rx.until + lerp(SK.ackGap[0], SK.ackGap[1], e.awRng()); A.looks++; e.tally.look++;
@@ -587,12 +631,39 @@ function skAttend(eng, e) {
 /* the reaction in progress (every tick): it stands and faces what it noticed; at the end its plan goes on as it was */
 function skReact(eng, e, dt) {
   const R = e.rx, now = eng.now, P = e.plan;
-  if (now >= R.until || (P && P.k !== 'leave') || e.disguise) { e.rx = null; e.dbg.rx = ''; e.rxEnd = now; return false; }
-  stopMoving(eng, e, dt); e.still = true;                                           // (its route is kept: it walks on along it afterwards)
+  if ((P && P.k !== 'leave') || e.disguise) { skReactEnd(eng, e, false); return false; }
+  if (now >= R.until) { skReactEnd(eng, e, true); return false; }
   const r = R.pid ? e.mem.p.get(R.pid) : null, q = r && !tgtGone(eng, e, r) ? perc(eng, e, r) : R.at;
+  if (R.k === 'warn') {                                                              // (B2) it turns on them, hunched, and backs away from them, slowly
+    if (q) faceToward(e, q.x, q.y, dt, 4);
+    const bx = q ? e.x - q.x : -Math.cos(e.ang), by = q ? e.y - q.y : -Math.sin(e.ang), L = Math.hypot(bx, by) || 1;
+    e.speed = SK.warnBack; e.moved = moveCollide(eng, e, bx / L * SK.warnBack * dt, by / L * SK.warnBack * dt); e.still = true;
+    if (e.state !== S.PROVOKED || e.act !== 'creep') setState(e, S.PROVOKED, 'creep');
+    return true;
+  }
+  stopMoving(eng, e, dt); e.still = true;                                           // (its route is kept: it walks on along it afterwards)
   if (q) faceToward(e, q.x, q.y, dt, 3.2);
   if (e.act !== 'watch') setAct(e, 'watch');
   return true;
+}
+/* (B2) a warning: at most one at a time, never sooner than SK.warnGap after the last ended */
+function skWarn(eng, e, A) {
+  const now = eng.now;
+  e.rx = { k: 'warn', pid: A.pid, at: null, t0: now, until: now + lerp(SK.warnTime[0], SK.warnTime[1], e.awRng()) };
+  A.warns++; A.warnAt = now; A.nextWarn = e.rx.until + SK.warnGap; A.nextAck = Math.max(A.nextAck, e.rx.until + SK.ackGap[0]); e.tally.warn++;
+  e.dbg.rx = `P${A.pid} keeps ${A.why}: it turns on them, hunched, and backs away (a warning)`; eng.note(`K#${e.id} warns P${A.pid} (${A.why})`);
+  setState(e, S.PROVOKED, 'creep');
+}
+/* the end of a reaction; a warning given (done), it turns away from them: another way out (a departure keeps its time; roaming, it leaves) */
+function skReactEnd(eng, e, done) {
+  const R = e.rx; e.rx = null; e.dbg.rx = ''; e.rxEnd = eng.now;
+  if (R.k !== 'warn') return;
+  const A = R.pid ? e.aw.get(R.pid) : null, P = e.plan; if (A) A.warnEnd = eng.now;
+  if (P && SK_STATE[P.k]) setState(e, SK_STATE[P.k][0], SK_STATE[P.k][1]); else setState(e, S.ROAMING, '');
+  if (!done || e.disguise) return;
+  const r = R.pid ? e.mem.p.get(R.pid) : null;
+  if (P && P.k === 'leave') { const g = skLeaveGoal(eng, e); if (g) { P.goal = g; plan(eng, e, g.x, g.y, { why: 'leave (warned)' }); P.rerouted = (P.rerouted || 0) + 1; e.dbg.why = `it warned P${R.pid}: it goes another way`; } }
+  else if (!P && r && !tgtGone(eng, e, r)) skLeave(eng, e, r, `it warned P${R.pid}: it goes another way`);
 }
 /* its head while it roams or leaves: toward the person it has noticed most, while it has them in view (or a moment after) */
 function skGaze(eng, e, dt) {
@@ -606,8 +677,13 @@ function skGaze(eng, e, dt) {
 function skDecide(eng, e) {
   const now = eng.now, P = e.plan;
   for (const [id, until] of e.left) if (until <= now || !eng.byId.has(id)) e.left.delete(id);
-  if (P && P.k === 'leave' && now < P.until && !(P.goal && Math.hypot(P.goal.x - e.x, P.goal.y - e.y) < 80)) return;   // a departure is carried through
-  if (P && P.k === 'leave') { e.plan = null; e.dbg.why = 'it left; it roams again'; }
+  if (P && P.k === 'leave') {
+    if (now < P.until && !(P.goal && Math.hypot(P.goal.x - e.x, P.goal.y - e.y) < 80)) {   // a departure is carried through...
+      // (B2) ...unless a very hungry one, some way into it, sees somebody it may hunt now - never after a lost race, never on hunger alone
+      if (!(e.hunger >= SK.band[2] && !e.exh && !P.race && now - P.t0 >= SK.leaveDwell && now >= (P.reT || 0) && skSeen(eng, e).some(r => !e.left.has(r.id)))) return;
+      P.reT = now + 1;                                                               // (it thinks again at most once a second)
+    } else { e.plan = null; e.dbg.why = 'it left; it roams again'; }
+  }
   const all = skSeen(eng, e), seen = all.filter(r => !e.left.has(r.id));
   if (e.heard.length) e.heard = e.heard.filter(q => now - q.at < SK.heardTtl && eng.byId.has(q.pid));   // (T6) lines expire; a person who left takes theirs
   if (P && P.k === 'feed') {                                                      // at its kill: fed, or disturbed (seen close, or watched), it goes
@@ -652,6 +728,10 @@ function skDecide(eng, e) {
   for (const k in W) W[k] = Math.max(0, W[k] * (.92 + .16 * e.rng()));
   const best = Object.keys(W).sort((a, b) => W[b] - W[a] || a.localeCompare(b))[0];
   e.dbg.decide = { pid: r.id, d: Math.round(d), watched, lit, crowd, h: +h.toFixed(2), spent: +spent.toFixed(2), away: Math.round(away), W: Object.fromEntries(Object.entries(W).map(([k, v]) => [k, +v.toFixed(2)])), best };
+  if (P && P.k === 'leave' && e.plan === P) {                                        // (B2) a very hungry departure, thought over: kept unless clearly worse
+    if (best === 'leave' || W[best] < W.leave * SK.rethink) { e.dbg.lv = `very hungry, it saw P${r.id}: it keeps going`; return; }
+    e.tally.reconsider++; e.dbg.lv = `very hungry, it saw P${r.id}: it gives up its departure`;
+  }
   if (cur && best !== cur && W[best] < (W[cur] || 0) * SK.rethink && !(cur === 'watch' && now > e.plan.until)) return;   // keep the plan unless something is clearly better
   if (best === cur) return;
   if (best === 'leave') skLeave(eng, e, r, h < SK.band[0] ? `not hungry: it leaves P${r.id} alone` : crowd > 1 ? `more than one of them (${crowd})` : e.exh ? 'exhausted' : lit && watched ? 'seen in the light' : `it decides against P${r.id}`);
@@ -722,7 +802,7 @@ function skAct(eng, e, dt, thinkNow) {
       if (thinkNow) {
         // it stops when it is losing the race, when its breath gives out, or after a short run: a chase is a gamble, never a long pursuit
         const why = d > P.dmin + SK.chaseLose ? `it is losing the race with P${r.id} (${Math.round(d)} px, it was ${Math.round(P.dmin)})` : e.stam < SK.stamLow ? `out of breath chasing P${r.id}` : now - P.t0 > SK.chaseMax ? `P${r.id} has run long enough: it stops` : '';
-        if (why) { P.lost = true; e.tally.chaseLost++; skLeave(eng, e, r, why); return; }
+        if (why) { P.lost = true; e.tally.chaseLost++; skLeave(eng, e, r, why).race = true; return; }   // (B2: a lost race stays a departure)
         if (now - (P.planT || -9) > .5 || !e.path.length) { P.planT = now; if (directOk(eng, e, p.x, p.y, 640)) directTo(eng, e, p.x, p.y); else plan(eng, e, p.x, p.y, { why: 'chase', maxNodes: 3000 }); }
       }
       setAct(e, 'chase');
@@ -876,11 +956,12 @@ function skDebug(eng, e) {
     dg: e.disguise ? { from: e.disguise.from, left: Math.round(e.disguise.until - eng.now) } : 0, sk: e.skin ? e.skin.pid : 0, sn: e.dbg.skin || '',
     hd: e.heard.map(q => Math.round(eng.now - q.at)), sd: e.dbg.said ? { ago: +(eng.now - e.dbg.said.at).toFixed(1), src: e.dbg.said.src, why: e.dbg.said.why } : null,
     // (B1) the person it is most aware of (only ever somebody it has seen): pressure, whether it has noticed them, why, how long since it saw them; its reaction
-    aw: skAwTop(eng, e), awN: e.aw.size, rx: e.rx ? { k: e.rx.k, pid: e.rx.pid, left: +(e.rx.until - eng.now).toFixed(1), why: e.dbg.rx || '' } : null };
+    aw: skAwTop(eng, e), awN: e.aw.size, rx: e.rx ? { k: e.rx.k, pid: e.rx.pid, left: +(e.rx.until - eng.now).toFixed(1), why: e.dbg.rx || '' } : null, lv: e.dbg.lv || '' };
 }
 function skAwTop(eng, e) {
   let A = null; for (const q of e.aw.values()) if (!A || q.p > A.p) A = q;
-  return A ? { pid: A.pid, p: +A.p.toFixed(2), tier: ['-', 'noticed'][A.tier] || String(A.tier), why: A.why, ago: +(eng.now - A.last).toFixed(1), d: A.d, looks: A.looks } : null;
+  return A ? { pid: A.pid, p: +A.p.toFixed(2), tier: A.p >= SK.pWarn ? 'provoked' : A.tier ? 'noticed' : '-', why: A.why, ago: +(eng.now - A.last).toFixed(1), d: A.d, looks: A.looks,
+    warns: A.warns || 0, orbits: A.orbits || 0 } : null;
 }
 SKIN.tick = skinTick;
 SKIN.debug = skDebug;

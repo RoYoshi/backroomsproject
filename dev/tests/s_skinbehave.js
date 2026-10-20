@@ -3,7 +3,8 @@
  * No scenario sets an AI decision: they place people, move them as a player would, and read what the creature did.  Every scenario
  * that says the creature noticed or ignored somebody also counts whether that person was SEEN (e.seenNow) or HEARD at the time.
  * (The scripts that move a person may use where the creature really is: that is the player's own sight of it, not the creature's.)
- * B1: BR01-BR07, awareness while it roams or leaves. */
+ * B1: BR01-BR07, awareness while it roams or leaves.  B2: BR09, BR11-BR14, BR20, provocation, warnings, fading, the very hungry
+ * departure. */
 'use strict';
 const { World, DT, over, rate, AI } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -201,6 +202,135 @@ add('BR07 an uncertain sound: footsteps it hears from behind a wall turn it to l
   });
   const U = rs.filter(r => r.unseen), looked = U.filter(r => r.heardLooks > 0);
   return { ok: U.length >= 4 && U.every(r => r.ok) && looked.length >= 3 && rs.every(r => !r.strike), note: `${U.length}/6 never saw them (the others saw them over the wall's end: not this case, excluded): ${U.filter(r => r.ok).length}/${U.length} kept no record, never reacted to them as a person, never struck; ${looked.length}/${U.length} turned to look at the sound (${U.map(r => r.heardLooks).join('/')} times; aimed ${[].concat(...U.map(r => r.off)).join('/')} px from where they really were)`, data: rs };
+});
+
+/* ---------------------------------------------------------------- B2: provocation, warning, fading, the very hungry departure */
+/* somebody pressing in on it: they keep `R` px from it, facing it (their own sight of it), walking after it when it backs away */
+const presser = (w, e, p, R = 70) => () => { const d = Math.hypot(p.x - e.x, p.y - e.y), ux = (p.x - e.x) / (d || 1), uy = (p.y - e.y) / (d || 1); p.mode = 'walk'; p.path = null; p.tx = { x: e.x + ux * R, y: e.y + uy * R }; p.look = Math.atan2(e.y - p.y, e.x - p.x); };
+/* a spot beside its way ahead (180 px off it), 250-500 px from it, in its line of sight - somebody it will come upon without walking into
+ * them (a hungry one grabs whoever is within its reach) - facing it */
+function ahead(w, e) {
+  const pts = e.path.concat([{ x: e.x + Math.cos(e.ang) * 400, y: e.y + Math.sin(e.ang) * 400 }]);
+  for (const q0 of pts) for (const sd of [1, -1]) {
+    const a0 = Math.atan2(q0.y - e.y, q0.x - e.x), q = { x: q0.x - Math.sin(a0) * 180 * sd, y: q0.y + Math.cos(a0) * 180 * sd }, d = Math.hypot(q.x - e.x, q.y - e.y);
+    if (d >= 250 && d <= 500 && w.ad.clear(q.x, q.y, 22, 'walk') && w.eng.geo.lineClear(e.x, e.y, q.x, q.y, 6, 'walk')) return { x: q.x, y: q.y, a: Math.atan2(e.y - q.y, e.x - q.x) };
+  }
+  return null;
+}
+const warnsOf = (T, pid) => looks(T).filter(s => s.rx === 'warn:' + pid);
+add('BR09 counterplay: somebody who presses in on a satiated one until it warns them, then backs off, is let go - the pressure fades, nothing follows them, it goes its way', () => {
+  const rs = over([1, 2, 3, 4, 5, 6], seed => {
+    const { w, e, p } = stage(seed, { hunger: 0 }); const T = trace(w, e, p); let go = presser(w, e, p), warnAt = -1, away = null;
+    w.run(40, (ww, t) => {
+      if (warnAt < 0 && e.rx && e.rx.k === 'warn') { warnAt = t; const a = Math.atan2(p.y - e.y, p.x - e.x); away = { x: p.x + Math.cos(a) * 700, y: p.y + Math.sin(a) * 700 }; go = null; p.look = null; p.pathTo(away.x, away.y, 'walk') || p.go(away.x, away.y, 'walk'); }
+      if (go && t > .5) go();
+      return every(T.take)(ww, t);
+    });
+    const after = warnAt < 0 ? [] : T.filter(s => s.t >= warnAt + 3), A = e.aw.get(p.id), peak = Math.max(...T.map(s => s.pr));
+    const p15 = (T.find(s => s.t >= warnAt + 15) || {}).pr, closest = after.length ? Math.min(...after.map(s => s.d)) : -1;
+    const followed = after.some(s => HUNT.has(s.plan) && s.P && s.P.pid === p.id), warns = warnsOf(T, p.id).length;
+    return { ok: warnAt >= 0 && p15 !== undefined && p15 < AI.SK.pAware && !followed && closest > 300 && !w.kills.length && warns === 1, warnAt: +warnAt.toFixed(1), peak, p15, closest, followed, warns, end: T[T.length - 1].d };
+  });
+  return { ok: rate(rs) >= 5 / 6, note: `${rs.filter(r => r.ok).length}/6: warned them after ${rs.map(r => r.warnAt).join('/')} s of pressing (peak pressure ${rs.map(r => r.peak).join('/')}); 15 s after the warning ${rs.map(r => r.p15).join('/')}; nearest after they backed off ${rs.map(r => r.closest).join('/')} px; followed ${rs.filter(r => r.followed).length}; warnings ${rs.map(r => r.warns).join('/')}; apart at the end ${rs.map(r => r.end).join('/')} px`, data: rs };
+});
+add('BR11 a brief accidental bump: somebody who walks straight into a satiated one once and on - no attack of any kind; at most unease (a look, a warning)', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const { w, e, p } = stage(seed, { hunger: 0 }); const T = trace(w, e, p); let t0 = -1, from = null, strike = false; const go = passer(w, e, p, 25);   // (aimed 25 px to its side: they brush it and walk on)
+    w.run(16, (ww, t) => { if (t0 < 0 && planOf(e) === 'leave' && t > 1) { t0 = t; from = go.start(seed); } if (from) go.step(); if (e.pounce) strike = true; return every(T.take)(ww, t); });
+    const after = T.filter(s => s.t >= t0), dmin = Math.min(...after.map(s => s.d)), peak = Math.max(...after.map(s => s.pr));
+    return { ok: !!from && !strike && !w.kills.length && peak < (AI.SK.pDefend ?? .8), exercised: !!from && dmin < 70, dmin, peak, warns: warnsOf(after, p.id).length, looks: looks(after).filter(s => s.rx === 'look:' + p.id).length, strike };
+  });
+  const ex = rs.filter(r => r.exercised);
+  return { ok: ex.length >= 6 && ex.every(r => r.ok), note: `${ex.length}/8 bumped into it (closest ${ex.map(r => r.dmin).join('/')} px): strikes ${ex.filter(r => r.strike).length}, kills 0; peak pressure ${ex.map(r => r.peak).join('/')} (it may defend only from ${(AI.SK.pDefend ?? .8)}); looks ${ex.map(r => r.looks).join('/')}, warnings ${ex.map(r => r.warns).join('/')}`, data: rs };
+});
+add('BR12 two people: one presses in on it, the other stands by in its view - the provocation stays the presser\'s; the bystander is never warned, and gets no pressure beyond their own presence', () => {
+  const rs = over([1, 2, 3, 4, 5, 6], seed => {
+    const { w, e, p } = stage(seed, { hunger: 0 }); const T = trace(w, e, p);
+    const q = w.player(ARENA.x - 40, ARENA.y + 260, { light: true, angle: -Math.PI / 2 }); q.stop('stand'); q.look = () => Math.atan2(e.y - q.y, e.x - q.x);
+    const go = presser(w, e, p); let qMax = 0, qWarn = 0, qSeen = 0, strikeQ = false;
+    w.run(30, (ww, t) => {
+      if (t > .5) go();
+      const B = e.aw.get(q.id); if (B) qMax = Math.max(qMax, B.p); if (e.rx && e.rx.k === 'warn' && e.rx.pid === q.id) qWarn++; if (e.seenNow.has(q.id)) qSeen++;
+      if (e.pounce && e.pounce.tid === q.id) strikeQ = true;
+      return every(T.take)(ww, t);
+    });
+    const pw = warnsOf(T, p.id).length, killedQ = w.kills.some(k => k.pid === q.id);
+    return { ok: qWarn === 0 && qMax <= AI.SK.capNear + 1e-9 && !strikeQ && !killedQ, pw, qMax: +qMax.toFixed(2), qSeen, qWarn, pMax: Math.max(...T.map(s => s.pr)) };
+  });
+  return { ok: rate(rs) === 1, note: `${rs.filter(r => r.ok).length}/6: the presser warned ${rs.map(r => r.pw).join('/')} times (peak ${rs.map(r => r.pMax).join('/')}); the bystander (seen ${rs.map(r => r.qSeen).join('/')} ticks) peaked at ${rs.map(r => r.qMax).join('/')} (presence alone stops at ${AI.SK.capNear}), warned 0, struck at 0, killed 0`, data: rs };
+});
+add('BR13 a long harassment: three minutes of somebody pressing in on it - its warnings stay spaced, its records stay few, it is never pinned in one place', () => {
+  const rs = over([1, 2, 3], seed => {
+    const { w, e, p } = stage(seed, { hunger: 0 }); const T = trace(w, e, p); const go = presser(w, e, p, 80);
+    let maxAw = 0, react = 0, n = 0, maxHeard = 0; const cells = new Set();
+    w.run(180, (ww, t) => {
+      if (t > .5 && !p.dead) go();
+      maxAw = Math.max(maxAw, e.aw.size); maxHeard = Math.max(maxHeard, e.heard.length); n++; if (e.rx) react++; cells.add(Math.round(e.x / 200) + ',' + Math.round(e.y / 200));
+      return every(T.take)(ww, t);
+    });
+    const W = warnsOf(T, p.id), gaps = W.slice(1).map((s, i) => +(s.t - W[i].t).toFixed(1)), minGap = gaps.length ? Math.min(...gaps) : 99;
+    return { ok: maxAw <= AI.SK.awMax && minGap >= AI.SK.warnTime[0] + AI.SK.warnGap - .15 && react / n < .6 && cells.size >= 4, warns: W.length, minGap, maxAw, reacting: +(react / n).toFixed(2), places: cells.size, kills: w.kills.length };
+  });
+  return { ok: rate(rs) === 1, note: `${rs.filter(r => r.ok).length}/3: warnings ${rs.map(r => r.warns).join('/')} (never closer than ${rs.map(r => r.minGap).join('/')} s apart), awareness records at most ${rs.map(r => r.maxAw).join('/')}, reacting ${rs.map(r => r.reacting).join('/')} of the time, ${rs.map(r => r.places).join('/')} 200-px places visited; kills ${rs.map(r => r.kills).join('/')}`, data: rs };
+});
+add('BR14 a very hungry departure: thought over only on fresh sight of somebody it may hunt, after a few seconds, at most once a second - never because hunger rose, never for the person it left, never after a lost race', () => {
+  // A: it leaves two people (A, B); B walks off out of sight, A stays (on its cooldown); later a newcomer C comes into view alone
+  const fresh = over([1, 2, 3, 4], seed => {
+    const { w, e, p } = stage(seed, { hunger: .7 }); const b = w.player(ARENA.x + 330, ARENA.y + 90, { light: true, angle: Math.PI }); b.stop('stand'); b.look = Math.PI;
+    let leftAt = -1, cAt = -1, c = null, changedAt = -1, P0 = null, seenC = -1;
+    w.run(30, (ww, t) => {
+      if (leftAt < 0 && planOf(e) === 'leave') { leftAt = t; P0 = e.plan; b.light = false; b.pathTo(ARENA.x + 1400, ARENA.y + 900, 'walk'); }
+      if (leftAt >= 0 && !c && t - leftAt > 6) { const s0 = ahead(w, e); if (s0) { c = w.player(s0.x, s0.y, { light: true, angle: s0.a }); c.stop('stand'); c.look = s0.a; cAt = t; } }
+      if (c && seenC < 0 && e.seenNow.has(c.id)) seenC = t;
+      if (P0 && changedAt < 0 && e.plan !== P0) changedAt = t;
+      return true;
+    });
+    return { leftAt: +leftAt.toFixed(1), cAt: +cAt.toFixed(1), seenC: +seenC.toFixed(1), changedAt: +changedAt.toFixed(1), why: e.dbg.lv || '', reconsider: e.tally.reconsider, ok: leftAt >= 0 && (changedAt < 0 || (seenC >= 0 && changedAt >= seenC && changedAt - leftAt >= AI.SK.leaveDwell)) };
+  });
+  // B: it leaves the one person; they hide; its hunger crosses into starving during the departure: nothing changes
+  const stale = over([1, 2, 3, 4], seed => {
+    const { w, e, p } = stage(seed, { hunger: .79 }); const q = w.player(ARENA.x + 330, ARENA.y + 90, { light: true, angle: Math.PI }); q.stop('stand'); q.look = Math.PI;
+    let leftAt = -1, P0 = null, changed = false, ended = '', seenAfter = 0;
+    w.run(25, (ww, t) => {
+      if (leftAt < 0 && planOf(e) === 'leave') { leftAt = t; P0 = e.plan; for (const x of [p, q]) { x.light = false; x.x = ARENA.x - 1200; x.y = ARENA.y + 1100; x.stop('crouch'); } }
+      if (P0 && !ended && e.plan !== P0) { ended = P0.goal && Math.hypot(P0.goal.x - e.x, P0.goal.y - e.y) < 90 ? 'arrived' : w.eng.now >= P0.until - .2 ? 'its time' : 'changed'; changed = ended === 'changed'; }
+      if (P0 && (e.seenNow.has(p.id) || e.seenNow.has(q.id))) seenAfter++;
+      return true;
+    });
+    return { ok: leftAt >= 0 && !changed && e.hunger >= .8, leftAt: +leftAt.toFixed(1), hunger: +e.hunger.toFixed(3), changed, ended: ended || 'still leaving', seenAfter, reconsider: e.tally.reconsider };
+  });
+  // C: it loses a straight race (SK22's), then somebody new comes into view during that departure: it keeps going
+  const race = over([1, 2, 3, 4], seed => {
+    const w = World(seed + 300), y = 3504; const p = w.player(5300, y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
+    const e = w.eng.spawn('skinstealer', 5000, y, { hunger: .7 }); e.tier = 'near'; e.ang = 0; p.go(8700, y, 'run');
+    let P0 = null, c = null, changed = false, ended = '', seenC = 0;
+    w.run(26, (ww, t) => {
+      if (!P0 && planOf(e) === 'leave') P0 = e.plan;
+      if (P0 && !c && w.eng.now - P0.t0 > 5) { const s0 = ahead(w, e); if (s0) { c = w.player(s0.x, s0.y, { light: true, angle: s0.a }); c.stop('stand'); c.look = s0.a; } }
+      if (c && e.seenNow.has(c.id)) seenC++;
+      if (P0 && !ended && e.pounce) ended = 'its arm\'s-reach grab (Trial 3: a hungry one grabs whoever is in its reach)';
+      if (P0 && !ended && e.plan !== P0) { ended = P0.goal && Math.hypot(P0.goal.x - e.x, P0.goal.y - e.y) < 90 ? 'arrived' : w.eng.now >= P0.until - .2 ? 'its time' : 'changed'; changed = ended === 'changed'; }
+      return true;
+    });
+    return { ok: !!P0 && P0.race === true && !changed, race: !!(P0 && P0.race), seenC, changed, ended: ended || 'still leaving' };
+  });
+  const fr = fresh.filter(r => r.changedAt >= 0);
+  return { ok: rate(fresh) === 1 && rate(stale) === 1 && race.filter(r => r.seenC > 0).length >= 2 && rate(race) === 1,
+    note: `newcomer: ${fresh.map(r => `left at ${r.leftAt} s, newcomer seen at ${r.seenC} s, ${r.changedAt < 0 ? 'kept its departure' : r.reconsider ? 'gave up its departure at ' + r.changedAt + ' s' : 'its departure ended at ' + r.changedAt + ' s (kept it when it thought again)'}`).join(' | ')} | hidden, hunger past 0.8 during the departure: changed ${stale.filter(r => r.changed).length}/4 (${stale.map(r => r.ended).join(', ')}; hunger at the end ${stale.map(r => r.hunger).join('/')}) | after a lost race: a lost-race departure ${race.filter(r => r.race).length}/4, the newcomer seen ${race.map(r => r.seenC).join('/')} ticks, changed ${race.filter(r => r.changed).length}/4 (${race.map(r => r.ended).join(', ')})`, data: { fresh, stale, race } };
+});
+add('BR20 nothing stale survives: a person who leaves the game, goes far away for a minute, or an admin clear, a removal or a world reset - their pressure goes with it', () => {
+  const press = (seed) => { const { w, e, p, anchor } = stage(seed, { hunger: 0 }); const go = presser(w, e, p); w.run(5, (ww, t) => { if (t > .5) go(); return true; }); return { w, e, p, anchor, p0: e.aw.get(p.id) ? +e.aw.get(p.id).p.toFixed(2) : 0 }; };
+  const out = {};
+  { const { w, e, p, p0 } = press(1); w.sim.removePlayer(p); w.run(.5); out.disconnect = { p0, kept: e.aw.has(p.id), rx: !!(e.rx && e.rx.pid === p.id) }; }
+  { const { w, e, p, anchor, p0 } = press(2); p.x = 8600; p.y = 6100; p.stop('crouch'); p.light = false; anchor.x = 8500; anchor.y = 6200; w.run(60); const farTier = e.tier;   // (everybody far away: its level of detail goes far)
+    p.x = e.x + 350; p.y = e.y; p.light = true; p.stop('stand'); p.look = Math.PI; anchor.x = e.x - 1500; anchor.y = e.y; w.run(.8); const A = e.aw.get(p.id), back = A ? +A.p.toFixed(3) : 0, tierBack = e.tier;
+    let warns = 0; w.run(8, () => { if (e.rx && e.rx.k === 'warn') warns++; return true; });
+    out.far = { p0, farTier, tierBack, back, warns }; }
+  { const { w, e, p, p0 } = press(3); w.eng.navCmd(e, 'clear', p); out.clear = { p0, n: e.aw.size, rx: !!e.rx }; }
+  { const { w, e, p0 } = press(4); const id = e.id; w.sim.admin.removeSkinStealer(); out.removed = { p0, gone: !w.eng.entities.some(x => x.id === id) }; }
+  { const { w, p0 } = press(5); w.sim.resetWorld(); out.reset = { p0, none: !w.eng.entities.some(x => x.kind === 'skinstealer') }; }
+  const ok = Object.values(out).every(o => o.p0 >= AI.SK.pAware) && !out.disconnect.kept && !out.disconnect.rx && out.far.farTier === 'far' && out.far.tierBack === 'near' && out.far.back < .05 && !out.far.warns && out.clear.n === 0 && !out.clear.rx && out.removed.gone && out.reset.none;
+  return { ok, note: `pressure built first (${Object.values(out).map(o => o.p0).join('/')}); left the game: record ${out.disconnect.kept ? 'KEPT' : 'dropped'}; a minute far away (tier ${out.far.farTier}, then ${out.far.tierBack}): their pressure when it is near again ${out.far.back}, warnings in the next 8 s ${out.far.warns}; admin clear: ${out.clear.n} records; removed: gone ${out.removed.gone}; world reset: none ${out.reset.none}`, data: out };
 });
 
 module.exports = S;
