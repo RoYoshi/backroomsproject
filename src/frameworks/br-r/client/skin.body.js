@@ -4,13 +4,13 @@
  * and the darkness hide it exactly as they hide the Hound.  It is shaded by the light where it stands (BR-RoLE's window.__light, as the
  * Hound's view is) and carries no light of its own.  Local space: forward is -y, +x is its right (the Hound's convention).
  * Interim art (Trial 3): restrained and reproducible, for the owner's QA; no supplied portrait or asset exists.
- * imports: head { API clamp K lerp sm TAU }, mirror { clear list }
- * exports: -
+ * imports: head { API clamp hooks K lerp sm TAU }, mirror { clear list }
+ * exports: classes, newView, paint, shadeView
  * provides: skinBody
  * uses: -
  * writes: -
  */
-function skinBody({ head: { API, clamp, K, lerp, sm, TAU }, mirror: { clear, list } }) {
+function skinBody({ head: { API, clamp, hooks, K, lerp, sm, TAU }, mirror: { clear, list } }) {
 const SC = { line: 0x14100d, skin: 0xa2988b, skinLo: 0x6c6259, skinHi: 0xcbc1b2, fold: 0x7d7368, nail: 0x2a2320, hair: 0x15120f, mouth: 0x2a0d0e };
 const views = new Map();                                   // entity id -> view
 let Cc = null, Gc = null;                                  // the page's Container and Graphics classes
@@ -29,11 +29,16 @@ function ik(ax, ay, tx, ty, l1, l2, side) {
   let px = -dy / d, py = dx / d; if (px * side < 0) { px = -px; py = -py; }
   return { ex: ax + dx * a / d + px * h, ey: ay + dy * a / d + py * h, tx, ty };
 }
+/* a view (a Container holding one Graphics) with its pose state; (Trial 3 T4) the kill module makes its attackers with it too */
+function newView(label) {
+  const v = new Cc(), g = new Gc();
+  v.addChild(g); v.__g = g; v.__skin = true; v.label = label;
+  v.__s = { ph: Math.random() * TAU, px: null, py: null, vf: 0, crouch: 0, reach: 0, back: 0, lean: 0, tilt: 0, tiltT: 0, tiltTo: 0, twitch: 0, seed: Math.random() * 100, spd: 0 };
+  return v;
+}
 function make(id) {
-  const A = API(), layer = A.layer(), v = new Cc(), g = new Gc();
-  v.addChild(g); v.__g = g; v.__skin = true; v.__id = id; v.label = 'skinstealer#' + id;
-  v.__s = { ph: Math.random() * TAU, px: null, py: null, vf: 0, crouch: 0, reach: 0, back: 0, lean: 0, tilt: 0, tiltT: 0, tiltTo: 0, twitch: 0, seed: Math.random() * 100 };
-  layer.addChild(v); views.set(id, v); return v;
+  const v = newView('skinstealer#' + id); v.__id = id;
+  API().layer().addChild(v); views.set(id, v); return v;
 }
 /* the pose from what the server says it is doing (its act and state, its speed), eased so it never pops */
 function pose(S, o, t, dt) {
@@ -119,25 +124,35 @@ function paint(v, o, t) {
   for (let i = 0; i < 5; i++) { const a = -Math.PI / 2 + (i - 2) * .42 + S.tilt * .5; g.moveTo(hx, hyy + 1).lineTo(hx + Math.cos(a) * 6.5, hyy + 1 + Math.sin(a) * 6.5).stroke({ color: SC.hair, width: .9, alpha: .7 }); }
   g.moveTo(hx - 3.6 + S.tilt * 2, hyy - 5.6).quadraticCurveTo(hx + S.tilt * 3, hyy - 7.4, hx + 3.6 + S.tilt * 2, hyy - 5.6).stroke({ color: SC.mouth, width: 1.5 });
 }
+/* shaded by the light where it stands (BR-RoLE's sample, eased), as the Hound's view is; no light of its own */
+function shadeView(v, x, y, flash, dt) {
+  const L = window.__light; if (!L) return;
+  const s = L.sample(x, y, flash, v.__lt || (v.__lt = L.mk())), shade = L.shade(s.total);
+  v.__shade = v.__shade === undefined ? shade : v.__shade + (shade - v.__shade) * (1 - Math.exp(-dt * 8));
+  const c = Math.round(v.__shade * 255); v.tint = c << 16 | c << 8 | c;
+}
 /* once a frame (mp.js's N.A.N.I. module calls it after the mirror): every view placed, posed, shaded by the light where it stands */
 function draw(dt) {
   dt = clamp(+dt || .016, .001, .1);
   const A = API(); if (!A || !classes()) return;
-  const now = performance.now() / 1000, flash = !!(A.lightOn && A.lightOn()), L = window.__light, H = A.H, seen = new Set();
+  const now = performance.now() / 1000, flash = !!(A.lightOn && A.lightOn()), H = A.H, seen = new Set();
   for (const o of list()) {
     seen.add(o.id);
     const v = views.get(o.id) || make(o.id), S = v.__s;
     const far = H && Math.hypot(o.x - H.x, o.y - H.y) > 1600;    // off any screen: not drawn (nothing of it shows, nothing is spent)
     v.visible = !far; if (far) { S.px = null; continue; }
+    if (hooks.hidden && hooks.hidden(o)) { v.visible = false; S.px = null; continue; }   // its kill is playing: the death's own attacker is drawn instead
     pose(S, o, now, dt);
     v.position.set(o.x, o.y); v.rotation = o.angle + Math.PI / 2; v.alpha = 1;
-    if (L) { const s = L.sample(o.x, o.y, flash, v.__lt || (v.__lt = L.mk())), shade = L.shade(s.total); v.__shade = v.__shade === undefined ? shade : v.__shade + (shade - v.__shade) * (1 - Math.exp(-dt * 8)); const c = Math.round(v.__shade * 255); v.tint = c << 16 | c << 8 | c; }
+    shadeView(v, o.x, o.y, flash, dt);
     paint(v, o, now);
   }
   for (const [id, v] of views) if (!seen.has(id)) { views.delete(id); try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } }
+  if (hooks.frame) hooks.frame(dt);
 }
 /* a new world, a closed connection: no view and no record stays behind */
 function reset() { clear(); for (const v of views.values()) { try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } } views.clear(); }
 K.draw = draw;
 K.clear = reset;
+return { classes, newView, paint, shadeView };
 }

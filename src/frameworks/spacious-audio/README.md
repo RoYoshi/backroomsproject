@@ -26,6 +26,7 @@ No retuning in a refactor: a sound moves only with a listening check.
 | [`client/mp-hum.js`](client/mp-hum.js) | mp-hum.js - the fluorescent light hum of the multiplayer layer (mp.js): a synthesized magnetic ballast on the game's own audio context. | `public/assets/mp-hum.js` |
 | [`client/mp.dread.js`](client/mp.dread.js) | Spacious Audio: the dread's sound (the drone and the heartbeat); a module: audioDread | `public/mp.js` (a part) |
 | [`client/sfx.js`](client/sfx.js) | Drop-in custom sounds. Put audio files in ./sounds (mp3 / ogg / wav / m4a / flac) named like: | `public/sfx.js` |
+| [`client/skin.audio.js`](client/skin.audio.js) | Spacious Audio: the Skin-Stealer's sounds (procedural, through the game's own audio); a module: skinAudio | `public/assets/skinstealer.js` (a part) |
 <!-- end of generated block -->
 
 A file marked "(a part)" is one part of a bigger script: its `/** @part` header says which script, what the part provides to the others, what it uses of theirs and which of their bindings it writes; `node dev/tools/checks/parts.js` proves the header. Since continuation C3b a part of `world.js`, `move.js`, `camcorder.js`, `glitch.js` or `ents.js` is a module, and since C3c a part of `mp.js` too: one factory, given what it uses of the modules made before it; its header also lists its `imports` and `exports` (and, for `mp.js`'s session, the names it is given `late`), and the script's `*.compose.js` part makes the modules in order (`docs/architecture/CONTRACTS.md` section 4; `node dev/tools/checks/modules.js` proves the boundaries).

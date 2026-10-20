@@ -826,9 +826,9 @@
     },
     {
      "file": "src/frameworks/nani/server/ai.capture.js",
-     "find": "\\(KILL_DUR\\[variant\\] \\|\\| ([\\d.]+)\\)",
+     "find": "\\(durs\\[variant\\] \\|\\| ([\\d.]+)\\)",
      "value": 4.5,
-     "note": "the server's fallback"
+     "note": "the server's fallback (Trial 3: durs is a species' own lengths - the Skin-Stealer's - or KILL_DUR)"
     },
     {
      "file": "src/frameworks/gib/shared/dphys.js",
@@ -836,6 +836,25 @@
      "count": 2,
      "value": 4.4,
      "note": "dphys.js's fallback (a death's plan and its duration)"
+    }
+   ]
+  },
+  {
+   "id": "skinstealer-kill-time",
+   "finding": "Trial 3 (T4)",
+   "owners": "N.A.N.I. (the server holds the Skin-Stealer on its kill), G.I.B. (dphys.js, the death)",
+   "what": "how long a Skin-Stealer stays on its kill, s, by the death's variant: its deaths' lengths",
+   "copies": [
+    {
+     "file": "src/frameworks/gib/shared/dphys.js",
+     "find": "Boom: \\{ A: 3\\.2 \\}, SkinStealer: (\\{[^}]*\\})",
+     "as": "literal",
+     "source": true
+    },
+    {
+     "file": "src/frameworks/nani/server/ai.skinstealer.js",
+     "find": "commitDur: (\\{[^}]*\\})",
+     "as": "literal"
     }
    ]
   },

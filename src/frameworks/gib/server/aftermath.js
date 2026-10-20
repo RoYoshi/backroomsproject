@@ -59,6 +59,7 @@ function aftTick(room) {
       R.body.de = a.de;
       putBody(room, a.id, R.body, a.at + deathSrv.durOf(a.kill) * 1000);                          // (Stage 3D HQ1: made at the death's end, its own time)
       if (a.kill.k === 'Hound' && room.sim.killerEnd) room.sim.killerEnd(a.id, R.attacker.x, R.attacker.y, R.attacker.angle);    // (Stage 3D HQ2: only a hound has a killer to place; a NEW RUN blast has none)
+      if (a.kill.k === 'SkinStealer' && room.sim.killerEnd) room.sim.killerEnd(a.id, R.attacker.x, R.attacker.y, R.attacker.angle);    // (Trial 3: the Skin-Stealer too)
       console.log(`[death] room=${room.name} #${a.id} de=${a.de}: ${a.kill.k} ${a.kill.v || ''} corpse placed`);
     } catch (e) { console.error('[death] corpse failed', e && e.message); }
   }

@@ -32,6 +32,7 @@ Presentation only. Its look is accepted: the contact lab and the browser checks 
 | [`client/mp.wanderers.js`](client/mp.wanderers.js) | BR-R: the other Wanderers: their hover names and avatars' clean-up; a module: brrWanderers | `public/mp.js` (a part) |
 | [`client/skin.body.js`](client/skin.body.js) | BR-R: the Skin-Stealer drawn (a tall, thin, wrong figure, procedural and articulated); a module: skinBody | `public/assets/skinstealer.js` (a part) |
 | [`client/skin.compose.js`](client/skin.compose.js) | BR-R: skinstealer.js's composition: it makes each owner's module in order, and closes the wrapper | `public/assets/skinstealer.js` (a part) |
+| [`client/skin.kill.js`](client/skin.kill.js) | BR-R: the Skin-Stealer in a death: the attacker our own death and every replay ask for, posed from the death's own physics; and the mirrored one hidden while its kill plays; a module: skinKill | `public/assets/skinstealer.js` (a part) |
 | [`shared/world.art.js`](shared/world.art.js) | BR-R: the props' art (drawProp, into the game's static Graphics); a module: worldArt | `public/world.js`, `generated/server/world.js` (a part) |
 <!-- end of generated block -->
 

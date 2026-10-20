@@ -82,29 +82,57 @@ here and proposed in `BALANCE_TABLE.md`; none of them is owner-approved.
   with the seed (16 seeds: 10 / 5 / 1); two runs that differ only in where the unseen person goes produce the same Skin-Stealer until
   its own evidence differs; it meets the person who keeps to their way and waits in vain for the one who doubles back.
 
-## D6. The attack: a short committed pounce, a fast finisher
+## D6. The attack: a short committed pounce, a fast finisher (revised at T4, as built)
 
-- Pounce: a visible wind-up (a crouch and a click cue), then a straight committed leap along the aimed line with swept collision. A
-  wall stops it (recovery); passing the person is a miss (recovery, cooldown, stamina spent). Contact within ~16 px of its body
-  during the leap starts a capture.
-- Capture is always quick (`capture.quick = 1`; the admin's forced "play" is ignored for this species: `capture.noPlay`). No
-  playful loop, no release.
-- Death variants (server-chosen, physical, replayed identically everywhere): **A** grab and neck break (it reached the person at
-  close range), **B** pounce into a pin and neck break (the leap carried it in fast), **C** neck bite (an exhausted or cornered
-  victim, or a starving Skin-Stealer). A and B draw no blood; C draws a small, restrained amount. No variant is gratuitous.
-- After the kill it stays on the body for the death's length (the Hound's commitment mechanism, with its own lengths), then feeds
-  only while unobserved; seen while feeding, it leaves.
+- **When:** from approach, chase, lure, interception or search - never while watching, retreating, leaving or feeding - with the
+  person its plan is about in sight 55-185 px away, a clear line, hungry (>= .4), not exhausted, its stamina >= 22 and no cooldown.
+  Only a leap that can reach them is taken: from what it sees of their motion (moving away, they gain during the wind-up and the
+  leap), so against a person walking away it must be within ~70-90 px, against a still one ~170 px. It aims where it believes they
+  will be at the moment it reaches them, with a seeded error that INTELLIGENCE shrinks. At striking distance it does not stop to
+  think (the strike check runs before the decision on its think).
+- **The strike:** a 0.22 s crouched wind-up (the tell: act `wind`, readable on every screen), then a committed straight leap at
+  430 px/s for up to 0.36 s (about 110-150 px) that it cannot steer, with swept collision. Every leap costs 22 stamina, hit or miss
+  (the leap itself is not also charged as running). **Lethal only on contact:** a body its own body has reached (centres within
+  its radius + 18 px) with nothing solid between - the one place it reads where a person really is, as the pack allows, and only
+  once its own leap has physically arrived there. A wall stops the leap (1.1 s stunned); passing the person is a miss (0.9-1.3 s
+  standing, recovering; 2-3 s before another leap). A miss is real counterplay: SK31's dodger gets away in 6/6.
+- **The grab:** anybody who walks into arm's reach (46 px, a clear line) of a hungry one is taken after a 0.12 s grab - whatever it
+  was doing, even leaving (D4's "only somebody who walks into arm's reach of a hungry one is not left alone").
+- **Shadowing (found at T4):** a stalker at 90 px/s could never reach an unaware walker; a moving person is now shadowed at their own
+  pace + 30 px/s (up to 200 px/s, a long-legged walk that costs no stamina; T3 counted anything over 150 px/s as running).
+- **Capture:** always quick (`capture.quick = 1`; `capture.noPlay`: the admin's forced "play" is ignored for this species - SK33).
+- **Death variants** (server-chosen by weight, physical, replayed identically everywhere): **A** a grip from close by and the neck
+  (heaviest for a grab), **B** the leap carries them down, then the neck (heaviest for a landed pounce), **C** held and bitten at the
+  neck (heaviest for a winded or cornered victim, or a starving Skin-Stealer). Blood, as built: the physics marks blood at each of the
+  plan's blows - A one (at the snap), B two (the landing, the snap), C two bites; the Hound's deaths have four and the Smiler's three.
+  Its wounds on the body (gore.js): finger bruises at either side of the neck, a dark throat, a small bite.
+- **After the kill:** it stays on the body for the death's length (the Hound's commitment mechanism, with its own lengths 3.2 / 3.4 /
+  3.5 s), its plan over; then the meal (hunger -0.35) and it feeds beside the body (-0.03 /s, 18-35 s, far from everyone too) only
+  while undisturbed: seen within 520 px or watched, it leaves. It never moves the body.
+- Not built at T4: a sound for the wind-up and footfalls (T5, its presentation and audio).
 
-## D7. G.I.B.: the new killer everywhere a death is decided or drawn
+## D7. G.I.B.: the new killer everywhere a death is decided or drawn (as built at T4)
 
-- `dphys.js` gets `CFG.SkinStealer` (A, B, C), `DURS.SkinStealer`, a `PLAN` branch, and accepts the kind in `begin` / `prepare`.
-  Existing Hound / Smiler steps keep the same code in the same order with the same random draws, so their deaths, replays and
-  corpses do not change.
-- `death_srv.js` warms the third kind, sends it in `fxFor` (no more "anything else is a Hound"), validates its variants and length.
-- `aftermath.js` places the Skin-Stealer where its death left it, as it does a Hound.
-- Victim (`death.ts`), spectators (`mp.deaths.js`) and the server fallback all run `dphys` with the same inputs; a parity test runs
-  the server path and the screen path headless and compares the corpse and the attacker's end pose.
-- Exactly one corpse per player and its dropped light are unchanged G.I.B. behaviour.
+- `dphys.js`: `CFG.SkinStealer` (A, B, C), `DURS.SkinStealer` (3.2 / 3.4 / 3.5 s), a `PLAN` branch (no drag; A one blow, B two, C two
+  bites), and its one event, the **snap** (A at 0.58 s, B at 0.9 s): the victim's resistance is zero from that instant, the body turns
+  with the twist, the hands drop, the light (A) or the hat goes. Physically it is a grappler like the Hound (the Hound's solid-contact,
+  grip and ease-off physics, its own numbers), so `hound` is true for it inside the step and `sk` marks the few lines that are its own.
+  `begin` and `prepare` name it as its own killer (they turned every non-Smiler into a Hound). The Hound's and the Smiler's 144
+  deaths of SK34 are bit for bit P9's (sha256 of every number `dphys.simulate` gives, against P9's own `dphys.js`).
+- `death_srv.js`: the replay message names it (`c`), the death's length is its own (`durOf`), its deaths are warmed at load.
+- `aftermath.js`: one line beside the Hound's (which the gate's mutant still finds as it was) places it where its death left it.
+- `ai.capture.js`: commitment is species-driven (`capture.commit`, `capture.commitDur`); `chooseMode` respects `capture.noPlay`;
+  `previewKill` gives it A-C. The Hound's values are the same; the facts check follows the renamed fallback and binds the new lengths
+  in both places (`skinstealer-kill-time`).
+- Client: the bundle's own death of the victim takes the server's kill record (kind `SkinStealer`) as it does any other; ents.js's
+  `attackSmiler` (which the bundle calls for every non-Hound killer) hands its attacker to `skinstealer.js`, which hides the view it
+  was given and draws its own, posed from the death's physics; G.I.B.'s replay of another player's death takes its attacker from
+  `skinstealer.js` (with the same `attackPose` call the Hound's view answers); the real creature's mirrored view is hidden while its
+  kill plays on that screen; `sfx.js` and ents.js's death voice hand its death's sound to `skinstealer.js` (procedural).
+- Evidence (browser, real server, two pages): the victim's death and the spectator's replay name it, its attacker is drawn on both,
+  both get the same corpse (cause `SkinStealer`), and a victim whose page closes mid-death still gets exactly one corpse - the
+  server's (`skin_browser.js` t4). Headless: the replay message, the length, the server's corpse and the killer's placement (SK35).
+- Exactly one corpse per player and its dropped light are G.I.B.'s unchanged behaviour.
 - Rejected: drawing its kills with the Hound's death and recoloured art (the pack forbids it).
 
 ## D8. Disguise: earned at a kill, never generic, never a player

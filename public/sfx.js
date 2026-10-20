@@ -23,7 +23,10 @@
       s.onended = () => { try { s.disconnect(); g.disconnect(); p && p.disconnect(); } catch (e) {} };
       s.start(); return true;
     },
-    death(kind, O) { const o = { vol: O && O.gain != null ? O.gain : 1, pan: O && O.pan || 0 }; return api.play('death_' + String(kind).toLowerCase(), o) || api.play('death', o); },   // O: Stage 3D, a spectator's placement
+    death(kind, O) {                                            // O: Stage 3D, a spectator's placement
+      // Trial 3: a Skin-Stealer's death is skinstealer.js's own (procedural); our own death reaches here named 'Hound' by the bundle
+      if (window.__skin && window.__skin.deathSound && (kind === 'SkinStealer' || (!O && window.__lastCause === 'SkinStealer'))) return window.__skin.deathSound(O);
+      const o = { vol: O && O.gain != null ? O.gain : 1, pan: O && O.pan || 0 }; return api.play('death_' + String(kind).toLowerCase(), o) || api.play('death', o); },
     loop(n, vol, pan = 0) {                                     // start on first use, then just steer gain/pan
       const z = Zc(); if (!z || !has(n)) return false;
       let l = loops[n];

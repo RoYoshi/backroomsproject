@@ -77,3 +77,21 @@ Where a value differs from the T0 proposal above, the T0 line is superseded by t
 | `heardFresh` / `heardMin` | 2.5 s / sound intensity 0.12 | |
 | `chaseFrom` / `chaseMax` / `chaseLose` | 420 px / 7 s / the gap 140 px past the closest it got | T0 proposed a 4 + 8 × hunger s budget |
 | "fleeing" | moving away > 200 px/s, or > 110 px/s within 4 s of eye contact | someone who walks on is stalked, not chased |
+
+## As built after T4 (the strike and the kill; still PROPOSED)
+
+| Name | Value | Notes |
+|---|---|---|
+| `pounceRange` | 55-185 px | and only a leap that can reach them: start distance + their seen speed away x (wind-up + leap) - (its radius + 16) <= 0.85 x 430 x 0.36 |
+| `pounceWind` / `pounceSpeed` / `pounceDur` | 0.22 s / 430 px/s / 0.36 s | as proposed; a leap covers about 110-150 px |
+| `pounceCost` | 22 stamina per leap, hit or miss | the leap itself is not also charged as running |
+| `pounceCool` / `recoverMiss` / `recoverWall` | 2-3 s / 0.9-1.3 s / 1.1 s | as proposed |
+| contact | centres within its radius (24) + 18 px, nothing solid between | lethal only at contact |
+| `grabReach` / `grabWind` | 46 px / 0.12 s | anybody in arm's reach of a hungry one |
+| shadowing pace | their speed + 30 px/s, up to 200 px/s | new at T4 |
+| `runFrom` | 200 px/s (T3: 150) | a brisk walk costs no stamina |
+| capture | always quick; never "play" | |
+| death variants (weights) | A 1.6 (0.5 after a landed pounce); B 2.6 after a landed pounce (0.15 otherwise); C 0.35 + 1.9 winded + 1.4 cornered + 1.4 starving | G.I.B.'s history rule still avoids a third identical death in a row |
+| death lengths A / B / C | 3.2 / 3.4 / 3.5 s | as proposed; the server's commitment uses the same (a facts check binds both) |
+| the snap | A 0.58 s, B 0.9 s; twist 7.5 / 6.5 rad/s | C has no snap (two bites at 0.45 and 0.95 s, the legs go at 0.95 s) |
+| `killMeal` / `feedRate` / `feedTime` | -0.35 / -0.03 per s / 18-35 s | as proposed; disturbed (seen within 520 px, or watched) it leaves |

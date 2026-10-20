@@ -36,7 +36,8 @@ function assess(eng, e, pv, attack) {
   return { threats: th, danger, approaching, seeing, iso: clamp(1 - danger * 1.1, 0, 1), deadEnd: arcs.arcs <= 1 && arcs.frac < .34, arcs, lit, rel, facing: Math.abs(rel) > 2.0, behind: Math.abs(rel) < 1.0 };
 }
 function chooseMode(eng, e, ctx) {
-  if (eng.forceCapture) return eng.forceCapture;                        // admin override (DEATHS tab): every catch is a quick kill / every catch is played with
+  if (eng.forceCapture && !e.sp.capture.noPlay) return eng.forceCapture;   // admin override (DEATHS tab): every catch is a quick kill / every catch is played with
+                                                                        // (Trial 3: a species that never plays with its prey - the Skin-Stealer - is not made to)
   const sp = e.sp.capture, q = sp.quick(e, ctx);
   return e.rng() < q ? 'quick' : 'play';
 }
@@ -80,7 +81,7 @@ function killNow(eng, cap, pv, e, why) {
   eng.sites.push({ x: pv.x, y: pv.y, t: eng.now, kind: e.kind, pid: pv.id, fed: 0 });
   if (eng.sites.length > 12) eng.sites.shift();
   finishCapture(eng, cap, pv, e);
-  if (e.kind === 'hound') { beginCommit(eng, e, pv, variant, ctx); return; }
+  if (e.kind === 'hound' || e.sp.capture.commit) { beginCommit(eng, e, pv, variant, ctx); return; }   // (Trial 3: the Skin-Stealer commits to its kill too)
   e.sp.capture.afterKill && e.sp.capture.afterKill(eng, e, ctx, pv);
 }
 /* KILL COMMITMENT (v20): a hound that kills stays on its kill for as long as the death takes to play out on every screen (the clients' death lengths,
@@ -88,7 +89,8 @@ function killNow(eng, cap, pv, e, why) {
  * The victim's client reports where the attacker ended up in the animation (drag etc.); the hound is set down there if that spot is close and clear. */
 const KILL_DUR = { A: 4.5, B: 4.7, C: 4.3, D: 4.5 };
 function beginCommit(eng, e, pv, variant, ctx) {
-  e.commit = { pid: pv.id, v: variant, x: e.x, y: e.y, until: eng.now + (KILL_DUR[variant] || 4.5) + .25, ctx, body: false };
+  const durs = e.sp.capture.commitDur || KILL_DUR;                           // (Trial 3: a species' own death lengths - dphys.js DURS - the Hound's otherwise)
+  e.commit = { pid: pv.id, v: variant, x: e.x, y: e.y, until: eng.now + (durs[variant] || 4.5) + .25, ctx, body: false };
   e.path = []; e.trav = null; e.lunge = null; e.aim = null; e.speed = 0; e.target = null; setAct(e, 'feed');
   e.dbg.commit = variant;
 }
@@ -115,7 +117,7 @@ function commitEnd(eng, pid, x, y, a) {                                      // 
  * variant honest (for the hound's C: a real wall behind the victim), then the ordinary quick capture runs - so the kill record, the events, what the entity does
  * afterwards and everything the clients replay are exactly what a natural death produces. */
 function previewKill(eng, e, variant, pv) {
-  const geo = eng.geo, V = /^[ABCD]$/.test(variant) ? variant : 'A', hound = e.kind === 'hound';
+  const geo = eng.geo, V = /^[ABCD]$/.test(variant) && !(e.kind === 'skinstealer' && variant === 'D') ? variant : 'A', hound = e.kind === 'hound';   // (Trial 3: the Skin-Stealer has A-C)
   if (!pv || !pv.alive || pv.caught || e.cap) return { ok: false, why: 'busy: already caught or dead' };
   const fwd = pv.angle, wantC = hound && V === 'C';
   const base = hound ? { A: fwd, B: fwd + Math.PI - .7, C: fwd, D: fwd + Math.PI }[V] : fwd;     // where the attacker stands, as an angle seen from the victim

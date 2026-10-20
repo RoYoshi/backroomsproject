@@ -14,11 +14,11 @@ const fs = require('fs'), path = require('path');
 const box = {};
 new Function('window', fs.readFileSync(path.join(__dirname, '..', '..', '..', '..', 'generated', 'server', 'dphys.js'), 'utf8') + '\n//# sourceURL=dphys.js')(box);
 const DP = box.__dphys;
-for (const kind of ['Hound', 'Smiler']) DP.simulate({ kind, v: 'A', victim: { x: 500, y: 500, angle: 0 }, src: { x: 454, y: 500 }, walls: () => [], clear: () => true });
+for (const kind of ['Hound', 'Smiler', 'SkinStealer']) DP.simulate({ kind, v: 'A', victim: { x: 500, y: 500, angle: 0 }, src: { x: 454, y: 500 }, walls: () => [], clear: () => true });
 
-/* what the victim's client would have sent as 'fx' for a death, from the server's own record */
+/* what the victim's client would have sent as 'fx' for a death, from the server's own record (Trial 3: c names the Skin-Stealer too) */
 function fxFor(id, kill, info) {
-  return { t: 'fx', k: 'death', id, c: kill.k === 'Smiler' ? 'Smiler' : 'Hound', x: kill.x, y: kill.y, a: kill.a, sx: kill.ax, sy: kill.ay,
+  return { t: 'fx', k: 'death', id, c: kill.k === 'Smiler' || kill.k === 'SkinStealer' ? kill.k : 'Hound', x: kill.x, y: kill.y, a: kill.a, sx: kill.ax, sy: kill.ay,
     v: /^[ABCD]$/.test(kill.v) ? kill.v : 'A', w: kill.w || 0, lk: info.look, ek: info.ek, ec: info.ec, ep: info.ep, vx: Math.round(info.vx || 0), vy: Math.round(info.vy || 0), ex: info.ex ? 1 : 0, srv: 1 };
 }
 /* Stage 3D: the physical death as the server runs it - begun at the kill (begin), advanced a little on every pass of the server's loop
@@ -43,7 +43,7 @@ function corpse(id, kill, info, P) {
     attacker: R.attacker, dur: R.dur };
 }
 const bodyFor = (id, kill, info, sim) => corpse(id, kill, info, begin(kill, info, sim));
-const durOf = kill => kill.k === 'Boom' ? DP.DURS.Boom.A : (DP.DURS[kill.k === 'Smiler' ? 'Smiler' : 'Hound'] || {})[kill.v] || 4.4;
+const durOf = kill => kill.k === 'Boom' ? DP.DURS.Boom.A : (DP.DURS[kill.k === 'Smiler' || kill.k === 'SkinStealer' ? kill.k : 'Hound'] || {})[kill.v] || 4.4;   // (Trial 3: the Skin-Stealer's own lengths)
 /* Stage 3D HQ2: NEW RUN's self-destruction as a server event, beside the deaths.  The record (B): k 'Boom', where the player stood and
  * faced (x, y, a), the blast's seed and direction (s, d: dphys.boomPlan of the world and the event id) and, for a lit light, the HQ1
  * light profile (lf).  Its replay message, its run (the same 240 Hz physics every screen runs from the same numbers) and, at its end,

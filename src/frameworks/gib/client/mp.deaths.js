@@ -48,14 +48,14 @@ function startFx(m) {
   const pe = peers.get(m.id), f = { id: m.id, de: m.de, k: m.k, t0: now, av, look, gear, src: { x: m.x, y: m.y, angle: m.a, vx: 0, vy: 0, distance: 0 }, old: bodiesList.find(b => b.k === m.id), lf: Array.isArray(m.lf) ? m.lf : null,
     lo: m.lo != null ? !!m.lo : !!(pe && pe.l) };                              // was their light on when they died (the server says so since 3D; else their last snapshot)
   if (m.k === 'death') {
-    const jl = new A.Jl(); jl.start(m.c === 'Smiler' ? 'Smiler' : 'Hound', now, { x: m.sx, y: m.sy }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat, vx: m.vx || 0, vy: m.vy || 0, ex: m.ex ? 1 : 0 }, { v: m.v, w: m.w });
+    const jl = new A.Jl(); jl.start(m.c === 'Smiler' || m.c === 'SkinStealer' ? m.c : 'Hound', now, { x: m.sx, y: m.sy }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat, vx: m.vx || 0, vy: m.vy || 0, ex: m.ex ? 1 : 0 }, { v: m.v, w: m.w });
     f.jl = jl; A.floor().addChild(jl.blood); layer.addChild(jl.foreground, jl.debris);
     if (!(+m.el > .3) && EN() && EN().deathVoice) EN().deathVoice(m.c, m.x, m.y, jl.ph && jl.ph.ctx ? jl.ph.ctx.hits.slice() : null);   // Stage 3D: heard where it happens
-    f.att = m.c === 'Smiler' ? new A.Gl({ x: m.sx, y: m.sy, angle: 0, state: 'ATTACKING', off: false, side: 0 }) : new A.Wl(); layer.addChild(f.att);
+    f.att = m.c === 'Smiler' ? new A.Gl({ x: m.sx, y: m.sy, angle: 0, state: 'ATTACKING', off: false, side: 0 }) : m.c === 'SkinStealer' && window.__skin ? window.__skin.attacker() : new A.Wl(); layer.addChild(f.att);   // (Trial 3: the Skin-Stealer's own attacker, which poses itself in attackPose)
     f.cause = m.c; f.kill = { h: -1, s: -1 };                                    // hide the real monster that made the kill while its attack replays
     let bd = 240; for (const o of hMap.values()) { const d = Math.hypot(o.x - m.sx, o.y - m.sy); if (d < bd) { bd = d; f.kill.h = o.slot; } }
     bd = 240; (A.q || []).forEach((s, i) => { const d = Math.hypot(s.x - m.sx, s.y - m.sy); if (!s.off && d < bd) { bd = d; f.kill.s = i; } });
-    if (m.c === 'Smiler') f.kill.h = -1; else f.kill.s = -1;
+    if (m.c !== 'Hound') f.kill.h = -1; if (m.c !== 'Smiler') f.kill.s = -1;          // (Trial 3: a Skin-Stealer's kill hides neither; skinstealer.js hides its own killer)
     window.__hideBodies.add('r' + m.id);
   } else if (m.k === 'boom') {                                                     // Stage 3D HQ2: a NEW RUN blast - the server's event, its seed and direction; no attacker
     const d = +m.d || 0, jl = new A.Jl(); jl.start('Boom', now, { x: m.x - Math.cos(d), y: m.y - Math.sin(d) }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat, vx: m.vx || 0, vy: m.vy || 0, ex: 0 }, { v: 'A', s: m.s, d });

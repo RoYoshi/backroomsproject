@@ -5,7 +5,7 @@
  * (window.__api.layer(): the same sight mask and darkness as everything else), shaded by BR-RoLE's light sample (window.__light).
  * The compiled client is not changed (the gate's port and bundle steps prove it is still the shipped program).
  * imports: -
- * exports: ACTS, angDiff, API, clamp, K, lerp, sm, STATES, TAU
+ * exports: ACTS, angDiff, API, clamp, hooks, K, lend, lerp, sm, STATES, TAU
  * provides: skinHead
  * uses: -
  * writes: -
@@ -20,11 +20,15 @@ const lerp = (a, b, t) => a + (b - a) * t;
 const sm = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
 const angDiff = (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b));
 const API = () => window.__api;
-/* the script's public object: each module adds its own entries (mirror: the snapshot's list; body: draw, clear, attacker views) */
+/* the script's public object: each module adds its own entries (mirror: the snapshot's list; body: draw, clear; kill: the attacker in a
+ * death; audio: a death's sounds) */
 const K = window.__skin = {};
+/* what a later module lends an earlier one, inside the script only (never on the page): kill's test of a creature whose kill is playing */
+const hooks = { hidden: null, frame: null };
+const lend = (name, fn) => { if (name in hooks) hooks[name] = fn; };
 /* the codes as the server sends them: the shared states (ai.head.js S, numbered SCODE) and the Skin-Stealer's acts (ai.skinstealer.js
  * KACT); dev/tools/checks/facts.json holds every copy of each to the same list */
 const STATES = ['DORMANT', 'ROAMING', 'CURIOUS', 'ALERT', 'WATCHING', 'STALKING', 'HUNTING', 'SEARCHING', 'CAUTIOUS', 'FRUSTRATED', 'EXCITED', 'FEEDING', 'PLAYING', 'RETREATING', 'HIDDEN', 'FOLLOWING', 'PROVOKED', 'ATTACKING', 'DISAPPEARING'];
 const ACTS = ['', 'watch', 'back', 'leave', 'wait', 'lure', 'intercept', 'search', 'listen', 'approach', 'creep', 'chase', 'wind', 'pounce', 'recover', 'feed', 'mimic', 'rest', 'pace'];
-return { ACTS, angDiff, API, clamp, K, lerp, sm, STATES, TAU };
+return { ACTS, angDiff, API, clamp, hooks, K, lend, lerp, sm, STATES, TAU };
 }

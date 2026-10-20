@@ -160,7 +160,7 @@
    "getters": [
     "API"
    ],
-   "memberCount": 4
+   "memberCount": 5
   },
   "assets/ui.js": {
    "loadedByIndexHtml": true,
@@ -199,7 +199,7 @@
    ],
    "readBy": {
     "ents.js": 2,
-    "assets/skinstealer.js": 2
+    "assets/skinstealer.js": 6
    }
   },
   {
@@ -248,7 +248,7 @@
     "mp.js": 11,
     "assets/br-role.js": 2,
     "assets/shadows-2d.js": 6,
-    "assets/skinstealer.js": 2
+    "assets/skinstealer.js": 8
    }
   },
   {
@@ -1035,6 +1035,7 @@
     "move.js": 2,
     "sfx.js": 2,
     "assets/mp-hum.js": 2,
+    "assets/skinstealer.js": 2,
     "assets/voice.js": 2
    }
   },
@@ -1161,7 +1162,7 @@
     "mp.js": 4,
     "assets/br-role.js": 2,
     "assets/shadows-2d.js": 2,
-    "assets/skinstealer.js": 3
+    "assets/skinstealer.js": 5
    }
   },
   {

@@ -45,14 +45,14 @@ renaming one breaks the others silently.
 | `window.__deathLight` | `mp.js` | `assets/br-role.js`, `assets/index-DKbV5Nv9.js`, `light.js` |
 | `window.__deathLightNow` | - | `mp.js` |
 | `window.__dlab` | `mp.js` | `assets/index-DKbV5Nv9.js`, `dphys.js`, `ents.js` |
-| `window.__dphys` | `dphys.js` | `assets/index-DKbV5Nv9.js`, `ents.js`, `gore.js`, `mp.js` |
+| `window.__dphys` | `dphys.js` | `assets/index-DKbV5Nv9.js`, `assets/skinstealer.js`, `ents.js`, `gore.js`, `mp.js` |
 | `window.__dsndHits` | `ents.js` | `assets/index-DKbV5Nv9.js` |
 | `window.__dvic` | `mp.js` | `assets/index-DKbV5Nv9.js` |
 | `window.__ents` | `ents.js` | `assets/br-role.js`, `assets/index-DKbV5Nv9.js`, `assets/shadows-2d.js`, `dphys.js`, `light.js`, `mp.js` |
 | `window.__epochDebug` | `mp.js` | `assets/chat.js` |
 | `window.__fxKill` | `mp.js` | `assets/index-DKbV5Nv9.js` |
 | `window.__fxKillS` | `mp.js` | `assets/index-DKbV5Nv9.js` |
-| `window.__fxs` | `mp.js` | - |
+| `window.__fxs` | `mp.js` | `assets/skinstealer.js` |
 | `window.__glitches` | `glitch.js`, `mp.js` | - |
 | `window.__glitchFrame` | `glitch.js` | `mp.js` |
 | `window.__glitchSolo` | `mp.js` | - |
@@ -71,7 +71,7 @@ renaming one breaks the others silently.
 | `window.__kill` | `assets/index-DKbV5Nv9.js`, `mp.js` | - |
 | `window.__killer` | `mp.js` | `assets/index-DKbV5Nv9.js` |
 | `window.__l0v` | `assets/l0-remaster.js` | `assets/index-DKbV5Nv9.js`, `gore.js` |
-| `window.__lastCause` | `assets/index-DKbV5Nv9.js` | - |
+| `window.__lastCause` | `assets/index-DKbV5Nv9.js` | `sfx.js` |
 | `window.__light` | `light.js` | `assets/index-DKbV5Nv9.js`, `assets/shadows-2d.js`, `assets/skinstealer.js`, `ents.js` |
 | `window.__loadout` | `inventory.js` | `assets/index-DKbV5Nv9.js`, `assets/ui.js` |
 | `window.__mp` | `assets/shadows-2d.js`, `mp.js` | `assets/index-DKbV5Nv9.js` |
@@ -91,7 +91,7 @@ renaming one breaks the others silently.
 | `window.__settings` | `hud.js` | `assets/chat.js`, `assets/rgb.js`, `assets/ui.js`, `assets/voice.js` |
 | `window.__sfx` | `sfx.js` | `assets/index-DKbV5Nv9.js`, `assets/mp-hum.js`, `mp.js` |
 | `window.__shadows` | `assets/shadows-2d.js` | - |
-| `window.__skin` | `assets/skinstealer.js` | `mp.js` |
+| `window.__skin` | `assets/skinstealer.js` | `ents.js`, `mp.js`, `sfx.js` |
 | `window.__ui` | `assets/ui.js` | `assets/chat.js` |
 | `window.__uiCustomizeTab` | `assets/ui.js` | - |
 | `window.__voice` | `assets/voice.js` | `assets/chat.js`, `assets/ui.js` |

@@ -126,3 +126,21 @@ Each is either extended for the third species or proven harmless by a test at T1
 10. `aftermath.js`: `killerEnd`.
 11. `dphys.js`: `create`; `PLAN`; `DURS`; `begin`; `prepare`; `frame` (Smiler alpha); `stepAttacker`.
 12. Clients: `mp.monsters.js`; `net-interp.js`; `mp.deaths.js` (`m.c === 'Smiler' ? … : Hound`); `ents.death.js` (`deathPlan`, `localKill`); `ents.head.js` tables; TS `death.ts`, `render.ts`, `main.ts`, `entity.ts`, `corpse-view.ts`; `br-role.js` actors; `ents.audio.js`.
+
+## Status after T4 (the rows above as built so far)
+
+| Row | Status | Where |
+|---|---|---|
+| Third species, spawn, snapshot, mirror | DONE (T1) | `ai.skinstealer.js`, `sim.ai.js` / `sim.admin.js` / `admin.js`, `sim.step.js`, `skinstealer.js` |
+| Hunger, stamina, non-engagement, budgets | DONE (T2) | `ai.skinstealer.js`; engine hook `sp.farTick` |
+| Lure, prediction, interception, chase, search, hearing | DONE (T3) | `ai.skinstealer.js`; engine hook `sp.still` |
+| Kill commitment | DONE (T4): `capture.commit`, `capture.commitDur`, `capture.noPlay` | `ai.capture.js` |
+| Physical death | DONE (T4): `CFG` / `PLAN` / `DURS.SkinStealer`, the snap; Hound and Smiler bit-identical to P9 | `dphys.js` |
+| Server fallback | DONE (T4) | `death_srv.js` |
+| Aftermath | DONE (T4): one added line beside the Hound's | `aftermath.js` |
+| One corpse per player, dropped light | unchanged G.I.B.; verified for its kills, a disconnect mid-death included (browser t4) | — |
+| Deaths on screen (victim, spectators) | DONE (T4): its own attacker, posed from the physics; the real one hidden during its kill | `ents.death.js`, `mp.deaths.js`, `skinstealer.js` (skin.kill.js) |
+| Wounds | DONE (T4) | `gore.js` |
+| Death sounds | DONE (T4), procedural | `sfx.js`, `ents.audio.js`, `skinstealer.js` (skin.audio.js) |
+| BR-RoLE actor, its own ambient audio, the art pass | T5 | |
+| Disguise, heard speech | T6 | |

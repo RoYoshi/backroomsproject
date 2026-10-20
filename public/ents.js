@@ -402,7 +402,7 @@ E.deathPlan = function (jl, kind, K) {
   const wall = K && K.w && K.w.length === 3 ? { x: K.w[0], y: K.w[1], ang: K.w[2] } : null;
   // the numbers (knock, drag, blows, timing) live in dphys.js: one table for this death class and for the server's fallback aftermath
   const P = Object.assign(window.__dphys.PLAN(kind, v, wall ? Math.hypot(wall.x - jl.victim.x, wall.y - jl.victim.y) : 40), { wall, black: null });
-  if (kind !== 'Hound') {                                                                                                       // the smiler's blackouts
+  if (kind === 'Smiler') {                                                                                                      // the smiler's blackouts (Trial 3: never the Skin-Stealer's)
     if (v === 'B') P.black = t => sm(.05, .12, t) * (1 - sm(.85, 1.6, t));                                                    // cornered: it closes, everything goes black, the body falls where it stood
     else if (v === 'C') P.black = t => sm(.02, .07, t) * (1 - sm(.4, .9, t)) * .8;                                            // the lights failed: the last dark
   }
@@ -429,8 +429,10 @@ E.deathExtras = function (g, jl, t) {
   if (len > 4) g.moveTo(w.x, w.y).lineTo(jx, jy).stroke({ color: 0x5c0f0c, width: 9, alpha: .34 * k, cap: 'round' });
 };
 
-/* the smiler that attacks in a death sequence: fully formed, arms reaching */
-E.attackSmiler = function (view, t, dt) {
+/* the smiler that attacks in a death sequence: fully formed, arms reaching.  (Trial 3: the bundle calls this for every killer that is not
+ * the Hound; a Skin-Stealer's death hands its attacker to skinstealer.js, which hides the view it was given and draws its own) */
+E.attackSmiler = function (view, t, dt, death) {
+  if (death && death.kind === 'SkinStealer' && window.__skin && window.__skin.attack) { window.__skin.attack(view, t, dt, death); return; }
   drawSmiler(view, { state: 'ATTACKING', act: 'rush', face: 1, head: 0, special: 1 }, t, dt || .016, 1);
 };
 
@@ -588,6 +590,7 @@ E.deathEvent = function (q, jl, S) {
     setTimeout(() => play(x, y, .25, .25, (n, v) => { noiseLayer(n, 'bandpass', hard ? 2200 : 1300, 5, v * .5, .002, .01, 1600); }, { far: 900 }), 175); }
   else if (q.k === 'eqhit' && q.sp > 40 && S.eq) play(S.eq.x, S.eq.y, clamp(q.sp / 300, .12, .35), .2, (n, v) => noiseLayer(n, 'bandpass', 2000, 4, v * .6, .002, .01, 1400), { far: 900 });
   else if (q.k === 'hat' && S.hat) { const x = S.hat.x, y = S.hat.y; setTimeout(() => play(x, y, .2, .25, (n, v) => noiseLayer(n, 'lowpass', 520, .8, v * .7, .004, .02, 260), { far: 700 }), 120); }
+  else if (q.k === 'snap' && window.__skin && window.__skin.deathEvent) window.__skin.deathEvent(q, jl, S, place);   // Trial 3: the Skin-Stealer's own (skinstealer.js)
 };
 /* Stage 3D HQ2: a NEW RUN blast, once, placed where it happened (distance, pan, muffled through walls), through the game's own audio
  * (master volume, sound on/off): a deep thump, a short crack and a dull rumble that dies in about a second - loud near, gone far away */
@@ -603,7 +606,7 @@ E.boomVoice = function (x, y) {
 E.deathVoice = function (kind, x, y, hits) {
   const a = API(); if (!a || !soundOn() || !Zc()) return; const Z = a.audio(); if (!Z || !Z.death) return;
   const p = place(x, y, 160, 1700); if (p.g < .02) return;
-  Z.death(kind === 'Smiler' ? 'Smiler' : 'Hound', { hits, gain: p.g, pan: p.pan, lp: p.lp });
+  Z.death(kind === 'Smiler' || kind === 'SkinStealer' ? kind : 'Hound', { hits, gain: p.g, pan: p.pan, lp: p.lp });   // (Trial 3: the Skin-Stealer's is its own)
 };
 
 /* per-frame voice of every entity that is near: breathing, footfalls, the smiler's face forming */

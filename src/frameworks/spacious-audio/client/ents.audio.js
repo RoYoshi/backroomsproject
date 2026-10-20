@@ -134,6 +134,7 @@ E.deathEvent = function (q, jl, S) {
     setTimeout(() => play(x, y, .25, .25, (n, v) => { noiseLayer(n, 'bandpass', hard ? 2200 : 1300, 5, v * .5, .002, .01, 1600); }, { far: 900 }), 175); }
   else if (q.k === 'eqhit' && q.sp > 40 && S.eq) play(S.eq.x, S.eq.y, clamp(q.sp / 300, .12, .35), .2, (n, v) => noiseLayer(n, 'bandpass', 2000, 4, v * .6, .002, .01, 1400), { far: 900 });
   else if (q.k === 'hat' && S.hat) { const x = S.hat.x, y = S.hat.y; setTimeout(() => play(x, y, .2, .25, (n, v) => noiseLayer(n, 'lowpass', 520, .8, v * .7, .004, .02, 260), { far: 700 }), 120); }
+  else if (q.k === 'snap' && window.__skin && window.__skin.deathEvent) window.__skin.deathEvent(q, jl, S, place);   // Trial 3: the Skin-Stealer's own (skinstealer.js)
 };
 /* Stage 3D HQ2: a NEW RUN blast, once, placed where it happened (distance, pan, muffled through walls), through the game's own audio
  * (master volume, sound on/off): a deep thump, a short crack and a dull rumble that dies in about a second - loud near, gone far away */
@@ -149,7 +150,7 @@ E.boomVoice = function (x, y) {
 E.deathVoice = function (kind, x, y, hits) {
   const a = API(); if (!a || !soundOn() || !Zc()) return; const Z = a.audio(); if (!Z || !Z.death) return;
   const p = place(x, y, 160, 1700); if (p.g < .02) return;
-  Z.death(kind === 'Smiler' ? 'Smiler' : 'Hound', { hits, gain: p.g, pan: p.pan, lp: p.lp });
+  Z.death(kind === 'Smiler' || kind === 'SkinStealer' ? kind : 'Hound', { hits, gain: p.g, pan: p.pan, lp: p.lp });   // (Trial 3: the Skin-Stealer's is its own)
 };
 
 /* per-frame voice of every entity that is near: breathing, footfalls, the smiler's face forming */

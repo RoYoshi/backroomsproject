@@ -348,6 +348,11 @@
       const base = -.55 + (r() - .5) * .5, ox = -3 + (r() - .5) * 4, oy = -6 + (r() - .5) * 4;
       for (let i = 0; i < 3; i++) gash(g, ox + i * 5.2 - 4, oy + i * 1.6, 15 + r() * 7, 2.4 + r() * 1.8, base + (r() - .5) * .16, r, e);
       gash(g, 6 + (r() - .5) * 3, 5, 12 + r() * 4, 3.6, .9 + (r() - .5) * .4, r, e);
+    } else if (c === 'SkinStealer') {                     // Trial 3: a grip at the neck - finger bruises either side, the throat dark; a bite at the side of it
+      for (const sd of [-1, 1]) for (let i = 0; i < 3; i++) { const x = sd * (6.5 + i * 1.8) + (r() - .5), y = -11.5 + i * 2.6 + (r() - .5);
+        g.ellipse(x, y, 2.2 + r() * .8, 1.6 + r() * .5).fill({ color: 0x4a2a46, alpha: .5 * e }); g.ellipse(x, y, 1.2, .9).fill({ color: 0x2c1530, alpha: .55 * e }); }
+      g.ellipse(0, -12.5, 6, 2.8).fill({ color: 0x3a2034, alpha: .45 * e });
+      puncture(g, 4.5 + (r() - .5) * 2, -10.5, 2.2 + r() * .6, r, e * .8); puncture(g, 7.5 + (r() - .5) * 2, -8.5, 1.9 + r() * .5, r, e * .8);
     } else {                                               // stabbing bites: punctures with bruising and one long tear
       puncture(g, -4 + (r() - .5) * 3, -5, 3.4 + r(), r, e); puncture(g, 5 + (r() - .5) * 3, -2, 3 + r(), r, e); puncture(g, -1, 5 + (r() - .5) * 3, 3.6 + r(), r, e);
       gash(g, 3, -8, 13 + r() * 4, 3.1, .3 + (r() - .5) * .5, r, e);

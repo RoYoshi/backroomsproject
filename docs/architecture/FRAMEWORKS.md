@@ -14,8 +14,8 @@ names the lineage step it ports and that step's owners (`core/client/game/PORT_L
 |---|---|---|---|---|
 | [B++](../../src/frameworks/bpp/README.md) | `src/frameworks/bpp/` | networking and replication | 3 client, 6 server | page: `assets/net-interp.js`, `assets/net-wire.js`, `mp.js`; 6 server modules |
 | [BR-RoLE](../../src/frameworks/br-role/README.md) | `src/frameworks/br-role/` | lighting and shadows | 2 client | page: `assets/br-role.js`, `light.js` |
-| [BR-R](../../src/frameworks/br-r/README.md) | `src/frameworks/br-r/` | world and actor rendering | 13 client, 1 shared | page: `assets/l0-remaster.js`, `assets/skinstealer.js`, `camcorder.js`, `camera_policy.js`, `ents.js`, `move.js`, `mp.js`, `world.js`; server: `world.js` |
-| [Spacious Audio](../../src/frameworks/spacious-audio/README.md) | `src/frameworks/spacious-audio/` | sound presentation | 7 client | page: `assets/mp-hum.js`, `camcorder.js`, `ents.js`, `glitch.js`, `move.js`, `mp.js`, `sfx.js` |
+| [BR-R](../../src/frameworks/br-r/README.md) | `src/frameworks/br-r/` | world and actor rendering | 14 client, 1 shared | page: `assets/l0-remaster.js`, `assets/skinstealer.js`, `camcorder.js`, `camera_policy.js`, `ents.js`, `move.js`, `mp.js`, `world.js`; server: `world.js` |
+| [Spacious Audio](../../src/frameworks/spacious-audio/README.md) | `src/frameworks/spacious-audio/` | sound presentation | 8 client | page: `assets/mp-hum.js`, `assets/skinstealer.js`, `camcorder.js`, `ents.js`, `glitch.js`, `move.js`, `mp.js`, `sfx.js` |
 | [N.A.N.I.](../../src/frameworks/nani/README.md) | `src/frameworks/nani/` | entity intelligence | 3 client, 13 server | page: `assets/skinstealer.js`, `mp.js`; server: `ai.js`; 2 server modules |
 | [S.P.A.C.E.](../../src/frameworks/space/README.md) | `src/frameworks/space/` | movement, collision, placement | 3 client, 4 server, 5 shared | page: `move.js`, `mp.js`, `timing_policy.js`, `world.js`; server: `world.js`; 4 server modules |
 | [G.I.B.](../../src/frameworks/gib/README.md) | `src/frameworks/gib/` | deaths, gibs and corpses | 3 client, 3 server, 1 shared | page: `dphys.js`, `ents.js`, `gore.js`, `mp.js`; server: `dphys.js`; 3 server modules |

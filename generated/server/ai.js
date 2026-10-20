@@ -977,7 +977,8 @@ function assess(eng, e, pv, attack) {
   return { threats: th, danger, approaching, seeing, iso: clamp(1 - danger * 1.1, 0, 1), deadEnd: arcs.arcs <= 1 && arcs.frac < .34, arcs, lit, rel, facing: Math.abs(rel) > 2.0, behind: Math.abs(rel) < 1.0 };
 }
 function chooseMode(eng, e, ctx) {
-  if (eng.forceCapture) return eng.forceCapture;                        // admin override (DEATHS tab): every catch is a quick kill / every catch is played with
+  if (eng.forceCapture && !e.sp.capture.noPlay) return eng.forceCapture;   // admin override (DEATHS tab): every catch is a quick kill / every catch is played with
+                                                                        // (Trial 3: a species that never plays with its prey - the Skin-Stealer - is not made to)
   const sp = e.sp.capture, q = sp.quick(e, ctx);
   return e.rng() < q ? 'quick' : 'play';
 }
@@ -1021,7 +1022,7 @@ function killNow(eng, cap, pv, e, why) {
   eng.sites.push({ x: pv.x, y: pv.y, t: eng.now, kind: e.kind, pid: pv.id, fed: 0 });
   if (eng.sites.length > 12) eng.sites.shift();
   finishCapture(eng, cap, pv, e);
-  if (e.kind === 'hound') { beginCommit(eng, e, pv, variant, ctx); return; }
+  if (e.kind === 'hound' || e.sp.capture.commit) { beginCommit(eng, e, pv, variant, ctx); return; }   // (Trial 3: the Skin-Stealer commits to its kill too)
   e.sp.capture.afterKill && e.sp.capture.afterKill(eng, e, ctx, pv);
 }
 /* KILL COMMITMENT (v20): a hound that kills stays on its kill for as long as the death takes to play out on every screen (the clients' death lengths,
@@ -1029,7 +1030,8 @@ function killNow(eng, cap, pv, e, why) {
  * The victim's client reports where the attacker ended up in the animation (drag etc.); the hound is set down there if that spot is close and clear. */
 const KILL_DUR = { A: 4.5, B: 4.7, C: 4.3, D: 4.5 };
 function beginCommit(eng, e, pv, variant, ctx) {
-  e.commit = { pid: pv.id, v: variant, x: e.x, y: e.y, until: eng.now + (KILL_DUR[variant] || 4.5) + .25, ctx, body: false };
+  const durs = e.sp.capture.commitDur || KILL_DUR;                           // (Trial 3: a species' own death lengths - dphys.js DURS - the Hound's otherwise)
+  e.commit = { pid: pv.id, v: variant, x: e.x, y: e.y, until: eng.now + (durs[variant] || 4.5) + .25, ctx, body: false };
   e.path = []; e.trav = null; e.lunge = null; e.aim = null; e.speed = 0; e.target = null; setAct(e, 'feed');
   e.dbg.commit = variant;
 }
@@ -1056,7 +1058,7 @@ function commitEnd(eng, pid, x, y, a) {                                      // 
  * variant honest (for the hound's C: a real wall behind the victim), then the ordinary quick capture runs - so the kill record, the events, what the entity does
  * afterwards and everything the clients replay are exactly what a natural death produces. */
 function previewKill(eng, e, variant, pv) {
-  const geo = eng.geo, V = /^[ABCD]$/.test(variant) ? variant : 'A', hound = e.kind === 'hound';
+  const geo = eng.geo, V = /^[ABCD]$/.test(variant) && !(e.kind === 'skinstealer' && variant === 'D') ? variant : 'A', hound = e.kind === 'hound';   // (Trial 3: the Skin-Stealer has A-C)
   if (!pv || !pv.alive || pv.caught || e.cap) return { ok: false, why: 'busy: already caught or dead' };
   const fwd = pv.angle, wantC = hound && V === 'C';
   const base = hound ? { A: fwd, B: fwd + Math.PI - .7, C: fwd, D: fwd + Math.PI }[V] : fwd;     // where the attacker stands, as an angle seen from the victim
@@ -2297,8 +2299,16 @@ SMILER.snap = e => ({ i: e.id, x: Math.round(e.x * 10) / 10, y: Math.round(e.y *
  *   add up and are never refilled by a change of plan; when they run out it leaves.  So it never pins anyone at a doorway for ever.
  * Spawned only by the admin tools (sim.ai.js adminSpawn / sim.admin.js): never by the world reset or the director.
  * T2: the animal, its senses as the engine gives them, roam / watch / retreat / approach / leave and the budgets.
- * T3 (this checkpoint): lying in wait (the bait), prediction and interception, a short chase, searching, hearing; T4 the pounce and the
- * kill. */
+ * T3: lying in wait (the bait), prediction and interception, a short chase, searching, hearing.
+ * T4 (this checkpoint): THE STRIKE.  From approach, chase, lure, interception or search, with the person in sight 55-185 px away, a
+ *   clear line and the stamina for it, it springs: a crouched wind-up (SK.pounceWind) aimed where it believes they will be when it
+ *   lands (their seen motion, a seeded error that INTELLIGENCE shrinks), then a committed straight leap it cannot steer.  Every leap
+ *   costs stamina, hit or miss.  It is lethal only on physical contact: a body its own body has reached, with nothing solid between
+ *   (the one place it looks at where a person really is - contact is physics, not perception).  A miss leaves it standing, recovering,
+ *   for about a second, and it cannot spring again for 2-3 s; a leap into a wall stuns it.  Anybody who walks into arm's reach of a
+ *   hungry one is taken with a short grab.  The capture is always quick (it never plays with its prey); the kill is one of three
+ *   (A a grip and a neck break; B the pounce carries them down and breaks the neck; C a hold and a bite at the neck), it stays on its
+ *   kill for as long as the death plays on every screen (the shared commitment), then feeds beside the body. */
 const KACT = { '': 0, watch: 1, back: 2, leave: 3, wait: 4, lure: 5, intercept: 6, search: 7, listen: 8, approach: 9, creep: 10, chase: 11, wind: 12, pounce: 13, recover: 14, feed: 15, mimic: 16, rest: 17, pace: 18 };
 /* the balance table (proposed; every value is named so it can be tested and tuned) */
 const SK = Object.freeze({
@@ -2306,7 +2316,8 @@ const SK = Object.freeze({
   hungerRate: .0016,                             // per second (about .1 a minute: satiated to hungry in about 4 minutes)
   band: [.2, .4, .6, .8],                        // satiated | mild | hungry | very hungry | starving
   stamExh: 8, stamBack: 40, stamLow: 25,         // exhausted under 8, itself again over 40; tired (fatigued speed) under 25
-  drainRun: 14, runFrom: 150,                    // stamina per second at its run speed (pro rata), counted only over runFrom px/s
+  drainRun: 14, runFrom: 200,                    // stamina per second at its run speed (pro rata), counted only over runFrom px/s (a long-legged
+                                                 //  walk - shadowing somebody - is free; T3 had 150)
   regenWalk: 6, regenStill: 11,                  // stamina per second walking / standing
   roamLeg: [500, 1600], roamPause: [1.5, 5], roamGiveUp: [12, 30],
   watch: [2, 6],                                 // seconds it stands and looks (x .7 .. 1.3 with PATIENCE)
@@ -2327,6 +2338,12 @@ const SK = Object.freeze({
   heardFresh: 2.5, heardMin: .12,                // a sound this recent and this strong is worth going to look at
   chaseFrom: 420, chaseMax: 7, chaseLose: 140,   // it gives chase only from closer than this; for at most this long; it gives up when the gap
                                                  //  has grown this much beyond the closest it got
+  pounceRange: [55, 185], pounceWind: .22,       // it springs from this close; the crouched wind-up before the leap (s)
+  pounceSpeed: 430, pounceDur: .36,              // the leap: 1.5 x a fresh sprint, below the Hound's lunge; about 150 px
+  pounceCost: 22, pounceCool: [2, 3],            // stamina per leap, hit or miss; seconds before it can spring again after a miss
+  recoverMiss: [.9, 1.3], recoverWall: 1.1,      // seconds it stands recovering after a miss; after a leap into a wall
+  grabReach: 46, grabWind: .12,                  // arm's reach (centre to centre) and the grab's wind-up
+  killMeal: .35, feedRate: .03, feedTime: [18, 35],   // hunger a kill takes away; while feeding, per second; how long it feeds
 });
 const SKIN = {
   name: 'SkinStealer', kind: 'skinstealer', initial: S.ROAMING, radius: 24, clearance: 21, vTop: 300, turnPenalty: .5, roamSpeed: 105,
@@ -2340,16 +2357,37 @@ const SKIN = {
   // run: 0.89 x a fresh sprint (285 px/s) - it loses a straight race to a rested runner and gains on a winded one (<= 219 px/s)
   speeds: { roam: 105, creep: 62, stalk: 90, disguise: 150, run: 255, fatigued: 180, follow: 105 },
   evidence: { sight: 3, sound: 1.5, light: 1.6 },               // (ai.intelligence.js evidenceWeights: its own, never the Smiler's)
+  /* its kills (ai.capture.js): always quick, committed for its own death lengths (dphys.js DURS.SkinStealer), one of three */
+  capture: {
+    noPlay: true, commit: true, commitDur: { A: 3.2, B: 3.4, C: 3.5 },
+    quick: () => 1,
+    variants(eng, e, pv, ctx, attack) {
+      const pounce = attack && attack.style === 'pounce' && (attack.speed || 0) > 250, winded = pv.ex || (pv.stamina != null && pv.stamina < 22);
+      return [
+        { k: 'A', w: pounce ? .5 : 1.6 },                                                     // a grip from close by, the neck broken
+        { k: 'B', w: pounce ? 2.6 : .15 },                                                    // the leap carries them down, then the neck
+        { k: 'C', w: .35 + (winded ? 1.9 : 0) + (ctx.deadEnd ? 1.4 : 0) + (e.hunger >= SK.band[3] ? 1.4 : 0) },   // held, a bite at the neck: a winded or cornered victim, a starving one
+      ];
+    },
+    afterKill(eng, e, ctx, pv) { skFeedBegin(eng, e, pv); },
+  },
   init(eng, e, opts) {
     const h = Number.isFinite(opts.hunger) ? opts.hunger : lerp(SK.hungerAtSpawn[0], SK.hungerAtSpawn[1], e.streams.personality());
     e.hunger = clamp(h, 0, 1); e.stam = 100; e.exh = false;
     e.plan = null; e.enc = null; e.left = new Map(); e.still = false; e.pounce = null; e.recover = 0; e.disguise = null; e.heard = []; e.said = 0;
     e.roam = { goal: null, until: 0, pause: 0 }; e.dbg.why = 'roaming'; e.dbg.decide = null; e.dbg.predict = null; e.dbg.soundSeen = 0;
-    e.tally = { lure: 0, lureCame: 0, intercept: 0, interceptCame: 0, chase: 0, chaseLost: 0, search: 0, searchFound: 0 };   // its record (debug, tests, the balance report)
+    e.tally = { lure: 0, lureCame: 0, intercept: 0, interceptCame: 0, chase: 0, chaseLost: 0, search: 0, searchFound: 0, pounce: 0, grab: 0, hit: 0, miss: 0, wall: 0, kills: 0 };   // its record (debug, tests, the balance report)
+    e.pounceCool = 0;
   },
   /* the engine's hooks (ai.engine.js): it never borrows a Hound's or a Smiler's own functions */
-  onFar(eng, e) { e.plan = null; e.pounce = null; e.roam.goal = null; e.roam.pause = 0; setState(e, S.ROAMING, ''); e.dbg.why = 'nobody within reach: it waits where it is'; },
-  farTick(eng, e, dt) { skBody(eng, e, dt); },                  // far from everyone it stands still, and is still hungry
+  onFar(eng, e) {
+    e.pounce = null; e.recover = 0; if (e.plan && e.plan.k === 'feed') return;                // feeding at its kill it carries on, alone
+    e.plan = null; e.roam.goal = null; e.roam.pause = 0; setState(e, S.ROAMING, ''); e.dbg.why = 'nobody within reach: it waits where it is';
+  },
+  farTick(eng, e, dt) {                                           // far from everyone it stands still, and is still hungry (or still feeding)
+    skBody(eng, e, dt);
+    const P = e.plan; if (P && P.k === 'feed') { e.hunger = clamp(e.hunger - SK.feedRate * dt, 0, 1); if (eng.now > P.until || e.hunger < .02) { e.plan = null; setState(e, S.ROAMING, ''); e.dbg.why = 'fed: it waits where it is'; } }
+  },
   still(e) { return e.still; },                                  // (the engine's stuck watchdog: it held still this tick on purpose)
   onStuck(eng, e) { if (e.plan && e.plan.k !== 'lure') e.plan.stuck = (e.plan.stuck || 0) + 1; e.roam.goal = null; e.dbg.why = 'stuck: the watchdog cleared its route'; },
   onClear(eng, e) { e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; setState(e, S.ROAMING, ''); },
@@ -2365,7 +2403,8 @@ const skBand = h => h < SK.band[0] ? 'satiated' : h < SK.band[1] ? 'mild' : h < 
 function skBody(eng, e, dt) {
   e.hunger = clamp(e.hunger + SK.hungerRate * dt, 0, 1);
   const v = e.speed || 0;
-  if (v > SK.runFrom) e.stam -= SK.drainRun * (v / e.sp.speeds.run) * dt;
+  if (e.pounce) { /* a leap is paid for at once (SK.pounceCost), not as running */ }
+  else if (v > SK.runFrom) e.stam -= SK.drainRun * (v / e.sp.speeds.run) * dt;
   else e.stam += (v < 8 ? SK.regenStill : SK.regenWalk) * dt;
   e.stam = clamp(e.stam, 0, 100);
   if (!e.exh && e.stam < SK.stamExh) { e.exh = true; e.dbg.exh = eng.now; }
@@ -2389,18 +2428,16 @@ const skWatched = (eng, e, r) => !!(r && r.seen && facedBy(eng, e, eng.playerByI
 const skLit = (eng, e) => eng.geo.lightLevel(e.x, e.y, eng.lightPlayers());
 
 /* ---- plans ---- */
+/* each plan's state and act (the shared framework's states: what the client and the admin overlay read) */
+const SK_STATE = { watch: [S.WATCHING, 'watch'], retreat: [S.RETREATING, 'back'], approach: [S.STALKING, 'approach'], chase: [S.HUNTING, 'chase'],
+  lure: [S.CAUTIOUS, 'lure'], intercept: [S.STALKING, 'intercept'], search: [S.SEARCHING, 'search'], leave: [S.DISAPPEARING, 'leave'], feed: [S.FEEDING, 'feed'] };
 function skBegin(eng, e, k, r, why, extra) {
   const p = Object.assign({ k, pid: r ? r.id : 0, t0: eng.now, why }, extra || {});
   e.plan = p; e.dbg.why = why; e.path = []; e.goalKey = '';
   if (r) setTarget(e, r.id, eng.now);
-  if (k === 'watch') { p.until = eng.now + rand(e, SK.watch[0], SK.watch[1]) * (.7 + .6 * e.tr.PATIENCE); setState(e, S.WATCHING, 'watch'); }
-  else if (k === 'retreat') setState(e, S.RETREATING, 'back');
-  else if (k === 'approach') setState(e, S.STALKING, 'approach');
-  else if (k === 'chase') { setState(e, S.HUNTING, 'chase'); e.tally.chase++; }
-  else if (k === 'lure') { setState(e, S.CAUTIOUS, 'lure'); e.tally.lure++; }
-  else if (k === 'intercept') { setState(e, S.STALKING, 'intercept'); e.tally.intercept++; }
-  else if (k === 'search') { setState(e, S.SEARCHING, 'search'); e.tally.search++; }
-  else if (k === 'leave') setState(e, S.DISAPPEARING, 'leave');
+  if (k === 'watch') p.until = eng.now + rand(e, SK.watch[0], SK.watch[1]) * (.7 + .6 * e.tr.PATIENCE);
+  if (e.tally[k] !== undefined) e.tally[k]++;
+  setState(e, SK_STATE[k][0], SK_STATE[k][1]);
   return p;
 }
 /* the person's encounter: its spent seconds (real time, counted on its thinks; never refilled by a change of plan) */
@@ -2574,6 +2611,71 @@ function skListen(eng, e) {
   return false;
 }
 
+/* ---- T4: the strike ---- */
+const SK_STRIKE = { approach: 1, chase: 1, lure: 1, intercept: 1, search: 1 };    // the plans it springs from (never while watching, retreating, leaving or feeding)
+/* on its think: somebody in arm's reach of a hungry one is grabbed; somebody its plan is about, in sight 55-185 px away, it springs at */
+function skStrike(eng, e) {
+  if (e.exh || e.hunger < SK.band[1] || eng.now < e.pounceCool || e.commit || e.cap) return false;
+  const geo = eng.geo;
+  for (const pv of eng.nearPlayers(e.x, e.y, SK.grabReach)) {                    // arm's reach: contact is physics, not perception
+    if (!pv.alive || pv.caught || !geo.lineClear(e.x, e.y, pv.x, pv.y, 3, 'walk')) continue;
+    if (e.plan && e.plan.k === 'feed' && e.hunger < SK.band[2]) break;             // (a feeding one that has eaten does not)
+    skSpring(eng, e, Math.atan2(pv.y - e.y, pv.x - e.x), pv.id, 'grab', `P${pv.id} came within its reach: it grabs`); return true;
+  }
+  const P = e.plan; if (!P || !P.pid || !SK_STRIKE[P.k] || e.stam < SK.pounceCost) return false;
+  const r = e.mem.p.get(P.pid); if (!r || !r.seen || !r.visual || tgtGone(eng, e, r)) return false;
+  const p = perc(eng, e, r), d = Math.hypot(p.x - e.x, p.y - e.y);
+  if (d < SK.pounceRange[0] || d > SK.pounceRange[1]) return false;
+  // only a leap that can reach them (from what it sees of their motion: moving away they get further during the wind-up and the leap),
+  // aimed where it believes they will be at the moment it reaches them, with a seeded error that INTELLIGENCE shrinks
+  const leapV = SK.pounceSpeed * .85, touch = e.r + 16, vr = d > 1 ? clamp(((p.x - e.x) * p.vx + (p.y - e.y) * p.vy) / d, -200, 300) : 0;
+  if (d + vr * (SK.pounceWind + SK.pounceDur) - touch > leapV * SK.pounceDur) return false;
+  const tc = SK.pounceWind + clamp((d + vr * SK.pounceWind - touch) / Math.max(60, leapV - vr), 0, SK.pounceDur), ax = p.x + p.vx * tc, ay = p.y + p.vy * tc;
+  const err = (e.rng() - .5) * (1.2 - e.tr.INTELLIGENCE) * .5;
+  if (!geo.lineClear(e.x, e.y, ax, ay, e.rc * .6, 'walk')) return false;          // never a leap into a wall it can see
+  skSpring(eng, e, Math.atan2(ay - e.y, ax - e.x) + err, r.id, 'pounce', `it springs at P${r.id} (${Math.round(d)} px)`);
+  return true;
+}
+function skSpring(eng, e, dir, tid, style, why) {
+  const grab = style === 'grab';
+  e.pounce = { t: 0, wind: grab ? SK.grabWind : SK.pounceWind, dur: grab ? .16 : SK.pounceDur, speed: grab ? 200 : SK.pounceSpeed, dir, tid, style, paid: false };
+  e.tally[grab ? 'grab' : 'pounce']++; e.path = []; e.dbg.why = why; e.dbg.pounce = style;
+  setState(e, S.ATTACKING, 'wind');
+}
+/* the wind-up, the committed leap, the recovery; a hit returns the capture to the engine (ai.engine.js begins it) */
+function skStrikeStep(eng, e, dt) {
+  e.still = true;
+  if (!e.pounce) {                                                                // recovering: it skids to a stop, then stands
+    e.recover -= dt; e.speed = approach(e.speed, 0, 900 * dt); e.moved = e.speed > 1 ? moveCollide(eng, e, Math.cos(e.ang) * e.speed * dt, Math.sin(e.ang) * e.speed * dt) : 0;
+    if (e.recover <= 0) { e.recover = 0; const P = e.plan; if (P && SK_STATE[P.k]) setState(e, SK_STATE[P.k][0], SK_STATE[P.k][1]); else setState(e, S.ROAMING, ''); }
+    return null;
+  }
+  const L = e.pounce; L.t += dt;
+  if (L.t < L.wind) {                                                             // crouched, aimed: the tell
+    const da = ((L.dir - e.ang + Math.PI * 3) % TAU) - Math.PI; e.ang = (e.ang + clamp(da, -12 * dt, 12 * dt) + TAU) % TAU;
+    e.speed = approach(e.speed, 0, 1600 * dt); return null;
+  }
+  if (!L.paid) { L.paid = true; e.stam = Math.max(0, e.stam - SK.pounceCost); setAct(e, 'pounce'); }   // every leap costs, hit or miss
+  const k = (L.t - L.wind) / L.dur, want = L.speed * (1 - .3 * k) * dt;
+  e.ang = (L.dir + TAU) % TAU; e.speed = L.speed * (1 - .3 * k);
+  e.moved = moveCollide(eng, e, Math.cos(L.dir) * want, Math.sin(L.dir) * want);
+  for (const pv of eng.nearPlayers(e.x, e.y, e.r + 22)) {                         // contact: a body its own body has reached, nothing solid between
+    if (!pv.alive || pv.caught || Math.hypot(pv.x - e.x, pv.y - e.y) >= e.r + 18 || !eng.geo.lineClear(e.x, e.y, pv.x, pv.y, 3, 'walk')) continue;
+    e.pounce = null; e.recover = 0; e.tally.hit++; e.dbg.pounce = L.style + ': hit';
+    e.plan = null; e.target = null; e.enc = null; e.dbg.why = `it has P${pv.id}`;           // its plan is over: the kill (the engine's capture) takes it from here
+    return { pv, dir: L.dir, speed: e.speed, style: L.style };
+  }
+  if (e.moved < want * .4) { e.pounce = null; e.recover = SK.recoverWall; e.pounceCool = eng.now + rand(e, SK.pounceCool[0], SK.pounceCool[1]); setAct(e, 'recover'); e.tally.wall++; e.dbg.pounce = 'into a wall'; e.dbg.why = 'it leapt into a wall: stunned'; return null; }
+  if (k >= 1) { e.pounce = null; e.recover = rand(e, SK.recoverMiss[0], SK.recoverMiss[1]); e.pounceCool = eng.now + rand(e, SK.pounceCool[0], SK.pounceCool[1]); setAct(e, 'recover'); e.tally.miss++; e.dbg.pounce = 'missed'; e.dbg.why = 'it missed: it recovers'; }
+  return null;
+}
+/* after its kill (the commitment over): the meal, then it feeds beside the body for a while - it never moves the body */
+function skFeedBegin(eng, e, pv) {
+  e.hunger = clamp(e.hunger - SK.killMeal, 0, 1); e.tally.kills++;
+  skBegin(eng, e, 'feed', null, 'it feeds at its kill', { until: eng.now + rand(e, SK.feedTime[0], SK.feedTime[1]), at: { x: pv.x, y: pv.y } });
+  e.target = null; e.enc = null;
+}
+
 /* ---- the decision: what it does about the people it perceives (on its think, 10 Hz near) ---- */
 function skDecide(eng, e) {
   const now = eng.now, P = e.plan;
@@ -2581,6 +2683,12 @@ function skDecide(eng, e) {
   if (P && P.k === 'leave' && now < P.until && !(P.goal && Math.hypot(P.goal.x - e.x, P.goal.y - e.y) < 80)) return;   // a departure is carried through
   if (P && P.k === 'leave') { e.plan = null; e.dbg.why = 'it left; it roams again'; }
   const all = skSeen(eng, e), seen = all.filter(r => !e.left.has(r.id));
+  if (P && P.k === 'feed') {                                                      // at its kill: fed, or disturbed (seen close, or watched), it goes
+    const near = all.find(r => r.dist < 520 || skWatched(eng, e, r));
+    if (near) { skLeave(eng, e, null, `disturbed at its kill by P${near.id}`); return; }
+    if (now > P.until || e.hunger < .02) { e.plan = null; e.dbg.why = 'fed: it roams again'; }
+    return;
+  }
   if (!seen.length) { skUnseen(eng, e); return; }
   const r = seen[0], h = e.hunger, p = perc(eng, e, r), d = Math.hypot(p.x - e.x, p.y - e.y);
   const enc = skEnc(eng, e, r, true), watched = skWatched(eng, e, r), lit = skLit(eng, e) > SK.exposed, crowd = seen.length;
@@ -2656,15 +2764,16 @@ function skAct(eng, e, dt, thinkNow) {
     case 'approach': {
       if (!r || tgtGone(eng, e, r)) { e.plan = null; return; }
       const p = perc(eng, e, r), d = Math.hypot(p.x - e.x, p.y - e.y);
-      if (d < SK.approachStop) { skHold(eng, e, dt); faceToward(e, p.x, p.y, dt, 3); if (e.act !== 'creep') setAct(e, 'creep'); return; }
+      if (d < SK.approachStop && Math.hypot(p.vx, p.vy) < 40) { skHold(eng, e, dt); faceToward(e, p.x, p.y, dt, 3); if (e.act !== 'creep') setAct(e, 'creep'); return; }
       if (thinkNow && (now - (P.planT || -9) > 1.5 || !e.path.length)) {
         P.planT = now;
         if (directOk(eng, e, p.x, p.y, 420)) directTo(eng, e, p.x, p.y);
         else plan(eng, e, p.x, p.y, { why: 'approach under cover', cost: skCover(eng, p), maxNodes: 3000 });
       }
-      const creep = d < 420;
-      setAct(e, creep ? 'creep' : 'approach');
-      follow(eng, e, dt, skSpeed(e, creep ? 'creep' : 'stalk'), { arrive: SK.approachStop - 10 });
+      // a still person it creeps up on; a moving one it shadows at their own pace (a little faster), so nobody simply walks away from it
+      const creep = d < 420, pace = Math.hypot(p.vx, p.vy) > 40 ? clamp(Math.hypot(p.vx, p.vy) + 30, e.sp.speeds.creep, SK.runFrom) : 0;
+      setAct(e, creep && !pace ? 'creep' : 'approach');
+      follow(eng, e, dt, pace ? Math.min(pace, skCap(e)) : skSpeed(e, creep ? 'creep' : 'stalk'), { arrive: pace ? 60 : SK.approachStop - 10 });
       return;
     }
     case 'chase': {
@@ -2677,9 +2786,8 @@ function skAct(eng, e, dt, thinkNow) {
         if (why) { P.lost = true; e.tally.chaseLost++; skLeave(eng, e, r, why); return; }
         if (now - (P.planT || -9) > .5 || !e.path.length) { P.planT = now; if (directOk(eng, e, p.x, p.y, 640)) directTo(eng, e, p.x, p.y); else plan(eng, e, p.x, p.y, { why: 'chase', maxNodes: 3000 }); }
       }
-      if (d < SK.approachStop) { skHold(eng, e, dt); faceToward(e, p.x, p.y, dt, 4); if (e.act !== 'creep') setAct(e, 'creep'); return; }   // (T4: the pounce)
       setAct(e, 'chase');
-      follow(eng, e, dt, skSpeed(e, 'run'), { arrive: SK.approachStop - 10 });
+      follow(eng, e, dt, skSpeed(e, 'run'), { arrive: 30 });                              // it runs on to them (the strike decides when it springs)
       return;
     }
     case 'lure': {
@@ -2745,6 +2853,12 @@ function skAct(eng, e, dt, thinkNow) {
       if (thinkNow && now - P.looked > P.lookFor) { if (r) skLeave(eng, e, r, `the trail of P${r.id} is cold: it gives up`); else { e.plan = null; e.dbg.why = 'nothing there: it roams again'; } }
       return;
     }
+    case 'feed': {
+      skHold(eng, e, dt); if (P.at) faceToward(e, P.at.x, P.at.y, dt, 1.5);
+      e.hunger = clamp(e.hunger - SK.feedRate * dt, 0, 1);
+      if (e.act !== 'feed') setAct(e, 'feed');
+      return;
+    }
     case 'leave': {
       if (!P.goal) { e.plan = null; return; }
       if (thinkNow && !e.path.length && e.pathAge > 2) plan(eng, e, P.goal.x, P.goal.y, { why: 'leave' });
@@ -2777,7 +2891,10 @@ function skRoam(eng, e, dt, thinkNow) {
 }
 function skinTick(eng, e, dt, thinkNow) {
   skBody(eng, e, dt); e.still = false;
-  if (e.cap) { stopMoving(eng, e, dt); return null; }
+  if (e.commit) { e.still = true; if (commitTick(eng, e, dt)) return null; }      // on its kill until the death has played everywhere
+  if (e.cap) { skHold(eng, e, dt); return null; }
+  if (e.pounce || e.recover > 0) return skStrikeStep(eng, e, dt);                 // a strike, once begun, is carried through
+  if (thinkNow && skStrike(eng, e)) return skStrikeStep(eng, e, dt);              // (before deciding: at striking distance it does not stop to think)
   if (thinkNow) skDecide(eng, e);
   skAct(eng, e, dt, thinkNow);
   return null;
@@ -2788,7 +2905,8 @@ function skDebug(eng, e) {
   return { hu: +e.hunger.toFixed(3), band: skBand(e.hunger), st: Math.round(e.stam), ex: e.exh ? 1 : 0, pl: P ? P.k : 'roam', pid: P ? P.pid : 0, why: e.dbg.why || '',
     enc: e.enc ? { pid: e.enc.pid, spent: +e.enc.spent.toFixed(1), budget: Math.round(skBudget(e)) } : null, left: [...e.left].map(([id, u]) => [id, +(u - eng.now).toFixed(1)]),
     dec: e.dbg.decide || null, pr: g ? { x: Math.round(g.x), y: Math.round(g.y), q: [Math.round(g.qx), Math.round(g.qy)], turns: g.turns.length, lead: g.lead, hid: g.hidden ? 1 : 0, at: g.at } : null,
-    tally: e.tally, dg: e.disguise ? 1 : 0, hd: e.heard.length, rg: e.roam.goal ? [Math.round(e.roam.goal.x), Math.round(e.roam.goal.y)] : null };
+    tally: e.tally, pc: e.pounce ? e.pounce.style + (e.pounce.t < e.pounce.wind ? ' wind' : ' leap') : e.recover > 0 ? 'recover ' + e.recover.toFixed(1) : '', cool: +Math.max(0, e.pounceCool - eng.now).toFixed(1),
+    cm: e.commit ? e.commit.v : '', dg: e.disguise ? 1 : 0, hd: e.heard.length, rg: e.roam.goal ? [Math.round(e.roam.goal.x), Math.round(e.roam.goal.y)] : null };
 }
 SKIN.tick = skinTick;
 SKIN.debug = skDebug;

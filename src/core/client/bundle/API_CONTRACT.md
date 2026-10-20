@@ -16,9 +16,9 @@ the same name and the same meaning, for every reader below.
 
 | Member | Kind | Written by | Is | Read by |
 |---|---|---|---|---|
-| `lightOn` | function | B19 | `au` = client/main.ts `flash` | ents.js ×2, assets/skinstealer.js ×2 |
+| `lightOn` | function | B19 | `au` = client/main.ts `flash` | ents.js ×2, assets/skinstealer.js ×6 |
 | `bodyList` | function | B14 | `Yl` = shared/remains.ts `corpses` | mp.js ×4 |
-| `death` | function | B14 | `X` = client/main.ts `renderer` | ents.js ×4, light.js ×2, mp.js ×11, assets/br-role.js ×2, assets/shadows-2d.js ×6, assets/skinstealer.js ×2 |
+| `death` | function | B14 | `X` = client/main.ts `renderer` | ents.js ×4, light.js ×2, mp.js ×11, assets/br-role.js ×2, assets/shadows-2d.js ×6, assets/skinstealer.js ×8 |
 | `keys` | value | B14 | `Q` = client/main.ts `keys` | move.js ×1, assets/chat.js ×3, assets/ui.js ×2 |
 | `Bc` | binding | B14 | `Bc` = shared/world.ts `function nearby` | dphys.js ×2, ents.js ×2, light.js ×2, move.js ×2, assets/br-role.js ×2, assets/l0-remaster.js ×2, assets/shadows-2d.js ×2 |
 | `Uc` | binding | B14 | `Uc` = shared/world.ts `function rayDistance` | camcorder.js ×4, ents.js ×3, gore.js ×2, light.js ×3, mp.js ×2, assets/br-role.js ×5, assets/shadows-2d.js ×8 |
@@ -51,12 +51,12 @@ the same name and the same meaning, for every reader below.
 | `bodies` | function | B09 | `Yl` = shared/remains.ts `corpses` | mp.js ×2 |
 | `look` | value | B06 | `U` = shared/avatar.ts `defaults` | mp.js ×1, assets/ui.js ×1, assets/index-DKbV5Nv9.js (itself) ×2 |
 | `lamps` | value | B06 | `Fc` = shared/world.ts `lights` | light.js ×2, mp.js ×1, assets/br-role.js ×6, assets/mp-hum.js ×6, assets/shadows-2d.js ×1 |
-| `audio` | function | B06 | `Z` = client/main.ts `audio` | camcorder.js ×2, ents.js ×3, glitch.js ×4, hud.js ×4, inventory.js ×2, move.js ×2, sfx.js ×2, assets/mp-hum.js ×2, assets/voice.js ×2 |
+| `audio` | function | B06 | `Z` = client/main.ts `audio` | camcorder.js ×2, ents.js ×3, glitch.js ×4, hud.js ×4, inventory.js ×2, move.js ×2, sfx.js ×2, assets/mp-hum.js ×2, assets/skinstealer.js ×2, assets/voice.js ×2 |
 | `revive` | function | B06 | `G` = shared/entity.ts `entity`; `xu` = client/main.ts `function respawn` | mp.js ×1 |
 | `worldEnd` | function | B39 | `Xwr` (written by B39) | mp.js ×2 |
 | `tp` | function | B06 | `H` = shared/movement.ts `player`; `X` = client/main.ts `renderer` | mp.js ×3 |
 | `mkAvatar` | function | B06 | `$c` = client/player-view.ts `PlayerView (class)` | mp.js ×4 |
-| `layer` | function | B06 | `X` = client/main.ts `renderer` | mp.js ×4, assets/br-role.js ×2, assets/shadows-2d.js ×2, assets/skinstealer.js ×3 |
+| `layer` | function | B06 | `X` = client/main.ts `renderer` | mp.js ×4, assets/br-role.js ×2, assets/shadows-2d.js ×2, assets/skinstealer.js ×5 |
 | `floor` | function | B12 | `X` = client/main.ts `renderer` | mp.js ×2, assets/br-role.js ×2, assets/shadows-2d.js ×2 |
 | `Jl` | binding | B12 | `Jl` = client/death.ts `DeathSequence (class)` | mp.js ×3 |
 | `Wl` | binding | B12 | `Wl` = client/entity-view.ts `EntityView (class)` | mp.js ×1 |
@@ -90,6 +90,6 @@ the same name and the same meaning, for every reader below.
 | `assets/mp-hum.js` | yes | `A` | 4 |
 | `assets/net-wire.js` | yes | `A` | 1 |
 | `assets/shadows-2d.js` | no (retired) | `A` | 12 |
-| `assets/skinstealer.js` | yes | `A`, `API()` | 4 |
+| `assets/skinstealer.js` | yes | `A`, `API()` | 5 |
 | `assets/ui.js` | yes | `A` | 6 |
 | `assets/voice.js` | yes | - | 1 |

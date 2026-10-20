@@ -21,7 +21,7 @@ E.deathPlan = function (jl, kind, K) {
   const wall = K && K.w && K.w.length === 3 ? { x: K.w[0], y: K.w[1], ang: K.w[2] } : null;
   // the numbers (knock, drag, blows, timing) live in dphys.js: one table for this death class and for the server's fallback aftermath
   const P = Object.assign(window.__dphys.PLAN(kind, v, wall ? Math.hypot(wall.x - jl.victim.x, wall.y - jl.victim.y) : 40), { wall, black: null });
-  if (kind !== 'Hound') {                                                                                                       // the smiler's blackouts
+  if (kind === 'Smiler') {                                                                                                      // the smiler's blackouts (Trial 3: never the Skin-Stealer's)
     if (v === 'B') P.black = t => sm(.05, .12, t) * (1 - sm(.85, 1.6, t));                                                    // cornered: it closes, everything goes black, the body falls where it stood
     else if (v === 'C') P.black = t => sm(.02, .07, t) * (1 - sm(.4, .9, t)) * .8;                                            // the lights failed: the last dark
   }
@@ -48,8 +48,10 @@ E.deathExtras = function (g, jl, t) {
   if (len > 4) g.moveTo(w.x, w.y).lineTo(jx, jy).stroke({ color: 0x5c0f0c, width: 9, alpha: .34 * k, cap: 'round' });
 };
 
-/* the smiler that attacks in a death sequence: fully formed, arms reaching */
-E.attackSmiler = function (view, t, dt) {
+/* the smiler that attacks in a death sequence: fully formed, arms reaching.  (Trial 3: the bundle calls this for every killer that is not
+ * the Hound; a Skin-Stealer's death hands its attacker to skinstealer.js, which hides the view it was given and draws its own) */
+E.attackSmiler = function (view, t, dt, death) {
+  if (death && death.kind === 'SkinStealer' && window.__skin && window.__skin.attack) { window.__skin.attack(view, t, dt, death); return; }
   drawSmiler(view, { state: 'ATTACKING', act: 'rush', face: 1, head: 0, special: 1 }, t, dt || .016, 1);
 };
 

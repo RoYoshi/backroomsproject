@@ -8,13 +8,17 @@ const lerp = (a, b, t) => a + (b - a) * t;
 const sm = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
 const angDiff = (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b));
 const API = () => window.__api;
-/* the script's public object: each module adds its own entries (mirror: the snapshot's list; body: draw, clear, attacker views) */
+/* the script's public object: each module adds its own entries (mirror: the snapshot's list; body: draw, clear; kill: the attacker in a
+ * death; audio: a death's sounds) */
 const K = window.__skin = {};
+/* what a later module lends an earlier one, inside the script only (never on the page): kill's test of a creature whose kill is playing */
+const hooks = { hidden: null, frame: null };
+const lend = (name, fn) => { if (name in hooks) hooks[name] = fn; };
 /* the codes as the server sends them: the shared states (ai.head.js S, numbered SCODE) and the Skin-Stealer's acts (ai.skinstealer.js
  * KACT); dev/tools/checks/facts.json holds every copy of each to the same list */
 const STATES = ['DORMANT', 'ROAMING', 'CURIOUS', 'ALERT', 'WATCHING', 'STALKING', 'HUNTING', 'SEARCHING', 'CAUTIOUS', 'FRUSTRATED', 'EXCITED', 'FEEDING', 'PLAYING', 'RETREATING', 'HIDDEN', 'FOLLOWING', 'PROVOKED', 'ATTACKING', 'DISAPPEARING'];
 const ACTS = ['', 'watch', 'back', 'leave', 'wait', 'lure', 'intercept', 'search', 'listen', 'approach', 'creep', 'chase', 'wind', 'pounce', 'recover', 'feed', 'mimic', 'rest', 'pace'];
-return { ACTS, angDiff, API, clamp, K, lerp, sm, STATES, TAU };
+return { ACTS, angDiff, API, clamp, hooks, K, lend, lerp, sm, STATES, TAU };
 }
 function skinMirror({ head: { ACTS, angDiff, K, STATES } }) {
 const MAX = 8;
@@ -41,7 +45,7 @@ const list = () => [...slots.values()];
 K.mirror = mirror;
 return { clear, list };
 }
-function skinBody({ head: { API, clamp, K, lerp, sm, TAU }, mirror: { clear, list } }) {
+function skinBody({ head: { API, clamp, hooks, K, lerp, sm, TAU }, mirror: { clear, list } }) {
 const SC = { line: 0x14100d, skin: 0xa2988b, skinLo: 0x6c6259, skinHi: 0xcbc1b2, fold: 0x7d7368, nail: 0x2a2320, hair: 0x15120f, mouth: 0x2a0d0e };
 const views = new Map();                                   // entity id -> view
 let Cc = null, Gc = null;                                  // the page's Container and Graphics classes
@@ -60,11 +64,16 @@ function ik(ax, ay, tx, ty, l1, l2, side) {
   let px = -dy / d, py = dx / d; if (px * side < 0) { px = -px; py = -py; }
   return { ex: ax + dx * a / d + px * h, ey: ay + dy * a / d + py * h, tx, ty };
 }
+/* a view (a Container holding one Graphics) with its pose state; (Trial 3 T4) the kill module makes its attackers with it too */
+function newView(label) {
+  const v = new Cc(), g = new Gc();
+  v.addChild(g); v.__g = g; v.__skin = true; v.label = label;
+  v.__s = { ph: Math.random() * TAU, px: null, py: null, vf: 0, crouch: 0, reach: 0, back: 0, lean: 0, tilt: 0, tiltT: 0, tiltTo: 0, twitch: 0, seed: Math.random() * 100, spd: 0 };
+  return v;
+}
 function make(id) {
-  const A = API(), layer = A.layer(), v = new Cc(), g = new Gc();
-  v.addChild(g); v.__g = g; v.__skin = true; v.__id = id; v.label = 'skinstealer#' + id;
-  v.__s = { ph: Math.random() * TAU, px: null, py: null, vf: 0, crouch: 0, reach: 0, back: 0, lean: 0, tilt: 0, tiltT: 0, tiltTo: 0, twitch: 0, seed: Math.random() * 100 };
-  layer.addChild(v); views.set(id, v); return v;
+  const v = newView('skinstealer#' + id); v.__id = id;
+  API().layer().addChild(v); views.set(id, v); return v;
 }
 /* the pose from what the server says it is doing (its act and state, its speed), eased so it never pops */
 function pose(S, o, t, dt) {
@@ -150,30 +159,151 @@ function paint(v, o, t) {
   for (let i = 0; i < 5; i++) { const a = -Math.PI / 2 + (i - 2) * .42 + S.tilt * .5; g.moveTo(hx, hyy + 1).lineTo(hx + Math.cos(a) * 6.5, hyy + 1 + Math.sin(a) * 6.5).stroke({ color: SC.hair, width: .9, alpha: .7 }); }
   g.moveTo(hx - 3.6 + S.tilt * 2, hyy - 5.6).quadraticCurveTo(hx + S.tilt * 3, hyy - 7.4, hx + 3.6 + S.tilt * 2, hyy - 5.6).stroke({ color: SC.mouth, width: 1.5 });
 }
+/* shaded by the light where it stands (BR-RoLE's sample, eased), as the Hound's view is; no light of its own */
+function shadeView(v, x, y, flash, dt) {
+  const L = window.__light; if (!L) return;
+  const s = L.sample(x, y, flash, v.__lt || (v.__lt = L.mk())), shade = L.shade(s.total);
+  v.__shade = v.__shade === undefined ? shade : v.__shade + (shade - v.__shade) * (1 - Math.exp(-dt * 8));
+  const c = Math.round(v.__shade * 255); v.tint = c << 16 | c << 8 | c;
+}
 /* once a frame (mp.js's N.A.N.I. module calls it after the mirror): every view placed, posed, shaded by the light where it stands */
 function draw(dt) {
   dt = clamp(+dt || .016, .001, .1);
   const A = API(); if (!A || !classes()) return;
-  const now = performance.now() / 1000, flash = !!(A.lightOn && A.lightOn()), L = window.__light, H = A.H, seen = new Set();
+  const now = performance.now() / 1000, flash = !!(A.lightOn && A.lightOn()), H = A.H, seen = new Set();
   for (const o of list()) {
     seen.add(o.id);
     const v = views.get(o.id) || make(o.id), S = v.__s;
     const far = H && Math.hypot(o.x - H.x, o.y - H.y) > 1600;    // off any screen: not drawn (nothing of it shows, nothing is spent)
     v.visible = !far; if (far) { S.px = null; continue; }
+    if (hooks.hidden && hooks.hidden(o)) { v.visible = false; S.px = null; continue; }   // its kill is playing: the death's own attacker is drawn instead
     pose(S, o, now, dt);
     v.position.set(o.x, o.y); v.rotation = o.angle + Math.PI / 2; v.alpha = 1;
-    if (L) { const s = L.sample(o.x, o.y, flash, v.__lt || (v.__lt = L.mk())), shade = L.shade(s.total); v.__shade = v.__shade === undefined ? shade : v.__shade + (shade - v.__shade) * (1 - Math.exp(-dt * 8)); const c = Math.round(v.__shade * 255); v.tint = c << 16 | c << 8 | c; }
+    shadeView(v, o.x, o.y, flash, dt);
     paint(v, o, now);
   }
   for (const [id, v] of views) if (!seen.has(id)) { views.delete(id); try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } }
+  if (hooks.frame) hooks.frame(dt);
 }
 /* a new world, a closed connection: no view and no record stays behind */
 function reset() { clear(); for (const v of views.values()) { try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } } views.clear(); }
 K.draw = draw;
 K.clear = reset;
+return { classes, newView, paint, shadeView };
+}
+function skinKill({ head: { API, clamp, K, lend, lerp, sm }, body: { classes, newView, paint, shadeView } }) {
+const CFG = () => (window.__dphys && window.__dphys.CFG && window.__dphys.CFG.SkinStealer) || {};
+/* the pose at time t of a death: its variant, and its physics (the snap, the blows' impact) */
+function killPose(S, jl, t) {
+  const v = jl.variant || 'A', c = CFG()[v] || {}, ph = jl.ph, snap = ph && ph.snapped !== undefined ? ph.snapped : c.snap != null ? c.snap : 99;
+  const done = c.back ? sm(c.back[0], c.back[1], t) : 0, imp = clamp(+jl.impact || 0, 0, 1.5);
+  let crouch, reach, lean, tilt = 0;
+  if (v === 'B') {                                    // the leap carries it in, it pins them down, then the neck
+    const land = sm(.05, .3, t); crouch = lerp(.15, .9, land); reach = 1; lean = lerp(1, .8, land);
+  } else if (v === 'C') {                             // held from close, bent to the neck; the head jerks at each bite
+    crouch = lerp(.5, .95, sm(.1, .5, t)); reach = lerp(.6, .85, sm(0, .3, t)); lean = .9 - imp * .15; tilt = imp * .5;
+  } else {                                            // A: a grip from close by, then the neck
+    crouch = lerp(.3, .6, sm(.05, .4, t)); reach = sm(0, .14, t); lean = lerp(.3, .6, sm(.05, .4, t));
+  }
+  if (t >= snap) { const k = Math.exp(-(t - snap) * 7); tilt += (S.seed % 2 < 1 ? 1 : -1) * .7 * k; S.twitch = Math.max(S.twitch, k); }   // the twist
+  S.crouch = lerp(crouch, .85, done); S.reach = lerp(reach, .45, done); S.lean = lerp(lean, .75, done);   // done: it eases off, bent over the body
+  S.back = 0; S.tilt = tilt; S.spd = 0; S.twitch = Math.max(0, S.twitch - .03);
+}
+/* our own death's attacker (the bundle gives the Hound's view: it is hidden; this one is drawn in the same creatures layer) */
+let own = null;
+function attack(view, t, dt, death) {
+  if (view) view.alpha = 0;
+  const A = API(); if (!A || !death || !death.attacker || !classes()) return;
+  if (!own || own.destroyed) own = newView('skinstealer-kill');
+  const layer = A.layer(); if (layer && own.parent !== layer) layer.addChild(own);
+  own.visible = true; own.alpha = 1; own.position.set(death.attacker.x, death.attacker.y); own.rotation = death.attacker.angle + Math.PI / 2;
+  killPose(own.__s, death, +death.elapsed || 0);
+  shadeView(own, death.attacker.x, death.attacker.y, !!(A.lightOn && A.lightOn()), clamp(+dt || .016, .001, .1)); paint(own, null, t);
+}
+/* a replay's attacker: G.I.B.'s module adds it to the layer, places it and calls attackPose every frame */
+function attacker() {
+  const A = API(), v = classes() ? newView('skinstealer-replay') : new (A.layer().constructor)();
+  v.attackPose = (grip, impact, variant, jl) => {
+    if (!v.__s) return;
+    killPose(v.__s, jl, +jl.elapsed || 0);
+    shadeView(v, jl.attacker.x, jl.attacker.y, !!(API() && API().lightOn && API().lightOn()), 1 / 60); paint(v, null, performance.now() / 1000);
+  };
+  return v;
+}
+/* the mirrored Skin-Stealer whose kill is playing here (ours, or a replay's): the death draws it instead */
+const near = (o, p) => !!p && Math.hypot(o.x - p.x, o.y - p.y) < 260;
+lend('hidden', o => {
+  const A = API(), D = A && A.death && A.death();
+  if (D && D.active && D.kind === 'SkinStealer' && near(o, D.source)) return true;
+  for (const f of window.__fxs || []) if (!f.gone && f.cause === 'SkinStealer' && f.jl && !f.jl.finished && near(o, f.jl.source)) return true;
+  return false;
+});
+/* our own death over (or not a Skin-Stealer's): its attacker is put away */
+lend('frame', () => { if (!own) return; const A = API(), D = A && A.death && A.death(); if (!(D && D.active && D.kind === 'SkinStealer')) own.visible = false; });
+K.attack = attack;
+K.attacker = attacker;
+}
+function skinAudio({ head: { API, clamp, K } }) {
+let ctx = null, out = null, nb = null;
+function Z() {
+  const A = API(), z = A && A.audio && A.audio(); if (!z || !z.context || !z.gain) return null;
+  if (ctx !== z.context) { ctx = z.context; out = z.gain; nb = null; }
+  if (!nb) { nb = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate); const d = nb.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; }
+  return z;
+}
+const soundOn = () => !(document.getElementById('sound') && /OFF/.test(document.getElementById('sound').textContent));
+/* one bus per sound: level, a low-pass (a wall between), pan; disconnected when it has played */
+function bus(gain, pan, lp, len) {
+  const g = ctx.createGain(), f = ctx.createBiquadFilter(), p = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+  g.gain.value = gain; f.type = 'lowpass'; f.frequency.value = lp || 12000; g.connect(f); if (p) { p.pan.value = clamp(pan || 0, -1, 1); f.connect(p); p.connect(out); } else f.connect(out);
+  setTimeout(() => { try { g.disconnect(); f.disconnect(); p && p.disconnect(); } catch (e) { } }, (len + .6) * 1000);
+  return g;
+}
+function noise(dst, at, dur, type, f0, f1, q, vol, atk) {
+  const s = ctx.createBufferSource(), fl = ctx.createBiquadFilter(), g = ctx.createGain(), t0 = ctx.currentTime + at;
+  s.buffer = nb; s.loop = true; fl.type = type; fl.frequency.setValueAtTime(f0, t0); if (f1) fl.frequency.exponentialRampToValueAtTime(f1, t0 + dur); fl.Q.value = q;
+  g.gain.setValueAtTime(.0001, t0); g.gain.linearRampToValueAtTime(vol, t0 + (atk || .004)); g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+  s.connect(fl); fl.connect(g); g.connect(dst); s.start(t0, Math.random() * .5); s.stop(t0 + dur + .05);
+}
+function tone(dst, at, dur, type, f0, f1, vol, atk) {
+  const o = ctx.createOscillator(), g = ctx.createGain(), t0 = ctx.currentTime + at;
+  o.type = type; o.frequency.setValueAtTime(f0, t0); if (f1) o.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
+  g.gain.setValueAtTime(.0001, t0); g.gain.linearRampToValueAtTime(vol, t0 + (atk || .004)); g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+  o.connect(g); g.connect(dst); o.start(t0); o.stop(t0 + dur + .05);
+}
+/* which of its deaths: ours from the death itself; a spectator's from its blows' times (dphys.js PLAN) */
+function variantOf(O) {
+  const A = API(), D = A && A.death && A.death();
+  if (!O && D && D.active && D.kind === 'SkinStealer') return D.variant || 'A';
+  const P = window.__dphys && window.__dphys.PLAN, h = O && O.hits;
+  if (P && Array.isArray(h)) for (const v of ['A', 'B', 'C']) { const q = P('SkinStealer', v, 40).hits; if (q && q.length === h.length && q.every((x, i) => Math.abs(x - h[i]) < 1e-6)) return v; }
+  return 'A';
+}
+function deathSound(O) {
+  if (!soundOn()) return true;                                  // (silence is its sound when the sound is off: nothing else plays)
+  if (!Z()) return false;
+  const v = variantOf(O), b = bus(O && O.gain != null ? O.gain : 1, O && O.pan || 0, O && O.lp || 12000, 3.6), P = window.__dphys && window.__dphys.PLAN, hits = (O && O.hits) || (P ? P('SkinStealer', v, 40).hits : [.58]);
+  if (v === 'B') { tone(b, .12, .22, 'sine', 78, 38, .85, .005); noise(b, .12, .28, 'lowpass', 900, 220, .7, .55, .004); noise(b, .16, .4, 'bandpass', 1600, 700, 1.2, .12, .02); }   // the landing: a body hits the floor
+  else { noise(b, .06, .16, 'bandpass', 2200, 1400, 1.4, .22, .006); noise(b, .1, .05, 'highpass', 3000, 0, .7, .18, .002); }                                      // the grab: cloth, skin
+  noise(b, .2, .32, 'bandpass', 950, 650, 1.1, .2, .03); noise(b, .55, .2, 'bandpass', 800, 500, 1.3, .1, .02);                                                    // their breath, cut short
+  if (v === 'C') for (const t of hits) { noise(b, t, .18, 'bandpass', 700, 260, 1.6, .5, .003); noise(b, t + .02, .1, 'highpass', 2600, 0, .8, .14, .002); tone(b, t, .1, 'sine', 120, 70, .25, .003); }   // the bites: wet, deep
+  noise(b, 1.5, .9, 'lowpass', 340, 160, .6, .12, .25);                                                                                                            // its own slow breath out
+  return true;
+}
+/* the snap itself, where the physics says it happened (ents.js's place: distance, pan, a wall between) */
+function deathEvent(q, jl, S, place) {
+  if (!q || q.k !== 'snap' || !soundOn() || !Z()) return;
+  const p = place ? place(q.x, q.y, 140, 1400) : { g: 1, pan: 0, lp: 12000 }; if (p.g < .02) return;
+  const b = bus(p.g, p.pan, p.lp, .4);
+  noise(b, 0, .025, 'highpass', 3600, 0, .8, .95, .001); noise(b, .004, .07, 'bandpass', 1300, 800, 2.2, .5, .002); tone(b, 0, .09, 'sine', 150, 60, .45, .002);
+}
+K.deathSound = deathSound;
+K.deathEvent = deathEvent;
 }
 /* (Trial 3) the modules, in the order of the parts */
 const head = skinHead();
 const mirror = skinMirror({ head });
-skinBody({ head, mirror });
+const body = skinBody({ head, mirror });
+skinKill({ head, body });
+skinAudio({ head });
 })();

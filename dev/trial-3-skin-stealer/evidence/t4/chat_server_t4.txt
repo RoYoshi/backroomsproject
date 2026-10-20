@@ -1,0 +1,89 @@
+ok   unit_text_plain
+ok   unit_text_trim_and_collapse
+ok   unit_text_not_a_string
+ok   unit_text_empty
+ok   unit_text_160_code_points_kept_161_refused
+ok   unit_text_600_UTF_8_bytes_kept_601_refused
+ok   unit_text_long_UTF_16_refused_before_any_work
+ok   unit_text_lone_surrogate_refused
+ok   unit_text_bidi_override_removed
+ok   unit_text_control_heavy_refused
+ok   unit_text_zero_width_removed_ZWJ_kept
+ok   unit_text_combining_run_capped_at_4_after_NFC_
+ok   unit_text_NFC
+ok   unit_text_markup_kept_as_literal_text
+ok   unit_text_URL_kept_as_text
+ok   unit_text_RTL_script_kept
+ok   unit_text_nickname_capped_and_defaulted
+ok   unit_speech_recipients - 1,2,3,5
+ok   unit_speech_event_shape
+ok   unit_speech_hear_constant - 576
+ok   unit_speech_color_valid
+ok   unit_speech_color_rejected
+ok   unit_speech_voice_valid
+ok   unit_speech_voice_rejected - 
+ok   unit_speech_voice_same_hearers - 1,2,3,5
+ok   unit_speech_voice_presets_match_page - classic,soft,deep,electronic,static,hollow,chime / classic,soft,deep,electronic,static,hollow,chime
+ok   unit_speech_menu_refused
+ok   unit_speech_dead_refused
+ok   unit_speech_repeat_refused
+ok   unit_speech_bucket - 3 lines, 1 slow
+ok   unit_speech_backlog_skipped
+ok   unit_speech_left_silent
+ok   unit_speech_invalid_refused - bad,bad,long
+ok   unit_speech_reader_passthrough
+ok   unit_speech_inert_hook
+ok   unit_lounge_handshake
+ok   unit_lounge_hello_first
+ok   unit_lounge_welcome
+ok   unit_lounge_line
+ok   unit_lounge_soft_skip
+ok   unit_lounge_hard_destroy
+ok   unit_lounge_invalid_destroy
+ok   unit_lounge_bytes_destroy
+ok   unit_lounge_origin
+ok   unit_lounge_handshake_refused
+ok   unit_lounge_hello_timeout
+ok   unit_lounge_idle_timeout
+ok   sock_speech_eligible_once - 1,1,1,1
+ok   sock_speech_outside_none - 0,0,0,0
+ok   sock_speech_other_room_none
+ok   sock_speech_menu_none
+ok   sock_speech_event_shape
+ok   sock_speech_voice_passed - 1,1,1,1
+ok   sock_speech_spoof_ignored - far 0, other room 0
+ok   sock_speech_menu_refused
+ok   sock_speech_rate - 3 heard
+ok   sock_speech_rate_refills
+ok   sock_speech_repeat
+ok   sock_speech_invalid - bad,bad,empty
+ok   sock_speech_lone_surrogate
+ok   sock_speech_oversized
+ok   sock_speech_big_frame_ignored
+ok   sock_speech_markup_literal
+ok   sock_speech_dead_refused
+ok   sock_speech_dead_hears_nothing
+ok   sock_speech_no_duplicates - 5 lines
+ok   sock_speech_reconnect
+ok   sock_speech_no_lounge_on_game
+ok   sock_plain_spawned_pair_hears
+ok   sock_lounge_welcome
+ok   sock_lounge_across_rooms
+ok   sock_lounge_not_on_game
+ok   sock_lounge_no_game_protocol
+ok   sock_lounge_no_replay
+ok   sock_lounge_rate
+ok   sock_lounge_repeat
+ok   sock_lounge_invalid_text
+ok   sock_lounge_nick
+ok   sock_lounge_hello_required
+ok   sock_lounge_invalid_closes
+ok   sock_lounge_origin - 403,403,403,101
+ok   sock_lounge_handshake - 400,400,400
+ok   sock_lounge_plain_http_404
+ok   sock_game_unknown_path_dropped
+ok   sock_game_pace_with_lounge_load - quiet 59 snapshots p50 51 p95 52 ms; busy 60 p50 51 p95 52 ms
+ok   sock_lounge_join_rate - refused at 30 with 429
+ok   sock_lounge_socket_cap - 64 opened, 64 still open, then 503
+ok   sock_server_log_no_text - 18 log lines
+CHAT SERVER: PASS - 88 of 88 cases (74 s)
