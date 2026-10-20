@@ -1,0 +1,37 @@
+P3 - the main menu's utility rail: the Account button and its "Accounts Coming Soon..." panel; the Settings gear redrawn (headless
+Chromium, SwiftShader; every name and passcode synthetic; check: dev/pre-trial3-final-polish/tools/menu_rail_check.js)
+
+On C5: the rail's second cell (the wanderer seen from above: head and hands) was `data-go="customize" data-sub="wanderer"`, labelled
+"Customize your wanderer": it opened Customize.  The gear was a hand-drawn polygon, taller than wide (4.2..19.8 x 2.8..21.2 in its
+24-unit box), with uneven teeth: at the rail's 20 px and 27.6 px it reads smaller and lumpier than the sound and info icons
+(gear_candidates_c5_old_and_chosen_g8a.png, "old").
+
+Changed:
+- public/index.html: the gear is a regular eight-tooth gear centred on the box (tips 8.9, roots 6.8, hub 2.7; the rail's 1.5 stroke) -
+  three candidates rendered beside the other icons at both sizes and densities, g8a chosen; the second cell is the Account button
+  (id mmAccount, aria-label "Account", aria-haspopup dialog, aria-expanded, aria-controls; the same glyph, its tip "Account"); its panel
+  #mmAccountPop, a dialog named by its text, exactly "Accounts Coming Soon...", and Close.  No account, sign-in or storage of any kind.
+- src/frameworks/front/client/ui.js -> public/assets/ui.js: the panel opens beside the cell with focus on Close; Close and Escape shut
+  it and give focus back to the Account button (Escape first in the modal key handler, so it never also closes the entry or a sheet);
+  a press elsewhere, Tab away, any menu navigation or entering a run shut it quietly.  Customize keeps its own button under PLAY.
+- public/assets/ui.css: the panel in the rail's frame (beside the cell; below the rail when the rail lies along the top on a short
+  screen); the cell lit while its panel is open; Close 36 px tall (44 on touch).
+- dev/tools/checks/menu_drift.js (the gate's menu step): the three index.html edits mapped back to C5d exactly (pageAsC5d), the Account
+  cell recorded as C5d recorded that cell, the hidden panel left out of the menu's text - every other control, box, word and byte still
+  C5d's.
+
+Results:
+- menu_rail_check.js: PASS 23 of 23 (menu_rail_check.*) - at 1920x1080, 1280x720, a 390x844 phone and an 844x390 phone on its side: the
+  four cells the same size in a column (a row on the short screen); the gear's drawing centred (3.18..20.82 in the box), square, within
+  10 % of the info circle's size; a click / tap opens the panel (the exact text, a named dialog, aria-expanded, focus on Close, Customize
+  not opened, inside the screen, clear of the cells); Close shuts it and gives focus back.  At 1280x720 also: the keyboard (Tab to it,
+  Enter, Escape: focus back, still the menu, no entry, sheet or pause); a press on the title; Tab away; the button again; the menu's
+  Customize still opens Customize; the gear opens Settings; no page error.  Mutants 5 of 5 caught (the button wired to Customize again;
+  Escape ignored; focus not given back; the words changed; the gear's top tooth moved).
+  (Two first runs: one crashed on a mutant - a press waited 30 s on a panel that never showed and threw - now a press that cannot
+  happen is reported by its case; one failed the first press at 1920x1080 - the rail's arrival fade not yet over on a large software-
+  rendered page - the check now waits for the rail to be fully shown.)
+- The gate on P3's code (gate_p3.log): scope, docs, contracts, srv_golden, raw_live PASS; menu PASS - the title's drift against C5d 11 of
+  11 checks (controls, text, Tab order and title at 4 sizes, the logo and index.html, the theme), its mutants 8 of 8 caught (menu_drift.json).
+- npm run build:check PASS (42); docs PASS.
+NOT RUN: a real phone, a screen reader (the panel is a role=dialog named by its text, focus moved into it and back), human eyes on the gear.

@@ -1,0 +1,202 @@
+{
+ "tool": "dev/pre-trial3-final-polish/tools/menu_rail_check.js",
+ "dir": "/home/claude/final-polish",
+ "cases": [
+  {
+   "name": "rail_hd_four_cells",
+   "ok": true,
+   "detail": "[[\"settings\",1812,48,60,60],[\"mmAccount\",1812,107,60,60],[\"mmSound\",1812,166,60,60],[\"help\",1812,225,60,60]]"
+  },
+  {
+   "name": "rail_hd_gear_centred",
+   "ok": true,
+   "detail": "{\"gear\":{\"x\":3.180000066757202,\"y\":3.180000066757202,\"w\":17.639999389648438,\"h\":17.639999389648438},\"info\":{\"x\":3.3000001907348633,\"y\":3.3000001907348633,\"w\":17.400001525878906,\"h\":17.400001525878906}}"
+  },
+  {
+   "name": "account_hd_opens",
+   "ok": true,
+   "detail": "{\"shown\":true,\"text\":\"Accounts Coming Soon...\",\"role\":\"dialog\",\"name\":\"Accounts Coming Soon...\",\"expanded\":\"true\",\"focus\":\"mmAccountClose\",\"customize\":false,\"state\":\"menu\",\"inside\":true,\"overRail\":false,\"box\":[1582,107,1802,204]}"
+  },
+  {
+   "name": "account_hd_close",
+   "ok": true,
+   "detail": "{\"shown\":false,\"text\":\"Accounts Coming Soon...\",\"role\":\"dialog\",\"name\":\"Accounts Coming Soon...\",\"expanded\":\"false\",\"focus\":\"mmAccount\",\"customize\":false,\"state\":\"menu\",\"inside\":true,\"overRail\":false,\"box\":[0,0,0,0]}"
+  },
+  {
+   "name": "rail_wide_four_cells",
+   "ok": true,
+   "detail": "[[\"settings\",1188,32,60,60],[\"mmAccount\",1188,91,60,60],[\"mmSound\",1188,150,60,60],[\"help\",1188,209,60,60]]"
+  },
+  {
+   "name": "rail_wide_gear_centred",
+   "ok": true,
+   "detail": "{\"gear\":{\"x\":3.180000066757202,\"y\":3.180000066757202,\"w\":17.639999389648438,\"h\":17.639999389648438},\"info\":{\"x\":3.3000001907348633,\"y\":3.3000001907348633,\"w\":17.400001525878906,\"h\":17.400001525878906}}"
+  },
+  {
+   "name": "account_wide_opens",
+   "ok": true,
+   "detail": "{\"shown\":true,\"text\":\"Accounts Coming Soon...\",\"role\":\"dialog\",\"name\":\"Accounts Coming Soon...\",\"expanded\":\"true\",\"focus\":\"mmAccountClose\",\"customize\":false,\"state\":\"menu\",\"inside\":true,\"overRail\":false,\"box\":[958,91,1178,188]}"
+  },
+  {
+   "name": "account_wide_close",
+   "ok": true,
+   "detail": "{\"shown\":false,\"text\":\"Accounts Coming Soon...\",\"role\":\"dialog\",\"name\":\"Accounts Coming Soon...\",\"expanded\":\"false\",\"focus\":\"mmAccount\",\"customize\":false,\"state\":\"menu\",\"inside\":true,\"overRail\":false,\"box\":[0,0,0,0]}"
+  },
+  {
+   "name": "account_keyboard_escape",
+   "ok": true,
+   "detail": "{\"reached\":\"mmAccount\",\"open\":{\"shown\":true,\"text\":\"Accounts Coming Soon...\",\"role\":\"dialog\",\"name\":\"Accounts Coming Soon...\",\"expanded\":\"true\",\"focus\":\"mmAccountClose\",\"customize\":false,\"state\":\"menu\",\"inside\":true,\"overRail\":false,\"box\":[958,91,1178,188]},\"after\":{\"shown\":false,\"text\":\"Accounts Coming Soon...\",\"role\":\"dialog\",\"name\":\"Accounts Coming Soon...\",\"expanded\":\"false\",\"focus\":\"mmAccount\",\"customize\":false,\"state\":\"menu\",\"inside\":true,\"overRail\":false,\"box\":[0,0,0,0]},\"quietAfter\":{\"entry\":false,\"sheet\":false,\"paused\":false}}"
+  },
+  {
+   "name": "account_press_elsewhere",
+   "ok": true,
+   "detail": "{\"shown\":false,\"text\":\"Accounts Coming Soon...\",\"role\":\"dialog\",\"name\":\"Accounts Coming Soon...\",\"expanded\":\"false\",\"focus\":\"BODY\",\"customize\":false,\"state\":\"menu\",\"inside\":true,\"overRail\":false,\"box\":[0,0,0,0]}"
+  },
+  {
+   "name": "account_tab_away",
+   "ok": true,
+   "detail": "{\"shown\":false,\"text\":\"Accounts Coming Soon...\",\"role\":\"dialog\",\"name\":\"Accounts Coming Soon...\",\"expanded\":\"false\",\"focus\":\"lgFold\",\"customize\":false,\"state\":\"menu\",\"inside\":true,\"overRail\":false,\"box\":[0,0,0,0]}"
+  },
+  {
+   "name": "account_toggle",
+   "ok": true,
+   "detail": "{\"first\":true,\"second\":false,\"focus\":\"mmAccount\"}"
+  },
+  {
+   "name": "customize_still_there",
+   "ok": true,
+   "detail": "Customize opened by the menu's Customize button: true"
+  },
+  {
+   "name": "gear_opens_settings",
+   "ok": true,
+   "detail": "Settings opened by the gear: true"
+  },
+  {
+   "name": "rail_phone_four_cells",
+   "ok": true,
+   "detail": "[[\"settings\",330,16,44,44],[\"mmAccount\",330,59,44,44],[\"mmSound\",330,102,44,44],[\"help\",330,145,44,44]]"
+  },
+  {
+   "name": "rail_phone_gear_centred",
+   "ok": true,
+   "detail": "{\"gear\":{\"x\":3.180000066757202,\"y\":3.180000066757202,\"w\":17.639999389648438,\"h\":17.639999389648438},\"info\":{\"x\":3.3000001907348633,\"y\":3.3000001907348633,\"w\":17.400001525878906,\"h\":17.400001525878906}}"
+  },
+  {
+   "name": "account_phone_opens",
+   "ok": true,
+   "detail": "{\"shown\":true,\"text\":\"Accounts Coming Soon...\",\"role\":\"dialog\",\"name\":\"Accounts Coming Soon...\",\"expanded\":\"true\",\"focus\":\"mmAccountClose\",\"customize\":false,\"state\":\"menu\",\"inside\":true,\"overRail\":false,\"box\":[100,59,320,164]}"
+  },
+  {
+   "name": "account_phone_close",
+   "ok": true,
+   "detail": "{\"shown\":false,\"text\":\"Accounts Coming Soon...\",\"role\":\"dialog\",\"name\":\"Accounts Coming Soon...\",\"expanded\":\"false\",\"focus\":\"mmAccount\",\"customize\":false,\"state\":\"menu\",\"inside\":true,\"overRail\":false,\"box\":[0,0,0,0]}"
+  },
+  {
+   "name": "rail_side_four_cells",
+   "ok": true,
+   "detail": "[[\"settings\",660,27,40,40],[\"mmAccount\",699,27,40,40],[\"mmSound\",738,27,40,40],[\"help\",777,27,40,40]]"
+  },
+  {
+   "name": "rail_side_gear_centred",
+   "ok": true,
+   "detail": "{\"gear\":{\"x\":3.180000066757202,\"y\":3.180000066757202,\"w\":17.639999389648438,\"h\":17.639999389648438},\"info\":{\"x\":3.3000001907348633,\"y\":3.3000001907348633,\"w\":17.400001525878906,\"h\":17.400001525878906}}"
+  },
+  {
+   "name": "account_side_opens",
+   "ok": true,
+   "detail": "{\"shown\":true,\"text\":\"Accounts Coming Soon...\",\"role\":\"dialog\",\"name\":\"Accounts Coming Soon...\",\"expanded\":\"true\",\"focus\":\"mmAccountClose\",\"customize\":false,\"state\":\"menu\",\"inside\":true,\"overRail\":false,\"box\":[597,75,817,180]}"
+  },
+  {
+   "name": "account_side_close",
+   "ok": true,
+   "detail": "{\"shown\":false,\"text\":\"Accounts Coming Soon...\",\"role\":\"dialog\",\"name\":\"Accounts Coming Soon...\",\"expanded\":\"false\",\"focus\":\"mmAccount\",\"customize\":false,\"state\":\"menu\",\"inside\":true,\"overRail\":false,\"box\":[0,0,0,0]}"
+  },
+  {
+   "name": "no_page_errors",
+   "ok": true,
+   "detail": "[]"
+  }
+ ],
+ "passed": 23,
+ "failed": [],
+ "ok": true,
+ "mutants": [
+  {
+   "name": "the button wired to Customize again",
+   "applied": true,
+   "expect": [
+    "account_wide_opens"
+   ],
+   "failed": [
+    "account_hd_opens",
+    "account_hd_close",
+    "account_wide_opens",
+    "account_wide_close",
+    "account_keyboard_escape",
+    "account_press_elsewhere",
+    "account_toggle",
+    "account_phone_opens",
+    "account_phone_close",
+    "account_side_opens",
+    "account_side_close"
+   ],
+   "caught": true
+  },
+  {
+   "name": "Escape ignored",
+   "applied": true,
+   "expect": [
+    "account_keyboard_escape"
+   ],
+   "failed": [
+    "account_keyboard_escape"
+   ],
+   "caught": true
+  },
+  {
+   "name": "focus not given back",
+   "applied": true,
+   "expect": [
+    "account_wide_close"
+   ],
+   "failed": [
+    "account_hd_close",
+    "account_wide_close",
+    "account_keyboard_escape",
+    "account_phone_close",
+    "account_side_close"
+   ],
+   "caught": true
+  },
+  {
+   "name": "the panel's words changed",
+   "applied": true,
+   "expect": [
+    "account_wide_opens"
+   ],
+   "failed": [
+    "account_hd_opens",
+    "account_wide_opens",
+    "account_phone_opens",
+    "account_side_opens"
+   ],
+   "caught": true
+  },
+  {
+   "name": "the gear's top tooth moved",
+   "applied": true,
+   "expect": [
+    "rail_wide_gear_centred"
+   ],
+   "failed": [
+    "rail_hd_gear_centred",
+    "rail_wide_gear_centred",
+    "rail_phone_gear_centred",
+    "rail_side_gear_centred"
+   ],
+   "caught": true
+  }
+ ],
+ "mutantsCaught": 5
+}

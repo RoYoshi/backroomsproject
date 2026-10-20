@@ -268,6 +268,23 @@
     const rs = settingsEl.querySelector('#kbReset'); if (rs) rs.disabled = keys.isDefault();
   }
 
+  /* ---------------------------------------------------------------- the Account panel (pre-Trial 3 polish P3)
+   * The rail's wanderer icon is the Account button.  There are no accounts yet: it opens a small panel beside it that says so
+   * ("Accounts Coming Soon..."), a non-modal dialog - never Customize, which keeps its own button under PLAY.  Close and Escape shut
+   * it and give focus back to the icon; a press elsewhere, Tab away, any menu navigation or entering a run shut it quietly. */
+  let acct = null, acctPop = null;
+  const accountOpen = () => !!(acctPop && !acctPop.hidden);
+  function openAccount() {
+    if (!acct || !acctPop) return;
+    acctPop.hidden = false; acct.setAttribute('aria-expanded', 'true');
+    const x = $('mmAccountClose'); if (x) x.focus({ preventScroll: true });
+  }
+  function closeAccount(back) {
+    if (!accountOpen()) return;
+    acctPop.hidden = true; acct.setAttribute('aria-expanded', 'false');
+    if (back) acct.focus({ preventScroll: true });
+  }
+
   /* ---------------------------------------------------------------- keys: Escape and Tab inside UI modals */
   const vis = id => { const e = $(id); return !!e && !e.hidden; };
   function topModal() {
@@ -283,6 +300,7 @@
     else if (!e.shiftKey && (i === -1 || i === f.length - 1)) { e.preventDefault(); f[0].focus(); }
   }
   addEventListener('keydown', e => {
+    if (e.key === 'Escape' && accountOpen()) { e.preventDefault(); e.stopImmediatePropagation(); closeAccount(true); return; }   // (P3: the Account panel first)
     const m = topModal();
     if (!m && e.key === 'Escape' && entryOpen && vis('menu') && !vis('appearancePanel')) { e.preventDefault(); e.stopImmediatePropagation(); closeEntry(true); return; }
     if (!m) return;
@@ -362,6 +380,14 @@
     if (rn && nm) rn.addEventListener('click', () => { nm.focus(); nm.select(); });
     const snd = $('mmSound');
     if (snd) snd.addEventListener('click', () => { const s = $('sound'); if (s) s.click(); });   // the game's own SOUND ON/OFF
+    acct = $('mmAccount'); acctPop = $('mmAccountPop');                    // (P3: the Account panel; see openAccount above)
+    if (acct && acctPop) {
+      acct.addEventListener('click', e => { e.preventDefault(); if (accountOpen()) closeAccount(true); else openAccount(); });
+      const ax = $('mmAccountClose'); if (ax) ax.addEventListener('click', () => closeAccount(true));
+      document.addEventListener('pointerdown', e => { if (accountOpen() && !acctPop.contains(e.target) && !acct.contains(e.target)) closeAccount(false); }, true);
+      acctPop.addEventListener('focusout', e => { const to = e.relatedTarget; if (accountOpen() && to && !acctPop.contains(to) && to !== acct) closeAccount(false); });
+      if (enter) enter.addEventListener('click', () => closeAccount(false), true);
+    }
     // (#mmNote is written by labelsRefresh(): the keys it names are the player's own)
     const ver = $('mmVer'), V = window.TFB_CREDITS && TFB_CREDITS.version; if (ver && V) ver.textContent = 'v' + V;
   }
@@ -575,6 +601,7 @@
   /* ---------------------------------------------------------------- navigation */
   function go(view, sub, opener, byPointer) {
     view = view || 'home';
+    closeAccount(false);                                                     // (P3)
     if (view === 'home' || view === 'play') {
       closeAll();
       if (vis('appearancePanel')) { const d = $('doneAppearance'); if (d) d.click(); }   // the game's own close (saves, restores the pause state)

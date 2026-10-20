@@ -32,9 +32,12 @@
  *               controls the same; the title's box at rest (minus the drift) the same; no horizontal scroll; the drift within bounds.
  *               Since post-3H Trial 2 the chat's own elements (inside [data-chat], and #mmLounge) are left out of the controls, the
  *               text and the Tab order: they are new on purpose, and dev/tools/checks/chat_browser.js checks them (and that they
- *               cover no other control); every control C5d has must still be where it was.
+ *               cover no other control); every control C5d has must still be where it was.  Since the pre-Trial 3 polish (P3) the rail's
+ *               second cell is the Account button (#mmAccount, the same box): it is recorded as C5d recorded that cell ('BUTTON' among
+ *               the controls, 'Customize your wanderer' in the Tab order), and its panel (#mmAccountPop, hidden until opened) is left
+ *               out of the text; dev/pre-trial3-final-polish/tools/menu_rail_check.js checks them.
  *   logo        the logo's bytes as served, and index.html's (less post-3H Trial 2's one chat script tag, and Trial 4's RGB script tag
- *               and NEW RUN label: pageAsC5d below), the same on both sides
+ *               and NEW RUN label, and the pre-Trial 3 polish's rail edits: pageAsC5d below), the same on both sides
  *   theme       the menu music's state after the gate, and the sound button's state after one press, the same on both sides
  * --shots DIR: a 1920x1080 and a 390x844 capture of each side's menu, and the candidate's title every 5 s for 20 s (PNG crops).
  * --mutants 1: the check's own sensitivity: eight edits of a copy of the candidate's built ui.js or ui.css, each of which one of the
@@ -174,15 +177,17 @@ const LAYOUT = () => { const m = document.getElementById('menu'), q = '#menu but
   const vis = e => e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden' && !e.closest('[hidden]');
   const box = e => { const r = e.getBoundingClientRect(); return [+r.left.toFixed(2), +r.top.toFixed(2), +r.width.toFixed(2), +r.height.toFixed(2)]; };
   const chat = e => !!e.closest('[data-chat], #mmLounge');                  // (post-3H Trial 2: the chat's own controls, checked by chat_browser.js, are not C5d's)
-  const ctl = [...document.querySelectorAll(q)].filter(e => vis(e) && !chat(e)).map(e => [e.id || e.className || e.tagName, box(e)]);
+  const asC5d = e => e.id === 'mmAccount' ? 'BUTTON' : e.id || e.className || e.tagName;   // (pre-Trial 3 polish P3: C5d's rail cell, renamed)
+  const ctl = [...document.querySelectorAll(q)].filter(e => vis(e) && !chat(e)).map(e => [asC5d(e), box(e)]);
   const t = document.getElementById('mmTitle'), tb = box(t), dx = parseFloat(t.style.getPropertyValue('--dx')) || 0, dy = parseFloat(t.style.getPropertyValue('--dy')) || 0;
   const c = m.cloneNode(true); for (const id of ['mmRoom', 'mmLink', 'mmInside', 'mmShared', 'mmVer']) { const e = c.querySelector('#' + id); if (e) e.textContent = '(' + id + ')'; }
-  for (const e of [...c.querySelectorAll('[data-chat], #mmLounge')]) e.remove();
+  for (const e of [...c.querySelectorAll('[data-chat], #mmLounge, #mmAccountPop')]) e.remove();   // (P3: the Account panel, hidden until opened)
   return { controls: ctl, text: c.textContent.replace(/\s+/g, ' ').trim(), titleRest: [+(tb[0] - dx * 3).toFixed(1), +(tb[1] - dy * 3).toFixed(1), tb[2], tb[3]],
     scroll: { w: document.scrollingElement.scrollWidth, iw: innerWidth }, drift: window.__ui.drift ? __ui.drift() : null }; };
 async function tabOrder(P, n = 14) { await P.evaluate(() => { const p = document.getElementById('mmPlay'); if (p) p.focus(); }); const ids = [];
   for (let i = 0; ids.length < n && i < n + 40; i++) {                 // (post-3H Trial 2: a stop inside the chat is passed over, not recorded)
-    const id = await P.evaluate(() => { const a = document.activeElement; if (a && a.closest && a.closest('[data-chat], #mmLounge')) return undefined; return a ? (a.id || a.getAttribute('aria-label') || a.className || a.tagName) : null; });
+    const id = await P.evaluate(() => { const a = document.activeElement; if (a && a.closest && a.closest('[data-chat], #mmLounge')) return undefined; if (a && a.id === 'mmAccount') return 'Customize your wanderer';   // (P3: C5d's rail cell, renamed)
+      return a ? (a.id || a.getAttribute('aria-label') || a.className || a.tagName) : null; });
     if (id !== undefined) ids.push(id); await P.keyboard.press('Tab'); }
   await P.evaluate(() => document.activeElement && document.activeElement.blur()); return ids; }
 async function sideLayout(b, port, label, shots) {
@@ -232,7 +237,12 @@ function pageAsC5d(t) {
   return t.replace(/<script src="\.\/assets\/chat\.js"><\/script>(<!--[^>]*-->)?\n/, '')
     .replace(/<script src="\.\/assets\/rgb\.js"><\/script>\n/, '')
     .replace(/<script src="\.\/assets\/voice\.js"><\/script>\n/, '')   // (post-Trial 4 chat polish C4: the voices' script)
-    .replace('<button class="secondary" id="reset">Spontaneously Combust?</button>', '<button class="secondary" id="reset">NEW RUN</button>');
+    .replace('<button class="secondary" id="reset">Spontaneously Combust?</button>', '<button class="secondary" id="reset">NEW RUN</button>')
+    // pre-Trial 3 polish P3: the Settings gear redrawn; the rail's wanderer icon made the Account button; its panel
+    .replace("<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"2.7\"/><path d=\"M10.64 5.34L10.84 3.18L13.16 3.18L13.36 5.34A6.8 6.8 0 0 1 15.75 6.33L15.75 6.33L17.42 4.94L19.06 6.58L17.67 8.25A6.8 6.8 0 0 1 18.66 10.64L18.66 10.64L20.82 10.84L20.82 13.16L18.66 13.36A6.8 6.8 0 0 1 17.67 15.75L17.67 15.75L19.06 17.42L17.42 19.06L15.75 17.67A6.8 6.8 0 0 1 13.36 18.66L13.36 18.66L13.16 20.82L10.84 20.82L10.64 18.66A6.8 6.8 0 0 1 8.25 17.67L8.25 17.67L6.58 19.06L4.94 17.42L6.33 15.75A6.8 6.8 0 0 1 5.34 13.36L5.34 13.36L3.18 13.16L3.18 10.84L5.34 10.64A6.8 6.8 0 0 1 6.33 8.25L6.33 8.25L4.94 6.58L6.58 4.94L8.25 6.33A6.8 6.8 0 0 1 10.64 5.34Z\"/></svg>", "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3.3\"/><path d=\"M10.3 2.8h3.4l.5 2.4 1.6.9 2.3-.8 1.7 2.9-1.8 1.6v1.9l1.8 1.6-1.7 2.9-2.3-.8-1.6.9-.5 2.4h-3.4l-.5-2.4-1.6-.9-2.3.8-1.7-2.9 1.8-1.6v-1.9L4.2 8.2l1.7-2.9 2.3.8 1.6-.9Z\"/></svg>")
+    .replace('<button type="button" id="mmAccount" aria-label="Account" aria-haspopup="dialog" aria-expanded="false" aria-controls="mmAccountPop" data-tip="Account">',
+      '<button type="button" data-go="customize" data-sub="wanderer" aria-label="Customize your wanderer" data-tip="Your wanderer">')
+    .replace(/  <!-- pre-Trial 3 polish P3: the rail's wanderer icon is the Account button[^>]*-->\n  <div class="mm-pop" id="mmAccountPop"[\s\S]*?<\/div>\n/, '');
 }
 const MUTANTS = [
   ['amplitude', 'assets/ui.css', '--drx:3px;--dry:3px;', '--drx:9px;--dry:9px;', 'static'],

@@ -181,6 +181,15 @@ html.rm #menu.mm-intro.mm-go .mm-foot{animation:mmFade .18s ease .32s both!impor
   transition:background-color var(--u-fast),border-color var(--u-fast),color var(--u-fast)}
 #menu .mm-util button+button{margin-top:-1px}
 .mm-util svg{width:calc(var(--uw) * .46);height:calc(var(--uw) * .46);fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:square;stroke-linejoin:miter;pointer-events:none}
+/* pre-Trial 3 polish P3: the Account panel - beside the Account button (the rail's second cell), in the rail's own frame: a hairline,
+ * the near-black ground, cream text; below the rail where the rail lies along the top (a short screen, below) */
+.mm-pop{position:absolute;z-index:4;top:calc(var(--st) + var(--uw) - 1px);right:calc(var(--sr) + var(--uw) + 10px);width:max-content;max-width:min(300px,calc(100vw - var(--sl) - var(--sr) - var(--uw) - 22px));
+  display:grid;gap:12px;justify-items:start;padding:14px 16px;border:1px solid var(--u-line2);background:#0a0805f2;color:var(--u-cream);box-shadow:0 10px 28px #000a}
+.mm-pop[hidden]{display:none}
+#menu .mm-util button[aria-expanded=true]{z-index:1;color:var(--u-tube);border-color:var(--u-line-hi);background:#17130b}   /* (P3: its panel is open) */
+.mm-pop-t{margin:0;font:500 13px/1.45 var(--u-mono);letter-spacing:.02em;color:var(--u-cream)}
+#menu .mm-pop .mm-pop-x{min-height:36px;padding:0 14px;font-size:11px}
+@media (pointer:coarse){#menu .mm-pop .mm-pop-x{min-height:44px}}
 @media (hover:hover){#menu .mm-util button:hover{z-index:1;border-color:var(--u-line-hi);color:var(--u-tube);background:#17130b}}
 #menu .mm-util button:focus-visible{z-index:2;color:var(--u-tube);background:#17130b;outline:2px solid var(--u-sick-hi);outline-offset:2px}
 #menu .mm-util button.on{z-index:1;color:var(--u-sick-hi);border-color:var(--u-sick)}
@@ -254,6 +263,7 @@ body.ui-menu>header,body.ui-menu .location,body.ui-menu .coordinates,body.ui-men
     --stw:min(520px,calc(100vw - var(--sl) - var(--sr)));--stb:calc(var(--sb) + 4px)}
   .mm-util{flex-direction:row}
   #menu .mm-util button+button{margin:0 0 0 -1px}
+  .mm-pop{top:calc(var(--st) + var(--uw) + 8px);right:var(--sr);max-width:min(300px,calc(100vw - var(--sl) - var(--sr)))}   /* (P3) */
   .mm-rail{right:auto;width:min(230px,calc(50vw - var(--lw) / 2 - 24px));min-width:170px}
   .mm-conn p{display:none}
   .mm-dest{margin-bottom:8px}
