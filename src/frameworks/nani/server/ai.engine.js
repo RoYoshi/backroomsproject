@@ -157,7 +157,7 @@ function create(cfg) {
       e.farT = (e.farT || 0) - dt;
       if (!e.path.length && e.farT <= 0) { const g = randomFloor(eng, e, 900, 2800); if (g) plan(eng, e, g.x, g.y); e.farT = rand(e, 3, 12); }
       coarseMove(eng, e, dt);
-    }
+    } else if (e.sp.farTick) e.sp.farTick(eng, e, dt);                       // (Trial 3: an animal whose hunger goes on while nobody is near)
   }
   /* an entity that has not gone anywhere for a long while is stuck: set it back on open floor and let it think again */
   function watchdog(e, dt) {

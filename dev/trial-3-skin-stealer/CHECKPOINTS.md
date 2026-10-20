@@ -7,7 +7,8 @@ Each row is filled after its push has been verified on GitHub (`tools/verify_rem
 | Checkpoint | Commit | Tree | Parent | Verified |
 |---|---|---|---|---|
 | T0 recon, plan, matrix, decisions, baseline | `98d28196d25a1cea6167323548571a99e399a44e` | `40b2191329b2c504c8801462ed30c08bd0cef755` | `1ff9374` | yes: `evidence/remote/t0.json` (ls-remote and the GitHub API agree; every protected branch at its frozen SHA; no other branch moved) |
-| T1 third species, admin-only spawn, bounded snapshot, first view | (this commit; recorded at T2) | | `98d2819` | |
+| T1 third species, admin-only spawn, bounded snapshot, first view | `23bba42815fa6777a53cccfeb9de46d8766d34de` | `d1172702a720606fecbb4616755969f92f02fd5f` | `98d2819` | yes: `evidence/remote/t1.json`; secret scan of the pushed commit CLEAN |
+| T2 the animal: hunger, stamina, senses, non-engagement, budgets | (this commit; recorded at T3) | | `23bba42` | |
 
 ## T0 baseline (P9 `1ff9374`, this machine, before any game change)
 
@@ -45,3 +46,21 @@ Two gate findings shaped T1 (both kept the gate's guarantees rather than weakeni
   tab; otherwise the panel is P9's.  Its body (`bodySkin`) is the one new `mp.js` function and is listed in `cli_golden_c3c.js`'s UNRUN
   with this trial's browser tool as its runner.
 - the `__api` contract and its pages are regenerated because the new page script reads `__api.layer()` and `__api.death()`.
+
+## T2 — the animal (results on the T2 tree)
+
+What T2 adds (server only; `ai.skinstealer.js` and one engine line): hunger (one continuous variable, rising near or far, falling only
+by feeding) and stamina (drained by running pro rata, regained walking or still, exhaustion caps its speed; no plan or state change
+resets either), the decision between **watch / retreat / approach / leave** on its 10 Hz think from what it perceives (eye contact,
+the light on its own body, how many people it sees, its hunger), the **encounter budget** (seconds spent on one person never refilled by
+a change of plan) and the **departure** (far, dark, away from everyone it perceives, with a cooldown on that person).  The engine's far
+step gains one optional hook (`sp.farTick`), so a far Skin-Stealer stays hungry; no Hound or Smiler path changes.
+
+One fix while porting from the draft: the encounter clock counted nominal think steps (0.1 s), but thinks run a little slower than
+10 Hz, so it under-counted real time by ~14% and an engagement could outlast its budget.  It now counts real elapsed time.
+
+| Run | Result |
+|---|---|
+| `npm test` | 166 / 179: SK01–SK08 and SK10–SK18 pass; the 13 failures are exactly P9's (`evidence/t2/npm_test_t2.txt`) |
+| server gate steps (build, parts, modules, contracts, docs, scope, srv_golden, bpp_golden, session, sim, protocol, mutants, quick_suites) | PASS 13 / 13 (`evidence/t2/gate_server_t2.txt`): B++'s server traces, sessions and sim calls unchanged |
+| client / browser | not rerun: T2 changes no client file (the snapshot's `ss` keys and the page script are T1's) |

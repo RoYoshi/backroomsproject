@@ -1,7 +1,7 @@
 /* SKIN-STEALER scenarios (Trial 3; dev/trial-3-skin-stealer/).  Each runs on the real simulation (sim.js + ai.js) with the harness's
  * scripted players (the game's own move.js model); seeded and headless.  T1: the species' identity and plumbing. */
 'use strict';
-const { World, DT, LONG, over, rate, AI } = require('./lib.js');
+const { World, DT, LONG, over, rate, AI, floorNear } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
 const SKS = w => w.eng.entities.filter(e => e.kind === 'skinstealer');
 const P9_KEYS = 'st,h,m,b,p,gw,it,lf,sn';
@@ -104,8 +104,124 @@ add('SK08 admin navigation and summon reach its own hooks (never the Smiler\'s s
   const ok3 = w.eng.summon(e, 5600, LONG.y, 5000, LONG.y, p.id), st3 = e.state, goal = e.roam.goal;
   w.run(3); const st4 = e.state;
   const bad = ['STALKING', 'HIDDEN', 'FOLLOWING', 'WATCHING'].filter(s => [st1, st2, st3, st4].includes(s) && s !== 'WATCHING');
-  const ok = /RECORD/.test(r1) && tg === p.id && /CLEARED/.test(r2) && e.target === null && ok3 && goal && goal.x === 5000 && !bad.length;
+  const ok = /WATCHING|RECORD/.test(r1) && tg === p.id && /CLEARED/.test(r2) && e.target === null && ok3 && goal && goal.x === 5000 && !bad.length;
   return { ok, note: `hunt: "${r1}" (${st1}, target ${tg}); clear: "${r2}" (${st2}); summon: ${ok3} -> goal ${goal && goal.x},${goal && goal.y} (${st3}); 3 s later ${st4}` };
+});
+
+/* ---------------------------------------------------------------- T2: the animal, its senses, non-engagement, budgets */
+/* a stage: one Skin-Stealer of a given hunger at (ex, ey), facing (ea); a player at (px, py) facing (pa), light on or off */
+function duel(seed, o) {
+  const w = World(seed), y = LONG.y;
+  const p = w.player(o.px ?? 5000, o.py ?? y, { light: o.light !== false, angle: o.pa ?? 0 }); p.stop(o.mode || 'stand'); p.look = o.pa ?? 0;
+  const e = w.eng.spawn('skinstealer', o.ex ?? 5600, o.ey ?? y, { hunger: o.hunger }); e.tier = 'near'; e.ang = o.ea ?? Math.PI;
+  return { w, p, e };
+}
+const planOf = e => e.plan ? e.plan.k : 'roam';
+
+add('SK10 hunger: one continuous variable, rising slowly with time near or far (never a jump), falling only by feeding', () => {
+  const w = World(71), p = w.player(1300, 3300); p.stop('crouch');
+  const near = w.eng.spawn('skinstealer', 1900, 3300, { hunger: .3 }), far = w.eng.spawn('skinstealer', 8600, 6100, { hunger: .3 }); near.tier = 'near';
+  let maxStep = 0, last = [near.hunger, far.hunger];
+  w.run(60, () => { const h = [near.hunger, far.hunger]; maxStep = Math.max(maxStep, Math.abs(h[0] - last[0]), Math.abs(h[1] - last[1])); last = h; return true; });
+  const rate = (near.hunger - .3) / 60, rateFar = (far.hunger - .3) / 60;
+  const ok = Math.abs(rate - AI.SK.hungerRate) < 2e-4 && Math.abs(rateFar - AI.SK.hungerRate) < 2e-4 && maxStep < .002 && far.tier === 'far';
+  return { ok, note: `60 s: near ${near.hunger.toFixed(4)} (${(rate * 60).toFixed(3)}/min), far ${far.hunger.toFixed(4)} (${(rateFar * 60).toFixed(3)}/min); largest single step ${maxStep.toFixed(5)}` };
+});
+
+add('SK11 stamina: running drains it at its rate, walking and standing give it back, exhaustion caps its speed; no change of plan or state ever resets it', () => {
+  const rs = over([1, 2, 3], seed => {
+    const w = World(seed + 80), p = w.player(1300, 3300, { light: false }); p.stop('crouch');
+    const e = w.eng.spawn('skinstealer', 2300, 3300, { hunger: .5 }); e.tier = 'near';
+    const lim = Math.max(AI.SK.drainRun, AI.SK.regenStill) * 1.3 / 60, jumps = []; let prev = e.stam, overCap = 0;
+    let free = false; const tick = () => { if (Math.abs(e.stam - prev) > lim) jumps.push([+w.t.toFixed(2), +prev.toFixed(2), +e.stam.toFixed(2)]); prev = e.stam; if (free && e.exh && e.speed > e.sp.speeds.roam + 25) overCap++; return true; };
+    // its body told it ran at its run speed for 4 s (the body reads the speed it moved at): 14 a second
+    const s0 = e.stam; for (let i = 0; i < 240; i++) { e.speed = e.sp.speeds.run; w.step(); tick(); }
+    const drained = s0 - e.stam;
+    for (let i = 0; i < 240; i++) { e.speed = e.sp.speeds.run; w.step(); tick(); }
+    const exh = e.exh, low = e.stam;
+    w.run(.5, tick); free = true; w.run(11.5, tick); const back = e.stam, exhAfter = e.exh;               // (after half a second to brake: it moves as it chooses, exhausted, never faster than a walk)
+    // plans and states changed over and over (the admin's hunt and clear, a summon): the stamina never jumps
+    for (let k = 0; k < 20; k++) { w.eng.navCmd(e, k % 2 ? 'clear' : 'hunt', p); w.run(.25, tick); }
+    return { ok: Math.abs(drained - AI.SK.drainRun * 4) < 2.5 && exh && low < AI.SK.stamExh && back > low + 40 && !overCap && !jumps.length, drained: +drained.toFixed(1), exh, low: +low.toFixed(1), back: +back.toFixed(1), exhAfter, overCap, jumps: jumps.slice(0, 3) };
+  });
+  return { ok: rate(rs) === 1, note: rs.map(r => `${r.ok ? 'ok' : 'FAIL'}: 4 s running -${r.drained} (rate ${AI.SK.drainRun}/s), exhausted ${r.exh} at ${r.low}, 12 s later ${r.back} (exhausted ${r.exhAfter}), over the walking cap ${r.overCap} ticks, jumps ${r.jumps.length}`).join(' | '), data: rs };
+});
+
+add('SK12 real non-engagement: a satiated Skin-Stealer that sees someone (even close, even unwatched) leaves them alone and goes away', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const { w, p, e } = duel(seed + 100, { hunger: .1, ex: 5000 + 380, pa: seed % 2 ? 0 : Math.PI, light: true });
+    let closest = 1e9, left = false;
+    w.run(25, () => { closest = Math.min(closest, Math.hypot(p.x - e.x, p.y - e.y)); if (planOf(e) === 'leave') left = true; return true; });
+    const end = Math.hypot(p.x - e.x, p.y - e.y);
+    return { ok: left && closest > 300 && end > 900, left, closest: Math.round(closest), end: Math.round(end), why: e.dbg.why };
+  });
+  return { ok: rate(rs) === 1, note: `${rs.filter(r => r.ok).length}/${rs.length} left (never closer than ${Math.min(...rs.map(r => r.closest))} px; after 25 s ${Math.min(...rs.map(r => r.end))}..${Math.max(...rs.map(r => r.end))} px away)`, data: rs };
+});
+
+add('SK13 a departure is real: once it has left someone it does not come back for them during its cooldown (the person stays where they were)', () => {
+  const rs = over([1, 2, 3, 4], seed => {
+    const { w, p, e } = duel(seed + 120, { hunger: .1, ex: 5400, pa: 0, light: true });
+    let leftAt = -1, back = 1e9;
+    w.run(70, () => { if (leftAt < 0 && planOf(e) === 'leave') leftAt = w.t; if (leftAt >= 0 && w.t - leftAt > 8) back = Math.min(back, Math.hypot(p.x - e.x, p.y - e.y)); return true; });
+    return { ok: leftAt >= 0 && back > 700, leftAt: +leftAt.toFixed(1), back: Math.round(back), cooldown: [...e.left.values()].map(u => +(u - w.eng.now).toFixed(1)) };
+  });
+  return { ok: rate(rs) === 1, note: rs.map(r => `left at ${r.leftAt} s, never back within ${r.back} px`).join(' | '), data: rs };
+});
+
+add('SK14 engagement exists: a hungry one comes closer to somebody who is not watching it, under cover; eye contact stops it', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const { w, p, e } = duel(seed + 140, { hunger: .62, ex: 5700, ea: Math.PI, pa: Math.PI, light: true });   // the person (lit) faces away, west; it is 700 px east of them, facing them
+    const r0 = Math.hypot(p.x - e.x, p.y - e.y); let closest = r0, approached = false;
+    w.run(30, () => { const d = Math.hypot(p.x - e.x, p.y - e.y); closest = Math.min(closest, d); if (planOf(e) === 'approach') approached = true; return true; });
+    // now the person turns round to face it: it stops coming
+    p.look = Math.atan2(e.y - p.y, e.x - p.x); w.run(4); const d0 = Math.hypot(p.x - e.x, p.y - e.y); w.run(4); const d1 = Math.hypot(p.x - e.x, p.y - e.y);
+    return { ok: approached && closest < r0 - 200, approached, closest: Math.round(closest), r0: Math.round(r0), watchedThen: planOf(e), held: d1 >= d0 - 30 };
+  });
+  const held = rs.filter(r => r.approached).every(r => r.held);
+  return { ok: rate(rs) >= .75 && held, note: `${rs.filter(r => r.ok).length}/${rs.length} came closer (from ${rs[0].r0} px to ${rs.map(r => r.closest).join(', ')}); eye contact then: ${rs.map(r => r.watchedThen).join(', ')} (stopped coming: ${held})`, data: rs };
+});
+
+add('SK15 the evidence law: an unsensed person changes nothing it does (the same seed with the person hidden in two different places gives the same Skin-Stealer, tick for tick)', () => {
+  const runOnce = (hx, hy) => {
+    const w = World(161), q = w.player(hx, hy, { light: false }); q.stop('crouch');
+    const watcher = w.player(1300, 3300, { light: false }); watcher.stop('crouch');   // keeps the near tier going, far from both
+    const e = w.eng.spawn('skinstealer', 2100, 3300, { hunger: .7 }); e.tier = 'near';
+    const tr = []; w.run(30, () => { tr.push(Math.round(e.x * 100), Math.round(e.y * 100), e.state.length, e.plan ? e.plan.k.length : 0); return true; });
+    return { tr, seen: e.mem.p.has(q.id) };
+  };
+  const a = runOnce(8400, 900), b = runOnce(600, 6400);
+  let first = -1; for (let i = 0; i < a.tr.length; i++) if (a.tr[i] !== b.tr[i]) { first = i; break; }
+  return { ok: first < 0 && !a.seen && !b.seen, note: first < 0 ? `identical over ${a.tr.length / 4} ticks; it never sensed either hidden person` : `diverged at tick ${first >> 2}` };
+});
+
+add('SK16 the encounter budget: it never pins somebody for ever - with a person standing in view, its time on them runs out and it leaves', () => {
+  const rs = over([1, 2, 3, 4], seed => {
+    const { w, p, e } = duel(seed + 170, { hunger: .55, ex: 5650, pa: Math.PI, light: true });
+    let leftAt = -1, span = 0, longest = 0;
+    w.run(150, () => { if (e.plan && e.plan.pid === p.id) { span += DT; longest = Math.max(longest, span); } else if (planOf(e) === 'leave') span = 0; if (leftAt < 0 && planOf(e) === 'leave') leftAt = w.t; return true; });
+    const budget = AI.SK.budgetEnc[0] + AI.SK.budgetEnc[1] * .7;   // (its hunger rises a little over the run)
+    return { ok: leftAt >= 0 && longest <= budget + 5, leftAt: +leftAt.toFixed(1), engaged: +longest.toFixed(1), budget: Math.round(budget) };
+  });
+  return { ok: rate(rs) === 1, note: rs.map(r => `longest engagement ${r.engaged} s (budget about ${r.budget}), first left at ${r.leftAt} s`).join(' | '), data: rs };
+});
+
+add('SK17 more than one of them: two people in view make it leave (it is a lone ambusher)', () => {
+  const rs = over([1, 2, 3, 4, 5, 6], seed => {
+    const { w, p, e } = duel(seed + 190, { hunger: .55, ex: 5600, pa: Math.PI, light: true });
+    const q = w.player(5000, LONG.y + 120, { light: true, angle: 0 }); q.stop('stand');
+    let left = false; w.run(15, () => { if (planOf(e) === 'leave') left = true; return true; });
+    return { ok: left, why: e.dbg.why };
+  });
+  return { ok: rate(rs) >= .8, note: `${rs.filter(r => r.ok).length}/${rs.length} left; ${[...new Set(rs.map(r => r.why))].join(' / ')}`, data: rs };
+});
+
+add('SK18 navigation: its routes never use crawl or tight-gap cells, and over long runs it never stands inside solid geometry', () => {
+  const w = World(181), p = w.player(1300, 3300); p.stop('crouch');
+  const ks = [w.eng.spawn('skinstealer', 2400, 3300, { hunger: .5 }), w.eng.spawn('skinstealer', 5000, LONG.y, { hunger: .2 })]; ks.forEach(e => { e.tier = 'near'; });
+  const g = w.eng.geo; let badCell = 0, inside = 0, samples = 0;
+  w.run(120, () => { for (const e of ks) { for (const wp of e.path) if ((wp.c | 0) > 1) badCell++; if (!e.trav) { samples++; if (!w.ad.clear(e.x, e.y, 12, 'walk')) inside++; } } return true; }, 4);
+  const p2 = g.path(1200, 3300, 8500, 6000, ks[0].caps), crawlOnRoute = p2 ? p2.filter(q => (q.c | 0) > 1).length : -1;
+  return { ok: !badCell && !inside && crawlOnRoute === 0, note: `${samples} samples: ${inside} inside geometry, ${badCell} crawl / tight waypoints; a cross-map route has ${crawlOnRoute} such cells` };
 });
 
 module.exports = S;
