@@ -471,10 +471,10 @@
      and the menu is not revealed before they are ready. At the reveal the Intro starts in the same step: at once where the browser
      lets sound start, otherwise on the black ready gate's first key, click or tap, which also reveals the menu. A download that
      stops sending data for 20 s, or arrives short, is an error (the boot's RETRY), not an endless black screen. No per-frame work.
-     Pre-Trial 3 polish P7: the same context carries the interface's sounds (the seven assets/ui_*.mp3, below) and three gains:
-       music sources -> music (THEME.gain x the music setting; the fades)  \
-       interface sounds -> ui (the ui setting)                             -> master (0 while SOUND is off, else Master volume) -> speakers
-     The music and ui settings (0..1) read as 1 until something saves them (P8: Settings -> Sound's Music and UI volume).  The
+     Pre-Trial 3 polish P7 / P8: the same context carries the interface's sounds (the seven assets/ui_*.mp3, below) and three gains:
+       music sources -> music (THEME.gain x Music volume; the fades)  \
+       interface sounds -> ui (UI volume)                             -> master (0 while SOUND is off, else Master volume) -> speakers
+     Music and UI volume are Settings -> Sound's, saved with the other settings (hud.js: music, ui; 0..1, both 1 by default).  The
      wanderers' voices (voice.js) and the run's own sounds have their own graphs and are not routed here; SOUND OFF silences them all.
      The context runs only while something plays: the music, or an interface sound (resumed by the press that made it, suspended again
      a moment after the last one when no music plays). */
@@ -847,8 +847,10 @@
 <div>
 <section class="us-page" id="stPage_sound" role="tabpanel" aria-labelledby="stTab_sound">
   <h3>Sound</h3><p class="u-note">Headphones recommended. The halls are quiet; footsteps and what moves in the dark carry.</p>
-  <div class="us-row"><span>Sound<small>The menu music, the ambience, footsteps, hum and entities.</small></span><button type="button" class="u-switch" role="switch" id="stSound" aria-label="Sound"></button></div>
+  <div class="us-row"><span>Sound<small>The menu music, the interface's sounds, the ambience, footsteps, hum and entities.</small></span><button type="button" class="u-switch" role="switch" id="stSound" aria-label="Sound"></button></div>
   <div class="us-row wide"><label class="us-slider"><span>Master volume</span><output id="stVolV"></output><input class="u-range" type="range" id="stVol" min="0" max="100" step="5" aria-label="Master volume"></label></div>
+  <div class="us-row wide"><label class="us-slider"><span>Music volume<small>The main menu's music.</small></span><output id="stMusicV"></output><input class="u-range" type="range" id="stMusic" min="0" max="100" step="5" aria-label="Music volume"></label></div>
+  <div class="us-row wide"><label class="us-slider"><span>UI volume<small>The menus' clicks and ticks.</small></span><output id="stUiV"></output><input class="u-range" type="range" id="stUi" min="0" max="100" step="5" aria-label="UI volume"></label></div>
   <div class="us-row"><span>Wanderer voices<small>The short sounds nearby players' words make as they appear, each in its speaker's own voice. Yours is set in Customize.</small></span><button type="button" class="u-switch" role="switch" id="stVoices" aria-label="Wanderer voices"></button></div>
   <div class="us-row wide"><label class="us-slider"><span>Voice volume</span><output id="stVoiceVolV"></output><input class="u-range" type="range" id="stVoiceVol" min="0" max="100" step="5" aria-label="Voice volume"></label></div>
 </section>
@@ -892,7 +894,7 @@
     });
     const S = () => window.__settings;
     q('#stSound').addEventListener('click', () => { const s = $('sound'); if (s) s.click(); syncSettings(); });
-    for (const [id, k, f] of [['stVol', 'vol', v => v / 100], ['stSize', 's', v => v / 100], ['stOp', 'o', v => v / 100]])
+    for (const [id, k, f] of [['stVol', 'vol', v => v / 100], ['stMusic', 'music', v => v / 100], ['stUi', 'ui', v => v / 100], ['stSize', 's', v => v / 100], ['stOp', 'o', v => v / 100]])   // (P8: music, ui)
       q('#' + id).addEventListener('input', e => { S() && S().set(k, f(+e.target.value)); syncSettings(); });
     settingsEl.querySelectorAll('[data-k]').forEach(b => b.addEventListener('click', () => { const s = S() && S().get(); if (!s) return; S().set(b.dataset.k, !s[b.dataset.k]); syncSettings(); }));
     q('#stSw').addEventListener('click', e => { const b = e.target.closest('[data-c]'); if (b && S()) { S().set('c', b.dataset.c); syncSettings(); } });
@@ -930,7 +932,7 @@
     const s = __settings.get(), q = x => settingsEl.querySelector(x);
     const Z = window.__api && __api.audio && __api.audio(), on = !(Z && Z.muted);
     q('#stSound').setAttribute('aria-checked', on ? 'true' : 'false');
-    for (const [id, v] of [['stVol', s.vol], ['stSize', s.s], ['stOp', s.o]]) { const r = q('#' + id); r.value = Math.round(v * 100); rangeFill(r); q('#' + id + 'V').textContent = pct(v); }
+    for (const [id, v0] of [['stVol', s.vol], ['stMusic', s.music], ['stUi', s.ui], ['stSize', s.s], ['stOp', s.o]]) { const v = Number.isFinite(v0) ? v0 : 1; const r = q('#' + id); r.value = Math.round(v * 100); rangeFill(r); q('#' + id + 'V').textContent = pct(v); }
     settingsEl.querySelectorAll('[data-k]').forEach(b => b.setAttribute('aria-checked', s[b.dataset.k] ? 'true' : 'false'));
     const custom = !!s.c && !__settings.swatches().some(x => x[0] === s.c);
     settingsEl.querySelectorAll('#stSw [data-c]').forEach(b => b.setAttribute('aria-checked', b.dataset.c === s.c ? 'true' : 'false'));

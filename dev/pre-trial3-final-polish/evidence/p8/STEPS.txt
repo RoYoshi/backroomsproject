@@ -1,0 +1,41 @@
+P8 - Settings -> Sound: Music volume and UI volume, saved, under Master volume and SOUND ON/OFF
+(headless Chromium with sound allowed to start; every passcode synthetic; check: dev/pre-trial3-final-polish/tools/ui_audio_check.js)
+
+On P7 (and C5): Settings -> Sound had the Sound switch, Master volume, Wanderer voices and Voice volume.  The menu music could be turned
+down only with everything else (Master volume) and the interface's sounds had no level of their own.
+
+Changed:
+- src/frameworks/front/client/hud.js -> public/hud.js (the settings store, fb_settings_v1): two fields, music and ui (0..1, both 1 by
+  default) - a save without them reads 1 and 1 (everyone keeps what they heard), a damaged value reads its default, an out-of-range
+  one is clamped; set() accepts them as it accepts every field of the store; nothing else in the save changes.
+- src/frameworks/front/client/ui.js -> public/assets/ui.js: Settings -> Sound shows Music volume ("The main menu's music.") and UI
+  volume ("The menus' clicks and ticks.") under Master volume, 0-100 % in steps of 5 like it, named, keyboard and touch as the other
+  sliders, the value beside each; they write the store, and P7's gains follow (theme.sync on every settings change: the master,
+  music and UI gains glide - setTargetAtTime .05 s - or, for the UI gain with nothing sounding through it, are set at once).  The
+  Sound switch's line now names the interface's sounds too.  The theme's comment: Music and UI volume.
+- public/assets/ui.css: the two sliders' one-line captions (as the switches' captions are drawn).
+- dev/tools/gate/declared_changes.json: hud.js, assets/ui.js, assets/ui.css noted.  generated/BUILD_MANIFEST.json rebuilt.
+Not changed: Master volume and the game's own sound (hud.js still sets the game's gain from vol as before), Wanderer voices and
+Voice volume (voice.js: its own context and level, reading Master volume and SOUND ON/OFF as in C5), the heartbeat, drone and stings
+(mp.js, the dread layer), the run's sounds.  "Music" is the main menu's theme - the only music the game has; the run's ambience and
+hum are sound effects and follow Master volume as before.
+
+Results:
+- ui_audio_check.js (both parts) on P8: PASS 11 of 11 (ui_audio_p8.*), mutants 8 of 8 caught (the six of P7, and music_ignored,
+  not_saved).  P8's cases:
+  sliders   Music volume and UI volume between Master volume and Wanderer voices; 0-100, step 5, named, shown 100 %; two Left arrows on
+            Music -> 90 %, saved .9; UI volume let go -> one click at the level chosen, Music volume let go -> none.
+  routing   all 100 %: master 1, music .7, ui 1, a click sounds; UI 30 %: the ui gain .3 during a click, the others unchanged; Music 0:
+            the music gain 0, a click still sounds; UI 0: the click skipped, the music gain .7; Master 50 %: the master .5, the others
+            unchanged; SOUND off with the menu's own icon: the master 0, the game's flag muted (what voice.js reads), the Account
+            button silent; Voice volume 0: no gain here moves.
+  smooth    Music 100 -> 20 % while the music plays: the same start and sources (no restart), the gain gliding (sampled .7, .142, .14).
+  persist   Music 40 % and UI 60 % set with the keyboard on the real sliders -> fb_settings_v1 music .4, ui .6 -> after a reload the same,
+            shown 40 % / 60 %, the gains .28 / .6, one menu context, the music started once.
+  old_saves a save from before P8 -> 1 and 1 (Master .8 kept); 'x' and -3 -> 1 and 0; 7 and 2 -> 1 and 1.
+- ui_audio_check.js --only p8 on C5: FAIL (ui_audio_c5_p8.*) - Settings -> Sound has no Music volume slider (#stMusic); the run stops
+  there.  (P7's Settings -> Sound is C5's: settings_sound_c5_vs_p8.jpg.)
+- The gate (gate_p8.log): scope (hud.js declared), docs, contracts, srv_golden, static, raw_live, page PASS.
+- npm run build:check PASS (43); docs PASS.
+NOT RUN / for a person: how the levels feel through speakers (HUMAN_QA.md Part D).
+Images: settings_sound_c5_vs_p8.jpg (C5 left, P8 right, 1280x800), settings_sound_p8_phone.jpg (390x844).

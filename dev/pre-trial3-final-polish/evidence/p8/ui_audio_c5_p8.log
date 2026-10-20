@@ -1,0 +1,6 @@
+FAIL error - page.focus: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('#stMusic')[22m
+
+    at /home/claude/final-polish/dev/pre-trial3-final-polish/tools/ui_audio_check.js:214:17
+UI AUDIO: FAIL - 0 of 1 cases

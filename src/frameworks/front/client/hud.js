@@ -11,10 +11,13 @@
  *   auto   - kept in the save, no longer used (it faded the controls strip, which is gone).
  * The HUD itself: stamina appears while it changes and fades once full; a dormant health slot waits for a real health value
  * (window.__hud.health(v): the game has no health yet, so nothing calls it).
+ * Pre-Trial 3 polish P8: two more fields, music and ui (0..1, both 1 by default): Settings -> Sound's Music volume (the main menu's
+ * music) and UI volume (the interface's sounds), applied by assets/ui.js's menu audio under the master volume (vol) and SOUND ON/OFF.
+ * A save without them reads as 1 (the full volume everyone had); a damaged value falls back to 1.
  * Independent of the network layer, so it works offline / solo too. */
 (() => {
   const KEY = 'fb_settings_v1';
-  const DEF = { c: '', s: 1, o: 1, keys: true, coords: false, title: true, auto: true, vol: 1, rm: 'auto', v: 2 };
+  const DEF = { c: '', s: 1, o: 1, keys: true, coords: false, title: true, auto: true, vol: 1, music: 1, ui: 1, rm: 'auto', v: 2 };
   const RM = ['auto', 'on', 'off'];
   const HUD_KEYS = ['c', 's', 'o', 'keys', 'coords', 'title', 'auto'];
   let S = { ...DEF };
@@ -31,6 +34,7 @@
   function apply() {
     const r = document.documentElement.style, b = document.body.classList;
     S.s = clamp(num(S.s, DEF.s), .5, 2); S.o = clamp(num(S.o, DEF.o), .3, 1); S.vol = clamp(num(S.vol, DEF.vol), 0, 1);
+    S.music = clamp(num(S.music, DEF.music), 0, 1); S.ui = clamp(num(S.ui, DEF.ui), 0, 1);   // (P8)
     if (typeof S.c !== 'string') S.c = '';
     for (const k of ['keys', 'title', 'auto']) S[k] = S[k] !== false;
     S.coords = S.coords === true; S.v = DEF.v;

@@ -289,12 +289,12 @@
   },
   {
    "out": "public/assets/ui.js",
-   "bytes": 119691,
-   "sha256": "0b77a417412b954f66ebd9f36df6f1d060479487bb63aa3a66586b9799da64ac",
+   "bytes": 120398,
+   "sha256": "e756dd81d97faee6bc916cc95df7dc661233c204858a323aba5b802250bc86c7",
    "parts": [
     {
      "path": "src/frameworks/front/client/ui.js",
-     "sha256": "0b77a417412b954f66ebd9f36df6f1d060479487bb63aa3a66586b9799da64ac",
+     "sha256": "e756dd81d97faee6bc916cc95df7dc661233c204858a323aba5b802250bc86c7",
      "headerBytes": 0
     }
    ]
@@ -443,12 +443,12 @@
   },
   {
    "out": "public/hud.js",
-   "bytes": 7692,
-   "sha256": "370adcf105fce4fc46588830e06d234b53f6ea3afdeeef92fc2feaccb0c991a4",
+   "bytes": 8177,
+   "sha256": "fc2975a2266639f17420a193b04b322b4aeada34afbf47de1bb5d040cc5b68b1",
    "parts": [
     {
      "path": "src/frameworks/front/client/hud.js",
-     "sha256": "370adcf105fce4fc46588830e06d234b53f6ea3afdeeef92fc2feaccb0c991a4",
+     "sha256": "fc2975a2266639f17420a193b04b322b4aeada34afbf47de1bb5d040cc5b68b1",
      "headerBytes": 0
     }
    ]

@@ -1,0 +1,13 @@
+{
+ "tool": "dev/pre-trial3-final-polish/tools/ui_audio_check.js",
+ "dir": "/home/claude/chat-voice",
+ "chromium": "141.0.7390.37",
+ "cases": [
+  {
+   "name": "error",
+   "ok": false,
+   "detail": "page.focus: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#stMusic')\u001b[22m\n\n    at /home/claude/final-polish/dev/pre-trial3-final-polish/tools/ui_audio_check.js:214:17"
+  }
+ ],
+ "ok": false
+}

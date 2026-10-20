@@ -352,6 +352,7 @@ body.ui-menu>header,body.ui-menu .location,body.ui-menu .coordinates,body.ui-men
 .us-row output{color:var(--u-sick-hi);font:500 12px/1 var(--u-mono);min-width:44px;text-align:right}
 .us-slider{display:grid;grid-template-columns:1fr auto;gap:4px 14px;align-items:center;margin:0;color:var(--u-cream);font:500 12.5px/1.4 var(--u-mono);letter-spacing:0}
 .us-slider .u-range{grid-column:1/-1}
+.us-slider>span small{display:block;margin-top:4px;color:var(--u-mute);font:400 11px/1.5 var(--u-mono)}   /* (pre-Trial 3 polish P8: Music and UI volume say what they cover) */
 .us-seg{display:flex;gap:6px;flex-wrap:wrap}
 .us-seg .u-btn{min-height:38px;padding:0 14px;font-size:11px}
 .us-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
