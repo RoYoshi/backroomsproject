@@ -967,6 +967,19 @@ body:not(.hud-nocoords) .chat-icon{bottom:74px}
    background) reached these sliders in Customize; a slider is drawn as a slider there as in Settings */
 .rgb-channel input[type=range]{height:auto;margin:0;padding:0;border:0;background:none}
 .rgb-channel output{min-width:0;text-align:right;font-variant-numeric:tabular-nums}   /* (post-Trial 4 review: Settings' .us-row output is 44 px wide; the column is 33) */
+/* pre-Trial 3 polish P4: each channel's number is a field you can type in (0-255), beside its slider; the browser's colour chooser is no
+   way in any more - the picker stays in the page as the game's adapter, out of sight, and "Custom" shows the colour in effect */
+.rgb-channel{grid-template-columns:42px minmax(72px,1fr) 54px}
+.rgb-channel input.rgb-num{width:100%;min-width:0;height:28px;margin:0;padding:0 6px;border:1px solid var(--u-line2);border-radius:0;background:var(--u-field);color:var(--u-cream);
+  font:500 12px/1 var(--u-mono);font-variant-numeric:tabular-nums;text-align:right;cursor:text;-moz-appearance:textfield;appearance:textfield}
+.rgb-channel input.rgb-num::-webkit-inner-spin-button,.rgb-channel input.rgb-num::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.rgb-channel input.rgb-num:focus-visible{outline:2px solid var(--u-sick-hi);outline-offset:1px}
+.rgb-channel input.rgb-num[aria-invalid=true]{border-color:var(--u-danger-hi)}
+input.rgb-native{position:absolute!important;width:1px!important;height:1px!important;margin:0!important;padding:0!important;border:0!important;opacity:0!important;pointer-events:none!important;clip-path:inset(50%)}
+.rgb-way{cursor:pointer}
+.rgb-chip{display:inline-block;width:30px;height:20px;border:1px solid var(--u-line2);background:var(--rgb-c,#f3e7a7);box-shadow:inset 0 0 0 2px var(--u-panel)}
+#appearancePanel .cz-pick.on .rgb-chip{outline:2px solid var(--u-tube);outline-offset:2px}
+@media (pointer:coarse){.rgb-channel input.rgb-num{height:36px}}
 
 /* post-Trial 4 chat polish (C4): Customize -> Wanderer -> Voice. The chips are the texture and hat chips; pitch and speed are drawn as
    the RGB sliders are (the game's field style undone); Preview writes its sample line out as a bubble does. */

@@ -301,6 +301,7 @@
   }
   addEventListener('keydown', e => {
     if (e.key === 'Escape' && accountOpen()) { e.preventDefault(); e.stopImmediatePropagation(); closeAccount(true); return; }   // (P3: the Account panel first)
+    if (e.key === 'Escape' && document.activeElement && document.activeElement.dataset && document.activeElement.dataset.rgbEditing === '1') return;   // (P4: an RGB number being typed: rgb.js puts its value back, nothing closes)
     const m = topModal();
     if (!m && e.key === 'Escape' && entryOpen && vis('menu') && !vis('appearancePanel')) { e.preventDefault(); e.stopImmediatePropagation(); closeEntry(true); return; }
     if (!m) return;

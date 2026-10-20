@@ -1,0 +1,377 @@
+{
+ "tool": "dev/tools/checks/rgb_browser.js",
+ "dir": "/home/claude/chat-voice",
+ "chromium": "141.0.7390.37",
+ "checks": {
+  "load_wide": {
+   "ok": false,
+   "body": {
+    "picker": "#123456",
+    "sliders": "#123456",
+    "outs": "#"
+   },
+   "hands": {
+    "picker": "#abcdef",
+    "sliders": "#abcdef",
+    "outs": "#"
+   },
+   "beam": {
+    "picker": "#4a7bd3",
+    "sliders": "#4a7bd3",
+    "outs": "#"
+   }
+  },
+  "body_wide": {
+   "ok": false,
+   "opened": {
+    "picker": "#123456",
+    "sliders": "#123456",
+    "outs": "#"
+   },
+   "swatch": "#f3dcb2",
+   "afterSwatch": {
+    "picker": "#f3dcb2",
+    "sliders": "#f3dcb2",
+    "outs": "#"
+   },
+   "afterKeys": {
+    "picker": "#f8dcb2",
+    "sliders": "#f8dcb2",
+    "outs": "#"
+   },
+   "saved": "#f8dcb2",
+   "want": "#f8dcb2",
+   "hands": {
+    "picker": "#abcdef",
+    "sliders": "#abcdef",
+    "outs": "#"
+   }
+  },
+  "beam_wide": {
+   "ok": false,
+   "opened": {
+    "picker": "#4a7bd3",
+    "sliders": "#4a7bd3",
+    "outs": "#"
+   },
+   "swatch": "#ffffff",
+   "afterSwatch": {
+    "picker": "#ffffff",
+    "sliders": "#ffffff",
+    "outs": "#"
+   }
+  },
+  "hud_wide": {
+   "ok": false,
+   "defaultColour": "#f3e7a7",
+   "atDefault": {
+    "picker": "#f3e7a7",
+    "sliders": "#f3e7a7",
+    "outs": "#"
+   },
+   "afterSwatch": {
+    "picker": "#6fe6ff",
+    "sliders": "#6fe6ff",
+    "outs": "#"
+   },
+   "afterKeys": {
+    "c": "#6fe3ff",
+    "read": {
+     "picker": "#6fe3ff",
+     "sliders": "#6fe3ff",
+     "outs": "#"
+    },
+    "want": "#6fe3ff"
+   },
+   "afterReset": {
+    "c": "",
+    "read": {
+     "picker": "#6fe3ff",
+     "sliders": "#f3e7a7",
+     "outs": "#"
+    }
+   }
+  },
+  "fit_wide": {
+   "ok": true,
+   "groups": [
+    {
+     "name": "Body RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "Hands RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "Beam RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "HUD RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    }
+   ]
+  },
+  "mounted_wide": {
+   "ok": false,
+   "groups": 4
+  },
+  "errors_wide": {
+   "ok": true,
+   "errors": []
+  },
+  "load_phone": {
+   "ok": false,
+   "body": {
+    "picker": "#123456",
+    "sliders": "#123456",
+    "outs": "#"
+   },
+   "hands": {
+    "picker": "#abcdef",
+    "sliders": "#abcdef",
+    "outs": "#"
+   },
+   "beam": {
+    "picker": "#4a7bd3",
+    "sliders": "#4a7bd3",
+    "outs": "#"
+   }
+  },
+  "body_phone": {
+   "ok": false,
+   "opened": {
+    "picker": "#123456",
+    "sliders": "#123456",
+    "outs": "#"
+   },
+   "swatch": "#f3dcb2",
+   "afterSwatch": {
+    "picker": "#f3dcb2",
+    "sliders": "#f3dcb2",
+    "outs": "#"
+   },
+   "afterKeys": {
+    "picker": "#f8dcb2",
+    "sliders": "#f8dcb2",
+    "outs": "#"
+   },
+   "saved": "#f8dcb2",
+   "want": "#f8dcb2",
+   "hands": {
+    "picker": "#abcdef",
+    "sliders": "#abcdef",
+    "outs": "#"
+   }
+  },
+  "beam_phone": {
+   "ok": false,
+   "opened": {
+    "picker": "#4a7bd3",
+    "sliders": "#4a7bd3",
+    "outs": "#"
+   },
+   "swatch": "#ffffff",
+   "afterSwatch": {
+    "picker": "#ffffff",
+    "sliders": "#ffffff",
+    "outs": "#"
+   }
+  },
+  "hud_phone": {
+   "ok": false,
+   "defaultColour": "#f3e7a7",
+   "atDefault": {
+    "picker": "#f3e7a7",
+    "sliders": "#f3e7a7",
+    "outs": "#"
+   },
+   "afterSwatch": {
+    "picker": "#6fe6ff",
+    "sliders": "#6fe6ff",
+    "outs": "#"
+   },
+   "afterKeys": {
+    "c": "#6fe3ff",
+    "read": {
+     "picker": "#6fe3ff",
+     "sliders": "#6fe3ff",
+     "outs": "#"
+    },
+    "want": "#6fe3ff"
+   },
+   "afterReset": {
+    "c": "",
+    "read": {
+     "picker": "#6fe3ff",
+     "sliders": "#f3e7a7",
+     "outs": "#"
+    }
+   }
+  },
+  "fit_phone": {
+   "ok": true,
+   "groups": [
+    {
+     "name": "Body RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "Hands RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "Beam RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    },
+    {
+     "name": "HUD RGB channels",
+     "sliders": [
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      },
+      {
+       "h": 16,
+       "border": 0
+      }
+     ],
+     "outsInside": true,
+     "wider": false
+    }
+   ]
+  },
+  "mounted_phone": {
+   "ok": false,
+   "groups": 4
+  },
+  "errors_phone": {
+   "ok": true,
+   "errors": []
+  },
+  "typing_wide": {
+   "pale": {
+    "picker": "#f3dcb2",
+    "sliders": "#f3dcb2",
+    "outs": "#"
+   },
+   "ok": false,
+   "error": "TypeError: Cannot read properties of null (reading 'scrollIntoViewIfNeeded')"
+  },
+  "replicated_wide": {
+   "ok": false,
+   "error": "TypeError: Cannot read properties of null (reading 'scrollIntoViewIfNeeded')"
+  }
+ },
+ "ok": false
+}

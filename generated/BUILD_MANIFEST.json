@@ -277,24 +277,24 @@
   },
   {
    "out": "public/assets/rgb.js",
-   "bytes": 5351,
-   "sha256": "2002b6416b8eda7774759ce2a4ddeb3484183b8a66c7a26f0b3d3bd2c858b5e8",
+   "bytes": 10325,
+   "sha256": "caf6896160ef3d91e21c1d7f72bc5c21493f4e221c7f484eb1d71e5a21233e70",
    "parts": [
     {
      "path": "src/frameworks/front/client/rgb.js",
-     "sha256": "2002b6416b8eda7774759ce2a4ddeb3484183b8a66c7a26f0b3d3bd2c858b5e8",
+     "sha256": "caf6896160ef3d91e21c1d7f72bc5c21493f4e221c7f484eb1d71e5a21233e70",
      "headerBytes": 0
     }
    ]
   },
   {
    "out": "public/assets/ui.js",
-   "bytes": 107341,
-   "sha256": "0c8f647086503d7f7b19f402ee98208296138d73e523a3d38e62727c3f0b3c7a",
+   "bytes": 107571,
+   "sha256": "16788270f8ef91b458d9f394c16338ef6d506ddb651b1892bba6bc1fa19bff36",
    "parts": [
     {
      "path": "src/frameworks/front/client/ui.js",
-     "sha256": "0c8f647086503d7f7b19f402ee98208296138d73e523a3d38e62727c3f0b3c7a",
+     "sha256": "16788270f8ef91b458d9f394c16338ef6d506ddb651b1892bba6bc1fa19bff36",
      "headerBytes": 0
     }
    ]

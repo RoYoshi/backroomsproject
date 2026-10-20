@@ -1,0 +1,52 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "1721c73021c0dfad3103c7bb855b58c8211593bd",
+ "startedAt": "2026-10-20T03:58:05.606Z",
+ "out": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/fp/p4/run/gate",
+ "steps": {
+  "scope": {
+   "ok": true,
+   "cases": 218,
+   "note": "runtime changed (declared): assets/br-role.js, assets/index-D7hdwmUU.css, assets/index-DKbV5Nv9.js, assets/ui.css, assets/ui.js, camcorder.js, death_srv.js, ents.js, glitch.js, index.html, move.js, mp.js, package.json, server.js, server/static.js, sim.js, world.js; added: assets/chat.js, assets/mp-hum.js, assets/net-newrun.js, assets/rgb.js, assets/voice.js, server/aftermath.js, server/newrun.js, src/core/server/loop.js, src/core/server/rooms.js, src/core/server/sim.step.js, src/frameworks/bpp/server/lounge.js, src/frameworks/bpp/server/poses.js, src/frameworks/bpp/server/session.js, src/frameworks/bpp/server/speech.js, src/frameworks/gib/server/sim.bodies.js, src/frameworks/lost/server/sim.glitches.js, src/frameworks/lost/server/sim.level0.js, src/frameworks/lost/shared/level0.json, src/frameworks/nani/server/sim.ai.js, src/frameworks/nani/server/sim.feed.js, src/frameworks/overseer/server/admin.js, src/frameworks/overseer/server/sim.admin.js, src/frameworks/pocket/server/sim.items.js, src/frameworks/pocket/shared/lights.json, src/frameworks/space/server/movement.js, src/frameworks/space/server/sim.movement.js, src/frameworks/space/server/sim.players.js, src/frameworks/ward/server/admin_login.js, src/frameworks/ward/server/chat_text.js; other files: 5 identical, 129 moved, 1 replaced (declared)",
+   "exit": 0,
+   "seconds": 2
+  },
+  "docs": {
+   "ok": true,
+   "cases": 23,
+   "note": "DOCS CHECK: PASS (23 generated blocks in 23 documents)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "contracts": {
+   "ok": true,
+   "cases": 381,
+   "note": "the window contract: 35 members, every rule holds, 8 of 8 breaks refused (TypeScript 6.0.3); the facts: 41 facts, 169 copies agree, 169 of 169 copies changed alone caught",
+   "exit": 0,
+   "seconds": 7
+  },
+  "srv_golden": {
+   "ok": true,
+   "cases": 11,
+   "note": "HTTP lines about changed files: index.html, mp.js, world.js, move.js, ents.js, glitch.js, camcorder.js, assets/ui.css, assets/ui.js, assets/index-DKbV5Nv9.js, assets/index-D7hdwmUU.css, assets/br-role.js",
+   "exit": 0,
+   "seconds": 11
+  },
+  "raw_live": {
+   "ok": true,
+   "cases": 173,
+   "note": "responses for changed files: index.html, mp.js, assets/index-DKbV5Nv9.js, assets/ui.css",
+   "exit": 0,
+   "seconds": 27
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-20T03:58:53.117Z",
+ "removed": [
+  "game_candidate",
+  "srv_keep"
+ ]
+}

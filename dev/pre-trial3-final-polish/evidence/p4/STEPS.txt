@@ -1,0 +1,59 @@
+P4 - precise RGB: a typeable 0-255 number beside every R, G and B slider (Body, Hands, Beam, HUD); the browser's colour chooser no
+longer the way in (headless Chromium, SwiftShader; every name and passcode synthetic; check: dev/tools/checks/rgb_browser.js)
+
+On C5 (rgb_c5.*, the new check run against /home/claude/chat-voice = C5 63805e9): each channel showed its number as text only
+(an <output>), so a colour could be set only by dragging or arrow-stepping a slider; "Custom" in Customize and the HUD's rainbow
+swatch opened the browser's own colour chooser (a picker in plain view, in the Tab order).  RGB SLIDERS: FAIL 4 of 16 - mounted (no
+number fields; the pickers visible and focusable), load / body / beam / hud (no field holds the channel's number: "outs": "#"), typing
+and replicated (no field to type in).  The R4 rule itself held on C5 (the sliders follow the colour in effect) and is kept.
+
+Changed:
+- src/frameworks/front/client/rgb.js -> public/assets/rgb.js: each channel is a label with its slider and a number field
+  (type=number, 0-255, step 1, inputmode numeric, aria-label "<Body|Hands|Beam|HUD> <Red|Green|Blue>, 0 to 255").  One source of truth
+  as in R4: current() - the colour in effect (the picker's, or for the HUD its Default swatch while the setting is Default).  A slider
+  step or a committed number changes one channel of that colour and goes through the picker with the picker's own input / change
+  events, exactly as the slider always did: the game saves it, replicates it and previews it; no new save key, no network change.
+  Typing changes nothing until committed (Enter, leaving the field, or the field's own arrow keys): a whole number is clamped to
+  0..255 (-5 -> 0, 300 -> 255); anything else puts back the value in effect.  While a field holds an uncommitted edit nothing
+  overwrites it (a swatch, a reset or a refresh waits); it is aria-invalid while what it holds cannot be committed; Escape puts back
+  the value in effect - and only then is Escape taken: with nothing pending, Escape still closes Settings / Customize.  A field's keys
+  never reach the game.  The pickers stay in the page as the game's adapters (it binds them by id), out of sight (rgb-native),
+  tabIndex -1, aria-hidden; a press on Customize's "Custom" label or the HUD's rainbow swatch goes to that colour's Red field instead
+  of the chooser; a small swatch beside "Custom" shows the colour in effect.
+- src/frameworks/front/client/ui.js -> public/assets/ui.js: one line in the modal key handler - Escape on an RGB field with an edit
+  pending is left to rgb.js (it puts the value back; the sheet stays open).
+- public/assets/ui.css: the number fields (the game's field look, 28 px; 36 px on touch), the hidden pickers, the "Custom" swatch.
+- dev/tools/checks/rgb_browser.js: reads the number fields; mounted checks fields, names and hidden pickers; new cases typing and
+  replicated (two pages in one room: what A types is in the server's player record B receives); five P4 mutants added to the six;
+  since P4 a mutant aimed at typing or replicated runs that case alone; --mutant-ids to finish a run a restart cut short.
+- dev/tools/gate/declared_changes.json: the P4 notes for assets/rgb.js, assets/ui.js, assets/ui.css.  generated/BUILD_MANIFEST.json
+  rebuilt (npm run build).
+
+Results:
+- rgb_browser.js on P4's code: PASS 16 of 16 (rgb_p4.*) - mounted, load, body, beam, hud, fit and errors at 1280x720 and a 390x844
+  phone; typing; replicated.  The cases are listed in the check's header (typing: the Pale swatch then Red 5 typed -> #05dcb2 only on
+  Enter, the Green slider keeps Red 5, 0 / 255 / 128, -5 -> 0, 300 -> 255, letters put back, 77 + Escape put back with Customize still
+  open, Escape again closes it, "Custom" goes to Red and never opens the chooser, a reload shows the saved colour; the HUD at Default,
+  a swatch, Reset, then Green 10 typed -> the Default colour with green 10, not the hidden picker's stale swatch (the R4 bug), 33 +
+  Escape put back with Settings open).
+- Mutants 11 of 11 caught: 10 in rgb_mutants_part1.log (refresh_once, hud_default_ignored, numbers_frozen, no_load_refresh,
+  field_style_back, number_unnamed, keystrokes_applied, no_clamp, escape_closes_settings, stale_channel) before the container
+  restarted and stopped that run; the 11th (chooser_back: "Custom" opening the browser's chooser again) with the base checks in
+  rgb_p4.* (--mutant-ids chooser_back).  The base run of rgb_p4.* is on the final check (the HUD steps reordered so stale_channel
+  cannot escape) and the final code.
+- The gate (gate_p4.log): scope, docs, contracts, srv_golden, raw_live PASS.  npm run build:check PASS (42); docs PASS.
+- Not run for P4: the gate's menu step (the main menu is untouched by P4: rgb.js mounts only in Customize and Settings -> HUD; the
+  ui.js line is in the Escape path of an RGB field) - it runs at P6, whose footer move changes the menu; the chat checks (chat.js,
+  voice.js untouched).
+NOT RUN: a real phone keyboard (inputmode numeric), a screen reader reading the fields.
+
+Images: customize_wide_c5_vs_p4.jpg, settings_hud_wide_c5_vs_p4.jpg, customize_phone_c5_vs_p4.jpg (C5 left, P4 right);
+typing_customize_wide_p4.jpg (after the typing case).
+
+Incident (local only, never pushed): while P4 waited on its mutant run, a scratch copy of the working tree was made for P5-P8 work.
+The copy took the worktree's `.git` pointer file with it, so `git init` / `git add -A` / `git commit` meant for the copy wrote one
+commit ("base", f5281ab, by a placeholder name) onto this worktree's local branch, its tree missing most of dev/.  Found at once by
+`git status`; the remote branch was read back unchanged (1721c73); the local branch was moved back with `git reset --mixed 1721c73`
+(index and branch only - every working file stayed as it was, and the same P4 changes showed as before); the copy's pointer file was
+removed and the copy given its own repository.  The stray commit was never pushed and is unreachable.  The shared git config was
+rewritten by `git init` with the same settings (core options, the remote, the branch entries) - checked by reading it.
