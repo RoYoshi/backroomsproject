@@ -14,7 +14,7 @@ Each row is filled after its push has been verified on GitHub (`tools/verify_rem
 | T5 presentation: BR-RoLE actor, living sounds, debug block, art pass | `c16bc06f49a99f6f7375072b80fcbf81ccee1487` | `ae6b74bc6480282440663e32100b7adac60ac507` | `9a2e56e` | yes: `evidence/remote/t5.json`; secret scan of the pushed commit CLEAN |
 | T6 deception: hearing speech, entity speech, the earned skin | `489cf12b5dc1ce284f6c0ac5e62b767420c36c61` | `38843f9e54a4fb1968916d0874c3bb7c94093f7d` | `c16bc06` | yes: `evidence/remote/t6.json`; secret scan of the pushed commit CLEAN |
 | T7 integration, P9 equivalence, performance | `026c239ee301538da15f999b96fca6407b64dc6e` | `5ee38daa2419175edebb051617e0ae843ceaec9c` | `489cf12` | yes: `evidence/remote/t7.json`; secret scan of the pushed commit CLEAN |
-| T8 reports, targeted full-tier steps, owner QA handoff | (this commit: read back into `evidence/remote/t8.json`, which one last receipt commit adds; that commit's own read-back is in the handoff) | | `026c239` | |
+| T8 reports, targeted full-tier steps, owner QA handoff | `384bae2ee710b12d207a366e948d08111e465964` | `b958989beb916e1d984267fc08d3299fe65820a5` | `026c239` | yes: `evidence/remote/t8.json`; secret scan of the pushed commit CLEAN.  One receipt commit follows it, adding that record and its scan (no other change); its own read-back is in the handoff |
 
 ## T0 baseline (P9 `1ff9374`, this machine, before any game change)
 

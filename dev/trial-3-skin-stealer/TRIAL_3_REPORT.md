@@ -5,9 +5,10 @@ protected branch moved.  Stopped here for the owner's Human QA (`HUMAN_QA.md`).
 
 - **Repository / branch:** `RoYoshi/backroomsproject`, `trial-3-skin-stealer` (new at T0; fast-forward pushes only, never forced).
 - **Parent:** P9 `pre-trial3-final-polish` `1ff9374babc034eafed4c7c26dc941f46fc55908`, tree `d6b71b88e2baaec0cce1eb8a222ccc66ad1a1aef`.
-- **Head:** the commit that adds this report (T8). A commit cannot carry its own hash: the final hash and tree are in the handoff
-  message, read back from GitHub after the push.  T7 is `026c239ee301538da15f999b96fca6407b64dc6e` (tree
-  `5ee38daa2419175edebb051617e0ae843ceaec9c`); T8 adds the reports, the evidence and one small page-script fix (`CHECKPOINTS.md` T8).
+- **Head:** T8 `384bae2ee710b12d207a366e948d08111e465964` (tree `b958989beb916e1d984267fc08d3299fe65820a5`, parent T7 `026c239`)
+  adds the reports, the evidence and one small page-script fix (`CHECKPOINTS.md` T8); one receipt commit after it adds only T8's
+  GitHub read-back and secret scan.  A commit cannot carry its own hash: that receipt's hash and tree are in the handoff message,
+  read back from GitHub after the push.
 
 ## What was built
 
