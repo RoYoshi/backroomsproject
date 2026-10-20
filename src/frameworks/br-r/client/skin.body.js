@@ -11,7 +11,7 @@
  * writes: -
  */
 function skinBody({ head: { API, clamp, hooks, K, lerp, sm, TAU }, mirror: { clear, list } }) {
-const SC = { line: 0x14100d, skin: 0xa2988b, skinLo: 0x6c6259, skinHi: 0xcbc1b2, fold: 0x7d7368, nail: 0x2a2320, hair: 0x15120f, mouth: 0x2a0d0e };
+const SC = { line: 0x14100d, skin: 0xbcab9a, skinLo: 0x7f6c5e, skinHi: 0xdfd1bf, fold: 0x8f7b6b, nail: 0x2a2320, hair: 0x15120f, mouth: 0x2a0d0e };   // (T5) sallow, bloodless human skin: pale under a lamp, black in the dark
 const views = new Map();                                   // entity id -> view
 let Cc = null, Gc = null;                                  // the page's Container and Graphics classes
 function classes() {
@@ -88,7 +88,7 @@ function paint(v, o, t) {
   // legs (half under the body): hips to feet, a long stride when it runs
   for (const side of [-1, 1]) {
     const ph = side < 0 ? sw : sw2, hx = side * 6.5, hy = 13 * tall, fx = side * (8 + cr * 6), fy = hy + 15 - cr * 4 + ph * walk * lerp(8, 17, sm(60, 255, spd));
-    limb(g, hx, hy, fx, fy, 15, 16, side, 4.6, 3.6, SC.skinLo);
+    limb(g, hx, hy, fx, fy, 15, 16, side, 5.4, 4, SC.skinLo);
   }
   // the torso: bony shoulders, a narrow waist, the spine showing through loose skin
   const sy = -11 * tall - lean * 3, wy = 5 * tall, hy = 15 * tall, shw = 12.5 - cr * 1.2;
@@ -112,7 +112,7 @@ function paint(v, o, t) {
     let tx = lerp(hangX, reachX, reach), ty = lerp(hangY, reachY, reach);
     tx = lerp(tx, backX, back); ty = lerp(ty, backY, back);
     if (S.twitch > 0 && side > 0) { tx += Math.sin(t * 40 + S.seed) * 1.5 * S.twitch; ty += Math.cos(t * 33) * 1.2 * S.twitch; }
-    const j = limb(g, ax, ay, tx, ty, 20 * fore, 23 * fore, side, 4.4, 3.4, SC.skin);
+    const j = limb(g, ax, ay, tx, ty, 20 * fore, 23 * fore, side, 5, 3.8, SC.skin);
     hand(g, j, reach > .5 ? .2 : .5 - back * .3);
   }
   // the head: small for the body, held too far forward on a long thin neck, the crown and a few dark strands; the jaw a dark line at
@@ -149,6 +149,7 @@ function draw(dt) {
   }
   for (const [id, v] of views) if (!seen.has(id)) { views.delete(id); try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } }
   if (hooks.frame) hooks.frame(dt);
+  if (hooks.audio) hooks.audio(dt, list());                  // (T5) its living sounds, from what the mirror says it is doing
 }
 /* a new world, a closed connection: no view and no record stays behind */
 function reset() { clear(); for (const v of views.values()) { try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } } views.clear(); }

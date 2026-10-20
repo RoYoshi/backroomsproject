@@ -10,7 +10,8 @@ Each row is filled after its push has been verified on GitHub (`tools/verify_rem
 | T1 third species, admin-only spawn, bounded snapshot, first view | `23bba42815fa6777a53cccfeb9de46d8766d34de` | `d1172702a720606fecbb4616755969f92f02fd5f` | `98d2819` | yes: `evidence/remote/t1.json`; secret scan of the pushed commit CLEAN |
 | T2 the animal: hunger, stamina, senses, non-engagement, budgets | `8b2d734e7cf178f1a90b3036bc0180ed78a6a512` | `7e6923490c36fbed36139be93b0613782815f5a4` | `23bba42` | yes: `evidence/remote/t2.json`; secret scan of the pushed commit CLEAN |
 | T3 lying in wait, prediction, interception, the race, hearing | `a3f43b3ddf5d8d0400b0441b798933c222f0da34` | `248c892f417d8900f1342c7acaf6f5c1b23c5021` | `8b2d734` | yes: `evidence/remote/t3.json`; secret scan of the pushed commit CLEAN |
-| T4 the strike and the kill, through G.I.B. | (this commit; recorded at T5) | | `a3f43b3` | |
+| T4 the strike and the kill, through G.I.B. | `9a2e56e67395d346a65ef9f5b1f43c41ac8682cf` | `a085153d24ebdf14415ca9370a83c5861f73c53b` | `a3f43b3` | yes: `evidence/remote/t4.json`; secret scan of the pushed commit CLEAN |
+| T5 presentation: BR-RoLE actor, living sounds, debug block, art pass | (this commit; recorded at T6) | | `9a2e56e` | |
 
 ## T0 baseline (P9 `1ff9374`, this machine, before any game change)
 
@@ -145,3 +146,30 @@ What the screenshots show: the replay on the spectator's screen has the Skin-Ste
 dropped light (`t4_replay_B_crop.png`).  The victim's own screen during its death is the bundle's darkened death view (the light
 has been dropped); the tool confirms this script's attacker is drawn there at the death's attacker position, but a picture of it
 is left for T5's presentation pass, beside a Hound death on the victim's screen for comparison.
+
+## T5 — presentation (results on the T5 tree)
+
+What T5 adds, all on the page (no server change): the Skin-Stealer is a **BR-RoLE actor** (its own silhouette kind `skin`, for the
+living view and for its kill's attacker, so it casts and is shaded like the Hound); its **living sounds**, procedural and placed like
+every entity sound (distance, pan, a wall's low-pass): long padded footfalls by stride, quieter and heard less far while it stalks
+(creep, approach), the wind-up's dry clicks and sharp breath (the tell before a leap), the leap, the skid of a miss, its eating, and
+a breath while it holds still - only within 260 px and at most every 25-45 s, never a proximity cue; the admin **DEBUG overlay's own
+block** (hunger and its band, stamina, its plan and why, its time with the person it is stalking and whom it has left alone, its
+route guess, its record); an interim **art pass** (sallow, bloodless skin instead of grey; heavier limbs).
+
+The victim's own screen during a Skin-Stealer death, measured against a Hound death at the same lamp-lit spot and the same moments
+(browser t5d, frame by frame in the page): the darkness overlay covers 0.63 / 0.61 / 0.61 of the screen at 0.5 / 1 / 2 s against the
+Hound's 0.63 / 0.63 / 0.60; no black fade in either; both end in the death sequence's own shade from 3.12 s (the Skin-Stealer's
+deaths are shorter, so it reaches full dark sooner).  The dark own-death view T4 noted is the P9 death view, the same for the Hound.
+
+| Run | Result |
+|---|---|
+| `npm test` | 178 / 191: every Skin-Stealer case passes; the 13 failures are exactly P9's (`evidence/t5/npm_test_t5.txt`; no server change at T5) |
+| fast modernization gate (21 steps) | PASS 21 / 21 (`evidence/t5/gate_fast_t5.txt`): the page step's `ents.js` traces (the debug block is a branch only `d.sk` reaches), B++'s client scenes, the bundle, the `__api` contract (regenerated: `skinstealer.js` reads `H` and `Uc` for its sounds) |
+| `tools/skin_browser.js` (t1, t4, t5, t5d) | 27 / 27 (`evidence/t5/browser_t5.json`; the gallery: `evidence/t5/t5_gallery_high_crop.jpg`, `t5_gallery_phone_844x390.jpg`) |
+| `npm run test:humanqa` | 5 / 6, X03 as on P9 (`evidence/t5/humanqa_t5.txt`) |
+
+The gallery (`evidence/t5/`): every act it shows (still, watching, creeping, chasing, the wind-up, the leap, recovering, feeding)
+and its three deaths mid-way (A at the snap, B at the landing's snap, C at the bite), round a lamp-lit spot, at BR-RoLE's low,
+medium and high tiers, at 1280x720, 1920x1080 and a phone held sideways (844x390).  The page's mirror holds at most 8 Skin-Stealers
+(the admin ceiling is 4), so the gallery shows 8 acts; lure and listen share the watching pose.

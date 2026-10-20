@@ -181,10 +181,15 @@ Item theft, a carried light, corpse dragging, crawlspace passage while disguised
 - True form: procedural, articulated: a tall thin upright body, long arms (foreshortened when they hang), a small head held forward
   on a thin neck, folds of loose skin; a low crouch for the wind-up; a reach for the finishers. Shaded by BR-RoLE's light sample like
   the Hound. No light of its own. Interim art for the owner's QA.
-- BR-RoLE: a `__stealer` actor with its own silhouette; a disguise is a wanderer avatar and casts like one. Both only when the local
-  player can see the spot (the existing rule), so no shadow leaks a body behind a wall.
-- Audio: procedural, restrained: soft clicks, a wet breath, a scrape for the wind-up, the finisher. Positional and muffled through
-  walls like the other entities. No new sound files.
+- BR-RoLE (as built at T5): every view `skinstealer.js` marks `__skin` (the living creature, its kill's attacker) is an actor of its
+  own kind `skin` (a tall, narrow body seen from above, the Hound's light handling); a disguise is a wanderer avatar and casts like
+  one. Both only when the local player can see the spot (the existing rule), so no shadow leaks a body behind a wall.
+- Audio (as built at T5): procedural, restrained, placed like every entity sound (distance, pan, a wall's low-pass): long padded
+  footfalls by stride, quieter and heard less far while it stalks; the wind-up's dry clicks and sharp breath (the tell); the leap; a
+  miss's skid; its eating; a breath while it holds still, only within 260 px and at most every 25-45 s (never a proximity cue); its
+  deaths' grab or landing, the cut-short breath, the bites and the snap (T4). No new sound files.
+- Art (as built at T5): sallow, bloodless skin instead of grey, heavier limbs; checked in a gallery of its acts and deaths at three
+  quality tiers and three screen sizes. Still interim art for the owner's QA.
 - The stronger heartbeat / danger filter and the Red Rooms are not touched.
 
 ## D13. The server side reaches the new behaviour without new sim keys

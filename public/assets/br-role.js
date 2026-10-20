@@ -1066,6 +1066,7 @@
     /* r / la, lb: the silhouette (the art's 18 px body; a Hound's torso), hand: the hands' radius; a: cast strength at the
      * contact (share of that light removed), shade: self-shading strength on the far side, len: longest cast (px) */
     player: { a: .85, r: 18, hand: 6.5, len: 84, shade: .42 }, hound: { a: .85, la: 32, lb: 16, len: 140, shade: .3 },
+    skin: { a: .85, la: 24, lb: 12, len: 150, shade: .3 },   // (Trial 3) the Skin-Stealer: a tall, narrow body seen from above
     k: { lamp: .5, carried: .8 },            // cast length per px of distance from the light (a lower light: longer), up to len
     fadeLong: .35,                           // a cast at full length is this much fainter (a long shadow is a fainter one)
     near: 40, min: .04,                      // both fade out within `near` px of the light; a dominant light adds at least `min`
@@ -1119,6 +1120,7 @@
    * the time but a spawn and a vanish) every number is as before. */
   function silhouette(v, kind, x, y, heading) {
     if (kind === 'hound') { const c = Math.cos(heading), s = Math.sin(heading); return [{ x: x + c * 4, y: y + s * 4, A: ACT.hound.la, B: ACT.hound.lb, h: heading }]; }
+    if (kind === 'skin') { const c = Math.cos(heading), s = Math.sin(heading); return [{ x: x + c * 2, y: y + s * 2, A: ACT.skin.la, B: ACT.skin.lb, h: heading }]; }   // (Trial 3)
     const r = v.rotation || 0, sx = v.scale && Number.isFinite(v.scale.x) ? v.scale.x : 1, sy = v.scale && Number.isFinite(v.scale.y) ? v.scale.y : 1, ax = Math.abs(sx), ay = Math.abs(sy);
     const out = [{ x, y, A: ACT.player.r * ax, B: ACT.player.r * ay, h: ax === ay ? 0 : r }];
     if (Array.isArray(v.hands)) {
@@ -1138,6 +1140,7 @@
     if (cr && cr.children) for (const v of cr.children) {
       if (!v || !v.visible || !(v.alpha > .01) || v.__smiler) continue;  // never a Smiler: no body may be implied
       if (v.__hound) list.push([v, v.x, v.y, 'hound', v.rotation - Math.PI / 2, false]);
+      else if (v.__skin) list.push([v, v.x, v.y, 'skin', v.rotation - Math.PI / 2, false]);   // (Trial 3) a Skin-Stealer (skinstealer.js's views: alive, or its kill's attacker)
       else if (typeof v.deathPose === 'function') list.push([v, v.x, v.y, 'player', null, false]);   // another wanderer's avatar
     }
     let n = 0;
@@ -1186,7 +1189,7 @@
           if (kind !== 'player' || q === sil[0]) start = Math.max(start, off + sup); if (q === sil[0]) across = Math.sqrt((q.A * sn) ** 2 + (q.B * cs) ** 2); }
         const ext = clamp(d * ACT.k[e.kind], 6, Pk.len), a = Pk.a * e.w * near * vis * (1 - ACT.fadeLong * ext / Pk.len), shade = Pk.shade * e.s * near * vis * st.contrast;
         if (!(a > .01) && !(shade > .01)) continue;
-        const job = { kind, self, x, y, ang, ext, start: Math.min(start, (kind === 'hound' ? Pk.la : Math.max(sil[0].A, sil[0].B)) + 10), across, a: a > .01 ? a : 0, shade: shade > .01 ? shade : 0, sil,
+        const job = { kind, self, x, y, ang, ext, start: Math.min(start, (kind === 'hound' || kind === 'skin' ? Pk.la : Math.max(sil[0].A, sil[0].B)) + 10), across, a: a > .01 ? a : 0, shade: shade > .01 ? shade : 0, sil,
           light: key, lightKind: e.kind, dominant: isDom, score: +e.c.s.toFixed(4) };
         if (job.dominant && st.sw && st.sw.f === ST.frames) job.switched = st.sw;
         if (lit) { job.contact = CONTACT.a * cg; job.cofs = Math.min(CONTACT.offMax, CONTACT.off * d * ACT.k[e.kind]); lit.add(e.c.r); S.contactLast.push(job); }   // HQ5: with its cast

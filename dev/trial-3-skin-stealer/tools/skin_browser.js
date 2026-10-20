@@ -19,6 +19,14 @@
  *        hidden; both get the corpse (cause SkinStealer) and see the creature again after, feeding; the death's sound and the snap go
  *        through this script (instrumented here); then a second death (A) whose victim's page closes mid-death: the server's own corpse,
  *        exactly one for that player.  Screenshots mid-death on both pages.  No page error.
+ *   t5   its presentation: every act it shows and its three deaths mid-way, laid out round a lamp-lit spot in the real page (synthetic
+ *        entries are added to the server's list in this page only, by wrapping the script's mirror here), at BR-RoLE's three quality
+ *        tiers and at 1280x720, 1920x1080 and a phone held sideways; its shadow as a BR-RoLE actor; then a real one near with the admin
+ *        DEBUG overlay on: its own block (hunger, stamina, plan, why); its living sounds counted (none while every figure stands still,
+ *        footfalls while one walks, the wind-up's tell and the leap).  No page error.
+ *   t5d  the victim's own view of its death against a Hound's, at the same lamp-lit spot and the same moments (0.5, 1, 2, 3 s), measured
+ *        in the page frame by frame: the darkness overlay's cover, the black fade, the end shade, the dying light - before the end shade
+ *        that every death has from 3.12 s, never darker than the Hound's (+0.1 cover).  No page error.
  * Every name and passcode is synthetic.  The server is stopped by its PID. */
 'use strict';
 const fs = require('fs'), path = require('path'), http = require('http'), net = require('net');
@@ -206,6 +214,110 @@ const VIEWS = `() => { const A = window.__api, L = A.layer(); return L.children.
       check('t4_disconnect_one_corpse', T.second && T.second.kind === 'SkinStealer' && T.sCorpse2.length === 1 && T.sCorpse2[0].cause === 'SkinStealer' && (T.sCorpse2[0].x !== T.sCorpse[0].x || T.sCorpse2[0].y !== T.sCorpse[0].y), JSON.stringify({ second: T.second, after: T.sCorpse2, first: T.sCorpse }));
       check('t4_no_page_errors', !V.errs.length && !S.errs.length, JSON.stringify(T.errors));
       await S.ctx.close();
+    }
+    if (want('t5')) {
+      // its presentation: every act it can show, and its three deaths mid-way, laid out round a lamp-lit spot (the page's own drawing,
+      // light and sight mask: synthetic entries are added to the server's list here only, by wrapping the script's mirror in this page);
+      // at 1280x720, 1920x1080 and a phone held sideways; BR-RoLE's three quality tiers; its shadow as a BR-RoLE actor
+      const T = R.sections.t5 = {}, shots = [];
+      const { ctx, P, errs, cmd } = await runPage(b, port, 'k3t5' + (Date.now() % 1e6), { width: 1280, height: 720 }, 'K3Gallery');
+      cmd({ c: 'freeze', on: true }); cmd({ c: 'god', id: await P.evaluate(() => __api.H.id) }); await sleep(500);
+      // a lit, open spot: the brightest open floor near a lamp (the level's own lamps), the player in the middle of it
+      T.spot = await P.evaluate(() => { const A = __api, L = A.lamps || [], H = A.H; let best = null, bd = 1e9;
+        for (const l of L) for (const oy of [120, -120]) { const x = l.x, y = l.y + oy, d = Math.hypot(x - H.x, y - H.y); if (d < bd && A.sl(x, y, 150) && A.sl(x - 240, y, 30) && A.sl(x + 240, y, 30) && A.sl(x, y + 210, 30)) { bd = d; best = { x, y }; } }
+        if (best) { A.tp(best.x, best.y); A.H.angle = -Math.PI / 2; } return best; });
+      await sleep(1500);
+      const ACTS = ['', 'watch', 'back', 'leave', 'wait', 'lure', 'intercept', 'search', 'listen', 'approach', 'creep', 'chase', 'wind', 'pounce', 'recover', 'feed'];
+      const GAL = ['', 'watch', 'creep', 'chase', 'wind', 'pounce', 'recover', 'feed'];   // (8: the page mirrors at most 8 - skin.mirror.js MAX; lure and listen are watch's pose)
+      await P.evaluate(({ GAL, ACTS }) => {
+        const K = window.__skin, m = K.mirror, H = __api.H; window.__k3.fake = [];
+        GAL.forEach((ac, k) => { const col = k % 4, row = Math.floor(k / 4); window.__k3.fake.push({ i: 9000 + k, x: H.x + [-270, -140, 140, 270][col], y: H.y - 90 + row * 150, a: -Math.PI / 2, s: ac === 'feed' ? 11 : 1, ac: ACTS.indexOf(ac), v: 0, h: 0 }); });
+        K.mirror = (list, dt) => m((list || []).concat(window.__k3.fake), dt);
+        // its kill's attacker, the three deaths at the snap (A, B) and at the second bite (C)
+        const L = __api.layer(); window.__k3.kills = [];
+        for (const [i, v, t] of [[0, 'A', .62], [1, 'B', .95], [2, 'C', 1.0]]) {
+          const a = K.attacker(), x = H.x - 120 + i * 120, y = H.y + 210, jl = { variant: v, elapsed: t, impact: 1, ph: { snapped: v === 'C' ? undefined : t - .04 }, attacker: { x, y } };
+          L.addChild(a); a.position.set(x, y); a.rotation = 0; a.attackPose(1, 1, v, jl); window.__k3.kills.push(a);
+        }
+      }, { GAL, ACTS });
+      await sleep(1200);
+      T.views = await P.evaluate(() => __api.layer().children.filter(c => c.__skin && c.visible).length);
+      T.actors = await P.evaluate(() => { const B = window.__brRole; const a = B && B.actors ? B.actors() : null; return a ? a.filter(j => j.kind === 'skin').length : null; });
+      for (const q of ['low', 'medium', 'high']) {
+        await P.evaluate(q => window.__brRole && window.__brRole.setQuality(q), q); await sleep(900);
+        if (SHOTS) { const f = `t5_gallery_${q}_1280.png`; await P.screenshot({ path: path.join(SHOTS, f) }); shots.push(f); }
+      }
+      await P.evaluate(() => window.__brRole && window.__brRole.setQuality('medium'));
+      for (const [w, h, tag] of [[1920, 1080, '1920'], [844, 390, 'phone']]) {
+        await P.setViewportSize({ width: w, height: h }); await sleep(1200);
+        if (SHOTS) { const f = `t5_gallery_medium_${tag}.png`; await P.screenshot({ path: path.join(SHOTS, f) }); shots.push(f); }
+      }
+      // its living sounds (skin.audio.js, lent to the body's draw): the noise sources it starts (its one-second mono noise buffer) while
+      // every figure stands still, then while one walks past at 150 px/s and springs (wind-up, leap): footfalls and cues, none when still
+      T.sound = await P.evaluate(async () => { const st = AudioBufferSourceNode.prototype.start; let n = 0;
+        AudioBufferSourceNode.prototype.start = function (...a) { if (this.buffer && this.buffer.numberOfChannels === 1 && this.buffer.length === this.context.sampleRate) n++; return st.apply(this, a); };
+        const wait = ms => new Promise(r => setTimeout(r, ms)), out = {};
+        const fe = window.__k3.fake.find(q => q.s === 11); fe.ac = 1;                       // (the feeding figure is heard eating: it watches for this count)
+        await wait(600); n = 0; await wait(3000); out.still = n; n = 0;
+        const f = window.__k3.fake[3], x0 = f.x, t0 = performance.now(), iv = setInterval(() => { f.x = x0 + .15 * (performance.now() - t0); }, 30); await wait(3000); clearInterval(iv); out.walk = n; out.walked = Math.round(f.x - x0); n = 0; f.x = x0;
+        await wait(400); n = 0; f.ac = 12; await wait(700); f.ac = 13; await wait(700); out.spring = n;
+        AudioBufferSourceNode.prototype.start = st; fe.ac = 15; return out; });
+      // the admin DEBUG overlay with a real Skin-Stealer near: its own block (hunger, stamina, plan and why), drawn by ents.js's overlay
+      await P.setViewportSize({ width: 1280, height: 720 }); await P.evaluate(() => { window.__k3.fake = []; window.__k3.kills.forEach(a => a.parent && a.parent.removeChild(a)); });
+      cmd({ c: 'near', k: 'skinstealer' }); await until(P, () => window.__k3.ss && window.__k3.ss.length, null, 8000);
+      cmd({ c: 'debug', on: true });
+      await P.evaluate(() => { const E = window.__ents; window.__k3.dbg = []; const f = CanvasRenderingContext2D.prototype.fillText;
+        CanvasRenderingContext2D.prototype.fillText = function (t, x, y, w) { if (/^(HUNGER|WHY|with P|GUESS|record)/.test(String(t)) && window.__k3.dbg.length < 40) window.__k3.dbg.push(String(t)); return f.call(this, t, x, y, w); };
+        Object.assign(E.dbgCfg, { on: true, ai: true }); });
+      await sleep(2000);
+      T.debug = await P.evaluate(() => [...new Set(window.__k3.dbg)].slice(0, 8));
+      if (SHOTS) { await P.screenshot({ path: path.join(SHOTS, 't5_debug_overlay_1280.png') }); shots.push('t5_debug_overlay_1280.png'); }
+      T.shots = shots; T.errors = errs;
+      check('t5_debug_block', T.debug.some(l => /^HUNGER [\d.]+ [a-z ]+  STAMINA \d+/.test(l)) && T.debug.some(l => /^WHY /.test(l)), JSON.stringify(T.debug));
+      check('t5_living_sounds', T.sound && T.sound.still === 0 && T.sound.walk >= 8 && T.sound.spring >= 3, JSON.stringify(T.sound) + ' (noise sources started: all standing still, one walking 3 s at 150 px/s, its wind-up and leap; two per footfall)');
+      check('t5_gallery_drawn', T.views >= 11, `${T.views} Skin-Stealer views on screen (8 acts, 3 kill attackers)`);
+      check('t5_brrole_actor', T.actors === null || T.actors >= 1, `BR-RoLE actor jobs of kind skin: ${T.actors}`);
+      check('t5_no_page_errors', !errs.length, JSON.stringify(errs));
+      await ctx.close();
+    }
+    if (want('t5d')) {
+      // the victim's own view of its death, against a Hound's at the same lamp-lit spot, in the same page, at the same moments (1 s and
+      // 2.5 s in): its death must not hide the screen any more than the Hound's does (only the Smiler's deaths black out)
+      const T = R.sections.t5d = {}, room = 'k3t5d' + (Date.now() % 1e6), VP = { width: 1280, height: 720 };
+      const V = await runPage(b, port, room, VP, 'K3Seen'), S = await runPage(b, port, room, VP, 'K3Keep');
+      const vid = await V.P.evaluate(() => __api.H.id);
+      V.cmd({ c: 'freeze', on: true }); await sleep(300);
+      const SPOT = () => { const A = __api, L = A.lamps || [], H = A.H; let best = window.__k3.spot || null, bd = 1e9;
+        if (!best) for (const l of L) for (const oy of [120, -120]) { const x = l.x, y = l.y + oy, d = Math.hypot(x - H.x, y - H.y); if (d < bd && A.sl(x, y, 150)) { bd = d; best = { x, y }; } }
+        if (best) { window.__k3.spot = best; A.tp(best.x, best.y); A.H.angle = -Math.PI / 2; } return best; };
+      T.spot = await V.P.evaluate(SPOT); await sleep(1200);
+      S.cmd({ c: 'goto', id: vid }); await sleep(1500);                                     // (a living spectator keeps the room's world)
+      await S.P.evaluate(() => { const A = __api, H = A.H, x0 = H.x, y0 = H.y;
+        for (const r of [260, 220, 300]) for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2, x = x0 + Math.cos(a) * r, y = y0 + Math.sin(a) * r; if (A.sl(x, y, 20)) { A.tp(x, y); return; } } });
+      await sleep(800);
+      // measured inside the page, frame by frame, at the same moments of each death (a software-rendered screenshot takes seconds, so
+      // screenshots cannot be taken at a given moment): how much of the screen the darkness overlay (#light) covers, the death plan's
+      // black fade, the death's end shade, the dying light's power
+      const SAMPLE = () => new Promise(res => { const out = [], marks = [.5, 1, 2, 3], c = document.createElement('canvas'); c.width = 64; c.height = 36; const x = c.getContext('2d', { willReadFrequently: true });
+        const step = () => { const D = __api.death(); if (!D || !D.active) return res(out);
+          while (marks.length && D.elapsed >= marks[0]) { const at = marks.shift(); x.clearRect(0, 0, 64, 36); x.drawImage(document.getElementById('light'), 0, 0, 64, 36); const d = x.getImageData(0, 0, 64, 36).data; let a = 0; for (let i = 3; i < d.length; i += 4) a += d[i];
+            out.push({ at, el: +D.elapsed.toFixed(2), dark: +(a / (d.length / 4) / 255).toFixed(3), black: +(+D.black || 0).toFixed(3), shade: +(+D.shade || 0).toFixed(3), light: window.__deathLight ? +window.__deathLight.own().toFixed(2) : null }); }
+          if (!marks.length) return res(out); requestAnimationFrame(step); };
+        step(); });
+      for (const k of ['hound', 'skinstealer']) {
+        const r = T[k] = {};
+        V.cmd({ c: 'preview', k, var: 'B' });
+        r.own = await until(V.P, () => { const D = __api.death(); return D && D.active ? { kind: D.kind, v: D.variant, dur: D.duration } : null; }, null, 6000, 10);
+        r.at = await V.P.evaluate(`(${SAMPLE})()`);
+        await until(V.P, () => !(__api.death() && __api.death().active), null, 9000);
+        S.cmd({ c: 'revive', id: vid }); await sleep(1800);
+        await V.P.evaluate(SPOT); await sleep(1200);
+      }
+      T.errors = { victim: V.errs, spectator: S.errs };
+      const H = T.hound, Ks = T.skinstealer, ok = H.own && Ks.own && H.at.length === 4 && Ks.at.length === 4 && Ks.at.slice(0, 3).every((q, i) => q.dark <= H.at[i].dark + .1 && q.black <= H.at[i].black + .01);   // (3 s: past the start of every death's end shade, 3.12 s - the Skin-Stealer's deaths are shorter)
+      check('t5_own_death_view', ok && Ks.own.kind === 'SkinStealer' && H.own.kind === 'Hound', JSON.stringify({ hound: H, skinstealer: Ks }));
+      check('t5d_no_page_errors', !V.errs.length && !S.errs.length, JSON.stringify(T.errors));
+      await V.ctx.close(); await S.ctx.close();
     }
   } finally { await b.close(); try { process.kill(srv.pid); } catch (e) { } }
   R.cases = cases; R.ok = cases.length > 0 && cases.every(c => c.ok);

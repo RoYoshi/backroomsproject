@@ -691,7 +691,7 @@ function drawEntities(cx, view, list, cfg, stale) {
   const { cam, sc, W, H } = view, X = x => W / 2 + (x - cam.x) * sc, Y = y => H / 2 + (y - cam.y) * sc;
   cx.save(); cx.font = MONO; cx.textBaseline = 'top'; cx.globalAlpha = stale ? .35 : 1;
   for (const d of list) {
-    const col = d.k === 'hound' ? '#ff9a5c' : '#9fe8ff', x = X(d.x), y = Y(d.y);
+    const col = d.k === 'hound' ? '#ff9a5c' : d.k === 'skinstealer' ? '#d8c7ff' : '#9fe8ff', x = X(d.x), y = Y(d.y);   // (Trial 3: the Skin-Stealer's own colour)
     // vision radius (dashed) and body
     cx.strokeStyle = col; cx.lineWidth = 1; cx.setLineDash([5, 6]); cx.globalAlpha = (stale ? .35 : 1) * .35; cx.beginPath(); cx.arc(x, y, d.vr * sc, 0, TAU); cx.stroke(); cx.setLineDash([]);
     cx.globalAlpha = stale ? .35 : 1;
@@ -744,6 +744,11 @@ function drawEntities(cx, view, list, cfg, stale) {
         if (m.ab || m.rt) lines.push((m.ab ? 'abandoned: ' + m.ab : '') + (m.rt ? '  switched: ' + m.rt : ''));
         if (sel) lines.push(`patience ${m.pz.pat} curiosity ${m.pz.cur} persistence ${m.pz.per} boldness ${m.pz.bold}  eye contact ${m.ec.map(c => 'P' + c[0] + ' ' + c[1] + 's').join(', ') || '-'}  strikes ${m.st}`); }
       if (d.dec && (cfg.evid || sel)) { const q = d.dec; lines.push(`DECIDE ${q.s}${q.a ? '/' + q.a : ''}: ${q.why || '-'}${q.tq !== null ? '  tgt conf ' + q.tq : ''}`); if (q.rt) lines.push('retarget: ' + q.rt); if (q.lt) lines.push('light: ' + q.lt + (q.fl !== null && q.fl < 5 ? '  (beam in its eyes ' + q.fl + 's ago)' : '')); }
+      if (d.sk) { const q = d.sk; let t = '';                                          // (Trial 3) the Skin-Stealer: its animal, its plan and why - debug mode only
+        lines.push(`HUNGER ${q.hu} ${q.band}  STAMINA ${q.st}${q.ex ? ' EXHAUSTED' : ''}  PLAN ${q.pl}${q.pid ? ' P' + q.pid : ''}${q.pc ? '  ' + q.pc.toUpperCase() : ''}${q.cool ? '  NEXT SPRING ' + q.cool + 's' : ''}${q.cm ? '  ON ITS KILL ' + q.cm : ''}`, `WHY ${q.why || '-'}`);
+        if (q.enc) { for (const l of q.left) t += ' P' + l[0] + ' ' + l[1] + 's'; lines.push(`with P${q.enc.pid} ${q.enc.spent}s of ${q.enc.budget}s` + (t ? '  left alone:' + t : '')); }
+        if (q.pr && (cfg.evid || sel)) lines.push(`GUESS ${q.pr.turns} turn(s), ${q.pr.lead} px ahead, waits at ${q.pr.x},${q.pr.y}${q.pr.hid ? ' out of sight' : ''}`);
+        if (sel) { t = ''; for (const k in q.tally) if (q.tally[k]) t += ' ' + k + ' ' + q.tally[k]; lines.push('record' + (t || ' -')); } }
       if ((cfg.evid || sel) && (d.ld || d.inv || d.ec)) lines.push(`leads ${d.ld ? d.ld.length : 0}${d.inv ? '  investigate ' + d.inv.k + ' ±' + d.inv.u + ' (' + d.inv.age + 's)' : ''}${d.ec ? '  EYE CONTACT ' + d.ec.map(c => 'P' + c[0]).join(',') : ''}`);
       if (sel && d.tr) lines.push('traits ' + Object.entries(d.tr).map(([k, v]) => k + v).join(' '));
       if (d.pu) lines.push('pursuit ' + (d.pu.blind !== undefined ? 'blind ' + d.pu.blind + 's' : 'seen') + (d.pu.ear ? ' (by ear)' : ''));

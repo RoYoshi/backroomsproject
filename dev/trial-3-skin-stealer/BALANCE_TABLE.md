@@ -95,3 +95,14 @@ Where a value differs from the T0 proposal above, the T0 line is superseded by t
 | death lengths A / B / C | 3.2 / 3.4 / 3.5 s | as proposed; the server's commitment uses the same (a facts check binds both) |
 | the snap | A 0.58 s, B 0.9 s; twist 7.5 / 6.5 rad/s | C has no snap (two bites at 0.45 and 0.95 s, the legs go at 0.95 s) |
 | `killMeal` / `feedRate` / `feedTime` | -0.35 / -0.03 per s / 18-35 s | as proposed; disturbed (seen within 520 px, or watched) it leaves |
+
+## As built after T5 (presentation; PROPOSED, nothing here changes what it does)
+
+| Name | Value | Notes |
+|---|---|---|
+| footfall | every half stride (96 / 118 / 150 px strides by speed); heard to 950 px (full to 120 px) | a wall between: half as loud, muffled (as every entity sound) |
+| stalking footfall (creep, approach) | 0.45 of the level; heard to 520 px (full to 80 px) | quieter, never silent |
+| the wind-up's tell / the leap / a miss's skid | heard to 700 / 800 / 700 px | the tell sounds 0.22 s before the leap lands |
+| feeding | every 0.8-1.5 s, heard to 520 px | |
+| breath while still | at most every 25-45 s, only within 260 px | never a proximity cue |
+| art | skin 0xbcab9a (shadow 0x7f6c5e, light 0xdfd1bf); leg 5.4 / 4 px, arm 5 / 3.8 px | interim; shaded by BR-RoLE's light sample, black in the dark |

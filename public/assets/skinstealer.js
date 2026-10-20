@@ -12,7 +12,7 @@ const API = () => window.__api;
  * death; audio: a death's sounds) */
 const K = window.__skin = {};
 /* what a later module lends an earlier one, inside the script only (never on the page): kill's test of a creature whose kill is playing */
-const hooks = { hidden: null, frame: null };
+const hooks = { hidden: null, frame: null, audio: null };
 const lend = (name, fn) => { if (name in hooks) hooks[name] = fn; };
 /* the codes as the server sends them: the shared states (ai.head.js S, numbered SCODE) and the Skin-Stealer's acts (ai.skinstealer.js
  * KACT); dev/tools/checks/facts.json holds every copy of each to the same list */
@@ -46,7 +46,7 @@ K.mirror = mirror;
 return { clear, list };
 }
 function skinBody({ head: { API, clamp, hooks, K, lerp, sm, TAU }, mirror: { clear, list } }) {
-const SC = { line: 0x14100d, skin: 0xa2988b, skinLo: 0x6c6259, skinHi: 0xcbc1b2, fold: 0x7d7368, nail: 0x2a2320, hair: 0x15120f, mouth: 0x2a0d0e };
+const SC = { line: 0x14100d, skin: 0xbcab9a, skinLo: 0x7f6c5e, skinHi: 0xdfd1bf, fold: 0x8f7b6b, nail: 0x2a2320, hair: 0x15120f, mouth: 0x2a0d0e };   // (T5) sallow, bloodless human skin: pale under a lamp, black in the dark
 const views = new Map();                                   // entity id -> view
 let Cc = null, Gc = null;                                  // the page's Container and Graphics classes
 function classes() {
@@ -123,7 +123,7 @@ function paint(v, o, t) {
   // legs (half under the body): hips to feet, a long stride when it runs
   for (const side of [-1, 1]) {
     const ph = side < 0 ? sw : sw2, hx = side * 6.5, hy = 13 * tall, fx = side * (8 + cr * 6), fy = hy + 15 - cr * 4 + ph * walk * lerp(8, 17, sm(60, 255, spd));
-    limb(g, hx, hy, fx, fy, 15, 16, side, 4.6, 3.6, SC.skinLo);
+    limb(g, hx, hy, fx, fy, 15, 16, side, 5.4, 4, SC.skinLo);
   }
   // the torso: bony shoulders, a narrow waist, the spine showing through loose skin
   const sy = -11 * tall - lean * 3, wy = 5 * tall, hy = 15 * tall, shw = 12.5 - cr * 1.2;
@@ -147,7 +147,7 @@ function paint(v, o, t) {
     let tx = lerp(hangX, reachX, reach), ty = lerp(hangY, reachY, reach);
     tx = lerp(tx, backX, back); ty = lerp(ty, backY, back);
     if (S.twitch > 0 && side > 0) { tx += Math.sin(t * 40 + S.seed) * 1.5 * S.twitch; ty += Math.cos(t * 33) * 1.2 * S.twitch; }
-    const j = limb(g, ax, ay, tx, ty, 20 * fore, 23 * fore, side, 4.4, 3.4, SC.skin);
+    const j = limb(g, ax, ay, tx, ty, 20 * fore, 23 * fore, side, 5, 3.8, SC.skin);
     hand(g, j, reach > .5 ? .2 : .5 - back * .3);
   }
   // the head: small for the body, held too far forward on a long thin neck, the crown and a few dark strands; the jaw a dark line at
@@ -184,6 +184,7 @@ function draw(dt) {
   }
   for (const [id, v] of views) if (!seen.has(id)) { views.delete(id); try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } }
   if (hooks.frame) hooks.frame(dt);
+  if (hooks.audio) hooks.audio(dt, list());                  // (T5) its living sounds, from what the mirror says it is doing
 }
 /* a new world, a closed connection: no view and no record stays behind */
 function reset() { clear(); for (const v of views.values()) { try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } } views.clear(); }
@@ -243,7 +244,7 @@ lend('frame', () => { if (!own) return; const A = API(), D = A && A.death && A.d
 K.attack = attack;
 K.attacker = attacker;
 }
-function skinAudio({ head: { API, clamp, K } }) {
+function skinAudio({ head: { API, clamp, K, lend } }) {
 let ctx = null, out = null, nb = null;
 function Z() {
   const A = API(), z = A && A.audio && A.audio(); if (!z || !z.context || !z.gain) return null;
@@ -297,6 +298,55 @@ function deathEvent(q, jl, S, place) {
   const b = bus(p.g, p.pan, p.lp, .4);
   noise(b, 0, .025, 'highpass', 3600, 0, .8, .95, .001); noise(b, .004, .07, 'bandpass', 1300, 800, 2.2, .5, .002); tone(b, 0, .09, 'sine', 150, 60, .45, .002);
 }
+/* where a sound at (x, y) lands for this listener: distance falloff, pan, a low-pass through a wall (as ents.js places the others) */
+function place(x, y, near, far) {
+  const A = API(), H = A && A.H; if (!H) return { g: 0, pan: 0, lp: 9000, d: 1e9 };
+  const dx = x - H.x, dy = y - H.y, d = Math.hypot(dx, dy), k = clamp((d - near) / (far - near), 0, 1), s = k * k * (3 - 2 * k);
+  let g = Math.pow(1 - s, 1.5), lp = 9000;
+  if (d > 60 && A.Uc) { const r = A.Uc(H.x, H.y, Math.atan2(dy, dx), d + 1); if (r < d - 30) { g *= .5; lp = 700; } }
+  return { d, g, pan: clamp(dx / 520, -1, 1) * .85, lp };
+}
+/* its sounds while it lives, from what the server says it is doing (act, the ground it covers): never a radar - it is heard when it
+ * moves, when it springs, when it eats, and (rarely, close) when it stands still and breathes */
+const VO = new Map();                                        // entity id -> { dist, acc, act, br, fd }
+function voice(dt, list) {
+  if (!soundOn() || !Z()) return;
+  const seen = new Set();
+  for (const o of list) {
+    seen.add(o.id);
+    let s = VO.get(o.id); if (!s) { s = { dist: o.distance, acc: 0, act: o.act, br: 20 + Math.random() * 20, fd: .5 }; VO.set(o.id, s); }
+    const dd = Math.abs(o.distance - s.dist) > 300 ? 0 : o.distance - s.dist; s.dist = o.distance;
+    const sp = dd / Math.max(dt, .001), stride = sp > 220 ? 150 : sp > 120 ? 118 : 96;
+    // footfalls: a long, padded, bare step - each half stride, heard whether or not it can be seen; placed with care when it stalks
+    // (creep, approach): quieter and heard less far, never silent
+    const soft = o.act === 'creep' || o.act === 'approach';
+    s.acc += dd; while (s.acc >= stride / 2) { s.acc -= stride / 2; if (sp > 25) step(o.x, o.y, sp, soft); }
+    if (o.act !== s.act) {
+      if (o.act === 'wind') cue(o.x, o.y, 'wind');           // the tell: a dry click in the throat, a sharp breath in
+      else if (o.act === 'pounce') cue(o.x, o.y, 'leap');
+      else if (o.act === 'recover') cue(o.x, o.y, 'skid');
+      s.act = o.act;
+    }
+    if (o.act === 'feed' && (s.fd -= dt) <= 0) { s.fd = .8 + Math.random() * .7; cue(o.x, o.y, 'feed'); }
+    const still = o.act === 'watch' || o.act === 'lure' || o.act === 'wait' || o.act === 'listen';
+    s.br -= dt; if (s.br <= 0) { s.br = 25 + Math.random() * 20; if (still) cue(o.x, o.y, 'breath'); }   // at most every 25-45 s, and only close (place: 260 px)
+  }
+  for (const id of [...VO.keys()]) if (!seen.has(id)) VO.delete(id);
+}
+function step(x, y, sp, soft) {
+  const p = place(x, y, soft ? 80 : 120, soft ? 520 : 950); if (p.g < .02) return;
+  const run = clamp((sp - 120) / 150, 0, 1), b = bus(p.g * (.22 + .25 * run) * (soft ? .45 : 1), p.pan, p.lp, .2);
+  noise(b, 0, .07 + .03 * run, 'lowpass', 300 + 150 * run, 140, .8, .7, .004); noise(b, .01, .03, 'bandpass', 1800, 1200, 1.4, .12, .002);
+}
+function cue(x, y, k) {
+  const far = { wind: 700, leap: 800, skid: 700, feed: 520, breath: 260 }[k], p = place(x, y, 90, far); if (p.g < .02) return;
+  if (k === 'wind') { const b = bus(p.g * .7, p.pan, p.lp, .4); for (let i = 0; i < 3; i++) noise(b, i * .045, .018, 'bandpass', 2600 - i * 200, 0, 6, .55, .001); noise(b, .1, .16, 'bandpass', 1400, 2600, 1.2, .25, .03); }
+  else if (k === 'leap') { const b = bus(p.g * .6, p.pan, p.lp, .5); noise(b, 0, .3, 'bandpass', 600, 1800, .9, .35, .02); }
+  else if (k === 'skid') { const b = bus(p.g * .5, p.pan, p.lp, .6); noise(b, 0, .45, 'bandpass', 900, 400, 1.6, .3, .02); }
+  else if (k === 'feed') { const b = bus(p.g * .4, p.pan, p.lp, .4); noise(b, 0, .16, 'bandpass', 650, 300, 1.8, .45, .01); noise(b, .05, .06, 'highpass', 2400, 0, .9, .1, .003); }
+  else if (k === 'breath') { const b = bus(p.g * .35, p.pan, p.lp, 1.6); noise(b, 0, .7, 'bandpass', 500, 350, 1.1, .2, .3); noise(b, .8, .8, 'bandpass', 420, 300, 1.1, .16, .35); }
+}
+lend('audio', voice);
 K.deathSound = deathSound;
 K.deathEvent = deathEvent;
 }

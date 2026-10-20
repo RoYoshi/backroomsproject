@@ -24,7 +24,7 @@ const API = () => window.__api;
  * death; audio: a death's sounds) */
 const K = window.__skin = {};
 /* what a later module lends an earlier one, inside the script only (never on the page): kill's test of a creature whose kill is playing */
-const hooks = { hidden: null, frame: null };
+const hooks = { hidden: null, frame: null, audio: null };
 const lend = (name, fn) => { if (name in hooks) hooks[name] = fn; };
 /* the codes as the server sends them: the shared states (ai.head.js S, numbered SCODE) and the Skin-Stealer's acts (ai.skinstealer.js
  * KACT); dev/tools/checks/facts.json holds every copy of each to the same list */

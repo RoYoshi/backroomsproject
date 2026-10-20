@@ -127,7 +127,7 @@ Each is either extended for the third species or proven harmless by a test at T1
 11. `dphys.js`: `create`; `PLAN`; `DURS`; `begin`; `prepare`; `frame` (Smiler alpha); `stepAttacker`.
 12. Clients: `mp.monsters.js`; `net-interp.js`; `mp.deaths.js` (`m.c === 'Smiler' ? … : Hound`); `ents.death.js` (`deathPlan`, `localKill`); `ents.head.js` tables; TS `death.ts`, `render.ts`, `main.ts`, `entity.ts`, `corpse-view.ts`; `br-role.js` actors; `ents.audio.js`.
 
-## Status after T4 (the rows above as built so far)
+## Status after T5 (the rows above as built so far)
 
 | Row | Status | Where |
 |---|---|---|
@@ -142,5 +142,8 @@ Each is either extended for the third species or proven harmless by a test at T1
 | Deaths on screen (victim, spectators) | DONE (T4): its own attacker, posed from the physics; the real one hidden during its kill | `ents.death.js`, `mp.deaths.js`, `skinstealer.js` (skin.kill.js) |
 | Wounds | DONE (T4) | `gore.js` |
 | Death sounds | DONE (T4), procedural | `sfx.js`, `ents.audio.js`, `skinstealer.js` (skin.audio.js) |
-| BR-RoLE actor, its own ambient audio, the art pass | T5 | |
+| BR-RoLE actor | DONE (T5): kind `skin` (a tall, narrow body from above), for the living view and its kill's attacker | `br-role.js` |
+| Its living sounds | DONE (T5), procedural: footfalls by stride (quieter while it stalks), the wind-up's tell, the leap, the skid of a miss, feeding, a rare close breath while still; placed like every entity sound | `skinstealer.js` (skin.audio.js) |
+| Debug overlay | DONE (T5): its own colour and block (hunger, stamina, plan, why, encounter, route guess, record) | `ents.debug.js` |
+| Art pass | DONE (T5), interim: sallow skin palette, heavier limbs; checked in a gallery of every act at three quality tiers and three screen sizes | `skinstealer.js` (skin.body.js) |
 | Disguise, heard speech | T6 | |

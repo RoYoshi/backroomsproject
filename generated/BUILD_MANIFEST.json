@@ -91,12 +91,12 @@
   },
   {
    "out": "public/assets/br-role.js",
-   "bytes": 139086,
-   "sha256": "863ec580d6d60c32695bab4f4b320b9782eb200c83bc96bde6b050db2d57b6a3",
+   "bytes": 139592,
+   "sha256": "c82d3c608ac8b1c0cc07ebdb98febd2b0be8f80047ab8242ae70cf0ef2aad1ed",
    "parts": [
     {
      "path": "src/frameworks/br-role/client/br-role.js",
-     "sha256": "863ec580d6d60c32695bab4f4b320b9782eb200c83bc96bde6b050db2d57b6a3",
+     "sha256": "c82d3c608ac8b1c0cc07ebdb98febd2b0be8f80047ab8242ae70cf0ef2aad1ed",
      "headerBytes": 0
     }
    ]
@@ -289,12 +289,12 @@
   },
   {
    "out": "public/assets/skinstealer.js",
-   "bytes": 22365,
-   "sha256": "0935ea27fce84b0175cdacee4740672e072a3f089ccb039639349c0f796605b5",
+   "bytes": 26461,
+   "sha256": "eca127f1593cc99f2e9804ea0e3aefb939caaf6948fa09ab5016712fd3adcc48",
    "parts": [
     {
      "path": "src/frameworks/nani/client/skin.head.js",
-     "sha256": "139ef00b89dcf6e0b0e951ac74f40daf52574da0e8ccff7fccf040bde14c2a70",
+     "sha256": "5824ec92c6b1562b4bc8bb8d55f6fd551b4644010e561162fac9e994048f607d",
      "headerBytes": 939
     },
     {
@@ -304,7 +304,7 @@
     },
     {
      "path": "src/frameworks/br-r/client/skin.body.js",
-     "sha256": "a7f1cb6ef4d5a0edb70f13b095ae091f392d97830546d8e7d7f33ec357368b94",
+     "sha256": "7a2c657519134717f4882557a390107952b7bf47cfef5cc9eded13597c49da90",
      "headerBytes": 961
     },
     {
@@ -314,8 +314,8 @@
     },
     {
      "path": "src/frameworks/spacious-audio/client/skin.audio.js",
-     "sha256": "8a6f2deb35d9d3b1e4559c1294a319f398909987240951100e9a70a8943858f0",
-     "headerBytes": 1023
+     "sha256": "8d3cf7db1c41b5cea96a18fd884b4606a51c7a47460ee7cb404ffc4f6be62cf9",
+     "headerBytes": 1476
     },
     {
      "path": "src/frameworks/br-r/client/skin.compose.js",
@@ -399,8 +399,8 @@
   },
   {
    "out": "public/ents.js",
-   "bytes": 80614,
-   "sha256": "c0b9be5697c430e101b6ae2b02a62adcfbd816cc9aacb346188973cf90642a74",
+   "bytes": 81641,
+   "sha256": "1394c531da26b5ee0cf0142bacf0b86105621306e5087cbb3dffa04ef74fc4aa",
    "parts": [
     {
      "path": "src/frameworks/br-r/client/ents.head.js",
@@ -429,7 +429,7 @@
     },
     {
      "path": "src/frameworks/overseer/client/ents.debug.js",
-     "sha256": "08623888d5e04bdce1c1496e1b1ff2c83c2809ec6e8f7dcae6d9d949f5e70cb2",
+     "sha256": "458fb49fdd04120478919516d6b4d38c2782d1314095f9b56b1e77f5e96da606",
      "headerBytes": 473
     },
     {
