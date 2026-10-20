@@ -1,0 +1,3 @@
+SOAK 600 s, 4 Skin-Stealers, 8 players: mean 0.100 ms, p99 0.554, worst 14.70 ms; 137 kills (Hound/SkinStealer/Smiler); violations 0; their record {"lure":0,"lureCame":0,"intercept":0,"interceptCame":0,"chase":0,"chaseLost":0,"search":20,"searchFound":0,"pounce":1,"grab":3,"hit":4,"miss":0,"wall":0,"kills":3,"mingle":0,"say":0,"sayHeard":0,"sayBait":0,"skin":0,"skinLost":0,"reveal":0}
+PERF T3 SOAK: PASS
+exit 0

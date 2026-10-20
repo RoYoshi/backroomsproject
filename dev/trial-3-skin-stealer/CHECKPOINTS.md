@@ -12,7 +12,8 @@ Each row is filled after its push has been verified on GitHub (`tools/verify_rem
 | T3 lying in wait, prediction, interception, the race, hearing | `a3f43b3ddf5d8d0400b0441b798933c222f0da34` | `248c892f417d8900f1342c7acaf6f5c1b23c5021` | `8b2d734` | yes: `evidence/remote/t3.json`; secret scan of the pushed commit CLEAN |
 | T4 the strike and the kill, through G.I.B. | `9a2e56e67395d346a65ef9f5b1f43c41ac8682cf` | `a085153d24ebdf14415ca9370a83c5861f73c53b` | `a3f43b3` | yes: `evidence/remote/t4.json`; secret scan of the pushed commit CLEAN |
 | T5 presentation: BR-RoLE actor, living sounds, debug block, art pass | `c16bc06f49a99f6f7375072b80fcbf81ccee1487` | `ae6b74bc6480282440663e32100b7adac60ac507` | `9a2e56e` | yes: `evidence/remote/t5.json`; secret scan of the pushed commit CLEAN |
-| T6 deception: hearing speech, entity speech, the earned skin | (this commit; recorded at T7) | | `c16bc06` | |
+| T6 deception: hearing speech, entity speech, the earned skin | `489cf12b5dc1ce284f6c0ac5e62b767420c36c61` | `38843f9e54a4fb1968916d0874c3bb7c94093f7d` | `c16bc06` | yes: `evidence/remote/t6.json`; secret scan of the pushed commit CLEAN |
+| T7 integration, P9 equivalence, performance | (this commit; recorded at T8) | | `489cf12` | |
 
 ## T0 baseline (P9 `1ff9374`, this machine, before any game change)
 
@@ -221,3 +222,31 @@ echo "... lost"); with nothing heard, a generic call; never while seen.
 
 Note: after the gate, the browser and the chat checks, two header comments were corrected (voice.js's `meta(v, id)`, skinstealer.js's
 list of its hooks); comments only - the build check, parts, contract and docs checks and the t1 rerun ran after it.
+
+## T7 — integration, equivalence with P9, performance (results; no game change since T6)
+
+T7 changes no runtime file: T6's `npm test` (183 / 196, P9's 13), fast gate (21 / 21), chat checks (server 100 / 100, browser 40 / 40,
+voices 69 / 69) and human-QA suite (5 / 6, X03 as P9) are the evidence for the code as it stands, and were not repeated.  What T7
+adds are three development tools and their runs.
+
+| Run | Result |
+|---|---|
+| `tools/equiv_p9.js` (P9 checked out beside this tree; 6 seeds x 120 s; the director on, the world's own Hounds and Smilers, 4 scripted players, respawns; on this tree a line of speech handed to the new hearing hook every 2 s) | PASS: 6 / 6 seeds identical to P9 tick for tick, 7200 snapshots compared (every Hound and Smiler, every player, 37 kills, the bodies); the hook kept nothing (no Skin-Stealer). Self-test: one Hound moved 1 px - 3 / 3 seeds told apart (`evidence/t7/equiv_p9.*`, `equiv_selftest.txt`) |
+| `tools/perf_t3.js` (P9, Trial 3 with 0, 1 and 4 Skin-Stealers; 8 scripted players; the director and the world's monsters; 5 interleaved rounds x 60 s; each run in its own process) | PASS (`evidence/t7/perf_t3.*`): the 60 Hz step, median of the means - P9 0.136 ms, Trial 3 without one 0.1355 ms (-0.4 %, within the 0.011 ms tolerance); with one 0.174 ms (+28.6 %); with four 0.243 ms (+79 %), p99 2.96 ms - 1.5 % and 18 % of a 16.7 ms step; snapshot entities +74 B per Skin-Stealer (711 -> 785 -> 992 B); its invariants (a finite place, never inside the level, at most 4 lines, no unearned skin, hunger and stamina in range) never broken |
+| `tools/perf_t3.js --soak 600` (4 Skin-Stealers, 8 players, 10 minutes) | PASS: mean 0.100 ms, p99 0.554 ms, worst 14.7 ms; 137 kills (Hounds, Smilers, Skin-Stealers); invariants never broken (`evidence/t7/soak_t3.*`) |
+| `tools/skin_browser.js` t7 (one room: the skin AND the world's Hound and Smiler; a desktop page and a phone held sideways with touch, different settings; a page in another room) | 7 / 7 (`evidence/t7/browser_t7.json`; the phone: `t7_phone_844x390.jpg`): its line reached both pages of its room, each as set (the desktop typed out with its voice; the phone written at once, voices off, no voice), the other room nothing (no line, no ss list, no view); the phone disconnected mid-encounter and the room went on; the admin's world reset left no creature, skin, bubble or ss list and the SKIN tab counted 0; no page error |
+
+The performance rule, honestly: the tool's first version also required every run's single worst step to stay under 16.7 ms.  Its
+first pilot (`evidence/t7/perf_pilot1.txt`) failed that rule on a Trial 3 run with four (17.8 ms) while P9's own worst was 16.5 ms -
+and a Trial 3 run without any Skin-Stealer, whose world is P9's tick for tick, reached 29 ms.  On this 2-CPU container the single
+worst step is garbage collection and scheduling, so the rule now judges the mean and the p99 against the step's budget and reports
+the worst steps (P9's reached 22 ms in the final run).  The second pilot and the first soak (`perf_pilot2.txt`, `soak_pilot.txt`)
+ran under the old rule by mistake (the rule change had not been saved); the final runs above are under the rule as written in the
+tool.
+
+What the soak's record shows about balance: four Skin-Stealers among eight scripted players for ten minutes made 3 kills (all grabs or
+a pounce on a scripted player who walked into reach) and 20 searches, no lure, chase or mingle - the scripted players wander and never
+react to it, the Hounds take most of them (137 kills), and the harness has no G.I.B. aftermath, so no skin is ever earned there.  It
+says nothing about how it plays against people; that is the owner's QA.
+
+Not tested by T7 (left for the owner's QA): real speakers, a real phone, a real network with lag, more than four people in a room.

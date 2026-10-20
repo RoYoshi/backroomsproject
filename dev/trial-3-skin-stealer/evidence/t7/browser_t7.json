@@ -1,0 +1,105 @@
+{
+ "tool": "dev/trial-3-skin-stealer/tools/skin_browser.js",
+ "dir": "/home/claude/skin-stealer",
+ "chromium": "141.0.7390.37",
+ "sections": {
+  "t7": {
+   "eid": 15,
+   "kill": {
+    "kind": "SkinStealer",
+    "v": "A"
+   },
+   "dg": "none|plain|#e6bb76|#ffcc77",
+   "lists": {
+    "keys": "st,h,m,b,p,gw,it,lf,sn,ss",
+    "ss": 1
+   },
+   "monsters": "st,h,m,b,p,gw,it,lf,sn,ss",
+   "mAt": {
+    "x": 1341,
+    "y": 2621
+   },
+   "aAt": {
+    "x": 1313,
+    "y": 2589
+   },
+   "aLine": {
+    "id": "e15",
+    "shown": 1,
+    "of": 8
+   },
+   "mLine": {
+    "id": "e15",
+    "shown": 8,
+    "of": 8
+   },
+   "voices": {
+    "a": 1,
+    "m": 0
+   },
+   "mSkin": true,
+   "other": {
+    "heard": 0,
+    "ss": null,
+    "keys": "st,h,m,b,p,gw,it,lf,sn",
+    "views": 0
+   },
+   "afterPhone": {
+    "ss": 1,
+    "snaps": 3267
+   },
+   "afterReset": {
+    "ss": null,
+    "skinViews": 0,
+    "skins": 0,
+    "bubbles": 0,
+    "keys": "st,h,m,b,p,gw,it,lf,sn"
+   },
+   "tab": "SKIN-STEALER · 0 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SK",
+   "errors": {
+    "victim": [],
+    "desktop": [],
+    "phone": [],
+    "other": []
+   }
+  }
+ },
+ "cases": [
+  {
+   "name": "t7_world_has_all_three",
+   "ok": true,
+   "detail": "{\"dg\":\"none|plain|#e6bb76|#ffcc77\",\"lists\":{\"keys\":\"st,h,m,b,p,gw,it,lf,sn,ss\",\"ss\":1},\"kill\":{\"kind\":\"SkinStealer\",\"v\":\"A\"}}"
+  },
+  {
+   "name": "t7_line_each_as_set",
+   "ok": true,
+   "detail": "{\"a\":{\"id\":\"e15\",\"shown\":1,\"of\":8},\"m\":{\"id\":\"e15\",\"shown\":8,\"of\":8},\"voices\":{\"a\":1,\"m\":0},\"mAt\":{\"x\":1341,\"y\":2621},\"aAt\":{\"x\":1313,\"y\":2589}}"
+  },
+  {
+   "name": "t7_phone_draws_the_skin",
+   "ok": true,
+   "detail": "true"
+  },
+  {
+   "name": "t7_other_room_nothing",
+   "ok": true,
+   "detail": "{\"heard\":0,\"ss\":null,\"keys\":\"st,h,m,b,p,gw,it,lf,sn\",\"views\":0}"
+  },
+  {
+   "name": "t7_disconnect_goes_on",
+   "ok": true,
+   "detail": "{\"ss\":1,\"snaps\":3267}"
+  },
+  {
+   "name": "t7_world_reset_clears",
+   "ok": true,
+   "detail": "{\"reset\":{\"ss\":null,\"skinViews\":0,\"skins\":0,\"bubbles\":0,\"keys\":\"st,h,m,b,p,gw,it,lf,sn\"},\"tab\":\"SKIN-STEALER · 0 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SK\"}"
+  },
+  {
+   "name": "t7_no_page_errors",
+   "ok": true,
+   "detail": "{\"victim\":[],\"desktop\":[],\"phone\":[],\"other\":[]}"
+  }
+ ],
+ "ok": true
+}

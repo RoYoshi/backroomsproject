@@ -1,0 +1,23 @@
+round 1 P9: mean 0.143 ms, p95 0.251, p99 1.342, worst 16.54; entities 711 B; 2H 3S 0K; kills 10 (Smiler/Hound)
+round 1 T3-0: mean 0.138 ms, p95 0.255, p99 0.993, worst 8.66; entities 711 B; 2H 3S 0K; kills 10 (Smiler/Hound)
+round 1 T3-1: mean 0.147 ms, p95 0.256, p99 1.133, worst 9.58; entities 785 B; 2H 3S 1K; kills 10 (Smiler/Hound)
+round 1 T3-4: mean 0.240 ms, p95 0.461, p99 2.647, worst 17.83; entities 992 B; 2H 3S 4K; kills 7 (Smiler/Hound/SkinStealer)
+round 2 P9: mean 0.148 ms, p95 0.263, p99 1.030, worst 13.10; entities 711 B; 2H 3S 0K; kills 10 (Smiler/Hound)
+round 2 T3-0: mean 0.147 ms, p95 0.245, p99 2.700, worst 12.35; entities 711 B; 2H 3S 0K; kills 10 (Smiler/Hound)
+round 2 T3-1: mean 0.162 ms, p95 0.307, p99 1.571, worst 6.72; entities 785 B; 2H 3S 1K; kills 10 (Smiler/Hound)
+round 2 T3-4: mean 0.217 ms, p95 0.383, p99 2.260, worst 10.35; entities 992 B; 2H 3S 4K; kills 7 (Smiler/Hound/SkinStealer)
+round 3 P9: mean 0.153 ms, p95 0.280, p99 1.489, worst 10.47; entities 711 B; 2H 3S 0K; kills 10 (Smiler/Hound)
+round 3 T3-0: mean 0.129 ms, p95 0.236, p99 0.997, worst 8.25; entities 711 B; 2H 3S 0K; kills 10 (Smiler/Hound)
+round 3 T3-1: mean 0.170 ms, p95 0.300, p99 1.901, worst 12.35; entities 785 B; 2H 3S 1K; kills 10 (Smiler/Hound)
+round 3 T3-4: mean 0.243 ms, p95 0.409, p99 3.311, worst 15.38; entities 992 B; 2H 3S 4K; kills 7 (Smiler/Hound/SkinStealer)
+round 4 P9: mean 0.137 ms, p95 0.260, p99 1.385, worst 12.39; entities 711 B; 2H 3S 0K; kills 10 (Smiler/Hound)
+round 4 T3-0: mean 0.129 ms, p95 0.233, p99 0.835, worst 11.52; entities 711 B; 2H 3S 0K; kills 10 (Smiler/Hound)
+round 4 T3-1: mean 0.152 ms, p95 0.294, p99 1.595, worst 5.82; entities 785 B; 2H 3S 1K; kills 10 (Smiler/Hound)
+round 4 T3-4: mean 0.208 ms, p95 0.355, p99 2.059, worst 9.22; entities 992 B; 2H 3S 4K; kills 7 (Smiler/Hound/SkinStealer)
+round 5 P9: mean 0.136 ms, p95 0.254, p99 1.061, worst 10.83; entities 711 B; 2H 3S 0K; kills 10 (Smiler/Hound)
+round 5 T3-0: mean 0.161 ms, p95 0.276, p99 1.256, worst 29.05; entities 711 B; 2H 3S 0K; kills 10 (Smiler/Hound)
+round 5 T3-1: mean 0.164 ms, p95 0.306, p99 2.483, worst 8.24; entities 785 B; 2H 3S 1K; kills 10 (Smiler/Hound)
+round 5 T3-4: mean 0.216 ms, p95 0.366, p99 2.513, worst 8.32; entities 992 B; 2H 3S 4K; kills 7 (Smiler/Hound/SkinStealer)
+P9 0.1432 ms vs Trial 3 (none) 0.1378 ms (-3.77 %, tolerance 0.0164 ms): SAME COST; one Skin-Stealer +17.2 % (+74 B a snapshot), four +57.2 % (+281 B); worst step 17.826 ms
+PERF T3: FAIL
+exit 1

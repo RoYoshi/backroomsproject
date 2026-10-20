@@ -33,6 +33,10 @@
  *        and repeats the line as an entity (a bubble keyed e + id, "A voice nearby says: ..."); the skin drawn as a wanderer with nothing
  *        in its hands, no name, in no list of players; the mute rules in the page (a muted person's echo is silent; the unknown voice
  *        has its own entry).  No page error.
+ *   t7   integration: a room with the skin AND the world's own Hound and Smiler; a desktop page and a phone held sideways (touch) with
+ *        different chat and voice settings; a page in another room; its line reaches both pages of its room each as set (the phone:
+ *        voices off, written at once), the other room nothing; the phone disconnects mid-encounter and the rest goes on; the admin's
+ *        world reset leaves no creature, skin, bubble or ss list, and the SKIN tab counts 0.  No page error.
  * Every name and passcode is synthetic.  The server is stopped by its PID. */
 'use strict';
 const fs = require('fs'), path = require('path'), http = require('http'), net = require('net');
@@ -66,8 +70,8 @@ async function serve() {
 }
 async function until(P, fn, arg, ms = 8000, every = 50) { const t0 = Date.now(); for (;;) { const v = await P.evaluate(fn, arg).catch(() => null); if (v) return v; if (Date.now() - t0 > ms) return null; await sleep(every); } }
 /* a page in a run: the menu, a name, ENTER; the admin unlocked */
-async function runPage(b, port, room, vp, name) {
-  const ctx = await b.newContext({ viewport: vp }); await ctx.addInitScript(INIT);
+async function runPage(b, port, room, vp, name, extra) {
+  const ctx = await b.newContext(Object.assign({ viewport: vp }, extra || {})); await ctx.addInitScript(INIT);   // (extra: a phone's isMobile / hasTouch)
   const P = await ctx.newPage(), errs = []; P.on('pageerror', e => errs.push(String(e).slice(0, 240)));
   await P.goto(`http://127.0.0.1:${port}/?room=${room}`, { waitUntil: 'commit', timeout: 90000 });
   for (let i = 0; i < 900; i++) { const st = await P.evaluate(() => window.__boot ? __boot.state() : null).catch(() => null); if (st === 'ready') await P.keyboard.press('Space'); if (st === 'menu') break; await sleep(100); }
@@ -408,6 +412,71 @@ const VIEWS = `() => { const A = window.__api, L = A.layer(); return L.children.
       check('t6_mutes', T.mute.speakerButton && T.mute.echoOfMutedSilent && T.mute.genericShown && /unknown voice/i.test(T.mute.entityLabel || '') && T.mute.entityMuteSilent, JSON.stringify(T.mute));
       check('t6_no_page_errors', !V.errs.length && !S.errs.length && !L.errs.length, JSON.stringify(T.errors));
       await V.ctx.close(); await S.ctx.close(); await L.ctx.close();
+    }
+    if (want('t7')) {
+      // integration: one room with a Skin-Stealer in a borrowed skin AND the world's own Hound and Smiler; a desktop page and a phone held
+      // sideways (touch) with different chat and voice settings (the phone: voices off, speech written out at once); a page in another
+      // room; the Skin-Stealer earns its skin (the SKIN tab's preview on a third page, the world at x2 while it feeds), the desktop
+      // player steps into its sight and it speaks: both pages in its room get its line, each as its settings say, the other room
+      // nothing; the phone page disconnects mid-encounter; an admin world reset ends everything (no creature, no skin, no bubble, no ss
+      // list) and the SKIN tab counts 0.  No page error anywhere.
+      const T = R.sections.t7 = {}, room = 'k3t7' + (Date.now() % 1e6), room2 = 'k3t7x' + (Date.now() % 1e6), VP = { width: 1280, height: 720 };
+      const V = await runPage(b, port, room, VP, 'K3Prey7');
+      V.cmd({ c: 'freeze', on: true });
+      const A = await runPage(b, port, room, VP, 'K3Desk'), M = await runPage(b, port, room, { width: 844, height: 390 }, 'K3Phone', { isMobile: true, hasTouch: true }), X = await runPage(b, port, room2, VP, 'K3Elsewhere');
+      const ids = { v: await V.P.evaluate(() => __api.H.id), a: await A.P.evaluate(() => __api.H.id), m: await M.P.evaluate(() => __api.H.id) };
+      V.cmd({ c: 'god', id: ids.a }); V.cmd({ c: 'god', id: ids.m }); await sleep(300);
+      // the world's own monsters stay; at least one Hound and one Smiler
+      const inf0 = await until(V.P, () => { const k = window.__k3; return k.snaps > 3 ? { keys: k.keys } : null; }, null, 8000);
+      V.cmd({ c: 'hounds', n: 1 }); V.cmd({ c: 'smilers', n: 1 }); await sleep(800);
+      const AWAY = (from, r0, k) => { const Z = __api; for (const r of [r0, r0 - 400, r0 + 400]) for (let i = 0; i < 32; i++) { const a = (i + k * .5) / 32 * Math.PI * 2, x = from.x + Math.cos(a) * r, y = from.y + Math.sin(a) * r; if (Z.sl(x, y, 30)) { Z.tp(x, y); return { x: Math.round(x), y: Math.round(y) }; } } return null; };
+      const vpos = await V.P.evaluate(() => ({ x: __api.H.x, y: __api.H.y }));
+      await A.P.evaluate(`(${AWAY})(${JSON.stringify(vpos)}, 2600, 0)`); await M.P.evaluate(`(${AWAY})(${JSON.stringify(vpos)}, 2600, 1)`);
+      await M.P.evaluate(() => { if (window.__voice) window.__voice.set({ on: false }); window.__chat.pref('type', false); });
+      await sleep(1000);
+      V.cmd({ c: 'near', k: 'skinstealer' });
+      T.eid = await until(A.P, () => window.__k3.ss && window.__k3.ss.length ? window.__k3.ss[0].i : null, null, 8000);
+      V.cmd({ c: 'preview', k: 'skinstealer', var: 'A' });
+      T.kill = await until(V.P, () => { const D = __api.death(); return D && D.active ? { kind: D.kind, v: D.variant } : null; }, null, 6000, 20);
+      V.cmd({ c: 'freeze', on: false }); V.cmd({ c: 'speed', v: 2 });
+      T.dg = await until(A.P, () => { const t = (window.__k3.ss || [])[0]; return t && t.dg ? t.dg : null; }, null, 45000, 100);
+      V.cmd({ c: 'speed', v: 1 }); V.cmd({ c: 'freeze', on: true }); await sleep(600);
+      T.lists = await A.P.evaluate(() => { const k = window.__k3; return { keys: k.keys, ss: (k.ss || []).length }; });
+      T.monsters = await V.P.evaluate(() => { const s = window.__k3; return s.keys; });
+      // the phone: within 576 px of it (god: unperceived); the desktop: into its sight, light on, a person again
+      const K0 = await A.P.evaluate(() => (window.__k3.ss || [])[0]);
+      T.mAt = await M.P.evaluate(k => { const Z = __api; for (const r of [420, 340, 500, 260]) for (let i = 0; i < 48; i++) { const a = (i + .25) / 48 * Math.PI * 2, x = k.x + Math.cos(a) * r, y = k.y + Math.sin(a) * r; if (Z.sl(x, y, 26)) { Z.tp(x, y); Z.H.angle = Math.atan2(k.y - y, k.x - x); return { x: Math.round(x), y: Math.round(y) }; } } return null; }, K0);   // (in god mode: no creature perceives it, wherever it stands)
+      T.aAt = await A.P.evaluate(k => { const Z = __api; for (const r of [380, 320, 440]) for (let i = 0; i < 48; i++) { const a = i / 48 * Math.PI * 2, x = k.x + Math.cos(a) * r, y = k.y + Math.sin(a) * r; if (Z.sl(x, y, 26) && Z.Uc(k.x, k.y, a, r) >= r - 4) { Z.tp(x, y); Z.H.angle = Math.atan2(k.y - y, k.x - x); return { x: Math.round(x), y: Math.round(y) }; } } return null; }, K0);
+      V.cmd({ c: 'god', id: ids.a }); await sleep(800);
+      if (!(await A.P.evaluate(() => __api.lightOn()))) await A.P.keyboard.press('KeyF');
+      const v0 = { a: await A.P.evaluate(() => window.__voice.stats().said), m: await M.P.evaluate(() => window.__voice.stats().said) };
+      V.cmd({ c: 'freeze', on: false });
+      const line = P => P.evaluate(() => { const N = window.__chat.state().nearby, x = N.bubbles.find(q => typeof q.id === 'string' && q.id[0] === 'e'); return x ? { id: x.id, shown: x.shown, of: x.of } : null; });
+      T.aLine = await until(A.P, () => { const N = window.__chat.state().nearby, x = N.bubbles.find(q => typeof q.id === 'string' && q.id[0] === 'e'); return x ? { id: x.id, shown: x.shown, of: x.of } : null; }, null, 30000, 100);
+      T.mLine = await line(M.P);
+      T.voices = { a: (await A.P.evaluate(() => window.__voice.stats().said)) - v0.a, m: (await M.P.evaluate(() => window.__voice.stats().said)) - v0.m };
+      T.mSkin = await M.P.evaluate(() => { const L0 = __api.layer(); return L0.children.some(c => /^skinstealer-skin#/.test(c.label || '') && c.visible) || L0.children.some(c => /^skinstealer-skin#/.test(c.label || '')); });
+      if (SHOTS) await Promise.all([A.P.screenshot({ path: path.join(SHOTS, 't7_desktop_1280.png') }), M.P.screenshot({ path: path.join(SHOTS, 't7_phone_844x390.png') })]);
+      T.other = await X.P.evaluate(() => ({ heard: window.__chat.state().nearby.heard, ss: window.__k3.ss, keys: window.__k3.keys, views: __api.layer().children.filter(c => c.__skin).length }));
+      // the phone disconnects mid-encounter; the encounter and the other pages go on
+      await M.ctx.close(); await sleep(2500);
+      T.afterPhone = await A.P.evaluate(() => ({ ss: (window.__k3.ss || []).length, snaps: window.__k3.snaps }));
+      // the admin's world reset: nothing of it is left on the desktop page
+      V.cmd({ c: 'world' }); await until(A.P, () => !window.__k3.ss, null, 8000); await sleep(1500);
+      T.afterReset = await A.P.evaluate(() => { const L0 = __api.layer(); return { ss: window.__k3.ss, skinViews: L0.children.filter(c => c.__skin).length, skins: L0.children.filter(c => /^skinstealer-skin#/.test(c.label || '')).length, bubbles: window.__chat.state().nearby.bubbles.filter(q => typeof q.id === 'string').length, keys: window.__k3.keys }; });
+      await V.P.keyboard.press('Backquote'); await sleep(300);
+      if (await V.P.evaluate(() => !document.getElementById('admLogin').hidden)) { await V.P.fill('#admPass', PASS); await V.P.click('#adminPanel [data-a="unlock"]'); await V.P.waitForSelector('#admMain', { state: 'visible', timeout: 8000 }); }
+      await V.P.keyboard.press('KeyK'); await sleep(300); await V.P.click('#adminPanel [data-a="tab"][data-t="skin"]'); await sleep(1500);
+      T.tab = await V.P.evaluate(() => document.getElementById('admBody').textContent.slice(0, 60));
+      T.errors = { victim: V.errs, desktop: A.errs, phone: M.errs, other: X.errs };
+      check('t7_world_has_all_three', T.dg && /(^|,)h(,|$)/.test(T.lists.keys) && /(^|,)m(,|$)/.test(T.lists.keys) && /(^|,)ss(,|$)/.test(T.lists.keys), JSON.stringify({ dg: T.dg, lists: T.lists, kill: T.kill }));
+      check('t7_line_each_as_set', T.aLine && T.aLine.id === 'e' + T.eid && T.mLine && T.mLine.id === T.aLine.id && T.mLine.shown === T.mLine.of && T.voices.a >= 1 && T.voices.m === 0, JSON.stringify({ a: T.aLine, m: T.mLine, voices: T.voices, mAt: T.mAt, aAt: T.aAt }));
+      check('t7_phone_draws_the_skin', T.mSkin, String(T.mSkin));
+      check('t7_other_room_nothing', T.other.heard === 0 && !T.other.ss && T.other.views === 0 && !/(^|,)ss(,|$)/.test(T.other.keys), JSON.stringify(T.other));
+      check('t7_disconnect_goes_on', T.afterPhone.ss === 1, JSON.stringify(T.afterPhone));
+      check('t7_world_reset_clears', !T.afterReset.ss && T.afterReset.skinViews === 0 && T.afterReset.skins === 0 && T.afterReset.bubbles === 0 && /SKIN-STEALER · 0 IN THE HALLS/.test(T.tab), JSON.stringify({ reset: T.afterReset, tab: T.tab }));
+      check('t7_no_page_errors', !V.errs.length && !A.errs.length && !M.errs.length && !X.errs.length, JSON.stringify(T.errors));
+      await V.ctx.close(); await A.ctx.close(); await X.ctx.close();
     }
   } finally { await b.close(); try { process.kill(srv.pid); } catch (e) { } }
   R.cases = cases; R.ok = cases.length > 0 && cases.every(c => c.ok);
