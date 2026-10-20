@@ -2,17 +2,22 @@
  *
  * - Each section has a heading and a list of entries. A section with no entries is not shown, so you can keep empty
  *   ones ready and fill them in later.
- * - An entry is { name, note, url }: name is required; note (a role, or a line about them) and url (a link) are optional.
+ * - An entry is { name, note, url, accent }: name is required; note (a role, or a line about them), url (a link) and accent are
+ *   optional.  accent is a colour of the name's own: 'green' or 'purple' (the two lead developers'); any other value is ignored.
  * - A section can have a paragraph instead of (or as well as) entries: text: '...'. Links inside text use
  *   links: [{ label, url }], shown after the paragraph.
  * - Only list real people and real software. Nothing here is generated.
- * - The version the main menu shows in its bottom-right corner is package.json's: public/assets/version.js is built from it (pre-Trial 3
- *   polish P5), so it is not kept here.
+ * - The version the game shows (the main menu's corner, the end of this page) is package.json's: public/assets/version.js is built
+ *   from it (pre-Trial 3 polish P5), so it is not kept here.
+ * - Pre-Trial 3 polish P6: the two lead developers, each in their own colour; the attribution that sat in the main menu's corner
+ *   ("Level 0, the Hound and the Smilers are adapted from The Backrooms Wiki under CC BY-SA 3.0", its two links) lives here now,
+ *   in Source material, with every link it had and the four this page already had.
  */
 window.TFB_CREDITS = {
   sections: [
     { heading: 'Created by', entries: [
-      { name: 'RoYoshi', note: 'The Far Backrooms' },
+      { name: 'RoYoshi', note: 'Lead Developer, Programmer, Graphic Designer', accent: 'green' },
+      { name: 'Mariikyu', note: 'Lead Developer, Creative Director, Head of QA, Sound Designer', accent: 'purple' },
     ] },
     { heading: 'Design', entries: [] },
     { heading: 'Art', entries: [] },
@@ -20,9 +25,9 @@ window.TFB_CREDITS = {
     { heading: 'Playtesting', entries: [] },
     { heading: 'Special thanks', entries: [] },
     { heading: 'Source material',
-      text: 'Level 0 environment and entity behaviour are adapted from The Backrooms Wiki, used under the Creative Commons Attribution-ShareAlike 3.0 licence.',
+      text: 'Level 0, the Hound and the Smilers are adapted from The Backrooms Wiki: the Level 0 environment and the entities\' behaviour are based on its articles, with changes, and used under the Creative Commons Attribution-ShareAlike 3.0 licence (CC BY-SA 3.0).',
       links: [
-        { label: 'Level 0', url: 'https://backrooms-wiki.wikidot.com/level-0' },
+        { label: 'The Backrooms Wiki: Level 0', url: 'https://backrooms-wiki.wikidot.com/level-0' },
         { label: 'Hound', url: 'https://backrooms-wiki.wikidot.com/entity-8' },
         { label: 'Smilers', url: 'https://backrooms-wiki.wikidot.com/entity-3' },
         { label: 'CC BY-SA 3.0', url: 'https://creativecommons.org/licenses/by-sa/3.0/' },

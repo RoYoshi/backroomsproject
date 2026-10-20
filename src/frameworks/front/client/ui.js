@@ -822,10 +822,15 @@
     for (const s of D.sections || []) {
       const ents = (s.entries || []).filter(e => e && e.name), hasText = !!(s.text && String(s.text).trim()), links = (s.links || []).filter(l => l && l.url && l.label);
       if (!ents.length && !hasText) continue;                                // an empty section is not shown
+      // (pre-Trial 3 polish P6) a paragraph's links on their own line under it; a name's own colour: 'green' or 'purple', nothing else
+      const link = l => `<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)}</a>`;
+      const accent = e => e.accent === 'green' ? ' cr-green' : e.accent === 'purple' ? ' cr-purple' : '';
       out.push(`<section class="cr-sec"><h3>${esc(s.heading)}</h3>` +
-        (hasText ? `<p class="cr-text">${esc(s.text)}${links.length ? ' ' + links.map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)}</a>`).join(' / ') : ''}</p>` : '') +
-        ents.map(e => `<div class="cr-entry"><b>${e.url ? `<a href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">${esc(e.name)}</a>` : esc(e.name)}</b><span>${esc(e.note || '')}</span></div>`).join('') + '</section>');
+        (hasText ? `<p class="cr-text">${esc(s.text)}</p>${links.length ? `<p class="cr-links">${links.map(link).join(' / ')}</p>` : ''}` : '') +
+        ents.map(e => `<div class="cr-entry${accent(e)}"><b>${e.url ? link({ url: e.url, label: e.name }) : esc(e.name)}</b><span>${esc(e.note || '')}</span></div>`).join('') + '</section>');
     }
+    const V = window.TFB_VERSION && TFB_VERSION.display;                   // (P6) the version, as the menu shows it (assets/version.js)
+    if (out.length && V) out.push(`<p class="cr-fine">The Far Backrooms v${esc(V)}</p>`);
     creditsEl.querySelector('.us-body').innerHTML = out.join('') || '<p class="cr-text">No credits yet.</p>';
   }
 

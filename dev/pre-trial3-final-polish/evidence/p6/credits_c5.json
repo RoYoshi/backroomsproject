@@ -1,0 +1,177 @@
+{
+ "tool": "dev/pre-trial3-final-polish/tools/credits_check.js",
+ "dir": "/home/claude/chat-voice",
+ "ref": "/home/claude/chat-voice",
+ "chromium": "141.0.7390.37",
+ "cases": [
+  {
+   "name": "team",
+   "ok": false,
+   "detail": "[[\"RoYoshi\",\"The Far Backrooms\"]]"
+  },
+  {
+   "name": "accents",
+   "ok": false,
+   "detail": "{\"team\":[{\"n\":\"RoYoshi\",\"rgb\":[236,228,198],\"hue\":47,\"sat\":0.16,\"glow\":false,\"contrast\":14.64,\"ok\":false},{\"n\":\"Mariikyu\",\"ok\":false}],\"othersPlain\":true,\"othersColour\":[\"236,228,198\"]}"
+  },
+  {
+   "name": "sources",
+   "ok": false,
+   "detail": "{\"source\":\"Source materialLevel 0 environment and entity behaviour are adapted from The Backrooms Wiki, used under the Creative Commons Attribution-ShareAlike 3.0 licence. Level 0 / Hound / Smilers / CC BY-SA 3.0\",\"linksMissing\":[],\"unsafeLinks\":[],\"namesMissing\":[],\"links\":[\"https://backrooms-wiki.wikidot.com/level-0\",\"https://backrooms-wiki.wikidot.com/entity-8\",\"https://backrooms-wiki.wikidot.com/entity-3\",\"https://creativecommons.org/licenses/by-sa/3.0/\",\"https://pixijs.com/\",\"https://fonts.google.com/specimen/Barlow+Condensed\",\"https://fonts.google.com/specimen/IBM+Plex+Mono\"],\"reference\":\"/home/claude/chat-voice\"}"
+  },
+  {
+   "name": "version_line",
+   "ok": false,
+   "detail": "{\"cls\":\"cr-sec\",\"text\":\"TypefacesBarlow CondensedJeremy Tribby. SIL Open Font License 1.1.IBM Plex MonoIBM. SIL Open Font License 1.1.\"}"
+  },
+  {
+   "name": "accent_only_two",
+   "ok": true,
+   "detail": "[[\"Red one\",\"cr-entry\",\"236,228,198\",\"none\"],[\"Proto one\",\"cr-entry\",\"236,228,198\",\"none\"],[\"Method one\",\"cr-entry\",\"236,228,198\",\"none\"]]"
+  },
+  {
+   "name": "footer",
+   "ok": false,
+   "detail": "[{\"src\":true,\"wikiText\":true,\"wikiLinks\":[\"https://backrooms-wiki.wikidot.com/level-0\",\"https://creativecommons.org/licenses/by-sa/3.0/\"],\"ver\":\"v23.3.6\",\"right\":48,\"bottom\":48,\"shown\":true,\"size\":\"1920x1080\",\"ok\":false},{\"src\":true,\"wikiText\":true,\"wikiLinks\":[\"https://backrooms-wiki.wikidot.com/level-0\",\"https://creativecommons.org/licenses/by-sa/3.0/\"],\"ver\":\"v23.3.6\",\"right\":48,\"bottom\":48,\"shown\":true,\"size\":\"2560x1080\",\"ok\":false},{\"src\":true,\"wikiText\":true,\"wikiLinks\":[\"https://backrooms-wiki.wikidot.com/level-0\",\"https://creativecommons.org/licenses/by-sa/3.0/\"],\"ver\":\"v23.3.6\",\"right\":34.1,\"bottom\":34.1,\"shown\":true,\"size\":\"1366x768@1.5\",\"ok\":false},{\"src\":true,\"wikiText\":true,\"wikiLinks\":[\"https://backrooms-wiki.wikidot.com/level-0\",\"https://creativecommons.org/licenses/by-sa/3.0/\"],\"ver\":\"v23.3.6\",\"right\":16,\"bottom\":16,\"shown\":true,\"size\":\"390x844@3 touch\",\"ok\":false}]"
+  },
+  {
+   "name": "keyboard",
+   "ok": true,
+   "detail": "{\"links\":7,\"reached\":7,\"focusLeftThePage\":0,\"closed\":true,\"focusBack\":true,\"errors\":[]}"
+  },
+  {
+   "name": "phone",
+   "ok": false,
+   "detail": "{\"scrolls\":false,\"lastInView\":true,\"wide\":false,\"lastText\":\"TypefacesBarlow CondensedJeremy Tribby. SIL Open Font License 1.1.IBM Plex MonoIBM. SIL Open Font License 1.1.\"}"
+  }
+ ],
+ "reference": {
+  "links": [
+   "https://backrooms-wiki.wikidot.com/level-0",
+   "https://backrooms-wiki.wikidot.com/entity-8",
+   "https://backrooms-wiki.wikidot.com/entity-3",
+   "https://creativecommons.org/licenses/by-sa/3.0/",
+   "https://pixijs.com/",
+   "https://fonts.google.com/specimen/Barlow+Condensed",
+   "https://fonts.google.com/specimen/IBM+Plex+Mono"
+  ],
+  "names": [
+   "RoYoshi",
+   "PixiJS",
+   "Barlow Condensed",
+   "IBM Plex Mono"
+  ],
+  "corner": [
+   "https://backrooms-wiki.wikidot.com/level-0",
+   "https://creativecommons.org/licenses/by-sa/3.0/"
+  ],
+  "from": "/home/claude/chat-voice"
+ },
+ "page": {
+  "ents": [
+   {
+    "section": "Created by",
+    "name": "RoYoshi",
+    "note": "The Far Backrooms",
+    "cls": "cr-entry",
+    "rgb": [
+     236,
+     228,
+     198
+    ],
+    "shadow": "none",
+    "contrast": 14.64
+   },
+   {
+    "section": "Software",
+    "name": "PixiJS",
+    "note": "The 2D WebGL renderer (version 8.21.0, as bundled). MIT License.",
+    "cls": "cr-entry",
+    "rgb": [
+     236,
+     228,
+     198
+    ],
+    "shadow": "none",
+    "contrast": 14.64
+   },
+   {
+    "section": "Typefaces",
+    "name": "Barlow Condensed",
+    "note": "Jeremy Tribby. SIL Open Font License 1.1.",
+    "cls": "cr-entry",
+    "rgb": [
+     236,
+     228,
+     198
+    ],
+    "shadow": "none",
+    "contrast": 14.64
+   },
+   {
+    "section": "Typefaces",
+    "name": "IBM Plex Mono",
+    "note": "IBM. SIL Open Font License 1.1.",
+    "cls": "cr-entry",
+    "rgb": [
+     236,
+     228,
+     198
+    ],
+    "shadow": "none",
+    "contrast": 14.64
+   }
+  ],
+  "links": [
+   {
+    "href": "https://backrooms-wiki.wikidot.com/level-0",
+    "text": "Level 0",
+    "target": "_blank",
+    "rel": "noopener noreferrer"
+   },
+   {
+    "href": "https://backrooms-wiki.wikidot.com/entity-8",
+    "text": "Hound",
+    "target": "_blank",
+    "rel": "noopener noreferrer"
+   },
+   {
+    "href": "https://backrooms-wiki.wikidot.com/entity-3",
+    "text": "Smilers",
+    "target": "_blank",
+    "rel": "noopener noreferrer"
+   },
+   {
+    "href": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "text": "CC BY-SA 3.0",
+    "target": "_blank",
+    "rel": "noopener noreferrer"
+   },
+   {
+    "href": "https://pixijs.com/",
+    "text": "PixiJS",
+    "target": "_blank",
+    "rel": "noopener noreferrer"
+   },
+   {
+    "href": "https://fonts.google.com/specimen/Barlow+Condensed",
+    "text": "Barlow Condensed",
+    "target": "_blank",
+    "rel": "noopener noreferrer"
+   },
+   {
+    "href": "https://fonts.google.com/specimen/IBM+Plex+Mono",
+    "text": "IBM Plex Mono",
+    "target": "_blank",
+    "rel": "noopener noreferrer"
+   }
+  ],
+  "source": "Source materialLevel 0 environment and entity behaviour are adapted from The Backrooms Wiki, used under the Creative Commons Attribution-ShareAlike 3.0 licence. Level 0 / Hound / Smilers / CC BY-SA 3.0",
+  "last": {
+   "cls": "cr-sec",
+   "text": "TypefacesBarlow CondensedJeremy Tribby. SIL Open Font License 1.1.IBM Plex MonoIBM. SIL Open Font License 1.1."
+  },
+  "version": null
+ },
+ "ok": false
+}

@@ -1,0 +1,51 @@
+P6 - Credits: the two lead developers in their own colours; the main menu's corner attribution moved into Credits with every link
+(check: dev/pre-trial3-final-polish/tools/credits_check.js; headless Chromium; every passcode synthetic)
+
+On C5 (credits_c5.*: the check run against /home/claude/chat-voice = C5 63805e9): Credits -> Created by listed only "RoYoshi - The Far
+Backrooms" (no Mariikyu, no roles, no colours) and ended without the version; the main menu's corner, beside the version, carried
+"Level 0, the Hound and the Smilers are adapted from The Backrooms Wiki under CC BY-SA 3.0." with two links (the wiki's Level 0 page
+and the licence) at 9.5 px in every desktop layout (references/footer_attribution.png; menu_corner_c5_vs_p6.jpg).  Credits -> Source
+material already had the wiki's three pages and the licence.  credits_check on C5: FAIL 2 of 8 - team, accents, sources (no change
+indication in its text), version_line and footer fail as described; phone fails only because C5's shorter page does not scroll at
+390 x 844 (not a defect; P6's longer page must, and does).
+
+Spellings and roles: as the pack gives them - RoYoshi (Lead Developer, Programmer, Graphic Designer), Mariikyu (Lead Developer,
+Creative Director, Head of QA, Sound Designer).  The repository had no other spelling of either name to conflict with (RoYoshi is
+the GitHub owner; Mariikyu appears nowhere else).  The stylized form the pack mentions (subscript letters) is not used: owner decision
+in HUMAN_QA.md.  No link was invented for either developer.  Colours: no earlier hex for either exists in the repository, so neon
+green #5cff8a and neon purple #c58cff (Credits only; ui.css --cr-green / --cr-purple), each with a faint glow of its own colour -
+14.3:1 and 7.6:1 against the page; owner to judge the hues.
+
+Changed:
+- src/frameworks/front/client/credits_data.js -> public/assets/credits_data.js: Created by: RoYoshi (green), Mariikyu (purple), with
+  their roles; Source material: the corner's sentence merged with the page's own ("Level 0, the Hound and the Smilers are adapted from
+  The Backrooms Wiki: the Level 0 environment and the entities' behaviour are based on its articles, with changes, and used under the
+  Creative Commons Attribution-ShareAlike 3.0 licence (CC BY-SA 3.0).") - "with changes" says the material was changed, as the
+  licence asks of an adaptation; links: The Backrooms Wiki: Level 0 (the corner's "The Backrooms Wiki" link), Hound, Smilers, CC BY-SA
+  3.0 (the corner's licence link) - every link the corner and the page had, the same addresses.  Software (PixiJS, MIT) and Typefaces
+  (Barlow Condensed, IBM Plex Mono, OFL 1.1) unchanged.  An entry's accent is 'green' or 'purple'; anything else is ignored.
+- src/frameworks/front/client/ui.js -> public/assets/ui.js: Credits draws an entry's accent as a class (only the two values), a
+  paragraph's links on a line of their own under it, and a last line "The Far Backrooms v" + window.TFB_VERSION.display (P5's).
+- public/index.html: the corner's source paragraph removed (a comment says where it went); the version stays.
+- public/assets/ui.css: the corner keeps the version at the bottom right (justify-content flex-end; the source paragraph's rules
+  removed with it); Credits: the two colours with a glow, the links line.  No © notice existed anywhere to keep.
+- dev/tools/checks/menu_drift.js (the gate's menu step): C5d's footer links left out of the compared controls, text and Tab order,
+  and the footer paragraph put back by pageAsC5d (checked: P6's index.html mapped equals C5d's mapped, byte for byte).
+- dev/tools/gate/declared_changes.json: index.html, assets/ui.js, assets/ui.css, assets/credits_data.js noted.
+- Not changed: the pause screen's own small wiki credit line (#dialog .lore-credit) - not the main menu's corner, and not asked.
+
+Results:
+- credits_check.js on P6 (credits_p6.*, --ref C5): PASS 8 of 8 - team (names, roles, order); accents (RoYoshi hue 137, Mariikyu hue
+  270, both glowing, 14.3:1 and 7.6:1; every other name plain); accent_only_two ('red', '__proto__', 'toString' drawn plain); sources
+  (the text, the change indication, CC BY-SA 3.0; every link C5's Credits page and corner had, same addresses, new tab, noopener;
+  every name C5 listed); version_line; footer at 1920x1080, 2560x1080, 1366x768 and a 390x844 phone (no source credit or link left in
+  the menu; the version 48 / 48 / 34 / 16 px from the bottom-right corner, as on C5); keyboard (Credits opened with Enter, Tab reaches
+  all 7 links and stays in the page, Escape closes it with focus back on Credits); phone (the page scrolls to its last line, nothing
+  wider than the screen).
+- The gate (gate_p6.log): scope, docs, contracts, srv_golden, static, raw_live, page PASS; menu PASS - against C5d 11 of 11 checks at
+  four sizes (controls, text, Tab order, title, the logo and index.html - the corner credit mapped back exactly - the theme), its
+  mutants 8 of 8 caught (menu_drift.json).  This menu run also covers P5's index.html change.
+- npm run build:check PASS (43); docs PASS.
+- The external links were not opened from this workspace (it cannot reach those sites); their addresses are C5's own, unchanged.
+  Human QA: click each.
+Images: credits_c5_vs_p6.jpg, menu_corner_c5_vs_p6.jpg (C5 left, P6 right), credits_phone_end_p6.jpg.

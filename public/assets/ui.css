@@ -198,13 +198,9 @@ html.rm #menu.mm-intro.mm-go .mm-foot{animation:mmFade .18s ease .32s both!impor
 #mmSound[aria-pressed=false] .off{display:inline}
 #menu #mmSound[aria-pressed=false]{color:var(--u-mute)}
 
-/* the corner: the source credit and the version */
-.mm-foot{position:absolute;left:var(--sl);right:var(--sr);bottom:var(--sb);display:flex;align-items:flex-end;justify-content:space-between;gap:16px;pointer-events:none}
+/* the corner: the version (pre-Trial 3 polish P6: the source credit beside it moved to Credits -> Source material) */
+.mm-foot{position:absolute;left:var(--sl);right:var(--sr);bottom:var(--sb);display:flex;align-items:flex-end;justify-content:flex-end;gap:16px;pointer-events:none}
 .mm-foot>*{pointer-events:auto}
-.mm-src{margin:0;max-width:46ch;color:var(--u-moss-dim);font:400 9.5px/1.5 var(--u-mono)}
-.mm-src a{color:var(--u-moss);text-underline-offset:3px;white-space:nowrap}
-.mm-src a:hover{color:var(--u-cream)}
-.mm-src a:focus-visible{outline:2px solid var(--u-sick-hi);outline-offset:2px}
 .mm-ver{margin:0;flex:none;color:var(--u-moss-dim);font:500 11px/1 var(--u-mono);letter-spacing:.14em}
 
 /* PLAY opens the entry: Level 0, your name and light, ENTER LEVEL 0 (the game's own start) */
@@ -268,7 +264,6 @@ body.ui-menu>header,body.ui-menu .location,body.ui-menu .coordinates,body.ui-men
   .mm-conn p{display:none}
   .mm-dest{margin-bottom:8px}
   .mm-foot{left:auto;width:auto;bottom:var(--sb)}
-  .mm-src{display:none}
   .mm-ver{font-size:10px}
   .mm-entry{padding:16px 20px 10px;--ew:min(620px,calc(100vw - var(--sl) - var(--sr) - 40px))}
   #menu .mm-entry-head h2{font-size:26px}
@@ -305,7 +300,6 @@ body.ui-menu>header,body.ui-menu .location,body.ui-menu .coordinates,body.ui-men
   .mm-conn .mm-shared{display:block;padding:6px 16px 16px;color:var(--u-mute);font-size:11px}
   .mm-conn .mm-shared:empty{display:none}
   .mm-foot{left:auto;flex-direction:column;align-items:flex-end;gap:10px;max-width:min(320px,calc(50vw - var(--stw) / 2 - var(--edge) - 24px))}
-  .mm-src{text-align:right}
   .mm-ver{font-size:12px}
   .mm-entry{padding:28px 32px 18px}
   @media (hover:hover){
@@ -385,9 +379,15 @@ body.ui-menu>header,body.ui-menu .location,body.ui-menu .coordinates,body.ui-men
 .cr-entry{display:grid;grid-template-columns:minmax(150px,auto) 1fr;gap:4px 22px;padding:9px 0}
 .cr-entry b{color:var(--u-cream);font:600 21px/1.1 var(--u-display);letter-spacing:.05em}
 .cr-entry span{color:var(--u-text);font:400 12px/1.6 var(--u-mono)}
-.cr-entry a,.cr-text a{color:var(--u-sick-hi);text-underline-offset:3px}
-.cr-entry a:focus-visible,.cr-text a:focus-visible{outline:2px solid var(--u-sick-hi);outline-offset:2px}
+.cr-entry a,.cr-text a,.cr-links a{color:var(--u-sick-hi);text-underline-offset:3px}
+.cr-entry a:focus-visible,.cr-text a:focus-visible,.cr-links a:focus-visible{outline:2px solid var(--u-sick-hi);outline-offset:2px}
 .cr-text{margin:0;color:var(--u-text);font:400 12px/1.75 var(--u-mono);max-width:62ch}
+/* pre-Trial 3 polish P6: a paragraph's links on a line of their own; the two lead developers in their own colours (neon green: RoYoshi,
+   neon purple: Mariikyu - credits_data.js says which), lit with a faint glow of the same colour */
+.cr-links{margin:10px 0 0;color:var(--u-moss-dim);font:400 12px/1.9 var(--u-mono);max-width:62ch}
+.cr-sec{--cr-green:#5cff8a;--cr-purple:#c58cff}
+.cr-entry.cr-green b{color:var(--cr-green);text-shadow:0 0 14px #5cff8a59,0 0 2px #5cff8a80}
+.cr-entry.cr-purple b{color:var(--cr-purple);text-shadow:0 0 14px #c58cff59,0 0 2px #c58cff80}
 /* help (the menu's "i") */
 .hp-sec{margin:0 0 30px}
 .hp-sec h3{margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--u-line2);color:var(--u-moss);font:500 11px/1 var(--u-mono);letter-spacing:.08em}
