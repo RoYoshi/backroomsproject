@@ -36,8 +36,12 @@ function burst(len, v) {
   for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length) ** 1.5;
   const s = ac.createBufferSource(), g = ac.createGain(); g.gain.value = v; s.buffer = b; s.connect(g).connect(ac.destination); s.start();
 }
-new MutationObserver(() => { if (document.body.classList.contains('captured')) burst(1.1, .9); })
-  .observe(document.body, { attributes: true, attributeFilter: ['class'] });
+let capturedWas = false;                                      // (pre-Trial 3 polish P1: the burst once per capture, when `captured` arrives -
+new MutationObserver(() => {                                  // not again on every later change of the body's classes while caught)
+  const c = document.body.classList.contains('captured');
+  if (c && !capturedWas) burst(1.1, .9);
+  capturedWas = c;
+}).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
 /* online note on the pause screen */
 const pauseNote = document.querySelector('#dialog .lore-credit');

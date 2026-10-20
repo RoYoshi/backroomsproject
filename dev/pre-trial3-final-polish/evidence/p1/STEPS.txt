@@ -1,0 +1,33 @@
+P1 - one red impact at a capture; no bright scene-wide flashing near a monster (headless Chromium, SwiftShader, a fake audio
+output; every name and passcode synthetic; probe: dev/pre-trial3-final-polish/tools/vfx_probe.js)
+
+Reproduced on C5 (the probe against /home/claude/chat-voice at 63805e9; vfx_probe_c5.*):
+- Near a Hound (admin "near", then the player stood 200 px from it; world frozen, god mode), 40 s: the dread hook in core
+  (src/core/client/mp.frame.js, public/mp.js) set #light's opacity to .35-.75 on 5 of 119 frames (k > .35, chance k x .09 a frame).
+  BR-RoLE documents #light as THE DARKNESS OVERLAY, so each such frame lifted the darkness off the whole screen.  The same view
+  with #light held at .38 (the lowest seen on another run, .378) has mean brightness 42.7 against 11.5 as drawn - the rooms behind
+  the walls become visible (danger_c5_flicker_frame.jpg).  The heartbeat, the red vignette (#dread, up to .78) and the shake ran
+  on every frame: they are the intended effects and stay.
+- At a capture (admin "preview", a Hound, through the real kill path): no animation at all on #dread - Trial 4's ui.css sets
+  animation:none and a static .62 vignette; the bundle's 1.4 s white-to-red `flashout` and index.html's copy are both switched off.
+  No red impact (capture_held_frames.jpg, top left).
+- The capture burst (Spacious Audio, mp.dread.js: a MutationObserver on body's class) played 3 times for one capture (any later
+  class change while `captured` replayed it).
+
+Fixed (vfx_probe_p1.*: PASS 17 of 17; on C5 the same verdict: FAIL 9 of 17, exactly the cases above):
+- public/assets/ui.css: #light{opacity:1!important}.  The hook's inline flicker is still written (5 of 135 frames, lowest .466) but
+  never shown (0 of 135 frames below 1).  First tried in core itself (the hook writing 1): cli_golden then FAILED - every B++ client
+  scene that has a monster close differs (the flicker frames, and every random draw after them: the shake's offsets), see
+  cli_golden_hook_edit_FAIL/.  The stylesheet override leaves B++'s core byte for byte: cli_golden PASS (cli_golden_css_PASS/), and
+  nothing else sets #light's opacity (the bundle has no `opacity` at all; in src/ only that hook line).
+- ui.css: body.captured #dread keeps Trial 4's vignette (same colours and strength: the .62 is folded into the colours so the layer can
+  be opaque); a red layer (#dread::after) rises in 75 ms and fades over 1.25 s, ONCE (iterations 1): redness 4.1 -> 83.8 at 75 ms ->
+  24.2 at 500 ms -> back at 1300 ms; brightness at the peak 32 (red, not white).  Reduced motion: tfbCaptureRedCalm, 1.9 s, peak .5
+  (redness 43.7 at 500 ms, 6.0 at 75 ms: no sharp onset), back at 1900 ms - it outranks ui.css's global reduced-motion rule on
+  purpose (html.rm *::after{animation:none!important} had cancelled it in a first try: redness stayed flat).
+- src/frameworks/spacious-audio/client/mp.dread.js -> public/mp.js: the burst once per capture, when `captured` arrives (1 burst,
+  normal and reduced).  cli_golden: all 18 B++ client scenes unchanged with it.
+- The held frames hide the "It found you." dialog, which comes up only after the death animation (after the impact).
+
+Checks: npm run build:check PASS; the fast tier on P1's final code: see gate_fast_p1.log (21 steps).
+NOT RUN: a real GPU, real speakers, a real Hound chase with a person watching (Human QA).

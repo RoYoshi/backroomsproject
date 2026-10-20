@@ -972,13 +972,32 @@ body:not(.hud-nocoords) .chat-icon{bottom:74px}
 .rgb-channel:focus-within{color:#f3e7a7}
 
 /* Trial 4: no photosensitive full-screen white/red capture pulse, even when reduced motion is switched off.
- * This stylesheet is the maintained FRONT presentation source for capture overlay styling. */
+ * This stylesheet is the maintained FRONT presentation source for capture overlay styling.
+ * Pre-Trial 3 polish P1 (the owner's request): ONE red impact at a capture, never white and never repeated.  The bundle's white-first
+ * `flashout` (and index.html's copy of it) stay switched off.  A red layer over the scene (#dread::after, above the darkness) rises in
+ * about 75 ms and fades over a second, once - it runs when body gets `captured`, and again only at the next capture.  What stays is
+ * Trial 4's dim vignette, unchanged: the same colours at the same strength (its .62 opacity is now folded into the colours, so the
+ * red layer above it can reach full strength).  Reduced motion: a softer red that rises and fades slowly, with no sharp onset. */
 body.captured #dread{
   animation:none!important;
-  opacity:.62!important;
-  background:radial-gradient(ellipse at center,transparent 24%,rgba(38,6,8,.27) 63%,rgba(6,2,3,.78) 100%)!important;
+  opacity:1!important;
+  background:radial-gradient(ellipse at center,transparent 24%,rgba(38,6,8,.1674) 63%,rgba(6,2,3,.4836) 100%)!important;
 }
 html.rm body.captured #dread{animation:none!important}
+/* Pre-Trial 3 polish P1: #light - the darkness overlay BR-RoLE lights through - always at full opacity.  Near a monster the dread hook in
+ * B++'s core (public/mp.js) still writes a random flicker (.35-.75) into #light's inline style on some frames, as B++ always has; at
+ * those frames the darkness was lifted off the whole screen - the bright scene-wide flash, which also showed what lies behind walls.
+ * This rule outranks that inline value, so nothing changes in B++'s client code or its golden traces and the flash never shows.  Nothing
+ * else sets #light's opacity.  The heartbeat, the drone, the red vignette (#dread), the shake and the stings are untouched. */
+#light{opacity:1!important}
+body.captured #dread::after{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:radial-gradient(ellipse at center,rgba(150,10,8,.6) 0%,rgba(122,6,6,.78) 55%,rgba(58,0,0,.92) 100%);
+  animation:tfbCaptureRed 1.25s cubic-bezier(.25,.6,.35,1) 1 both;
+}
+@keyframes tfbCaptureRed{0%{opacity:0}6%{opacity:1}100%{opacity:0}}
+html.rm body.captured #dread::after{animation:tfbCaptureRedCalm 1.9s ease-in-out 1 both!important}   /* (outranks the reduced-motion rule at the top, on purpose: a slow fade, no movement) */
+@keyframes tfbCaptureRedCalm{0%{opacity:0}28%{opacity:.5}100%{opacity:0}}
 
 /* Trial 4: photosensitivity review of inherited effect timelines.
  * These defaults do not depend on user reduced-motion preferences:

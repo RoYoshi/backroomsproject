@@ -1,0 +1,29 @@
+$ node dev/tools/gate/golden/cli_golden.js --old-ref 143b63ff42b88c6780c5043e0f61d64100f81f40 --baseline /home/claude/final-polish/dev/stage-3h/evidence/h1/golden/cli_traces --out /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/fp/p1/gate_cli/cli --keep /tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/fp/p1/gate_cli/cli_keep
+PASS load: old 20 entries 1dd9e3b9f038 (166 ms) | new 20 entries 1dd9e3b9f038 (128 ms) | identical | baseline same
+PASS menu_online: old 1844 entries 7c17bb5dce53 (151 ms) | new 1844 entries 7c17bb5dce53 (189 ms) | identical | baseline same
+FAIL run_online: old 7413 entries d61f90bf0c38 (269 ms) | new 7413 entries 3bd1d95e016b (222 ms) | DIFFERENT | baseline DIFFERENT
+   first difference at entry 3156
+   old: [3999.999999999987,"dom","0.628861","translate(-0.356966px, -1.04223px)","1","ONLINE · ROOM H0 ROOM · 2 WANDERERS · SHARED MONSTERS","none","","","",false,""]
+   new: [3999.999999999987,"dom","0.628861","translate(-1.27809px, 0.977674px)","1","ONLINE · ROOM H0 ROOM · 2 WANDERERS · SHARED MONSTERS","none","","","",false,""]
+FAIL interp: old 11483 entries 7eb8f6d25d57 (302 ms) | new 11483 entries d03a779cc1fb (294 ms) | DIFFERENT | baseline DIFFERENT
+   first difference at entry 378
+   old: [1499.6666666666667,"dom","0.601553","translate(-0.372542px, -0.840521px)","1","ONLINE · ROOM H0 ROOM · 1 WANDERER · SHARED MONSTERS","none","","","",false,""]
+   new: [1499.6666666666667,"dom","0.601553","translate(0.278535px, -1.21668px)","1","ONLINE · ROOM H0 ROOM · 1 WANDERER · SHARED MONSTERS","none","","","",false,""]
+FAIL fx_bodies: old 22762 entries f41b0dbe275e (376 ms) | new 22762 entries d41c0cff8308 (459 ms) | DIFFERENT | baseline DIFFERENT
+   first difference at entry 2484
+   old: [2450.000000000001,"dom","0.371601","","0.421963","ONLINE · ROOM H0 ROOM · 5 WANDERERS · SHARED MONSTERS","none","","","",false,""]
+   new: [2450.000000000001,"dom","0.371601","","1","ONLINE · ROOM H0 ROOM · 5 WANDERERS · SHARED MONSTERS","none","","","",false,""]
+FAIL facade: old 1164 entries 6c709388b64a (158 ms) | new 1164 entries b70459823037 (132 ms) | DIFFERENT | baseline DIFFERENT
+   first difference at entry 404
+   old: [1550.0000000000016,"dom","0.532736","translate(-0.357999px, -1.04524px)","1","ONLINE · ROOM H0 ROOM · 3 WANDERERS · SHARED MONSTERS","none","","","",false,""]
+   new: [1550.0000000000016,"dom","0.532736","translate(-1.28179px, 0.980504px)","1","ONLINE · ROOM H0 ROOM · 3 WANDERERS · SHARED MONSTERS","none","","","",false,""]
+FAIL admin: old 1333 entries 90c1239bb505 (357 ms) | new 1333 entries f566e9d88e4e (374 ms) | DIFFERENT | baseline DIFFERENT
+   first difference at entry 1131
+   old: [11379.999999999989,"dom","0.394945","","0.421963","ONLINE · ROOM H0 ROOM · 1 WANDERER · SHARED MONSTERS · ADMIN","none","","","",false,""]
+   new: [11379.999999999989,"dom","0.394945","","1","ONLINE · ROOM H0 ROOM · 1 WANDERER · SHARED MONSTERS · ADMIN","none","","","",false,""]
+PASS reconnect_solo: old 739 entries 8c3a6b38b816 (165 ms) | new 739 entries 8c3a6b38b816 (190 ms) | identical | baseline same
+FAIL hum_dread: old 4876 entries 116637e7f617 (232 ms) | new 4912 entries 4f27a13a1326 (236 ms) | DIFFERENT | baseline DIFFERENT
+   first difference at entry 3318
+   old: [7900.0000000000555,"dom","0.423259","","0.609602","CONNECTING…","none","","","",true,""]
+   new: [7900.0000000000555,"dom","0.423259","","1","CONNECTING…","none","","","",true,""]
+client golden traces: DIFFERENCES FOUND

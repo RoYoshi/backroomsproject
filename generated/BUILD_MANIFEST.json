@@ -496,8 +496,8 @@
   },
   {
    "out": "public/mp.js",
-   "bytes": 101201,
-   "sha256": "f4cb826bcddf01bef89ad9523ecd810816447571c80251c5841cda3142d986cc",
+   "bytes": 101497,
+   "sha256": "0334def95956170187f1a136498e2a90a913d3db62c6a5e974aa12b24d37e120",
    "parts": [
     {
      "path": "src/core/client/mp.js",
@@ -531,7 +531,7 @@
     },
     {
      "path": "src/frameworks/spacious-audio/client/mp.dread.js",
-     "sha256": "ab7ea280ffc668971f6e0e3d45abdfd1c6fbcaaf5bc75c9e586b9c20834f4f5a",
+     "sha256": "cdd39f31c42156570fc1877010473265fbed45a5009007f7af0a4890d974edcc",
      "headerBytes": 556
     },
     {

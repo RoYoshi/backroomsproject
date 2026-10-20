@@ -1,0 +1,46 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "fast",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "7dbeda83d79d08617695f8ec6f268c32325daaa6",
+ "startedAt": "2026-10-20T00:13:10.350Z",
+ "out": "/tmp/claude-0/-home-claude/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/fp/p1/gate_cli2",
+ "steps": {
+  "build": {
+   "ok": true,
+   "cases": 42,
+   "note": "BUILD CHECK: PASS (42 outputs and the manifest are what src/ builds)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "parts": {
+   "ok": true,
+   "cases": 55,
+   "note": "8 outputs built from parts; every header agrees with the code (TypeScript 6.0.3)",
+   "exit": 0,
+   "seconds": 3
+  },
+  "modules": {
+   "ok": true,
+   "cases": 61,
+   "note": "29 server files, 23 factories; the sim: 10 modules, wired in order; the page: 6 scripts, 32 modules (TypeScript 6.0.3)",
+   "exit": 0,
+   "seconds": 2
+  },
+  "cli_golden": {
+   "ok": true,
+   "cases": 30,
+   "note": "B++ client scenes 3; all 18 scenes in one page, running 232 of mp.js's 233 functions",
+   "exit": 0,
+   "seconds": 15
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-20T00:13:30.491Z",
+ "removed": [
+  "cli_keep",
+  "cli_h2_keep",
+  "cli_c3c_keep"
+ ]
+}

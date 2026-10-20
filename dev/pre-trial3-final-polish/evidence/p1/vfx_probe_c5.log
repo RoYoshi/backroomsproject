@@ -1,0 +1,21 @@
+ok   danger_monster_close - the red vignette reached 0.340323
+FAIL danger_no_scene_lightening - #light shown below full opacity on 5 of 119 frames (lowest 0.352847); the dread hook's own flicker written into its inline style on 5 of them (lowest 0.352847)
+ok   danger_keeps_shake - 119 of 119 frames shaken
+ok   danger_keeps_vignette - vignette up to 0.778953
+ok   danger_keeps_heartbeat - 108 heartbeat oscillators in 40 s
+ok   capture_happened - normal true, reduced true
+FAIL capture_one_red_animation - []
+FAIL capture_red_impact - redness 4.11 -> 4.11 at 75 ms
+FAIL capture_red_not_white - at its peak: redness 4.11, brightness 3.08
+ok   capture_fades_once - redness 4.11 at 500 ms, 4.11 at 1300 ms, 4.11 at 1900 ms
+FAIL capture_one_burst - 3 capture bursts
+FAIL reduced_calm_red_animation - rm true; []
+ok   reduced_no_sharp_onset - redness 4.11 -> 4.11 at 75 ms
+FAIL reduced_softer_but_seen - redness 4.11 at 500 ms, highest 4.11 (normal 4.11)
+ok   reduced_fades_once - redness 4.11 at 1900 ms
+FAIL reduced_one_burst - 3 capture bursts
+ok   no_page_errors - []
+VFX PROBE: FAIL - 9 of 17 cases
+danger {"dreadReached":0.340323,"frames":119,"fps":2.98,"lightBelow1Frames":5,"lightMin":0.352847,"flickerWrites":5,"flickerInlineMin":0.352847,"dreadInlineMax":0.778953,"shakeFrames":119,"heartbeatOscillators":108,"brightMedian":10.17,"brightMax":24.46,"brightOver130pct":1,"look":{"asDrawn":{"bright":11.28,"red":24.19},"light038":{"bright":37.91,"red":38.55},"light075":{"bright":21.35,"red":30.64}}}
+capture {"captured":true,"rm":false,"frames":8,"bursts":3,"anims":[],"held":[{"ms":0,"anims":0,"bright":3.08,"red":4.11},{"ms":75,"anims":0,"bright":3.08,"red":4.11},{"ms":250,"anims":0,"bright":3.08,"red":4.11},{"ms":500,"anims":0,"bright":3.08,"red":4.11},{"ms":900,"anims":0,"bright":3.08,"red":4.11},{"ms":1300,"anims":0,"bright":3.08,"red":4.11},{"ms":1900,"anims":0,"bright":3.08,"red":4.11}],"redPeak":17.97,"redPeakAt":890,"redLast":17.97}
+captureReduced {"captured":true,"rm":true,"frames":11,"bursts":3,"anims":[],"held":[{"ms":0,"anims":0,"bright":3.08,"red":4.11},{"ms":75,"anims":0,"bright":3.08,"red":4.11},{"ms":250,"anims":0,"bright":3.08,"red":4.11},{"ms":500,"anims":0,"bright":3.08,"red":4.11},{"ms":900,"anims":0,"bright":3.08,"red":4.11},{"ms":1300,"anims":0,"bright":3.08,"red":4.11},{"ms":1900,"anims":0,"bright":3.08,"red":4.11}],"redPeak":9.19,"redPeakAt":507,"redLast":9.19}

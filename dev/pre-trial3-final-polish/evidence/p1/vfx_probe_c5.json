@@ -1,0 +1,606 @@
+{
+ "tool": "dev/pre-trial3-final-polish/tools/vfx_probe.js",
+ "dir": "/home/claude/chat-voice",
+ "chromium": "141.0.7390.37",
+ "seconds": 40,
+ "dangerStand": {
+  "x": 4688,
+  "y": 5784,
+  "r": 200
+ },
+ "dangerSetup": {
+  "replies": [
+   "{\"t\":\"admin\",\"ok\":true,\"q\":1}",
+   "{\"t\":\"ares\",\"ok\":true,\"msg\":\"WORLD FROZEN\"}",
+   "{\"t\":\"ares\",\"ok\":true,\"msg\":\"GOD MODE ON · PROBE\"}",
+   "{\"t\":\"ares\",\"ok\":true,\"msg\":\"HOUND PLACED NEAR YOU\"}"
+  ],
+  "houndDist": 200
+ },
+ "danger": {
+  "dreadReached": 0.340323,
+  "frames": 119,
+  "fps": 2.98,
+  "lightBelow1Frames": 5,
+  "lightMin": 0.352847,
+  "flickerWrites": 5,
+  "flickerInlineMin": 0.352847,
+  "dreadInlineMax": 0.778953,
+  "shakeFrames": 119,
+  "heartbeatOscillators": 108,
+  "shots": 17,
+  "brightMedian": 10.17,
+  "brightMax": 24.46,
+  "brightOver130pct": 1,
+  "look": {
+   "asDrawn": {
+    "bright": 11.28,
+    "red": 24.19
+   },
+   "light038": {
+    "bright": 37.91,
+    "red": 38.55
+   },
+   "light075": {
+    "bright": 21.35,
+    "red": 30.64
+   }
+  },
+  "shotsRaw": [
+   {
+    "bright": 8.89,
+    "red": 17.16,
+    "t": 21754
+   },
+   {
+    "bright": 8.92,
+    "red": 14.76,
+    "t": 24106
+   },
+   {
+    "bright": 9.54,
+    "red": 16.39,
+    "t": 26409
+   },
+   {
+    "bright": 9.51,
+    "red": 16.68,
+    "t": 28606
+   },
+   {
+    "bright": 8.61,
+    "red": 14.5,
+    "t": 31114
+   },
+   {
+    "bright": 11.25,
+    "red": 24.41,
+    "t": 33358
+   },
+   {
+    "bright": 11.61,
+    "red": 24.88,
+    "t": 35916
+   },
+   {
+    "bright": 10.44,
+    "red": 21.04,
+    "t": 38322
+   },
+   {
+    "bright": 10.23,
+    "red": 19.97,
+    "t": 40526
+   },
+   {
+    "bright": 11.35,
+    "red": 24.8,
+    "t": 42882
+   },
+   {
+    "bright": 11.15,
+    "red": 24.3,
+    "t": 45250
+   },
+   {
+    "bright": 10.17,
+    "red": 19.58,
+    "t": 47548
+   },
+   {
+    "bright": 9.19,
+    "red": 14.72,
+    "t": 49803
+   },
+   {
+    "bright": 24.46,
+    "red": 32.63,
+    "t": 52076
+   },
+   {
+    "bright": 9.53,
+    "red": 16.89,
+    "t": 54626
+   },
+   {
+    "bright": 11.07,
+    "red": 24.68,
+    "t": 57093
+   },
+   {
+    "bright": 9.79,
+    "red": 17.69,
+    "t": 59847
+   }
+  ],
+  "errors": []
+ },
+ "capture": {
+  "captured": true,
+  "rm": false,
+  "frames": 8,
+  "bursts": 3,
+  "anims": [],
+  "held": [
+   {
+    "ms": 0,
+    "anims": 0,
+    "bright": 3.08,
+    "red": 4.11
+   },
+   {
+    "ms": 75,
+    "anims": 0,
+    "bright": 3.08,
+    "red": 4.11
+   },
+   {
+    "ms": 250,
+    "anims": 0,
+    "bright": 3.08,
+    "red": 4.11
+   },
+   {
+    "ms": 500,
+    "anims": 0,
+    "bright": 3.08,
+    "red": 4.11
+   },
+   {
+    "ms": 900,
+    "anims": 0,
+    "bright": 3.08,
+    "red": 4.11
+   },
+   {
+    "ms": 1300,
+    "anims": 0,
+    "bright": 3.08,
+    "red": 4.11
+   },
+   {
+    "ms": 1900,
+    "anims": 0,
+    "bright": 3.08,
+    "red": 4.11
+   }
+  ],
+  "first": [
+   {
+    "t": 72,
+    "light": 1,
+    "lightInline": 1,
+    "dreadInline": 0,
+    "op": 0,
+    "bg": "rgba(0, 0, 0, 0)",
+    "img": "radial-gradient(rgba(0, 0, 0, 0) 25%, rgb(51, 0, 0) 70%, rgb",
+    "anim": "none",
+    "aOp": null,
+    "aBg": null,
+    "shake": false,
+    "osc": 15
+   },
+   {
+    "t": 424,
+    "light": 1,
+    "lightInline": 1,
+    "dreadInline": 0,
+    "op": 0,
+    "bg": "rgba(0, 0, 0, 0)",
+    "img": "radial-gradient(rgba(0, 0, 0, 0) 25%, rgb(51, 0, 0) 70%, rgb",
+    "anim": "none",
+    "aOp": null,
+    "aBg": null,
+    "shake": false,
+    "osc": 15
+   },
+   {
+    "t": 0,
+    "light": 1,
+    "lightInline": 1,
+    "dreadInline": 0,
+    "op": 0.62,
+    "bg": "rgba(0, 0, 0, 0)",
+    "img": "radial-gradient(rgba(0, 0, 0, 0) 24%, rgba(38, 6, 8, 0.27) 6",
+    "anim": "none",
+    "aOp": null,
+    "aBg": null,
+    "shake": false,
+    "osc": 40
+   },
+   {
+    "t": 538,
+    "light": 1,
+    "lightInline": 1,
+    "dreadInline": 0,
+    "op": 0.62,
+    "bg": "rgba(0, 0, 0, 0)",
+    "img": "radial-gradient(rgba(0, 0, 0, 0) 24%, rgba(38, 6, 8, 0.27) 6",
+    "anim": "none",
+    "aOp": null,
+    "aBg": null,
+    "shake": false,
+    "osc": 40
+   },
+   {
+    "t": 948,
+    "light": 1,
+    "lightInline": 1,
+    "dreadInline": 0,
+    "op": 0.62,
+    "bg": "rgba(0, 0, 0, 0)",
+    "img": "radial-gradient(rgba(0, 0, 0, 0) 24%, rgba(38, 6, 8, 0.27) 6",
+    "anim": "none",
+    "aOp": null,
+    "aBg": null,
+    "shake": false,
+    "osc": 40
+   },
+   {
+    "t": 1403,
+    "light": 1,
+    "lightInline": 1,
+    "dreadInline": 0,
+    "op": 0.62,
+    "bg": "rgba(0, 0, 0, 0)",
+    "img": "radial-gradient(rgba(0, 0, 0, 0) 24%, rgba(38, 6, 8, 0.27) 6",
+    "anim": "none",
+    "aOp": null,
+    "aBg": null,
+    "shake": false,
+    "osc": 41
+   }
+  ],
+  "at500": {
+   "t": 538,
+   "light": 1,
+   "lightInline": 1,
+   "dreadInline": 0,
+   "op": 0.62,
+   "bg": "rgba(0, 0, 0, 0)",
+   "img": "radial-gradient(rgba(0, 0, 0, 0) 24%, rgba(38, 6, 8, 0.27) 6",
+   "anim": "none",
+   "aOp": null,
+   "aBg": null,
+   "shake": false,
+   "osc": 40
+  },
+  "at1500": {
+   "t": 1808,
+   "light": 1,
+   "lightInline": 1,
+   "dreadInline": 0,
+   "op": 0.62,
+   "bg": "rgba(0, 0, 0, 0)",
+   "img": "radial-gradient(rgba(0, 0, 0, 0) 24%, rgba(38, 6, 8, 0.27) 6",
+   "anim": "none",
+   "aOp": null,
+   "aBg": null,
+   "shake": false,
+   "osc": 41
+  },
+  "last": {
+   "t": 2312,
+   "light": 1,
+   "lightInline": 1,
+   "dreadInline": 0,
+   "op": 0.62,
+   "bg": "rgba(0, 0, 0, 0)",
+   "img": "radial-gradient(rgba(0, 0, 0, 0) 24%, rgba(38, 6, 8, 0.27) 6",
+   "anim": "none",
+   "aOp": null,
+   "aBg": null,
+   "shake": false,
+   "osc": 41
+  },
+  "shots": [
+   {
+    "t": 890,
+    "bright": 32.68,
+    "red": 17.97
+   }
+  ],
+  "redPeak": 17.97,
+  "redPeakAt": 890,
+  "redLast": 17.97,
+  "errors": []
+ },
+ "captureReduced": {
+  "captured": true,
+  "rm": true,
+  "frames": 11,
+  "bursts": 3,
+  "anims": [],
+  "held": [
+   {
+    "ms": 0,
+    "anims": 0,
+    "bright": 3.08,
+    "red": 4.11
+   },
+   {
+    "ms": 75,
+    "anims": 0,
+    "bright": 3.08,
+    "red": 4.11
+   },
+   {
+    "ms": 250,
+    "anims": 0,
+    "bright": 3.08,
+    "red": 4.11
+   },
+   {
+    "ms": 500,
+    "anims": 0,
+    "bright": 3.08,
+    "red": 4.11
+   },
+   {
+    "ms": 900,
+    "anims": 0,
+    "bright": 3.08,
+    "red": 4.11
+   },
+   {
+    "ms": 1300,
+    "anims": 0,
+    "bright": 3.08,
+    "red": 4.11
+   },
+   {
+    "ms": 1900,
+    "anims": 0,
+    "bright": 3.08,
+    "red": 4.11
+   }
+  ],
+  "first": [
+   {
+    "t": 58,
+    "light": 1,
+    "lightInline": 1,
+    "dreadInline": 0,
+    "op": 0,
+    "bg": "rgba(0, 0, 0, 0)",
+    "img": "radial-gradient(rgba(0, 0, 0, 0) 25%, rgb(51, 0, 0) 70%, rgb",
+    "anim": "none",
+    "aOp": null,
+    "aBg": null,
+    "shake": false,
+    "osc": 13
+   },
+   {
+    "t": 294,
+    "light": 1,
+    "lightInline": 1,
+    "dreadInline": 0,
+    "op": 0,
+    "bg": "rgba(0, 0, 0, 0)",
+    "img": "radial-gradient(rgba(0, 0, 0, 0) 25%, rgb(51, 0, 0) 70%, rgb",
+    "anim": "none",
+    "aOp": null,
+    "aBg": null,
+    "shake": false,
+    "osc": 13
+   },
+   {
+    "t": 0,
+    "light": 1,
+    "lightInline": 1,
+    "dreadInline": 0,
+    "op": 0,
+    "bg": "rgba(0, 0, 0, 0)",
+    "img": "radial-gradient(rgba(0, 0, 0, 0) 24%, rgba(38, 6, 8, 0.27) 6",
+    "anim": "none",
+    "aOp": null,
+    "aBg": null,
+    "shake": false,
+    "osc": 36
+   },
+   {
+    "t": 271,
+    "light": 1,
+    "lightInline": 1,
+    "dreadInline": 0,
+    "op": 0,
+    "bg": "rgba(0, 0, 0, 0)",
+    "img": "radial-gradient(rgba(0, 0, 0, 0) 24%, rgba(38, 6, 8, 0.27) 6",
+    "anim": "none",
+    "aOp": null,
+    "aBg": null,
+    "shake": false,
+    "osc": 36
+   },
+   {
+    "t": 560,
+    "light": 1,
+    "lightInline": 1,
+    "dreadInline": 0,
+    "op": 0.62,
+    "bg": "rgba(0, 0, 0, 0)",
+    "img": "radial-gradient(rgba(0, 0, 0, 0) 24%, rgba(38, 6, 8, 0.27) 6",
+    "anim": "none",
+    "aOp": null,
+    "aBg": null,
+    "shake": false,
+    "osc": 36
+   },
+   {
+    "t": 870,
+    "light": 1,
+    "lightInline": 1,
+    "dreadInline": 0,
+    "op": 0.62,
+    "bg": "rgba(0, 0, 0, 0)",
+    "img": "radial-gradient(rgba(0, 0, 0, 0) 24%, rgba(38, 6, 8, 0.27) 6",
+    "anim": "none",
+    "aOp": null,
+    "aBg": null,
+    "shake": false,
+    "osc": 38
+   }
+  ],
+  "at500": {
+   "t": 560,
+   "light": 1,
+   "lightInline": 1,
+   "dreadInline": 0,
+   "op": 0.62,
+   "bg": "rgba(0, 0, 0, 0)",
+   "img": "radial-gradient(rgba(0, 0, 0, 0) 24%, rgba(38, 6, 8, 0.27) 6",
+   "anim": "none",
+   "aOp": null,
+   "aBg": null,
+   "shake": false,
+   "osc": 36
+  },
+  "at1500": {
+   "t": 1506,
+   "light": 1,
+   "lightInline": 1,
+   "dreadInline": 0,
+   "op": 0.62,
+   "bg": "rgba(0, 0, 0, 0)",
+   "img": "radial-gradient(rgba(0, 0, 0, 0) 24%, rgba(38, 6, 8, 0.27) 6",
+   "anim": "none",
+   "aOp": null,
+   "aBg": null,
+   "shake": false,
+   "osc": 39
+  },
+  "last": {
+   "t": 2516,
+   "light": 1,
+   "lightInline": 1,
+   "dreadInline": 0,
+   "op": 0.62,
+   "bg": "rgba(0, 0, 0, 0)",
+   "img": "radial-gradient(rgba(0, 0, 0, 0) 24%, rgba(38, 6, 8, 0.27) 6",
+   "anim": "none",
+   "aOp": null,
+   "aBg": null,
+   "shake": false,
+   "osc": 39
+  },
+  "shots": [
+   {
+    "t": 507,
+    "bright": 13.92,
+    "red": 9.19
+   }
+  ],
+  "redPeak": 9.19,
+  "redPeakAt": 507,
+  "redLast": 9.19,
+  "errors": []
+ },
+ "cases": [
+  {
+   "name": "danger_monster_close",
+   "ok": true,
+   "detail": "the red vignette reached 0.340323"
+  },
+  {
+   "name": "danger_no_scene_lightening",
+   "ok": false,
+   "detail": "#light shown below full opacity on 5 of 119 frames (lowest 0.352847); the dread hook's own flicker written into its inline style on 5 of them (lowest 0.352847)"
+  },
+  {
+   "name": "danger_keeps_shake",
+   "ok": true,
+   "detail": "119 of 119 frames shaken"
+  },
+  {
+   "name": "danger_keeps_vignette",
+   "ok": true,
+   "detail": "vignette up to 0.778953"
+  },
+  {
+   "name": "danger_keeps_heartbeat",
+   "ok": true,
+   "detail": "108 heartbeat oscillators in 40 s"
+  },
+  {
+   "name": "capture_happened",
+   "ok": true,
+   "detail": "normal true, reduced true"
+  },
+  {
+   "name": "capture_one_red_animation",
+   "ok": false,
+   "detail": "[]"
+  },
+  {
+   "name": "capture_red_impact",
+   "ok": false,
+   "detail": "redness 4.11 -> 4.11 at 75 ms"
+  },
+  {
+   "name": "capture_red_not_white",
+   "ok": false,
+   "detail": "at its peak: redness 4.11, brightness 3.08"
+  },
+  {
+   "name": "capture_fades_once",
+   "ok": true,
+   "detail": "redness 4.11 at 500 ms, 4.11 at 1300 ms, 4.11 at 1900 ms"
+  },
+  {
+   "name": "capture_one_burst",
+   "ok": false,
+   "detail": "3 capture bursts"
+  },
+  {
+   "name": "reduced_calm_red_animation",
+   "ok": false,
+   "detail": "rm true; []"
+  },
+  {
+   "name": "reduced_no_sharp_onset",
+   "ok": true,
+   "detail": "redness 4.11 -> 4.11 at 75 ms"
+  },
+  {
+   "name": "reduced_softer_but_seen",
+   "ok": false,
+   "detail": "redness 4.11 at 500 ms, highest 4.11 (normal 4.11)"
+  },
+  {
+   "name": "reduced_fades_once",
+   "ok": true,
+   "detail": "redness 4.11 at 1900 ms"
+  },
+  {
+   "name": "reduced_one_burst",
+   "ok": false,
+   "detail": "3 capture bursts"
+  },
+  {
+   "name": "no_page_errors",
+   "ok": true,
+   "detail": "[]"
+  }
+ ],
+ "ok": false
+}
