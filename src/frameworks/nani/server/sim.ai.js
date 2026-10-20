@@ -20,7 +20,9 @@ const RND=AI.mkRng(SIM_SEED);
    L.O.S.T.'s src/frameworks/lost/shared/level0.json (its anchor cell), given with the level; it was written here as {x:1056,y:3264} */
 // Shipped/director population remains intentionally small.  Human-QA/stress tools get a much higher ceiling without silently changing normal balance.
 const DIRECTOR_MAX_HOUNDS=3,ADMIN_MAX_HOUNDS=64,ADMIN_MAX_SMILERS=64,MAX_BODIES=24;
-const adminCap=k=>k===`hound`?ADMIN_MAX_HOUNDS:ADMIN_MAX_SMILERS;
+// Trial 3: the Skin-Stealer is admin-only (the world reset and the director never make one); its own small test ceiling
+const ADMIN_MAX_SKINSTEALERS=4;
+const adminCap=k=>k===`hound`?ADMIN_MAX_HOUNDS:k===`skinstealer`?ADMIN_MAX_SKINSTEALERS:ADMIN_MAX_SMILERS;
 const rnd=(a,b)=>a+RND()*(b-a);
 const SNn=WORLD.SN;
 const isAlive=p=>p.active&&!p.dead&&!p.exited&&p.safe<=0&&!p.god;
@@ -71,7 +73,7 @@ function newSmiler(minSpawn=1700,awayFrom=[]){const av=awayFrom.concat(ents());c
  * test ceiling impossible to reach.  Stress spawns stay well away from live players and on reachable floor while allowing monsters to pack
  * closer together.  This is deliberately NOT used by ordinary world spawning. */
 function adminStressSpot(kind){
-  const pl=alive(),es=ents(),playerSep=kind===`hound`?900:850,entitySep=kind===`hound`?260:220,dark=kind===`smiler`;
+  const sk=kind===`skinstealer`,pl=alive(),es=ents(),playerSep=kind===`hound`?900:sk?1100:850,entitySep=kind===`hound`?260:sk?400:220,dark=kind===`smiler`||sk;   // (Trial 3: a Skin-Stealer well away from everyone, in the dark)
   for(let t=0;t<1800;t++){
     const idx=(RND()*W*al)|0;if(!ll[idx])continue;
     const p=ul(idx);
@@ -98,6 +100,6 @@ function spawnMonsters(nh,ns){
 /* (C3) the admin's nav command, and where a kill left the Hound (they sat among G.I.B.'s lines) */
 function navCmd(eid,cmd,p){const e=eng.entities.find(o=>o.id===eid);if(!e)return null;return eng.navCmd(e,cmd,p)}
 function killerEnd(id,x,y,a){return eng.commitEnd(id,x,y,a)}
-return { ADMIN_MAX_HOUNDS, ADMIN_MAX_SMILERS, ANCHOR, DIRECTOR_MAX_HOUNDS, MAX_BODIES, RND, SNn, adapter, adminCap, adminSpawn, alive, eng, ents, isAlive,
+return { ADMIN_MAX_HOUNDS, ADMIN_MAX_SKINSTEALERS, ADMIN_MAX_SMILERS, ANCHOR, DIRECTOR_MAX_HOUNDS, MAX_BODIES, RND, SNn, adapter, adminCap, adminSpawn, alive, eng, ents, isAlive,
   killerEnd, navCmd, newHound, randomSpot, rnd, spawnMonsters };
 };

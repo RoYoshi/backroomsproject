@@ -26,6 +26,7 @@ const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const UNRUN = [
   ['connect', 'only its `file:` and constructor-failure branches are unrun; the function itself runs (listed for its old name only)', 0],
   ['say', "post-3H Trial 2: the send of {t:'say'} the session links into F.R.O.N.T.'s chat.js (window.__chat.link); chat.js is not one of the scenes' scripts, so no scene makes or calls it; dev/tools/checks/chat_browser.js runs it in real pages", 1],
+  ['bodySkin', "Trial 3: the admin panel's SKIN tab (the Skin-Stealer's admin-only tools); B++ has no such tab and the admin scene visits B++'s five, so no scene opens it; dev/trial-3-skin-stealer/tools/skin_browser.js opens it and uses it in real pages", 1],
 ];
 const UNRUN_NAMES = new Set(UNRUN.filter(u => u[2]).map(u => u[0]));
 /* one side's union over scenes: per function (name@offset) whether it ran; per byte the highest count (V8's innermost range wins) */

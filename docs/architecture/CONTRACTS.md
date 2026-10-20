@@ -32,7 +32,7 @@ renaming one breaks the others silently.
 <!-- generated: globals (dev/tools/docs/docs.js) -->
 | Global | Written by | Read by |
 |---|---|---|
-| `window.__api` | `assets/index-DKbV5Nv9.js` | `assets/br-role.js`, `assets/chat.js`, `assets/l0-remaster.js`, `assets/mp-hum.js`, `assets/net-wire.js`, `assets/shadows-2d.js`, `assets/ui.js`, `assets/voice.js`, `camcorder.js`, `dphys.js`, `ents.js`, `glitch.js`, `gore.js`, `hud.js`, `inventory.js`, `light.js`, `move.js`, `mp.js`, `sfx.js` |
+| `window.__api` | `assets/index-DKbV5Nv9.js` | `assets/br-role.js`, `assets/chat.js`, `assets/l0-remaster.js`, `assets/mp-hum.js`, `assets/net-wire.js`, `assets/shadows-2d.js`, `assets/skinstealer.js`, `assets/ui.js`, `assets/voice.js`, `camcorder.js`, `dphys.js`, `ents.js`, `glitch.js`, `gore.js`, `hud.js`, `inventory.js`, `light.js`, `move.js`, `mp.js`, `sfx.js` |
 | `window.__avatarApp` | `assets/index-DKbV5Nv9.js` | - |
 | `window.__boot` | `index.html` | `assets/ui.js` |
 | `window.__brRole` | `assets/br-role.js` | `assets/index-DKbV5Nv9.js`, `assets/l0-remaster.js`, `assets/ui.js`, `camcorder.js` |
@@ -72,7 +72,7 @@ renaming one breaks the others silently.
 | `window.__killer` | `mp.js` | `assets/index-DKbV5Nv9.js` |
 | `window.__l0v` | `assets/l0-remaster.js` | `assets/index-DKbV5Nv9.js`, `gore.js` |
 | `window.__lastCause` | `assets/index-DKbV5Nv9.js` | - |
-| `window.__light` | `light.js` | `assets/index-DKbV5Nv9.js`, `assets/shadows-2d.js`, `ents.js` |
+| `window.__light` | `light.js` | `assets/index-DKbV5Nv9.js`, `assets/shadows-2d.js`, `assets/skinstealer.js`, `ents.js` |
 | `window.__loadout` | `inventory.js` | `assets/index-DKbV5Nv9.js`, `assets/ui.js` |
 | `window.__mp` | `assets/shadows-2d.js`, `mp.js` | `assets/index-DKbV5Nv9.js` |
 | `window.__mpLib` | `assets/mp-hum.js`, `assets/net-interp.js`, `assets/net-newrun.js`, `assets/net-wire.js` | `mp.js` |
@@ -80,7 +80,7 @@ renaming one breaks the others silently.
 | `window.__mvSfx` | `move.js` | - |
 | `window.__net` | `mp.js` | `assets/chat.js`, `assets/index-DKbV5Nv9.js` |
 | `window.__NET` | `mp.js` | `assets/net-interp.js` |
-| `window.__netPose` | `mp.js` | `assets/net-interp.js` |
+| `window.__netPose` | `mp.js` | `assets/net-interp.js`, `assets/skinstealer.js` |
 | `window.__nrDebug` | `mp.js` | - |
 | `window.__peerBodies` | `mp.js` | `move.js` |
 | `window.__peerLights` | `mp.js` | `assets/br-role.js`, `assets/index-DKbV5Nv9.js`, `assets/shadows-2d.js`, `camcorder.js`, `light.js` |
@@ -91,6 +91,7 @@ renaming one breaks the others silently.
 | `window.__settings` | `hud.js` | `assets/chat.js`, `assets/rgb.js`, `assets/ui.js`, `assets/voice.js` |
 | `window.__sfx` | `sfx.js` | `assets/index-DKbV5Nv9.js`, `assets/mp-hum.js`, `mp.js` |
 | `window.__shadows` | `assets/shadows-2d.js` | - |
+| `window.__skin` | `assets/skinstealer.js` | `mp.js` |
 | `window.__ui` | `assets/ui.js` | `assets/chat.js` |
 | `window.__uiCustomizeTab` | `assets/ui.js` | - |
 | `window.__voice` | `assets/voice.js` | `assets/chat.js`, `assets/ui.js` |
@@ -100,7 +101,7 @@ renaming one breaks the others silently.
 | `window.TFB_VERSION` | `assets/version.js` | `assets/ui.js` |
 | `window.WORLD` | `world.js` | `assets/br-role.js`, `assets/index-DKbV5Nv9.js`, `assets/l0-remaster.js`, `assets/shadows-2d.js`, `dphys.js`, `ents.js`, `gore.js`, `move.js`, `mp.js` |
 
-67 names. Counted: `window.NAME` (and a UMD's `root.NAME`) in the served scripts, the compiled bundle and `index.html`'s own scripts. Not counted: a bare `__name` used without `window.`. A name nobody writes is a hook a test or the console may set.
+68 names. Counted: `window.NAME` (and a UMD's `root.NAME`) in the served scripts, the compiled bundle and `index.html`'s own scripts. Not counted: a bare `__name` used without `window.`. A name nobody writes is a hook a test or the console may set.
 <!-- end of generated block -->
 
 `window.__api` is the bundle's facade. Its 52 members (some of them minified names) are their own contract, with each member's

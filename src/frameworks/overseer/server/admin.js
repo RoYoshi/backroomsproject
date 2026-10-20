@@ -4,7 +4,7 @@
  * Stage 3H engine modernization (H3M-2): moved out of server.js without a change.  Every line between the factory's first line and its
  * return is server.js's own (at checkpoint M6a, f2db9d8: lines 172-235), comments and column included: nothing is re-indented, so each
  * line can be compared with server.js as it was (dev/stage-3h/tools/h2_move_proof.js does: dev/stage-3h-modernization/evidence/m2/).
- *   adminCommand(room, me, m)   one command: kick, revive, god, bring, goto, freeze, speed, blackout, hounds, smilers, glitch, item,
+ *   adminCommand(room, me, m)   one command: kick, revive, god, bring, goto, freeze, speed, blackout, hounds, smilers, skinstealers, glitch, item,
  *                               monsters, debug, near, summon, preview, capmode, entgoto, nav, entdel, world, nrfree, msg
  * What it uses of the server is given by server.js, never required: send(c, obj), aftOf (G.I.B.: a death still playing, which a revive
  * ends), moveTo (S.P.A.C.E.) and worldReset (core).  Its one timer is the kick's (150 ms), as it was.  Never served. */
@@ -39,6 +39,12 @@ function adminCommand(room, me, m) {
       const inf = A.info(); log(`smiler ${add ? 'add' : 'remove'} x${want} -> ${done}`);
       res(done > 0, done ? `${done} SMILER${done === 1 ? '' : 'S'} ${add ? 'ADDED' : 'REMOVED'} · ${inf.sn}/${inf.ms}` : (add ? `CANNOT ADD: LIMIT ${inf.ms} OR NO SPAWN SPOT` : 'NO SMILERS TO REMOVE')); break;
     }
+    case 'skinstealers': {                                                      // Trial 3: the Skin-Stealer, admin-only (the world never spawns one)
+      const add = m.mode !== 'remove', want = Math.max(1, Math.min(4, m.n | 0 || 1)); let done = 0;
+      for (; done < want; done++) if (!(add ? A.addSkinStealer() : A.removeSkinStealer())) break;
+      const inf = A.info(), n = inf.kn | 0, cap = inf.mk || 4; log(`skin-stealer ${add ? 'add' : 'remove'} x${want} -> ${done}`);
+      res(done > 0, done ? `${done} SKIN-STEALER${done === 1 ? '' : 'S'} ${add ? 'ADDED' : 'REMOVED'} · ${n}/${cap}` : (add ? `CANNOT ADD: LIMIT ${cap} OR NO SPAWN SPOT` : 'NO SKIN-STEALERS TO REMOVE')); break;
+    }
     case 'glitch':
       log(`glitch ${m.mode}`);
       if (m.mode === 'new') { A.newGlitches(); res(true, 'GLITCHED WALLS MOVED'); }
@@ -52,10 +58,10 @@ function adminCommand(room, me, m) {
     case 'monsters': log('reset monsters'); A.resetMonsters(); res(true, 'MONSTERS RESPAWNED'); break;
     case 'debug':
       me.dbg = !!m.on; if (me.dbg) me.dbgSeq = Math.max(0, sim.logSeq - 14); log(`ai debug ${me.dbg}`); break;
-    case 'near': { const k = m.k === 'smiler' ? 'smiler' : 'hound', ok = A.addNear(k, me.player.x, me.player.y); log(`spawn ${k} near`); res(ok, ok ? k.toUpperCase() + ' PLACED NEAR YOU' : 'LIMIT REACHED OR NO SPOT NEARBY'); break; }
+    case 'near': { const k = m.k === 'smiler' ? 'smiler' : m.k === 'skinstealer' ? 'skinstealer' : 'hound', ok = A.addNear(k, me.player.x, me.player.y); log(`spawn ${k} near`); res(ok, ok ? (k === 'skinstealer' ? 'SKIN-STEALER' : k.toUpperCase()) + ' PLACED NEAR YOU' : 'LIMIT REACHED OR NO SPOT NEARBY'); break; }
     case 'summon': { const ok = A.summon(me.player.x, me.player.y, me.player.id); log('summon nearest hound'); res(ok, ok ? 'A HOUND IS COMING FOR YOU' : 'NO FREE HOUND TO SUMMON'); break; }
     case 'preview': {                                                             // DEATHS tab: one chosen death on the admin, through the real kill path
-      const k = m.k === 'smiler' ? 'smiler' : 'hound', v = /^[ABCD]$/.test(m.var) ? m.var : 'A', r = A.previewKill(me.player, k, v);
+      const k = m.k === 'smiler' ? 'smiler' : m.k === 'skinstealer' ? 'skinstealer' : 'hound', v = (k === 'skinstealer' ? /^[ABC]$/ : /^[ABCD]$/).test(m.var) ? m.var : 'A', r = A.previewKill(me.player, k, v);   // (Trial 3: the Skin-Stealer's deaths are A-C)
       log(`preview death ${k} ${v}: ${r.ok ? 'ok' : r.why}`); res(r.ok, r.ok ? `PLAYING ${k.toUpperCase()} ${v}` : String(r.why).toUpperCase()); break;
     }
     case 'capmode': { const cm = A.captureMode(m.mode); log(`capture style ${cm}`); res(true, 'CAPTURE STYLE: ' + (cm === 'quick' ? 'ALWAYS QUICK KILLS' : cm === 'play' ? 'ALWAYS PLAY WITH THE VICTIM' : 'AUTO (THE ENTITY DECIDES)')); break; }

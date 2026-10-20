@@ -31,7 +31,7 @@ function entitySignals(e) {
   E.setFails(e.lf || []);
 }
 window.__netPose = netPose; window.__NET = NET;
-NET.onEpoch = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); };           // entity slots belong to the old world too
+NET.onEpoch = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); if (window.__skin) window.__skin.clear(); };   // entity slots belong to the old world too (Trial 3: the Skin-Stealers' too)
 function applyServerState(dt) {
   const A = window.__api, s = snap(), E = EN();
   if (!A || !s || !E) return;
@@ -62,6 +62,8 @@ function applyServerState(dt) {
     if (sSlot[i] !== null && !sid.has(sSlot[i])) sSlot[i] = null;
     if (sSlot[i] === null) { sm.off = true; sm.x = sm.y = -9e4; sm.state = 'lurk'; sm.ls = 'lurk'; sm.face = 0; }
   });
+  /* Trial 3: the Skin-Stealers (s.ss, sent only while there is one) are mirrored and drawn by their own script, skinstealer.js */
+  if (window.__skin) { window.__skin.mirror(s.ss, dt); window.__skin.draw(dt); }
   A.V.blackout = !!s.b;
   glitchesFrom(s.gw); itemsFrom(s.it);                                                 // (C3c) the walls are L.O.S.T.'s, the items P.O.C.K.E.T.'s
 }
@@ -87,7 +89,7 @@ function markKiller(A, by) {                          // our death has begun (th
 }
 const clearKill = () => { window.__kill = null; };
 const clearKiller = () => { window.__killer = -1; };
-const clearSlots = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); };
+const clearSlots = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); if (window.__skin) window.__skin.clear(); };
 function unhold() { if (window.__mv) { window.__mv.down = 0; window.__mv.dragTo = null; } }
 const noFails = () => { if (EN()) EN().setFails([]); };
 const fadeHit = t => { hitFlash = Math.max(0, hitFlash - t * 1.6); };

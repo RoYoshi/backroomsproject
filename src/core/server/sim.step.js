@@ -41,7 +41,7 @@ const r1=n=>Math.round(n*10)/10;
 function entities(){
   const s=eng.snapshot();
   return {st:+clock().toFixed(3),h:s.h,m:s.m,b:V.blackout?1:0,p:+PR.toFixed(3),gw:glitches().map(g=>[Math.round(g.x),Math.round(g.y),g.nx,g.ny]),it:items().map(i=>[i.x,i.y,i.id]),
-    lf:eng.geo.fails.map(f=>[Math.round(f.x),Math.round(f.y),Math.round(f.r),+(f.until-eng.now).toFixed(2)]),sn:eng.drainSounds().slice(-24)};
+    lf:eng.geo.fails.map(f=>[Math.round(f.x),Math.round(f.y),Math.round(f.r),+(f.until-eng.now).toFixed(2)]),sn:eng.drainSounds().slice(-24),...(s.ss?{ss:s.ss}:{})};   // (Trial 3: the Skin-Stealers, only when there is one: last, so a world without one is P9's bytes)
 }
 const ofKind=k=>ents().filter(e=>e.kind===k);
 /* (C3) the admin's controls of the run: the admin tools used to assign these variables themselves */

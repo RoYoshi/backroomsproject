@@ -632,7 +632,7 @@
   {
    "id": "entity-states",
    "finding": "M-028 (1)",
-   "owners": "N.A.N.I. (the server), BR-R (ents.js)",
+   "owners": "N.A.N.I. (the server; the Skin-Stealer's page script), BR-R (ents.js)",
    "what": "the entities' states, by the index the wire sends",
    "copies": [
     {
@@ -646,6 +646,12 @@
      "find": "\\n    s: (\\[[^\\]]*\\]),",
      "as": "literal",
      "note": "ents.js's tab.s"
+    },
+    {
+     "file": "src/frameworks/nani/client/skin.head.js",
+     "find": "\\nconst STATES = (\\[[^\\]]*\\]);",
+     "as": "literal",
+     "note": "Trial 3: skinstealer.js's STATES"
     }
    ]
   },
@@ -684,6 +690,42 @@
      "find": "\\n    m: (\\[[^\\]]*\\]),",
      "as": "literal",
      "note": "ents.js's tab.m"
+    }
+   ]
+  },
+  {
+   "id": "skinstealer-actions",
+   "finding": "Trial 3",
+   "owners": "as entity-states",
+   "what": "the Skin-Stealer's actions, by the index the wire sends",
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/ai.skinstealer.js",
+     "find": "const KACT = (\\{[^}]*\\});",
+     "as": "byIndex"
+    },
+    {
+     "file": "src/frameworks/nani/client/skin.head.js",
+     "find": "\\nconst ACTS = (\\[[^\\]]*\\]);",
+     "as": "literal",
+     "note": "skinstealer.js's ACTS"
+    }
+   ]
+  },
+  {
+   "id": "admin-max-skinstealers",
+   "finding": "Trial 3",
+   "owners": "N.A.N.I. (the cap), OVERSEER (the panel's default)",
+   "what": "the admin's Skin-Stealer ceiling (the panel shows it when the server does not send it: no Skin-Stealer exists)",
+   "value": 4,
+   "copies": [
+    {
+     "file": "src/frameworks/nani/server/sim.ai.js",
+     "find": "const ADMIN_MAX_SKINSTEALERS=(\\d+);"
+    },
+    {
+     "file": "src/frameworks/overseer/client/mp.admin.js",
+     "find": "const kn = d\\.kn \\| 0, mk = d\\.mk \\|\\| (\\d+);"
     }
    ]
   },

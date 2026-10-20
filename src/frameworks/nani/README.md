@@ -23,6 +23,8 @@ AI perception is server-side and limited to evidence.
 | File | What it is | Goes into |
 |---|---|---|
 | [`client/mp.monsters.js`](client/mp.monsters.js) | N.A.N.I.: the server's monsters, mirrored into the game; a module: naniMonsters | `public/mp.js` (a part) |
+| [`client/skin.head.js`](client/skin.head.js) | N.A.N.I.: the Skin-Stealer on the page (Trial 3): the script's head, its code tables and small math; a module: skinHead | `public/assets/skinstealer.js` (a part) |
+| [`client/skin.mirror.js`](client/skin.mirror.js) | N.A.N.I.: the server's Skin-Stealers mirrored on the page; a module: skinMirror | `public/assets/skinstealer.js` (a part) |
 | [`server/ai.capture.js`](server/ai.capture.js) | N.A.N.I.: captures and the choice of kill | `generated/server/ai.js` (a part) |
 | [`server/ai.engine.js`](server/ai.engine.js) | N.A.N.I.: the engine: species table, sound bus, level of detail, capture loop, snapshots; the factory closes here | `generated/server/ai.js` (a part) |
 | [`server/ai.entity.js`](server/ai.entity.js) | N.A.N.I.: entities: personality, movement, traversal, navigation records, state plumbing | `generated/server/ai.js` (a part) |
@@ -32,6 +34,7 @@ AI perception is server-side and limited to evidence.
 | [`server/ai.intelligence.js`](server/ai.intelligence.js) | N.A.N.I.: shared evidence tools: arbitration, identities, habits (Stage 2F); never a species' action brain | `generated/server/ai.js` (a part) |
 | [`server/ai.light.js`](server/ai.light.js) | N.A.N.I.: visible light as evidence (Part 2, stage 2C) | `generated/server/ai.js` (a part) |
 | [`server/ai.senses.js`](server/ai.senses.js) | N.A.N.I.: perception, memory, leads and social awareness; the evidence law (Part 2, stage 2C) | `generated/server/ai.js` (a part) |
+| [`server/ai.skinstealer.js`](server/ai.skinstealer.js) | N.A.N.I.: the Skin-Stealer (Trial 3): a patient, deceptive predator with hunger, stamina and its own plans | `generated/server/ai.js` (a part) |
 | [`server/ai.smiler.js`](server/ai.smiler.js) | N.A.N.I.: the canon Smiler (Part 2, stage 2D) | `generated/server/ai.js` (a part) |
 | [`server/sim.ai.js`](server/sim.ai.js) | src/frameworks/nani/server/sim.ai.js - N.A.N.I.: the AI engine's wiring for one world (the world's seed, the engine, the level as the | a module of the sim: `src/core/server/sim.js` requires it |
 | [`server/sim.feed.js`](server/sim.feed.js) | src/frameworks/nani/server/sim.feed.js - N.A.N.I.: what the AI reads of the players every step (feed), its events (processEvents), and | a module of the sim: `src/core/server/sim.js` requires it |

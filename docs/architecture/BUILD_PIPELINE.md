@@ -61,6 +61,7 @@ sounds and web manifest, and the retired `assets/shadows-2d.js` (still served, u
 | `public/assets/net-newrun.js` | one source file | `frameworks/front/client/net-newrun.js` |
 | `public/assets/net-wire.js` | one source file | `frameworks/bpp/client/net-wire.js` |
 | `public/assets/rgb.js` | one source file | `frameworks/front/client/rgb.js` |
+| `public/assets/skinstealer.js` | 4 parts, joined in order | `frameworks/nani/client/skin.head.js`<br>`frameworks/nani/client/skin.mirror.js`<br>`frameworks/br-r/client/skin.body.js`<br>`frameworks/br-r/client/skin.compose.js` |
 | `public/assets/ui.js` | one source file | `frameworks/front/client/ui.js` |
 | `public/assets/version.js` | written from `package.json`'s version (its one source; pre-Trial 3 polish P5) | `package.json` (`version`) |
 | `public/camcorder.js` | 4 parts, joined in order | `frameworks/br-r/client/camcorder.js`<br>`frameworks/spacious-audio/client/camcorder.audio.js`<br>`frameworks/br-r/client/camcorder.view.js`<br>`frameworks/br-r/client/camcorder.compose.js` |
@@ -77,7 +78,7 @@ sounds and web manifest, and the retired `assets/shadows-2d.js` (still served, u
 | `public/sfx.js` | one source file | `frameworks/spacious-audio/client/sfx.js` |
 | `public/timing_policy.js` | one source file | `frameworks/space/shared/timing_policy.js` |
 | `public/world.js` | 7 parts, joined in order | `frameworks/space/shared/world.js`<br>`frameworks/lost/shared/world.lamps.js`<br>`frameworks/space/shared/world.crawl.js`<br>`frameworks/lost/shared/world.surfaces.js`<br>`frameworks/space/shared/world.move.js`<br>`frameworks/br-r/shared/world.art.js`<br>`frameworks/space/shared/world.compose.js` |
-| `generated/server/ai.js` | 10 parts, joined in order | `frameworks/nani/server/ai.head.js`<br>`frameworks/nani/server/ai.geo.js`<br>`frameworks/nani/server/ai.senses.js`<br>`frameworks/nani/server/ai.intelligence.js`<br>`frameworks/nani/server/ai.light.js`<br>`frameworks/nani/server/ai.entity.js`<br>`frameworks/nani/server/ai.capture.js`<br>`frameworks/nani/server/ai.hound.js`<br>`frameworks/nani/server/ai.smiler.js`<br>`frameworks/nani/server/ai.engine.js` |
+| `generated/server/ai.js` | 11 parts, joined in order | `frameworks/nani/server/ai.head.js`<br>`frameworks/nani/server/ai.geo.js`<br>`frameworks/nani/server/ai.senses.js`<br>`frameworks/nani/server/ai.intelligence.js`<br>`frameworks/nani/server/ai.light.js`<br>`frameworks/nani/server/ai.entity.js`<br>`frameworks/nani/server/ai.capture.js`<br>`frameworks/nani/server/ai.hound.js`<br>`frameworks/nani/server/ai.smiler.js`<br>`frameworks/nani/server/ai.skinstealer.js`<br>`frameworks/nani/server/ai.engine.js` |
 | `generated/server/dphys.js` | one source file | `frameworks/gib/shared/dphys.js` |
 | `generated/server/world.js` | 7 parts, joined in order | `frameworks/space/shared/world.js`<br>`frameworks/lost/shared/world.lamps.js`<br>`frameworks/space/shared/world.crawl.js`<br>`frameworks/lost/shared/world.surfaces.js`<br>`frameworks/space/shared/world.move.js`<br>`frameworks/br-r/shared/world.art.js`<br>`frameworks/space/shared/world.compose.js` |
 <!-- end of generated block -->

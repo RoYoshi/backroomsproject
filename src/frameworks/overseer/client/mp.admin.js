@@ -20,7 +20,7 @@ function overseerAdmin({ core: { buildHum, EN, room }, session: { connected, myI
  * Everything the panel does is a command to the server; the server answers each one with a one-line status (ares).  A toggle shows the
  * state the server says it is in (UNLIMITED NEW RUN: nf in every admin snapshot, nrf after a change), never the state a click hoped for. */
 /* (C3c) the panel's state, made here (B++'s mp.net.js declared it at M8, just before window.__net) */
-const adm = { unlocked: false, pass: null, open: false, data: null, you: null, err: '', dbg: false, nf: 0 };   // (Stage 3D HQ3: nf - our own UNLIMITED NEW RUN as the SERVER last said it is: never set from a click)
+const adm = { unlocked: false, pass: null, open: false, data: null, you: null, err: '', dbg: false, nf: 0, skin: false };   // (Stage 3D HQ3: nf - our own UNLIMITED NEW RUN as the SERVER last said it is: never set from a click)
 const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const LS = { get(k, d) { try { const v = localStorage.getItem('adm.' + k); return v === null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { localStorage.setItem('adm.' + k, JSON.stringify(v)); } catch { } } };
 const TABS = [['players', 'PLAYERS'], ['monsters', 'MONSTERS'], ['deaths', 'DEATHS'], ['world', 'WORLD'], ['debug', 'DEBUG']];
@@ -40,7 +40,7 @@ document.head.appendChild(Object.assign(document.createElement('style'), { id: '
 .adm-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 button.adm.adm-pv{display:block;white-space:normal;text-align:left;padding:8px 9px;line-height:1.35}button.adm.adm-pv b{color:#b9cb91;margin-right:5px;font-size:12px}button.adm.adm-pv small{display:block;color:#8d9e94;font-size:9px;letter-spacing:.4px;margin-top:2px}
 button.adm.adm-big{width:100%;padding:11px 8px;font-size:12px;letter-spacing:2px}
-.adm-ent{display:flex;align-items:center;gap:6px;padding:6px 0;border-top:1px solid #75807522}.adm-ent .k{width:34px;font-weight:600}.adm-ent .k.h{color:#ff9a5c}.adm-ent .k.s{color:#9fe8ff}.adm-ent .st{flex:1;color:#aab6ac;font-size:10px;letter-spacing:.4px}
+.adm-ent{display:flex;align-items:center;gap:6px;padding:6px 0;border-top:1px solid #75807522}.adm-ent .k{width:34px;font-weight:600}.adm-ent .k.h{color:#ff9a5c}.adm-ent .k.s{color:#9fe8ff}.adm-ent .k.k{color:#d8c7ff}.adm-ent .st{flex:1;color:#aab6ac;font-size:10px;letter-spacing:.4px}
 ` }));
 const panel = document.createElement('div'); panel.id = 'adminPanel'; panel.hidden = true;
 panel.innerHTML = `<div class="adm-head"><b>ADMIN</b><span id="admWho"></span><button class="adm" data-a="dock" title="Move the panel to the other side of the screen" aria-label="Move the panel">⇄</button><button class="adm" data-a="close" aria-label="Close admin">✕</button></div>
@@ -86,7 +86,7 @@ function bodyMonsters(d) {
     sec('WORLD SPEED') + rowW(sp(0.25) + sp(0.5) + sp(1) + sp(2) + sp(3)) +
     sec('ENTITIES · ' + ents.length) + (ents.length ? ents.map(e => {
       const dist = mine ? ' · ' + Math.round(Math.hypot(e[3] - mine.x, e[4] - mine.y)) + ' px' : '';
-      return `<div class="adm-ent"><span class="k ${e[1] ? 's' : 'h'}">${e[1] ? 'S' : 'H'}#${e[0]}</span><span class="st">${live('e' + e[0], e[2] + ' · ' + ({ n: 'near', m: 'mid', f: 'far' }[e[5]] || e[5]) + (e[6] ? ' · HOLDING SOMEONE' : '') + dist)}</span>` + btn('GO TO', `data-c="entgoto" data-eid="${e[0]}"`) + btn('REMOVE', `data-c="entdel" data-eid="${e[0]}"`) + '</div>';
+      return `<div class="adm-ent"><span class="k ${e[1] === 2 ? 'k' : e[1] ? 's' : 'h'}">${e[1] === 2 ? 'K' : e[1] ? 'S' : 'H'}#${e[0]}</span><span class="st">${live('e' + e[0], e[2] + ' · ' + ({ n: 'near', m: 'mid', f: 'far' }[e[5]] || e[5]) + (e[6] ? ' · HOLDING SOMEONE' : '') + dist)}</span>` + btn('GO TO', `data-c="entgoto" data-eid="${e[0]}"`) + btn('REMOVE', `data-c="entdel" data-eid="${e[0]}"`) + '</div>';
     }).join('') : '<p class="adm-help">No entities right now.</p>');
 }
 /* ---- the death lab: the clock, the x-ray and the overlay are client-side (window.__dlab, read by dphys.js and the debug renderer); placing is a teleport ---- */
@@ -164,8 +164,20 @@ function bodyDebug(d) {
     sec('TOOLS') + rowW(btn('COPY REPORT', 'data-a="copy"') + btn(d.fz ? 'UNFREEZE' : 'FREEZE THE HALLS', `data-c="freeze" data-on="${d.fz ? 0 : 1}"`, d.fz) + btn('SLOW MOTION 0.25×', 'data-c="speed" data-v="0.25"', d.sp === .25) + btn('NORMAL SPEED', 'data-c="speed" data-v="1"', d.sp === 1)) +
     '<p class="adm-help">AI ENTITIES: dashed ring = how far it can see; red line = last known position of its target (yellow: only heard or remembered); purple = last sound it heard; blue cross = where it is searching; green = its path; the label shows state, target, mood, capture. YOU: your state, stamina and the dashed ring of how far you are heard right now. COPY REPORT puts the room, players, entities, recent events and timings on the clipboard, ready to paste into a bug report.</p>';
 }
-const BODIES = { players: bodyPlayers, monsters: bodyMonsters, deaths: bodyDeaths, world: bodyWorld, debug: bodyDebug };
-function renderTabs() { $a('admTabs').innerHTML = TABS.map(([k, n]) => `<button class="adm-tab${adm.tab === k ? ' on' : ''}" data-a="tab" data-t="${k}">${n}</button>`).join(''); }
+/* Trial 3: the Skin-Stealer's admin-only tools, on their own tab (the other tabs stay as they were).  The world never spawns one: only
+ * this tab (and the debug tools) put one in the halls, at most ADMIN_MAX_SKINSTEALERS. */
+function bodySkin(d) {
+  const kn = d.kn | 0, mk = d.mk || 4;                                // (kn / mk come only while a Skin-Stealer exists; 4 = sim.ai.js ADMIN_MAX_SKINSTEALERS)
+  const ks = (d.es || []).filter(e => e[1] === 2);
+  return sec(`SKIN-STEALER · ${kn} IN THE HALLS (ADMIN MAX ${mk}) · ADMIN ONLY`) +
+    rowW(btn('+ SKIN-STEALER', 'data-c="skinstealers" data-mode="add" data-n="1"') + btn('+ NEAR ME', 'data-c="near" data-k="skinstealer"') + btn('− SKIN-STEALER', 'data-c="skinstealers" data-mode="remove" data-n="1"')) +
+    (ks.length ? ks.map(e => `<div class="adm-ent"><span class="k k">K#${e[0]}</span><span class="st">${live('k' + e[0], e[2] + ' · ' + ({ n: 'near', m: 'mid', f: 'far' }[e[5]] || e[5]) + (e[6] ? ' · HOLDING SOMEONE' : ''))}</span>` + btn('GO TO', `data-c="entgoto" data-eid="${e[0]}"`) + btn('REMOVE', `data-c="entdel" data-eid="${e[0]}"`) + '</div>').join('') : '<p class="adm-help">None in the halls. The world never makes one: only this tab does.</p>') +
+    '<p class="adm-help">A patient, deceptive predator (Trial 3, admin QA only). + SKIN-STEALER puts one far from everyone, in the dark; + NEAR ME a few hundred px away, out of sight if possible. Its state, hunger, stamina and plan are on the DEBUG overlay (AI ENTITIES).</p>';
+}
+const BODIES = { players: bodyPlayers, monsters: bodyMonsters, deaths: bodyDeaths, world: bodyWorld, debug: bodyDebug, skin: bodySkin };
+/* (Trial 3) the SKIN tab joins the five after K is pressed with the panel open, while a Skin-Stealer exists, or while it is the open tab
+ * (the panel is otherwise as it was) */
+function renderTabs() { $a('admTabs').innerHTML = (adm.skin || adm.tab === 'skin' || (adm.data && adm.data.kn) ? TABS.concat([['skin', 'SKIN']]) : TABS).map(([k, n]) => `<button class="adm-tab${adm.tab === k ? ' on' : ''}" data-a="tab" data-t="${k}">${n}</button>`).join(''); }
 function renderStatus() {
   const el = $a('admStatus'); if (!el) return;
   const r = adm.res, fresh = r && performance.now() - r.at < 6000;
@@ -261,7 +273,8 @@ panel.addEventListener('click', e => {
   tx(o);
 });
 panel.addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') { if (e.target.id === 'admPass') unlock(); else if (e.target.id === 'admText') sendMsg(); } if (e.key === 'Escape') { adm.open = false; renderAdmin(); } });
-addEventListener('keydown', e => { if (e.code === 'Backquote' && !(e.target instanceof HTMLInputElement)) { e.preventDefault(); toggleAdmin(); } });
+addEventListener('keydown', e => { if (e.code === 'Backquote' && !(e.target instanceof HTMLInputElement)) { e.preventDefault(); toggleAdmin(); }
+  else if (e.code === 'KeyK' && adm.open && adm.unlocked && !(e.target instanceof HTMLInputElement)) { adm.skin = !adm.skin; if (!adm.skin && adm.tab === 'skin') adm.tab = 'players'; renderAdmin(); } });   // (Trial 3: K shows / hides the SKIN tab)
 setInterval(() => { if (adm.dbg && adm.unlocked) tx({ t: 'ping', ts: performance.now() }); }, 1000);
 setInterval(renderStatus, 1000);
 

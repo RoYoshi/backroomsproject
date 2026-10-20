@@ -142,6 +142,15 @@
    ]
   },
   {
+   "out": "public/assets/skinstealer.js",
+   "parts": [
+    "src/frameworks/nani/client/skin.head.js",
+    "src/frameworks/nani/client/skin.mirror.js",
+    "src/frameworks/br-r/client/skin.body.js",
+    "src/frameworks/br-r/client/skin.compose.js"
+   ]
+  },
+  {
    "out": "public/assets/ui.js",
    "parts": [
     "src/frameworks/front/client/ui.js"
@@ -279,6 +288,7 @@
     "src/frameworks/nani/server/ai.capture.js",
     "src/frameworks/nani/server/ai.hound.js",
     "src/frameworks/nani/server/ai.smiler.js",
+    "src/frameworks/nani/server/ai.skinstealer.js",
     "src/frameworks/nani/server/ai.engine.js"
    ]
   },

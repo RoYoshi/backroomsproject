@@ -30,6 +30,8 @@ Presentation only. Its look is accepted: the contact lab and the browser checks 
 | [`client/l0-remaster.js`](client/l0-remaster.js) | l0-remaster.js - Stage 3B: the Level 0 visual remaster (presentation only, client only).  3B-F: the whole of Level 0. | `public/assets/l0-remaster.js` |
 | [`client/move.poses.js`](client/move.poses.js) | BR-R: the avatar poses (window.__pose), for the local player and everybody else; a module: movePoses | `public/move.js` (a part) |
 | [`client/mp.wanderers.js`](client/mp.wanderers.js) | BR-R: the other Wanderers: their hover names and avatars' clean-up; a module: brrWanderers | `public/mp.js` (a part) |
+| [`client/skin.body.js`](client/skin.body.js) | BR-R: the Skin-Stealer drawn (a tall, thin, wrong figure, procedural and articulated); a module: skinBody | `public/assets/skinstealer.js` (a part) |
+| [`client/skin.compose.js`](client/skin.compose.js) | BR-R: skinstealer.js's composition: it makes each owner's module in order, and closes the wrapper | `public/assets/skinstealer.js` (a part) |
 | [`shared/world.art.js`](shared/world.art.js) | BR-R: the props' art (drawProp, into the game's static Graphics); a module: worldArt | `public/world.js`, `generated/server/world.js` (a part) |
 <!-- end of generated block -->
 

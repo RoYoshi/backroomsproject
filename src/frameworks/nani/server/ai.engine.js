@@ -1,6 +1,6 @@
 /** @part generated/server/ai.js - N.A.N.I.: the engine: species table, sound bus, level of detail, capture loop, snapshots; the factory closes here
  * provides: SPECIES
- * uses: Geo, HACT, HOUND, Hash, INTEL, S, SACT, SCODE, SMILER, SNAMES, TRAITS, WORLD, W_SN, angDiff, arbitrateEvidence, beginCapture,
+ * uses: Geo, HACT, HOUND, Hash, INTEL, KACT, S, SACT, SCODE, SK, SKIN, SMILER, SNAMES, TRAITS, WORLD, W_SN, angDiff, arbitrateEvidence, beginCapture,
  *       beginDrawn, beginHidden, beginHunt, beginSearch, beginStalk, bestLead, capStep, cleanHabits, cleanupKnowledge, coarseMove,
  *       commitEnd, decayMemory, deriveSeed, directOk, directTo, estimate, evidenceCandidates, facedBy, finishCapture, follow,
  *       forgetIdentity, goTo, hDebug, habitBias, habitObserve, hearEvent, intelligenceDebug, killNow, lightSense, mkEntity, mkRng,
@@ -9,7 +9,7 @@
  */
 
 /* ---------------------------------------------------------------- the engine: sound bus, level of detail, capture loop, snapshots */
-const SPECIES = { hound: HOUND, smiler: SMILER };
+const SPECIES = { hound: HOUND, smiler: SMILER, skinstealer: SKIN };   // (Trial 3: the Skin-Stealer, admin-only; its own hooks below, never the others' functions)
 const STRIDE = { 1: 64, 2: 82, 3: 56, 4: 42 };                      // px of travel per footfall: walk, run, crouch, crawl
 const TIER = { near: 1900, mid: 3800 };                             // px to the nearest living player: full AI / reduced AI / asleep
 const EV_NOISE = {                                                   // discrete movement events the client reports (see move.js)
@@ -29,7 +29,7 @@ function create(cfg) {
   const geo = eng.geo;
   /* a short human-readable trail of what the entities decided (state changes, catches, kills, releases, lamp failures): the admin DEBUG tab reads it */
   eng.note = function (text) { this.log.push({ s: ++this.logSeq, t: +this.now.toFixed(1), x: text }); if (this.log.length > 60) this.log.shift(); };
-  const tagOf = (kind, id) => String(kind || '?')[0].toUpperCase() + '#' + id;
+  const tagOf = (kind, id) => (kind === 'skinstealer' || kind === 'SkinStealer' ? 'K' : String(kind || '?')[0].toUpperCase()) + '#' + id;   // (Trial 3: K, so it is never read as a Smiler's S)
   eng.emit = ev => {
     if (eng.events.length < 200) eng.events.push(ev);
     switch (ev.t) {
@@ -148,7 +148,7 @@ function create(cfg) {
     if (nt === 'far') {e.farSince = eng.now;e.seenNow.clear();for(const r of e.mem.p.values())r.seen=false;}
     if (was === 'far' && e.farSince !== undefined) { e.farSince = undefined; }     // a sleeper's memory of the last hours fades all the same
     if (nt === 'far' && (e.state === S.HUNTING || e.state === S.SEARCHING || e.state === S.STALKING)) e.dbg.disengage = 'lost track: the prey is far out of range';
-    if (nt === 'far' && !e.cap) { e.path = []; e.trav = null; e.lunge = null; e.speed = 0; if (e.kind === 'hound') { if (e.state !== S.DORMANT) { setState(e, S.DORMANT); if (e.roam) e.roam.goal = null; } e.farT = 0; } else if (e.state !== S.HIDDEN) beginHidden(eng, e); }
+    if (nt === 'far' && !e.cap) { e.path = []; e.trav = null; e.lunge = null; e.speed = 0; if (e.kind === 'hound') { if (e.state !== S.DORMANT) { setState(e, S.DORMANT); if (e.roam) e.roam.goal = null; } e.farT = 0; } else if (e.sp.onFar) e.sp.onFar(eng, e); else if (e.state !== S.HIDDEN) beginHidden(eng, e); }
     if (was === 'far' && nt !== 'far') { e.wake = 1; e.thinkT = 0; if (e.state === S.DORMANT && e.kind === 'hound') setState(e, S.ROAMING); }
   }
   function farStep(e, dt) {
@@ -176,6 +176,7 @@ function create(cfg) {
       e.path = []; e.trav = null; e.aim = null; e.pathAge = 99; e.goalKey = ''; e.speed = 0;
       if (e.kind === 'hound' && e.state !== S.HUNTING) { if (e.state === S.SEARCHING || e.state === S.STALKING) e.dbg.disengage = 'stuck: the watchdog reset it'; setState(e, S.ROAMING); e.roam.goal = null; }
       if (e.kind === 'smiler' && e.state !== S.HIDDEN && e.state !== S.PLAYING) beginHidden(eng, e);
+      if (e.sp.onStuck) e.sp.onStuck(eng, e);                                    // (Trial 3: a species with its own recovery)
     }
   }
   /* hounds that are up and about near one another act as a pack; the bond holds for a few seconds after they drift apart (they are still following the same scent) */
@@ -261,8 +262,8 @@ function create(cfg) {
     switch (cmd) {
       case 'follow': this.navGo(e, { pid: pv.id, speed: e.kind === 'hound' ? e.sp.speeds.chase : e.sp.speeds.follow, keep: true, arrive: 60 }); return 'FOLLOWING YOU (navigation only)';
       case 'come': this.navGo(e, { x: pv.x, y: pv.y, speed: e.kind === 'hound' ? e.sp.speeds.chase : e.sp.speeds.follow, arrive: 40 }); return 'COMING TO WHERE YOU STAND';
-      case 'hunt': { e.navGo = null; const r = rec(e, pv.id); r.aw = 1; r.seen = true; r.seenAt = this.now; r.lkx = pv.x; r.lky = pv.y; r.conf = 1; if (e.kind === 'hound') { beginHunt(this, e, r, 'debug'); return 'HUNTING YOU (real AI)'; } beginStalk(this, e, r); return 'STALKING YOU (real AI)'; }
-      case 'clear': e.navGo = null; e.target = null; e.path = []; e.goal = null; e.goalKey = ''; if (e.kind === 'hound') setState(e, S.ROAMING); return 'TARGET AND ROUTE CLEARED';
+      case 'hunt': { e.navGo = null; const r = rec(e, pv.id); r.aw = 1; r.seen = true; r.seenAt = this.now; r.lkx = pv.x; r.lky = pv.y; r.conf = 1; if (e.kind === 'hound') { beginHunt(this, e, r, 'debug'); return 'HUNTING YOU (real AI)'; } if (e.sp.debugHunt) return e.sp.debugHunt(this, e, r); beginStalk(this, e, r); return 'STALKING YOU (real AI)'; }
+      case 'clear': e.navGo = null; e.target = null; e.path = []; e.goal = null; e.goalKey = ''; if (e.kind === 'hound') setState(e, S.ROAMING); else if (e.sp.onClear) e.sp.onClear(this, e); return 'TARGET AND ROUTE CLEARED';
       case 'repath': if (!e.goal) return 'NO GOAL TO RE-PLAN'; plan(this, e, e.goal.x, e.goal.y, { why: 'debug' }); return 'RE-PLANNED';
       case 'noroute': e.path = []; e.goalKey = ''; e.carrot = null; return 'ROUTE DROPPED';
       case 'unstuck': e.stuck = 0; e.nudge = 0; e.unst = null; return 'STUCK STATE RESET';
@@ -282,15 +283,16 @@ function create(cfg) {
     e.x = x; e.y = y; e.path = []; e.trav = null; e.lunge = null; e.speed = 0; e.tier = 'near'; e.tierT = 1;
     const r = rec(e, pid || 0); r.lkx = tx; r.lky = ty; r.conf = 1; r.aw = .9; r.seenAt = this.now; r.heardAt = this.now;
     if (e.kind === 'hound') { beginSearch(this, e, r, 'sound'); e.search.goal = { x: tx, y: ty }; e.search.first = false; setAct(e, ''); }
+    else if (e.sp.summon) e.sp.summon(this, e, r, tx, ty);
     else { beginDrawn(this, e, { x: tx, y: ty, u: 160, k: 'summon' }, 'admin summon: a lead at the admin'); }
     return true;
   };
 
   /* ------------------------------------------------------------ what goes over the wire / to the debug overlay */
   eng.snapshot = function () {
-    const h = [], m = [];
-    for (const e of this.entities) (e.kind === 'hound' ? h : m).push(e.sp.snap(e));
-    return { h, m };
+    const h = [], m = [], ss = [];
+    for (const e of this.entities) (e.kind === 'hound' ? h : e.kind === 'skinstealer' ? ss : m).push(e.sp.snap(e));
+    return ss.length ? { h, m, ss } : { h, m };                                  // (Trial 3: ss only when there is one: a world without one sends P9's bytes)
   };
   eng.drainSounds = function () { const s = this.sounds; this.sounds = []; return s; };
   eng.drainEvents = function () { const s = this.events; this.events = []; return s; };
@@ -334,6 +336,7 @@ function create(cfg) {
         lit: e.lit !== undefined ? +e.lit.toFixed(2) : undefined,
         sm: e.kind === 'smiler' ? e.dbg.sm : undefined,
         hm: e.kind === 'hound' ? hDebug(this, e) : undefined,
+        sk: e.kind === 'skinstealer' ? e.sp.debug(this, e) : undefined,
         intel: intelligenceDebug(this, e),
       });
     }
@@ -341,5 +344,5 @@ function create(cfg) {
   };
   return eng;
 }
-return { create, S, SNAMES, SCODE, HACT, SACT, TRAITS, SPECIES, HOUND, SMILER, mkRng, deriveSeed, Geo, hearEvent, TIER, INTEL, evidenceCandidates, observationScore, habitObserve, cleanHabits, habitBias, arbitrateEvidence };
+return { create, S, SNAMES, SCODE, HACT, SACT, KACT, TRAITS, SPECIES, HOUND, SMILER, SKIN, SK, mkRng, deriveSeed, Geo, hearEvent, TIER, INTEL, evidenceCandidates, observationScore, habitObserve, cleanHabits, habitBias, arbitrateEvidence };
 });

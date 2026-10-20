@@ -232,12 +232,13 @@ function compare(oldL, newL, oldM, newM) {
 /* index.html less the trials' own authorized edits, each removed exactly (every other byte must still be C5d's): post-3H Trial 2's chat
  * script tag; Trial 4's RGB script tag and the pause dialog's NEW RUN label, "Spontaneously Combust?" (added by the post-Trial 4 review:
  * Trial 4 changed the page without listing its edits here, so this check failed on index.html alone); and the chat polish's voices
- * script tag (post-Trial 4 chat polish C4) */
+ * script tag (post-Trial 4 chat polish C4); and Trial 3's Skin-Stealer script tag */
 function pageAsC5d(t) {
   return t.replace(/<script src="\.\/assets\/chat\.js"><\/script>(<!--[^>]*-->)?\n/, '')
     .replace(/<script src="\.\/assets\/rgb\.js"><\/script>\n/, '')
     .replace(/<script src="\.\/assets\/voice\.js"><\/script>\n/, '')   // (post-Trial 4 chat polish C4: the voices' script)
     .replace(/<script src="\.\/assets\/version\.js"><\/script>\n/, '')   // (pre-Trial 3 polish P5: the version, built from package.json)
+    .replace(/<script src="\.\/assets\/skinstealer\.js"><\/script>\n/, '')   // (Trial 3: the Skin-Stealer's page script, after mp.js)
     .replace('<button class="secondary" id="reset">Spontaneously Combust?</button>', '<button class="secondary" id="reset">NEW RUN</button>')
     // pre-Trial 3 polish P3: the Settings gear redrawn; the rail's wanderer icon made the Account button; its panel
     .replace("<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"2.7\"/><path d=\"M10.64 5.34L10.84 3.18L13.16 3.18L13.36 5.34A6.8 6.8 0 0 1 15.75 6.33L15.75 6.33L17.42 4.94L19.06 6.58L17.67 8.25A6.8 6.8 0 0 1 18.66 10.64L18.66 10.64L20.82 10.84L20.82 13.16L18.66 13.36A6.8 6.8 0 0 1 17.67 15.75L17.67 15.75L19.06 17.42L17.42 19.06L15.75 17.67A6.8 6.8 0 0 1 13.36 18.66L13.36 18.66L13.16 20.82L10.84 20.82L10.64 18.66A6.8 6.8 0 0 1 8.25 17.67L8.25 17.67L6.58 19.06L4.94 17.42L6.33 15.75A6.8 6.8 0 0 1 5.34 13.36L5.34 13.36L3.18 13.16L3.18 10.84L5.34 10.64A6.8 6.8 0 0 1 6.33 8.25L6.33 8.25L4.94 6.58L6.58 4.94L8.25 6.33A6.8 6.8 0 0 1 10.64 5.34Z\"/></svg>", "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3.3\"/><path d=\"M10.3 2.8h3.4l.5 2.4 1.6.9 2.3-.8 1.7 2.9-1.8 1.6v1.9l1.8 1.6-1.7 2.9-2.3-.8-1.6.9-.5 2.4h-3.4l-.5-2.4-1.6-.9-2.3.8-1.7-2.9 1.8-1.6v-1.9L4.2 8.2l1.7-2.9 2.3.8 1.6-.9Z\"/></svg>")

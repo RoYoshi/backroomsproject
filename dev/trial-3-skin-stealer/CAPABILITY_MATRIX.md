@@ -75,10 +75,10 @@ Every row says what P9 actually has, what the Skin-Stealer needs from it, and th
 
 | Capability | P9 reality | Need | Verdict |
 |---|---|---|---|
-| Snapshot mirror | `mp.monsters.js`: `s.h` → Hound slots, `s.m` → Smiler slots; `announceKill`/`markKiller` Hound vs slot | third list, killer slot | EXTEND |
-| Interpolation | `net-interp.js` keys `h<i>` and `m<i>` | `k<i>` | EXTEND |
-| Entity art (BR-R `ents.js`) | `ents.hound.js`, `ents.smiler.js`, `E.slotH` / `E.slotS`, act tables `tab.h` / `tab.m` | lanky silhouette, poses, attack pose | NEW `ents.skinstealer.js` part; `E.slotK`; `tab.k` |
-| TS renderer | `EntityView` (Hound), `SmilerView`; `Renderer.hv` (64 Hound slots); `CaptureKind = 'Hound' \| 'Smiler'` | a third view, slots, a death attacker | EXTEND `entity-view.ts`, `render.ts`, `death.ts`, `corpse-view.ts`, `main.ts`, `shared/entity.ts`, `contracts.d.ts` (TypeScript source; the compiled client is rebuilt, never edited) |
+| Snapshot mirror | `mp.monsters.js`: `s.h` → Hound slots, `s.m` → Smiler slots; `announceKill`/`markKiller` Hound vs slot. The gate's cli_golden step runs B++'s `mp.js` and this one in 18 scenes and needs every function of `mp.js` to run | third list, killer slot | EXTEND (one guarded hand-off line in existing functions: `window.__skin.mirror(s.ss)` / `draw` / `clear`; no new function) |
+| Interpolation | `net-interp.js` keys `h<i>` and `m<i>` | `k<i>` | EXTEND (one line) |
+| Entity art (BR-R `ents.js`) | `ents.hound.js`, `ents.smiler.js`, `E.slotH` / `E.slotS`, act tables `tab.h` / `tab.m`. The gate's page step runs B++'s `ents.js` and this one in the same scenes and needs every function to run there | lanky silhouette, poses, attack pose | NEW (revised at T1): in `public/assets/skinstealer.js` (parts `src/frameworks/nani/client/skin.*.js`, `src/frameworks/br-r/client/skin.*.js`), not in `ents.js`; `ents.js` only gains branches inside existing functions (no new function, B++ scenes unchanged) |
+| TS renderer | `EntityView` (Hound), `SmilerView`; `Renderer.hv` (64 Hound slots); `CaptureKind = 'Hound' \| 'Smiler'`. **Locked by the gate:** the port step proves the compiled client is the B++ shipped program statement by statement (the 40-step lineage); the bundle step compares it frame by frame | a third view, slots, a death attacker | **NOT CHANGED** (revised at T1). Everything goes through the page-script seams the bundle already calls: the creatures layer (`__api.layer()`), the death's plan (`__ents.deathPlan`), its physics (`__dphys`), its attacker hook (`__ents.attackSmiler`, which receives the death and is called for every non-Hound killer), the sounds (`__sfx.death`, with `window.__lastCause`), gore (`__gore`). A new composed page script, `public/assets/skinstealer.js`, draws it. Changing the TypeScript would need a new lineage step or a new reference for the port step: an owner decision, not needed for Trial 3 |
 | Disguise drawing | other players are `PlayerView`s from `__api.mkAvatar(look, gear)` in `__api.layer()` (the creatures layer: sight-masked, under the darkness) | a human silhouette with tells | EXTEND: the same avatar class, its gear hidden (no light is drawn or emitted), no name, no hover |
 | Deaths on screen | `DeathSequence` (TS) + `dphys.frame`; spectators `mp.deaths.js` `startFx` (`m.c === 'Smiler' ? Gl : Wl`) | correct attacker for victim and spectators | EXTEND |
 | BR-RoLE actors | `actorShadows` lists `__hound` views and any view with `deathPose` (a wanderer); never a Smiler | its body casts like a body | EXTEND: a `__stealer` actor with its own silhouette; a disguise is a wanderer avatar and casts as one; both only when the local player can see the spot (the existing `seen()` rule) |
@@ -86,6 +86,19 @@ Every row says what P9 actually has, what the Skin-Stealer needs from it, and th
 | Nearby chat | `chat.js`: `heard` → bubble over a peer, edge hint, mute per session id, screen-reader line; `voice.js`: seven presets | an entity-origin bubble | EXTEND: `eheard` handled apart from `heard`; mute by entity and by the line's origin; an entity-only voice preset that no player can choose or send |
 | Admin panel | MONSTERS tab: Hounds / Smilers counts, near, preview | Skin-Stealer row | EXTEND (`mp.admin.js`) |
 | Debug overlay | `ents.debug.js` reads `dbg` entries | Skin-Stealer state, hunger, stamina, plan | EXTEND |
+
+## 5b. The gate's constraints found at T1 (they decide where code may go)
+
+| Gate step | What it holds | Consequence for Trial 3 |
+|---|---|---|
+| port, bundle, lineage | the compiled client is the B++ shipped program (statement by statement; frame by frame) | no TypeScript change; the page-script seams carry everything |
+| srv_golden, bpp_golden, session | server traces equal the stored B++ traces, byte for byte | nothing new on the wire unless a Skin-Stealer exists (`ss`, admin `kn` / `mk`, `es` code 2, `sk` debug block) |
+| sim (`sim_diff.js`) | this tree's sim and B++'s sim give equal results for every call, including `Object.keys(sim)` | no new key on the sim object: the server reaches the new behaviour through `sim.engine` (N.A.N.I.'s own object) and `sim.admin` |
+| page (`page_scripts.js`) | B++'s `ents.js` / `move.js` / `camcorder.js` / `glitch.js` against this tree's in the same scenes; every function of B++'s run, and as many of this tree's | new Skin-Stealer functions live in the new script, not in `ents.js` |
+| cli_golden (`cli_golden_c3c.js`) | 18 client scenes give B++'s trace and run every function of `mp.js` | `mp.js` gains no function, only guarded branches |
+| scope | every runtime difference from B++ is declared | `declared_changes.json`: `ai.js`, `assets/net-interp.js`, `mp.js`, `index.html` changed, `assets/skinstealer.js` added (and the rest as each checkpoint makes them) |
+| menu (`menu_drift.js`) | `index.html` is C5d's less each trial's listed edits | the new script tag is listed |
+| contracts, facts, parts, modules, docs | declarations, duplicated facts, part headers, module rules, generated tables | each kept current (KACT / ACTS, STATES, the admin ceiling are facts) |
 
 ## 6. Gated features (reported, not implemented)
 

@@ -152,6 +152,16 @@
    "getters": [],
    "memberCount": 12
   },
+  "assets/skinstealer.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [
+    "A"
+   ],
+   "getters": [
+    "API"
+   ],
+   "memberCount": 4
+  },
   "assets/ui.js": {
    "loadedByIndexHtml": true,
    "aliases": [
@@ -188,7 +198,8 @@
     }
    ],
    "readBy": {
-    "ents.js": 2
+    "ents.js": 2,
+    "assets/skinstealer.js": 2
    }
   },
   {
@@ -236,7 +247,8 @@
     "light.js": 2,
     "mp.js": 11,
     "assets/br-role.js": 2,
-    "assets/shadows-2d.js": 6
+    "assets/shadows-2d.js": 6,
+    "assets/skinstealer.js": 2
    }
   },
   {
@@ -784,6 +796,7 @@
     "assets/l0-remaster.js": 1,
     "assets/mp-hum.js": 1,
     "assets/shadows-2d.js": 5,
+    "assets/skinstealer.js": 1,
     "assets/ui.js": 1,
     "assets/index-DKbV5Nv9.js (the bundle itself)": 3
    }
@@ -1147,7 +1160,8 @@
    "readBy": {
     "mp.js": 4,
     "assets/br-role.js": 2,
-    "assets/shadows-2d.js": 2
+    "assets/shadows-2d.js": 2,
+    "assets/skinstealer.js": 3
    }
   },
   {

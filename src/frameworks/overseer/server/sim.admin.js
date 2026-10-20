@@ -7,7 +7,7 @@
  *   simAdmin({ players, level, ai, feed, walls, items, run, life })   returns admin, the object server.js calls (the same keys), and
  *     debugOn() (it changes). */
 'use strict';
-module.exports = function simAdmin({ players, level: { restartBlackout, sl }, ai: { ADMIN_MAX_HOUNDS, ADMIN_MAX_SMILERS, DIRECTOR_MAX_HOUNDS, RND, adminCap,
+module.exports = function simAdmin({ players, level: { restartBlackout, sl }, ai: { ADMIN_MAX_HOUNDS, ADMIN_MAX_SKINSTEALERS, ADMIN_MAX_SMILERS, DIRECTOR_MAX_HOUNDS, RND, adminCap,
   adminSpawn, eng, ents, spawnMonsters }, feed: { feed, processEvents }, walls: { glitches, placeGlitches }, items: { items, placeItems },
   run: { controls, ofKind, resetWorld }, life: { spawn } }) {
 let debugOn=false;      // (C3) the admin's debug switch (it was declared in sim.ai.js's lines)
@@ -16,7 +16,7 @@ function placeNear(kind,x,y){                       // an entity a few hundred p
     const a=RND()*Math.PI*2,d=lo+RND()*(hi-lo),px=x+Math.cos(a)*d,py=y+Math.sin(a)*d,c=eng.geo.cellAt(px,py);
     if(c<0||eng.geo.cls[c]!==1)continue;
     const p={x:eng.geo.cx(c),y:eng.geo.cy(c)};
-    if(kind===`smiler`&&eng.geo.lamp[c]>.12&&t<40)continue;
+    if((kind===`smiler`||kind===`skinstealer`)&&eng.geo.lamp[c]>.12&&t<40)continue;   // (Trial 3: a Skin-Stealer also starts in the dark)
     if(!eng.geo.los(p.x,p.y,x,y)&&t<30)continue;
     return p;
   }
@@ -37,13 +37,15 @@ const admin={
   removeHound(){const h=ofKind(`hound`).pop();if(h)eng.remove(h.id);return !!h},
   addSmiler(){return adminSpawn(`smiler`)},
   removeSmiler(){const s=ofKind(`smiler`).pop();if(s)eng.remove(s.id);return !!s},
+  addSkinStealer(){return adminSpawn(`skinstealer`)},                    // Trial 3: admin-only; capped at ADMIN_MAX_SKINSTEALERS
+  removeSkinStealer(){const k=ofKind(`skinstealer`).pop();if(k)eng.remove(k.id);return !!k},
   addNear(kind,x,y){                       // testing aid: one more of that entity close to an admin (still capped)
     if(eng.count(kind)>=adminCap(kind))return false;
     const p=placeNear(kind,x,y);if(!p)return false;eng.spawn(kind,p.x,p.y);return true;
   },
   captureMode(m){eng.forceCapture=m===`quick`||m===`play`?m:null;return eng.forceCapture||`auto`},
   previewKill(p,kind,variant){              // DEATHS tab: one chosen death on this player, through the real capture / kill path (works through god mode and spawn protection)
-    kind=kind===`smiler`?`smiler`:`hound`;
+    kind=kind===`smiler`?`smiler`:kind===`skinstealer`?`skinstealer`:`hound`;
     if(!p.active||p.dead||p.exited)return {ok:false,why:`you are not in the halls right now`};
     if(p.caught)return {ok:false,why:`you are already caught`};
     feed();const was=p.alive;p.alive=true;      // the engine's view of the players is refreshed first (the world may be frozen)
@@ -69,7 +71,8 @@ const admin={
     return eng.summon(h,p.x,p.y,x,y,pid);
   },
   info(){const hs=ofKind(`hound`);return {fz:controls.frozen?1:0,sp:controls.speed,bo:controls.bmode,hn:hs.length,sn:eng.count(`smiler`),mh:ADMIN_MAX_HOUNDS,ms:ADMIN_MAX_SMILERS,dh:DIRECTOR_MAX_HOUNDS,gw:glitches().length,it:items().length,pk:new Set(hs.map(h=>h.pack).filter(Boolean)).size,hs:hs.map(h=>h.state).join(`,`),dbg:debugOn?1:0,
-    cm:eng.forceCapture||`auto`,es:ents().map(e=>[e.id,e.kind===`hound`?0:1,e.state,Math.round(e.x),Math.round(e.y),e.tier[0],e.cap?1:0])}},
+    cm:eng.forceCapture||`auto`,es:ents().map(e=>[e.id,e.kind===`hound`?0:e.kind===`skinstealer`?2:1,e.state,Math.round(e.x),Math.round(e.y),e.tier[0],e.cap?1:0]),
+    ...(eng.count(`skinstealer`)?{kn:eng.count(`skinstealer`),mk:ADMIN_MAX_SKINSTEALERS}:{})}},   // (Trial 3: only while there is one, so the panel's data stays P9's otherwise)
 };
 return { admin, debugOn: () => debugOn };
 };

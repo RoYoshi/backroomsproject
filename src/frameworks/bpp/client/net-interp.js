@@ -26,6 +26,7 @@ function netHist(e, nowMs) {
   const put = (k, t) => { let h = NET.hist.get(k); if (!h) NET.hist.set(k, h = []); if (h.length && h[h.length - 1].t >= e.st) return; h.push({ t: e.st, x: t.x, y: t.y, a: t.a }); if (h.length > 8) h.shift(); h.seen = e.st; };
   for (const t of e.h || []) put('h' + t.i, t);
   for (const t of e.m || []) put('m' + t.i, t);
+  for (const t of e.ss || []) put('k' + t.i, t);                               // (Trial 3: the Skin-Stealers, sent only while there is one)
   for (const [k, h] of NET.hist) if (e.st - h.seen > 5) NET.hist.delete(k);
 }
 const angD2 = (a, b) => { let d = (a - b) % (Math.PI * 2); if (d > Math.PI) d -= Math.PI * 2; else if (d < -Math.PI) d += Math.PI * 2; return d; };

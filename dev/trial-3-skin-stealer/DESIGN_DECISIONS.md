@@ -126,14 +126,27 @@ Item theft, a carried light, corpse dragging, crawlspace passage while disguised
 
 ## D11. Presentation
 
-- True form: a new BR-R part `ents.skinstealer.js` (procedural, articulated: a tall thin upright body, long arms, a small head; a
-  low crouch for the wind-up; a quick neck-height grab for the finishers), drawn in a new TypeScript view under the creatures layer's
-  sight mask and the darkness, tinted by BR-RoLE's light sample like the Hound. No light of its own.
+- **No TypeScript change** (revised at T1, after reading the gate's port and bundle steps: the compiled client is proven to be the B++
+  shipped program). The Skin-Stealer's page side is a new composed script, `public/assets/skinstealer.js` (N.A.N.I.'s mirror and
+  BR-R's art as module parts; Spacious Audio's sounds join at T5), loaded after `mp.js`. It reaches the game only through seams the
+  bundle already calls: the creatures layer (`__api.layer()`: the sight mask and the darkness), the death's plan / physics / attacker
+  hook (`__ents.deathPlan`, `__dphys`, `__ents.attackSmiler`, which the bundle calls with the death for every non-Hound killer), the
+  sounds (`__sfx`), the light sample (`__light`). Existing scripts (`mp.js`, `ents.js`) gain only guarded branches inside existing
+  functions, so B++'s client and page scenes keep their traces and their coverage.
+- True form: procedural, articulated: a tall thin upright body, long arms (foreshortened when they hang), a small head held forward
+  on a thin neck, folds of loose skin; a low crouch for the wind-up; a reach for the finishers. Shaded by BR-RoLE's light sample like
+  the Hound. No light of its own. Interim art for the owner's QA.
 - BR-RoLE: a `__stealer` actor with its own silhouette; a disguise is a wanderer avatar and casts like one. Both only when the local
   player can see the spot (the existing rule), so no shadow leaks a body behind a wall.
 - Audio: procedural, restrained: soft clicks, a wet breath, a scrape for the wind-up, the finisher. Positional and muffled through
   walls like the other entities. No new sound files.
 - The stronger heartbeat / danger filter and the Red Rooms are not touched.
+
+## D13. The server side reaches the new behaviour without new sim keys
+
+The gate's sim step compares this tree's sim object with B++'s, keys included. So speech heard by an entity, an earned disguise and
+entity speech go through N.A.N.I.'s own engine object (`sim.engine`: `hearSpeech`, `skinFrom`, `drainVoices`), called by the
+server's wiring (`speech.js`'s injected `onHeard`, the room's `onDeath`, the loop), never through a new member of the sim.
 
 ## D12. Verification strategy
 
