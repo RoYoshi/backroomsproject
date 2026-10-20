@@ -1,0 +1,35 @@
+A orbit (130 px, running, lit, SEEN):
+  seed 1: left at 0s; 93 samples SEEN within 200 px (66 while leaving, 27 while roaming with them on its cooldown list); stopped and faced them 0; 1 departure goal(s); plans roam/leave; acts -/leave
+  seed 2: left at 0.1s; 87 samples SEEN within 200 px (84 while leaving, 3 while roaming with them on its cooldown list); stopped and faced them 0; 1 departure goal(s); plans roam/leave; acts -/leave
+  seed 3: left at 0.1s; 98 samples SEEN within 200 px (40 while leaving, 58 while roaming with them on its cooldown list); stopped and faced them 1; 1 departure goal(s); plans roam/leave; acts -/leave/listen
+  seed 4: left at 0.1s; 116 samples SEEN within 200 px (60 while leaving, 56 while roaming with them on its cooldown list); stopped and faced them 4; 1 departure goal(s); plans roam/leave; acts -/leave/listen
+  seed 5: left at 0.1s; 104 samples SEEN within 200 px (62 while leaving, 42 while roaming with them on its cooldown list); stopped and faced them 0; 1 departure goal(s); plans roam/leave; acts -/leave/listen
+  seed 6: left at 0.1s; 91 samples SEEN within 200 px (54 while leaving, 37 while roaming with them on its cooldown list); stopped and faced them 0; 1 departure goal(s); plans roam/leave; acts -/leave
+T tail (70 px behind, walking, lit, SEEN all round within 110 px):
+  seed 1: left at 0s; 286 samples SEEN within 200 px (207 while leaving, 79 while roaming with them on its cooldown list); stopped and faced them 0; 1 departure goal(s); plans roam/leave; acts -/leave
+  seed 2: left at 0.1s; 310 samples SEEN within 200 px (307 while leaving, 3 while roaming with them on its cooldown list); stopped and faced them 0; 1 departure goal(s); plans roam/leave; acts -/leave
+  seed 3: left at 0.1s; 279 samples SEEN within 200 px (163 while leaving, 116 while roaming with them on its cooldown list); stopped and faced them 0; 1 departure goal(s); plans roam/leave; acts -/leave/listen
+  seed 4: left at 0.1s; 283 samples SEEN within 200 px (174 while leaving, 109 while roaming with them on its cooldown list); stopped and faced them 0; 1 departure goal(s); plans roam/leave; acts -/leave/listen
+  seed 5: left at 0.1s; 285 samples SEEN within 200 px (145 while leaving, 140 while roaming with them on its cooldown list); stopped and faced them 0; 1 departure goal(s); plans roam/leave; acts -/leave/listen
+  seed 6: left at 0.1s; 279 samples SEEN within 200 px (179 while leaving, 100 while roaming with them on its cooldown list); stopped and faced them 0; 1 departure goal(s); plans roam/leave; acts -/leave
+B blind follower (170 px behind, lightless, crouched):
+  seed 1: seen true, heard by name false, anonymous sounds 0; first different at tick 1653
+  seed 2: seen true, heard by name false, anonymous sounds 0; identical to the run without them over 1800 ticks
+  seed 3: seen true, heard by name true, anonymous sounds 0; first different at tick 1347
+  seed 4: seen true, heard by name false, anonymous sounds 0; first different at tick 1383
+  seed 5: seen false, heard by name false, anonymous sounds 0; identical to the run without them over 1800 ticks
+  seed 6: seen true, heard by name true, anonymous sounds 0; identical to the run without them over 1800 ticks
+W behind wall A (lightless, crouch-walking on the far side):
+  seed 1: seen 0 ticks, heard by name 0, anonymous sounds 0, line of sight 382 ticks; identical to the run without them over 1800 ticks
+  seed 2: seen 0 ticks, heard by name 0, anonymous sounds 0, line of sight 0 ticks; identical to the run without them over 1800 ticks
+  seed 3: seen 0 ticks, heard by name 0, anonymous sounds 0, line of sight 0 ticks; identical to the run without them over 1800 ticks
+  seed 4: seen 0 ticks, heard by name 0, anonymous sounds 0, line of sight 0 ticks; identical to the run without them over 1800 ticks
+  seed 5: seen 0 ticks, heard by name 0, anonymous sounds 0, line of sight 0 ticks; identical to the run without them over 1800 ticks
+  seed 6: seen 0 ticks, heard by name 0, anonymous sounds 0, line of sight 186 ticks; identical to the run without them over 1800 ticks
+C touch at hunger 0 (arm's reach, 13 s):
+  seed 1: 91 samples within 50 px (91 seen); strike false; kills 0; plans roam/leave
+  seed 2: 122 samples within 50 px (122 seen); strike false; kills 0; plans roam/leave
+  seed 3: 79 samples within 50 px (79 seen); strike false; kills 0; plans roam/leave
+  seed 4: 90 samples within 50 px (90 seen); strike false; kills 0; plans roam/leave
+  seed 5: 92 samples within 50 px (92 seen); strike false; kills 0; plans roam/leave
+  seed 6: 79 samples within 50 px (79 seen); strike false; kills 0; plans roam/leave
