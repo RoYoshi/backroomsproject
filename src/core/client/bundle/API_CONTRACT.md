@@ -55,8 +55,8 @@ the same name and the same meaning, for every reader below.
 | `revive` | function | B06 | `G` = shared/entity.ts `entity`; `xu` = client/main.ts `function respawn` | mp.js ×1 |
 | `worldEnd` | function | B39 | `Xwr` (written by B39) | mp.js ×2 |
 | `tp` | function | B06 | `H` = shared/movement.ts `player`; `X` = client/main.ts `renderer` | mp.js ×3 |
-| `mkAvatar` | function | B06 | `$c` = client/player-view.ts `PlayerView (class)` | mp.js ×4 |
-| `layer` | function | B06 | `X` = client/main.ts `renderer` | mp.js ×4, assets/br-role.js ×2, assets/shadows-2d.js ×2, assets/skinstealer.js ×5 |
+| `mkAvatar` | function | B06 | `$c` = client/player-view.ts `PlayerView (class)` | mp.js ×4, assets/skinstealer.js ×2 |
+| `layer` | function | B06 | `X` = client/main.ts `renderer` | mp.js ×4, assets/br-role.js ×2, assets/shadows-2d.js ×2, assets/skinstealer.js ×6 |
 | `floor` | function | B12 | `X` = client/main.ts `renderer` | mp.js ×2, assets/br-role.js ×2, assets/shadows-2d.js ×2 |
 | `Jl` | binding | B12 | `Jl` = client/death.ts `DeathSequence (class)` | mp.js ×3 |
 | `Wl` | binding | B12 | `Wl` = client/entity-view.ts `EntityView (class)` | mp.js ×1 |
@@ -90,6 +90,6 @@ the same name and the same meaning, for every reader below.
 | `assets/mp-hum.js` | yes | `A` | 4 |
 | `assets/net-wire.js` | yes | `A` | 1 |
 | `assets/shadows-2d.js` | no (retired) | `A` | 12 |
-| `assets/skinstealer.js` | yes | `A`, `API()` | 6 |
+| `assets/skinstealer.js` | yes | `A`, `API()` | 7 |
 | `assets/ui.js` | yes | `A` | 6 |
 | `assets/voice.js` | yes | - | 1 |

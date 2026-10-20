@@ -1,0 +1,122 @@
+{
+ "tool": "dev/trial-3-skin-stealer/tools/speech_mutants.js",
+ "base": {
+  "passed": 12,
+  "cases": 12,
+  "failed": []
+ },
+ "mutants": [
+  {
+   "name": "entity line to the dead and the menu",
+   "caught": true,
+   "failed": [
+    "unit_entity_say_recipients",
+    "unit_entity_say_bucket"
+   ],
+   "expected": [
+    "unit_entity_say_recipients"
+   ]
+  },
+  {
+   "name": "entity line beyond the radius",
+   "caught": true,
+   "failed": [
+    "unit_entity_say_recipients",
+    "unit_entity_say_bucket"
+   ],
+   "expected": [
+    "unit_entity_say_recipients"
+   ]
+  },
+  {
+   "name": "entity line to every room",
+   "caught": true,
+   "failed": [
+    "unit_entity_say_recipients",
+    "unit_entity_say_bucket",
+    "unit_entity_say_own_room"
+   ],
+   "expected": [
+    "unit_entity_say_recipients",
+    "unit_entity_say_own_room"
+   ]
+  },
+  {
+   "name": "entity speaks as a person",
+   "caught": true,
+   "failed": [
+    "unit_entity_say_recipients",
+    "unit_entity_say_shape",
+    "unit_entity_say_voice_clamped"
+   ],
+   "expected": [
+    "unit_entity_say_shape"
+   ]
+  },
+  {
+   "name": "entity text not cleaned",
+   "caught": true,
+   "failed": [
+    "unit_entity_say_shape",
+    "unit_entity_say_text_checked",
+    "unit_entity_say_voice_clamped"
+   ],
+   "expected": [
+    "unit_entity_say_shape",
+    "unit_entity_say_text_checked"
+   ]
+  },
+  {
+   "name": "entity bucket removed",
+   "caught": true,
+   "failed": [
+    "unit_entity_say_bucket"
+   ],
+   "expected": [
+    "unit_entity_say_bucket"
+   ]
+  },
+  {
+   "name": "entity voice unchecked",
+   "caught": true,
+   "failed": [
+    "unit_entity_say_voice_clamped"
+   ],
+   "expected": [
+    "unit_entity_say_voice_clamped"
+   ]
+  },
+  {
+   "name": "entity backlog not skipped",
+   "caught": true,
+   "failed": [
+    "unit_entity_say_backlog_skipped"
+   ],
+   "expected": [
+    "unit_entity_say_backlog_skipped"
+   ]
+  },
+  {
+   "name": "hook before the rules",
+   "caught": true,
+   "failed": [
+    "unit_entity_hook_accepted",
+    "unit_entity_hook_refused_never"
+   ],
+   "expected": [
+    "unit_entity_hook_refused_never"
+   ]
+  },
+  {
+   "name": "hook gets the packet",
+   "caught": true,
+   "failed": [
+    "unit_entity_hook_accepted"
+   ],
+   "expected": [
+    "unit_entity_hook_accepted"
+   ]
+  }
+ ],
+ "ok": true
+}

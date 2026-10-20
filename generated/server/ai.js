@@ -2308,7 +2308,25 @@ SMILER.snap = e => ({ i: e.id, x: Math.round(e.x * 10) / 10, y: Math.round(e.y *
  *   for about a second, and it cannot spring again for 2-3 s; a leap into a wall stuns it.  Anybody who walks into arm's reach of a
  *   hungry one is taken with a short grab.  The capture is always quick (it never plays with its prey); the kill is one of three
  *   (A a grip and a neck break; B the pounce carries them down and breaks the neck; C a hold and a bite at the neck), it stays on its
- *   kill for as long as the death plays on every screen (the shared commitment), then feeds beside the body. */
+ *   kill for as long as the death plays on every screen (the shared commitment), then feeds beside the body.
+ * T6: DECEPTION (DESIGN_DECISIONS.md D8, D9).
+ *   Its ears for speech: a line a person says in a run reaches it only as the players' own nearby speech reaches a player - accepted by
+ *     B++'s speech.js and W.A.R.D.'s text check, in its room, from a speaker within SK.hearSpeech (576 px) at that moment (the server's
+ *     positions); never the menu lounge.  It keeps at most SK.heardMax lines for SK.heardTtl seconds (and none of a person who has left the
+ *     room); it never logs them and the admin overlay shows only how many and how old.  A voice is also a sound: where it came from goes
+ *     through the engine's own hearing (walls muffle it; it names nobody it has not seen) - talking near it can draw it.
+ *   Its lines: from hiding while it lies in wait (hungry), and when it stands staring in a borrowed skin - the opening words of a line it
+ *     heard (lower case, sometimes its last word again: the echo is a little wrong), preferring the words of the person whose skin it
+ *     wears, then anybody else's, then the person's own; with nothing heard, one of a few generic calls that claim no knowledge
+ *     (SK_BAIT).  At most one every SK.sayGap seconds and SK.sayEnc an encounter; the server's own bucket limits it again.  It is said
+ *     by the entity: B++'s speech.entitySay sends {t:'eheard', e, ...}, never a person's session id (server.js wires eng.voiceOut).
+ *   Its skin: only at a kill it has made - G.I.B.'s aftermath hands the engine the victim's validated look (hat, texture, hands, main;
+ *     never a name, a light, an item or an id) when that death ends - and only if it then feeds for SK.skinFeed seconds (disturbed
+ *     sooner, the skin is left behind).  It wears it for SK.disguiseTime: on screen an ordinary wanderer with nothing in its hands, no
+ *     name, stiff arms, a slightly slow walk (150 px/s) and long stares.  In it, it does not hide when seen: it walks up openly, stands
+ *     and stares, may speak, then walks on - or, hungry, comes closer and springs from SK.mingleStrike.  The skin drops at its
+ *     wind-up, when it breaks into a run, when its time is up; it is gone with the entity and with a world reset.  The same collider in
+ *     every form (no crawlspace; LogicZ does not exist).  No light, no item, no corpse is ever touched (CAPABILITY_MATRIX.md §6). */
 const KACT = { '': 0, watch: 1, back: 2, leave: 3, wait: 4, lure: 5, intercept: 6, search: 7, listen: 8, approach: 9, creep: 10, chase: 11, wind: 12, pounce: 13, recover: 14, feed: 15, mimic: 16, rest: 17, pace: 18 };
 /* the balance table (proposed; every value is named so it can be tested and tuned) */
 const SK = Object.freeze({
@@ -2344,7 +2362,18 @@ const SK = Object.freeze({
   recoverMiss: [.9, 1.3], recoverWall: 1.1,      // seconds it stands recovering after a miss; after a leap into a wall
   grabReach: 46, grabWind: .12,                  // arm's reach (centre to centre) and the grab's wind-up
   killMeal: .35, feedRate: .03, feedTime: [18, 35],   // hunger a kill takes away; while feeding, per second; how long it feeds
+  // T6: deception
+  skinFeed: 8,                                   // seconds it must feed on its kill before it can wear that person's skin (disturbed sooner: none)
+  disguiseTime: [240, 420],                      // how long a skin lasts on it (s)
+  mingleStop: 170, mingleStrike: 120,            // in a skin it walks up openly to this far and stares; it springs only from this close
+  stare: [3, 7],                                 // seconds it stands and stares (x .7 .. 1.3 with PATIENCE): the tell
+  hearSpeech: 576,                               // it keeps a line only from a speaker this close (the players' own nearby-speech radius)
+  heardMax: 4, heardTtl: 90, heardUses: 2,       // lines kept; seconds kept; times each may be repeated
+  sayGap: [10, 18], sayEnc: 3, sayLure: 1.5,     // seconds between its lines; lines in one encounter; seconds into a wait before it calls
+  sayWords: 6, echo: .35,                        // the most words it repeats; how often it repeats its last word again
 });
+/* (T6) the generic calls, used only when it has heard nothing it may repeat: none of them claims to know anything about anybody */
+const SK_BAIT = Object.freeze(['hello?', 'is someone there?', 'over here', 'wait for me', 'can you help me?', "i'm lost", 'this way']);
 const SKIN = {
   name: 'SkinStealer', kind: 'skinstealer', initial: S.ROAMING, radius: 24, clearance: 21, vTop: 300, turnPenalty: .5, roamSpeed: 105,
   // a patient, cautious, clever animal: intelligence, patience and caution drive its plans; hunger is its own variable (e.hunger), not a trait
@@ -2375,8 +2404,12 @@ const SKIN = {
     const h = Number.isFinite(opts.hunger) ? opts.hunger : lerp(SK.hungerAtSpawn[0], SK.hungerAtSpawn[1], e.streams.personality());
     e.hunger = clamp(h, 0, 1); e.stam = 100; e.exh = false;
     e.plan = null; e.enc = null; e.left = new Map(); e.still = false; e.pounce = null; e.recover = 0; e.disguise = null; e.heard = []; e.said = 0;
+    e.skin = null; e.sayNext = 0; e.mimicT = 0;                                                // (T6) a skin waiting for its meal; its next line
+    e.sayRng = mkRng(deriveSeed(eng.seed, 'skinstealer-say', e.id));                           // (T6) its own stream: its words never move its other choices
+    e.voice = { h: Math.round(lerp(-4, 2, e.sayRng())), s: Math.round(lerp(78, 92, e.sayRng())) };   // its voice (pitch, pace): slow and a little low
     e.roam = { goal: null, until: 0, pause: 0 }; e.dbg.why = 'roaming'; e.dbg.decide = null; e.dbg.predict = null; e.dbg.soundSeen = 0;
-    e.tally = { lure: 0, lureCame: 0, intercept: 0, interceptCame: 0, chase: 0, chaseLost: 0, search: 0, searchFound: 0, pounce: 0, grab: 0, hit: 0, miss: 0, wall: 0, kills: 0 };   // its record (debug, tests, the balance report)
+    e.tally = { lure: 0, lureCame: 0, intercept: 0, interceptCame: 0, chase: 0, chaseLost: 0, search: 0, searchFound: 0, pounce: 0, grab: 0, hit: 0, miss: 0, wall: 0, kills: 0,
+      mingle: 0, say: 0, sayHeard: 0, sayBait: 0, skin: 0, skinLost: 0, reveal: 0 };   // its record (debug, tests, the balance report)
     e.pounceCool = 0;
   },
   /* the engine's hooks (ai.engine.js): it never borrows a Hound's or a Smiler's own functions */
@@ -2386,7 +2419,7 @@ const SKIN = {
   },
   farTick(eng, e, dt) {                                           // far from everyone it stands still, and is still hungry (or still feeding)
     skBody(eng, e, dt);
-    const P = e.plan; if (P && P.k === 'feed') { e.hunger = clamp(e.hunger - SK.feedRate * dt, 0, 1); if (eng.now > P.until || e.hunger < .02) { e.plan = null; setState(e, S.ROAMING, ''); e.dbg.why = 'fed: it waits where it is'; } }
+    const P = e.plan; if (P && P.k === 'feed') { e.hunger = clamp(e.hunger - SK.feedRate * dt, 0, 1); P.fed = (P.fed || 0) + dt; if (eng.now > P.until || (e.hunger < .02 && P.fed >= SK.skinFeed)) { skDon(eng, e, P); e.plan = null; setState(e, S.ROAMING, ''); e.dbg.why = 'fed: it waits where it is'; } }
   },
   still(e) { return e.still; },                                  // (the engine's stuck watchdog: it held still this tick on purpose)
   onStuck(eng, e) { if (e.plan && e.plan.k !== 'lure') e.plan.stuck = (e.plan.stuck || 0) + 1; e.roam.goal = null; e.dbg.why = 'stuck: the watchdog cleared its route'; },
@@ -2409,12 +2442,13 @@ function skBody(eng, e, dt) {
   e.stam = clamp(e.stam, 0, 100);
   if (!e.exh && e.stam < SK.stamExh) { e.exh = true; e.dbg.exh = eng.now; }
   else if (e.exh && e.stam >= SK.stamBack) e.exh = false;
+  if (e.disguise && eng.now > e.disguise.until) skUndress(eng, e, 'its borrowed skin wore out');   // (T6)
 }
 /* it holds still on purpose: no route left behind (the engine's stuck watchdog would take a deliberate stop for being stuck) */
 function skHold(eng, e, dt) { if (e.path.length) e.path = []; stopMoving(eng, e, dt); e.still = true; }
 /* the fastest it may go now: exhausted it walks, tired it runs slower */
 const skCap = e => e.exh ? e.sp.speeds.roam : e.stam < SK.stamLow ? e.sp.speeds.fatigued : e.sp.speeds.run;
-const skSpeed = (e, k) => Math.min(e.sp.speeds[k] || 100, skCap(e));
+const skSpeed = (e, k) => Math.min(e.sp.speeds[k] || 100, skCap(e), e.disguise ? e.sp.speeds.disguise : 1e9);   // (T6: in a skin, never faster than its walk)
 
 /* ---- what it perceives: the people it sees now, and where it believes a remembered one is ---- */
 function skSeen(eng, e) {
@@ -2430,7 +2464,8 @@ const skLit = (eng, e) => eng.geo.lightLevel(e.x, e.y, eng.lightPlayers());
 /* ---- plans ---- */
 /* each plan's state and act (the shared framework's states: what the client and the admin overlay read) */
 const SK_STATE = { watch: [S.WATCHING, 'watch'], retreat: [S.RETREATING, 'back'], approach: [S.STALKING, 'approach'], chase: [S.HUNTING, 'chase'],
-  lure: [S.CAUTIOUS, 'lure'], intercept: [S.STALKING, 'intercept'], search: [S.SEARCHING, 'search'], leave: [S.DISAPPEARING, 'leave'], feed: [S.FEEDING, 'feed'] };
+  lure: [S.CAUTIOUS, 'lure'], intercept: [S.STALKING, 'intercept'], search: [S.SEARCHING, 'search'], leave: [S.DISAPPEARING, 'leave'], feed: [S.FEEDING, 'feed'],
+  mingle: [S.STALKING, 'pace'] };                                                              // (T6) in a borrowed skin, walking up openly
 function skBegin(eng, e, k, r, why, extra) {
   const p = Object.assign({ k, pid: r ? r.id : 0, t0: eng.now, why }, extra || {});
   e.plan = p; e.dbg.why = why; e.path = []; e.goalKey = '';
@@ -2612,7 +2647,7 @@ function skListen(eng, e) {
 }
 
 /* ---- T4: the strike ---- */
-const SK_STRIKE = { approach: 1, chase: 1, lure: 1, intercept: 1, search: 1 };    // the plans it springs from (never while watching, retreating, leaving or feeding)
+const SK_STRIKE = { approach: 1, chase: 1, lure: 1, intercept: 1, search: 1, mingle: 1 };    // the plans it springs from (never while watching, retreating, leaving or feeding)
 /* on its think: somebody in arm's reach of a hungry one is grabbed; somebody its plan is about, in sight 55-185 px away, it springs at */
 function skStrike(eng, e) {
   if (e.exh || e.hunger < SK.band[1] || eng.now < e.pounceCool || e.commit || e.cap) return false;
@@ -2625,7 +2660,7 @@ function skStrike(eng, e) {
   const P = e.plan; if (!P || !P.pid || !SK_STRIKE[P.k] || e.stam < SK.pounceCost) return false;
   const r = e.mem.p.get(P.pid); if (!r || !r.seen || !r.visual || tgtGone(eng, e, r)) return false;
   const p = perc(eng, e, r), d = Math.hypot(p.x - e.x, p.y - e.y);
-  if (d < SK.pounceRange[0] || d > SK.pounceRange[1]) return false;
+  if (d < SK.pounceRange[0] || d > (e.disguise ? SK.mingleStrike : SK.pounceRange[1])) return false;   // (T6: in a skin it waits until they are close)
   // only a leap that can reach them (from what it sees of their motion: moving away they get further during the wind-up and the leap),
   // aimed where it believes they will be at the moment it reaches them, with a seeded error that INTELLIGENCE shrinks
   const leapV = SK.pounceSpeed * .85, touch = e.r + 16, vr = d > 1 ? clamp(((p.x - e.x) * p.vx + (p.y - e.y) * p.vy) / d, -200, 300) : 0;
@@ -2640,6 +2675,7 @@ function skSpring(eng, e, dir, tid, style, why) {
   const grab = style === 'grab';
   e.pounce = { t: 0, wind: grab ? SK.grabWind : SK.pounceWind, dur: grab ? .16 : SK.pounceDur, speed: grab ? 200 : SK.pounceSpeed, dir, tid, style, paid: false };
   e.tally[grab ? 'grab' : 'pounce']++; e.path = []; e.dbg.why = why; e.dbg.pounce = style;
+  if (e.disguise) skUndress(eng, e, 'it drops the skin to spring');                      // (T6) the wind-up shows what it is
   setState(e, S.ATTACKING, 'wind');
 }
 /* the wind-up, the committed leap, the recovery; a hit returns the capture to the engine (ai.engine.js begins it) */
@@ -2676,6 +2712,64 @@ function skFeedBegin(eng, e, pv) {
   e.target = null; e.enc = null;
 }
 
+/* ---- T6: what it hears, what it says, the skin it earns ---- */
+/* a line a person said near it (B++'s speech.js, accepted, through the engine's hearSpeech): kept for a while, and heard as a sound */
+function skHearSpeech(eng, e, L) {
+  if (!L || typeof L.text !== 'string' || !Number.isSafeInteger(L.id) || !Number.isFinite(L.x) || !Number.isFinite(L.y)) return false;
+  if (Math.hypot(L.x - e.x, L.y - e.y) > SK.hearSpeech || e.commit) return false;
+  const now = eng.now;
+  e.heard = e.heard.filter(q => now - q.at < SK.heardTtl && !(q.pid === L.id && q.text === L.text));
+  e.heard.push({ pid: L.id, text: L.text, at: now, uses: 0 }); while (e.heard.length > SK.heardMax) e.heard.shift();
+  e.dbg.heardN = (e.dbg.heardN || 0) + 1;
+  if (e.tier !== 'far') hearEvent(e, eng, { x: L.x, y: L.y, r: SK.hearSpeech, I: .6, type: 'voice', src: L.id, st: 1, vx: 0, vy: 0 });   // where a voice came from: a sound like any other
+  return true;
+}
+/* the words it will say: the opening words of a line it heard (lower case; sometimes the last word again), or a generic call */
+function skLine(eng, e, r) {
+  const now = eng.now, from = e.disguise ? e.disguise.from : -1, rid = r ? r.id : -1;
+  const H = e.heard.filter(q => now - q.at < SK.heardTtl && q.uses < SK.heardUses);
+  const rank = q => (q.pid === from ? 3 : q.pid !== rid ? 2 : 1) * 1e6 + q.at;          // the skin's owner's words, then anybody else's, then their own
+  H.sort((a, b) => rank(b) - rank(a));
+  if (H.length) {
+    const q = H[0]; q.uses++;
+    const w = q.text.toLowerCase().replace(/[.!,;:]+$/u, '').split(' ').filter(Boolean).slice(0, SK.sayWords);
+    if (w.length && e.sayRng() < SK.echo) { const last = w[w.length - 1], bare = last.replace(/[?!.]+$/u, ''); if (bare) { w[w.length - 1] = bare + '...'; w.push(bare + (/[?]$/u.test(last) ? '?' : '')); } }   // "wait for me... me"
+    const text = Array.from(w.join(' ')).slice(0, 120).join('');
+    if (text) return { text, o: q.pid, src: 'heard' };
+  }
+  return { text: SK_BAIT[Math.floor(e.sayRng() * SK_BAIT.length) % SK_BAIT.length], o: 0, src: 'bait' };
+}
+/* it speaks (never more often than SK.sayGap, never more than SK.sayEnc lines in one encounter): the engine hands the line to the server */
+function skSay(eng, e, r, why) {
+  const now = eng.now; if (now < e.sayNext) return false;
+  const enc = r && e.enc && e.enc.pid === r.id ? e.enc : null; if (enc && (enc.said || 0) >= SK.sayEnc) return false;
+  const L = skLine(eng, e, r);
+  e.sayNext = now + lerp(SK.sayGap[0], SK.sayGap[1], e.sayRng()); if (enc) enc.said = (enc.said || 0) + 1;
+  e.said++; e.tally.say++; e.tally[L.src === 'heard' ? 'sayHeard' : 'sayBait']++;
+  e.dbg.said = { at: +now.toFixed(1), src: L.src, why, to: r ? r.id : 0 };              // (never the words themselves)
+  e.mimicT = now + 1.6; setAct(e, 'mimic');
+  if (eng.voiceOut) eng.voiceOut({ e: e.id, x: Math.round(e.x), y: Math.round(e.y), text: L.text, o: L.o, h: e.voice.h, s: e.voice.s });
+  return true;
+}
+/* the skin of the person it has just killed (G.I.B.'s aftermath, through the engine's skinFrom, when that death ends): taken only if it
+ * then feeds long enough.  Only the look's four drawn fields, re-checked here; never a name, a light, an item or an id */
+const SK_LOOK = /^[a-z]{1,12}\|[a-z]{1,12}\|#[0-9a-fA-F]{6}\|#[0-9a-fA-F]{6}(\|[a-z]{0,12})?$/;
+function skSkinFrom(eng, e, pid, look) {
+  if (typeof look !== 'string' || !SK_LOOK.test(look) || !Number.isSafeInteger(pid)) return false;
+  e.skin = { look: look.split('|').slice(0, 4).join('|'), pid, at: eng.now };
+  return true;
+}
+function skDon(eng, e, P) {
+  const K = e.skin; e.skin = null; if (!K) return;
+  if (!P || (P.fed || 0) < SK.skinFeed) { e.tally.skinLost++; e.dbg.skin = 'left behind: its meal was cut short'; return; }
+  e.disguise = { look: K.look, from: K.pid, t0: eng.now, until: eng.now + rand(e, SK.disguiseTime[0], SK.disguiseTime[1]) };
+  e.tally.skin++; e.dbg.skin = `it wears P${K.pid}'s skin`; eng.note(`K#${e.id} wears the skin of P${K.pid}`);
+}
+function skUndress(eng, e, why) {
+  if (!e.disguise) return; e.disguise = null; e.tally.reveal++; e.dbg.skin = why; eng.note(`K#${e.id} drops its disguise: ${why}`);
+  if (e.plan && e.plan.k === 'mingle') { e.plan = null; e.dbg.why = why; }
+}
+
 /* ---- the decision: what it does about the people it perceives (on its think, 10 Hz near) ---- */
 function skDecide(eng, e) {
   const now = eng.now, P = e.plan;
@@ -2683,12 +2777,14 @@ function skDecide(eng, e) {
   if (P && P.k === 'leave' && now < P.until && !(P.goal && Math.hypot(P.goal.x - e.x, P.goal.y - e.y) < 80)) return;   // a departure is carried through
   if (P && P.k === 'leave') { e.plan = null; e.dbg.why = 'it left; it roams again'; }
   const all = skSeen(eng, e), seen = all.filter(r => !e.left.has(r.id));
+  if (e.heard.length) e.heard = e.heard.filter(q => now - q.at < SK.heardTtl && eng.byId.has(q.pid));   // (T6) lines expire; a person who left takes theirs
   if (P && P.k === 'feed') {                                                      // at its kill: fed, or disturbed (seen close, or watched), it goes
     const near = all.find(r => r.dist < 520 || skWatched(eng, e, r));
-    if (near) { skLeave(eng, e, null, `disturbed at its kill by P${near.id}`); return; }
-    if (now > P.until || e.hunger < .02) { e.plan = null; e.dbg.why = 'fed: it roams again'; }
+    if (near) { skDon(eng, e, P); skLeave(eng, e, null, `disturbed at its kill by P${near.id}`); return; }
+    if (now > P.until || (e.hunger < .02 && (P.fed || 0) >= SK.skinFeed)) { skDon(eng, e, P); e.plan = null; e.dbg.why = 'fed: it roams again'; }   // (T6: a meal lasts at least SK.skinFeed: it takes its time with the body)
     return;
   }
+  if (e.skin) { e.skin = null; e.tally.skinLost++; e.dbg.skin = 'left behind: it was not at its meal'; }   // (T6) a skin is only taken at the meal
   if (!seen.length) { skUnseen(eng, e); return; }
   const r = seen[0], h = e.hunger, p = perc(eng, e, r), d = Math.hypot(p.x - e.x, p.y - e.y);
   const enc = skEnc(eng, e, r, true), watched = skWatched(eng, e, r), lit = skLit(eng, e) > SK.exposed, crowd = seen.length;
@@ -2700,13 +2796,22 @@ function skDecide(eng, e) {
   // (fleeing: running from it, or hurrying off after meeting its eyes - somebody who simply walks on has not noticed it)
   if (watched) enc.eyes = now;
   const away = d > 1 ? ((p.x - e.x) * p.vx + (p.y - e.y) * p.vy) / d : 0, fleeing = away > 200 || (away > 110 && now - (enc.eyes ?? -99) < 4), winded = r.ex || r.stamina < 25;
+  // (T6) in a borrowed skin it does not hide: it walks up like one of them; a hungry one drops the skin to run after somebody who flees
+  if (e.disguise && crowd === 1) {
+    if (fleeing && h >= SK.band[2] && !e.exh && e.stam >= SK.stamLow + 15 && d < SK.chaseFrom && cur !== 'chase') {
+      skUndress(eng, e, `P${r.id} runs: it drops the skin to give chase`); skBegin(eng, e, 'chase', r, `P${r.id} runs: it gives chase`, { dmin: d }); return;
+    }
+    if (cur === 'mingle' || cur === 'chase') return;
+    if (fleeing) { skLeave(eng, e, r, `P${r.id} hurries away: it lets them go`); return; }
+    skBegin(eng, e, 'mingle', r, `in P${e.disguise.from}'s skin it walks up to P${r.id}`, { ph: 'walk' }); return;
+  }
   // lying in wait and they are walking into it, unaware: it holds still (the ambush; T4 springs it)
   if (waiting && cur !== 'search' && !watched && !lit && away < -30 && d > SK.approachStop && crowd === 1) { e.dbg.why = `P${r.id} is coming its way, unaware: it holds still`; return; }
   // what each option is worth now (seeded draws break near-ties: two Skin-Stealers in the same spot do not act alike)
   const W = {
-    leave: (1 - h) * 1.1 + (crowd - 1) * .6 + (lit && watched ? .5 : 0) + (e.exh ? .7 : 0) + T.CAUTION * .2 + spent * 1.2 + (h < SK.band[0] ? .8 : 0),
+    leave: (1 - h) * 1.1 + (crowd - 1) * .6 + (lit && watched && !e.disguise ? .5 : 0) + (e.exh ? .7 : 0) + T.CAUTION * .2 + spent * 1.2 + (h < SK.band[0] ? .8 : 0),
     watch: cur === 'watch' && now > e.plan.until ? 0 : (d > SK.near ? .62 : .22) + T.PATIENCE * .3 - h * .4,
-    retreat: watched && h >= SK.band[1] ? .45 + h * .6 + T.INTELLIGENCE * .2 : watched && d < SK.near ? .9 : 0,
+    retreat: e.disguise ? 0 : watched && h >= SK.band[1] ? .45 + h * .6 + T.INTELLIGENCE * .2 : watched && d < SK.near ? .9 : 0,   // (T6: in a skin, being looked at is the point)
     approach: h < .35 || e.exh ? 0 : (watched ? (h >= SK.band[3] ? .35 : 0) : fleeing ? .3 : 1) * (h * 1.6 - T.CAUTION * .25 + (lit ? -.1 : .25)),
     chase: cur === 'chase' ? (e.plan.lost ? 0 : 2) :                                       // a chase runs until its own rules end it (skAct)
       h < SK.band[2] || e.exh || e.stam < SK.stamLow + 15 || d > SK.chaseFrom || crowd > 1 || !(fleeing || winded) ? 0 : .55 + h * .9 + (winded ? .5 : 0) - T.CAUTION * .3,
@@ -2792,8 +2897,10 @@ function skAct(eng, e, dt, thinkNow) {
     }
     case 'lure': {
       skHold(eng, e, dt); if (P.face) faceToward(e, P.face.x, P.face.y, dt, 1.6);
-      if (e.act !== 'lure') setAct(e, 'lure');
+      if (e.act !== 'lure' && !(e.act === 'mimic' && now < e.mimicT)) setAct(e, 'lure');
       if (thinkNow) {
+        // (T6) hungry, unseen, a moment into the wait: it calls out once - words it heard, or a generic call
+        if (!P.spoke && now - P.t0 > SK.sayLure && e.hunger >= SK.band[2] && !(r && r.seen) && skSay(eng, e, r, 'from hiding')) P.spoke = now;
         if (skComing(eng, e, P)) { P.until = Math.min(Math.max(P.until, now + 2.5), P.t0 + SK.lureMax); if (r && now - r.heardAt < 2.5) P.face = { x: r.hx, y: r.hy }; e.dbg.why = 'it hears them coming: it waits, ready'; }
         if (P.came === undefined && skHeardNear(eng, e, r, 320)) { P.came = now; e.tally.lureCame++; }
         if (now > P.until) { skLeave(eng, e, r, P.bait ? `P${P.pid} did not follow: the bait failed` : `nobody came: it gives up on P${P.pid}`); return; }
@@ -2855,8 +2962,31 @@ function skAct(eng, e, dt, thinkNow) {
     }
     case 'feed': {
       skHold(eng, e, dt); if (P.at) faceToward(e, P.at.x, P.at.y, dt, 1.5);
-      e.hunger = clamp(e.hunger - SK.feedRate * dt, 0, 1);
+      e.hunger = clamp(e.hunger - SK.feedRate * dt, 0, 1); P.fed = (P.fed || 0) + dt;
       if (e.act !== 'feed') setAct(e, 'feed');
+      return;
+    }
+    case 'mingle': {                                                                   // (T6) in a borrowed skin: up to them openly, a stare, maybe a word
+      if (!r || tgtGone(eng, e, r) || !e.disguise) { e.plan = null; return; }
+      const p = perc(eng, e, r), d = Math.hypot(p.x - e.x, p.y - e.y);
+      if (P.ph === 'walk' && d <= SK.mingleStop) { P.ph = 'stare'; P.stareT = now; P.stareFor = rand(e, SK.stare[0], SK.stare[1]) * (.7 + .6 * e.tr.PATIENCE); e.dbg.why = `it stands and stares at P${r.id}`; }
+      if (P.ph === 'stare') {
+        skHold(eng, e, dt); faceToward(e, p.x, p.y, dt, 2.4);
+        if (e.act !== 'watch' && !(e.act === 'mimic' && now < e.mimicT)) setAct(e, 'watch');
+        if (thinkNow && !P.spoke && now - P.stareT > .8) { P.spoke = now; skSay(eng, e, r, 'staring'); }
+        if (thinkNow && d > SK.mingleStop + 160) { P.ph = 'walk'; e.dbg.why = `P${r.id} moved off: it walks after them`; }
+        else if (thinkNow && now - P.stareT > P.stareFor) {
+          if (e.hunger >= SK.band[1] && !e.exh) { P.ph = 'close'; e.dbg.why = `it walks right up to P${r.id}`; }
+          else { skLeave(eng, e, r, `it looked P${r.id} over and walks on`); return; }
+        }
+        return;
+      }
+      if (thinkNow && (now - (P.planT || -9) > (P.ph === 'close' ? .8 : 1.5) || !e.path.length)) {
+        P.planT = now;
+        if (directOk(eng, e, p.x, p.y, 420)) directTo(eng, e, p.x, p.y); else plan(eng, e, p.x, p.y, { why: 'mingle', maxNodes: 3000 });
+      }
+      if (e.act !== 'pace') setAct(e, 'pace');
+      follow(eng, e, dt, skSpeed(e, 'disguise'), { arrive: P.ph === 'close' ? 40 : SK.mingleStop - 10 });
       return;
     }
     case 'leave': {
@@ -2906,12 +3036,18 @@ function skDebug(eng, e) {
     enc: e.enc ? { pid: e.enc.pid, spent: +e.enc.spent.toFixed(1), budget: Math.round(skBudget(e)) } : null, left: [...e.left].map(([id, u]) => [id, +(u - eng.now).toFixed(1)]),
     dec: e.dbg.decide || null, pr: g ? { x: Math.round(g.x), y: Math.round(g.y), q: [Math.round(g.qx), Math.round(g.qy)], turns: g.turns.length, lead: g.lead, hid: g.hidden ? 1 : 0, at: g.at } : null,
     tally: e.tally, pc: e.pounce ? e.pounce.style + (e.pounce.t < e.pounce.wind ? ' wind' : ' leap') : e.recover > 0 ? 'recover ' + e.recover.toFixed(1) : '', cool: +Math.max(0, e.pounceCool - eng.now).toFixed(1),
-    cm: e.commit ? e.commit.v : '', dg: e.disguise ? 1 : 0, hd: e.heard.length, rg: e.roam.goal ? [Math.round(e.roam.goal.x), Math.round(e.roam.goal.y)] : null };
+    cm: e.commit ? e.commit.v : '', rg: e.roam.goal ? [Math.round(e.roam.goal.x), Math.round(e.roam.goal.y)] : null,
+    // (T6) its skin and its ears: whose skin and how long it has left; how many lines it holds and how old (never a word of them); its last line's kind
+    dg: e.disguise ? { from: e.disguise.from, left: Math.round(e.disguise.until - eng.now) } : 0, sk: e.skin ? e.skin.pid : 0, sn: e.dbg.skin || '',
+    hd: e.heard.map(q => Math.round(eng.now - q.at)), sd: e.dbg.said ? { ago: +(eng.now - e.dbg.said.at).toFixed(1), src: e.dbg.said.src, why: e.dbg.said.why } : null };
 }
 SKIN.tick = skinTick;
 SKIN.debug = skDebug;
 SKIN.predict = skPredict;                                       // (its guess from a record: the tests and the admin overlay ask it directly)
-SKIN.snap = e => ({ i: e.id, x: Math.round(e.x * 10) / 10, y: Math.round(e.y * 10) / 10, a: +e.ang.toFixed(3), s: SCODE[e.state], ac: KACT[e.act] | 0, v: Math.round(e.speed), h: +(e.head || 0).toFixed(2) });
+SKIN.hearSpeech = skHearSpeech;                                 // (T6) the engine's hearSpeech: a line said near it
+SKIN.skinFrom = skSkinFrom;                                     // (T6) the engine's skinFrom: the look of the person it has killed
+/* the snapshot's entry; dg (T6) only while it wears a skin: the look it wears, as the wire carries a wanderer's (hat|texture|hands|main) */
+SKIN.snap = e => Object.assign({ i: e.id, x: Math.round(e.x * 10) / 10, y: Math.round(e.y * 10) / 10, a: +e.ang.toFixed(3), s: SCODE[e.state], ac: KACT[e.act] | 0, v: Math.round(e.speed), h: +(e.head || 0).toFixed(2) }, e.disguise ? { dg: e.disguise.look } : null);
 
 /* ---------------------------------------------------------------- the engine: sound bus, level of detail, capture loop, snapshots */
 const SPECIES = { hound: HOUND, smiler: SMILER, skinstealer: SKIN };   // (Trial 3: the Skin-Stealer, admin-only; its own hooks below, never the others' functions)
@@ -2974,6 +3110,13 @@ function create(cfg) {
   };
   eng.blackout = () => geo.a.blackout();
   eng.commitEnd = function (pid, x, y, a) { return commitEnd(this, pid, x, y, a); };
+  /* (Trial 3 T6) speech and skins, for a species that has ears for them (the Skin-Stealer; never a Hound or a Smiler): server.js wires
+   * them.  hearSpeech(L): a line B++'s speech.js accepted and delivered, {id, x, y, text} (the speaker's id and server position).
+   * skinFrom(eid, pid, look): G.I.B.'s aftermath, when a death this entity caused ends: the victim's validated look.  voiceOut: what
+   * server.js gives to send an entity's line (B++'s speech.entitySay); null in a world with no server (a line is then only counted). */
+  eng.voiceOut = null;
+  eng.hearSpeech = function (L) { let n = 0; for (const e of this.entities) if (e.sp.hearSpeech && e.sp.hearSpeech(this, e, L)) n++; return n; };
+  eng.skinFrom = function (eid, pid, look) { const e = this.entities.find(q => q.id === eid); return !!(e && e.sp.skinFrom && e.sp.skinFrom(this, e, pid, look)); };
 
   /* ------------------------------------------------------------ the sound bus: an event goes to every entity once; each decides what it makes of it */
   eng.sound = function (ev) {

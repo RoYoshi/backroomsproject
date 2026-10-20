@@ -97,21 +97,42 @@ unread; it answers pings and closes on a close frame; unparseable frames are dro
    the admin lockout keyed on a forwarded address a client can forge. Neither chat path reads either. Both need their own approved
    security work before any public deployment.
 
-## The future-entity contract: `onLocallyHeardSpeech` (inert)
+## The entity contract: `onLocallyHeardSpeech` (connected at Trial 3)
 
-Not implemented, not connected to N.A.N.I. or any AI. If a future, separately approved trial gives an entity the ability to "hear"
-speech, it may receive only what a player standing where that entity stands could have received under the rules above:
+Before Trial 3 this was a written contract only (`ON_HEARD = null`, never assigned). Trial 3 (`dev/trial-3-skin-stealer/`, owner's
+pack 05, `DESIGN_DECISIONS.md` D9) connects it for one entity, the admin-only Skin-Stealer, and gives entities a voice of their own.
+The rules it was written with still hold:
 
 ```text
-onLocallyHeardSpeech({ speakerId, roomId, boundedText, timestamp, distance })
-  - only lines that passed chat_text.js and were accepted by speech.js, in the entity's own room, from a speaker within the same
-    576 px radius of the entity at that moment;
-  - never a lounge (menu) line, never a line from another room, never a refused or distant line, never a line older than the moment
-    it was said (no history, no store);
-  - the text may not be kept beyond the entity's immediate reaction, logged, or used to build a model of a player.
+onHeard(room, { id, x, y, text })        (speech.js -> server.js -> that room's AI engine: eng.hearSpeech)
+  - only lines that passed chat_text.js and were accepted and delivered by speech.js; called once per line, after every rule;
+    never a refused line, never a lounge (menu) line (the lounge never comes through speech.js), never anything from the packet
+    but its text: the speaker is the connection, the position is the server's;
+  - in the engine only a Skin-Stealer of that room within the same 576 px of the speaker keeps it: at most 4 lines, for at most
+    90 s, none of a person who has left the room, never logged, never sent to the admin overlay (only how many and how old), never
+    used to build a model of a player; no history from before it was in range;
+  - the voice is also a sound (where it came from, through the engine's ordinary hearing: walls muffle it, it names nobody unseen).
 ```
 
-Today `speech.js` holds `ON_HEARD = null`, never assigned and never called (the unit check asserts it).
+The pack asks for a finite memory of short imitations, so lines are kept for a while (the earlier draft said "only the entity's
+immediate reaction"); the bounds above are that memory.
+
+An entity's line is its own packet, never a person's:
+
+```text
+{ t: 'eheard', e, text, seq, v: { h, s }, o }     (speech.entitySay, given to each world's engine as eng.voiceOut)
+  - e: the entity id; o: the session id of the person whose words it repeats (0 for one of its few generic calls, which claim no
+    knowledge of anybody); v: its voice (pitch, pace) - no preset: the page plays it in the entity voice nobody can choose;
+  - the text passes cleanText again; it reaches the living players of the same room within 576 px of the entity, a token bucket
+    per entity (one line every 6 s) and the slow-socket skip; never the menu, the dead or another room;
+  - it never carries 'heard' or a session id as its speaker, so no page takes it for a person's authenticated line.
+```
+
+The page (`chat.js`): a bubble where the page draws that entity (`window.__skin.where`), in the neutral colour, keyed `'e' + id`;
+its own mute entry ("An unknown voice"); muted too while the person whose words it repeats is muted (a mute is never bypassed by an
+echo); a screen reader hears "A voice nearby says: ...". `voice.js` speaks it in the entity voice. Checked by
+`dev/tools/checks/chat_server.js` (unit_entity), `dev/trial-3-skin-stealer/tools/speech_mutants.js` and the Skin-Stealer's browser
+check (t6).
 
 ## Honest limits
 

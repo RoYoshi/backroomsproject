@@ -160,7 +160,7 @@
    "getters": [
     "API"
    ],
-   "memberCount": 6
+   "memberCount": 7
   },
   "assets/ui.js": {
    "loadedByIndexHtml": true,
@@ -1138,7 +1138,8 @@
     }
    ],
    "readBy": {
-    "mp.js": 4
+    "mp.js": 4,
+    "assets/skinstealer.js": 2
    }
   },
   {
@@ -1163,7 +1164,7 @@
     "mp.js": 4,
     "assets/br-role.js": 2,
     "assets/shadows-2d.js": 2,
-    "assets/skinstealer.js": 5
+    "assets/skinstealer.js": 6
    }
   },
   {

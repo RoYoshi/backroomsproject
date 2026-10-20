@@ -44,7 +44,7 @@ function make(id) {
 function pose(S, o, t, dt) {
   if (S.px === null || Math.hypot(o.x - S.px, o.y - S.py) > 220) { S.px = o.x; S.py = o.y; }
   const vx = (o.x - S.px) / dt, vy = (o.y - S.py) / dt; S.px = o.x; S.py = o.y;
-  const k = 1 - Math.exp(-dt * 9), fwd = vx * Math.cos(o.angle) + vy * Math.sin(o.angle);
+  const k = 1 - Math.exp(-dt * 9), fwd = vx * Math.cos(o.angle) + vy * Math.sin(o.angle); S.vx = vx; S.vy = vy;
   S.vf += (fwd - S.vf) * k;
   const a = o.act, still = a === 'watch' || a === 'wait' || a === 'lure' || a === 'listen' || a === 'mimic' || a === 'rest';
   const want = {
@@ -124,6 +124,21 @@ function paint(v, o, t) {
   for (let i = 0; i < 5; i++) { const a = -Math.PI / 2 + (i - 2) * .42 + S.tilt * .5; g.moveTo(hx, hyy + 1).lineTo(hx + Math.cos(a) * 6.5, hyy + 1 + Math.sin(a) * 6.5).stroke({ color: SC.hair, width: .9, alpha: .7 }); }
   g.moveTo(hx - 3.6 + S.tilt * 2, hyy - 5.6).quadraticCurveTo(hx + S.tilt * 3, hyy - 7.4, hx + 3.6 + S.tilt * 2, hyy - 5.6).stroke({ color: SC.mouth, width: 1.5 });
 }
+/* (T6) a borrowed skin: the page's own wanderer avatar (__api.mkAvatar, as another player is drawn), in the look the server sends, under
+ * the same sight mask and darkness (the creatures layer), cast by BR-RoLE as a wanderer is - with its tells: nothing in its hands and no
+ * light, no name (it is no player: no hover label, in no list), its arms held stiff at its sides, its walk a little slow (the server's
+ * pace), its long stares.  It goes the moment the server stops sending the look (its wind-up, a run, its time up). */
+function skinView(v, o, t) {
+  const A = API(), W = window.__mpLib && window.__mpLib.wire; if (!A || !A.mkAvatar || !W || !W.parseLook) return null;
+  if (!v.__av || v.__dg !== o.dg) { dropSkin(v); v.__av = A.mkAvatar(W.parseLook(o.dg), { kind: 'flashlight', color: '#ffe7b2', parts: {} }); v.__av.label = 'skinstealer-skin#' + o.id; v.__dg = o.dg; A.layer().addChild(v.__av); }
+  const av = v.__av, S = v.__s, sp = Math.hypot(S.vx || 0, S.vy || 0);
+  av.update(t, false, false, { x: o.x, y: o.y, angle: o.angle, vx: S.vx || 0, vy: S.vy || 0, distance: o.distance, mv: [sp > 20 ? 1 : 0, Math.round(sp), 100, 0] });
+  if (av.gear) av.gear.visible = false;                                         // nothing in its hands
+  if (Array.isArray(av.hands)) av.hands.forEach((h, i) => { h.x = i === 0 ? -16 : 16; h.y = -2; });   // arms stiff at its sides
+  av.visible = true; av.alpha = 1;
+  return av;
+}
+function dropSkin(v) { const av = v.__av; v.__av = null; v.__dg = null; if (av) { try { av.parent && av.parent.removeChild(av); av.destroy({ children: true }); } catch (e) { } } }
 /* shaded by the light where it stands (BR-RoLE's sample, eased), as the Hound's view is; no light of its own */
 function shadeView(v, x, y, flash, dt) {
   const L = window.__light; if (!L) return;
@@ -140,19 +155,21 @@ function draw(dt) {
     seen.add(o.id);
     const v = views.get(o.id) || make(o.id), S = v.__s;
     const far = H && Math.hypot(o.x - H.x, o.y - H.y) > 1600;    // off any screen: not drawn (nothing of it shows, nothing is spent)
-    v.visible = !far; if (far) { S.px = null; continue; }
-    if (hooks.hidden && hooks.hidden(o)) { v.visible = false; S.px = null; continue; }   // its kill is playing: the death's own attacker is drawn instead
+    v.visible = !far; if (far) { S.px = null; if (v.__av) v.__av.visible = false; continue; }
+    if (hooks.hidden && hooks.hidden(o)) { v.visible = false; S.px = null; if (v.__av) v.__av.visible = false; continue; }   // its kill is playing: the death's own attacker is drawn instead
     pose(S, o, now, dt);
+    if (o.dg && skinView(v, o, now)) { v.visible = false; continue; }   // (T6) in a borrowed skin: the wanderer is drawn instead
+    if (v.__av) dropSkin(v);
     v.position.set(o.x, o.y); v.rotation = o.angle + Math.PI / 2; v.alpha = 1;
     shadeView(v, o.x, o.y, flash, dt);
     paint(v, o, now);
   }
-  for (const [id, v] of views) if (!seen.has(id)) { views.delete(id); try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } }
+  for (const [id, v] of views) if (!seen.has(id)) { views.delete(id); dropSkin(v); try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } }
   if (hooks.frame) hooks.frame(dt);
   if (hooks.audio) hooks.audio(dt, list());                  // (T5) its living sounds, from what the mirror says it is doing
 }
 /* a new world, a closed connection: no view and no record stays behind */
-function reset() { clear(); for (const v of views.values()) { try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } } views.clear(); }
+function reset() { clear(); for (const v of views.values()) { dropSkin(v); try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } } views.clear(); }
 K.draw = draw;
 K.clear = reset;
 return { classes, newView, paint, shadeView };

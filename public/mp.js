@@ -170,7 +170,7 @@ function connect() {
     else if (m.t === 'exit') doExit(m.secs);
     else if (m.t === 'nra') nrAnswer(m);                                       // Stage 3D HQ2: the server's NEW RUN decision
     else if (m.t === 'got') giveItem(m.item);
-    else if (m.t === 'heard' || m.t === 'said') { if (window.__chat) window.__chat.net(m, peers.get(m.id) || null); }   // post-3H Trial 2: nearby speech, for F.R.O.N.T.'s chat.js (with the speaker's peer record: its name)
+    else if (m.t === 'heard' || m.t === 'said' || m.t === 'eheard') { if (window.__chat) window.__chat.net(m, m.t === 'eheard' ? null : peers.get(m.id) || null); }   // (Trial 3: eheard, an entity's line - no peer record: it is nobody's)   // post-3H Trial 2: nearby speech, for F.R.O.N.T.'s chat.js (with the speaker's peer record: its name)
     else if (m.t === 's') {
       const now = performance.now(), seen = new Set(); PN.s++; if (m.k != null) lastK = m.k;
       for (const p of m.p) {

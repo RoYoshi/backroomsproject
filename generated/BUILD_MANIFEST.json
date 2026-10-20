@@ -127,24 +127,24 @@
   },
   {
    "out": "public/assets/chat.js",
-   "bytes": 39714,
-   "sha256": "cc29cf1b6563c41c0adb8f9b6aff808c6c6caef69dffbe7677d3b221ab6e1544",
+   "bytes": 42029,
+   "sha256": "923a5861db8508e2a9459f7d72a0d25877d0bc6e09bc436657ddaca40349b749",
    "parts": [
     {
      "path": "src/frameworks/front/client/chat.js",
-     "sha256": "cc29cf1b6563c41c0adb8f9b6aff808c6c6caef69dffbe7677d3b221ab6e1544",
+     "sha256": "923a5861db8508e2a9459f7d72a0d25877d0bc6e09bc436657ddaca40349b749",
      "headerBytes": 0
     }
    ]
   },
   {
    "out": "public/assets/voice.js",
-   "bytes": 20234,
-   "sha256": "d85d9d0ae8d775f8678838815258b1351912def5d6f340f2a2733d714b395a25",
+   "bytes": 20937,
+   "sha256": "6008b9d9a740ae3eef96a3c15a4069943bf70835ccc22dc0f59674c586e0cb6a",
    "parts": [
     {
      "path": "src/frameworks/front/client/voice.js",
-     "sha256": "d85d9d0ae8d775f8678838815258b1351912def5d6f340f2a2733d714b395a25",
+     "sha256": "6008b9d9a740ae3eef96a3c15a4069943bf70835ccc22dc0f59674c586e0cb6a",
      "headerBytes": 0
     }
    ]
@@ -289,22 +289,22 @@
   },
   {
    "out": "public/assets/skinstealer.js",
-   "bytes": 26461,
-   "sha256": "eca127f1593cc99f2e9804ea0e3aefb939caaf6948fa09ab5016712fd3adcc48",
+   "bytes": 28835,
+   "sha256": "0e354f084126e0533ec4cb4df165e5a9e879a22d54a5a6d7375cb1ba15c56ff9",
    "parts": [
     {
      "path": "src/frameworks/nani/client/skin.head.js",
-     "sha256": "5824ec92c6b1562b4bc8bb8d55f6fd551b4644010e561162fac9e994048f607d",
+     "sha256": "967e87dd6630ecdc636c679a13a7e4afd54dc957abd46ceedcd5720202753949",
      "headerBytes": 939
     },
     {
      "path": "src/frameworks/nani/client/skin.mirror.js",
-     "sha256": "6b47eff1f25bf7c627d7e3ba19ff0caef4bf7019de38c0e2d1bd22d98be0773c",
-     "headerBytes": 735
+     "sha256": "95261119f659b7c82c407ce572c0f0fd0266b46e02a79f78f2aae8de484d0d5c",
+     "headerBytes": 921
     },
     {
      "path": "src/frameworks/br-r/client/skin.body.js",
-     "sha256": "7a2c657519134717f4882557a390107952b7bf47cfef5cc9eded13597c49da90",
+     "sha256": "79dc56f0568716859c370f462d484e790446f16e980a8039711bba9a97716932",
      "headerBytes": 961
     },
     {
@@ -314,7 +314,7 @@
     },
     {
      "path": "src/frameworks/spacious-audio/client/skin.audio.js",
-     "sha256": "8d3cf7db1c41b5cea96a18fd884b4606a51c7a47460ee7cb404ffc4f6be62cf9",
+     "sha256": "00f00e891b3cd1340c7ca4326eb58f98452cd28a1605de0c93988c286f2a8a90",
      "headerBytes": 1476
     },
     {
@@ -399,8 +399,8 @@
   },
   {
    "out": "public/ents.js",
-   "bytes": 81641,
-   "sha256": "1394c531da26b5ee0cf0142bacf0b86105621306e5087cbb3dffa04ef74fc4aa",
+   "bytes": 82040,
+   "sha256": "a67270ba07931764918843ebef43358a86e25a71ce0ff3244397971bd0caa58d",
    "parts": [
     {
      "path": "src/frameworks/br-r/client/ents.head.js",
@@ -429,7 +429,7 @@
     },
     {
      "path": "src/frameworks/overseer/client/ents.debug.js",
-     "sha256": "458fb49fdd04120478919516d6b4d38c2782d1314095f9b56b1e77f5e96da606",
+     "sha256": "3aaf99be58f33ffeaa95e1f69c430ad34693021af69ce4c51756069dd0acff27",
      "headerBytes": 473
     },
     {
@@ -543,8 +543,8 @@
   },
   {
    "out": "public/mp.js",
-   "bytes": 105120,
-   "sha256": "1f508fbb3f4b6a6992f9fc81eb5fddb931f10c817227a873a7e75b040ad12957",
+   "bytes": 105240,
+   "sha256": "27dd027f97035468978e729b14dde4ca5b33c207baaf67cdaee137d41760fd5b",
    "parts": [
     {
      "path": "src/core/client/mp.js",
@@ -553,7 +553,7 @@
     },
     {
      "path": "src/frameworks/bpp/client/mp.session.js",
-     "sha256": "ee9f1186a5a5208ebcea48bcde8e5d40dedd581996f99f05e3ad949dbb897942",
+     "sha256": "1f8b56340c6dd80c58b380d68a62bb312a23c0d7ee3ffcb6fd8783c4fcea6b73",
      "headerBytes": 2500
     },
     {
@@ -676,8 +676,8 @@
   },
   {
    "out": "generated/server/ai.js",
-   "bytes": 261708,
-   "sha256": "3b4850be9cc386ea33213cc9887d232ad84e41e74b105838529c8908a754e6b7",
+   "bytes": 275712,
+   "sha256": "a91e24a40fe99614e83a035844b88b7b10c7ab3b8a563f8eb295bdacc6d64026",
    "parts": [
     {
      "path": "src/frameworks/nani/server/ai.head.js",
@@ -726,12 +726,12 @@
     },
     {
      "path": "src/frameworks/nani/server/ai.skinstealer.js",
-     "sha256": "3b9c80aa84b8edefdef923f23b56606dc688376bf9bbe36c83bcec83aa0bed82",
-     "headerBytes": 403
+     "sha256": "eede60f37a6850fcd95c6dc557f0f4a37d9db3452fa34c6d21d33264290a5483",
+     "headerBytes": 433
     },
     {
      "path": "src/frameworks/nani/server/ai.engine.js",
-     "sha256": "8209281ff439d40337982309087f36bbd03a0c1ed11f0b5466b1ae315f055f2d",
+     "sha256": "8b234688258930c31e79885ea6b2f142ad41d1c30834948790f6c13aee22df38",
      "headerBytes": 868
     }
    ]

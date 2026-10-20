@@ -1,5 +1,5 @@
 /* SKIN-STEALER scenarios (Trial 3; dev/trial-3-skin-stealer/).  Each runs on the real simulation (sim.js + ai.js) with the harness's
- * scripted players (the game's own move.js model); seeded and headless.  T1: the species' identity and plumbing; T2: the animal; T3: lying in wait, prediction, the race, hearing; T4: the strike and the kill. */
+ * scripted players (the game's own move.js model); seeded and headless.  T1: the species' identity and plumbing; T2: the animal; T3: lying in wait, prediction, the race, hearing; T4: the strike and the kill; T6: what it hears and says, the skin it earns. */
 'use strict';
 const { World, DT, LONG, over, rate, AI, floorNear, bystander } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -509,6 +509,136 @@ add('SK35 G.I.B. carries the killer: the replay message, the death\'s length, th
   const ok = kill.k === 'SkinStealer' && fx.c === 'SkinStealer' && fx.v === kill.v && Math.abs(dur - { A: 3.2, B: 3.4, C: 3.5 }[kill.v]) < 1e-9 && R.body.c === 'SkinStealer' && R.dur === dur &&
     placed === true && Math.hypot(e.x - R.attacker.x, e.y - R.attacker.y) < 1 && (!w.sim.bodies || mine.length === 1);
   return { ok, note: `kill ${kill.k} ${kill.v}: replay c=${fx.c}, ${dur} s; the server's corpse c=${R.body.c}; killer placed ${placed} (${Math.round(Math.hypot(before.x - e.x, before.y - e.y))} px from where it stood)${w.sim.bodies ? `; bodies for the player: ${mine.length}` : ''}` };
+});
+
+/* ---- T6: deception: what it hears, what it says, the skin it earns, how it behaves in it ---- */
+const LOOK = 'cap|freckles|#aabbcc|#112233|none';
+/* a kill it makes (the strike's own scene), the death's end as the server's aftermath ends it (killerEnd, then the look of the person it
+ * killed), then its meal: undisturbed, or (o.watcher) somebody walks up and watches it a few seconds into the meal */
+function skinRun(seed, o = {}) {
+  const w = World(seed), y = LONG.y; bystander(w);
+  const p = w.player(5160, y, { light: true, angle: 0 }); p.look = 0; p.stop('stand');
+  const e = w.eng.spawn('skinstealer', 5000, y, { hunger: .7 }); e.tier = 'near'; e.ang = 0;
+  const R = { feedAt: -1, donAt: -1, skinAt: -1, seen: [], fedFor: 0 };
+  let q = null;
+  w.run(o.secs || 60, () => {
+    if (R.skinAt < 0 && p.kill && !e.commit && planOf(e) === 'feed') {            // the death has played: the aftermath's two calls
+      w.sim.killerEnd(p.id, e.x, e.y, e.ang); R.took = w.eng.skinFrom(e.id, p.id, o.look || LOOK); R.skinAt = w.t; R.feedAt = w.t;
+    }
+    if (o.watcher && !q && R.feedAt >= 0 && w.t - R.feedAt > o.watcher) {          // somebody walks up and watches it at its meal
+      const s = floorNear(w, e.x + 330, e.y); q = w.player(s.x, s.y, { light: true, angle: Math.PI }); q.stop('stand'); q.look = Math.PI; R.watchAt = w.t;   // (beyond the body, in front of it)
+    }
+    if (planOf(e) === 'feed' && e.plan.fed) R.fedFor = e.plan.fed;
+    if (e.disguise && R.donAt < 0) R.donAt = w.t;
+    return true;
+  });
+  R.w = w; R.p = p; R.e = e; R.q = q; return R;
+}
+add('SK40 its ears: a line a person says reaches a Skin-Stealer only from within 576 px; it keeps at most 4 for at most 90 s, none of a person who has left; a Hound or a Smiler gets nothing; the words never reach the admin overlay; a voice is also a sound it can go after', () => {
+  const w = World(4001), y = LONG.y; bystander(w);
+  const a = w.player(5000, y, { light: false }); a.stop('stand');
+  const b = w.player(7000, y, { light: false }); b.stop('stand');
+  const k1 = w.eng.spawn('skinstealer', 5500, y, { hunger: .3 }), k2 = w.eng.spawn('skinstealer', 5000, y + 700, { hunger: .3 }), h = w.eng.spawn('hound', 5300, y);
+  for (const e of [k1, k2, h]) e.tier = 'near';
+  w.run(.5);
+  const said = (p, text) => w.eng.hearSpeech({ id: p.id, x: p.x, y: p.y, text });
+  const n1 = said(a, 'Wait For Me!');                                             // k1 is 500 px away; k2 700 px; the Hound has no ears for it
+  const kept1 = k1.heard.length, kept2 = k2.heard.length, houndHeard = !!h.heard;
+  const heardType = k1.hear && k1.hear.type;
+  for (const t of ['two', 'three', 'four', 'five']) said(a, t);
+  const max = k1.heard.length, oldest = k1.heard[0].text;
+  const dbg = JSON.stringify(w.sim.debugInfo());
+  said(b, 'far away');                                                            // 1500 px from k1
+  const far = k1.heard.some(q => q.text === 'far away');
+  w.sim.removePlayer(a); w.run(1);
+  const gone = k1.heard.filter(q => q.pid === a.id).length;
+  const k3 = w.eng.spawn('skinstealer', 6600, y, { hunger: .3 }); k3.tier = 'near'; w.run(.2);
+  said(b, 'old words'); const fresh = k3.heard.length; w.run(AI.SK.heardTtl + 1); const expired = k3.heard.length;
+  const ok = n1 === 1 && kept1 === 1 && kept2 === 0 && !houndHeard && heardType === 'voice' && max === 4 && oldest === 'two' && !/Wait For Me|three|four|five/.test(dbg) && !far && gone === 0 && fresh === 1 && expired === 0;
+  return { ok, note: `500 px: kept (${kept1}), 700 px: not (${kept2}), the Hound: ${houndHeard ? 'heard!' : 'nothing'}; heard as a ${heardType} sound; at most ${max} kept (oldest now "${oldest}"); 1500 px: ${far ? 'kept!' : 'not kept'}; the admin overlay holds no word; after its speaker left: ${gone}; after ${AI.SK.heardTtl + 1} s: ${expired} of ${fresh}` };
+});
+add('SK41 its lines from hiding: lying in wait, hungry and unseen, it calls out once - the opening words of a line somebody else said nearby (lower case, at most 6 words), or with nothing heard one of a few generic calls; never while it is seen, never two lines closer than the gap, never more than 3 an encounter', () => {
+  const out = [];
+  const run = (seed, heard) => {
+    const w = World(seed + 400), g = w.eng.geo, lines = [];
+    const p = w.player(SW.gapP.x, SW.gapP.y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
+    const o = w.player(SW.gapK.x - 450, SW.gapP.y + 40, { light: false }); o.stop('crouch');   // (in the dark, crouched, 450 px from it: it hears them, does not see them)
+    const e = w.eng.spawn('skinstealer', SW.gapK.x, SW.gapK.y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI;
+    w.eng.voiceOut = L => lines.push(Object.assign({ at: w.t, plan: planOf(e), seenNow: g.los(p.x, p.y, e.x, e.y) && e.seenNow.has(p.id) }, L));
+    w.run(.3); if (heard) w.eng.hearSpeech({ id: o.id, x: o.x, y: o.y, text: 'Is Anybody Over There? I lost my light near the stairs' });
+    w.run(40);
+    return { lines, tally: e.tally, w };
+  };
+  const rs = over([1, 2, 3, 4, 5, 6], s => {
+    const A = run(s, true), B = run(s, false), bad = [];
+    const la = A.lines, lb = B.lines;
+    if (!la.length || !lb.length) bad.push(`no line (${la.length}/${lb.length})`);
+    for (const L of la.concat(lb)) { if (L.plan !== 'lure') bad.push('said in ' + L.plan); if (L.seenNow) bad.push('said while seen'); }
+    if (la[0] && !(la[0].o > 0 && /^is anybody over there\? i lost(\.\.\. lost)?$/.test(la[0].text) && la[0].text.split(' ').length <= 7 && la[0].text === la[0].text.toLowerCase())) bad.push('heard line ' + JSON.stringify(la[0].text));
+    if (lb[0] && !(lb[0].o === 0 && ['hello?', 'is someone there?', 'over here', 'wait for me', 'can you help me?', "i'm lost", 'this way'].includes(lb[0].text))) bad.push('bait ' + JSON.stringify(lb[0].text));
+    for (const L of [la, lb]) for (let i = 1; i < L.length; i++) if (L[i].at - L[i - 1].at < AI.SK.sayGap[0] - .05) bad.push('too close');
+    if (la.length > AI.SK.sayEnc || lb.length > AI.SK.sayEnc) bad.push('too many');
+    out.push(la[0] && la[0].text, lb[0] && lb[0].text);
+    return { ok: !bad.length, bad, a: la.map(L => L.text), b: lb.map(L => L.text) };
+  });
+  return { ok: rate(rs) >= 5 / 6, note: `${rs.filter(r => r.ok).length}/6; said: ${[...new Set(out.filter(Boolean))].map(t => JSON.stringify(t)).join(', ')}${rs.some(r => !r.ok) ? ' | ' + rs.filter(r => !r.ok).map(r => r.bad ? r.bad.join(';') : r.err).join(' | ') : ''}`, data: rs };
+});
+add('SK42 the skin is earned: only at a kill it made, only if it then feeds 8 s; it wears exactly the look\'s four drawn fields (never a name, light or id) and the snapshot shows it as a wanderer\'s look; disturbed at its meal sooner, it leaves the skin; a bad look is refused; one that never killed never wears one', () => {
+  const rs = over([1, 2, 3, 4], s => {
+    const A = skinRun(4200 + s), B = skinRun(4200 + s, { watcher: 3 });
+    const ss = A.w.sim.entities().ss || [], me = ss.find(t => t.i === A.e.id), bad = [];
+    if (!A.took || !A.e.disguise || A.e.disguise.look !== 'cap|freckles|#aabbcc|#112233' || A.e.disguise.from !== A.p.id) bad.push('no skin: ' + JSON.stringify(A.e.disguise));
+    if (A.fedFor < AI.SK.skinFeed) bad.push('fed only ' + A.fedFor);
+    if (!me || me.dg !== 'cap|freckles|#aabbcc|#112233' || Object.keys(me).join() !== 'i,x,y,a,s,ac,v,h,dg') bad.push('snapshot ' + JSON.stringify(me));
+    if (B.e.disguise || B.e.tally.skinLost !== 1) bad.push(`disturbed: ${JSON.stringify(B.e.disguise)} lost ${B.e.tally.skinLost}`);
+    return { ok: !bad.length, bad, don: A.donAt >= 0 ? +(A.donAt - A.feedAt).toFixed(1) : -1, fed: +A.fedFor.toFixed(1), bfed: +B.fedFor.toFixed(1) };
+  });
+  const w = World(4290), y = LONG.y; bystander(w); const e = w.eng.spawn('skinstealer', 5000, y), h = w.eng.spawn('hound', 6000, y);
+  const refused = ['', 'none', 'cap|freckles|#aabbcc', '<b>|freckles|#aabbcc|#112233', 'cap|freckles|red|#112233', 'cap|freckles|#aabbcc|#112233|none|extra|x'].every(l => !w.eng.skinFrom(e.id, 7, l)) && !w.eng.skinFrom(h.id, 7, LOOK) && !w.eng.skinFrom(9999, 7, LOOK);
+  // a long stretch of SK25's sort without a kill: never a skin
+  const p = w.player(5300, y, { light: true }); let worn = 0; w.run(60, () => { if (e.disguise) worn++; return true; });
+  return { ok: rate(rs) === 1 && refused && worn === 0, note: `${rs.filter(r => r.ok).length}/4: worn after feeding ${rs.map(r => r.don).join('/')} s of its meal (fed ${rs.map(r => r.fed).join('/')} s); disturbed after ${rs.map(r => r.bfed).join('/')} s: no skin | bad looks and other killers refused: ${refused} | 60 s without a kill: worn ${worn} ticks${rs.some(r => !r.ok) ? ' | ' + rs.filter(r => !r.ok).map(r => r.bad ? r.bad.join(';') : r.err).join(' | ') : ''}`, data: rs };
+});
+/* a Skin-Stealer in the skin of P (skinRun), its meal over; then a newcomer: stands in its way (o.stand), or walks up to it */
+function inSkin(seed, o = {}) {
+  const A = skinRun(seed); const w = A.w, e = A.e, R = { lines: [], vmax: 0, plans: new Set(), springAt: -1, springD: -1, stareAt: -1, revealAt: -1, wasMingle: false, retreat: false };
+  if (!e.disguise) return { ok: false, why: 'no skin' };
+  e.hunger = o.hunger; w.eng.voiceOut = L => R.lines.push(Object.assign({ at: w.t }, L));
+  const s = floorNear(w, e.x + (o.dx || 560), e.y); const q = w.player(s.x, s.y, { light: true, angle: Math.PI }); q.stop('stand'); q.look = Math.PI;
+  const t0 = w.t; let last = { x: e.x, y: e.y };
+  w.run(o.secs || 30, () => {
+    const k = planOf(e); R.plans.add(k); if (k === 'mingle') R.wasMingle = true; if (k === 'retreat') R.retreat = true;
+    if (e.disguise) { R.vmax = Math.max(R.vmax, Math.hypot(e.x - last.x, e.y - last.y) / DT); }
+    last = { x: e.x, y: e.y };
+    if (k === 'mingle' && e.plan.ph === 'stare' && R.stareAt < 0) { R.stareAt = w.t; R.stareD = Math.hypot(q.x - e.x, q.y - e.y); }
+    if (e.pounce && R.springAt < 0) { R.springAt = w.t; R.springD = Math.hypot(q.x - e.x, q.y - e.y); R.skinAtSpring = !!e.disguise; }
+    if (!e.disguise && R.revealAt < 0) R.revealAt = w.t;
+    if (o.walk && w.t - t0 > o.walk && !q.going) { q.going = 1; q.route([{ x: e.x + 20, y: e.y }], 'walk'); }
+    return true;
+  });
+  R.e = e; R.q = q; R.w = w; R.kills = w.kills.filter(k => k.kind === 'SkinStealer' && k.pid === q.id); R.left = planOf(e) === 'leave' || R.plans.has('leave');
+  return R;
+}
+add('SK43 in its skin: it does not hide when seen - it walks up openly no faster than 150 px/s, stops some way off and stares, says a line; hungry, it closes in and springs only from 120 px, the wind-up dropping the skin; not hungry, it looks them over and walks on, still in the skin', () => {
+  const H = over([1, 2, 3, 4], s => inSkin(4300 + s, { hunger: .55 })), L = over([1, 2, 3, 4], s => inSkin(4300 + s, { hunger: .12, secs: 25 }));
+  const okH = H.filter(r => r.wasMingle && !r.retreat && r.vmax <= AI.SKIN.speeds.disguise + 3 && r.stareAt >= 0 && r.lines.length >= 1 && r.springAt >= 0 && r.springD <= AI.SK.mingleStrike + 25 && r.skinAtSpring === false && r.revealAt >= 0 && r.revealAt <= r.springAt + .05);
+  const okL = L.filter(r => r.wasMingle && !r.retreat && r.stareAt >= 0 && r.springAt < 0 && r.left && r.e.disguise);
+  return { ok: okH.length >= 3 && okL.length >= 3, note: `hungry: ${okH.length}/4 walked up (top ${H.map(r => Math.round(r.vmax || 0)).join('/')} px/s), stared from ${H.map(r => Math.round(r.stareD || 0)).join('/')} px, spoke ${H.map(r => r.lines ? r.lines.length : 0).join('/')}x, sprang from ${H.map(r => Math.round(r.springD)).join('/')} px (skin off at the wind-up), kills ${H.map(r => r.kills ? r.kills.length : 0).join('/')} | not hungry: ${okL.length}/4 stared then walked on in the skin, never sprang`, data: { H: H.map(r => ({ ...r, e: undefined, q: undefined, w: undefined, plans: r.plans && [...r.plans] })), L: L.map(r => ({ ...r, e: undefined, q: undefined, w: undefined, plans: r.plans && [...r.plans] })) } };
+});
+add('SK44 the skin ends: when its time is up, when it breaks into a run after somebody who flees (hungry), and with the entity (removed, or a world reset); the snapshot then shows no look', () => {
+  const A = skinRun(4401), e = A.e, w = A.w, bad = [];
+  if (!e.disguise) return { ok: false, note: 'no skin' };
+  e.disguise.until = w.eng.now + 1; w.run(2); if (e.disguise || e.tally.reveal !== 1) bad.push('time: ' + JSON.stringify(e.disguise));
+  if ((w.sim.entities().ss || []).some(t => t.dg)) bad.push('snapshot still dg');
+  const B = skinRun(4402), f = B.e; f.hunger = .7; let chased = false, skinInChase = false;
+  const s = floorNear(B.w, f.x + 300, f.y), q = B.w.player(s.x, s.y, { light: true, angle: Math.PI }); q.stop('stand'); q.look = Math.PI;
+  B.w.run(1.5); q.look = null; q.route([{ x: q.x + 2000, y: q.y }], 'run');
+  B.w.run(6, () => { if (planOf(f) === 'chase') { chased = true; if (f.disguise) skinInChase = true; } return true; });
+  if (!chased || skinInChase) bad.push(`chase ${chased}, in skin ${skinInChase}`);
+  const C = skinRun(4403); const id = C.e.id; C.w.sim.admin.removeSkinStealer(); const goneC = !C.w.eng.entities.some(x => x.id === id) && !(C.w.sim.entities().ss || []).length;
+  const D = skinRun(4404); D.w.sim.resetWorld(); const goneD = !D.w.eng.entities.some(x => x.kind === 'skinstealer' && x.disguise);
+  if (!goneC || !goneD) bad.push(`removed ${goneC}, reset ${goneD}`);
+  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `time up: dropped (reveals ${e.tally.reveal}); a runner: it dropped the skin to give chase; removed and world reset: gone` };
 });
 
 module.exports = S;

@@ -24,7 +24,7 @@
  *
  * Customize -> Wanderer gets a Voice section (the presets, pitch, speed, Preview with a typed sample line, Reset voice).
  *
- * Hooks: window.__voice = { presets(), prefs(), set(o), reset(), mine() (the {p,h,s} sent with my lines), meta(v) (a received voice,
+ * Hooks: window.__voice = { presets(), prefs(), set(o), reset(), mine() (the {p,h,s} sent with my lines), meta(v, id) (a received voice (Trial 3: an entity's key gets the entity voice),
  * checked), say(id, v, sch, at), stop(id), stopAll(), ids() (the speakers whose voice is on), place(id, gain, pan), preview(), stats()
  * (for the checks), on(f) (a change of the saved voice or hearing), chirp(ctx, dest, when,
  * preset, semis, salt, level) (one chirp into any audio context: the checks render it offline) }.  Reads window.__settings (the master
@@ -56,6 +56,9 @@
     static: { base: 260, wave: 'square', dur: .05, att: .002, bp: 1800, q: 1.2, steps: [0, 1, 3], level: .3, noise: .9 },
     hollow: { base: 220, wave: 'sine', dur: .11, att: .022, bpx: 1, q: 1.4, steps: [0, 3, 6, 8], level: .09, breath: .12, glide: .04 },
     chime: { base: 880, wave: 'sine', dur: .16, att: .002, lp: 6000, q: .5, steps: [0, 4, 7, 11], level: .11, bell: 2.76 },
+    // (Trial 3) the entity voice: not a preset (no row in PRESETS: nobody can choose it, the server never accepts it from a person); meta
+    // gives it only to an entity's key ('e' + id, chat.js's eheard).  Low, breathy, sliding down, its steps a little off key
+    mimic: { base: 196, wave: 'triangle', dur: .1, att: .012, lp: 1300, q: .9, steps: [0, -1, 1, 6, 0], level: .12, breath: .08, glide: -.06 },
   };
   const LOOK = .35, LATE = .1, TICK = 40, GAP = .055, MAXV = 2, MAXCHIRPS = 90;
   const clamp = (v, a, z) => Math.max(a, Math.min(z, v));
@@ -74,7 +77,8 @@
   const subs = new Set();
   const changed = () => { save(); bus(); subs.forEach(f => { try { f(); } catch (e) { } }); };
   // a received voice, checked again here (the server already did): a known preset and whole numbers in range, or the default voice
-  const meta = v => {
+  const meta = (v, id) => {
+    if (typeof id === 'string' && /^e\d+$/.test(id) && v && typeof v === 'object' && v.p === 'mimic') return { p: 'mimic', h: int(v.h, PITCH[0], PITCH[1], 0), s: int(v.s, SPEED[0], SPEED[1], 100) };   // (Trial 3) an entity's line
     if (!v || typeof v !== 'object' || !IDS.includes(v.p)) return { p: DEF.preset, h: DEF.pitch, s: DEF.speed };
     return { p: v.p, h: int(v.h, PITCH[0], PITCH[1], 0), s: int(v.s, SPEED[0], SPEED[1], 100) };
   };
@@ -136,7 +140,7 @@
     if (!sch || !sch.n || !S.on) return false;
     const c = ensure(); if (!c) return false;
     bus();
-    const m = meta(v), g = c.createGain(), pan = c.createStereoPanner ? c.createStereoPanner() : null;
+    const m = meta(v, id), g = c.createGain(), pan = c.createStereoPanner ? c.createStereoPanner() : null;
     g.gain.value = 1; if (pan) { g.connect(pan); pan.connect(out); } else g.connect(out);
     V.set(id, { m, sch, t0: c.currentTime - (performance.now() - at) / 1000, i: 0, last: -1, nodes: [], voice: g, pan, born: performance.now(), n: 0 });
     st.said++;

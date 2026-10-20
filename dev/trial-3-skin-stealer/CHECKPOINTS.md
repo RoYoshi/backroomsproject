@@ -11,7 +11,8 @@ Each row is filled after its push has been verified on GitHub (`tools/verify_rem
 | T2 the animal: hunger, stamina, senses, non-engagement, budgets | `8b2d734e7cf178f1a90b3036bc0180ed78a6a512` | `7e6923490c36fbed36139be93b0613782815f5a4` | `23bba42` | yes: `evidence/remote/t2.json`; secret scan of the pushed commit CLEAN |
 | T3 lying in wait, prediction, interception, the race, hearing | `a3f43b3ddf5d8d0400b0441b798933c222f0da34` | `248c892f417d8900f1342c7acaf6f5c1b23c5021` | `8b2d734` | yes: `evidence/remote/t3.json`; secret scan of the pushed commit CLEAN |
 | T4 the strike and the kill, through G.I.B. | `9a2e56e67395d346a65ef9f5b1f43c41ac8682cf` | `a085153d24ebdf14415ca9370a83c5861f73c53b` | `a3f43b3` | yes: `evidence/remote/t4.json`; secret scan of the pushed commit CLEAN |
-| T5 presentation: BR-RoLE actor, living sounds, debug block, art pass | (this commit; recorded at T6) | | `9a2e56e` | |
+| T5 presentation: BR-RoLE actor, living sounds, debug block, art pass | `c16bc06f49a99f6f7375072b80fcbf81ccee1487` | `ae6b74bc6480282440663e32100b7adac60ac507` | `9a2e56e` | yes: `evidence/remote/t5.json`; secret scan of the pushed commit CLEAN |
+| T6 deception: hearing speech, entity speech, the earned skin | (this commit; recorded at T7) | | `c16bc06` | |
 
 ## T0 baseline (P9 `1ff9374`, this machine, before any game change)
 
@@ -173,3 +174,50 @@ The gallery (`evidence/t5/`): every act it shows (still, watching, creeping, cha
 and its three deaths mid-way (A at the snap, B at the landing's snap, C at the bite), round a lamp-lit spot, at BR-RoLE's low,
 medium and high tiers, at 1280x720, 1920x1080 and a phone held sideways (844x390).  The page's mirror holds at most 8 Skin-Stealers
 (the admin ceiling is 4), so the gallery shows 8 acts; lure and listen share the watching pose.
+
+## T6 — deception (results on the T6 tree)
+
+What T6 adds (`DESIGN_DECISIONS.md` D8, D9 as built; numbers: `BALANCE_TABLE.md` "As built after T6"):
+- **Its ears for speech.** B++'s speech hook, written before as an inert contract, is connected: server.js gives `speech.js` an
+  `onHeard`, called once for a line accepted and delivered (never a refused line, never the lounge), and hands it to that room's AI
+  engine (`eng.hearSpeech`). Only a Skin-Stealer within the players' own 576 px keeps it - four lines at most, 90 s at most, none of a
+  person who has left; the admin overlay shows only how many and how old. A voice is also a sound, through the engine's own hearing.
+- **Its lines.** From hiding when it lies in wait, hungry and unseen; when it stares in a borrowed skin. The opening words of a line
+  it heard (lower case, sometimes the last word again), preferring the skin's owner's words, then anybody else's, then the person's
+  own; with nothing heard, one of seven generic calls that claim no knowledge. Sent by B++'s new `speech.entitySay` as its own packet
+  `{t:'eheard', e, text, seq, v, o}` - never a person's `heard` or session id - to the living players of the same room within 576 px,
+  cleaned again, one line every 6 s per entity at most. The page draws it where the creature is drawn, in the entity voice nobody
+  can choose, with its own mute entry ("An unknown voice"); a person's mute also silences the echo of their words.
+- **Its skin.** Only at a kill it made (G.I.B.'s aftermath hands the engine the victim's validated look when the death ends) and only
+  after 8 s at its meal (a meal now lasts at least that long; disturbed sooner, no skin). Worn 240-420 s, it is the page's ordinary
+  wanderer avatar with its tells: nothing in its hands, no light, no name, in no list of players, arms stiff, a slow walk, long stares.
+  In it the creature walks up openly, stares, may speak, and either walks on or - hungry - closes in and springs from 120 px, the
+  wind-up dropping the skin; a very hungry one drops it to run after somebody who flees. Its time, its removal and a world reset end it.
+- **Gated, not faked** (`CAPABILITY_MATRIX.md` §6, `DEFERRED.md`): the victim's flashlight, a carried light, moving or hiding the
+  corpse, passing a crawlspace in a skin, an unearned generic disguise. Nothing of these is simulated.
+
+Found and fixed while building T6: a meal that ended as soon as the creature was no longer hungry could be shorter than the skin
+needs (and end before the server's death had even finished on a sped-up world) - a meal now lasts at least `skinFeed`.
+
+| Run | Result |
+|---|---|
+| `npm test` | 183 / 196: SK01-SK44 all pass (34 Skin-Stealer cases; T6: SK40-SK44); the 13 failures are exactly P9's (`evidence/t6/npm_test_t6.txt`) |
+| fast modernization gate (21 steps) | PASS 21 / 21 (`evidence/t6/gate_fast_t6.txt`): server.js, the session, mp.js, ents.js, ai.js changed - B++'s server, session, sim, page and client traces unchanged; the chat step 100 / 100 cases (unit_entity among them), its 14 mutants caught |
+| `dev/tools/checks/chat_server.js` | 100 / 100 (`evidence/t6/chat_server_t6.txt`) |
+| `tools/speech_mutants.js` | the unit_entity layer 12 / 12; 10 of 10 mutants caught (`evidence/t6/speech_mutants_t6.json`) |
+| `dev/tools/checks/chat_browser.js` | 40 / 40 (`chat.js` changed: P9's chats in real pages unchanged; `evidence/t6/chat_browser_t6.txt`) |
+| `dev/tools/checks/chat_voice_browser.js` | 69 / 69 (`voice.js` changed: the icon, the key, typed-out bubbles and the seven voices unchanged) |
+| `tools/skin_browser.js` (t1, t4, t5, t5d, t6) | 33 / 33: one run 32 / 33, its one failure t1's list of the script's hooks (it now has `where`, which the check had not yet been told about), t1 rerun with it 10 / 10 (`evidence/t6/browser_t6.json`, `browser_t6_t1_rerun.json`; the skin speaking on the listener's screen: `t6_disguise_speaks_crop.jpg`) |
+| `npm run test:humanqa` | 5 / 6, X03 as on P9 (`evidence/t6/humanqa_t6.txt`) |
+
+In the browser (t6, the real server and AI): the victim's look reached every page as the skin (`dg`) after its meal at x2 world
+speed; a line said 420 px from it, behind a wall, was kept (the admin overlay: one line, 0 s old, no word of it); stepping into its
+sight, the listener saw a wanderer with no light and its arms at its sides walk up to 163 px, stop, stare, and say "the exit is this
+way... way" - the speaker's words, as an entity, with the entity voice; the players' list held only the two people.  In the
+scenarios (SK43): hungry, it walked up at no more than 150 px/s, stared from 167 px, spoke once, then sprang from 107 px and killed,
+the skin dropping at the wind-up; not hungry, it stared and walked on, still in the skin.  The two runs with the Skin-Stealer's lines
+in the bait (SK41): with a line heard from someone else, it said its opening words ("is anybody over there? i lost", once with the
+echo "... lost"); with nothing heard, a generic call; never while seen.
+
+Note: after the gate, the browser and the chat checks, two header comments were corrected (voice.js's `meta(v, id)`, skinstealer.js's
+list of its hooks); comments only - the build check, parts, contract and docs checks and the t1 rerun ran after it.

@@ -10,7 +10,9 @@ faked in Trial 3.
 | Stealing the victim's flashlight; a monster carrying a light | no H.A.N.D.S. item system, no P.O.C.K.E.T. item-id transfer; a monster light would be a second emitter while the real light lies by the corpse | after H.A.N.D.S. / P.O.C.K.E.T. carry real item ids |
 | Dragging or hiding a corpse | no server-authoritative corpse interaction; G.I.B. corpses are made at the death's end and keyed by player | after corpse interaction exists |
 | Disguised passage through crawlspaces | no LogicZ; the collider is the same in both forms | after LogicZ |
-| A generic (unearned) human disguise | would be a mechanic the species has not earned in play | yes: whether to allow it, and when |
+| A generic (unearned) human disguise | would be a mechanic the species has not earned in play (T6 built only the earned one) | yes: whether to allow it, and when |
+| Its own shape behind the skin to a modified client | the snapshot names every creature for every page in the room (P9's design for all monsters): a page that reads the wire can tell the skin from a person | only with a server-side visibility filter for all entities (a separate stage) |
+| Its echo names the person it repeats (`o`) to the listeners | needed so a listener's mute of that person also silences the echo (mutes live on the page) | whether to move mutes to the server instead |
 | Player health / bleeding | out of scope | separate stage |
 | Organic Skin-Stealer population, spawn ecology, director caps | admin-only until approved | yes |
 

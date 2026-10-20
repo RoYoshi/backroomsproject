@@ -294,22 +294,44 @@
     const now = performance.now(), vm = VO() ? VO().meta(m.v) : null, sch = typeSchedule(m.text, vm ? vm.s : 100);
     if (VO()) VO().say(m.id, m.v, sch, now);                             // (C4) its voice, along the writing's schedule, bubble or not
     if (!S.bubbles) return;
+    // A per-message color is validated and room-scoped by the speech server. Older servers have no 'c'.
+    bubble(m.id, m.text, sch, now, own, typeof m.c === 'string' && /^#[0-9a-fA-F]{6}$/.test(m.c) ? m.c : '#e3c768');
+    if (!own) announce(`${names.get(m.id) || 'Someone'} nearby says: ${m.text}`);
+  }
+  /* a speaker's bubble (Trial 3: heard's own lines, moved here unchanged, so an entity's line is drawn the same way) */
+  function bubble(id, text, sch, now, own, color) {
     const L0 = ensureLayer();
-    let b = B.get(m.id);
+    let b = B.get(id);
     if (!b) {
       const el = mk('div', own ? 'bb bb-own' : 'bb'), line = mk('span', 'bb-line'), txt = mk('span', 'bb-text'), yet = mk('span', 'bb-yet'), arrow = mk('i', 'bb-arrow');
       line.append(txt, yet); el.append(line, arrow); L0.append(el);
-      b = { el, txt, yet, arrow, mode: '', x: NaN, y: NaN, a: NaN }; B.set(m.id, b);
+      b = { el, txt, yet, arrow, mode: '', x: NaN, y: NaN, a: NaN }; B.set(id, b);
     }
-    // A per-message color is validated and room-scoped by the speech server. Older servers have no 'c'.
-    const color = typeof m.c === 'string' && /^#[0-9a-fA-F]{6}$/.test(m.c) ? m.c : '#e3c768';
     b.el.style.setProperty('--bb-accent', color);
     // (C3) a newer line from the same speaker replaces the last at once: its own schedule from its first grapheme (C4: at its speed)
-    b.text = m.text; b.sch = sch; b.k = typedOut() ? Math.min(1, sch.n) : sch.n; paint(b);
+    b.text = text; b.sch = sch; b.k = typedOut() ? Math.min(1, sch.n) : sch.n; paint(b);
     b.el.classList.remove('bb-out'); b.el.classList.toggle('bb-big', S.big);
     b.born = now; b.until = now + sch.life; b.w = 0; shownN++;
-    if (!own) announce(`${names.get(m.id) || 'Someone'} nearby says: ${m.text}`);
   }
+  /* (Trial 3, dev/trial-3-skin-stealer/ D9) a line said by an entity: the server's own packet {t:'eheard', e, text, seq, v, o}, never a
+     person's.  Keyed 'e' + its id (a person's key is their session id, a number: the two never meet).  A bubble where this page draws
+     that entity (window.__skin.where), in the neutral colour; its own voice (voice.js's entity voice, which no person can choose or send);
+     its own entry in the mute list ("An unknown voice"); and muted, bubble and voice, whenever the person whose words it repeats (o) is
+     muted here - a mute is never bypassed by an echo.  A screen reader hears "A voice nearby says: ...". */
+  function eheard(m) {
+    if (typeof m.text !== 'string' || !Number.isSafeInteger(m.e) || m.e < 1) return;
+    const key = 'e' + m.e, o = Number.isSafeInteger(m.o) && m.o > 0 ? m.o : 0;
+    heardN++;
+    names.set(key, 'An unknown voice'); recent.set(key, Date.now()); if (recent.size > 8) recent.delete(recent.keys().next().value);
+    if (comp && comp.more.getAttribute('aria-expanded') === 'true') renderOptions();
+    if (muted.has(key) || (o && muted.has(o))) return;
+    const v = { p: 'mimic', h: m.v && m.v.h, s: m.v && m.v.s }, now = performance.now(), vm = VO() ? VO().meta(v, key) : null, sch = typeSchedule(m.text, vm ? vm.s : 85);
+    if (VO()) VO().say(key, v, sch, now);
+    if (!S.bubbles) return;
+    bubble(key, m.text, sch, now, false, '#e3c768');
+    announce(`A voice nearby says: ${m.text}`);
+  }
+  const muteKey = s => /^e\d+$/.test(s) ? s : +s;                        // (Trial 3) an entity's mute entry keeps its 'e' key
   /* the chat icon (post-Trial 4 chat polish C1): one small speech-bubble button low on the right, on every screen, shown only while
      nearby speech can open; it replaces Trial 4's bottom-centre Enter hint and Trial 2's touch SAY button.  Its key (the Nearby chat
      binding, Settings -> Controls) sits beside it as a small key cap on a keyboard screen and in its accessible name everywhere. */
@@ -353,6 +375,7 @@
     for (const [id, b] of B) {
       let x, y;
       if (id === me) { x = f.p.x; y = f.p.y; }
+      else if (typeof id === 'string') { const w = window.__skin && window.__skin.where ? window.__skin.where(+id.slice(1)) : null; if (!w) { b.el.remove(); B.delete(id); if (VO()) VO().stop(id); continue; } x = w.x; y = w.y; }   // (Trial 3) an entity: where this page draws it
       else { const o = pos.get(id); if (!o || o.d) { b.el.remove(); B.delete(id); if (VO()) VO().stop(id); continue; } x = o.x; y = o.y; }   // gone, or dead: its words go too (and its voice)
       if (now >= b.until) { b.el.remove(); B.delete(id); continue; }
       if (b.k < b.sch.n) {                                               // (C3) one grapheme more (or several, after a slow frame): written once
@@ -379,7 +402,7 @@
     }
     for (const id of vids) {                                             // (C4) each voice: quieter with distance (to 576 px), panned to its side
       if (id === me) { VO().place(id, 1, 0); continue; }
-      const o = pos.get(id); if (!o || o.d) { VO().stop(id); continue; }
+      const o = typeof id === 'string' ? (window.__skin && window.__skin.where ? window.__skin.where(+id.slice(1)) : null) : pos.get(id); if (!o || o.d) { VO().stop(id); continue; }   // (Trial 3: an entity's voice placed where it is drawn)
       const dx = o.x - f.p.x, dy = o.y - f.p.y;
       VO().place(id, 1 - .55 * Math.min(1, Math.hypot(dx, dy) / 576), dx / 420);
     }
@@ -414,7 +437,7 @@
       else if (b.dataset.opt === 'big') { S.big = !S.big; save(); for (const x of B.values()) { x.el.classList.toggle('bb-big', S.big); x.w = 0; } render(); }
       else if (b.dataset.opt === 'type') setPref('type', !S.type);
       else if (b.dataset.opt === 'voices') { if (VO()) VO().set({ on: !VO().prefs().on }); }
-      else if (b.dataset.mute) { const id = +b.dataset.mute; if (muted.has(id)) muted.delete(id); else { muted.add(id); const x = B.get(id); if (x) { x.el.remove(); B.delete(id); } if (VO()) VO().stop(id); } }
+      else if (b.dataset.mute) { const id = muteKey(b.dataset.mute); if (muted.has(id)) muted.delete(id); else { muted.add(id); const x = B.get(id); if (x) { x.el.remove(); B.delete(id); } if (VO()) VO().stop(id); } }
       renderOptions(); const again = opts.querySelector(`[data-opt="${b.dataset.opt || ''}"]${b.dataset.mute ? `,[data-mute="${b.dataset.mute}"]` : ''}`); if (again) again.focus();
     });
     form.addEventListener('focusout', e => { if (!form.contains(e.relatedTarget)) setTimeout(() => { if (!form.contains(document.activeElement)) closeComposer(); }, 0); });
@@ -482,7 +505,7 @@
   /* ---------------------------------------------------------------- wiring */
   window.__chat = {
     link(api) { if (api && typeof api.say === 'function') sendSay = api.say; },   // mp.js's session: its send of {t:'say'}
-    net(m, peer) { if (!m) return; if (m.t === 'heard') heard(m, peer); else if (m.t === 'said' && m.ok === 0) toast(why(m)); },
+    net(m, peer) { if (!m) return; if (m.t === 'heard') heard(m, peer); else if (m.t === 'eheard') eheard(m); else if (m.t === 'said' && m.ok === 0) toast(why(m)); },   // (Trial 3: eheard)
     state: () => ({
       lounge: { state: S.on ? L.state : 'off', id: L.id, online: L.online, lines: lg ? lg.logEl.querySelectorAll('li.lg-line').length : 0, unread: L.unread, muted: L.muted.size, sheet: L.sheet, open: !!L.ws, opens: L.opens, sent: L.sent, got: L.got, wide: wideMQ.matches, folded: S.fold },
       nearby: { bubbles: [...B].map(([id, b]) => ({ id, mode: b.mode, x: b.x, y: b.y, w: b.w, h: b.h, a: Number.isFinite(b.a) ? +b.a.toFixed(3) : null, shown: b.k, of: b.sch.n, write: Math.round(b.sch.write), life: Math.round(b.until - b.born) })), composer: !!comp && !comp.form.hidden, say: iconShown, icon: iconShown, heard: heardN, shown: shownN, muted: muted.size },

@@ -8,8 +8,8 @@ const lerp = (a, b, t) => a + (b - a) * t;
 const sm = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
 const angDiff = (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b));
 const API = () => window.__api;
-/* the script's public object: each module adds its own entries (mirror: the snapshot's list; body: draw, clear; kill: the attacker in a
- * death; audio: a death's sounds) */
+/* the script's public object: each module adds its own entries (mirror: the snapshot's list, and (T6) where an entity is drawn for chat.js;
+ * body: draw, clear; kill: the attacker in a death; audio: a death's sounds) */
 const K = window.__skin = {};
 /* what a later module lends an earlier one, inside the script only (never on the page): kill's test of a creature whose kill is playing */
 const hooks = { hidden: null, frame: null, audio: null };
@@ -21,7 +21,7 @@ const ACTS = ['', 'watch', 'back', 'leave', 'wait', 'lure', 'intercept', 'search
 return { ACTS, angDiff, API, clamp, hooks, K, lend, lerp, sm, STATES, TAU };
 }
 function skinMirror({ head: { ACTS, angDiff, K, STATES } }) {
-const MAX = 8;
+const MAX = 8, LOOK = /^[a-z]{1,12}\|[a-z]{1,12}\|#[0-9a-fA-F]{6}\|#[0-9a-fA-F]{6}$/;
 const slots = new Map();                                   // entity id -> { id, x, y, angle, state, act, v, head, dg, distance }
 function mirror(list, dt) {
   dt = Math.max(0, Math.min(.25, +dt || 0));
@@ -37,12 +37,14 @@ function mirror(list, dt) {
     else { const k = 1 - Math.exp(-dt * 14); o.x += (t.x - o.x) * k; o.y += (t.y - o.y) * k; o.angle += angDiff(+t.a || 0, o.angle) * (1 - Math.exp(-dt * 12)); }
     o.distance += Math.hypot(o.x - px, o.y - py);
     o.state = STATES[t.s] || 'ROAMING'; o.act = ACTS[t.ac] || ''; o.v = +t.v || 0; o.head = +t.h || 0;
+    o.dg = typeof t.dg === 'string' && LOOK.test(t.dg) ? t.dg : null;                       // (T6) the skin it wears: a wanderer's look, checked
   }
   for (const id of [...slots.keys()]) if (!seen.has(id)) slots.delete(id);
 }
 const clear = () => { slots.clear(); };
 const list = () => [...slots.values()];
 K.mirror = mirror;
+K.where = id => { const o = slots.get(id); return o ? { x: o.x, y: o.y } : null; };   // (T6) where this page draws entity id (chat.js: its line's bubble and voice)
 return { clear, list };
 }
 function skinBody({ head: { API, clamp, hooks, K, lerp, sm, TAU }, mirror: { clear, list } }) {
@@ -79,7 +81,7 @@ function make(id) {
 function pose(S, o, t, dt) {
   if (S.px === null || Math.hypot(o.x - S.px, o.y - S.py) > 220) { S.px = o.x; S.py = o.y; }
   const vx = (o.x - S.px) / dt, vy = (o.y - S.py) / dt; S.px = o.x; S.py = o.y;
-  const k = 1 - Math.exp(-dt * 9), fwd = vx * Math.cos(o.angle) + vy * Math.sin(o.angle);
+  const k = 1 - Math.exp(-dt * 9), fwd = vx * Math.cos(o.angle) + vy * Math.sin(o.angle); S.vx = vx; S.vy = vy;
   S.vf += (fwd - S.vf) * k;
   const a = o.act, still = a === 'watch' || a === 'wait' || a === 'lure' || a === 'listen' || a === 'mimic' || a === 'rest';
   const want = {
@@ -159,6 +161,21 @@ function paint(v, o, t) {
   for (let i = 0; i < 5; i++) { const a = -Math.PI / 2 + (i - 2) * .42 + S.tilt * .5; g.moveTo(hx, hyy + 1).lineTo(hx + Math.cos(a) * 6.5, hyy + 1 + Math.sin(a) * 6.5).stroke({ color: SC.hair, width: .9, alpha: .7 }); }
   g.moveTo(hx - 3.6 + S.tilt * 2, hyy - 5.6).quadraticCurveTo(hx + S.tilt * 3, hyy - 7.4, hx + 3.6 + S.tilt * 2, hyy - 5.6).stroke({ color: SC.mouth, width: 1.5 });
 }
+/* (T6) a borrowed skin: the page's own wanderer avatar (__api.mkAvatar, as another player is drawn), in the look the server sends, under
+ * the same sight mask and darkness (the creatures layer), cast by BR-RoLE as a wanderer is - with its tells: nothing in its hands and no
+ * light, no name (it is no player: no hover label, in no list), its arms held stiff at its sides, its walk a little slow (the server's
+ * pace), its long stares.  It goes the moment the server stops sending the look (its wind-up, a run, its time up). */
+function skinView(v, o, t) {
+  const A = API(), W = window.__mpLib && window.__mpLib.wire; if (!A || !A.mkAvatar || !W || !W.parseLook) return null;
+  if (!v.__av || v.__dg !== o.dg) { dropSkin(v); v.__av = A.mkAvatar(W.parseLook(o.dg), { kind: 'flashlight', color: '#ffe7b2', parts: {} }); v.__av.label = 'skinstealer-skin#' + o.id; v.__dg = o.dg; A.layer().addChild(v.__av); }
+  const av = v.__av, S = v.__s, sp = Math.hypot(S.vx || 0, S.vy || 0);
+  av.update(t, false, false, { x: o.x, y: o.y, angle: o.angle, vx: S.vx || 0, vy: S.vy || 0, distance: o.distance, mv: [sp > 20 ? 1 : 0, Math.round(sp), 100, 0] });
+  if (av.gear) av.gear.visible = false;                                         // nothing in its hands
+  if (Array.isArray(av.hands)) av.hands.forEach((h, i) => { h.x = i === 0 ? -16 : 16; h.y = -2; });   // arms stiff at its sides
+  av.visible = true; av.alpha = 1;
+  return av;
+}
+function dropSkin(v) { const av = v.__av; v.__av = null; v.__dg = null; if (av) { try { av.parent && av.parent.removeChild(av); av.destroy({ children: true }); } catch (e) { } } }
 /* shaded by the light where it stands (BR-RoLE's sample, eased), as the Hound's view is; no light of its own */
 function shadeView(v, x, y, flash, dt) {
   const L = window.__light; if (!L) return;
@@ -175,19 +192,21 @@ function draw(dt) {
     seen.add(o.id);
     const v = views.get(o.id) || make(o.id), S = v.__s;
     const far = H && Math.hypot(o.x - H.x, o.y - H.y) > 1600;    // off any screen: not drawn (nothing of it shows, nothing is spent)
-    v.visible = !far; if (far) { S.px = null; continue; }
-    if (hooks.hidden && hooks.hidden(o)) { v.visible = false; S.px = null; continue; }   // its kill is playing: the death's own attacker is drawn instead
+    v.visible = !far; if (far) { S.px = null; if (v.__av) v.__av.visible = false; continue; }
+    if (hooks.hidden && hooks.hidden(o)) { v.visible = false; S.px = null; if (v.__av) v.__av.visible = false; continue; }   // its kill is playing: the death's own attacker is drawn instead
     pose(S, o, now, dt);
+    if (o.dg && skinView(v, o, now)) { v.visible = false; continue; }   // (T6) in a borrowed skin: the wanderer is drawn instead
+    if (v.__av) dropSkin(v);
     v.position.set(o.x, o.y); v.rotation = o.angle + Math.PI / 2; v.alpha = 1;
     shadeView(v, o.x, o.y, flash, dt);
     paint(v, o, now);
   }
-  for (const [id, v] of views) if (!seen.has(id)) { views.delete(id); try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } }
+  for (const [id, v] of views) if (!seen.has(id)) { views.delete(id); dropSkin(v); try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } }
   if (hooks.frame) hooks.frame(dt);
   if (hooks.audio) hooks.audio(dt, list());                  // (T5) its living sounds, from what the mirror says it is doing
 }
 /* a new world, a closed connection: no view and no record stays behind */
-function reset() { clear(); for (const v of views.values()) { try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } } views.clear(); }
+function reset() { clear(); for (const v of views.values()) { dropSkin(v); try { v.parent && v.parent.removeChild(v); v.destroy({ children: true }); } catch (e) { } } views.clear(); }
 K.draw = draw;
 K.clear = reset;
 return { classes, newView, paint, shadeView };
@@ -319,7 +338,7 @@ function voice(dt, list) {
     const sp = dd / Math.max(dt, .001), stride = sp > 220 ? 150 : sp > 120 ? 118 : 96;
     // footfalls: a long, padded, bare step - each half stride, heard whether or not it can be seen; placed with care when it stalks
     // (creep, approach): quieter and heard less far, never silent
-    const soft = o.act === 'creep' || o.act === 'approach';
+    const soft = o.act === 'creep' || o.act === 'approach' || !!o.dg;                // (T6: and in a borrowed skin)
     s.acc += dd; while (s.acc >= stride / 2) { s.acc -= stride / 2; if (sp > 25) step(o.x, o.y, sp, soft); }
     if (o.act !== s.act) {
       if (o.act === 'wind') cue(o.x, o.y, 'wind');           // the tell: a dry click in the throat, a sharp breath in

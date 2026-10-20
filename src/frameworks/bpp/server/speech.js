@@ -29,14 +29,24 @@
  * rate and the text rules are exactly as without it; the speaker is still the connection, never anything in the packet.  No sound,
  * no audio and nothing but these three small values travels: each page makes its own chirps (F.R.O.N.T.'s voice.js).
  *
- * The future-entity contract (docs/architecture/CHAT.md, "onLocallyHeardSpeech"): INERT.  No AI, monster or other module is given these
- * lines; ON_HEARD below is null and nothing assigns it.  Menu lounge lines never come through this module at all.
+ * The entity contract (docs/architecture/CHAT.md, "onLocallyHeardSpeech"; Trial 3, dev/trial-3-skin-stealer/DESIGN_DECISIONS.md D9):
+ * ON_HEARD is the onHeard server.js gives (null when none is given: the unit checks' own instance, and every server before Trial 3).  It
+ * is called once for a line this module ACCEPTED and delivered - after every rule above - with the speaker's room and
+ * {id, x, y, text}: the session id, the server's position, the cleaned text.  Never for a refused line, never for the lounge (its lines
+ * never come through this module), never with anything from the packet but its text.  server.js hands it to that room's AI engine
+ * (eng.hearSpeech), where only a Skin-Stealer within the same 576 px keeps it, for a while (N.A.N.I.'s ai.skinstealer.js).
+ * entitySay(sim, L): a line an entity says (the engine's voiceOut).  Its own packet, {t:'eheard', e, text, seq, v, o} - e the entity id,
+ * v {h, s} its voice, o the session id of the person whose words it repeats (0 for a generic call; a page that has muted that person
+ * mutes the echo) - and never a 'heard' or a session id as its speaker, so no page can take it for a person's line.  The text passes
+ * cleanText again; it reaches the living players of the same room within HEAR px of the entity (the server's positions), never the
+ * menu, the dead or another room; a token bucket per entity (E_BURST lines every E_WINDOW ms) and the same slow-socket skip.
  *
- * Given by server.js: rooms (the core's Map of rooms), send, cleanText (and, by the unit checks only, limits).  No timer.  Never served. */
-module.exports = ({ rooms, send, cleanText, limits }) => {
+ * Given by server.js: rooms (the core's Map of rooms), send, cleanText, onHeard (Trial 3) (and, by the unit checks only, limits).  No
+ * timer.  Never served. */
+module.exports = ({ rooms, send, cleanText, limits, onHeard }) => {
 // HEAR: px, 6 cells of 96 px (about 1.6 s at the fastest legal motion, 360 px/s).  limits: only the unit checks pass it (server.js never does)
-const { HEAR, BURST, WINDOW, REPEAT, SLOW_BYTES } = Object.assign({ HEAR: 576, BURST: 3, WINDOW: 5000, REPEAT: 3000, SLOW_BYTES: 256 * 1024 }, limits);
-const ON_HEARD = null;                  // the inert future-entity hook (see above): never assigned, never called
+const { HEAR, BURST, WINDOW, REPEAT, SLOW_BYTES, E_BURST, E_WINDOW } = Object.assign({ HEAR: 576, BURST: 3, WINDOW: 5000, REPEAT: 3000, SLOW_BYTES: 256 * 1024, E_BURST: 1, E_WINDOW: 6000 }, limits);
+const ON_HEARD = typeof onHeard === 'function' ? onHeard : null;   // the entity hook (see above): server.js's onHeard, or null
 const VOICES = ['classic', 'soft', 'deep', 'electronic', 'static', 'hollow', 'chime'];   // (C4) the page's presets (voice.js), checked equal by chat_server.js
 const whole = (v, a, z, d) => Number.isInteger(v) && v >= a && v <= z ? v : d;
 function voiceOf(v) {                   // (C4) the speaker's voice, checked: {p, h, s} or null
@@ -86,8 +96,32 @@ function say(sock, m) {
     if (o.sock.writableLength > SLOW_BYTES) continue;
     send(o, ev); stats.heard++;
   }
+  if (ON_HEARD) { try { ON_HEARD(room, { id: me.id, x, y, text: c.text }); } catch (e) { stats.hookErr = (stats.hookErr | 0) + 1; } }   // (Trial 3) an accepted line, to the room's engine
+}
+/* (Trial 3) a line said by an entity (see above): returns how many players it reached */
+const ents = new WeakMap();             // a room's sim -> Map(entity id -> its bucket { tokens, at })
+function entitySay(sim, L) {
+  let room = null; for (const r of rooms.values()) if (r.sim === sim) { room = r; break; }
+  if (!room || !L || !Number.isSafeInteger(L.e) || L.e < 1 || !Number.isFinite(L.x) || !Number.isFinite(L.y)) return 0;
+  const c = cleanText(L.text); if (!c.ok) { stats.eRefused = (stats.eRefused | 0) + 1; return 0; }
+  let M = ents.get(sim); if (!M) ents.set(sim, M = new Map());
+  const now = Date.now(); let b = M.get(L.e);
+  if (!b) { b = { tokens: E_BURST, at: now }; M.set(L.e, b); if (M.size > 64) M.delete(M.keys().next().value); }
+  b.tokens = Math.min(E_BURST, b.tokens + (now - b.at) * E_BURST / E_WINDOW); b.at = now;
+  if (b.tokens < 1) { stats.eRefused = (stats.eRefused | 0) + 1; return 0; }
+  b.tokens -= 1;
+  const v = L.v && typeof L.v === 'object' ? L.v : L, ev = { t: 'eheard', e: L.e, text: c.text, seq: ++seq, v: { h: whole(v.h, -12, 12, 0), s: whole(v.s, 50, 200, 100) }, o: Number.isSafeInteger(L.o) && L.o > 0 ? L.o : 0 };
+  let n = 0;
+  for (const w of room.clients.values()) {
+    const pl = w.player; if (!pl.active || pl.dead) continue;
+    const ex = pl.x - L.x, ey = pl.y - L.y; if (ex * ex + ey * ey > HEAR * HEAR) continue;
+    if (w.sock.writableLength > SLOW_BYTES) continue;
+    send(w, ev); n++;
+  }
+  stats.eSaid = (stats.eSaid | 0) + 1; stats.eHeard = (stats.eHeard | 0) + n;
+  return n;
 }
 const readerFor = reader => (sock, onMessage) => reader(sock, m => (m !== null && typeof m === 'object' && m.t === 'say') ? say(sock, m) : onMessage(m));
 
-return { HEAR, BURST, WINDOW, VOICES: VOICES.slice(), readerFor, stats: () => JSON.parse(JSON.stringify(stats)), ON_HEARD };
+return { HEAR, BURST, WINDOW, VOICES: VOICES.slice(), readerFor, stats: () => JSON.parse(JSON.stringify(stats)), ON_HEARD, entitySay };
 };

@@ -27,6 +27,12 @@
  *   t5d  the victim's own view of its death against a Hound's, at the same lamp-lit spot and the same moments (0.5, 1, 2, 3 s), measured
  *        in the page frame by frame: the darkness overlay's cover, the black fade, the end shade, the dying light - before the end shade
  *        that every death has from 3.12 s, never darker than the Hound's (+0.1 cover).  No page error.
+ *   t6   deception in three real pages: a victim killed through the SKIN tab's preview while the others are far off, the world at x2 while
+ *        it feeds - the snapshot then carries the look it wears; a speaker hidden behind a wall near it says a line through the chat's
+ *        composer (the admin overlay shows a count, never the words); the listener steps into its sight: in the skin it walks up, stares
+ *        and repeats the line as an entity (a bubble keyed e + id, "A voice nearby says: ..."); the skin drawn as a wanderer with nothing
+ *        in its hands, no name, in no list of players; the mute rules in the page (a muted person's echo is silent; the unknown voice
+ *        has its own entry).  No page error.
  * Every name and passcode is synthetic.  The server is stopped by its PID. */
 'use strict';
 const fs = require('fs'), path = require('path'), http = require('http'), net = require('net');
@@ -134,7 +140,7 @@ const VIEWS = `() => { const A = window.__api, L = A.layer(); return L.children.
       cmd({ c: 'world' }); await until(P, () => !window.__k3.ss, null, 8000); await sleep(1200);
       T.afterReset = (await P.evaluate(`(${VIEWS})()`)).length;
       T.errors = errs;
-      check('t1_script_loaded', T.script.skin === 'object' && T.script.fns === 'attack,attacker,clear,deathEvent,deathSound,draw,mirror', JSON.stringify(T.script));
+      check('t1_script_loaded', T.script.skin === 'object' && T.script.fns === 'attack,attacker,clear,deathEvent,deathSound,draw,mirror,where', JSON.stringify(T.script));
       check('t1_p9_keys_without_one', T.keysBefore === 'st,h,m,b,p,gw,it,lf,sn', T.keysBefore);
       check('t1_admin_tabs', T.tabsBefore === 'players,monsters,deaths,world,debug' && T.tabsK === 'players,monsters,deaths,world,debug,skin', `${T.tabsBefore} -> K -> ${T.tabsK}`);
       check('t1_admin_skin_tab', /SKIN-STEALER · 0 IN THE HALLS \(ADMIN MAX 4\)/.test(T.tab.text) && T.tab.buttons.slice(0, 3).join('|') === '+ SKIN-STEALER|+ NEAR ME|− SKIN-STEALER' && /SKIN-STEALER · 1 IN THE HALLS/.test(T.tabAfter.text) && /K#\d+/.test(T.tabAfter.text) && /SKIN-STEALER PLACED NEAR YOU/.test(T.tabAfter.status), JSON.stringify({ before: T.tab, after: T.tabAfter }));
@@ -318,6 +324,90 @@ const VIEWS = `() => { const A = window.__api, L = A.layer(); return L.children.
       check('t5_own_death_view', ok && Ks.own.kind === 'SkinStealer' && H.own.kind === 'Hound', JSON.stringify({ hound: H, skinstealer: Ks }));
       check('t5d_no_page_errors', !V.errs.length && !S.errs.length, JSON.stringify(T.errors));
       await V.ctx.close(); await S.ctx.close();
+    }
+    if (want('t6')) {
+      // deception in real pages, the real server and its real AI.  A victim is killed (the SKIN tab's preview) while the two others are
+      // far off; the world runs at x2 while it feeds, so its meal is short; the skin it then wears reaches the pages as a wanderer's look.
+      // With the world frozen, a speaker hidden behind a wall within 576 px of it says a line (the chat's own composer) - it keeps it
+      // (the admin overlay's counts, never the words); the listener beside the speaker hears the speaker too.  The speaker leaves; the
+      // listener steps into its sight, light on; the world runs: in the skin it walks up, stares and repeats that line as an entity
+      // ({t:'eheard'}): on the listener's page a bubble where it is drawn, the entity voice, "A voice nearby says: ..."; the skin drawn as
+      // a wanderer with nothing in its hands, no name, in no list of players.  The mute rules, in the page: the echo of a muted person's
+      // words is silent; the unknown voice has its own entry.
+      const T = R.sections.t6 = {}, room = 'k3t6' + (Date.now() % 1e6), VP = { width: 1280, height: 720 };
+      // (the world frozen and emptied of Hounds and Smilers as soon as the first page is in: they would take somebody meanwhile)
+      const V = await runPage(b, port, room, VP, 'K3Prey');
+      V.cmd({ c: 'freeze', on: true }); V.cmd({ c: 'hounds', mode: 'remove', n: 10 }); V.cmd({ c: 'smilers', mode: 'remove', n: 10 });
+      const S = await runPage(b, port, room, VP, 'K3Speaker'), L = await runPage(b, port, room, VP, 'K3Listener');
+      const ids = { v: await V.P.evaluate(() => __api.H.id), s: await S.P.evaluate(() => __api.H.id), l: await L.P.evaluate(() => __api.H.id) };
+      const AWAY = (from, r0, k) => { const A = __api; for (const r of [r0, r0 - 400, r0 + 400]) for (let i = 0; i < 32; i++) { const a = (i + k * .5) / 32 * Math.PI * 2, x = from.x + Math.cos(a) * r, y = from.y + Math.sin(a) * r; if (A.sl(x, y, 30)) { A.tp(x, y); return { x: Math.round(x), y: Math.round(y) }; } } return null; };
+      const ssOf = P => P.evaluate(() => (window.__k3.ss || [])[0] || null);
+      // the two others in god mode (no creature perceives them) until the listener's moment
+      V.cmd({ c: 'hounds', mode: 'remove', n: 10 }); V.cmd({ c: 'smilers', mode: 'remove', n: 10 }); V.cmd({ c: 'god', id: ids.s }); V.cmd({ c: 'god', id: ids.l }); await sleep(300);
+      T.alive = await V.P.evaluate(() => !(__api.death() && __api.death().active));
+      const vpos = await V.P.evaluate(() => ({ x: __api.H.x, y: __api.H.y }));
+      T.away = [await S.P.evaluate(`(${AWAY})(${JSON.stringify(vpos)}, 2600, 0)`), await L.P.evaluate(`(${AWAY})(${JSON.stringify(vpos)}, 2600, 1)`)];
+      await sleep(1200);
+      V.cmd({ c: 'near', k: 'skinstealer' });
+      T.eid = await until(L.P, () => window.__k3.ss && window.__k3.ss.length ? window.__k3.ss[0].i : null, null, 8000);
+      V.cmd({ c: 'preview', k: 'skinstealer', var: 'B' });
+      T.kill = await until(V.P, () => { const D = __api.death(); return D && D.active ? { kind: D.kind, v: D.variant } : null; }, null, 6000, 20);
+      V.cmd({ c: 'freeze', on: false }); V.cmd({ c: 'speed', v: 2 });
+      T.dg = await until(L.P, () => { const t = (window.__k3.ss || [])[0]; return t && t.dg ? t.dg : null; }, null, 45000, 100);
+      V.cmd({ c: 'speed', v: 1 }); V.cmd({ c: 'freeze', on: true }); await sleep(600);
+      // the speaker: hidden behind a wall 250-540 px from it (speech goes through walls: the radius is the rule); the listener beside them
+      const K0 = await ssOf(L.P); T.k0 = K0 && { x: Math.round(K0.x), y: Math.round(K0.y) };
+      T.sAt = await S.P.evaluate(k => { const A = __api; for (const r of [420, 340, 500, 260, 540]) for (let i = 0; i < 48; i++) { const a = i / 48 * Math.PI * 2, x = k.x + Math.cos(a) * r, y = k.y + Math.sin(a) * r;
+        if (A.sl(x, y, 26) && A.Uc(k.x, k.y, a, r) < r - 40) { A.tp(x, y); return { x: Math.round(x), y: Math.round(y), r }; } } return null; }, T.k0);
+      await sleep(400);
+      T.lAt = T.sAt && await L.P.evaluate(([s, k]) => { const A = __api; for (let i = 0; i < 24; i++) { const a = i / 24 * Math.PI * 2, x = s.x + Math.cos(a) * 90, y = s.y + Math.sin(a) * 90, d = Math.hypot(x - k.x, y - k.y);
+        if (A.sl(x, y, 26) && A.Uc(k.x, k.y, Math.atan2(y - k.y, x - k.x), d) < d - 40) { A.tp(x, y); return { x: Math.round(x), y: Math.round(y) }; } } return null; }, [T.sAt, T.k0]);
+      await sleep(1500);
+      T.sState = await S.P.evaluate(() => { const A = __api, vis = id => { const e = document.getElementById(id); return !!(e && !e.hidden); }; return { started: A.started(), paused: A.paused(), caught: !!(A.G && A.G.caught), on: !!(window.__net && __net.on), dlg: ['dialog', 'caught', 'won', 'runMenu', 'appearancePanel', 'menu', 'adminPanel'].filter(vis), sheets: [...document.getElementsByClassName('ui-sheet')].filter(e => !e.hidden).map(e => e.id), open: window.__chat.open() }; });
+      await S.P.fill('#sayText', 'The Exit Is This Way'); await S.P.keyboard.press('Enter');
+      T.lHeardSpeaker = !!(await until(L.P, () => window.__chat.state().nearby.heard > 0, null, 6000));
+      S.cmd({ c: 'debug', on: true });
+      T.dbg = await until(S.P, eid => { const d = (window.__ents.dbg || []).find(x => x.i === eid && x.sk); return d ? { hd: d.sk.hd, dg: d.sk.dg, words: /exit/i.test(JSON.stringify(d)) } : null; }, T.eid, 10000, 200);
+      S.cmd({ c: 'debug', on: false });
+      // the speaker leaves; the listener steps into its sight, 380 px off, facing it, light on
+      await S.P.evaluate(`(${AWAY})(${JSON.stringify(T.k0)}, 2600, 2)`);
+      T.lAt2 = await L.P.evaluate(k => { const A = __api; for (const r of [380, 320, 440]) for (let i = 0; i < 48; i++) { const a = i / 48 * Math.PI * 2, x = k.x + Math.cos(a) * r, y = k.y + Math.sin(a) * r;
+        if (A.sl(x, y, 26) && A.Uc(k.x, k.y, a, r) >= r - 4) { A.tp(x, y); A.H.angle = Math.atan2(k.y - y, k.x - x); return { x: Math.round(x), y: Math.round(y) }; } } return null; }, T.k0);
+      V.cmd({ c: 'god', id: ids.l }); await sleep(800);                                       // (the listener is a person again: it can be seen)
+      await aimAt(L.P); if (!(await L.P.evaluate(() => __api.lightOn()))) await L.P.keyboard.press('KeyF');
+      await L.P.evaluate(() => { window.__k3.live = []; window.__k3.liveObs = setInterval(() => { const r = document.getElementById('chatLive'); if (r && r.textContent && window.__k3.live[window.__k3.live.length - 1] !== r.textContent) window.__k3.live.push(r.textContent); }, 50); });
+      V.cmd({ c: 'freeze', on: false });
+      L.cmd({ c: 'debug', on: true }); T.trace = [];   // (its decisions once a second, from the admin overlay data: distance, act, plan, why, its last line, hunger - kept in the report)
+      const tr = setInterval(async () => { try { T.trace.push(await L.P.evaluate(eid => { const d = (window.__ents.dbg || []).find(x => x.i === eid), H = __api.H; return d ? [Math.round(Math.hypot(d.x - H.x, d.y - H.y)), d.ac, d.sk && d.sk.pl, d.sk && d.sk.why, d.sk && d.sk.sd, d.sk && d.sk.hu] : null; }, T.eid)); } catch (e) { } }, 1000);
+      T.eheard = await until(L.P, () => { const N = window.__chat.state().nearby, x = N.bubbles.find(q => typeof q.id === 'string' && q.id[0] === 'e'); return x ? { id: x.id, mode: x.mode, of: x.of } : null; }, null, 30000, 100);
+      clearInterval(tr); L.cmd({ c: 'debug', on: false });
+      await sleep(400);
+      T.drawn = await L.P.evaluate(() => { const L0 = __api.layer(), av = L0.children.find(c => /^skinstealer-skin#/.test(c.label || '')), v = L0.children.find(c => c.__skin && c.__id);
+        return { avatar: !!av, avVisible: !!(av && av.visible), gear: av && av.gear ? av.gear.visible : null, hands: av && av.hands ? av.hands.map(h => [Math.round(h.x), Math.round(h.y)]) : null, creatureVisible: !!(v && v.visible), peers: window.__net && __net.peerScreen ? __net.peerScreen().map(q => q.n).sort().join(',') : null }; });
+      if (SHOTS) await L.P.screenshot({ path: path.join(SHOTS, 't6_disguise_speaks_1280.png') });
+      T.live = await L.P.evaluate(() => { clearInterval(window.__k3.liveObs); return window.__k3.live.slice(-4); });
+      T.voice = await L.P.evaluate(() => window.__voice && window.__voice.stats ? window.__voice.stats() : null);
+      V.cmd({ c: 'freeze', on: true });
+      // the mute rules, in the page (the server's side: chat_server.js unit_entity)
+      T.mute = await L.P.evaluate(([sid, eid]) => {
+        const C = window.__chat, shown = () => C.state().nearby.shown, n0 = shown();
+        C.open(); const more = document.querySelector('#sayBox .say-more'); if (more && more.getAttribute('aria-expanded') !== 'true') more.click();
+        const sb = document.querySelector(`#sayBox [data-mute="${sid}"]`); if (sb) sb.click();
+        C.net({ t: 'eheard', e: eid, text: 'echo of a muted person', seq: 1e9, v: { h: 0, s: 90 }, o: sid }); const n1 = shown();
+        C.net({ t: 'eheard', e: eid, text: 'a generic call', seq: 1e9 + 1, v: { h: 0, s: 90 }, o: 0 }); const n2 = shown();
+        const eb = document.querySelector(`#sayBox [data-mute="e${eid}"]`), label = eb ? eb.textContent : null; if (eb) eb.click();
+        C.net({ t: 'eheard', e: eid, text: 'after its own mute', seq: 1e9 + 2, v: { h: 0, s: 90 }, o: 0 }); const n3 = shown();
+        for (const k of [String(sid), 'e' + eid]) { const x = document.querySelector(`#sayBox [data-mute="${k}"]`); if (x && x.getAttribute('aria-pressed') === 'true') x.click(); }
+        return { speakerButton: !!sb, echoOfMutedSilent: n1 === n0, genericShown: n2 === n1 + 1, entityLabel: label, entityMuteSilent: n3 === n2 };
+      }, [ids.s, T.eid]);
+      T.errors = { victim: V.errs, speaker: S.errs, listener: L.errs };
+      check('t6_skin_earned', T.kill && T.kill.kind === 'SkinStealer' && typeof T.dg === 'string' && /^[a-z]+\|[a-z]+\|#[0-9a-fA-F]{6}\|#[0-9a-fA-F]{6}$/.test(T.dg), JSON.stringify({ kill: T.kill, dg: T.dg }));
+      check('t6_heard_counts_only', T.sAt && T.lHeardSpeaker && T.dbg && Array.isArray(T.dbg.hd) && T.dbg.hd.length >= 1 && !T.dbg.words && T.dbg.dg && T.dbg.dg.from === ids.v, JSON.stringify({ sAt: T.sAt, lAt: T.lAt, lHeard: T.lHeardSpeaker, dbg: T.dbg }));
+      check('t6_entity_line', T.eheard && T.eheard.id === 'e' + T.eid && T.live.some(l => /^A voice nearby says: the exit is this/.test(l)), JSON.stringify({ eheard: T.eheard, live: T.live, voice: T.voice }));
+      check('t6_disguise_drawn', T.drawn.avatar && T.drawn.avVisible && T.drawn.gear === false && !T.drawn.creatureVisible && T.drawn.peers === 'K3Prey,K3Speaker', JSON.stringify(T.drawn));
+      check('t6_mutes', T.mute.speakerButton && T.mute.echoOfMutedSilent && T.mute.genericShown && /unknown voice/i.test(T.mute.entityLabel || '') && T.mute.entityMuteSilent, JSON.stringify(T.mute));
+      check('t6_no_page_errors', !V.errs.length && !S.errs.length && !L.errs.length, JSON.stringify(T.errors));
+      await V.ctx.close(); await S.ctx.close(); await L.ctx.close();
     }
   } finally { await b.close(); try { process.kill(srv.pid); } catch (e) { } }
   R.cases = cases; R.ok = cases.length > 0 && cases.every(c => c.ok);

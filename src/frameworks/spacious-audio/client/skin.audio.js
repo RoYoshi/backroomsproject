@@ -90,7 +90,7 @@ function voice(dt, list) {
     const sp = dd / Math.max(dt, .001), stride = sp > 220 ? 150 : sp > 120 ? 118 : 96;
     // footfalls: a long, padded, bare step - each half stride, heard whether or not it can be seen; placed with care when it stalks
     // (creep, approach): quieter and heard less far, never silent
-    const soft = o.act === 'creep' || o.act === 'approach';
+    const soft = o.act === 'creep' || o.act === 'approach' || !!o.dg;                // (T6: and in a borrowed skin)
     s.acc += dd; while (s.acc >= stride / 2) { s.acc -= stride / 2; if (sp > 25) step(o.x, o.y, sp, soft); }
     if (o.act !== s.act) {
       if (o.act === 'wind') cue(o.x, o.y, 'wind');           // the tell: a dry click in the throat, a sharp breath in

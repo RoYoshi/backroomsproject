@@ -106,3 +106,18 @@ Where a value differs from the T0 proposal above, the T0 line is superseded by t
 | feeding | every 0.8-1.5 s, heard to 520 px | |
 | breath while still | at most every 25-45 s, only within 260 px | never a proximity cue |
 | art | skin 0xbcab9a (shadow 0x7f6c5e, light 0xdfd1bf); leg 5.4 / 4 px, arm 5 / 3.8 px | interim; shaded by BR-RoLE's light sample, black in the dark |
+
+## As built after T6 (deception; PROPOSED)
+
+| Name | Value | Notes |
+|---|---|---|
+| `skinFeed` | 8 s at its meal | before it can wear the skin; disturbed sooner, none.  A meal now lasts at least this long |
+| `disguiseTime` | 240-420 s | hunger rises about 0.1 a minute, so a fed one in a skin is satiated at first and hungry again within its time |
+| speed in a skin | 150 px/s (`speeds.disguise`) | a person walks at 172: it is a little slow, and a walker can leave it behind |
+| `mingleStop` / `stare` / `mingleStrike` | 170 px / 3-7 s (x 0.7..1.3 PATIENCE) / 120 px | it stands, stares, then (hungry, >= 0.2) closes in; it springs only from 120 px in a skin (185 out of one) |
+| chase in a skin | very hungry (>= 0.6), the person fleeing | it drops the skin to run |
+| `hearSpeech` / `heardMax` / `heardTtl` / `heardUses` | 576 px / 4 lines / 90 s / 2 repeats each | the players' own speech radius |
+| `sayGap` / `sayEnc` / `sayLure` | 10-18 s / 3 an encounter / 1.5 s into a wait | it calls from hiding only when hungry (>= 0.4) and unseen |
+| `sayWords` / `echo` | 6 words / 35 % | its echo of a heard line: the opening words, lower case, sometimes the last word again |
+| server bucket | 1 line / 6 s per entity | B++'s speech.js, whatever the AI asks |
+| entity voice | pitch -4..+2 semitones, pace 78-92 % (seeded per creature) | `voice.js`'s `mimic`: low, breathy, sliding down |

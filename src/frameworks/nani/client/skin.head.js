@@ -20,8 +20,8 @@ const lerp = (a, b, t) => a + (b - a) * t;
 const sm = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
 const angDiff = (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b));
 const API = () => window.__api;
-/* the script's public object: each module adds its own entries (mirror: the snapshot's list; body: draw, clear; kill: the attacker in a
- * death; audio: a death's sounds) */
+/* the script's public object: each module adds its own entries (mirror: the snapshot's list, and (T6) where an entity is drawn for chat.js;
+ * body: draw, clear; kill: the attacker in a death; audio: a death's sounds) */
 const K = window.__skin = {};
 /* what a later module lends an earlier one, inside the script only (never on the page): kill's test of a creature whose kill is playing */
 const hooks = { hidden: null, frame: null, audio: null };

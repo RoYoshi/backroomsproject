@@ -69,6 +69,13 @@ function create(cfg) {
   };
   eng.blackout = () => geo.a.blackout();
   eng.commitEnd = function (pid, x, y, a) { return commitEnd(this, pid, x, y, a); };
+  /* (Trial 3 T6) speech and skins, for a species that has ears for them (the Skin-Stealer; never a Hound or a Smiler): server.js wires
+   * them.  hearSpeech(L): a line B++'s speech.js accepted and delivered, {id, x, y, text} (the speaker's id and server position).
+   * skinFrom(eid, pid, look): G.I.B.'s aftermath, when a death this entity caused ends: the victim's validated look.  voiceOut: what
+   * server.js gives to send an entity's line (B++'s speech.entitySay); null in a world with no server (a line is then only counted). */
+  eng.voiceOut = null;
+  eng.hearSpeech = function (L) { let n = 0; for (const e of this.entities) if (e.sp.hearSpeech && e.sp.hearSpeech(this, e, L)) n++; return n; };
+  eng.skinFrom = function (eid, pid, look) { const e = this.entities.find(q => q.id === eid); return !!(e && e.sp.skinFrom && e.sp.skinFrom(this, e, pid, look)); };
 
   /* ------------------------------------------------------------ the sound bus: an event goes to every entity once; each decides what it makes of it */
   eng.sound = function (ev) {

@@ -6,7 +6,8 @@
  * Three layers, every case named in the report:
  *   unit_*     in this process: W.A.R.D.'s chat_text.js (the cleaning and its refusals); speech.js on hand-made rooms (the radius at 576 and
  *              577 px, the room, the menu and the dead, the bucket, repeats, a recipient's backlog, a connection that left); lounge.js on
- *              fake sockets (hello first, invalid messages, received bytes, unsent output, hello and idle timeouts, the counts).
+ *              fake sockets (hello first, invalid messages, received bytes, unsent output, hello and idle timeouts, the counts); (Trial 3)
+ *              speech.js's entity hook and entity speech (unit_entity_*: accepted lines only; its own packet, room, radius, life, bucket).
  *   sock_*     the real server (`node server.js PORT`, a synthetic admin passcode), driven by raw WebSocket clients written here (masked
  *              frames, exact handshakes): nearby speech between real game connections in real rooms (positions set with the admin
  *              tools, the world frozen so no monster interferes), spoofed fields, menu and dead speakers, rate and repeat, invalid input,
@@ -234,6 +235,63 @@ function unitSpeech(tree) {
   const seen = []; let h; S.readerFor((sock, f) => { h = f; })(sp.sock, m => seen.push(m)); h({ t: 'p', x: 1 }); h(null); h('str'); h({ t: 'say', text: 'q' });
   check('unit_speech_reader_passthrough', seen.length === 3 && seen[0].t === 'p' && seen[1] === null && seen[2] === 'str');
   check('unit_speech_inert_hook', S.ON_HEARD === null);
+}
+
+/* ================================================================ unit: Trial 3 - the entity hook and entity speech (speech.js) */
+/* dev/trial-3-skin-stealer/ (DESIGN_DECISIONS.md D9): the onHeard hook gets an accepted line only, once, with the speaker's server
+ * position and the cleaned text (never a refused one, never anything else from the packet); entitySay sends its own packet
+ * {t:'eheard', e, text, seq, v, o} (never a 'heard', never a session id as the speaker) to the living players of the same room within
+ * 576 px of the entity, the text cleaned again, a bucket per entity, the slow-socket skip; the lounge never reaches the hook.  The
+ * mutants for this layer are dev/trial-3-skin-stealer/tools/speech_mutants.js's (this file's own list stays as the gate counts it). */
+function unitEntity(tree) {
+  const sent = [], hook = [];
+  const send = (c, o) => sent.push([c.id, o]);
+  const rooms = new Map(), simA = { n: 'a' }, simB = { n: 'b' };
+  const mkRoom = (name, sim) => { const r = { name, clients: new Map(), sim }; rooms.set(name, r); return r; };
+  const mkClient = (room, id, x, y, st = {}) => { const sock = { destroyed: false, writableLength: 0 }; const me = { id, sock, player: Object.assign({ active: true, dead: '', x, y }, st) }; room.clients.set(id, me); return me; };
+  const { cleanText } = require(path.join(tree, 'src/frameworks/ward/server/chat_text.js'));
+  const mk = onHeard => require(path.join(tree, 'src/frameworks/bpp/server/speech.js'))({ rooms, send, cleanText, onHeard });
+  const S = mk((room, L) => hook.push([room.name, L])), S0 = mk();
+  const say = (me, m) => { let h; S.readerFor((sock, f) => { h = f; return () => { }; })(me.sock, () => { }); h(m); };
+  const A = mkRoom('a', simA), B = mkRoom('b', simB);
+  const sp = mkClient(A, 1, 1000, 1000), near = mkClient(A, 2, 1100, 1000), edge = mkClient(A, 3, 1000, 1576), out = mkClient(A, 4, 1000, 1577),
+    diag = mkClient(A, 5, 1000 + 407, 1000 + 407), menu = mkClient(A, 6, 1000, 1000, { active: false }), dead = mkClient(A, 7, 1000, 1010, { dead: 'hound' }),
+    other = mkClient(B, 8, 1000, 1000);
+  check('unit_entity_hook_inert_without', S0.ON_HEARD === null && typeof S.ON_HEARD === 'function');
+  say(sp, { t: 'say', text: '  hook   line ', x: 9, y: 9, id: 99, room: 'b', e: 5 });
+  check('unit_entity_hook_accepted', hook.length === 1 && hook[0][0] === 'a' && JSON.stringify(hook[0][1]) === JSON.stringify({ id: 1, x: 1000, y: 1000, text: 'hook line' }), JSON.stringify(hook.map(h => [h[0], Object.keys(h[1]).join('|')])));
+  hook.length = 0;
+  say(menu, { t: 'say', text: 'from the menu' }); say(dead, { t: 'say', text: 'from the dead' }); say(sp, { t: 'say', text: 'hook line' });
+  say(near, { t: 'say', text: 123 }); say(near, { t: 'say', text: 'x'.repeat(200) }); say(near, { t: 'say', text: '' });
+  for (let i = 0; i < 5; i++) say(edge, { t: 'say', text: 'burst ' + i });
+  A.clients.delete(9); const gone = mkClient(A, 9, 1000, 1000); A.clients.delete(9); say(gone, { t: 'say', text: 'after leaving' });
+  check('unit_entity_hook_refused_never', hook.length === 3 && hook.every(h => h[1].id === 3 && /^burst [012]$/.test(h[1].text)), `${hook.length} calls`);
+  // entity speech: who hears it
+  sent.length = 0;
+  const n = S.entitySay(simA, { e: 12, x: 1000, y: 1000, text: '  wait   for me... me ', o: 2, h: -3, s: 85 });
+  const ev = sent.filter(s => s[1].t === 'eheard'), to = new Set(ev.map(s => s[0]));
+  check('unit_entity_say_recipients', n === 4 && to.size === 4 && to.has(1) && to.has(2) && to.has(3) && to.has(5) && !to.has(4) && !to.has(6) && !to.has(7) && !to.has(8) && sent.length === ev.length, [...to].sort().join(','));
+  check('unit_entity_say_shape', ev.length && ev.every(s => Object.keys(s[1]).sort().join() === 'e,o,seq,t,text,v' && s[1].e === 12 && s[1].text === 'wait for me... me' && s[1].o === 2 && s[1].v.h === -3 && s[1].v.s === 85 && !('id' in s[1])) && !sent.some(s => s[1].t === 'heard'));
+  // its bucket: one line every 6 s per entity; another entity has its own
+  sent.length = 0; const again = S.entitySay(simA, { e: 12, x: 1000, y: 1000, text: 'again' }), other13 = S.entitySay(simA, { e: 13, x: 1000, y: 1000, text: 'another' });
+  check('unit_entity_say_bucket', again === 0 && other13 === 4 && sent.every(s => s[1].e === 13), `${again} / ${other13}`);
+  // the text is cleaned again and refused when it does not pass; the voice and the origin are whole numbers in range or defaults
+  sent.length = 0; let e = 20; const nx = () => ++e;
+  const bad = [S.entitySay(simA, { e: nx(), x: 1000, y: 1000, text: '' }), S.entitySay(simA, { e: nx(), x: 1000, y: 1000, text: 'x'.repeat(200) }), S.entitySay(simA, { e: nx(), x: 1000, y: 1000, text: 7 }), S.entitySay(simA, { e: nx(), x: 1000, y: 1000 })];
+  check('unit_entity_say_text_checked', bad.every(v => v === 0) && sent.length === 0, bad.join(','));
+  S.entitySay(simA, { e: nx(), x: 1000, y: 1000, text: 'voice', h: 99, s: 10, o: 'x' }); S.entitySay(simA, { e: nx(), x: 1000, y: 1000, text: 'voice2', h: -2.5, s: 300, o: -5 });
+  const vs = sent.filter(s => s[1].t === 'eheard' && s[0] === 1).map(s => s[1]);
+  check('unit_entity_say_voice_clamped', vs.length === 2 && vs.every(q => q.v.h === 0 && q.v.s === 100 && q.o === 0), JSON.stringify(vs.map(q => [q.v, q.o])));
+  sent.length = 0;
+  const odd = [S.entitySay(simA, { e: 0, x: 1000, y: 1000, text: 'a' }), S.entitySay(simA, { e: 1.5, x: 1000, y: 1000, text: 'a' }), S.entitySay(simA, { e: '30', x: 1000, y: 1000, text: 'a' }),
+    S.entitySay(simA, { e: 31, x: NaN, y: 1000, text: 'a' }), S.entitySay({}, { e: 32, x: 1000, y: 1000, text: 'a' }), S.entitySay(simA, null)];
+  check('unit_entity_say_bad_input', odd.every(v => v === 0) && sent.length === 0, odd.join(','));
+  sent.length = 0; near.sock.writableLength = 300 * 1024; S.entitySay(simA, { e: nx(), x: 1000, y: 1000, text: 'backlog' }); near.sock.writableLength = 0;
+  check('unit_entity_say_backlog_skipped', !sent.some(s => s[0] === 2) && sent.some(s => s[0] === 1));
+  sent.length = 0; S.entitySay(simB, { e: nx(), x: 1000, y: 1000, text: 'room b' });
+  check('unit_entity_say_own_room', sent.length === 1 && sent[0][0] === 8);
+  const lounge = fs.readFileSync(path.join(tree, 'src/frameworks/bpp/server/lounge.js'), 'utf8');
+  check('unit_entity_lounge_never', !/onHeard|ON_HEARD|hearSpeech|entitySay/.test(lounge));
 }
 
 /* ================================================================ unit: the lounge on fake sockets */
@@ -502,6 +560,7 @@ async function suite(tree, label) {
   await layer('unit_text', unitText);
   await layer('unit_speech', unitSpeech);
   await layer('unit_lounge', unitLounge);
+  await layer('unit_entity', unitEntity);                                             // (Trial 3)
   const needSock = !ONLY || [...ONLY].some(o => o.startsWith('sock'));
   if (!needSock) return;
   const S = await startServer(tree);

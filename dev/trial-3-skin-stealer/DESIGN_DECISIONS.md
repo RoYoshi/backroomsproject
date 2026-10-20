@@ -135,7 +135,15 @@ here and proposed in `BALANCE_TABLE.md`; none of them is owner-approved.
 - Exactly one corpse per player and its dropped light are G.I.B.'s unchanged behaviour.
 - Rejected: drawing its kills with the Hound's death and recoloured art (the pack forbids it).
 
-## D8. Disguise: earned at a kill, never generic, never a player
+## D8. Disguise: earned at a kill, never generic, never a player (as built at T6)
+
+As built: G.I.B.'s aftermath, when a death this Skin-Stealer caused ends, hands the engine the victim's validated look
+(`eng.skinFrom`); the engine re-checks it (four drawn fields) and keeps it pending; it is worn only if the creature then feeds 8 s
+(`SK.skinFeed`; a meal now lasts at least that long), for 240-420 s.  In it the creature does not retreat when seen: it walks up
+openly (plan `mingle`, at most 150 px/s), stands and stares 3-7 s (x PATIENCE), may say a line, then - hungry - walks right up and
+springs only from 120 px (the wind-up drops the skin), or - not hungry - walks on, still in the skin.  A very hungry one drops the
+skin to run after somebody who flees.  The snapshot carries the look (`dg`, only while worn); the page draws the ordinary wanderer
+avatar with its tells.  The bullets below are the T0 decision, kept.
 
 - Granted only when this entity has killed a person: the server already holds that person's validated look (`fields.cleanLook`); it
   is copied as `hat|texture|hands|main` with `backpack` forced to `none`. Nothing else is copied: no name, no colour of light, no
@@ -148,7 +156,18 @@ here and proposed in `BALANCE_TABLE.md`; none of them is owner-approved.
 - A generic human disguise for a Skin-Stealer that has not killed is **not** implemented; it would be an unearned mechanic. It is
   offered as an owner decision.
 
-## D9. Speech: heard locally, repeated as an entity
+## D9. Speech: heard locally, repeated as an entity (as built at T6)
+
+As built: as designed below, with these specifics.  The hook is B++'s `ON_HEARD` (server.js's `onHeard`), called once per accepted
+line after every rule; server.js hands it to the room's engine (`eng.hearSpeech`), and gives each world's engine its voice
+(`eng.voiceOut` = `speech.entitySay`).  The creature also hears a voice as a sound (the engine's own hearing).  It speaks from hiding
+when it lies in wait, hungry (`SK.band[2]`), unseen, 1.5 s into the wait; and when it stares in a borrowed skin.  Its words: the
+opening (at most six) words of a line it heard, in lower case, sometimes with its last word again ("wait for me... me"),
+preferring the words of the person whose skin it wears, then anybody else's, then the person's own; with nothing heard, one of the
+generic calls.  At most one line every 10-18 s and three an encounter; the server's bucket allows one every 6 s per entity.  Its
+own seeded stream chooses its words, so speaking never moves its other choices.  The packet is `{t:'eheard', e, text, seq, v:{h,s},
+o}`; the page's entity voice is `voice.js`'s `mimic`, which no person can choose or send.  `docs/architecture/CHAT.md` records the
+contract as connected (the pack's finite memory replaces the earlier draft's "immediate reaction only").
 
 - Input: `speech.js` keeps every rule it has. After a line is accepted and delivered, an injected `onHeard` callback hands the room's
   sim `{speaker id, server position, text}`; the sim gives it only to Skin-Stealers in that room within 576 px of the speaker at that

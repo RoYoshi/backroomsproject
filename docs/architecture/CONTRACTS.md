@@ -75,7 +75,7 @@ renaming one breaks the others silently.
 | `window.__light` | `light.js` | `assets/index-DKbV5Nv9.js`, `assets/shadows-2d.js`, `assets/skinstealer.js`, `ents.js` |
 | `window.__loadout` | `inventory.js` | `assets/index-DKbV5Nv9.js`, `assets/ui.js` |
 | `window.__mp` | `assets/shadows-2d.js`, `mp.js` | `assets/index-DKbV5Nv9.js` |
-| `window.__mpLib` | `assets/mp-hum.js`, `assets/net-interp.js`, `assets/net-newrun.js`, `assets/net-wire.js` | `mp.js` |
+| `window.__mpLib` | `assets/mp-hum.js`, `assets/net-interp.js`, `assets/net-newrun.js`, `assets/net-wire.js` | `assets/skinstealer.js`, `mp.js` |
 | `window.__mv` | `move.js` | `assets/index-DKbV5Nv9.js`, `ents.js`, `mp.js` |
 | `window.__mvSfx` | `move.js` | - |
 | `window.__net` | `mp.js` | `assets/chat.js`, `assets/index-DKbV5Nv9.js` |
@@ -91,7 +91,7 @@ renaming one breaks the others silently.
 | `window.__settings` | `hud.js` | `assets/chat.js`, `assets/rgb.js`, `assets/ui.js`, `assets/voice.js` |
 | `window.__sfx` | `sfx.js` | `assets/index-DKbV5Nv9.js`, `assets/mp-hum.js`, `mp.js` |
 | `window.__shadows` | `assets/shadows-2d.js` | - |
-| `window.__skin` | `assets/skinstealer.js` | `ents.js`, `mp.js`, `sfx.js` |
+| `window.__skin` | `assets/skinstealer.js` | `assets/chat.js`, `ents.js`, `mp.js`, `sfx.js` |
 | `window.__ui` | `assets/ui.js` | `assets/chat.js` |
 | `window.__uiCustomizeTab` | `assets/ui.js` | - |
 | `window.__voice` | `assets/voice.js` | `assets/chat.js`, `assets/ui.js` |

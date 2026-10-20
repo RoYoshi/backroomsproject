@@ -53,7 +53,7 @@ const { MV, PD, blockers, placeFree, mvReset, mvCheck, moveTo, adminMove } = req
 const { aftStart, aftOf, aftSend, aftTick, bodyAt, boomStart } = require('./src/frameworks/gib/server/aftermath.js')({ deathSrv, send, HEX });   // Stage 3H2 (C-2): the death aftermath and the NEW RUN blast (see its note above)
 const { nrIntent } = require('./src/frameworks/bpp/server/newrun.js')({ send, boomStart });   // Stage 3H2 (C-1): NEW RUN's decision (see its note above)
 
-const { rooms, getRoom, worldReset } = require('./src/core/server/rooms.js')({ createSim, BODY_TTL, aftStart, placeFree, mvReset, send });   // H3M-2: core, the rooms
+const { rooms, getRoom, worldReset } = require('./src/core/server/rooms.js')({ createSim: o => entityVoice(createSim(o)), BODY_TTL, aftStart, placeFree, mvReset, send });   // H3M-2: core, the rooms (Trial 3: each world's engine given its voice, below)
 const { adminCommand } = require('./src/frameworks/overseer/server/admin.js')({ send, aftOf, moveTo, worldReset });   // H3M-2: OVERSEER, the admin panel's commands
 
 const { adminLogin } = require('./src/frameworks/ward/server/admin_login.js')({ crypto, ADMIN_PASS, send });   // (C2) W.A.R.D.: the admin login
@@ -65,7 +65,10 @@ const { adminLogin } = require('./src/frameworks/ward/server/admin_login.js')({ 
  * speech.readerFor(reader): the same reader, which hands it every message as before but {t:'say'} (the session never read one). */
 const { cleanText, cleanNick } = require('./src/frameworks/ward/server/chat_text.js');
 const lounge = require('./src/frameworks/bpp/server/lounge.js')({ crypto, frame, reader, cleanText, cleanNick });
-const speech = require('./src/frameworks/bpp/server/speech.js')({ rooms, send, cleanText });
+const speech = require('./src/frameworks/bpp/server/speech.js')({ rooms, send, cleanText, onHeard: (room, L) => { const E = room.sim.engine; if (E && E.hearSpeech) E.hearSpeech(L); } });   // (Trial 3: an accepted line, to that room's AI engine)
+/* Trial 3 (dev/trial-3-skin-stealer/): a world's AI engine says an entity's line through B++'s speech.entitySay (its own packet, never a
+ * person's); with no engine voice (the unit checks, the golden traces' worlds before one is made) nothing is said */
+function entityVoice(sim) { if (sim && sim.engine) sim.engine.voiceOut = L => speech.entitySay(sim, L); return sim; }
 let gameUpgrade = null;
 const upgrades = { on: (ev, fn) => { if (ev === 'upgrade') gameUpgrade = fn; else srv.on(ev, fn); } };
 srv.on('upgrade', (req, sock, head) => {
