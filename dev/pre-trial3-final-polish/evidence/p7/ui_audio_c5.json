@@ -1,0 +1,29 @@
+{
+ "tool": "dev/pre-trial3-final-polish/tools/ui_audio_check.js",
+ "dir": "/home/claude/chat-voice",
+ "chromium": "141.0.7390.37",
+ "cases": [
+  {
+   "name": "files",
+   "ok": false,
+   "detail": "[{\"error\":\"EncodingError: Unable to decode audio data\",\"file\":\"ui_hover\",\"status\":404,\"bytes\":9,\"inventory\":null,\"ok\":false},{\"error\":\"EncodingError: Unable to decode audio data\",\"file\":\"ui_click\",\"status\":404,\"bytes\":9,\"inventory\":null,\"ok\":false},{\"error\":\"EncodingError: Unable to decode audio data\",\"file\":\"ui_back\",\"status\":404,\"bytes\":9,\"inventory\":null,\"ok\":false},{\"error\":\"EncodingError: Unable to decode audio data\",\"file\":\"ui_toggle_on\",\"status\":404,\"bytes\":9,\"inventory\":null,\"ok\":false},{\"error\":\"EncodingError: Unable to decode audio data\",\"file\":\"ui_toggle_off\",\"status\":404,\"bytes\":9,\"inventory\":null,\"ok\":false},{\"error\":\"EncodingError: Unable to decode audio data\",\"file\":\"ui_open\",\"status\":404,\"bytes\":9,\"inventory\":null,\"ok\":false},{\"error\":\"EncodingError: Unable to decode audio data\",\"file\":\"ui_unavailable\",\"status\":404,\"bytes\":9,\"inventory\":null,\"ok\":false}]"
+  },
+  {
+   "name": "loaded",
+   "ok": false,
+   "detail": "{\"loaded\":[],\"errors\":[\"this page has no interface sounds\"],\"music\":\"playing\",\"ctx\":\"running\"}"
+  },
+  {
+   "name": "error",
+   "ok": false,
+   "detail": "page.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#mmAccount')\u001b[22m\n\n    at /home/claude/final-polish/dev/pre-trial3-final-polish/tools/ui_audio_check.js:164:56\n    at press (/home/claude/final-polish/dev/pre-trial3-final-polish/tools/ui_audio_check.js:82:51)\n    at async /home/claude/final-polish/dev/pre-trial3-final-polish/tools/ui_audio_check.js:164:22"
+  }
+ ],
+ "contextsAtMenu": {
+  "made": 1,
+  "who": [
+   "ensure (assets/ui.js:458:19) < Object.allowed (assets/ui.js:508:17)"
+  ]
+ },
+ "ok": false
+}

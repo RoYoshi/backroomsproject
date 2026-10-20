@@ -1,0 +1,10 @@
+FAIL files - [{"error":"EncodingError: Unable to decode audio data","file":"ui_hover","status":404,"bytes":9,"inventory":null,"ok":false},{"error":"EncodingError: Unable to decode audio data","file":"ui_click","status":404,"bytes":9,"inventory":null,"ok":false},{"error":"EncodingError: Unable to decode audio data","file":"ui_back","status":404,"bytes":9,"inventory":null,"ok":false},{"error":"EncodingError: Unable to decode audio data","file":"ui_toggle_on","status":404,"bytes":9,"inventory":null,"ok":false},{"error":"EncodingError: Unable to decode audio data","file":"ui_toggle_off","status":404,"bytes":9,"inventory":null,"ok":false},{"error":"EncodingError: Unable to decode audio data","file":"ui_open",
+FAIL loaded - {"loaded":[],"errors":["this page has no interface sounds"],"music":"playing","ctx":"running"}
+FAIL error - page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('#mmAccount')[22m
+
+    at /home/claude/final-polish/dev/pre-trial3-final-polish/tools/ui_audio_check.js:164:56
+    at press (/home/claude/final-polish/dev/pre-trial3-final-polish/tools/ui_audio_check.js:82:51)
+    at async /home/claude/final-polish/dev/pre-trial3-final-polish/tools/ui_audio_check.js:164:22
+UI AUDIO: FAIL - 0 of 3 cases

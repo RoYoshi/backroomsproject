@@ -1,0 +1,65 @@
+P7 - the interface's sounds: seven short original placeholder sounds and one small controller for the menus and panels
+(headless Chromium with sound allowed to start, as a browser that lets it; every passcode synthetic; checks:
+dev/pre-trial3-final-polish/tools/ui_sounds.py (the files), dev/pre-trial3-final-polish/tools/ui_audio_check.js (the page))
+
+On C5: the menus and panels make no sound of their own (ui_audio_c5.*: no interface sound file is served, nothing loads, no press
+sounds).  The audio graph, read before designing anything (PLAN.md, P7/P8 row): the menu theme's own AudioContext in ui.js (44.1 kHz,
+one `out` gain = 0.7 x Master volume, 0 while SOUND is off; made at the boot gate, suspended when the music stops); the game's own
+context (mp.js initAudio, made on the first press; the bundle's sounds, the dread layer's heartbeat, drone and stings); voice.js's own
+context for the wanderers' voices (made when a voice first speaks).  None of these is changed but the menu theme's.
+
+The sounds (SOUND_ASSETS.md, SOUND_ASSETS.json): hover, click, back, toggle on, toggle off, open, unavailable - public/assets/ui_*.mp3,
+19,745 bytes in all; MP3 (ffmpeg 6.1.1, libmp3lame 96 kbit/s CBR, mono, 44.1 kHz, no tags), synthesized by ui_sounds.py from sine waves,
+envelopes and seeded noise (nothing sampled or borrowed); raised-cosine fades at both ends and on every layered part (a first render
+had a part ending on a step - a click - at a joint; seen in its spectrogram and fixed); peaks -12.4 to -24.4 dBFS (the hover tick the
+quietest), each file mastered at its intended loudness relative to the others.  The pack's "close" cue is the back sound (closing a
+panel is going back); the pack's "confirm" is the click.
+
+Changed:
+- src/frameworks/front/client/ui.js -> public/assets/ui.js:
+  - The theme's graph: music -> music gain (0.7 x the music setting: its fades as before) -> master (Master volume, 0 while SOUND is
+    off) -> speakers, and a UI gain (the ui setting) -> master.  The music and ui settings read as 1 until P8 saves them.  info() keeps
+    gain and level meaning what the music is heard at (as before at 100 %), and adds bus (each gain) and ui (the sounds' record).
+  - The sounds decoded once in that context when the menu starts; uiPlay(): nothing is started while SOUND is off, the UI level is 0,
+    the tab is hidden, a file is not decoded, or four are already sounding; a press may wake a suspended context (a press is the
+    gesture browsers ask for), a hover only plays while it already runs; the context sleeps again 1.5 s after the last sound when no
+    music plays (idle() also waits for a sound still sounding before the theme's own stop suspends it).  The UI gain glides while a
+    sound plays through it and is set at once otherwise (so the next sound is at the level just chosen; a first version only glided,
+    and an idle gain node is not processed, so a click right after a change started at the old level - found by the check reading the
+    gain during a click).
+  - uiSound: one capture-phase listener set for #menu, the sheets (Settings, Credits, Help), Customize, the pause and run menus.  A
+    real press (Playwright's and a person's are; a script's click() is not) makes one sound, chosen from the state before the press:
+    open (Settings, Credits, Help, Customize, PLAY's entry, the pause screen's Settings / Customize), back (Close, Done, Continue,
+    [data-close], the Account panel's Close), switch on / off (role=switch, the rail's sound icon), unavailable (the Account button),
+    else click.  Within 90 ms only a weightier sound follows another (a press's sound is never followed by a hover tick).  Hover:
+    the mouse onto a new control or the keyboard moving to one (Tab, arrows), at most every 70 ms.  Typing, sliders and the chats
+    (they have their own voices) make none.  Escape that closes something plays back: a listener ahead of the modal key handler (which
+    stops Escape) counts what is open.  Interface sounds are local: nothing is sent, nothing is placed in the world.
+- dev/tools/gate/declared_changes.json: assets/ui.js noted; the seven assets/ui_*.mp3 added.
+- generated/BUILD_MANIFEST.json rebuilt.  New: SOUND_ASSETS.md / .json, tools/ui_sounds.py, tools/ui_audio_check.js.
+
+Results:
+- ui_sounds.py check on P7: PASS 7 of 7 (ui_sounds_check.*) - the recipe renders the same samples as inventoried (sha256), each file
+  is the inventoried one, mono 44.1 kHz, its length within one MP3 frame, peak under -6 dBFS, quiet first and last samples; no other
+  ui_*.mp3 in public/assets/.
+- ui_audio_check.js --only p7 on P7: PASS 6 of 6 (ui_audio_p7.*) - files (served 200, decoded by Chromium: mono, 44.1 kHz, the
+  inventory's length and size, peaks -12.4 .. -24.4 dBFS); loaded (all seven in the menu's context, no error, the music playing);
+  one_each (Settings open; the Sound switch off - silent, SOUND is off; on - switch-on; Close - back; Account - unavailable; Escape on
+  its panel - back; PLAY - open; Escape - back; Credits - open; Escape - back; Master volume let go - none); hover (three controls in
+  turn: three ticks; six Tab presses at once: one tick; the mouse moving about one control: none); quiet (a script's click(), typing in
+  the lounge, a hidden tab: nothing started); one_context (ui.js made one context, at the boot gate, and no press made another; the
+  only other is the game's own, mp.js's initAudio on the first press, as on C5).
+  Mutants 6 of 6 caught: untrusted_counted, doubled (every press handled twice, the 90 ms rule off), hover_unthrottled, hidden_plays,
+  muted_plays, escape_silent.  (While the check was written: hover_unthrottled first escaped - a burst of real pointer moves is merged
+  by Chromium into one per frame, so the spacing is now tested with a burst of Tab presses; and one_context first counted every
+  context and failed on the game's own, which mp.js makes on the first press, on C5 as here - it now counts ui.js's and names the
+  others.)
+- ui_audio_check.js --only p7 on C5: FAIL 0 of 3 (ui_audio_c5.*) - no ui_*.mp3 served (404), nothing loaded; the run stops at the
+  Account button, which C5 does not have.
+- The gate: scope (the seven files added, declared), docs, contracts, srv_golden, static, raw_live, page PASS
+  (gate_p7_part1_killed.log - the command running them was stopped by its own 30-minute limit while the menu step ran, after these
+  had passed); the menu step rerun alone (gate_p7_menu.log): PASS - against C5d 11 of 11 checks, the theme's state (state, want,
+  begun, its context's state, muted, sources, plays, loads, no error) and the sound button's state the same as C5d's, its mutants 8 of 8.
+- npm run build:check PASS (43); docs PASS.
+Image: ui_sounds_waveforms.jpg (each committed file decoded: waveform and spectrogram).
+NOT RUN / for a person: how the sounds sound (character, loudness against the music, through real speakers) - HUMAN_QA.md Part D.

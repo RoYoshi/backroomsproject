@@ -299,6 +299,8 @@
     if (e.shiftKey && (i <= 0)) { e.preventDefault(); f[f.length - 1].focus(); }
     else if (!e.shiftKey && (i === -1 || i === f.length - 1)) { e.preventDefault(); f[0].focus(); }
   }
+  // (P7) Escape that closes something plays the back sound: what is open is counted here, before the handler below closes it
+  addEventListener('keydown', e => { if (e.key === 'Escape' && e.isTrusted) uiSound.escape(); }, true);
   addEventListener('keydown', e => {
     if (e.key === 'Escape' && accountOpen()) { e.preventDefault(); e.stopImmediatePropagation(); closeAccount(true); return; }   // (P3: the Account panel first)
     if (e.key === 'Escape' && document.activeElement && document.activeElement.dataset && document.activeElement.dataset.rgbEditing === '1') return;   // (P4: an RGB number being typed: rgb.js puts its value back, nothing closes)
@@ -468,24 +470,41 @@
      after the first visit; 22.6 MB of PCM, served uncached) and decoded, once - in an OfflineAudioContext, which needs no gesture -
      and the menu is not revealed before they are ready. At the reveal the Intro starts in the same step: at once where the browser
      lets sound start, otherwise on the black ready gate's first key, click or tap, which also reveals the menu. A download that
-     stops sending data for 20 s, or arrives short, is an error (the boot's RETRY), not an endless black screen. No per-frame work. */
+     stops sending data for 20 s, or arrives short, is an error (the boot's RETRY), not an endless black screen. No per-frame work.
+     Pre-Trial 3 polish P7: the same context carries the interface's sounds (the seven assets/ui_*.mp3, below) and three gains:
+       music sources -> music (THEME.gain x the music setting; the fades)  \
+       interface sounds -> ui (the ui setting)                             -> master (0 while SOUND is off, else Master volume) -> speakers
+     The music and ui settings (0..1) read as 1 until something saves them (P8: Settings -> Sound's Music and UI volume).  The
+     wanderers' voices (voice.js) and the run's own sounds have their own graphs and are not routed here; SOUND OFF silences them all.
+     The context runs only while something plays: the music, or an interface sound (resumed by the press that made it, suspended again
+     a moment after the last one when no music plays). */
   const THEME = { intro: 'assets/MainTheme_MenuIntro.wav', loop: 'assets/MainTheme_MenuLoop.wav', v: '64b2124b.848db3af', gain: .7, fade: 1, rate: 44100,
     size: { intro: 8146988, loop: 14499884 }, stall: 20000 };
+  // (P7) the interface's sounds: placeholders synthesized for the game (dev/pre-trial3-final-polish/tools/ui_sounds.py); to replace one,
+  // put a file of the same name in public/assets/ (dev/pre-trial3-final-polish/SOUND_ASSETS.md)
+  const UI_SOUNDS = { hover: 'assets/ui_hover.mp3', click: 'assets/ui_click.mp3', back: 'assets/ui_back.mp3', toggleOn: 'assets/ui_toggle_on.mp3',
+    toggleOff: 'assets/ui_toggle_off.mp3', open: 'assets/ui_open.mp3', unavailable: 'assets/ui_unavailable.mp3' };
   const theme = (() => {
     const CACHE = 'tfb-menu-theme-' + THEME.v;
-    let ctx = null, out = null, bufs = null, prep = null, srcs = [], fading = [], want = false, begun = false, st = 'idle', stopT = 0, hidPause = false;
+    let ctx = null, out = null, master = null, uiBus = null, bufs = null, prep = null, srcs = [], fading = [], want = false, begun = false, st = 'idle', stopT = 0, hidPause = false;
     const T = { plays: 0, loads: 0, fetched: 0, cacheHits: 0, bytes: 0, need: 0, startedAt: null, t0: null, loopAt: null, fadeAt: null, fadeEnd: null, error: null, preparedAt: null, beganAt: null, policy: null, allowedAtReady: null };
     const Z = () => window.__api && __api.audio && __api.audio();
     const muted = () => { const z = Z(); return !!(z && z.muted); };
+    const setting = (k, d) => { const s = window.__settings && __settings.get && __settings.get(); const v = s ? s[k] : d; return Number.isFinite(v) ? Math.min(1, Math.max(0, v)) : d; };
     const vol = () => { const s = window.__settings && __settings.get && __settings.get(); const v = s ? s.vol : window.__vol; return Number.isFinite(v) ? v : 1; };
-    const level = () => muted() ? 0 : THEME.gain * vol();
+    const masterLevel = () => muted() ? 0 : vol();                         // (P8) the master gain: SOUND ON/OFF and Master volume
+    const musicLevel = () => THEME.gain * setting('music', 1);              // (P8) the music's own gain (its fades work on it)
+    const uiLevel = () => setting('ui', 1);                                 // (P8) the interface sounds' gain
+    const level = () => masterLevel() * musicLevel();                       // what the music is heard at (as before when Music volume is 100%)
     const AC = () => window.AudioContext || window.webkitAudioContext;
     function ensure() {
       if (ctx) return ctx;
       const C = AC(); if (!C) return null;
       try { ctx = new C({ sampleRate: THEME.rate, latencyHint: 'playback' }); }     // the files' own rate: playback never resamples the seams
       catch (e) { try { ctx = new C(); } catch (e2) { return null; } }
-      out = ctx.createGain(); out.gain.value = 0; out.connect(ctx.destination);
+      master = ctx.createGain(); master.gain.value = masterLevel(); master.connect(ctx.destination);
+      out = ctx.createGain(); out.gain.value = 0; out.connect(master);
+      uiBus = ctx.createGain(); uiBus.gain.value = uiLevel(); uiBus.connect(master);
       return ctx;
     }
     /* one file: Cache Storage first; otherwise downloaded in chunks (given up if no data arrives for 20 s; checked for length) */
@@ -553,24 +572,35 @@
       if (document.hidden) { hidPause = true; if (ctx.state === 'running') ctx.suspend().catch(() => { }); }   // starts where it is when the tab shows
       else if (ctx.state !== 'running') ctx.resume().catch(() => { });
       const sr = ctx.sampleRate, now = ctx.currentTime, t0 = Math.ceil((now + .06) * sr) / sr;
-      out.gain.cancelScheduledValues(now); out.gain.setValueAtTime(level(), now);
+      out.gain.cancelScheduledValues(now); out.gain.setValueAtTime(musicLevel(), now);
+      master.gain.cancelScheduledValues(now); master.gain.setValueAtTime(masterLevel(), now);
       const s = schedule(ctx, out, t0, bufs.intro, bufs.loop);
       srcs = [s.a, s.b]; T.t0 = t0; T.loopAt = s.t1; T.plays++; T.startedAt = Math.round(performance.now()); st = 'playing';
     }
     function stop(fade) {
       if (!ctx) return;
-      if (!srcs.length) { if (ctx.state === 'running') ctx.suspend().catch(() => { }); if (bufs) st = 'stopped'; return; }
+      if (!srcs.length) { idle(); if (bufs) st = 'stopped'; return; }
       const now = ctx.currentTime, end = now + (fade ? THEME.fade : .03), g = out.gain;
       g.cancelScheduledValues(now); g.setValueAtTime(g.value, now); g.linearRampToValueAtTime(0, end);
       const mine = srcs; srcs = []; fading = mine;
       for (const s of mine) { try { s.stop(end + .01); } catch (e) { } }
       st = 'fading'; T.fadeAt = now; T.fadeEnd = end;
       clearTimeout(stopT);
-      stopT = setTimeout(() => { for (const s of mine) { try { s.disconnect(); } catch (e) { } } if (fading === mine) fading = []; if (want) return; st = 'stopped'; ctx.suspend().catch(() => { }); }, (end - now) * 1000 + 150);
+      stopT = setTimeout(() => { for (const s of mine) { try { s.disconnect(); } catch (e) { } } if (fading === mine) fading = []; if (want) return; st = 'stopped'; idle(); }, (end - now) * 1000 + 150);
+    }
+    /* (P7) the context sleeps when nothing plays: no music, and no interface sound still sounding (then it waits for that one) */
+    let idleT = 0, uiUntil = 0;
+    function idle() {
+      clearTimeout(idleT);
+      if (!ctx || srcs.length || ctx.state !== 'running') return;
+      const left = uiUntil - ctx.currentTime;
+      if (left > 0) { idleT = setTimeout(idle, left * 1000 + 1500); return; }
+      ctx.suspend().catch(() => { });
     }
     /* the menu's start: called in the same step that reveals the menu (by the gate's gesture, or at once where sound may start) */
     function begin() {
       if (begun) return; begun = true; T.beganAt = Math.round(performance.now());
+      uiLoad();                                                             // (P7) the interface's sounds, fetched and decoded once
       if (!bufs || !ensure()) return;
       if (want) start();
     }
@@ -580,8 +610,47 @@
       if (!on) { stop(true); return; }
       if (bufs) start();
     }
-    function sync() {                                                        // SOUND ON/OFF or the master volume changed
-      if (ctx && out && st === 'playing') out.gain.setTargetAtTime(level(), ctx.currentTime, .05);
+    function sync() {                                                        // SOUND ON/OFF, Master, Music or UI volume changed
+      if (!ctx || !out) return;
+      const t = ctx.currentTime;                                            // smooth: no step, no pop, nothing restarted
+      master.gain.setTargetAtTime(masterLevel(), t, .05);
+      uiLevelNow(t);
+      if (st === 'playing') out.gain.setTargetAtTime(musicLevel(), t, .05);
+    }
+    // the ui gain: glides while an interface sound is sounding; otherwise set at once, so the next sound (the UI volume slider's own
+    // preview, the moment it is let go) is at the level just chosen - nothing plays through it in between to pop
+    function uiLevelNow(t) {
+      if (UIS.live) { uiBus.gain.setTargetAtTime(uiLevel(), t, .05); return; }
+      uiBus.gain.cancelScheduledValues(t); uiBus.gain.value = uiLevel();
+    }
+    /* (P7) the interface's sounds: decoded once into this context; one plays on the ui gain, through the master.  Nothing is started
+       while SOUND is off, a volume on its way is 0, the tab is hidden or the file is not decoded yet.  A press may wake the context
+       (a press is the gesture a browser asks for); anything else plays only while it already runs. */
+    const UIS = { files: UI_SOUNDS, bufs: {}, loading: null, live: 0, plays: {}, skipped: 0, errors: [] };
+    function uiLoad() {
+      if (UIS.loading) return UIS.loading;
+      const c = ensure(); if (!c) return (UIS.loading = Promise.resolve(false));
+      UIS.loading = Promise.all(Object.keys(UI_SOUNDS).map(k => fetch(UI_SOUNDS[k], { credentials: 'same-origin' })
+        .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.arrayBuffer(); }).then(ab => decodeOn(c, ab)).then(b => { UIS.bufs[k] = b; })
+        .catch(e => { UIS.errors.push(k + ': ' + String(e && (e.message || e.name) || e)); }))).then(() => Object.keys(UIS.bufs).length > 0);
+      return UIS.loading;
+    }
+    function uiPlay(k, press) {
+      const b = Object.prototype.hasOwnProperty.call(UIS.bufs, k) ? UIS.bufs[k] : null;
+      if (!b) { if (!UIS.loading) uiLoad(); UIS.skipped++; return false; }
+      if (document.hidden || masterLevel() <= 0 || uiLevel() <= 0 || UIS.live >= 4) { UIS.skipped++; return false; }
+      const c = ctx; if (!c) return false;
+      const go = () => {
+        if (!UIS.live) uiLevelNow(c.currentTime);
+        const s = c.createBufferSource(); s.buffer = b; s.connect(uiBus); UIS.live++;
+        s.onended = () => { UIS.live--; try { s.disconnect(); } catch (e) { } };
+        s.start(); uiUntil = Math.max(uiUntil, c.currentTime + b.duration); UIS.plays[k] = (UIS.plays[k] || 0) + 1;
+        clearTimeout(idleT); idleT = setTimeout(idle, b.duration * 1000 + 1500);
+      };
+      if (c.state === 'running') { go(); return true; }
+      if (!press) { UIS.skipped++; return false; }
+      c.resume().then(() => { if (c.state === 'running' && !document.hidden) go(); }, () => { });
+      return true;
     }
     /* a later press on the menu revives a context that did not start or was suspended by the system (a phone call, an audio route
        change; a browser that takes only the touch's release, or only a click, as the gesture that lets sound start) */
@@ -593,11 +662,79 @@
       else if (hidPause) { hidPause = false; if (want && srcs.length) ctx.resume().catch(() => { }); }
     });
     return {
-      want: setWant, sync, prepare, allowed, begin, _schedule: schedule,
-      info: () => ({ state: st, want, begun, ctx: ctx ? ctx.state : null, sampleRate: ctx ? ctx.sampleRate : null, now: ctx ? ctx.currentTime : null, gain: out ? out.gain.value : null, level: level(), muted: muted(),
+      want: setWant, sync, prepare, allowed, begin, _schedule: schedule, uiPlay, uiLoad,
+      // gain: what the music is heard at (its own gain times the master), as before; bus: each gain (P8); ui: the interface's sounds (P7)
+      info: () => ({ state: st, want, begun, ctx: ctx ? ctx.state : null, sampleRate: ctx ? ctx.sampleRate : null, now: ctx ? ctx.currentTime : null, gain: out ? out.gain.value * master.gain.value : null, level: level(), muted: muted(),
+        bus: master ? { master: +master.gain.value.toFixed(4), music: +out.gain.value.toFixed(4), ui: +uiBus.gain.value.toFixed(4), masterLevel: masterLevel(), musicLevel: musicLevel(), uiLevel: uiLevel() } : null,
+        ui: { loaded: Object.keys(UIS.bufs).sort(), errors: UIS.errors.slice(), plays: Object.assign({}, UIS.plays), skipped: UIS.skipped, live: UIS.live },
         introFrames: bufs ? bufs.intro.length : null, loopFrames: bufs ? bufs.loop.length : null, introRate: bufs ? bufs.intro.sampleRate : null, sources: srcs.length,
         loopSourceLoops: srcs[1] ? srcs[1].loop : null, loopSourceLoopStart: srcs[1] ? srcs[1].loopStart : null, loopSourceLoopEnd: srcs[1] ? srcs[1].loopEnd : null, ...T, files: THEME }),
     };
+  })();
+
+  /* ---------------------------------------------------------------- the interface's sounds: which press makes which (P7)
+     One listener for the menus and panels (the main menu, Settings / Credits / Help, Customize, the pause and run menus), so a press
+     makes one sound, never two: what it is decides which - a panel opening, going back or closing, a switch on or off, the Account
+     button (not available yet: a soft "not yet", not an alarm), anything else a click.  Only real presses and keys count (a script's
+     click() makes none).  The pointer moving onto a control, or the keyboard moving to one (Tab, arrows), makes the faint hover tick,
+     at most every 70 ms and once per control.  Typing, the sliders and the chats (they have their own voices) make none; the UI
+     volume slider plays a click when let go, so you hear the level you chose.  Escape that closes something plays the back sound
+     (counted by a listener ahead of the modal key handler, which stops Escape there).
+     Interface sounds are this page's own: never sent to other players, never placed in the world. */
+  const uiSound = (() => {
+    const ROOTS = '#menu, .ui-sheet, #appearancePanel, #dialog, #runMenu';
+    const CTL = 'button, [role=tab], [role=radio], [role=switch], a[href], label.rgb-way, summary';
+    const QUIET = '[data-chat], #mmLounge, input, textarea, select, [contenteditable]';
+    const BACK = '[data-close], #mmAccountClose, #closeAppearance, #doneAppearance, #resume, [data-go=home]';
+    const OPEN = '[data-go=settings], [data-go=credits], [data-go=help], [data-go=customize], [data-go=controls], #pauseSettings, #pauseCustomize, #customize';
+    const RANK = { hover: 0, click: 1, back: 2, open: 2, toggleOn: 2, toggleOff: 2, unavailable: 2 };
+    let lastAt = -1e9, lastRank = -1, hoverAt = -1e9, hoverEl = null, keyAt = -1e9;
+    const N = { cues: {}, dropped: 0 };
+    const control = t => { const e = t && t.closest ? t.closest(CTL) : null; return e && e.closest(ROOTS) && !e.closest(QUIET) && !e.disabled && e.getAttribute('aria-disabled') !== 'true' ? e : null; };
+    function kind(e) {
+      if (e.id === 'mmAccount') return e.getAttribute('aria-expanded') === 'true' ? 'back' : 'unavailable';
+      if (e.matches('#mmPlay, [data-go=play]')) return menu && menu.classList.contains('in-entry') ? 'back' : 'open';
+      if (e.matches(BACK)) return 'back';
+      if (e.matches(OPEN)) return 'open';
+      if (e.getAttribute('role') === 'switch') return e.getAttribute('aria-checked') === 'true' ? 'toggleOff' : 'toggleOn';
+      if (e.id === 'mmSound') return e.getAttribute('aria-pressed') === 'true' ? 'toggleOff' : 'toggleOn';
+      return 'click';
+    }
+    // one sound a moment: within 90 ms only a weightier one is let through (a hover tick never follows a press; ticks keep their own
+    // 70 ms spacing)
+    function cue(k, press) {
+      const now = performance.now();
+      if (now - lastAt < 90 && RANK[k] <= lastRank && !(k === 'hover' && lastRank === 0)) { N.dropped++; return false; }
+      lastAt = now; lastRank = RANK[k]; N.cues[k] = (N.cues[k] || 0) + 1;
+      return theme.uiPlay(k, press);
+    }
+    // the state before the press decides (a switch's handler flips it); it sounds a moment later, once SOUND ON/OFF has been applied
+    document.addEventListener('click', e => { if (!e.isTrusted) return; const c = control(e.target); if (!c) return; const k = kind(c); setTimeout(() => cue(k, true), 0); }, true);
+    document.addEventListener('pointerover', e => {
+      if (!e.isTrusted || e.pointerType !== 'mouse') return;
+      const c = control(e.target); if (!c || c === hoverEl) { if (!c) hoverEl = null; return; }
+      hoverEl = c; const now = performance.now(); if (now - hoverAt < 70) return; hoverAt = now; cue('hover', false);
+    }, true);
+    document.addEventListener('keydown', e => {
+      if (!e.isTrusted) return;
+      if (['Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) keyAt = performance.now();
+    }, true);
+    document.addEventListener('focusin', e => {
+      if (performance.now() - keyAt > 150) return;                          // only the keyboard moving the focus
+      const c = control(e.target); if (!c || c === hoverEl) return; hoverEl = c;
+      const now = performance.now(); if (now - hoverAt < 70) return; hoverAt = now; cue('hover', false);
+    }, true);
+    document.addEventListener('change', e => { if (e.isTrusted && e.target && e.target.id === 'stUi') cue('click', true); }, true);
+    // how many things are open that Escape closes: a sheet (one closing loses .in at once), Customize, the pause / run menus, PLAY's
+    // entry, the Account panel
+    function openNow() {
+      let n = document.querySelectorAll('.ui-sheet.in').length;
+      for (const id of ['appearancePanel', 'dialog', 'runMenu', 'mmAccountPop']) { const el = $(id); if (el && !el.hidden) n++; }
+      if (menu && menu.classList.contains('in-entry')) n++;
+      return n;
+    }
+    function escape() { const was = openNow(); if (was) setTimeout(() => { if (openNow() < was) cue('back', true); }, 0); }
+    return { cue, escape, info: () => ({ cues: Object.assign({}, N.cues), dropped: N.dropped }) };
   })();
 
   /* ---------------------------------------------------------------- navigation */
@@ -1298,7 +1435,7 @@
     });
   }, true);
 
-  Object.assign(ui, { version: VERSION, go, state, close: closeSheet, closeAll, refresh: loadoutSummary, reduced, entryOpen: () => entryOpen, theme, keys, standalone,
+  Object.assign(ui, { version: VERSION, go, state, close: closeSheet, closeAll, refresh: loadoutSummary, reduced, entryOpen: () => entryOpen, theme, uiSound, keys, standalone,
     boot: () => Object.assign({ revealed }, bootInfo),
     drift: () => ({ running: !!drift.raf, t: +drift.t.toFixed(3), x: drift.x, y: drift.y, frames: drift.frames, writes: drift.writes, starts: drift.starts, stops: drift.stops }),
     stick: () => ({ held: stickId !== null, want: [...stickWant].sort(), owned: [...stickOwned].sort() }),
