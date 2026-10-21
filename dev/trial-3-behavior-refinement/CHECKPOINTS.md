@@ -12,7 +12,8 @@ row is filled in by the next checkpoint (the last by a receipt commit).
 | B1 awareness while it roams or leaves | `0d6f7b9f00ee34318975a5b157bfe548ab0e20d7` | `9672dbbd20b83ebd7cce8ebee6e70304c7ef8cdf` | `4e4a1cf` | yes: `evidence/remote/b1.json`; secret scan of the pushed commit CLEAN |
 | B2 provocation, warnings, fading, the very hungry departure | `17563927677a45c32fa561467b1c60a9aa81f73c` | `d0696e246d3cdefa0840216344dae9672626e40e` | `0d6f7b9` | yes: `evidence/remote/b2.json`; secret scan of the pushed commit CLEAN |
 | B3 defence | `67250cef964f0b9f41315bb684857b90ce01def1` | `790fc69cd12b2fbc122774f54822d5da273e4a1d` | `1756392` | yes: `evidence/remote/b3.json`; secret scan of the pushed commit CLEAN |
-| B4 integrated regression and performance | (this commit: `evidence/remote/b4.json` arrives with B5) | | `67250ce` | |
+| B4 integrated regression and performance | `ece46ac87ccef19d5273ed12c19712e08b4111c5` | `54733cbd1c46911e9c5c2802d86258ee82b5c7e8` | `67250ce` | yes: `evidence/remote/b4.json`; secret scan of the pushed commit CLEAN (its before-push scan, `scans/b4_pre.txt`, of the same commit, arrives with B5) |
+| B5a reports for the owner (an independent review in progress) | (this commit: read back by the next) | | `ece46ac` | |
 
 ## B0 — audit and plan, no game change
 
