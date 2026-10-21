@@ -5,7 +5,8 @@
  * (e.seenNow), HEARD (a sound it really received: anonymous unless the engine named it), REMEMBERED (its record), GUESSED (its own belief or
  * prediction).  The people's scripts may read where the creature really is (a player's own sight of it); the creature never reads them.
  * R1: PR01-PR05, PR18-PR20 (hunger, eye contact, the hunt, the lost race).  R2: PR08-PR16 (listening, belief, guesses, failed guesses).
- * R3: PR06, PR07, PR17, PR21 (going round a watcher, coming on openly, the tells, fair strikes).  R5: PR23 (its drawn size). */
+ * R3: PR06, PR07, PR17, PR21 (going round a watcher, coming on openly, the tells, fair strikes).  R5: PR23 (its drawn size).
+ * R6: PR22, PR24, PR25 (in-tree part), PR26 (deaths, many players and creatures, the Hound and the Smiler, nothing left behind). */
 'use strict';
 const { World, DT, LONG, over, rate, AI, floorNear, bystander } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -468,6 +469,77 @@ add('PR23 its size: the undisguised body is drawn at one scale in the pack\'s 1.
   const S = AI.SKIN, K = AI.SK, server = S.radius === 24 && S.clearance === 21 && K.grabReach === 46 && K.pounceRange[0] === 55 && K.pounceRange[1] === 185 && K.pounceSpeed === 430 && K.pounceDur === .36;
   return { ok: scale >= 1.2 && scale <= 1.35 && viewsScaled && skinPlain && server && one <= 6,
     note: `BODY_SCALE ${scale} (the one source: ${one} mentions in the page script); every undisguised view made by newView at that scale (living, our own death's attacker, a replay's) ${viewsScaled}; the borrowed skin (the page's Wanderer avatar) never scaled ${skinPlain}; the server's body radius ${S.radius}, clearance ${S.clearance}, grab reach ${K.grabReach}, pounce ${K.pounceRange.join('-')} px at ${K.pounceSpeed} px/s for ${K.pounceDur} s - unchanged ${server}.  Its size on the page against a Wanderer and a Hound: tools/scale_lineup.js (evidence/r5_lineup_*)` };
+});
+
+/* ---------------------------------------------------------------- R6: deaths, many of them, the other species, nothing left behind */
+add('PR22 its hunts end in its own deaths: one kill event per victim, one of its three deaths (A, B, C), the victim leaving at once changes nothing - one server corpse, and it feeds after; across the scenes more than one of the three', () => {
+  const D = require(require('../tools/layout.js').at('death_srv.js')), info = { name: 'k', look: 'none|a', ek: 'flashlight', ec: '#ffe7b2', ep: '', vx: 0, vy: 0, light: true };
+  const scenes = [];
+  for (const seed of [1, 2, 3, 4]) { scenes.push({ seed, k: 'hall-unaware' }); scenes.push({ seed, k: 'hall-watched' }); scenes.push({ seed, k: 'corridor' }); }
+  const rs = scenes.map(({ seed, k }) => {
+    let w, p, e;
+    if (k === 'corridor') { w = World(seed + 4100); bystander(w, 1200, 4500); p = w.player(1170, 4400, { light: true, angle: Math.PI / 2 }); p.stop('stand'); e = w.eng.spawn('skinstealer', 1170, 4780, { hunger: .85 }); e.tier = 'near'; e.ang = -Math.PI / 2; p.look = () => Math.atan2(e.y - p.y, e.x - p.x); }
+    else ({ w, p, e } = hall(seed + 4000, { hunger: .95, watch: k === 'hall-watched', pa: Math.PI }));
+    let gone = -1, kill = null, body = null, fed = false;
+    w.run(45, (ww, t) => {
+      if (gone >= 0 && planOf(e) === 'feed') fed = true;
+      if (gone < 0 && p.dead) { gone = t; kill = Object.assign({}, p.kill); body = D.bodyFor(p.id, kill, info, w.sim); w.sim.removePlayer(p); }   // they close the game the moment they die
+      if (gone >= 0 && body && !body.put && t - gone >= D.durOf(kill)) { body.put = 1; w.sim.setBody(p.id, body.body); }
+      return true; });
+    const K = w.kills.filter(q => q.pid === p.id), mine = w.sim.bodies ? [...w.sim.bodies.values()].filter(b => b.k === p.id) : [];
+    return { k, died: gone >= 0, ok: gone < 0 || (K.length === 1 && kill.k === 'SkinStealer' && 'ABC'.includes(kill.v) && body.body.c === 'SkinStealer' && mine.length === 1 && e.tally.kills === 1 && fed && !e.cap && !e.hunt), kills: K.length, v: kill ? kill.v : '-', fed, corpses: mine.length };
+  });
+  const died = rs.filter(r => r.died), vs = [...new Set(died.map(r => r.v))].sort();
+  return { ok: rate(rs) === 1 && died.length >= 8 && vs.length >= 2,
+    note: `${died.length}/${rs.length} killed (${['hall-unaware', 'hall-watched', 'corridor'].map(k => k + ' ' + died.filter(r => r.k === k).map(r => r.v).join('')).join(', ')}): one kill event each ${died.every(r => r.kills === 1)}, one corpse each though they left at once ${died.every(r => r.corpses === 1)}, fed after ${died.filter(r => r.fed).length}/${died.length}; deaths seen ${vs.join(', ')}.  Disguise and speech: SK40-SK44`, data: rs };
+});
+
+add('PR24 stress: eight people (walking, running, crouching, torches on and off) and four hungry ones in the dark south-west and the hall - routes, sounds and guesses stay bounded: no burst of route planning, no memory that grows, every one of them on open floor', () => {
+  const w = World(4400), g = w.eng.geo, P = [], E = [], pts = [{ x: 700, y: 5330 }, { x: 1300, y: 5900 }, { x: 1720, y: 4900 }, { x: 1900, y: 5560 }, { x: 600, y: 5900 }, { x: 1300, y: 5150 }, { x: 2600, y: 3504 }, { x: 4200, y: 3504 }];
+  for (let i = 0; i < 8; i++) { const q = pts[i]; const p = w.player(q.x, q.y, { light: i % 2 === 0 }); p.stop('stand'); p.leg = i; P.push(p); }
+  for (const [x, y] of [[1850, 5570], [900, 5000], [2400, 3504], [3800, 3504]]) { const e = w.eng.spawn('skinstealer', x, y, { hunger: .9 }); e.tier = 'near'; E.push(e); }
+  const R = { secs: 0, paths0: w.eng.stats.paths, perSec: [], maxFailed: 0, maxBad: 0, maxSpent: 0, maxSounds: 0, maxLeft: 0, maxLeftAt: 0, inWall: 0, hunts: 0, kills: 0, stale: 0 };
+  let last = w.eng.stats.paths, lastT = 0;
+  w.run(120, (ww, t) => {
+    for (const p of P) if (!p.dead && ((!p.path || !p.path.length) && !p.tx)) { const q = pts[(p.leg++ * 5 + 3) % pts.length]; p.light = p.leg % 3 !== 0; p.pathTo(q.x, q.y, p.leg % 4 === 1 ? 'run' : p.leg % 5 === 2 ? 'crouch' : 'walk'); }
+    for (const p of P) if (p.dead && !p.back) { p.back = t; } else if (p.dead && t - p.back > 5) { w.sim.respawn && w.sim.respawn(p); p.back = 0; }
+    if (t - lastT >= 1) { R.perSec.push((w.eng.stats.paths - last) / E.length); last = w.eng.stats.paths; lastT = t;
+      for (const e of E) { const H = e.hunt; if (H) { R.maxFailed = Math.max(R.maxFailed, H.failed.length); R.maxBad = Math.max(R.maxBad, H.badA.length); if (!w.eng.byId.has(H.pid)) R.stale++; }
+        R.maxSpent = Math.max(R.maxSpent, e.spent.size); R.maxSounds = Math.max(R.maxSounds, e.mem.sounds.length); R.maxLeft = Math.max(R.maxLeft, e.left.size); R.maxLeftAt = Math.max(R.maxLeftAt, e.leftAt ? e.leftAt.size : 0);
+        if (!e.trav && !e.commit && !e.cap && !g.clear(e.x, e.y, e.rc - 6, 'walk')) R.inWall++; } }
+    return true; });
+  R.hunts = E.reduce((a, e) => a + e.tally.hunt, 0); R.kills = w.kills.length;
+  const ps = R.perSec.slice().sort((a, b) => a - b), mean = R.perSec.reduce((a, b) => a + b, 0) / R.perSec.length, p95 = ps[Math.floor(ps.length * .95)], mx = ps[ps.length - 1];
+  return { ok: mean <= 3 && p95 <= 8 && R.maxFailed <= 4 && R.maxBad <= 3 && R.maxSpent <= 6 && R.maxSounds <= 8 && R.maxLeftAt <= R.maxLeft && R.inWall === 0 && R.stale === 0 && R.hunts > 0,
+    note: `120 s, 8 people, 4 hungry ones (${R.hunts} hunts, ${R.kills} kills): routes planned per creature a second - mean ${mean.toFixed(2)}, 95th percentile ${p95.toFixed(2)}, worst ${mx.toFixed(2)}; most held at once - failed places ${R.maxFailed} (cap 4), failed turns ${R.maxBad} (cap 3), effort records ${R.maxSpent} (cap 6), sounds ${R.maxSounds} (the engine's 8), departures ${R.maxLeft}, their times ${R.maxLeftAt}; a hunt of somebody gone ${R.stale}; inside a wall ${R.inWall}`, data: Object.assign(R, { perSec: undefined }) };
+});
+
+add('PR25 (in-tree part) the Hound and the Smiler: the shared engine and their own code are byte for byte the starting commit\'s (4518f93, itself proven equal to P9 at Trial 3 and B1-B5); with no Skin-Stealer in a world none of its code runs - the full P9 comparison is the tool dev/trial-3-skin-stealer/tools/equiv_p9.js (evidence/r6_equiv_p9.txt)', () => {
+  const { execFileSync } = require('child_process'), path = require('path'), fs = require('fs'), root = path.join(__dirname, '..', '..');
+  const shared = ['ai.head.js', 'ai.senses.js', 'ai.intelligence.js', 'ai.engine.js', 'ai.capture.js', 'ai.entity.js', 'ai.hound.js', 'ai.smiler.js'].map(f => 'src/frameworks/nani/server/' + f);
+  const same = shared.map(f => { let base = null; try { base = execFileSync('git', ['show', '4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a:' + f], { cwd: root, maxBuffer: 1 << 26 }).toString(); } catch (e) { } return { f: path.basename(f), same: base !== null && base === fs.readFileSync(path.join(root, f), 'utf8') }; });
+  // a world with the director's own Hounds and Smilers and four players, no Skin-Stealer: the species' tick never runs
+  const w = World(4500, { director: true }); w.sim.resetWorld(); for (const [x, y] of [[1300, 5900], [5000, LONG.y], [700, 5330], [8000, 3504]]) { const p = w.player(x, y, { light: true }); p.go(x + 300, y, 'walk'); }
+  let calls = 0; const tk = AI.SKIN.tick; AI.SKIN.tick = function (...a) { calls++; return tk.apply(this, a); };
+  try { w.run(20); } finally { AI.SKIN.tick = tk; }
+  const kinds = [...new Set(w.eng.entities.map(e => e.kind))].sort();
+  return { ok: same.every(q => q.same) && calls === 0 && !kinds.includes('skinstealer'),
+    note: `unchanged since 4518f93: ${same.map(q => q.f + (q.same ? '' : ' CHANGED')).join(', ')} | 20 s with the director's ${kinds.join(' and ')} and four players: the Skin-Stealer's tick ran ${calls} times`, data: same };
+});
+
+add('PR26 nothing of a hunt is left behind: the quarry leaving the game, an admin clear, the level of detail going far, a removal, a world reset - the hunt, its plan, its guesses and the people it remembers go with them', () => {
+  const mk = seed => { const R = sw(seed, .9, 'back', 'crouch', 3); return R; };   // seen, lost, hunting: a hunt with a belief and a guess under way (seeds where it saw them)
+  const out = {};
+  { const R = mk(1), e = R.e, had = !!e.hunt; R.w.sim.removePlayer(R.p); R.w.run(1); out.leave = { had, hunt: !!e.hunt, plan: !!(e.plan && e.plan.pid === R.p.id), spent: e.spent.has(R.p.id), left: e.left.has(R.p.id), leftAt: !!(e.leftAt && e.leftAt.has(R.p.id)), why: (e.dbg.huntEnd || {}).why }; }
+  { const R = mk(7), e = R.e, had = !!e.hunt; R.w.eng.navCmd(e, 'clear', R.p); out.clear = { had, hunt: !!e.hunt, plan: !!e.plan, spent: e.spent.size, noFlank: !!e.noFlank }; }
+  { const R = mk(3), e = R.e, had = !!e.hunt; R.p.x = 8600; R.p.y = 900; R.p.stop('crouch'); R.p.light = false; R.w.run(4); out.far = { had, tier: e.tier, hunt: !!e.hunt, plan: e.plan ? e.plan.k : null }; }
+  { const R = mk(4), e = R.e, had = !!e.hunt, id = e.id; R.w.sim.admin.removeSkinStealer(); out.removed = { had, gone: !R.w.eng.entities.some(x => x.id === id) }; }
+  { const R = mk(5), had = !!R.e.hunt; R.w.sim.resetWorld(); out.reset = { had, none: !R.w.eng.entities.some(x => x.kind === 'skinstealer') }; }
+  // and none of it in the snapshot: its entry is the same few fields with or without a hunt
+  { const R = mk(6), e = R.e; const keys = Object.keys(AI.SKIN.snap(e)).sort().join(','); out.snap = { had: !!e.hunt, keys }; }
+  const ok = Object.values(out).every(o => o.had !== false) && !out.leave.hunt && !out.leave.plan && !out.leave.spent && !out.leave.left && !out.leave.leftAt && !out.clear.hunt && !out.clear.plan && !out.clear.spent && !out.clear.noFlank &&
+    out.far.tier === 'far' && !out.far.hunt && out.removed.gone && out.reset.none && out.snap.keys === 'a,ac,h,i,s,v,x,y';
+  return { ok, note: `a hunt under way each time (${Object.values(out).map(o => o.had).join('/')}); they left the game: hunt ${out.leave.hunt}, plan ${out.leave.plan}, effort record ${out.leave.spent}, departure ${out.leave.left} ("${out.leave.why}") | admin clear: hunt ${out.clear.hunt}, plan ${out.clear.plan}, effort records ${out.clear.spent} | everyone far (tier ${out.far.tier}): hunt ${out.far.hunt} | removed ${out.removed.gone}, world reset ${out.reset.none} | its snapshot entry ${out.snap.keys}`, data: out };
 });
 
 module.exports = S;

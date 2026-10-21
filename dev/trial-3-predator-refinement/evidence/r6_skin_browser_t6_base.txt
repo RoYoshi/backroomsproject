@@ -1,0 +1,10 @@
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.evaluate: Target page, context or browser has been closed
+    at Object.cmd (predator-refinement/dev/trial-3-skin-stealer/tools/skin_browser.js:85:38)
+    at predator-refinement/dev/trial-3-skin-stealer/tools/skin_browser.js:395:9
+
+Node.js v22.22.2
+EXIT 1

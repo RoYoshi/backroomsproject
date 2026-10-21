@@ -274,7 +274,7 @@ const SKIN = {
   },
   /* the engine's hooks (ai.engine.js): it never borrows a Hound's or a Smiler's own functions */
   onFar(eng, e) {
-    e.pounce = null; e.recover = 0; e.rx = null; e.head = 0; e.defLeave = 0; skHuntEnd(eng, e, 'nobody within reach'); if (e.plan && e.plan.k === 'feed') return;   // feeding at its kill it carries on, alone
+    e.pounce = null; e.recover = 0; e.rx = null; e.head = 0; e.defLeave = 0; skHuntEnd(eng, e, 'nobody within reach'); e.noFlank = null; if (e.plan && e.plan.k === 'feed') return;   // feeding at its kill it carries on, alone
     e.plan = null; e.roam.goal = null; e.roam.pause = 0; setState(e, S.ROAMING, ''); e.dbg.why = 'nobody within reach: it waits where it is';
   },
   farTick(eng, e, dt) {                                           // far from everyone it stands still, and is still hungry (or still feeding)
@@ -283,7 +283,7 @@ const SKIN = {
   },
   still(e) { return e.still; },                                  // (the engine's stuck watchdog: it held still this tick on purpose)
   onStuck(eng, e) { if (e.plan && e.plan.k !== 'lure') e.plan.stuck = (e.plan.stuck || 0) + 1; e.roam.goal = null; e.dbg.why = 'stuck: the watchdog cleared its route'; },
-  onClear(eng, e) { e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.aw.clear(); e.rx = null; e.head = 0; e.defLeave = 0; e.dbg.lv = ''; e.hunt = null; e.spent.clear(); setState(e, S.ROAMING, ''); },
+  onClear(eng, e) { e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.aw.clear(); e.rx = null; e.head = 0; e.defLeave = 0; e.dbg.lv = ''; e.hunt = null; e.spent.clear(); e.noFlank = null; setState(e, S.ROAMING, ''); },
   debugHunt(eng, e, r) { e.left.delete(r.id); setTarget(e, r.id, eng.now); skBegin(eng, e, 'watch', r, 'admin: it was given a record of you'); return 'WATCHING YOU (real AI)'; },
   /* its own target scoring and commitment (ai.intelligence.js's debug asks for them; never the Smiler's sScore) */
   targetScore(eng, e, r) { const age = eng.now - Math.max(r.seenAt, r.heardAt); return r.aw * .8 + r.conf * .7 - Math.min(1, age / 30) * .3 + (r.seen ? .5 : 0) + (r.id === e.target ? .4 : 0); },
@@ -964,6 +964,8 @@ function skGaze(eng, e, dt) {
 function skDecide(eng, e) {
   const now = eng.now, P = e.plan;
   for (const [id, until] of e.left) if (until <= now || !eng.byId.has(id)) e.left.delete(id);
+  if (e.leftAt) for (const id of [...e.leftAt.keys()]) if (!e.left.has(id)) e.leftAt.delete(id);       // (R6) when it left them: only while it is leaving them alone
+  for (const id of [...e.spent.keys()]) if (!eng.byId.has(id)) e.spent.delete(id);                     // (R6) the effort spent on somebody who has left the game goes with them
   if (e.defLeave) {                                                                 // (B3) its defence missed: it leaves them, fast
     const r = e.mem.p.get(e.defLeave); e.defLeave = 0;
     if (r && !tgtGone(eng, e, r)) { skLeave(eng, e, r, `its defence against P${r.id} missed: it goes`).fast = true; return; }

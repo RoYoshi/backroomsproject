@@ -13,7 +13,8 @@ hash: each row is filled in by the next checkpoint (the last by a receipt commit
 | R2 listening, belief, guesses, failed guesses | `fbeaf1fcc07d10e17da1ec514d7d16ae856df95b` | `f292ad67c38a80fc690d041f7e743091a91a6928` | `907de0d` | 2026-10-21 06:21 UTC, `evidence/remote/r2.json`; scans `r2_pre.txt` / `r2_post.txt` clean |
 | R3 stalking, going round, coming on, fair strikes | `867d63b7de878c6b5b208f1e2fadfdb0bb97d202` | `70bc5b7a5e4b5508950b2fddb2d15e49ee7859c7` | `fbeaf1f` | 2026-10-21 06:40 UTC, `evidence/remote/r3.json`; scans `r3_pre.txt` / `r3_post.txt` clean |
 | R4 poses, debug, dithering, balance | `ef70370de82b63c958a8df02cc7360b3a8f91f4d` | `eae4a5255b8e8fe4760be3053af54c597847a20a` | `867d63b` | 2026-10-21 06:53 UTC, `evidence/remote/r4.json`; scans `r4_pre.txt` / `r4_post.txt` clean |
-| R5 its size on the page | (this commit: `evidence/remote/r5.json` arrives with R6) | | `ef70370` | |
+| R5 its size on the page | `16847755c5b5198853fe4f3b3096ef505fef78e3` | `a855f0364efe2dc58816a409d834348eea253dab` | `ef70370` | 2026-10-21 07:39 UTC, `evidence/remote/r5.json`; scans `r5_pre.txt` / `r5_post.txt` clean |
+| R6 several people, parity, stress, cost | (this commit: `evidence/remote/r6.json` arrives with R7) | | `1684775` | |
 
 ## R0 — audit and plan, no game change
 
@@ -212,3 +213,27 @@ folder's name, not its path. The server — the body (radius 24, clearance 21), 
 | `s_skinpredator.js` | 22 / 22 (PR23: `BODY_SCALE` 1.3, every undisguised view scaled, the skin not, the server's body and reach unchanged) |
 | `s_skinstealer.js`, `s_skinbehave.js` | 34 / 34, 19 / 19 |
 | static checks (`evidence/r5_checks.txt`) | PASS |
+
+## R6 — several people, parity, stress, cost
+
+Changed: the species (`skDecide` drops the per-person records of people who have left the game — when it left them, the effort it spent
+on them; `onFar` and `onClear` forget the no-flank place), rebuilt; the `ai.js` note; PR22, PR24, PR25 (the in-tree part), PR26;
+`tools/perf_pr.js`, `tools/predator_browser.js` (new); the drafts of the final documents. No balance value changed.
+
+| Run | Result |
+|---|---|
+| `s_skinpredator.js`, `s_skinstealer.js`, `s_skinbehave.js` (`evidence/r6_suites.txt`) | **79 / 79**: PR01–PR26, SK 34, BR 19 |
+| PR22 its deaths in a hunt | 12 / 12 people killed in three scenes (the hall unaware, the hall watched, a corridor): one kill event each, one server corpse each even though the victim left the game at once, it fed after every one; deaths B and C seen (A at arm's reach, SK33); disguise and speech: SK40–SK44 |
+| PR24 stress | 120 s, 8 people (walking, running, crouching, torches on and off), 4 hungry ones: 7 hunts, 6 kills; route plans per creature a second mean 0.07, p95 0.25, worst 0.5; most held at once: failed places 0 (cap 4), failed turns 0 (cap 3), effort records 1 (cap 6), sounds 8 (the engine's 8); no hunt of somebody gone; nobody inside a wall |
+| PR25 (in-tree) | `ai.head.js`, `ai.senses.js`, `ai.intelligence.js`, `ai.engine.js`, `ai.capture.js`, `ai.entity.js`, `ai.hound.js`, `ai.smiler.js` byte for byte `4518f93`'s; with no Skin-Stealer its tick never ran (20 s, the director's Hounds and Smilers, 4 players) |
+| PR26 cleanup | the quarry leaving the game, an admin clear, everyone far, a removal, a world reset: hunt, plan, guesses, effort records and departures gone; its snapshot entry `a,ac,h,i,s,v,x,y` |
+| P9 equivalence (`evidence/r6_equiv_p9.txt`) | PASS: 6 / 6 seeds identical tick for tick against `1ff9374` (7200 snapshots: every Hound, Smiler, player, kill and body) |
+| `npm test` (`evidence/r6_npm_test.txt`) | 228 / 241; the 13 failures are R0's inherited ones, name for name |
+| `npm run test:humanqa` (`evidence/r6_humanqa.txt`) | 5 / 6, X03 inherited |
+| `tools/perf_pr.js`, 3 interleaved rounds (`evidence/r6_perf.*`, `PERFORMANCE.md`) | PASS: no Skin-Stealer −9.2 % (same cost); one −10.5 %; four −0.4 % mean / +8.8 % p99 within the 60 Hz budget; four pressed −2.5 %, four starving −23.7 % against the base; 0 invariant violations in 30 runs |
+| soak 600 s (`evidence/r6_soak.*`) | PASS: four starving, eight players; mean 0.185 ms, p99 1.04 ms, worst 30.9 ms; 0 violations |
+| static checks (`evidence/r6_checks.txt`) | PASS (build:check 44 outputs, parts, modules, facts, window contract, docs, API contract, scope) |
+| the fast gate (`evidence/r6_gate.txt`) | **PASS**, 21 / 21 steps; the full tier not run (no shared scope; pack 09 rule 5) |
+| `tools/predator_browser.js` (`evidence/r6_predator_browser.*`, `r6_shots/`) | 7 / 7: footsteps of a running page behind a wall → it stopped and listened, went quietly to look (anonymous), found them, hunted them; the quiet crouched page never in a plan or a hunt; no name before a sighting; the HUNT line drawn; snapshot fields `a, ac, dg, h, i, s, v, x, y`; no page error (after six development runs that corrected the scene and the check: `REGRESSION_REPORT.md`) |
+| Trial 3's `skin_browser.js`, every section (`evidence/r6_skin_browser.*`) | 37 / 40: t4's intermittent timing case (as on `4518f93`), and one t6 setup miss (no open floor in the creature's view to put the listener: `lAt2` null) failing two t6 cases; t6 again 6 / 6 (`r6_skin_browser_t6_rerun.*`); a t6 run on `4518f93` for comparison stopped on a closed page, no result (`r6_skin_browser_t6_base.txt`) |
+| B1–B5's `behave_browser.js` (`evidence/r6_behave_browser.*`) | 9 / 9 |
