@@ -12,7 +12,8 @@ filled in by the next checkpoint.
 | C0 diagnosis, no game change | `cc8c8f2ba5a2473e496fca2259d0d85a93edeeb3` | `f9f46d96797dd2e954d8a45d0faf9f4359a2bfaf` | `f378049` | read back from GitHub (`evidence/remote/c0.json`: ok); scans before and after clean |
 | C1 what changed, interrupts, reaction | `54b59846d0c884a766cc5504ef4b5a9e352971d8` | `eb397a1d6c4129492c6e1fd09c880e8df05f4d01` | `cc8c8f2` | read back from GitHub (`evidence/remote/c1.json`: ok); scans before and after clean |
 | C2 the choice: stand-off, whom, the bait as an ambush | `892d9934f43bb16e048abf45159b6115fe4fae26` | `420d6d94e1f77cc9395fc612b5804e939aa59d49` | `54b5984` | read back from GitHub (`evidence/remote/c2.json`: ok); scans before and after clean |
-| C3 what it learns from what it sees; the lost race | (this commit: `evidence/remote/c3.json` arrives with C4) | | `892d993` | |
+| C3 what it learns from what it sees; the lost race | `caed6cdd10007bdf538a2e41675d0424b5b092a4` | `96974c49cb966510e995cf5d7ff6666310e58470` | `892d993` | read back from GitHub (`evidence/remote/c3.json`: ok); scans before and after clean |
+| C4 the hunger gradient | (this commit: `evidence/remote/c4.json` arrives with C5) | | `caed6cd` | |
 
 ## C0 — diagnosis first (no game change)
 
@@ -132,3 +133,24 @@ unchanged (8 / 8 let go). Its trade-off is in the owner's hands: a short trail l
 | `tools/c0_audit.js` (`evidence/c3_audit.*`; kills R8 / C2 / C3) | **pillar circler at .55: 6 / 3 / 6**; the straight race: still 0 kills, **trailing 3 s** (R8 12.7–12.9 s); every other scene as at C2 |
 | static checks (`evidence/c3_checks.txt`) | all PASS |
 | `tools/cog_browser.js` (`evidence/c3_browser.*`, `c3_shots/`; and `c3_circle.*`, three more circle tries after the cut-off was weighted above a held stand-off) | watched #1 (.49): a stand-off 85 %, closest 232 px, no strike; watched #2 (.50): it took the page at 9.6 s; crowd #1: it took the walker (apart, unaware) at 6.6 s; crowd #2: a setup miss (labelled); circle: killed at 17.6 / 17.9 s (first run) and 16.8 / 19.5 s (`c3_circle`; one cut-off at 18.6 s), one left after 17.5 s. In real pages the circling page is often taken for watching it (its facing follows the mouse, not its running), which holds the hungry creature in a stand-off: C6 gives the page a natural gaze |
+
+## C4 — the hunger gradient
+
+Changed: the species file only in the game (`BALANCE_TABLE.md` C4, UNAPPROVED), its declared-change note, a new scenario (C12), C02 judged
+on the runs in which it took its chance (below).
+
+What it does now: from .4 to .55 hunger it goes for somebody it sees only sometimes (.4 at .4, about .7 at .47, always from .55) - drawn once
+per encounter from its own random stream, so nothing else it chooses moves; passed over, a mildly hungry one watches them a while and goes.
+A hunt already under way is always taken up. Satiated and mild never hunt or spring (unchanged rules); very hungry always goes for them;
+starving is quicker about it. No pose or art change: the evidence never showed one was needed.
+
+**C02 adapted (C2's own scenario):** at .5 the creature now takes its chance in most but not all encounters (C12's gradient); C02 is about
+what it does when it does, so it now requires that it went for them in at least three runs in four and holds every such run to all its
+criteria. On this build it went for them in 18 / 18, so nothing was excused.
+
+| Run | Result |
+|---|---|
+| C02, C12 on R8 (`evidence/c4_before_r8.txt`) | **both FAIL** (R8 at .65 killed only .36 of the time in C12's scenes - the flip from passive to lethal came at .75–.8) |
+| species suites (`evidence/c4_suites.txt`) | **94 / 94 PASS**. C12: went for them at .1 / .3 / .45 / .55 / .65 / .75 / .85 / .95 = 0 / 0 / .71 / 1 / 1 / 1 / 1 / 1, killed 0 / 0 / .64 / .93 / .93 / .93 / 1 / 1; satiated and mild looked at them 100 %, a mild one watched a while in 31 %; time to a kill 13–14 s very hungry, about 7 s starving |
+| `tools/c0_audit.js` (`evidence/c4_audit.*`) | as at C3, except the passer-by at .45: 2 / 6 killed (C3 3 / 6) - it now passes some people over at .45 |
+| static checks (`evidence/c4_checks.txt`) | all PASS |

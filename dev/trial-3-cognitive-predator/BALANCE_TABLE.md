@@ -53,3 +53,15 @@ from the dark, by going round them, can be (`c0_audit` W at .5 and .55: one run 
 | a circler is not fleeing | — | somebody it takes for going round is not "running from it"; half a turn seen is enough to doubt a "lost race" against them (it thinks again instead of giving up) | C2: `c0_audit` C at .55 3 / 6 |
 | somebody running off it will not chase, before any lost race | hungry: approach × .3 → a departure | farther than 260 px and either under .6 or beyond its chase range (420 px): a stand-off that keeps them in view (they may be going round; it closes in on an opening at its stalk .. flank pace, no faster) | the circling page left at once (C2 browser circle #2) |
 | the lost race (`SK.trailFor`) | very hungry: on their trail at .85 of their speed until they were out of sight (12.7–12.9 s); hungry: a departure | very hungry, at once: a way round that gets it ahead of them (R8's own prediction, its route and its run against their speed - only when it really arrives first) → an interception; else **at most 3 s** on their trail (.85 of their speed, unchanged), then it stops and listens and takes its hunt's next guess; one trail per lost race; while they keep running its step stands (no fresh approach on their heels); hungry: a departure (B2, unchanged) | BD4; C10; PR27 / PR28 (the fresh runner's win, the lead kept) unchanged |
+
+## C4 — the hunger gradient
+
+| Knob | R8 / C3 | Built (C4) | Why |
+|---|---|---|---|
+| `SK.boldAt` (whether it goes for somebody it sees) | a smooth score, but in practice a flip: C3 went for a person in view in 0 % of runs at .3 and in nearly every run from .45 (the `C12` scenes) | from .4 to .55, once per encounter (its own random stream, so nothing else it chooses moves): it takes the chance with probability `.4 + .6 × smoothstep(.4, .55, hunger)` - about .7 at .47, always from .55; a hunt already under way is always taken up | pack 04: hungry is "credible stalking", "not guaranteed murder"; "no single aggression flip" |
+| `SK.curious2` | — | passed over, from mildly hungry (.2), it watches them a while (watching weighs .55 more) before it goes; it never springs below .4 (unchanged) | pack 04: mild is "curious, discriminating, short investigation" |
+| the body | — | unchanged: the stand-off reads through its existing acts (still and watching; crouched and creeping; the wind-up); no pose or art change - nothing in C0–C3's evidence showed one was needed (`BODY_SCALE` 1.3, the collider and every reach unchanged) | pack 04: no new design scope without a demonstrated visibility issue |
+
+C4 measured (`C12`, both scenes, 8 seeds, after first sight): went for them at .1 / .3 / .45 / .55 / .65 / .75 / .85 / .95 = 0 / 0 / .71 /
+1 / 1 / 1 / 1 / 1 (R8: 0 / 0 / .86 / 1 / 1 / 1 / 1 / 1 - but R8 killed only .29 / .53 / .36 at .45 / .55 / .65); killed 0 / 0 / .64 / .93 /
+.93 / .93 / 1 / 1; the time to a kill falls from about 13–14 s when very hungry to about 7 s when starving.

@@ -1,0 +1,9 @@
+# C4 static checks (node v22.22.2)
+BUILD CHECK: PASS (44 outputs and the manifest are what src/ builds)
+PARTS CHECK: PASS (9 outputs, 62 parts)
+MODULES CHECK: PASS (29 server files, 23 factories; the sim: 10 modules, wired in order; the page: 7 scripts, 37 modules)
+FACTS CHECK: PASS (44 facts, 176 copies, each where it is listed and holding its value)
+WINDOW CONTRACT: PASS (35 window members declared for the compiled client and used by it; 0 problems; TypeScript 6.0.3)
+DOCS CHECK: PASS (23 generated blocks in 23 documents)
+API CONTRACT --check 1: exit 0
+SCOPE: PASS

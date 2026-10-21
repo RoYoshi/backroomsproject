@@ -2510,6 +2510,9 @@ const SK = Object.freeze({
   apart: 450,                                    // a person this far from every other one it sees is apart (a group is not attacked)
   groupMem: 4,                                   // ... or has seen within this many seconds (one who stepped out of its view is still there)
   switchGain: 1.5,                               // somebody else must be this much the better chance before its quarry stops being its quarry
+  // cognitive refinement C4: the hunger gradient (all UNAPPROVED)
+  boldAt: [.4, .4, .55],                         // it goes for somebody it sees with this chance at .4 hunger, rising to always by .55 (smoothly from .4)
+  curious2: .55,                                 // ... and passed over, from mildly hungry, it watches them a while first (a weight added to watching)
   // cognitive refinement C3: what it learns from what it sees them do; the lost race (all UNAPPROVED)
   circWin: 10, circFade: 3,                      // going round something: its sightings of them within this many s; the guess lapses this long after the last
   circSweep: 6.3, circR: [90, 420], circFit: .25,  // ... at least a full turn of arcs actually seen (rad), a circle this big, sightings this close to it (x radius)
@@ -2559,6 +2562,7 @@ const SKIN = {
     e.awRng = mkRng(deriveSeed(eng.seed, 'skinstealer-aware', e.id));                           // (B1) its own stream: noticing never moves its other choices
     e.hunt = null; e.spent = new Map();                                                         // (R1) its hunt; the effort it has spent on each person
     e.cog = { n: 0, log: [] };                                                                  // (C1) what changed and what it did about it (QA only)
+    e.boldRng = mkRng(deriveSeed(eng.seed, 'skinstealer-bold', e.id));                        // (C4) its own stream: whether it takes a chance moves no other choice
     e.huntRng = mkRng(deriveSeed(eng.seed, 'skinstealer-hunt', e.id));                          // (R1) its own stream: how it goes about a hunt never moves its other choices
     Object.assign(e.tally, { hunt: 0, huntCold: 0, huntSpent: 0, flank: 0, shadow: 0, listenLost: 0, reengage: 0, heardQ: 0, revise: 0, wrong: 0, alt: 0, curious: 0, curiousDrop: 0, freeze: 0, noFlank: 0 });
   },
@@ -3473,6 +3477,11 @@ function skDecide(eng, e) {
     cut: cur === 'cut' && now < e.plan.until && circ && circ.sign === e.plan.sign ? 2 : circ && !e.exh && crowd === 1 && (!watched || h >= SK.band[2]) && cur !== 'cut' ? 1.7 + .7 * hm : 0,   // (above a stand-off held, with its hysteresis)
   };
   if (cur === 'retreat' && e.plan.arrived && !watched) W.retreat = 0;                       // out of sight now: decide afresh
+  // (C4) the hunger gradient: hungry, from .4 to .55, it goes for somebody only sometimes - .4 at .4, about .7 at .47, always from .55 - drawn once per encounter from its own stream (so the same person on the same seed meets the same creature); passed
+  // over, it is curious: it watches them a while, then goes.  A hunt already under way, or very hungry, is always taken up
+  if (enc.bold === undefined) enc.bold = e.boldRng();
+  const engaged = h >= SK.band[2] || !!Hn || enc.bold < lerp(SK.boldAt[0], 1, sm(SK.boldAt[1], SK.boldAt[2], h));
+  if (!engaged) { W.stand = W.approach = W.flank = W.chase = W.cut = 0; W.retreat = Math.min(W.retreat, .3); W.watch = cur === 'watch' && now > e.plan.until ? 0 : W.watch + SK.curious2 * sm(SK.band[0] - .05, SK.band[0] + .05, h); }
   // (the same draws as R8, one per R8 answer, in R8's order: the stand-off takes the watch's - its sibling - so adding an answer moves no
   // other random choice it makes)
   { let fw = 1, fa = 1; for (const k of ['leave', 'watch', 'retreat', 'flank', 'approach', 'chase']) { const f = .92 + .16 * e.rng(); if (k === 'watch') fw = f; if (k === 'approach') fa = f; W[k] = Math.max(0, W[k] * f); } W.stand = Math.max(0, W.stand * fw); W.cut = Math.max(0, W.cut * fa); }   // (C3: the cut-off takes the approach's)

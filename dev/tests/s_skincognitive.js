@@ -12,7 +12,8 @@
  * people: the better chance, no thrash, effort kept; a person only heard is never named).
  * C3: C05 (a heading seen, then out of sight: a grounded guess at once; the same until it senses a difference), C06 (somebody seen going
  * round a pillar: a cut-off; a turn back fools it; only what it saw counts), C10 (the lost race: a fresh runner still wins, and the
- * creature chooses its next step within a second instead of 13 s on their trail). */
+ * creature chooses its next step within a second instead of 13 s on their trail).
+ * C4: C12 (the hunger gradient: satiated, mild, hungry, very hungry, starving - no single switch from harmless to lethal). */
 'use strict';
 const { World, DT, LONG, AI, over, floorNear, bystander } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -140,29 +141,32 @@ add('C02 hungry, not starving (.5 / .55 / .62), watched from 450 px in the light
   const AW = t => t > 6 && (t - 6) % 8 < 2.5;                                     // away 6-8.5, 14-16.5, 22-24.5 s
   const rs = over([1, 2, 3, 4, 5, 6], seed => [.5, .55, .62].map(h => {
     const { w, p, e } = watched(seed + 12000 + Math.round(h * 100), h, AW), g = w.eng.geo;
-    let seen = -1, view = 0, all = 0, leftAt = -1; const wins = []; let W = null;
+    let seen = -1, view = 0, all = 0, leftAt = -1, went = false; const wins = []; let W = null;
     w.run(30, (ww, t) => {
       const d = Math.hypot(p.x - e.x, p.y - e.y);
       if (seen < 0 && e.seenNow.has(p.id)) seen = t;
       if (seen >= 0 && !w.kills.length) { all++; const k = planOf(e); if (k === 'leave' || k === 'watch' || (k === 'retreat' && !e.plan.bait)) view++; }   // (a bait - backing round a corner that gives an ambush, C08, and waiting there - is a tactic)
       if (leftAt < 0 && planOf(e) === 'leave') leftAt = t;
+      if (e.plan && e.plan.pid === p.id && ['stand', 'approach', 'flank', 'chase', 'cut', 'retreat', 'lure'].includes(e.plan.k)) went = true;
       const away = AW(t);
       if (away && !W && !w.kills.length) { W = { t0: t, d0: d, dmin: d, moveAt: -1, view: g.los(p.x, p.y, e.x, e.y) }; wins.push(W); }
       if (W && away) { W.dmin = Math.min(W.dmin, d); if (W.moveAt < 0 && e.speed > 40 && !e.pounce && Math.cos(Math.atan2(p.y - e.y, p.x - e.x) - e.ang) > .5) W.moveAt = t - W.t0; W.spAtEnd = e.speed; }
       if (W && !away) { if (W.backAt === undefined) { W.backAt = t; W.adv = W.spAtEnd > 40; } if (W.stopAt === undefined && (e.speed < 40 || e.pounce || w.kills.length)) W.stopAt = t - W.backAt; if (t - W.backAt > 1) W = null; }
       return true; });
     const used = wins.filter(x => x.view && x.d0 > 200);
-    return { h, passive: all ? +(view / all).toFixed(2) : 0, leftAt: +leftAt.toFixed(1), killed: w.kills.length,
+    return { h, went, passive: all ? +(view / all).toFixed(2) : 0, leftAt: +leftAt.toFixed(1), killed: w.kills.length,
       closed: used.map(x => Math.round(x.d0 - x.dmin)), moveAt: used.map(x => x.moveAt < 0 ? null : +x.moveAt.toFixed(2)), stop: used.filter(x => x.adv).map(x => x.stopAt === undefined ? null : +x.stopAt.toFixed(2)) };
   })).flat();
   // the negative: one who never looks away, .5 / .55, 30 s
   const pure = over([1, 2, 3, 4, 5, 6], seed => [.5, .55].map(h => { const { w } = watched(seed + 12100 + Math.round(h * 100), h, null); w.run(30); return w.kills.length; })).flat();
-  const closed = rs.flatMap(r => r.closed), moves = rs.flatMap(r => r.moveAt), stops = rs.flatMap(r => r.stop);
-  const okView = rs.filter(r => r.passive <= .2).length >= rs.length * .8 && rs.every(r => r.leftAt < 0 || r.leftAt > 12);
+  // (C4: below .55 it takes its chance only sometimes - C12; this scenario is about what it does when it does: at least three in four runs
+  // must be such runs, and every one of them is held to all of it)
+  const gone = rs.filter(r => r.went), closed = gone.flatMap(r => r.closed), moves = gone.flatMap(r => r.moveAt), stops = gone.flatMap(r => r.stop);
+  const okView = gone.length >= rs.length * .75 && gone.filter(r => r.passive <= .2).length >= gone.length * .8 && gone.every(r => r.leftAt < 0 || r.leftAt > 12);
   const okOpen = closed.length >= 12 && q(closed, .5) >= 100 && moves.filter(m => m !== null && m <= .8).length >= moves.length * .7;
   const okStop = stops.length >= 5 && stops.filter(x => x !== null && x <= .4).length >= stops.length * .7;
   const ok = okView && okOpen && okStop && pure.every(k => k === 0);
-  return { ok, note: `backing out of sight (not a bait), watching or leaving (after first sight) p50 ${q(rs.map(r => r.passive), .5)} of its time, over a fifth in ${rs.filter(r => r.passive > .2).length}/${rs.length}; a departure in the first 12 s ${rs.filter(r => r.leftAt >= 0 && r.leftAt <= 12).length} | ${closed.length} looks away while it had them in view: closed in p50 ${q(closed, .5)} px (worst ${q(closed, 0)}), moving at them within 0.8 s in ${moves.filter(m => m !== null && m <= .8).length}/${moves.length} | their eyes back while it came on: it stopped within 0.4 s in ${stops.filter(x => x !== null && x <= .4).length}/${stops.length} | killed ${rs.filter(r => r.killed).length}/${rs.length} (at .5 / .55 / .62: ${[.5, .55, .62].map(h => rs.filter(r => r.h === h && r.killed).length).join(' / ')}) | never looking away: killed ${pure.filter(Boolean).length}/${pure.length}`, data: rs };
+  return { ok, note: `it went for them in ${gone.length}/${rs.length} (at .5 / .55 / .62: ${[.5, .55, .62].map(h => gone.filter(r => r.h === h).length).join(' / ')}); in those, backing out of sight (not a bait), watching or leaving p50 ${q(gone.map(r => r.passive), .5)} of its time, over a fifth in ${gone.filter(r => r.passive > .2).length}/${gone.length}; a departure in the first 12 s ${gone.filter(r => r.leftAt >= 0 && r.leftAt <= 12).length} | ${closed.length} looks away while it had them in view: closed in p50 ${q(closed, .5)} px (worst ${q(closed, 0)}), moving at them within 0.8 s in ${moves.filter(m => m !== null && m <= .8).length}/${moves.length} | their eyes back while it came on: it stopped within 0.4 s in ${stops.filter(x => x !== null && x <= .4).length}/${stops.length} | killed ${rs.filter(r => r.killed).length}/${rs.length} (at .5 / .55 / .62: ${[.5, .55, .62].map(h => rs.filter(r => r.h === h && r.killed).length).join(' / ')}) | never looking away: killed ${pure.filter(Boolean).length}/${pure.length}`, data: rs };
 });
 
 add('C03 very hungry (.8 / .95), watched without a break: more than one rational answer over the seeds (round them, a stand-off pressing in, coming on, the bait), never stalled in view; and where there is no way round (the narrow north corridor) it comes on at once and does not search for a way round again', () => {
@@ -350,6 +354,40 @@ add('C10 the straight race (very hungry, .75 / .95): a fresh runner still wins -
   })).flat();
   const ok = rs.every(r => r.lostAt > 0 && !r.killWhileRun && r.minAfter >= r.lossD - 15 && r.trail <= TRAIL_MAX);
   return { ok, note: `lost the race at ${rs.map(r => r.lostAt).join('/')} s; never caught while running ${rs.filter(r => !r.killWhileRun).length}/${rs.length}; the gap after it never under the gap at the loss (- 15 px) ${rs.filter(r => r.minAfter >= r.lossD - 15).length}/${rs.length}; what it did at the loss: ${[...new Set(rs.map(r => r.nextIn))].join(' | ')}; on their trail ${rs.map(r => r.trail).join('/')} s (at most ${TRAIL_MAX})`, data: rs };
+});
+
+/* ---- C4 ---- */
+add('C12 the hunger gradient over two everyday scenes (a lit person walking past it unaware; a lit person 450 px off who keeps facing it but looks away 1.5 s every 9 s), 8 seeds each: satiated (.1) and mild (.3) never hunt or strike - they look (and a mild one may watch a while) and go; hungry (.45 / .55) goes for them only sometimes and does not always kill; very hungry (.65 / .75) always goes for them; starving (.85 / .95) is quicker about it - and no single step of hunger turns it from never to always', () => {
+  const HUNT = new Set(['stand', 'approach', 'flank', 'chase', 'cut', 'lure', 'retreat', 'intercept', 'search']);
+  const one = (kind, seed, h) => {
+    const w = World(seed + 14000 + Math.round(h * 100) + (kind === 'watch' ? 500 : 0)), y = LONG.y; bystander(w, 1300, 3300);
+    let p, e;
+    if (kind === 'passer') { p = w.player(4700, y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0; e = w.eng.spawn('skinstealer', 5600, 3150, { hunger: h }); e.tier = 'near'; e.ang = Math.PI / 2; }
+    else { p = w.player(5000, y, { light: true, angle: 0 }); p.stop('stand'); e = w.eng.spawn('skinstealer', 5450, y, { hunger: h }); e.tier = 'near'; e.ang = Math.PI; const AW = t => t > 6 && (t - 6) % 9 < 1.5; p.look = () => Math.atan2(e.y - p.y, e.x - p.x) + (AW(w.t) ? Math.PI : 0); }
+    let seen = -1, looked = false, watched = false, hunted = false, strike = false, killAt = -1;
+    w.run(25, (ww, t) => {
+      if (kind === 'passer' && t > .5 && !p.leg) { p.leg = 1; p.go(6500, y, 'walk'); }
+      if (seen < 0 && e.seenNow.has(p.id)) seen = t;
+      if (seen >= 0 && Math.abs(ang(e.ang + (e.head || 0), Math.atan2(p.y - e.y, p.x - e.x))) < .5) looked = true;
+      const P = e.plan; if (P && P.pid === p.id) { if (P.k === 'watch') watched = true; if (HUNT.has(P.k)) hunted = true; }
+      if (e.pounce && e.pounce.tid === p.id) strike = true;
+      if (killAt < 0 && w.kills.length) killAt = t; return true; });
+    return { kind, h, seen: seen >= 0, looked, watched, hunted, strike, killAt: +killAt.toFixed(1) };
+  };
+  const HS = [.1, .3, .45, .55, .65, .75, .85, .95], rs = [];
+  over([1, 2, 3, 4, 5, 6, 7, 8], seed => { for (const kind of ['passer', 'watch']) for (const h of HS) rs.push(one(kind, seed, h)); return {}; });
+  const at = h => rs.filter(r => r.h === h && r.seen), rate = (h, f) => { const a = at(h); return a.length ? a.filter(f).length / a.length : 0; };
+  const eng = HS.map(h => +rate(h, r => r.hunted).toFixed(2)), kill = HS.map(h => +rate(h, r => r.killAt >= 0).toFixed(2));
+  const med = a => { const v = a.filter(x => x >= 0).sort((x, y) => x - y); return v.length ? v[Math.floor(v.length / 2)] : null; };
+  const tk = h => med(at(h).map(r => r.killAt)), veryT = med(at(.65).concat(at(.75)).map(r => r.killAt)), starvT = med(at(.85).concat(at(.95)).map(r => r.killAt));
+  const low = [.1, .3].every(h => at(h).every(r => !r.hunted && !r.strike && r.killAt < 0)) && [.1, .3].every(h => rate(h, r => r.looked) >= .75);
+  const hungry = [.45, .55].every(h => rate(h, r => r.hunted) > .2 && rate(h, r => r.killAt >= 0) < 1) && rate(.45, r => r.hunted) < .95;
+  const very = [.65, .75].every(h => rate(h, r => r.hunted) === 1) && [.65, .75].every(h => rate(h, r => r.killAt >= 0) >= .7);
+  const starving = starvT !== null && veryT !== null && starvT <= veryT;
+  let step = false; for (let i = 1; i < HS.length; i++) if (eng[i - 1] <= .1 && eng[i] >= .9) step = true;
+  const mono = eng.every((v, i) => i === 0 || v >= eng[i - 1] - .15);
+  const ok = low && hungry && very && starving && !step && mono;
+  return { ok, note: `went for them (both scenes) at ${HS.join(' / ')}: ${eng.join(' / ')}; killed ${kill.join(' / ')}; looked at them (satiated / mild) ${rate(.1, r => r.looked).toFixed(2)} / ${rate(.3, r => r.looked).toFixed(2)}, watched a while (mild) ${rate(.3, r => r.watched).toFixed(2)}; time to a kill p50 ${HS.map(tk).join(' / ')} s (very hungry ${veryT}, starving ${starvT}) | satiated and mild harmless ${low}, hungry only sometimes and not always lethal ${hungry}, very hungry always on them ${very}, starving quicker ${starving}, a single step from never to always ${step}`, data: rs };
 });
 
 module.exports = S;
