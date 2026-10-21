@@ -13,7 +13,8 @@ filled in by the next checkpoint.
 | C1 what changed, interrupts, reaction | `54b59846d0c884a766cc5504ef4b5a9e352971d8` | `eb397a1d6c4129492c6e1fd09c880e8df05f4d01` | `cc8c8f2` | read back from GitHub (`evidence/remote/c1.json`: ok); scans before and after clean |
 | C2 the choice: stand-off, whom, the bait as an ambush | `892d9934f43bb16e048abf45159b6115fe4fae26` | `420d6d94e1f77cc9395fc612b5804e939aa59d49` | `54b5984` | read back from GitHub (`evidence/remote/c2.json`: ok); scans before and after clean |
 | C3 what it learns from what it sees; the lost race | `caed6cdd10007bdf538a2e41675d0424b5b092a4` | `96974c49cb966510e995cf5d7ff6666310e58470` | `892d993` | read back from GitHub (`evidence/remote/c3.json`: ok); scans before and after clean |
-| C4 the hunger gradient | (this commit: `evidence/remote/c4.json` arrives with C5) | | `caed6cd` | |
+| C4 the hunger gradient | `93fe6caf271e3b4a238f86216cafcbac5e73e5dc` | `e4676d8b2feb63a15a1e5623b7b7b093fae7165d` | `caed6cd` | read back from GitHub (`evidence/remote/c4.json`: ok); scans before and after clean |
+| C5 multiplayer, fairness, regression | (this commit: `evidence/remote/c5.json` arrives with C6) | | `93fe6ca` | |
 
 ## C0 — diagnosis first (no game change)
 
@@ -154,3 +155,46 @@ criteria. On this build it went for them in 18 / 18, so nothing was excused.
 | species suites (`evidence/c4_suites.txt`) | **94 / 94 PASS**. C12: went for them at .1 / .3 / .45 / .55 / .65 / .75 / .85 / .95 = 0 / 0 / .71 / 1 / 1 / 1 / 1 / 1, killed 0 / 0 / .64 / .93 / .93 / .93 / 1 / 1; satiated and mild looked at them 100 %, a mild one watched a while in 31 %; time to a kill 13–14 s very hungry, about 7 s starving |
 | `tools/c0_audit.js` (`evidence/c4_audit.*`) | as at C3, except the passer-by at .45: 2 / 6 killed (C3 3 / 6) - it now passes some people over at .45 |
 | static checks (`evidence/c4_checks.txt`) | all PASS |
+
+## C5 — multiplayer, fairness and regression
+
+Changed: **no game code** - the species file and the build are C4's, byte for byte. Seven new scenarios (C07, C11, C14, C15, C16, C17, C18)
+and a second half of C10 ((b): no race, a sprinter's lead); two new tools (`tools/c6_browser.js` for C6's real pages, `tools/c5_sprint_diag.js`).
+A guard was built, measured and **dropped** (`BALANCE_TABLE.md` C5): it widened R7's won-lead law to every way of following somebody who
+sprinted off, but no scene showed the erosion it was meant to stop. The full runs made with it are kept (`evidence/c5_*_guard.*`: 248 / 261,
+the same 13 inherited failures; P9 6 / 6).
+
+What pack 08's C5 asks, and where it is shown on this build:
+* **unseen paired worlds**: C01 (an unsensed person in two places: the same creature, tick for tick), C05 (two hidden routes: the same until its
+  senses differ), R8's SK15;
+* **anonymous sound decoys**: C07 - B's running drew it in 7 / 8, **B was never named before it saw them** (0 ticks), its hunt of the quiet A
+  ended in silence (or turned to B once it saw them) 8 / 8;
+* **two people in view**: C13 (C2) and C14 (four of them, eight people at once: sightings kept at most 71 of a bound of 102, its QA record at
+  most 24, nothing in a wall, route searches 0.19 per creature per second, p95 0.75);
+* **no cheated identity, nothing new on the wire**: C07, C16 (every snapshot entry R8's eight fields and R8's codes, through stand-offs, cut-offs
+  and openings);
+* **R7's effort and sprint laws**: C10 (a fresh runner wins: never caught while running 12 / 12, the gap never closing after the loss; (b) a
+  lead made with no race kept 12 / 12), C17 (every stand-off ends within its effort budget; the effort spent never goes down), PR27;
+* **fair strikes in the new tactics**: C11 - 15 springs from a stand-off, an approach and a cut-off, each with its whole wind-up, at somebody it
+  saw, its stamina paid; 15 kills, each on contact; a step aside at the tell missed 4 / 4;
+* **disguise and G.I.B.**: R8's SK34, SK35 and the disguise scenarios, unchanged and passing;
+* **Hound and Smiler parity**: C15 (no game file but the species' differs from R8's; with no Skin-Stealer its tick never runs), PR25, and the
+  six-seed P9 equivalence;
+* **latency as a person feels it** (pack C18): C18, R8 against this build, below.
+
+**Seen in C17, for the owner:** a watcher who never looks away and never moves is safe for C02's 30 s, but not for ever. Hungry (.5 / .55), the
+stand-off presses in by inches while they watch (a crouched creep, about 5 px/s), and near the end of its effort for them it springs from about
+170 px - with its whole wind-up, in their sight. In 120 s, 6 of the 12 such watchers died (at 21 s twice, at 69–71 s four times); the rest were
+left within its budget. A step aside at the tell makes the spring miss (C11, 4 / 4). Whether standing and staring should stay safe longer is
+the owner's call (`HUMAN_QA.md`).
+
+| Run | Result |
+|---|---|
+| the C5 scenarios on R8 (`evidence/c5_before_r8.txt`) | **C10 FAIL** (13 s on their trail; its (b) passes on R8), **C18 FAIL** (faced a walker p50 0.87 s, p95 1.87 s; moved in on a turned back within 1 s in 4 / 12). C07 and C11 pass on R8 - they guard what R8 already did (anonymity, fair springs). C14, C16 and C17 fail on R8 only because R8 has none of the records and plans they measure (no stand-off, no cut-off, no QA record): no comparison |
+| C18 on this build (`evidence/c5_suites.txt`) | faced a walker p50 0.05 / p95 0.1 / worst 0.1 s (R8 0.87 / 1.87 / 1.87); moved in on a back turned for 2.5 s within 1 s in 9 / 12, p50 0.87 s (R8 4 / 12); lost round a corner, its next step 0.58 s (R8 the same); **where faster is worse** - 0.15 s glances away, shorter than its beat: it dropped what it was doing on 2 of 68 (3 %; R8 3 of 69), so it waits. Moving off after a sighting: p50 1.4 s on both - it freezes while somebody walking at it faces it (R3's freeze, kept) |
+| species suites, inside npm test (`evidence/c5_suites.txt`) | **101 / 101 PASS** (C4's 94, and C07, C11, C14, C15, C16, C17, C18) |
+| `npm test` (`evidence/c5_npm_test.txt`, `c5_npm_compare.txt`) | 250 / 263; **13 failures, each on R8's inherited list by its whole name** (P01, P08, H07, NV09, C1, C3, C4, C5, C9 / C10, C18 memory, L9, 2F F13, 2F F22); none new, none fixed. Older suites also have tests named C01-C08, C13, C15-C18: names are compared whole |
+| `npm run test:humanqa` (`evidence/c5_humanqa.txt`) | 5 / 6, X03 inherited |
+| P9 equivalence, six seeds × 120 s, no Skin-Stealer (`evidence/c5_equiv_p9.txt`) | **PASS** - 6 / 6 identical tick for tick (7200 snapshots) |
+| `tools/c5_sprint_diag.js` (`evidence/c5_sprint_diag.txt`) | 40 sprint-away runs: no lead shrank on R8, here, or with the guard; here and with the guard the same creature tick for tick |
+| static checks (`evidence/c5_checks.txt`) | all PASS |

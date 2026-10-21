@@ -1,0 +1,127 @@
+# C5 tools/c5_sprint_diag.js: this build (= C4's game code), the build with the dropped guard (evidence/c5_guard.patch applied), and R8
+## this build
+ran, facing away h 0.5 seed 1: hash 441366201; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.5 seed 2: hash 697367075; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.5 seed 3: hash 623543710; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.5 seed 4: hash 835558972; gap shrank 0 px; caught while moving false; roam>watch>roam
+ran, facing away h 0.55 seed 1: hash 264245631; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.55 seed 2: hash 765772873; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.55 seed 3: hash 84389137; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.55 seed 4: hash 317850145; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.62 seed 1: hash 42313856; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.62 seed 2: hash 276658687; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.62 seed 3: hash 915744405; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.62 seed 4: hash 165138109; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.7 seed 1: hash 89368698; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.7 seed 2: hash 163572762; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.7 seed 3: hash 627579011; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.7 seed 4: hash 882948096; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.75 seed 1: hash 636560324; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.75 seed 2: hash 635894442; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.75 seed 3: hash 118179268; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>hunt>leave
+ran, facing away h 0.75 seed 4: hash 151362069; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+looked at it, then ran h 0.5 seed 1: hash 527446962; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.5 seed 2: hash 999136057; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.5 seed 3: hash 536058445; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>leave
+looked at it, then ran h 0.5 seed 4: hash 558095702; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.55 seed 1: hash 619688447; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.55 seed 2: hash 164915488; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>leave
+looked at it, then ran h 0.55 seed 3: hash 926850921; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.55 seed 4: hash 721428222; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.62 seed 1: hash 328924051; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>leave
+looked at it, then ran h 0.62 seed 2: hash 849433301; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.62 seed 3: hash 777755811; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.62 seed 4: hash 836043083; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>leave
+looked at it, then ran h 0.7 seed 1: hash 592977650; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>leave
+looked at it, then ran h 0.7 seed 2: hash 40657660; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>leave
+looked at it, then ran h 0.7 seed 3: hash 99772104; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.7 seed 4: hash 388092912; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.75 seed 1: hash 800879118; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.75 seed 2: hash 957688598; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>leave
+looked at it, then ran h 0.75 seed 3: hash 522638455; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>hunt>leave
+looked at it, then ran h 0.75 seed 4: hash 58184914; gap shrank 0 px; caught while moving false; roam>stand>listen>stand>listen>search>leave
+runs 40; gap shrank by over 40 px in 0; caught while moving 0
+## with the guard
+ran, facing away h 0.5 seed 1: hash 441366201; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.5 seed 2: hash 697367075; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.5 seed 3: hash 623543710; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.5 seed 4: hash 835558972; gap shrank 0 px; caught while moving false; roam>watch>roam
+ran, facing away h 0.55 seed 1: hash 264245631; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.55 seed 2: hash 765772873; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.55 seed 3: hash 84389137; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.55 seed 4: hash 317850145; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.62 seed 1: hash 42313856; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.62 seed 2: hash 276658687; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.62 seed 3: hash 915744405; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.62 seed 4: hash 165138109; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.7 seed 1: hash 89368698; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.7 seed 2: hash 163572762; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.7 seed 3: hash 627579011; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.7 seed 4: hash 882948096; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.75 seed 1: hash 636560324; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.75 seed 2: hash 635894442; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+ran, facing away h 0.75 seed 3: hash 118179268; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>hunt>leave
+ran, facing away h 0.75 seed 4: hash 151362069; gap shrank 0 px; caught while moving false; roam>approach>stand>listen>search>leave
+looked at it, then ran h 0.5 seed 1: hash 527446962; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.5 seed 2: hash 999136057; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.5 seed 3: hash 536058445; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>leave
+looked at it, then ran h 0.5 seed 4: hash 558095702; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.55 seed 1: hash 619688447; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.55 seed 2: hash 164915488; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>leave
+looked at it, then ran h 0.55 seed 3: hash 926850921; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.55 seed 4: hash 721428222; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.62 seed 1: hash 328924051; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>leave
+looked at it, then ran h 0.62 seed 2: hash 849433301; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.62 seed 3: hash 777755811; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.62 seed 4: hash 836043083; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>leave
+looked at it, then ran h 0.7 seed 1: hash 592977650; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>leave
+looked at it, then ran h 0.7 seed 2: hash 40657660; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>leave
+looked at it, then ran h 0.7 seed 3: hash 99772104; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.7 seed 4: hash 388092912; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.75 seed 1: hash 800879118; gap shrank 0 px; caught while moving false; roam>stand>listen>search>leave
+looked at it, then ran h 0.75 seed 2: hash 957688598; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>leave
+looked at it, then ran h 0.75 seed 3: hash 522638455; gap shrank 0 px; caught while moving false; roam>flank>approach>stand>listen>search>hunt>leave
+looked at it, then ran h 0.75 seed 4: hash 58184914; gap shrank 0 px; caught while moving false; roam>stand>listen>stand>listen>search>leave
+runs 40; gap shrank by over 40 px in 0; caught while moving 0
+## R8
+ran, facing away h 0.5 seed 1: hash 672807294; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>leave
+ran, facing away h 0.5 seed 2: hash 450612183; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>leave
+ran, facing away h 0.5 seed 3: hash 811037683; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>leave
+ran, facing away h 0.5 seed 4: hash 120924965; gap shrank 0 px; caught while moving false; roam>approach>watch>leave>roam
+ran, facing away h 0.55 seed 1: hash 90045906; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>leave
+ran, facing away h 0.55 seed 2: hash 715366394; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>leave
+ran, facing away h 0.55 seed 3: hash 633019697; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>leave
+ran, facing away h 0.55 seed 4: hash 758600233; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>leave
+ran, facing away h 0.62 seed 1: hash 937220492; gap shrank 0 px; caught while moving false; roam>approach>watch>leave>roam
+ran, facing away h 0.62 seed 2: hash 318646736; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>leave
+ran, facing away h 0.62 seed 3: hash 853767771; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>leave
+ran, facing away h 0.62 seed 4: hash 194190471; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>leave
+ran, facing away h 0.7 seed 1: hash 357947152; gap shrank 0 px; caught while moving false; roam>approach>watch>leave>roam
+ran, facing away h 0.7 seed 2: hash 180759877; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>leave
+ran, facing away h 0.7 seed 3: hash 697791146; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>leave
+ran, facing away h 0.7 seed 4: hash 786505129; gap shrank 0 px; caught while moving false; roam>approach>watch>leave>roam
+ran, facing away h 0.75 seed 1: hash 417359373; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>hunt>leave
+ran, facing away h 0.75 seed 2: hash 70811147; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>leave
+ran, facing away h 0.75 seed 3: hash 976653889; gap shrank 0 px; caught while moving false; roam>approach>watch>leave>roam
+ran, facing away h 0.75 seed 4: hash 640461372; gap shrank 0 px; caught while moving false; roam>approach>watch>listen>search>leave
+looked at it, then ran h 0.5 seed 1: hash 840853257; gap shrank 0 px; caught while moving false; roam>retreat>lure>leave>roam
+looked at it, then ran h 0.5 seed 2: hash 471962302; gap shrank 0 px; caught while moving false; roam>retreat>lure>leave>roam
+looked at it, then ran h 0.5 seed 3: hash 711835520; gap shrank 0 px; caught while moving false; roam>flank>approach>leave>roam
+looked at it, then ran h 0.5 seed 4: hash 136503757; gap shrank 0 px; caught while moving false; roam>retreat>lure>leave>roam
+looked at it, then ran h 0.55 seed 1: hash 978815228; gap shrank 0 px; caught while moving false; roam>retreat>lure>leave>roam
+looked at it, then ran h 0.55 seed 2: hash 938983821; gap shrank 0 px; caught while moving false; roam>flank>approach>leave>roam
+looked at it, then ran h 0.55 seed 3: hash 311607354; gap shrank 0 px; caught while moving false; roam>retreat>lure>leave
+looked at it, then ran h 0.55 seed 4: hash 670968125; gap shrank 0 px; caught while moving false; roam>retreat>lure>leave>roam
+looked at it, then ran h 0.62 seed 1: hash 191721331; gap shrank 0 px; caught while moving false; roam>flank>approach>watch>listen>search>leave
+looked at it, then ran h 0.62 seed 2: hash 87080771; gap shrank 0 px; caught while moving false; roam>retreat>chase>approach>listen>search>leave>roam
+looked at it, then ran h 0.62 seed 3: hash 559029749; gap shrank 0 px; caught while moving false; roam>leave>roam
+looked at it, then ran h 0.62 seed 4: hash 149889173; gap shrank 0 px; caught while moving false; roam>flank>watch>listen>search>hunt>listen>search>leave
+looked at it, then ran h 0.7 seed 1: hash 483361599; gap shrank 0 px; caught while moving false; roam>flank>approach>watch>listen>search>leave
+looked at it, then ran h 0.7 seed 2: hash 51443623; gap shrank 0 px; caught while moving false; roam>flank>approach>watch>listen>search>watch>listen>search>leave
+looked at it, then ran h 0.7 seed 3: hash 819362224; gap shrank 0 px; caught while moving false; roam>retreat>chase>approach>listen>search>leave
+looked at it, then ran h 0.7 seed 4: hash 822533353; gap shrank 0 px; caught while moving false; roam>retreat>approach>chase>approach>listen>search
+looked at it, then ran h 0.75 seed 1: hash 162857555; gap shrank 0 px; caught while moving false; roam>retreat>chase>approach>listen>search
+looked at it, then ran h 0.75 seed 2: hash 37843331; gap shrank 0 px; caught while moving false; roam>flank>approach>watch>listen>search>hunt>leave
+looked at it, then ran h 0.75 seed 3: hash 143760649; gap shrank 0 px; caught while moving false; roam>flank>approach>watch>listen>search>leave
+looked at it, then ran h 0.75 seed 4: hash 343851035; gap shrank 0 px; caught while moving false; roam>retreat>chase>approach>listen>search>watch>listen>search
+runs 40; gap shrank by over 40 px in 0; caught while moving 0

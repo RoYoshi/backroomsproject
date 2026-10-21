@@ -65,3 +65,15 @@ from the dark, by going round them, can be (`c0_audit` W at .5 and .55: one run 
 C4 measured (`C12`, both scenes, 8 seeds, after first sight): went for them at .1 / .3 / .45 / .55 / .65 / .75 / .85 / .95 = 0 / 0 / .71 /
 1 / 1 / 1 / 1 / 1 (R8: 0 / 0 / .86 / 1 / 1 / 1 / 1 / 1 - but R8 killed only .29 / .53 / .36 at .45 / .55 / .65); killed 0 / 0 / .64 / .93 /
 .93 / .93 / 1 / 1; the time to a kill falls from about 13–14 s when very hungry to about 7 s when starving.
+
+## C5 — no value changed
+
+C5 changed no value and no game code: the species file and the build are C4's, byte for byte. A guard was built and dropped: `skRanOff`
+(for 20 s after it saw somebody sprint away from it, every way of following them - an approach, a stand-off pressing in - capped at
+`SK.shadowPace` of their speed, R7's PR27 law widened beyond the lost race). It was meant to close a path by which a lead won before any race
+could be eroded; but no scene showed that erosion without it. `C10` (b) (hungry, no race, the sprinter who keeps going, winded or not)
+keeps the lead on R8, on C4 and with the guard alike (shrank by more than 40 px in 0 / 12 each); 40 more sprint-away runs at .5–.75, facing it
+or not (`tools/c5_sprint_diag.js`, `evidence/c5_sprint_diag.txt`), gave the same creature tick for tick with and without it, and no
+lead shrank in any of them on R8, here or with the guard; `tools/c0_audit.js` gave the same 12 scenes. The
+only scene it changed was the four-creature crowd (`C14`, which passes either way; its runner's sightings went from 71 to 82 kept, under the
+bound of 102). A guard whose need no scene shows is not kept (`evidence/c5_guard.patch`; the runs made with it: `evidence/c5_*_guard.*`).

@@ -1,0 +1,50 @@
+--- a/src/frameworks/nani/server/ai.skinstealer.js
++++ b/src/frameworks/nani/server/ai.skinstealer.js
+@@ -219,6 +219,7 @@
+   chaseRest: 10,                                 // seconds after a lost race before it gives chase again
+   shadowPace: .85,                               // (R7) keeping to a runner's trail after a lost race: this share of their speed (at most its free pace) - a
+                                                  //  person who keeps moving, even winded (148 px/s), keeps their lead; one who stops or turns back is reached
++  ranOff: [20, 230],                             // (C5) seen sprinting away (faster than [1] px/s, from it) within [0] s: followed at no more than shadowPace
+   leftFresh: 4,                                  // a starving one takes up a person it left at least this long ago, on fresh sight
+   // predator refinement R2: listening, belief, guesses (all UNAPPROVED)
+   hearReach: 260,                                // px a second a person may have gone since its last evidence of them: a sound farther from its
+@@ -361,6 +362,13 @@
+   if (directOk(eng, e, p.x, p.y, maxD)) { directTo(eng, e, p.x, p.y); return true; }
+   return false;
+ }
++/* (C5) somebody who ran from it (seen sprinting away within SK.ranOff[0] s) and is still moving away: whatever it is doing it goes after them
++ * no faster than SK.shadowPace of their speed - the lead a fresh runner wins stays won, winded or not (R7's law, for every way it follows, not
++ * only a lost race) */
++function skRanOff(eng, e, r, p) {
++  if (!(e.enc && e.enc.pid === r.id && eng.now - (e.enc.ranAt ?? -99) < SK.ranOff[0])) return false;
++  const d = Math.hypot(p.x - e.x, p.y - e.y); return d > 1 && ((p.x - e.x) * p.vx + (p.y - e.y) * p.vy) / d > 40;
++}
+ /* the fastest it may go now: exhausted it walks, tired it runs slower */
+ const skCap = e => e.exh ? e.sp.speeds.roam : e.stam < SK.stamLow ? e.sp.speeds.fatigued : e.sp.speeds.run;
+ const skSpeed = (e, k) => Math.min(e.sp.speeds[k] || 100, skCap(e), e.disguise ? e.sp.speeds.disguise : 1e9);   // (T6: in a skin, never faster than its walk)
+@@ -1176,6 +1184,7 @@
+   // (C3) what it has seen them do: going round something is not running from it
+   skObserve(eng, e, r); const circ = h >= SK.band[1] && !e.disguise ? skCircle(eng, e, r) : null; e.circ = circ ? Object.assign({ pid: r.id, t: now }, circ) : null;
+   const away = d > 1 ? ((p.x - e.x) * p.vx + (p.y - e.y) * p.vy) / d : 0, fleeing = !circ && (away > 200 || (away > 110 && now - (enc.eyes ?? -99) < 4)), winded = r.ex || r.stamina < 25;
++  if (fleeing && Math.hypot(p.vx, p.vy) > SK.ranOff[1]) enc.ranAt = now;                                  // (C5) it saw them sprint away
+   // (T6) in a borrowed skin it does not hide: it walks up like one of them; a hungry one drops the skin to run after somebody who flees
+   if (e.disguise && crowd === 1) {
+     if (fleeing && h >= SK.band[2] && !e.exh && e.stam >= SK.stamLow + 15 && d < SK.chaseFrom && cur !== 'chase') {
+@@ -1354,7 +1363,7 @@
+         if (!P.advT) { P.advT = now; P.adv = (P.adv || 0) + 1; }
+         if (thinkNow && !(r.seen && skAim(eng, e, p, d, 420, SK.aimLead)) && (now - (P.planT || -9) > 1 || !e.path.length)) { P.planT = now; if (directOk(eng, e, p.x, p.y, 420)) directTo(eng, e, p.x, p.y); else plan(eng, e, p.x, p.y, { why: 'stand: closing in', cost: skCover(eng, p), maxNodes: 3000 }); }
+         if (e.act !== 'approach') setAct(e, 'approach');
+-        follow(eng, e, dt, Math.min(lerp(SK.openRush[0], SK.openRush[1], sm(SK.band[1], SK.band[3], h)), skCap(e)), { arrive: SK.approachStop - 30 });
++        follow(eng, e, dt, Math.min(lerp(SK.openRush[0], SK.openRush[1], sm(SK.band[1], SK.band[3], h)), skCap(e), skRanOff(eng, e, r, p) ? Math.hypot(p.vx, p.vy) * SK.shadowPace : 1e9), { arrive: SK.approachStop - 30 });   // (C5: never gaining on one who ran off)
+         return;
+       }
+       if (P.advT) { P.advT = 0; e.dbg.why = `P${r.id} looked back: it freezes`; }
+@@ -1405,7 +1414,7 @@
+       }
+       // a still person it creeps up on; a moving one it shadows at their own pace (a little faster), so nobody simply walks away from it -
+       // (R7) except the runner who won the race: on their trail it goes a little slower than they do, so a lead won stays won while they move
+-      const sp = Math.hypot(p.vx, p.vy), creep = d < 420, pace = sp > 40 ? clamp(P.shadow ? sp * SK.shadowPace : sp + 30, e.sp.speeds.creep, SK.runFrom) : 0;
++      const sp = Math.hypot(p.vx, p.vy), creep = d < 420, pace = sp > 40 ? clamp(P.shadow || skRanOff(eng, e, r, p) ? sp * SK.shadowPace : sp + 30, e.sp.speeds.creep, SK.runFrom) : 0;   // (C5: one who ran off, too)
+       setAct(e, creep && !pace ? 'creep' : 'approach');
+       follow(eng, e, dt, pace ? Math.min(pace, skCap(e)) : skSpeed(e, creep ? 'creep' : 'stalk'), { arrive: pace ? 60 : SK.approachStop - 10 });
+       return;
