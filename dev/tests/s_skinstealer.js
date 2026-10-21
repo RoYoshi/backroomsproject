@@ -257,11 +257,12 @@ function baitRun(seed, follow) {
   const w = World(seed + 400), g = w.eng.geo;
   const p = w.player(SW.gapP.x, SW.gapP.y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
   const e = w.eng.spawn('skinstealer', SW.gapK.x, SW.gapK.y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI;
-  const R = { lureAt: -1, moved: 0, lureD: 1e9, d0: 0, endAt: -1, why: '', after: '' };
+  const R = { lureAt: -1, moved: 0, lureD: 1e9, d0: 0, endAt: -1, why: '', after: '' }; let LP = null;
   w.run(40, () => {
     const k = planOf(e);
-    if (k === 'lure' && R.lureAt < 0) { R.lureAt = w.t; R.pos = { x: e.x, y: e.y }; R.hidden = !g.los(p.x, p.y, e.x, e.y); R.d0 = Math.hypot(p.x - e.x, p.y - e.y); }
-    if (k === 'lure') { R.moved = Math.max(R.moved, Math.hypot(e.x - R.pos.x, e.y - R.pos.y)); R.lureD = Math.min(R.lureD, Math.hypot(p.x - e.x, p.y - e.y)); }
+    if (k === 'lure' && R.lureAt < 0) { R.lureAt = w.t; LP = e.plan; R.pos = { x: e.x, y: e.y }; R.hidden = !g.los(p.x, p.y, e.x, e.y); R.d0 = Math.hypot(p.x - e.x, p.y - e.y); }
+    // (that wait: predator refinement R1-R2 - the hunt can go on afterwards, and a later wait elsewhere is another one)
+    if (k === 'lure' && e.plan === LP) { R.moved = Math.max(R.moved, Math.hypot(e.x - R.pos.x, e.y - R.pos.y)); R.lureD = Math.min(R.lureD, Math.hypot(p.x - e.x, p.y - e.y)); }
     if (R.lureAt >= 0 && R.endAt < 0 && k !== 'lure') { R.endAt = w.t; R.why = e.dbg.why; R.after = k; R.huntOn = !!(e.hunt && e.hunt.pid === p.id && e.hunt.baitFailed); }
     if (follow && R.lureAt >= 0 && !p.going && w.t - R.lureAt > 1) { p.going = 1; p.look = null; p.route([{ x: 1020, y: SW.gapP.y }, { x: SW.gapK.x, y: SW.gapK.y }], 'walk'); }
     return true;
@@ -352,11 +353,14 @@ add('SK24 hearing: footsteps it really hears (a runner behind a wall) send a hun
     const p = w.player(780, 4950, { light: false, angle: Math.PI / 2 }); p.stop('stand');
     const e = w.eng.spawn('skinstealer', 1300, 5180, { hunger: .65 }); e.tier = 'near'; e.ang = 0;
     const R = { first: null, goal: null, there: null, sawFirst: false, dur: -1 };
-    let P0 = null;
+    let P0 = null, LP = null;
     w.run(30, () => {
       if (w.t > 1 && !p.going) { p.going = 1; p.route([{ x: 780, y: 5300 }], mode); }
       if (e.seenNow.has(p.id) && !R.first) R.sawFirst = true;
-      if (!R.first && e.plan && e.plan.k !== 'leave') { R.first = e.plan.k; R.why = e.dbg.why; if (e.plan.k === 'search') { P0 = e.plan; R.goal = e.plan.goal; R.there = { x: p.x, y: p.y }; R.t0 = w.t; } }
+      // (Predator refinement R2: roaming, a sound first makes it stop and listen - turned to it - and what it hears next sends it to look;
+      // that listen is recorded, and the first plan judged is the one after it)
+      if (!R.first && e.plan && e.plan.k === 'listen' && e.plan.curious) { R.listened = (R.listened || 0) + (e.plan === LP ? 0 : 1); LP = e.plan; }
+      if (!R.first && e.plan && e.plan.k !== 'leave' && !(e.plan.k === 'listen' && e.plan.curious)) { R.first = e.plan.k; R.why = e.dbg.why; if (e.plan.k === 'search') { P0 = e.plan; R.goal = e.plan.goal; R.there = { x: p.x, y: p.y }; R.t0 = w.t; } }
       if (P0 && e.plan !== P0 && R.dur < 0) R.dur = +(w.t - R.t0).toFixed(1);
       return true;
     });
@@ -365,7 +369,7 @@ add('SK24 hearing: footsteps it really hears (a runner behind a wall) send a hun
   const run = over([1, 2, 3, 4, 5, 6], s => runOnce(s, 'run')), quiet = over([1, 2, 3, 4, 5, 6], s => runOnce(s, 'crouch'));
   const went = run.filter(r => r.first === 'search' && /heard/.test(r.why) && !r.sawFirst);
   const ok = went.length >= 3 && went.every(r => r.off < 250 && r.dur > 0 && r.dur <= AI.SK.searchMax + AI.SK.searchLook[1] + .5) && quiet.every(r => !(r.first === 'search' && /heard/.test(r.why)));
-  return { ok, note: `running: ${went.length}/6 went to look (goal ${went.map(r => r.off).join('/')} px from where the runner was; each search over in ${went.map(r => r.dur).join('/')} s) | crouching: ${quiet.filter(r => r.first === 'search').length}/6 went to look`, data: { run, quiet } };
+  return { ok, note: `running: ${went.length}/6 went to look, after listening ${went.map(r => r.listened || 0).join('/')} time(s) (goal ${went.map(r => r.off).join('/')} px from where the runner was; each search over in ${went.map(r => r.dur).join('/')} s) | crouching: ${quiet.filter(r => r.first === 'search').length}/6 went to look`, data: { run, quiet } };
 });
 
 add('SK25 every plan ends and no encounter outlasts its budget: an hour-like stretch of a person wandering, running, hiding and switching the torch, against a hungry one', () => {

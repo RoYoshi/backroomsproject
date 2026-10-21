@@ -4,7 +4,7 @@
  * as a hunger is), move people as players would, and read what it did.  Every scenario that says it perceived something says how: SEEN
  * (e.seenNow), HEARD (a sound it really received: anonymous unless the engine named it), REMEMBERED (its record), GUESSED (its own belief or
  * prediction).  The people's scripts may read where the creature really is (a player's own sight of it); the creature never reads them.
- * R1: PR01-PR05, PR18-PR20 (hunger, eye contact, the hunt, the lost race). */
+ * R1: PR01-PR05, PR18-PR20 (hunger, eye contact, the hunt, the lost race).  R2: PR08-PR16 (listening, belief, guesses, failed guesses). */
 'use strict';
 const { World, DT, LONG, over, rate, AI, floorNear, bystander } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -187,6 +187,177 @@ add('PR20 a failed chase, then a reacquisition only on new evidence: a runner wh
   // roams, is a new encounter on new evidence - reported, allowed)
   const okGone = gone.filter(r => r.lostAt >= 0 && /no sign|cold|guessed wrong|searched|gives up/.test(r.end) && !(r.killAt >= 0 && r.killAt <= r.endAt)).length;
   return { ok: okBack >= 5 && okGone >= 7, note: `stopped in view: hunted again ${okBack}/6 (stopped at ${back.map(r => r.stopAt).join('/')} s, hunted on sight at ${back.map(r => r.reAt).join('/')} s; killed ${back.map(r => r.killed).join('/')}) | out of sight, silent: let go ${okGone}/8 at ${gone.map(r => r.endAt).join('/')} s (${[...new Set(gone.map(r => '"' + r.end + '"'))].join(', ')}); met again later while roaming and killed ${gone.map(r => r.killed).join('/')}`, data: { back, gone } };
+});
+
+/* ---------------------------------------------------------------- R2: listening, belief, guesses */
+/* the dark south-west (wall A x 976..1072 with a gap at y 5300..5460; wall B y 5018..5066; wall C x 1552..1648 with a gap at y
+ * 5498..5642): a person with a torch at (1300, 5600) walks north past wall C's gap, where a hungry one at (2100, 5560), 800 px east, sees
+ * them at once; past y 5440 the torch goes off; at (1300, 5150), just short of wall B, their way parts (WAYS[way], at `mode`); at its end
+ * they crouch, still.  o.on(t, p, e, R) adds a scene's own moves.  Ten times a second the trace keeps where it is and what plan it has,
+ * next to everything it has sensed (its sight of them, its record, every sound and lead it holds, its level of detail): the evidence. */
+const WAYS = { east: [{ x: 1720, y: 4900 }], back: [{ x: 1150, y: 5380 }, { x: 900, y: 5380 }, { x: 700, y: 5330 }],
+  north: [{ x: 1250, y: 4870 }, { x: 480, y: 4870 }], northEast: [{ x: 1250, y: 4870 }, { x: 2080, y: 4870 }] };
+function sw(seed, h, way, mode, T, o = {}) {
+  const w = World(seed + 3000); bystander(w, 8400, 900);
+  const p = w.player(1300, 5600, { light: true, angle: -Math.PI / 2 }); p.stop('stand');
+  const e = w.eng.spawn('skinstealer', 2100, 5560, { hunger: h }); e.tier = 'near'; e.ang = Math.PI;
+  const R = { tr: [], parted: 1e9, partedT: -1, lostAt: -1, guesses: [], killT: -1, firstSeen: -1, maxTries: 0, heardBeforeLoss: 0 };
+  let lastP = null;
+  w.run(T, (ww, t) => {
+    if (t > .5 && !p.going) { p.going = 1; p.route([{ x: 1300, y: 5420 }, { x: 1300, y: 5150 }], 'walk'); }
+    if (p.going === 1 && p.path && !p.path.length) { p.going = 2; R.parted = R.tr.length; R.partedT = +t.toFixed(2); p.route((o.ways || WAYS)[way], mode); }
+    if (p.going === 2 && p.path && !p.path.length) { p.going = 3; if (o.then) o.then(p); else p.stop('crouch'); }
+    if (p.light && p.y < 5440) p.light = false;
+    if (o.on) o.on(t, p, e, R);
+    const r = e.mem.p.get(p.id), H = e.hunt, P = e.plan, seen = e.seenNow.has(p.id);
+    if (seen && R.firstSeen < 0) R.firstSeen = t;
+    if (R.lostAt < 0 && H && !seen) R.lostAt = +t.toFixed(2);
+    if (H) { R.maxTries = Math.max(R.maxTries, H.tries); R.had = 1; } else if (R.had === 1 && e.dbg.huntEnd) { R.had = 2; R.firstEnd = { why: e.dbg.huntEnd.why, at: +t.toFixed(1) }; }   // (its first hunt, and how that ended)
+    const ev = [seen ? 1 : 0, r ? [r.heardAt, r.seenAt, r.hx, r.hy, r.lkx, r.lky, r.lvx, r.lvy].map(v => Math.round(v * 10)).join(':') : '-',
+      e.mem.sounds.map(q => `${q.id}:${Math.round(q.x)}:${Math.round(q.y)}`).join(';'), e.mem.leads.map(q => `${q.id}:${Math.round(q.x)}:${Math.round(q.y)}`).join(';'), e.tier].join('|');
+    R.tr.push([Math.round(e.x * 10), Math.round(e.y * 10), ev, P ? P.k : '-'].join(','));
+    if (P && P !== lastP && (P.k === 'intercept' || P.k === 'search')) {
+      const g = P.k === 'intercept' ? { x: P.g.qx, y: P.g.qy } : P.goal;
+      R.guesses.push({ t: +t.toFixed(1), k: P.k, x: Math.round(g.x), y: Math.round(g.y), why: e.dbg.why, guess: e.dbg.guess ? e.dbg.guess.k : '', heard: e.tally.heardQ, conf: H ? +H.conf.toFixed(2) : 0 });
+    }
+    if (P && lastP && P.k !== lastP.k && lastP.k === 'intercept' && R.guesses.length) R.guesses[R.guesses.length - 1].after = { k: P.k, why: e.dbg.why, conf: H ? +H.conf.toFixed(2) : 0 };
+    lastP = P;
+    if (R.killT < 0 && w.kills.length) R.killT = +t.toFixed(1);
+    return true;
+  });
+  Object.assign(R, { e, p, w, end: e.dbg.huntEnd ? { why: e.dbg.huntEnd.why, at: +(e.dbg.huntEnd.at - 60).toFixed(1) } : null, tally: e.tally });
+  return R;
+}
+/* the evidence law between two runs of one seed: the same position and plan at every tick until either one's evidence differs.  The tick
+ * the evidence first differed, or -1 if what it did differed first */
+function sameUntilSensed(A, B) {
+  const n = Math.min(A.tr.length, B.tr.length);
+  for (let i = 0; i < n; i++) { const a = A.tr[i].split(','), b = B.tr[i].split(','); if (a[2] !== b[2]) return i; if (a[0] !== b[0] || a[1] !== b[1] || a[3] !== b[3]) return -1; }
+  return n;
+}
+const lawOk = (A, B) => { const i = sameUntilSensed(A, B); return i >= 0 && i >= Math.min(A.parted, B.parted); };
+
+add('PR08 seen once walking north, then out of sight: it guesses a way on through the level, ahead of where it saw them; where they really went (unsensed) changes nothing it does until it senses a difference', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const A = sw(seed, .8, 'east', 'crouch', 14), B = sw(seed, .8, 'back', 'crouch', 14), g = A.guesses[0];
+    const fwd = g ? -(g.y - 5430) / Math.max(1, Math.hypot(g.x - 1300, g.y - 5430)) : -1, dd = g ? Math.round(Math.hypot(g.x - 1300, g.y - 5430)) : 0;
+    return { law: lawOk(A, B), diverged: sameUntilSensed(A, B), parted: Math.min(A.parted, B.parted), g, ok: !!g && A.w.eng.geo.clear(g.x, g.y, 24, 'walk') && dd >= 200 && fwd >= 0, fwd: +fwd.toFixed(2), dd };
+  });
+  const guessed = rs.filter(r => r.g);
+  return { ok: rs.every(r => r.law) && guessed.length >= 6 && guessed.filter(r => r.ok).length >= guessed.length - 1,
+    note: `the same until it sensed a difference: ${rs.filter(r => r.law).length}/8 (ticks ${rs.map(r => r.diverged + '/' + r.parted).join(' ')}, evidence first differing / the ways parting) | first guess ${guessed.map(r => r.g.k + ' (' + r.g.x + ', ' + r.g.y + ')').join(', ')}: on open floor, 200 px or more on, not behind them ${guessed.filter(r => r.ok).length}/${guessed.length}`, data: rs.map(r => ({ law: r.law, g: r.g, fwd: r.fwd, dd: r.dd })) };
+});
+
+add('PR09 the fork at wall B: its first guess (east round wall B, or north-west) is the same whichever way they really take, and differs between seeds - so it is sometimes wrong either way', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], seed => {
+    const A = sw(seed, .8, 'east', 'walk', 5), B = sw(seed, .8, 'back', 'walk', 5), a = A.guesses[0], b = B.guesses[0];
+    return { a, b, same: !!a && !!b && a.x === b.x && a.y === b.y && a.t === b.t, east: a ? a.x > 1450 : null };
+  });
+  const g = rs.filter(r => r.a), east = g.filter(r => r.east).length;
+  return { ok: g.length >= 9 && g.every(r => r.same) && east >= 1 && east <= g.length - 1,
+    note: `${g.length}/12 guessed at once; the same guess whichever way they went ${g.filter(r => r.same).length}/${g.length}; east ${east}, other ${g.length - east} - wrong for somebody going east in ${g.length - east}, for somebody doubling back in all ${g.length} (${g.map(r => r.a.x + ',' + r.a.y).join(' ')})`, data: rs };
+});
+
+add('PR10 a wrong interception with nothing more to go on: it remembers the place, its confidence falls, its next guesses go elsewhere, and the hunt ends for that reason - never the same empty corner again', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const R = sw(seed, .8, 'back', 'crouch', 60), G = R.guesses, iw = G.findIndex(q => q.after && /guessed wrong/.test(q.after.why));
+    const later = iw < 0 ? [] : G.slice(iw + 1), repeat = later.some(q => G.slice(0, G.indexOf(q)).some(f => Math.hypot(f.x - q.x, f.y - q.y) < 150));
+    return { judged: iw >= 0, repeat, confBefore: iw >= 0 ? G[iw].conf : -1, confAfter: iw >= 0 ? G[iw].after.conf : -1, n: G.length, tries: R.maxTries, end: R.end ? R.end.why : '-', endAt: R.end ? R.end.at : -1, killed: R.w.kills.length, hunting: !!R.e.hunt, heard: R.tally.heardQ };
+  });
+  const j = rs.filter(r => r.judged), ok = j.filter(r => !r.repeat && r.confAfter < r.confBefore && !r.hunting && r.tries <= 4 && (r.killed || /gives up/.test(r.end)));
+  return { ok: j.length >= 5 && ok.length === j.length,
+    note: `${j.length}/8 guessed wrong with nothing heard after (${j.map(r => r.heard).join('/')} sounds taken for theirs): no place guessed twice ${j.filter(r => !r.repeat).length}/${j.length}, confidence ${j.map(r => r.confBefore + '>' + r.confAfter).join(' ')}, guesses ${j.map(r => r.n).join('/')}, the hunt over at ${j.map(r => r.endAt).join('/')} s (${[...new Set(j.map(r => '"' + r.end + '"'))].join(', ')}); killed ${j.reduce((a, r) => a + r.killed, 0)}`, data: rs };
+});
+
+add('PR11 doubling back: footsteps it really hears on the other way turn its guess toward them; the same doubling back made silently turns nothing - and the two runs are the same creature until the first sound', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const L = sw(seed, .8, 'back', 'run', 30), Q = sw(seed, .8, 'back', 'crouch', 30);
+    const turned = L.guesses.some(q => q.heard > 0 && q.x < 1250) || L.tally.revise > 0;
+    return { law: lawOk(L, Q), heard: L.tally.heardQ, revise: L.tally.revise, turned, qHeard: Q.tally.heardQ, qRevise: Q.tally.revise, killed: L.w.kills.length + '/' + Q.w.kills.length, lg: L.guesses.map(q => q.k + '@' + q.x + ',' + q.y).join(' '), qg: Q.guesses.map(q => q.k + '@' + q.x + ',' + q.y).join(' ') };
+  });
+  const heard = rs.filter(r => r.heard > 0);
+  return { ok: rs.every(r => r.law) && heard.length >= 5 && heard.filter(r => r.turned).length >= 4 && rs.every(r => r.qHeard === 0 && r.qRevise === 0),
+    note: `the same until a sound differed: ${rs.filter(r => r.law).length}/8 | running back: heard and took for theirs in ${heard.length}/8 (${rs.map(r => r.heard).join('/')} sounds), turned its guess toward them in ${heard.filter(r => r.turned).length} (revisions ${rs.map(r => r.revise).join('/')}) | crouching back: sounds taken ${rs.map(r => r.qHeard).join('/')}, revisions ${rs.map(r => r.qRevise).join('/')}; killed ${rs.map(r => r.killed).join(' ')}`, data: rs };
+});
+
+add('PR12 footsteps behind a wall, nobody seen: it stops, turns to the sound and listens, then goes quietly to look - and nobody is named: no record, no plan about a person, until it sees them', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const w = World(seed + 3200);
+    const p = w.player(780, 4950, { light: false, angle: Math.PI / 2 }); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', 1300, 5180, { hunger: .7 }); e.tier = 'near'; e.ang = 0;
+    const R = { heard: 0, listen: 0, look: 0, named: 0, seenAt: -1, ks: [] };
+    w.run(16, (ww, t) => {
+      if (t > 1 && !p.going) { p.going = 1; p.route([{ x: 780, y: 5300 }, { x: 600, y: 5900 }], 'run'); }
+      if (e.seenNow.has(p.id) && R.seenAt < 0) R.seenAt = t;
+      if (R.seenAt < 0) {
+        if (e.mem.sounds.length) R.heard = e.mem.sounds.length;
+        if (e.mem.p.has(p.id) || (e.plan && e.plan.pid === p.id) || (e.hunt && e.hunt.pid === p.id)) R.named++;   // a name before a sighting: never
+        const P = e.plan; if (P && (!R.ks.length || R.ks[R.ks.length - 1] !== P.k)) R.ks.push(P.k);
+        if (P && P.k === 'listen' && P.curious) R.listen = 1; if (P && P.k === 'search' && !P.pid && R.listen) R.look = 1;
+      }
+      return true; });
+    return R;
+  });
+  const h = rs.filter(r => r.heard);
+  return { ok: rs.every(r => r.named === 0) && h.length >= 5 && h.filter(r => r.listen).length >= 5 && h.filter(r => r.look).length >= 4,
+    note: `heard footsteps before seeing anybody in ${h.length}/8: it stopped and listened ${h.filter(r => r.listen).length}, then went to look ${h.filter(r => r.look).length} (${[...new Set(h.map(r => r.ks.join('>')))].join(' | ')}); a person named before it saw them: ${rs.reduce((a, r) => a + r.named, 0)} ticks; saw them at ${rs.map(r => r.seenAt < 0 ? '-' : r.seenAt.toFixed(1)).join('/')} s`, data: rs };
+});
+
+add('PR13 a silent croucher in the dark beyond its sight escapes its guesses: two hiding places it never senses (either end of the north passage, off the way it saw them going) give the same creature, and in both it gives up for a stated reason', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const A = sw(seed, .95, 'north', 'crouch', 70), B = sw(seed, .95, 'northEast', 'crouch', 70);
+    // its first hunt of them (begun on the sighting) ends for want of evidence, nobody caught during it; a later chance meeting while it
+    // roams is a new encounter on new evidence (reported).  Runs where it never saw them are not judged
+    const gave = R => !!R.firstEnd && /gives up/.test(R.firstEnd.why) && !(R.killT >= 0 && R.killT <= R.firstEnd.at);
+    return { judged: A.lostAt >= 0 && B.lostAt >= 0, law: lawOk(A, B), a: gave(A), b: gave(B), why: [A.firstEnd ? A.firstEnd.why : '-', B.firstEnd ? B.firstEnd.why : '-'], at: [A.firstEnd ? A.firstEnd.at : -1, B.firstEnd ? B.firstEnd.at : -1], killed: [A.w.kills.length, B.w.kills.length], heard: [A.tally.heardQ, B.tally.heardQ] };
+  });
+  const j = rs.filter(r => r.judged);
+  return { ok: rs.every(r => r.law) && j.length >= 6 && j.filter(r => r.a).length >= j.length - 1 && j.filter(r => r.b).length >= j.length - 1,
+    note: `the same until it sensed a difference: ${rs.filter(r => r.law).length}/8 | ${j.length}/8 hunted them; gave up: the north passage's west end ${j.filter(r => r.a).length}/${j.length}, its east end ${j.filter(r => r.b).length}/${j.length}, at ${j.map(r => r.at.join('|')).join(' ')} s (${[...new Set(j.flatMap(r => r.why).map(w => '"' + w + '"'))].slice(0, 4).join(', ')}); killed in the run (in that hunt, or met again later) ${j.map(r => r.killed.join('|')).join(' ')}; sounds taken ${j.map(r => r.heard.join('|')).join(' ')}`, data: rs };
+});
+
+add('PR14 a misleading sound: they run on east (it hears it), then crouch back west in silence - it follows what it heard and can be fooled; it does not always find the one who doubled back', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const R = sw(seed, .9, 'feint', 'run', 60, { ways: Object.assign({ feint: [{ x: 1480, y: 5120 }] }, WAYS), then: p => { p.going = 4; p.route(WAYS.back, 'crouch'); }, on: (t, p) => { if (p.going === 4 && p.path && !p.path.length) { p.going = 5; p.stop('crouch'); } } });
+    const fooled = !R.w.kills.length && R.end && /gives up/.test(R.end.why), east = R.guesses.filter(q => q.heard > 0 && q.x > 1350).length;
+    return { fooled, heard: R.tally.heardQ, east, killed: R.w.kills.length, end: R.end ? R.end.why : '-', at: R.end ? R.end.at : -1, g: R.guesses.map(q => q.k + '@' + q.x + ',' + q.y).join(' ') };
+  });
+  const f = rs.filter(r => r.fooled).length, k = rs.filter(r => r.killed).length;
+  return { ok: rs.filter(r => r.heard > 0).length >= 5 && f >= 3 && k < 8,
+    note: `took the running for theirs in ${rs.filter(r => r.heard > 0).length}/8 (guessed east after hearing in ${rs.filter(r => r.east > 0).length}) | fooled (gave up, nobody caught) ${f}/8, found the one who doubled back ${k}/8 (${[...new Set(rs.map(r => '"' + r.end + '"'))].slice(0, 3).join(', ')})`, data: rs };
+});
+
+add('PR15 a run of footsteps it hears out of sight keeps its belief near them (closer than with silence); with nothing heard its belief only carries on from the last sighting - silent steps and old sounds steer nothing', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const err = (mode) => { let sum = 0, n = 0, listen = 0; const R = sw(seed, .8, 'east', mode, 14, { on: (t, p, e) => {
+      const H = e.hunt; if (H && H.pid === p.id && !e.seenNow.has(p.id) && p.going >= 2) { sum += Math.hypot(H.x - p.x, H.y - p.y); n++; }   // (H.x, H.y: the place its evidence puts them)
+      if (e.plan && e.plan.k === 'listen') listen = 1; } });
+      return { mean: n ? Math.round(sum / n) : -1, n, heard: R.tally.heardQ, killed: R.w.kills.length, listen }; };
+    return { run: err('run'), quiet: err('crouch') };
+  });
+  const both = rs.filter(r => r.run.n > 20 && r.quiet.n > 20), closer = both.filter(r => r.run.mean < r.quiet.mean);
+  return { ok: both.length >= 5 && closer.length >= Math.ceil(both.length * .7) && rs.every(r => r.quiet.heard === 0) && rs.filter(r => r.run.heard >= 2).length >= 5,
+    note: `sounds taken for theirs: running ${rs.map(r => r.run.heard).join('/')}, crouching ${rs.map(r => r.quiet.heard).join('/')} | its belief's mean distance from them while unseen: running ${both.map(r => r.run.mean).join('/')} px, crouching ${both.map(r => r.quiet.mean).join('/')} px - closer with the sounds in ${closer.length}/${both.length}`, data: rs };
+});
+
+add('PR16 a sound that no person made (a thud in the dark): it listens and goes to look, the look ends by itself, and nobody is invented - no record, no hunt, no strike', () => {
+  const rs = over([1, 2, 3, 4, 5, 6], seed => {
+    const w = World(seed + 3600), far = w.player(600, 3900, { light: false }); far.stop('crouch');   // somebody 1700 px off, behind walls, still (the creature stays fully awake)
+    const e = w.eng.spawn('skinstealer', 1500, 5300, { hunger: .7 }); e.tier = 'near';
+    const R = { listen: -1, look: -1, lookEnd: -1, recs: 0, hunts: 0, strikes: 0, n: 0 }; let P0 = null;
+    w.run(30, (ww, t) => {
+      if ((R.n === 0 && t >= 2) || (R.n === 1 && t >= 2.8)) { R.n++; w.eng.sound({ x: 1100 + R.n * 20, y: 5650, r: 1100, I: .8, type: 'thud', src: -1 }); }   // (twice, the same place: a door banging)
+      const P = e.plan;
+      if (P && P.k === 'listen' && P.curious && R.listen < 0 && t > 2) R.listen = +t.toFixed(1);
+      if (P && P.k === 'search' && !P.pid && R.look < 0 && t > 2) { R.look = +t.toFixed(1); P0 = P; }
+      if (P0 && e.plan !== P0 && R.lookEnd < 0) R.lookEnd = +t.toFixed(1);
+      R.recs = Math.max(R.recs, [...e.mem.p.keys()].filter(id => id !== far.id).length); if (e.hunt) R.hunts++; if (e.pounce) R.strikes++;
+      return true; });
+    R.dur = R.lookEnd > 0 ? +(R.lookEnd - R.look).toFixed(1) : -1; return R;
+  });
+  const went = rs.filter(r => r.listen > 0 && r.look > 0);
+  return { ok: went.length >= 4 && went.every(r => r.dur > 0 && r.dur <= AI.SK.searchMax + AI.SK.searchLook[1] + .5) && rs.every(r => r.recs === 0 && r.hunts === 0 && r.strikes === 0),
+    note: `listened ${rs.filter(r => r.listen > 0).length}/6, went to look ${went.length}/6 (looks over in ${went.map(r => r.dur).join('/')} s) | records of a person 0, hunts 0, strikes 0: ${rs.every(r => r.recs === 0 && r.hunts === 0 && r.strikes === 0)}`, data: rs };
 });
 
 module.exports = S;

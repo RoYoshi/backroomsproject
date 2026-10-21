@@ -116,7 +116,17 @@
  *     hungry, it breaks their line of sight to FLANK (a spot to the side they cannot see, no farther than it is) and comes at them from
  *     there; starving, it comes on openly or flanks and rarely backs off.  A lost race no longer ends a hungry one's hunt: it may not give
  *     chase again for SK.chaseRest and keeps to the trail at its free walking pace.  A starving one may take up a person it left
- *     SK.leftFresh ago on fresh sight, within the effort it has left for them. */
+ *     SK.leftFresh ago on fresh sight, within the effort it has left for them.
+ *   R2 LISTENING AND BELIEF: out of sight every footstep is anonymous (the engine names a sound only while the person is seen).  On
+ *     each think the hunt asks of every new body sound it heard (a person's it cannot name; never a creature's): could my quarry be there
+ *     by now (within the belief's uncertainty plus SK.hearReach px a second since the last evidence)?  If so it moves its belief to that
+ *     fuzzy place, takes a heading from the last evidence to it and firms its confidence (SK.hearConf).  It names nobody: somebody else
+ *     making noise there fools it, fairly.  Its guesses (skGuess) come from that belief only: the way it predicts they went (Trial 3's
+ *     route, now skRoute, with the same draws), after that has failed the other way at the same turn, where it believes they are, or the
+ *     place it last had them; a place near a failed guess (SK.failedNear, remembered SK.failedTtl) is not tried again and each failure
+ *     costs confidence (SK.wrongCost).  A sound that fits, away from its current guess, revises an interception or a search (at most
+ *     SK.reviseMax in a hunt); no sound, no revision.  Roaming, a sound makes it stop, turn its head to it and listen (SK.curious); a
+ *     second sound that fits the first, or one strong first (SK.curiousStrong), sends it to look - anonymous throughout. */
 const KACT = { '': 0, watch: 1, back: 2, leave: 3, wait: 4, lure: 5, intercept: 6, search: 7, listen: 8, approach: 9, creep: 10, chase: 11, wind: 12, pounce: 13, recover: 14, feed: 15, mimic: 16, rest: 17, pace: 18 };
 /* the balance table (proposed; every value is named so it can be tested and tuned) */
 const SK = Object.freeze({
@@ -189,14 +199,23 @@ const SK = Object.freeze({
   defBase: .35, defCornered: .4, defPerWithdraw: .2, defAggr: .5, defHunger: .3, defTired: .2,   // the odds of striking rather than withdrawing (kept within .1-.95)
   // predator refinement R1: the hunt (dev/trial-3-predator-refinement/BALANCE_TABLE.md; all UNAPPROVED)
   carryHalf: 90,                                 // seconds for the effort it has spent on a person (kept across its departures) to halve
-  forget: [8, 24],                               // seconds without any evidence of its quarry before the hunt is given up (not hungry .. starving)
+  forget: [10, 30],                              // seconds without any evidence of its quarry before the hunt is given up (not hungry .. starving; R1 had 8 .. 24)
   huntLow: .15,                                  // the confidence under which a hunt is over
-  huntTries: 3,                                  // searches of where it believes them in one hunt
+  huntTries: [2, 4],                             // guesses (interceptions, searches) in one hunt: hungry .. starving (R2; R1 had 3)
   listenLost: [.6, 1.6],                         // seconds it stands and listens when its quarry has gone (shorter when starving)
   flankMax: 3, flankDur: 8, flankMin: 220,       // flanks in one hunt; the longest a flank lasts; the nearest to them a flank spot is
   flankCome: 6,                                  // seconds it comes on from a flank toward where it believes them before it stops to listen
   chaseRest: 10,                                 // seconds after a lost race before it gives chase again
   leftFresh: 4,                                  // a starving one takes up a person it left at least this long ago, on fresh sight
+  // predator refinement R2: listening, belief, guesses (all UNAPPROVED)
+  hearReach: 260,                                // px a second a person may have gone since its last evidence of them: a sound farther from its
+                                                 //  belief than that (plus both uncertainties) is not taken for theirs
+  hearConf: [.45, .85],                          // the confidence a sound that fits gives the hunt (quiet .. loud; a sighting gives 1)
+  failedTtl: 60, failedNear: 200,                // seconds a failed guess is remembered (at most 4); how near a failed place another guess may not be
+  wrongCost: .15,                                // the confidence a failed guess costs
+  reviseMax: 3,                                  // revisions of its guess on a new sound, in one hunt
+  curious: [.8, 1.8], curiousStrong: .45,        // roaming: seconds it stops and listens after a sound; a first sound this strong is looked at alone
+                                                 //  (x 1 .. .4 from mildly hungry to hungry)
 });
 /* (T6) the generic calls, used only when it has heard nothing it may repeat: none of them claims to know anything about anybody */
 const SK_BAIT = Object.freeze(['hello?', 'is someone there?', 'over here', 'wait for me', 'can you help me?', "i'm lost", 'this way']);
@@ -241,7 +260,7 @@ const SKIN = {
     e.awRng = mkRng(deriveSeed(eng.seed, 'skinstealer-aware', e.id));                           // (B1) its own stream: noticing never moves its other choices
     e.hunt = null; e.spent = new Map();                                                         // (R1) its hunt; the effort it has spent on each person
     e.huntRng = mkRng(deriveSeed(eng.seed, 'skinstealer-hunt', e.id));                          // (R1) its own stream: how it goes about a hunt never moves its other choices
-    Object.assign(e.tally, { hunt: 0, huntCold: 0, huntSpent: 0, flank: 0, shadow: 0, listenLost: 0, reengage: 0 });
+    Object.assign(e.tally, { hunt: 0, huntCold: 0, huntSpent: 0, flank: 0, shadow: 0, listenLost: 0, reengage: 0, heardQ: 0, revise: 0, wrong: 0, alt: 0, curious: 0, curiousDrop: 0 });
   },
   /* the engine's hooks (ai.engine.js): it never borrows a Hound's or a Smiler's own functions */
   onFar(eng, e) {
@@ -377,6 +396,7 @@ function skHuntBegin(eng, e, r, why) {
   const H = e.hunt; if (H && H.pid === r.id) return H;
   e.hunt = { pid: r.id, t0: eng.now, evAt: eng.now, ev: r.seen ? 'seen' : 'remembered', x: r.lkx, y: r.lky, vx: r.lvx, vy: r.lvy, bt: eng.now, u: r.seen ? 20 : 120,
     conf: r.seen ? 1 : Math.max(.3, r.conf), flanks: 0, tries: 0, failed: [], raceAt: -99, listenAt: -99, why, sid: e.mem.soundId || 0, heard: 0, revised: 0,
+    hAt: -99, badA: [], altTried: 0, guess: '',                                       // (R2) its last heard evidence; first turns that failed; the other way tried
     // the way it prefers to answer being seen, this time: going round them, or backing round a corner to lure them (the hungrier, the more
     // often round them); the other is tried when the first has failed
     style: skStyle(e) }; e.styleNext = '';
@@ -384,17 +404,45 @@ function skHuntBegin(eng, e, r, why) {
   return e.hunt;
 }
 function skHuntEnd(eng, e, why) { if (!e.hunt) return; e.dbg.huntEnd = { pid: e.hunt.pid, why: String(why || '').slice(0, 90), at: +eng.now.toFixed(1) }; e.hunt = null; }
-/* on its think: what it knows of its quarry now - its own sight (the body itself), otherwise its confidence fades (R2: sounds) */
+/* on its think: what it knows of its quarry now - its own sight (the body itself); otherwise (R2) the body sounds it has heard since its
+ * last think that fit where they could be by now; its confidence fades between */
 function skHuntTick(eng, e, dt) {
   const H = e.hunt; if (!H) return;
-  const r = e.mem.p.get(H.pid);
+  const r = e.mem.p.get(H.pid), now = eng.now;
   if (!r || tgtGone(eng, e, r)) { skHuntEnd(eng, e, 'its quarry is gone'); return; }
-  if (r.seen && r.visual) { const v = r.visual; H.x = v.x; H.y = v.y; H.vx = v.vx; H.vy = v.vy; H.bt = eng.now; H.u = 20; H.conf = 1; H.evAt = eng.now; H.ev = 'seen'; return; }
+  for (let i = H.failed.length - 1; i >= 0; i--) if (now - H.failed[i].t > SK.failedTtl) H.failed.splice(i, 1);   // (R2) an old failure is forgotten
+  if (r.seen && r.visual) { const v = r.visual; H.x = v.x; H.y = v.y; H.vx = v.vx; H.vy = v.vy; H.bt = now; H.u = 20; H.conf = 1; H.evAt = now; H.ev = 'seen'; H.sid = e.mem.soundId || 0; H.badA.length = 0; return; }
+  // (R2) oldest first; a creature's sound (src -1) is never theirs, nor one named for somebody else; nothing here names anybody
+  const S = e.mem.sounds;
+  for (let i = S.length - 1; i >= 0; i--) { const q = S[i]; if (q.id <= H.sid) continue; H.sid = q.id; if ((q.src === 0 || q.pid === H.pid) && skFits(H, q)) skHeardQuarry(e, H, q); }
   H.conf = Math.max(0, H.conf - dt / skForget(e));
 }
+/* (R2) could the quarry have made that sound: is it within reach of the last evidence (both uncertainties, and the way a person can go since) */
+const skFits = (H, q) => Math.hypot(q.x - H.x, q.y - H.y) <= Math.min(1800, H.u + q.u + 60 + SK.hearReach * Math.max(0, q.t - H.bt));
+/* (R2) a sound taken for theirs: the belief moves to where it heard it (fuzzy, as the sound is), with a heading from the last evidence */
+function skHeardQuarry(e, H, q) {
+  const dt = q.t - H.bt, moved = Math.hypot(q.x - H.x, q.y - H.y);
+  if (dt > .25 && dt < 3 && moved > .6 * (q.u + H.u)) {                            // a heading only from a move larger than the sounds' own fuzz
+    let vx = (q.x - H.x) / dt, vy = (q.y - H.y) / dt; const sp = Math.hypot(vx, vy); if (sp > 300) { vx *= 300 / sp; vy *= 300 / sp; }
+    const k = H.ev === 'seen' ? .35 : .5; H.vx = lerp(H.vx, vx, k); H.vy = lerp(H.vy, vy, k);
+  } else if (dt >= 3) { H.vx *= .5; H.vy *= .5; }
+  H.x = q.x; H.y = q.y; H.u = q.u; H.bt = q.t; H.evAt = q.t; H.ev = 'heard'; H.hAt = q.t; H.heard++; e.tally.heardQ++; H.badA.length = 0;   // (new evidence: its turns are thought afresh)
+  H.conf = Math.max(H.conf, lerp(SK.hearConf[0], SK.hearConf[1], clamp(q.I, 0, 1)));
+}
+/* (R2) open floor at or near a point (rings of 8 out to 200 px; the level's shape only), or null */
+function skFloorNear(eng, e, x, y) {
+  const geo = eng.geo, c = e.rc + 2; if (geo.clear(x, y, c, 'walk')) return { x, y };
+  for (let R = 40; R <= 200; R += 40) for (let k = 0; k < 8; k++) { const a = k * Math.PI / 4, qx = x + Math.cos(a) * R, qy = y + Math.sin(a) * R; if (geo.clear(qx, qy, c, 'walk')) return { x: qx, y: qy }; }
+  return null;
+}
+/* (R2) its belief as a record of the kind skPredict reads (a place, a heading, when): its own evidence, never the engine's record */
+const skBeliefRec = H => ({ id: H.pid, lkx: H.x, lky: H.y, lvx: H.vx, lvy: H.vy, seenAt: H.bt, heardAt: H.bt });
+function skFailed(H, x, y, now, k) { H.failed.push({ x: Math.round(x), y: Math.round(y), t: now, k }); while (H.failed.length > 4) H.failed.shift(); }
+function skBadTurn(H, a) { H.badA.push(a); while (H.badA.length > 3) H.badA.shift(); }
 /* (R1) its preferred answer to being seen, drawn once for the next hunt from its own stream */
 const skStyle = e => e.styleNext || (e.styleNext = e.huntRng() < lerp(.3, .75, sm(.4, .8, e.hunger)) ? 'flank' : 'bait');
 const skForget = e => lerp(SK.forget[0], SK.forget[1], e.hunger) * (.85 + .3 * e.tr.PERSISTENCE);
+const skTries = e => Math.round(lerp(SK.huntTries[0], SK.huntTries[1], sm(.4, .95, e.hunger)));   // (R2) guesses in one hunt
 /* where it believes its quarry is now: the last evidence carried along their heading (not through a wall), the uncertainty growing */
 function skBelief(eng, e, H) {
   const age = Math.max(0, eng.now - H.bt), sp = Math.hypot(H.vx, H.vy);
@@ -428,17 +476,47 @@ function skFlankSpot(eng, e, p, d) {
   }
   return null;
 }
-/* the hunt has no plan and the quarry is out of sight: listen first, then go where it believes them; or give up for a reason */
-function skHuntNext(eng, e) {
-  const H = e.hunt, now = eng.now, r = e.mem.p.get(H.pid);
+/* the hunt has no plan and the quarry is out of sight: listen first, then its next guess (skGuess); or give up for a reason.  pre: what
+ * ended the last step (it begins the reason given) */
+function skHuntNext(eng, e, pre) {
+  const H = e.hunt, now = eng.now, r = e.mem.p.get(H.pid), P0 = pre ? pre + ': ' : '';
   if (!r || tgtGone(eng, e, r)) { skHuntEnd(eng, e, 'its quarry is gone'); return; }
   const age = Math.round(now - H.evAt);
-  if (e.exh) { skLeave(eng, e, r, `exhausted: it lets P${r.id} go`); return; }
-  if (H.conf < SK.huntLow) { e.tally.huntCold++; skLeave(eng, e, r, `no sign of P${r.id} for ${age} s: it gives up`); return; }
-  if (now - H.listenAt > 6) { skListenLost(eng, e, r, `it has lost P${r.id}: it stands still and listens`); return; }
-  if (H.tries >= SK.huntTries) { e.tally.huntCold++; skLeave(eng, e, r, `it searched for P${r.id} ${H.tries} times: it gives up`); return; }
-  H.tries++; const B = skBelief(eng, e, H);
-  skSearch(eng, e, r, `it goes to where it believes P${r.id} is (${H.ev} ${age} s ago)`, { x: B.x, y: B.y });
+  if (e.exh) { skLeave(eng, e, r, `${P0}exhausted: it lets P${r.id} go`); return; }
+  if (H.conf < SK.huntLow) { e.tally.huntCold++; skLeave(eng, e, r, `${P0}no sign of P${r.id} for ${age} s: it gives up`); return; }
+  if (now - H.listenAt > 6) { skListenLost(eng, e, r, `${P0}it has lost P${r.id}: it stands still and listens`); return; }
+  if (H.tries >= skTries(e)) { e.tally.huntCold++; skLeave(eng, e, r, `${P0}it searched for P${r.id} ${H.tries} times: it gives up`); return; }
+  const G = skGuess(eng, e, H);
+  if (!G) { e.tally.huntCold++; skLeave(eng, e, r, `${P0}nowhere left to look for P${r.id}: it gives up`); return; }
+  H.tries++; H.guess = G.k;
+  if (G.k === 'intercept') { skIntercept(eng, e, r, G.g, P0); return; }
+  if (G.k === 'alt') { H.altTried = now; e.tally.alt++; }
+  skSearch(eng, e, r, P0 + (G.k === 'alt' ? `it tries the other way P${r.id} could have gone` : G.k === 'route' ? `it goes the way it thinks P${r.id} went (${H.ev} ${age} s ago)` : G.k === 'last' ? `it goes back to where it last had P${r.id} (${H.ev} ${age} s ago)` : `it goes to where it believes P${r.id} is (${H.ev} ${age} s ago)`), { x: G.x, y: G.y }, { turnA: G.a ?? null });
+}
+/* (R2) its next guess, from its belief only: the way it predicts they went (while that is fresh enough to get ahead of them: an
+ * interception), where they would be by now along that way, the other way at the same first turn, where it believes they are, the place
+ * it last had them.  Each is scored; a place near a guess that failed is not a candidate, nor a turn that failed (H.badA, forgotten when
+ * new evidence comes); a seeded element (its own stream, less for the cleverer) lets it choose wrong.  It never looks at where they
+ * really are. */
+function skGuess(eng, e, H) {
+  const now = eng.now, age = now - H.bt, B = skBelief(eng, e, H), C = [], geo = eng.geo, rec = skBeliefRec(H);
+  const near = (x, y) => H.failed.some(f => f.t > H.bt && Math.hypot(f.x - x, f.y - y) < SK.failedNear);   // (a failure older than its newest evidence no longer counts)
+  const ok = q => q && !near(q.x, q.y) && geo.clear(q.x, q.y, e.rc + 2, 'walk');
+  const stopped = H.ev === 'heard' && H.heard >= 2 && age > 1.5;                    // footsteps that stopped: they are likely near where they stopped
+  const along = R => { let i = Math.min(R.pts.length - 1, Math.round(clamp(140 * age + 150, 250, SK.predictLook) / 48)); while (i > 2 && !geo.clear(R.pts[i].x, R.pts[i].y, e.rc + 2, 'walk')) i--; return R.pts[i]; };
+  if (Math.hypot(H.vx, H.vy) > 60 && age < 4) { const g = skPredict(eng, e, rec); if (g && !near(g.qx, g.qy) && !near(g.x, g.y) && !(g.turns.length && H.badA.some(b => Math.abs(angDiff(g.turns[0].a, b)) < .3))) C.push({ k: 'intercept', g, s: 1.2 }); }
+  const R1 = skRoute(eng, e, rec, H.badA.length ? { avoid: H.badA } : null);
+  if (R1) {
+    const q = along(R1); if (ok(q)) C.push({ k: 'route', x: q.x, y: q.y, a: R1.turns.length ? R1.turns[0].a : null, s: stopped ? .85 : H.ev === 'heard' ? 1.05 : 1 });
+    if (R1.turns.length) { const R2 = skRoute(eng, e, rec, { avoid: H.badA.concat([R1.turns[0].a]) }); if (R2 && R2.turns.length) { const q2 = along(R2); if (ok(q2)) C.push({ k: 'alt', x: q2.x, y: q2.y, a: R2.turns[0].a, s: H.badA.length ? 1.05 : .8 }); } }
+  }
+  const b = skFloorNear(eng, e, B.x, B.y), L = skFloorNear(eng, e, H.x, H.y);          // (a heard place is fuzzy: it may fall in a wall)
+  if (ok(b) && !C.some(c => Math.hypot((c.x ?? c.g.x) - b.x, (c.y ?? c.g.y) - b.y) < 120)) C.push({ k: 'belief', x: b.x, y: b.y, s: stopped ? 1.25 : H.ev === 'heard' ? 1.1 : .9 });
+  if (ok(L) && (!b || Math.hypot(b.x - L.x, b.y - L.y) > 150)) C.push({ k: 'last', x: L.x, y: L.y, s: .6 });
+  for (const c of C) c.s += (e.huntRng() - .5) * .5 * (1.3 - e.tr.INTELLIGENCE);
+  C.sort((a, b) => b.s - a.s || a.k.localeCompare(b.k));
+  e.dbg.guess = C.length ? { at: +now.toFixed(1), k: C[0].k, of: C.map(c => c.k).join('/') } : null;
+  return C[0] || null;
 }
 function skListenLost(eng, e, r, why) {
   const H = e.hunt; if (H) H.listenAt = eng.now;
@@ -452,7 +530,9 @@ function skListenLost(eng, e, r, why) {
  * a seeded error that INTELLIGENCE shrinks and starvation grows; at most SK.predictTurns guesses).  On that route it takes the first point
  * it can reach before them (their speed from the record, its own run speed, a rough path factor) and, beside it, a spot out of sight of
  * anybody coming along the route.  It can be wrong: it never looks at where they really went. */
-function skPredict(eng, e, r) {
+/* (R2) their way through the level from a record: Trial 3's walk, on its own (the same draws, in the same order).  o.avoid: angles it
+ * will not take at the first turn - the other way, once the first guess there has failed */
+function skRoute(eng, e, r, o) {
   const geo = eng.geo, sp = Math.hypot(r.lvx, r.lvy); if (sp < 40) return null;
   const walk = (x, y, a, d) => geo.lineClear(x, y, x + Math.cos(a) * d, y + Math.sin(a) * d, 16, 'walk');   // where a person can walk (sight passes over low walls; feet do not)
   let th = Math.atan2(r.lvy, r.lvx), x = r.lkx, y = r.lky, s = 0;
@@ -464,6 +544,7 @@ function skPredict(eng, e, r) {
       for (let k = -4; k <= 4; k++) {
         if (!k) continue;
         const a = th + k * Math.PI / 8; if (!walk(x, y, a, 210)) continue;
+        if (o && o.avoid && !turns.length && o.avoid.some(b => Math.abs(angDiff(a, b)) < Math.PI / 5)) continue;
         n++; const sc = Math.cos(k * Math.PI / 8) + (e.streams.search() - .5) * (1.35 - e.tr.INTELLIGENCE) * 1.6 * (e.hunger >= SK.band[3] ? 1.6 : 1);
         if (sc > bs) { bs = sc; best = a; }
       }
@@ -472,7 +553,11 @@ function skPredict(eng, e, r) {
     }
     x += Math.cos(th) * 48; y += Math.sin(th) * 48; s += 48; pts.push({ x, y, s });
   }
-  if (pts.length < 5) return null;
+  return pts.length < 5 ? null : { pts, turns, s };
+}
+function skPredict(eng, e, r) {
+  const R = skRoute(eng, e, r); if (!R) return null;
+  const geo = eng.geo, sp = Math.hypot(r.lvx, r.lvy), { pts, turns, s } = R;
   // the first point of that route it can be at before them: a quick estimate, then its own route there (at most four routes worked out)
   const age = eng.now - Math.max(r.seenAt, r.heardAt), v = clamp(sp, 90, 300), run = skSpeed(e, 'run');
   let q = null, tries = 0;
@@ -526,17 +611,17 @@ function skLure(eng, e, r, R) {
   const P = skBegin(eng, e, 'lure', r, `out of P${r.id}'s sight: it waits round the corner for them to follow`, { until: eng.now + SK.lure[0] + SK.lure[1] * e.hunger * e.tr.PATIENCE, bait: !!R.bait });
   P.face = R.from || { x: r.lkx, y: r.lky };                                                     // the corner it came round: where they would come from
 }
-function skIntercept(eng, e, r, g) {
+function skIntercept(eng, e, r, g, pre) {
   if (e.hunger >= SK.band[1]) skHuntBegin(eng, e, r, 'it goes to meet them');   // (R1) an interception is a hunt
-  const P = skBegin(eng, e, 'intercept', r, `lost P${r.id}: it guesses their way (${g.turns.length ? g.turns.length + ' turn' + (g.turns.length > 1 ? 's' : '') : 'straight on'}) and goes round to meet them ${g.lead} px ahead`, { g, until: eng.now + SK.interceptMax, re: 0 });
-  P.hAt = r.heardAt;
+  const P = skBegin(eng, e, 'intercept', r, `${pre || 'lost P' + r.id + ': '}it guesses their way (${g.turns.length ? g.turns.length + ' turn' + (g.turns.length > 1 ? 's' : '') : 'straight on'}) and goes round to meet them ${g.lead} px ahead`, { g, until: eng.now + SK.interceptMax, re: 0 });
+  P.hAt = Math.max(r.heardAt, e.hunt && e.hunt.pid === r.id ? e.hunt.hAt : -99);
   plan(eng, e, g.x, g.y, { why: 'intercept', cost: skAround(eng, g.from, { x: g.qx, y: g.qy }), maxNodes: 4000 });
   e.dbg.predict = Object.assign({ at: +eng.now.toFixed(2), pid: r.id }, g);
 }
-function skSearch(eng, e, r, why, goal) {
+function skSearch(eng, e, r, why, goal, extra) {
   const G = goal || { x: r.lkx, y: r.lky };
-  if (r && e.hunger >= SK.band[1]) skHuntBegin(eng, e, r, 'it goes to look for them');   // (R1) a search for somebody is a hunt
-  skBegin(eng, e, 'search', r, why, { goal: G, until: eng.now + SK.searchMax, hAt: r ? r.heardAt : 0 });
+  const H = r && e.hunger >= SK.band[1] ? skHuntBegin(eng, e, r, 'it goes to look for them') : null;   // (R1) a search for somebody is a hunt
+  skBegin(eng, e, 'search', r, why, Object.assign({ goal: G, until: eng.now + SK.searchMax, hAt: Math.max(r ? r.heardAt : 0, H ? H.hAt : -99), sid: e.mem.soundId || 0 }, extra));
   plan(eng, e, G.x, G.y, { why: 'search' });
 }
 /* the plan's person is out of its sight */
@@ -551,7 +636,7 @@ function skLost(eng, e, P, r) {
   if (P.k === 'flank') { skBegin(eng, e, 'approach', r, `out of P${r.id}'s sight at their side: it comes at them from there`, { side: 1 }); return; }
   // they went out of sight moving: predict where they are going and try to be there first
   const moving = Math.hypot(r.lvx, r.lvy) > 60, fresh = now - Math.max(r.seenAt, r.heardAt) < 2.5;
-  if (h >= SK.band[1] && !e.exh && moving && fresh) { const g = skPredict(eng, e, r); if (g) { skIntercept(eng, e, r, g); return; } }
+  if (h >= SK.band[1] && !e.exh && moving && fresh) { const g = skPredict(eng, e, r); if (g) { skIntercept(eng, e, r, g, ''); return; } }
   // (R1) a hunt goes on without them in sight: it stops to listen, then follows its belief (skHuntNext); it gives up for a stated reason
   if (H && !e.exh) { skListenLost(eng, e, r, `it lost sight of P${r.id}: it stops and listens`); return; }
   // otherwise a hungry one goes to look where it last knew them, briefly (stale evidence ends it); a less hungry one lets it go
@@ -565,10 +650,23 @@ function skListen(eng, e) {
   if (H && now - H.t < SK.heardFresh && H.I >= SK.heardMin && H.id > e.dbg.soundSeen && !(H.pid && e.left.has(H.pid))) {
     e.dbg.soundSeen = H.id;
     const r = H.pid ? e.mem.p.get(H.pid) : null;
-    skSearch(eng, e, r, `it heard ${H.type || 'something'}${r ? ' (P' + r.id + ')' : ''}: it goes quietly to look`, { x: H.x, y: H.y });
+    // (R2) first it stops, turns its head to it and listens; what it heard next decides (skCurious)
+    skBegin(eng, e, 'listen', r, `it heard ${H.type || 'something'}${r ? ' (P' + r.id + ')' : ''}: it stops and listens`,
+      { until: now + rand(e, SK.curious[0], SK.curious[1]) * (.8 + .4 * e.tr.PATIENCE), curious: { x: H.x, y: H.y, u: H.u, t: H.t, I: H.I, id: H.id, type: H.type || '' } });
     return true;
   }
   return false;
+}
+/* (R2) after listening to a sound while it roamed: a later sound that fits the first (the same thing, moving), or a strong first, sends it
+ * to look - quietly, at the freshest place; a weak sound with nothing after it is let go.  Anonymous: it names nobody */
+function skCurious(eng, e, C) {
+  let q2 = null;
+  for (const q of e.mem.sounds) if (q.id > C.id && eng.now - q.t < SK.heardFresh + 1 && Math.hypot(q.x - C.x, q.y - C.y) <= C.u + q.u + 120 + SK.hearReach * Math.max(0, q.t - C.t)) { q2 = q; break; }   // (newest first)
+  if (!q2 && C.I < SK.curiousStrong * lerp(1, .4, sm(.3, .6, e.hunger))) { e.tally.curiousDrop++;   // (the hungrier, the fainter a sound it goes to look at)
+    e.dbg.why = `nothing more after the ${C.type || 'sound'}: it lets it go`; return; }
+  const g = q2 || C; e.tally.curious++;
+  if (q2) e.dbg.soundSeen = Math.max(e.dbg.soundSeen, q2.id);
+  skSearch(eng, e, null, `it heard ${q2 ? (q2.type || 'it') + ' again' : C.type || 'something'}: it goes quietly to look`, { x: g.x, y: g.y });
 }
 
 /* ---- T4: the strike ---- */
@@ -1037,10 +1135,22 @@ function skAct(eng, e, dt, thinkNow) {
     }
     case 'intercept': {
       if (!r) { e.plan = null; return; }
-      const g = P.g;
-      if (thinkNow && !P.arrived && r.heardAt > P.hAt + .3 && P.re < 1) {             // footsteps on the way: it corrects its guess, once
-        P.hAt = r.heardAt; const g2 = skPredict(eng, e, r);
-        if (g2 && Math.hypot(g2.x - g.x, g2.y - g.y) > 250) { P.re++; P.g = g2; e.dbg.predict = Object.assign({ at: +now.toFixed(2), pid: r.id, corrected: 1 }, g2); plan(eng, e, g2.x, g2.y, { why: 'intercept (heard)', cost: skAround(eng, g2.from, { x: g2.qx, y: g2.qy }), maxNodes: 4000 }); e.dbg.why = `it heard P${r.id}: it corrects its guess`; }
+      const g = P.g, Hh = e.hunt && e.hunt.pid === r.id ? e.hunt : null, hAt = Math.max(r.heardAt, Hh ? Hh.hAt : -99);
+      // footsteps (theirs, or - R2 - a body's where they could be) away from its guess: it corrects it, or goes to look where it heard them
+      if (thinkNow && hAt > P.hAt + .3 && P.re < 2 && (!Hh || Hh.revised < SK.reviseMax)) {
+        P.hAt = hAt;
+        const sx = Hh && Hh.hAt >= r.heardAt ? Hh.x : r.hx, sy = Hh && Hh.hAt >= r.heardAt ? Hh.y : r.hy;
+        if (Math.hypot(sx - g.x, sy - g.y) > 350) {
+          const g2 = skPredict(eng, e, Hh ? skBeliefRec(Hh) : r);
+          if (g2 && Math.hypot(g2.x - g.x, g2.y - g.y) > 250) {
+            P.re++; P.reAt = now; if (Hh) Hh.revised++; e.tally.revise++; P.g = g2; if (P.arrived) { P.arrived = 0; P.until = Math.min(P.t0 + SK.interceptMax + 8, now + 10); }
+            e.dbg.predict = Object.assign({ at: +now.toFixed(2), pid: r.id, corrected: 1 }, g2); plan(eng, e, g2.x, g2.y, { why: 'intercept (heard)', cost: skAround(eng, g2.from, { x: g2.qx, y: g2.qy }), maxNodes: 4000 });
+            e.dbg.why = `it heard ${Hh && Hh.hAt >= r.heardAt ? 'something where P' + r.id + ' could be' : 'P' + r.id}: it corrects its guess`;
+          } else if (!g2 && Hh && Math.hypot(sx - e.x, sy - e.y) > 320) {
+            Hh.revised++; e.tally.revise++; skFailed(Hh, g.qx, g.qy, now, 'revised');
+            skSearch(eng, e, r, `it heard something where P${r.id} could be, away from its guess: it goes to look`, { x: sx, y: sy }); return;
+          }
+        }
       }
       if (!P.arrived) {
         // a race to be there first: it runs (its stamina allowing), slowing for the last stretch to arrive quietly
@@ -1065,16 +1175,30 @@ function skAct(eng, e, dt, thinkNow) {
         }
         if (skComing(eng, e, P)) { P.until = Math.min(Math.max(P.until, now + 2.5), P.t0 + SK.interceptMax + 8); e.dbg.why = 'it hears them coming: it waits, ready'; }
         if (now > P.until) {
-          e.dbg.wrong = (e.dbg.wrong || 0) + 1;
-          if (e.hunger >= SK.band[2] && !P.searched && r.conf > .2 && now - Math.max(r.seenAt, r.heardAt) < 8) skSearch(eng, e, r, `it guessed wrong (nobody came): it goes to look for P${r.id}`, { x: r.lkx, y: r.lky });
+          // (R2) it heard somebody close while it waited, and they did not show: its guess was not wrong - it looks where it heard them
+          if (Hh && P.came !== undefined && !e.exh) { e.plan = null; skHuntNext(eng, e, `it heard P${r.id} close by, unseen`); return; }
+          // (R2) nobody came, but it has heard them elsewhere since its guess: the newer evidence leads, the guess is not counted as a failed place
+          if (Hh && Hh.hAt > (P.reAt ?? P.t0) && !e.exh) { e.plan = null; Hh.conf = Math.max(0, Hh.conf - SK.wrongCost * .5); skHuntNext(eng, e, `nobody came, but it heard something where P${r.id} could be`); return; }
+          e.dbg.wrong = (e.dbg.wrong || 0) + 1; e.tally.wrong++;
+          // (R2) the hunt remembers the failed place, loses some confidence, and makes its next guess (or gives up for a reason)
+          if (Hh) { skFailed(Hh, P.g.qx, P.g.qy, now, 'intercept'); skFailed(Hh, P.g.x, P.g.y, now, 'intercept'); Hh.conf = Math.max(0, Hh.conf - SK.wrongCost); if (P.g.turns.length) skBadTurn(Hh, P.g.turns[0].a); }
+          if (Hh && !e.exh) { e.plan = null; skHuntNext(eng, e, 'it guessed wrong (nobody came)'); }
+          else if (e.hunger >= SK.band[2] && !P.searched && r.conf > .2 && now - Math.max(r.seenAt, r.heardAt) < 8) skSearch(eng, e, r, `it guessed wrong (nobody came): it goes to look for P${r.id}`, { x: r.lkx, y: r.lky });
           else skLeave(eng, e, r, `it guessed wrong (nobody came): it gives up on P${r.id}`);
         }
       }
       return;
     }
     case 'search': {
-      if (thinkNow && r && r.heardAt > P.hAt + .3 && (P.moved || 0) < 3 && !P.looked) {   // fresher footsteps: it goes where they are now (at most three times)
-        P.hAt = r.heardAt; P.moved = (P.moved || 0) + 1; P.goal = { x: r.hx, y: r.hy }; plan(eng, e, r.hx, r.hy, { why: 'search (heard)' });
+      const Hh = r && e.hunt && e.hunt.pid === r.id ? e.hunt : null, hAt = Math.max(r ? r.heardAt : -99, Hh ? Hh.hAt : -99);
+      if (thinkNow && r && hAt > P.hAt + .3 && (P.moved || 0) < 3) {   // fresher footsteps (theirs, or - R2 - a body's where they could be): it goes there (at most three times)
+        P.hAt = hAt; P.moved = (P.moved || 0) + 1;
+        const gx = Hh && Hh.hAt >= r.heardAt ? Hh.x : r.hx, gy = Hh && Hh.hAt >= r.heardAt ? Hh.y : r.hy;
+        if (Math.hypot(gx - P.goal.x, gy - P.goal.y) > 90) { P.goal = { x: gx, y: gy }; P.looked = 0; plan(eng, e, gx, gy, { why: 'search (heard)' }); e.dbg.why = `it heard ${Hh && Hh.hAt >= r.heardAt ? 'something where P' + r.id + ' could be' : 'P' + r.id}: it goes there, quietly`; }
+      }
+      // (R2) looking at a sound nobody has been named for: a fresher one near where it is going moves the goal (at most twice)
+      if (thinkNow && !r && e.hear && e.hear.id > P.sid && (P.moved || 0) < 2 && e.hear.src !== -1 && Math.hypot(e.hear.x - P.goal.x, e.hear.y - P.goal.y) < 500) {
+        P.sid = e.hear.id; P.moved = (P.moved || 0) + 1; P.goal = { x: e.hear.x, y: e.hear.y }; P.looked = 0; plan(eng, e, P.goal.x, P.goal.y, { why: 'search (heard)' }); e.dbg.why = 'it heard it again: it goes there, quietly';
       }
       if (!P.looked) {
         if (thinkNow && !e.path.length && e.pathAge > 1.5) { P.stuck = (P.stuck || 0) + 1; plan(eng, e, P.goal.x, P.goal.y, { why: 'search' }); }
@@ -1086,8 +1210,8 @@ function skAct(eng, e, dt, thinkNow) {
       skHold(eng, e, dt); e.ang = ((P.look0 + Math.sin((now - P.looked) * 1.3) * .9) % TAU + TAU) % TAU;   // it looks one way, then the other
       if (e.act !== 'listen') setAct(e, 'listen');
       if (thinkNow && now - P.looked > P.lookFor) {
-        const Hh = r && e.hunt && e.hunt.pid === r.id ? e.hunt : null;
-        if (Hh && Hh.conf >= SK.huntLow && Hh.tries < SK.huntTries && !e.exh) { Hh.failed.push({ x: Math.round(P.goal.x), y: Math.round(P.goal.y), t: now, k: 'search' }); if (Hh.failed.length > 4) Hh.failed.shift(); e.plan = null; e.dbg.why = `P${r.id} is not here: it thinks again`; }   // (R1) the hunt goes on
+        if (Hh) { skFailed(Hh, P.goal.x, P.goal.y, now, 'search'); Hh.conf = Math.max(0, Hh.conf - SK.wrongCost * .5); if (P.turnA !== null && P.turnA !== undefined) skBadTurn(Hh, P.turnA); }   // (R2) negative evidence: nobody here
+        if (Hh && Hh.conf >= SK.huntLow && Hh.tries < skTries(e) && !e.exh) { e.plan = null; e.dbg.why = `P${r.id} is not here: it thinks again`; }   // (R1) the hunt goes on
         else if (r) skLeave(eng, e, r, `the trail of P${r.id} is cold: it gives up`); else { e.plan = null; e.dbg.why = 'nothing there: it roams again'; }
       }
       return;
@@ -1132,9 +1256,15 @@ function skAct(eng, e, dt, thinkNow) {
     }
     case 'listen': {                                                                   // (R1) it stands still and listens, its head turning
       skHold(eng, e, dt);
-      e.head = Math.sin((now - P.t0) * 1.7 + e.id) * .8;
+      const C = P.curious;                                                             // (R2) roaming: turned toward the sound it heard
+      if (C) faceToward(e, C.x, C.y, dt, 2.2);
+      e.head = Math.sin((now - P.t0) * 1.7 + e.id) * (C ? .35 : .8);
       if (e.act !== 'listen') setAct(e, 'listen');
-      if (thinkNow && now > P.until) { e.plan = null; e.head = 0; e.dbg.why = 'it has listened'; const Hh = e.hunt; if (Hh && !(r && r.seen)) skHuntNext(eng, e); }
+      if (thinkNow && now > P.until) {
+        e.plan = null; e.head = 0; e.dbg.why = 'it has listened';
+        if (C) { skCurious(eng, e, C); return; }
+        const Hh = e.hunt; if (Hh && !(r && r.seen)) skHuntNext(eng, e);
+      }
       return;
     }
     case 'leave': {
@@ -1206,7 +1336,8 @@ function skHuntDbg(eng, e) {
   const H = e.hunt; if (!H) return e.dbg.huntEnd ? { end: e.dbg.huntEnd.why, ago: +(eng.now - e.dbg.huntEnd.at).toFixed(1) } : null;
   const B = skBelief(eng, e, H);
   return { pid: H.pid, conf: +H.conf.toFixed(2), ev: H.ev, ago: +(eng.now - H.evAt).toFixed(1), u: Math.round(B.u), eff: e.enc && e.enc.pid === H.pid ? +e.enc.spent.toFixed(1) : 0, max: Math.round(skBudget(e)),
-    flanks: H.flanks, tries: H.tries, failed: H.failed.length, heard: H.heard, rev: H.revised, why: H.why };
+    flanks: H.flanks, tries: H.tries, failed: H.failed.length, heard: H.heard, rev: H.revised, why: H.why,
+    g: H.guess || '', alt: H.altTried ? 1 : 0, hAgo: H.hAt > 0 ? +(eng.now - H.hAt).toFixed(1) : -1 };   // (R2) its current guess; the other way tried; its last sound of them
 }
 function skAwTop(eng, e) {
   let A = null; for (const q of e.aw.values()) if (!A || q.p > A.p) A = q;

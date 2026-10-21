@@ -9,7 +9,8 @@ hash: each row is filled in by the next checkpoint (the last by a receipt commit
 | Checkpoint | Commit | Tree | Parent | Verified |
 |---|---|---|---|---|
 | R0 audit, plan, reproduction, baseline | `f094dd46a7274877c07fdf27829a68bb0fad5b8c` | `491605897c6c453d2a287ac42a71b52434a81b56` | `4518f93` | 2026-10-21 05:00 UTC, `evidence/remote/r0.json` (GitHub API and `ls-remote` agree; protected refs and every other branch unchanged); scans `r0_pre.txt` / `r0_post.txt` clean |
-| R1 the hunt, hunger and eye contact, the lost race | (this commit: `evidence/remote/r1.json` arrives with R2) | | `f094dd4` | |
+| R1 the hunt, hunger and eye contact, the lost race | `907de0df54ece3a0940c8aadfe23a9ba16f7b093` | `2d5fb85aa1ed4a26b8b96a37a6f44182f381d105` | `f094dd4` | 2026-10-21 05:50 UTC, `evidence/remote/r1.json`; scans `r1_pre.txt` / `r1_post.txt` clean |
+| R2 listening, belief, guesses, failed guesses | (this commit: `evidence/remote/r2.json` arrives with R3) | | `907de0d` | |
 
 ## R0 — audit and plan, no game change
 
@@ -72,3 +73,43 @@ What it does now (values in `BALANCE_TABLE.md`, all unapproved):
 | SK41 | judged on all seeds | judged on the runs where it lay in wait (≥ 6), ≥ 5 / 6 seeds right | with flanks and open approaches, lying in wait is one answer of several |
 | BR14 C | a lost race is a departure, not reconsidered | no new chase for `chaseRest`, never faster than its free pace then (a vault excluded), a newcomer does not start one | the owner: a lost race is not the end of a hunt; B2's protection (no chaser made by a runner in view) kept |
 | BR14 (title) | — | names the R1 part | — |
+
+## R2 — listening, belief, guesses, failed guesses
+
+Changed: `ai.skinstealer.js` and its build; `declared_changes.json` (the `ai.js` note); `s_skinpredator.js` (PR08–PR16); SK21 and SK24
+(below). The shared engine is untouched: the creature reads only what the engine's hearing already gives every species (`e.mem.sounds`:
+a fuzzy place, a strength, a time, anonymous unless the engine named it while the person was seen).
+
+* **Belief from sounds.** On each think the hunt takes every new body sound (a person's it cannot name; never a creature's) and asks whether
+  its quarry could be there by now: within both uncertainties plus 260 px a second since its last evidence. If so the belief moves to that
+  fuzzy place, a heading is taken from the last evidence (only from a move larger than the sounds' own fuzz), and confidence rises to
+  .45–.85 by loudness. Nobody is named and the engine's records are not touched: another person's noise there fools it.
+* **Guesses** (`skGuess`, from the belief only): an interception while the belief is fresh and moving (Trial 3's prediction; its route walk
+  is now `skRoute`, the same draws in the same order); where they would be by now along the predicted way; the other way at the same first
+  turn; where it believes them; the place it last had them. Footsteps that stopped favour where they stopped. A place within 200 px of a
+  failed guess (kept 60 s, at most 4) and a first turn that failed are not tried again unless newer evidence came after the failure. A
+  seeded element (its own stream; less for the cleverer) lets it choose wrong. 2 guesses in a hunt when hungry, up to 4 when starving.
+* **Failed guesses**: a wrong interception costs .15 confidence and records both its route point and its waiting spot; a search that finds
+  nothing costs .075 and records its goal. Waiting, if it heard them close by, or heard them elsewhere since its guess, the guess is not
+  counted wrong: it goes after what it heard.
+* **Revision**: a sound that fits, 350 px or more from the current guess, corrects an interception (twice per plan) or turns it into a look
+  at the sound, and moves a search (three times per search); at most 3 revisions per hunt. No sound, no revision.
+* **Curiosity while roaming** (hungry): a sound makes it stop, turn to it and listen 0.8–1.8 s; a second sound that fits the first, or a
+  first strong enough (.45, down to .18 when hungry), sends it to look quietly; otherwise it lets it go. Anonymous throughout.
+* Confidence now lasts 10 s (barely hungry) to 30 s (starving) without evidence (R1: 8–24): with guesses that cost confidence, the hunt
+  still ends 15–22 s after the last evidence in the scenes measured.
+
+| Run | Result |
+|---|---|
+| `s_skinpredator.js` | 17 / 17 (`evidence/r2_suites.txt`). PR08: the same creature whichever way they went until it sensed a difference 8 / 8; its first guess is on open floor 200 px or more ahead in 6 / 7. PR09: the first guess at the fork is the same whichever way they really take (11 / 11) and differs between seeds (7 east, 4 north-west): wrong for some either way. PR10: after a wrong interception with nothing more heard: no place guessed twice, confidence 1 → .42–.48, the hunt over 19–20 s from the start. PR11: running back is heard and taken for them in 5 / 8 and turns its guess toward them in 4; crouching back is heard 0 times and revises nothing; the runs identical until the first sound 8 / 8. PR12: footsteps behind a wall: it stops and listens, then looks (5 / 6 that heard); no person named before a sighting (0 ticks). PR13: a silent croucher at either end of the north passage: identical runs 8 / 8; given up 7 / 7 and 6 / 7. PR14: running on east then crouching back: taken for them 6 / 8, fooled 5 / 8, found 2 / 8. PR15: the belief's mean distance from them while unseen: 35–223 px with the footsteps, 571–581 px without (closer 7 / 7); silent steps steer nothing. PR16: a thud nobody made: listens and looks 6 / 6, each look over in 5–9 s, no record, hunt or strike |
+| `s_skinstealer.js`, `s_skinbehave.js` | 34 / 34, 19 / 19 (SK21 and SK24 adapted, below) |
+| `s_hound.js`, `s_smiler.js` | 30 / 31; H07 inherited (`evidence/r2_hound_smiler.txt`) |
+| `tools/repro_r0.js` (`evidence/r2_repro.*`) | L: footsteps now change its plan within a quarter second in 6 / 8 runs (R1: 3; R0: 2); 2 kills where it heard and found them; F: each failed interception (6 runs) is followed by listening and a search before any departure (R1: 5 of 6 went straight to a departure) |
+| static checks (`evidence/r2_checks.txt`) | build:check, parts, modules, facts, window contract, docs, API contract, SCOPE: PASS |
+
+### Contract changes
+
+| Scenario | Before | Now | Why |
+|---|---|---|---|
+| SK21 | stillness measured over every `lure` plan in the run | over its first wait | the hunt may go on after the bait (R1) and lie in wait again elsewhere: that is another wait, not movement during the first |
+| SK24 | the first plan after the sound is a search | a roaming listen (turned to the sound) may come first; the first plan after it is judged, and the listens are reported | the pack's listen-before-moving: it stops and listens, and what it hears next decides; the ≥ 3 / 6, the goal within 250 px, the duration and the silent case are unchanged |
