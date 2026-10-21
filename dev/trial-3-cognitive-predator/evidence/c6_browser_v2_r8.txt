@@ -1,0 +1,31 @@
+lookaway #1: hunger 0.454; first saw {"1":0.8}; events 2.4 seen, 8 looks away, 11.5 looks back, 18 looks away, 21.6 looks back; first strike null s, A died null s, closest 263 px, cut-off null s; hunted 1 (A 1, B null)
+   0.4 roam | 0.8 approach P1 | 3.9 retreat P1 | 9 approach P1 | 13.4 leave | 35.4 roam
+lookaway #2: hunger 0.509; first saw {"2":0.6}; events 2.2 seen, 8.6 looks away, 10.8 looks back, 18.2 looks away, 21.1 looks back; first strike null s, A died null s, closest 274 px, cut-off null s; hunted 2 (A 2, B null)
+   0.4 roam | 0.6 approach P2 | 6.5 retreat P2 | 13.1 lure P2 | 22.3 leave
+lookaway #3: hunger null; first saw {"3":0.6}; events 2.3 seen, 8.6 looks away, 11.5 looks back, 18.4 looks away, 21.4 looks back; first strike 21.9 s, A died 22.4 s, closest 18 px, cut-off null s; hunted 3 (A 3, B null)
+   0.3 ? | 0.6 approach P3 | 5.5 retreat P3 | 8 approach P3 | 12.5 retreat P3 | 16.3 approach P3 | 22.6 roam
+fork #1: hunger 0.645; first saw {"4":1.4}; events 0.8 walks, 2.2 seen, 2.5 torch off, 4.4 doubles back, 4.5 still; first strike null s, A died null s, closest 303 px, cut-off null s; hunted 4 (A 4, B null)
+   0.2 roam | 1.4 approach P4 | 3.7 intercept P4 | 19.4 leave | 37.8 roam
+fork #2: hunger 0.56; first saw {"5":1.4}; events 0.7 walks, 2.3 seen, 2.6 torch off, 4.3 doubles back, 4.3 still; first strike 4.3 s, A died 8.1 s, closest 4 px, cut-off null s; hunted 5 (A 5, B null)
+   0.2 roam | 1.4 approach P5 | 6.5 intercept P5 | 7 approach P5 | 8.1 roam
+fork #3: hunger 0.45; first saw {"6":18.4}; events 0.8 walks, 2.5 torch off, 4.3 doubles back, 4.5 still, 18.4 seen; first strike 18.6 s, A died 19 s, closest 29 px, cut-off null s; hunted 6 (A 6, B null)
+   0.4 roam | 18.4 approach P6 | 19 roam
+decoy #1: hunger 0.474; first saw {"7":1.4}; events 3.9 A seen, 6.3 A hides, 8 B runs; first strike null s, A died 17.1 s, closest 10 px, cut-off null s; hunted 7 (A 7, B 8)
+   0.6 roam | 1.4 approach P7 | 8.3 listen P7 | 10.1 search P7 | 13.6 leave | 17.1 roam | 21 feed | 29.1 roam
+decoy #2: hunger 0.579; first saw {"9":1.4,"10":9.4}; events 3.9 A seen, 6.2 A hides, 7.9 B runs; first strike 8.7 s, A died 16.3 s, closest 36 px, cut-off null s; hunted 9 (A 9, B 10)
+   0.4 roam | 1.4 approach P9 | 16.3 roam | 20 feed | 28.1 roam
+decoy #3: hunger 0.543; first saw {"11":1.6}; events 3.3 A seen, 5.7 A hides, 7.5 B runs; first strike 9.5 s, A died 10.1 s, closest 29 px, cut-off null s; hunted 11 (A 11, B 12)
+   0.3 roam | 1.6 approach P11 | 7.6 listen P11 | 9.5 search P11 | 10.1 roam | 13.8 feed | 21.9 roam
+pillar #1: hunger 0.582; first saw {"13":1.2}; events 0.2 circles, 16 turns back, 24.3 runs off; first strike null s, A died null s, closest 354 px, cut-off null s; hunted 13 (A 13, B null)
+   0.4 roam | 1.2 watch P13 | 2.4 approach P13 | 3 watch P13 | 3.3 approach P13 | 4 watch P13 | 4.6 flank P13 | 12.1 leave | 33.3 roam
+pillar #2: hunger 0.623; first saw {"14":0.9}; events 0.2 circles, 16.3 turns back, 24.4 runs off; first strike null s, A died null s, closest 306 px, cut-off null s; hunted 14 (A 14, B null)
+   0.5 roam | 0.9 approach P14 | 1.3 watch P14 | 1.7 approach P14 | 3.6 watch P14 | 3.9 approach P14 | 4.1 watch P14 | 4.4 approach P14 | 6.4 leave | 28.3 roam
+pillar #3: hunger 0.517; first saw {"15":0.8}; events 0 circles, 16.1 turns back, 24.2 runs off; first strike 7.3 s, A died 15.7 s, closest 12 px, cut-off null s; hunted 15 (A 15, B null)
+   0.5 roam | 0.8 approach P15 | 1.2 watch P15 | 1.7 approach P15 | 9 listen P15 | 9.8 intercept P15 | 12.1 approach P15 | 15.7 roam
+escape #1: hunger null; first saw {"16":0.8}; events 2.5 seen, 5 runs, 37.3 hides; first strike 7.6 s, A died null s, closest 97 px, cut-off null s; hunted 16 (A 16, B null)
+   0.4 ? | 0.8 approach P16 | 6.5 chase P16 | 9.6 listen P16 | 11.3 intercept P16 | 14.2 approach P16 | 14.5 leave | 28.1 roam
+escape #2: hunger 0.551; first saw {"17":1}; events 2.1 seen, 4.1 runs, 35.2 hides; first strike null s, A died null s, closest 316 px, cut-off null s; hunted 17 (A 17, B null)
+   0.4 roam | 1 approach P17 | 5.7 leave | 24.2 roam
+escape #3: hunger null; first saw {"18":0.9}; events 2.4 seen, 4.8 runs, 34.8 hides; first strike 8.7 s, A died null s, closest 147 px, cut-off null s; hunted 18 (A 18, B null)
+   0.5 ? | 0.9 approach P18 | 5.7 chase P18 | 10.7 listen P18 | 12.2 leave | 31.5 roam
+r8-exit 0

@@ -14,7 +14,8 @@ filled in by the next checkpoint.
 | C2 the choice: stand-off, whom, the bait as an ambush | `892d9934f43bb16e048abf45159b6115fe4fae26` | `420d6d94e1f77cc9395fc612b5804e939aa59d49` | `54b5984` | read back from GitHub (`evidence/remote/c2.json`: ok); scans before and after clean |
 | C3 what it learns from what it sees; the lost race | `caed6cdd10007bdf538a2e41675d0424b5b092a4` | `96974c49cb966510e995cf5d7ff6666310e58470` | `892d993` | read back from GitHub (`evidence/remote/c3.json`: ok); scans before and after clean |
 | C4 the hunger gradient | `93fe6caf271e3b4a238f86216cafcbac5e73e5dc` | `e4676d8b2feb63a15a1e5623b7b7b093fae7165d` | `caed6cd` | read back from GitHub (`evidence/remote/c4.json`: ok); scans before and after clean |
-| C5 multiplayer, fairness, regression | (this commit: `evidence/remote/c5.json` arrives with C6) | | `93fe6ca` | |
+| C5 multiplayer, fairness, regression | `776e85368237ccb424c9a5b7df377442647b9b40` | `4e4eae1f7fc8b62a00978f4eff3521914b0dee79` | `93fe6ca` | read back from GitHub (`evidence/remote/c5.json`: ok); scans before and after clean |
+| C6a real pages, R8 against this build | (this commit: `evidence/remote/c6a.json` arrives with C6b) | | `776e853` | |
 
 ## C0 — diagnosis first (no game change)
 
@@ -198,3 +199,40 @@ the owner's call (`HUMAN_QA.md`).
 | P9 equivalence, six seeds × 120 s, no Skin-Stealer (`evidence/c5_equiv_p9.txt`) | **PASS** - 6 / 6 identical tick for tick (7200 snapshots) |
 | `tools/c5_sprint_diag.js` (`evidence/c5_sprint_diag.txt`) | 40 sprint-away runs: no lead shrank on R8, here, or with the guard; here and with the guard the same creature tick for tick |
 | static checks (`evidence/c5_checks.txt`) | all PASS |
+
+## C6a — real pages, R8 against this build
+
+Changed: no game code (the species file and the build are C4's). `tools/c6_browser.js` (the pack's four real-page scenes and a fresh
+runner), `tools/c6_summary.py`.
+
+**How:** one real server per build (R8's tree, `git archive f378049`, and this one), headless Chromium; every person is a real page moved by
+its own keys and mouse (W A S D, Shift, C, F; the facing by the mouse), every key and aim logged with its time (`run.inputs`), each page's
+place ten times a second, the creature from the admin debug the server sends (its plan, its reason) and the snapshot - read only to report.
+The admin panel sets the scene (freeze, the Hounds and Smilers removed, one Skin-Stealer put near: its hunger is the admin spawn's own,
+.45–.65, so each try is a different creature). Screenshots at 1, 10, 20 and 30 s (`evidence/c6_shots/`, JPEG). Three tries per scene and
+build; a try in which it never saw a page is a **setup miss**, kept and not counted.
+
+**Two earlier passes were faulty and are kept** (`evidence/c6_browser_v1*`, `c6_browser_v2*`; `c6_browser_summary.txt` lists every try):
+in v1 the escaping page and A's way to the pillar steered straight at their goal and stuck on walls (an "escape" there was a page stuck
+350 px from it); in v2 they followed the level's own routes, but the pillar's page still caught on the pillar. The final tool steers at a
+point ahead on a clear 200 px ring and on the level's routes, moves on when a wall holds it up (logged as `skip`), and runs Chromium
+without background timer throttling. Only the final pass is compared below; it ran R8 and this build with the same tool.
+
+| Scene (pack) | R8 (valid tries) | This build (valid tries) |
+|---|---|---|
+| **B-C1** watched, the page turns its back at 8 s and 18 s for 2.5 s | 2 (1 setup miss): approach → retreat → approach → retreat → leave, closest 236 px; one approach head-on while watched → a kill at 14.2 s. In the first look-away R8 closed 474 → 439 and 436 → 306 px | **3 / 3: a stand-off, then it used the look-away** - closed 416 → 289, 275 → 38 (struck at 10.0 s, 2 s into it) and 201 → 156 px (struck 10.5 s); killed at 12.4 / 10.8 / 11.0 s, each spring with its whole wind-up |
+| **B-C2** a glimpse at the fork, torch off, a crouched double-back | 2 (1 miss): intercept → listen → search → **leave** (fooled, the earned wrong guess); listen → search → a kill at 7.0 s | 2 (1 miss): watch → approach → listen → search on a footstep **heard** (walking, before the double-back) → found at 95 px → killed 7.2 s; one sprung on at 4.8 s from about 160 px, as the double-back began (it had come on at up to 200 px/s while the page walked north and turned its torch off). **No earned wrong guess in this pass**; the simulation shows them (C05: a guess ahead on the way they went; the double-back is then the other way) |
+| **B-C3** A seen, then hides crouched, torchless; B, unseen, runs a lane | 2 (1 miss): approach → **retreat → lure → leave** both times; A alive | **3 / 3 A killed** (12.1, 14.6, 10.0 s). B's running made it stop and listen in 2 (anonymous: B never named before it saw B, at 11.8 s in one), then it went back to A. In 2 of the 3 A's page was held up on its way to the pillar (8 and 2 skips; it moved 84 and 319 px) |
+| **B-C4** circling the pillar, turning back, then running off | 3: approach / watch / approach / retreat → chase → a kill at 10.8 s; **a dither** - approach 5 times, watch 3, retreat 3 in 16 s - → lure → leave; watch → approach → leave at 5 s | **3 / 3 a cut-off** (at 13.0, 7.4, 11.1 s, after watching them go round; the page turned back as it cut across) → chase / a spring → killed at 16.5, 11.5, 23.0 s (the last after the page, running off, was held up by a wall). Its first springs missed (5.5, 8.3, 5.6 s): the circler got away by going round |
+| **fresh runner**: seen, then sprints away down the hall (route away from it), hides round the far corner | 3: approach → leave within 4.7–8.2 s, every time; all alive | **never caught while running (3 / 3)**. It stood off, listened, searched the way they went: **one escape** (it gave up at 25.2 s); two hiders found round that corner, 31.4 and 35.6 s in, one on its way out after giving up |
+
+**Earned kill:** e.g. B-C1 #2 - it waits in a stand-off 275 px off; the page turns its back at 8.0 s; it closes to 38 px and springs at 10.0 s
+(its wind-up visible), the page dies at 10.8 s (`c6_shots/c6_lookaway_2_10s.jpg`). **Escape:** the fresh runner #2 - seen at 2.1 s, runs
+from 409 px at 4.5 s, never closer than 335 px; it listens, searches the hall's west end, gives up at 25.2 s.
+
+**What this pass says, and does not.** Against R8 the owner's complaint is visible in R8's own runs (retreat → lure → leave with a hungry
+creature and a person in plain view; a dither at the pillar) and absent from this build's: it holds them in view, presses in when they look
+away, cuts across a circle it has watched, and does not let a fresh runner's lead shrink. It is also **much deadlier**: 12 of 14 valid
+tries ended in a kill (R8: 3 of 11). Every kill was a spring with its whole wind-up at somebody in its sight, after a look-away, a dodge
+that failed, a found hider, or within reach - no page was caught on a straight run. Whether .45–.65 should be this dangerous is the owner's
+call (`HUMAN_QA.md`). The scenes are scripted pages, not a person: a page does not dodge at the tell or choose where to hide.

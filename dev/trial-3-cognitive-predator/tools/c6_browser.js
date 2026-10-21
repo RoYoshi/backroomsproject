@@ -17,8 +17,10 @@
  *   decoy     B-C3: two pages - A is seen, then crouches torchless behind the pillar; B, out of its sight, runs up and down a lane.
  *   pillar    B-C4: a page runs round the pillar looking where it runs; when the creature cuts across (or after 16 s) it turns back the
  *             other way for 8 s, then runs off east down the hall.
- *   escape    the fresh runner: a page stares at it until seen for 3 s, then sprints away from it down the hall and round the far corner,
- *             and crouches.
+ *   escape    the fresh runner: a page stares at it until it has been seen for 1.5 s (or the creature is within 350 px), then sprints
+ *             away from it (the level's own route, away from where it is) to the hall's far end and round the corner, and crouches.
+ * A page that has to get somewhere round walls (the escape, A's way behind the pillar) follows a route the tree's own level gives
+ * (dev/harness.js: geo.path, as the harness's players do); its keys still move it - nothing is put anywhere.
  * Every name and passcode is synthetic. */
 'use strict';
 const fs = require('fs'), path = require('path'), http = require('http'), net = require('net');
@@ -28,7 +30,10 @@ const groot = execFileSync('npm', ['root', '-g']).toString().trim();
 const pw = (() => { try { return require('playwright'); } catch (e) { return require(path.join(groot, 'playwright')); } })();
 const DIR = path.resolve(ARG.dir || path.join(__dirname, '..', '..', '..')), PASS = 'k3-synthetic-admin', sleep = ms => new Promise(r => setTimeout(r, ms));
 const SHOTS = ARG.shots ? path.resolve(ARG.shots) : null; if (SHOTS) fs.mkdirSync(SHOTS, { recursive: true });
-const SECS = +ARG.secs, PILLAR = { x: 4952, y: 3584, R: 175 }, HALL = 3504;
+const SECS = +ARG.secs, PILLAR = { x: 4952, y: 3584, R: 200 }, HALL = 3504;
+const HAR = require(path.join(DIR, 'dev', 'harness.js')), GW = HAR.World(1);
+/* the level's route from a to b (every third step of it, and the end), or null */
+function route(a, b) { const r = GW.eng.geo.path(a.x, a.y, b.x, b.y, { CAN_VAULT: false }); if (!r || !r.length) return null; const o = r.filter((q, i) => i % 3 === 2 || i === r.length - 1).map(q => ({ x: Math.round(q.x), y: Math.round(q.y) })); return o; }
 const freePort = () => new Promise(r => { const s = net.createServer(); s.listen(0, '127.0.0.1', () => { const p = s.address().port; s.close(() => r(p)); }); });
 const get = (port, p) => new Promise(r => http.get({ host: '127.0.0.1', port, path: p }, q => { q.resume(); q.on('end', () => r(q.statusCode)); }).on('error', () => r(0)));
 const INIT = `(() => {
@@ -67,9 +72,11 @@ async function runPage(b, port, room, VP, name) {
 }
 /* a page walks along points by its keys (o.run: Shift held; looping o.loop times); o.gaze: it also looks where it is going (its mouse) */
 const PACE = `(o) => { const K = window.__k3, held = new Set(), key = (c, down) => { if (down === held.has(c)) return; if (down) held.add(c); else held.delete(c); K.key(c, down); };
-  let i = 0; K.paceDone = false; const t0 = performance.now(); if (K.pace) clearInterval(K.pace); K.inputs.push([Date.now(), 'pace', JSON.stringify(o.pts.slice(0, 3)) + (o.pts.length > 3 ? '...' : '') + (o.run ? ' run' : '')]);
+  let i = 0, st = null; K.paceDone = false; const t0 = performance.now(); if (K.pace) clearInterval(K.pace); K.inputs.push([Date.now(), 'pace', JSON.stringify(o.pts.slice(0, 3)) + (o.pts.length > 3 ? '...' : '') + (o.run ? ' run' : '')]);
   K.pace = setInterval(() => { const H = __api.H, q = o.pts[i % o.pts.length], dx = q.x - H.x, dy = q.y - H.y, m = Math.hypot(dx, dy);
-    if (m < 30) i++;
+    if (m < (o.reach || 30)) { i++; st = null; }   // (o.reach: a running page steers at a point at least this far ahead - its keys are set only a few times a second)
+    // held up against something (under 12 px in 1.2 s): on to the next point, logged (a page that cannot get somewhere is not left pushing a wall)
+    const now = performance.now(); if (!st) st = { t: now, x: H.x, y: H.y }; else if (now - st.t > 1200) { if (Math.hypot(H.x - st.x, H.y - st.y) < 12 && m >= (o.reach || 30)) { K.inputs.push([Date.now(), 'skip', Math.round(q.x) + ',' + Math.round(q.y)]); i++; } st = { t: now, x: H.x, y: H.y }; }
     if ((performance.now() - t0) / 1000 > o.secs || i >= o.pts.length * (o.loop || 1)) { for (const c of [...held]) key(c, false); clearInterval(K.pace); K.pace = null; K.paceDone = true; return; }
     if (o.gaze && m > 14) { const s = K.screen(H.x + dx / m * 200, H.y + dy / m * 200); if (s) window.dispatchEvent(new PointerEvent('pointermove', { clientX: s.x, clientY: s.y, pointerType: 'mouse', bubbles: true })); }
     key('KeyD', m > 14 && dx > m * .38); key('KeyA', m > 14 && dx < -m * .38); key('KeyS', m > 14 && dy > m * .38); key('KeyW', m > 14 && dy < -m * .38); key('ShiftLeft', m > 14 && !!o.run); }, 60); }`;
@@ -105,14 +112,15 @@ function summary(run, rec, t0w, ids) {
   for (const r of R) { const k = r.pl + (r.pid ? ' P' + r.pid : ''); if (k !== last) { tl.push([+((r.wt - t0w) / 1000).toFixed(1), k, r.why]); last = k; } }
   const firstSeen = {}; for (const r of R) for (const id of r.sees) if (firstSeen[id] === undefined) firstSeen[id] = +((r.wt - t0w) / 1000).toFixed(1);
   const strike = R.find(r => r.ac === 12 || r.ac === 13), dead = R.find(r => r.dead);
-  Object.assign(run, { hunger: R.length ? R[0].hu : null, firstSeen, timeline: tl, firstStrike: strike ? +((strike.wt - t0w) / 1000).toFixed(1) : null, watcherDied: dead ? +((dead.wt - t0w) / 1000).toFixed(1) : null,
+  Object.assign(run, { hunger: (R.find(r => r.hu !== null && r.hu !== undefined) || { hu: null }).hu,   // (after C6's runs: the first record can come before the debug block)
+    firstSeen, timeline: tl, firstStrike: strike ? +((strike.wt - t0w) / 1000).toFixed(1) : null, watcherDied: dead ? +((dead.wt - t0w) / 1000).toFixed(1) : null,
     closest: R.length ? Math.min(...R.map(r => r.d)) : null, huntOf: [...new Set(R.filter(r => r.ht).map(r => r.ht))], cutAt: (R.find(r => r.pl === 'cut') || {}).wt ? +((R.find(r => r.pl === 'cut').wt - t0w) / 1000).toFixed(1) : null,
     setupMiss: !Object.keys(firstSeen).length });
   run.trace = R.filter((r, i) => i % 3 === 0).map(r => [+((r.wt - t0w) / 1000).toFixed(1), r.x, r.y, r.pl, r.pid, r.ht, r.v, r.ac, r.d, r.los ? 1 : 0, r.pr]);
 }
 (async () => {
   const { p: srv, port } = await serve();
-  const b = await pw.chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+  const b = await pw.chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows'] });
   out.chromium = b.version();
   const VP = { width: 640, height: 360 };
   for (const scene of ARG.scenes.split(',')) for (let tr = 1; tr <= +ARG.tries; tr++) {
@@ -143,11 +151,14 @@ function summary(run, rec, t0w, ids) {
         while (el() < SECS) {
           if (seenAt < 0 && await seenBy(W.P, run.ids.A)) { seenAt = el(); ev('seen', ''); }
           if (scene === 'lookaway') { const t = el(), away = (t > 8 && t < 10.5) || (t > 18 && t < 20.5); if (away !== !!run._aw) { run._aw = away; ev(away ? 'looks away' : 'looks back', ''); } await stareFor(W.P, 300, () => away); }
-          else if (phase === 0) { await stareFor(W.P, 300); if ((seenAt >= 0 && el() - seenAt > 3) || (el() > 6 && seenAt < 0)) { phase = 1;
-            // away from it along the hall (to its far end and round the corner), never past it
-            const k = await lastRec(W.P), me = await W.P.evaluate(() => ({ x: __api.H.x, y: __api.H.y })), east = !k || k.x < me.x;
-            const way = east ? [{ x: 8600, y: HALL }, { x: 8600, y: 4250 }] : [{ x: 3100, y: HALL }, { x: 3100, y: 3000 }];
-            ev('runs', (east ? 'east' : 'west') + (seenAt < 0 ? ' (never seen)' : ', fresh')); await W.P.evaluate(`(${PACE})(${JSON.stringify({ pts: way, run: true, gaze: true, secs: 30 })})`); } }
+          else if (phase === 0) { await stareFor(W.P, 300); const k0 = await lastRec(W.P);
+            if ((seenAt >= 0 && el() - seenAt > 1.5) || (k0 && seenAt >= 0 && k0.d < 350) || (el() > 6 && seenAt < 0)) { phase = 1;
+            // away from it: of the hall's two far ends, the one whose route first takes the page further from it (then round that corner)
+            const k = await lastRec(W.P), me = await W.P.evaluate(() => ({ x: Math.round(__api.H.x), y: Math.round(__api.H.y) }));
+            const ends = [[{ x: 8600, y: HALL }, { x: 8600, y: 4250 }], [{ x: 3100, y: HALL }, { x: 3100, y: 3000 }]].map(e => { const r = route(me, e[0]); if (!r) return null;
+              const q = r[Math.min(r.length - 1, 3)], gain = k ? Math.hypot(q.x - k.x, q.y - k.y) - Math.hypot(me.x - k.x, me.y - k.y) : 0; return { pts: r.concat(e.slice(1)), gain, east: e[0].x > 5000 }; }).filter(Boolean).sort((a, b) => b.gain - a.gain);
+            const way = ends[0]; run.runFrom = { d: k ? k.d : null, me };
+            ev('runs', (way.east ? 'east' : 'west') + (seenAt < 0 ? ' (never seen)' : `, fresh, ${k ? k.d : '?'} px from it`)); await W.P.evaluate(`(${PACE})(${JSON.stringify({ pts: way.pts, run: true, gaze: true, secs: 32, reach: 60 })})`); } }
           else { if (phase === 1 && await W.P.evaluate(() => window.__k3.paceDone)) { phase = 2; ev('hides', 'crouched, torch off'); await torch(W.P, false); await crouchKey(W.P); } await sleep(300); }
           await shot();
         }
@@ -166,22 +177,27 @@ function summary(run, rec, t0w, ids) {
         let ph = 0, seenAt = -1;
         while (el() < SECS) {
           if (seenAt < 0 && await seenBy(W.P, run.ids.A)) { seenAt = el(); ev('A seen', ''); }
-          if (ph === 0) { await stareFor(W.P, 300); if ((seenAt >= 0 && el() - seenAt > 2) || el() > 10) { ph = 1; ev('A hides', 'torch off, behind the pillar, crouched'); await torch(W.P, false); await crouchKey(W.P); await W.P.evaluate(`(${PACE})(${JSON.stringify({ pts: [{ x: PILLAR.x - 260, y: PILLAR.y }], secs: 12 })})`); } }
+          if (ph === 0) { await stareFor(W.P, 300); if ((seenAt >= 0 && el() - seenAt > 2) || el() > 10) { ph = 1; ev('A hides', 'torch off, behind the pillar, crouched'); await torch(W.P, false); await crouchKey(W.P);
+            const me = await W.P.evaluate(() => ({ x: Math.round(__api.H.x), y: Math.round(__api.H.y) })), r = route(me, { x: PILLAR.x - 260, y: PILLAR.y }) || [{ x: PILLAR.x - 260, y: PILLAR.y }];
+            await W.P.evaluate(`(${PACE})(${JSON.stringify({ pts: r, secs: 14 })})`); } }
           else if (ph === 1 && el() - seenAt > 4) { ph = 2; ev('B runs', 'up and down its lane, out of its sight'); await B.P.evaluate(`(${PACE})(${JSON.stringify({ pts: [{ x: 5112, y: 2792 }, { x: 5112, y: 3192 }], run: true, loop: 6, secs: 16 })})`); }
           else await sleep(300);
           await shot();
         }
         run.Bme = await B.P.evaluate(() => window.__k3.me.filter((q, i) => i % 5 === 0)); run.Binputs = await B.P.evaluate(() => window.__k3.inputs);
       } else if (scene === 'pillar') {
-        const ring = d => { const o = []; for (let k = 1; k <= 12; k++) { const a = d * k / 12 * Math.PI * 2; o.push({ x: PILLAR.x + Math.cos(a) * PILLAR.R, y: PILLAR.y + Math.sin(a) * PILLAR.R }); } return o; };
-        await W.P.evaluate(`(${PACE})(${JSON.stringify({ pts: ring(-1), run: true, gaze: true, loop: 40, secs: SECS })})`); ev('circles', 'anticlockwise, looking where it runs');
+        // a ring 200 px round it, 24 points a lap, the level's own clear points only (a page cuts no corner into the pillar)
+        const onRing = a => ({ x: Math.round(PILLAR.x + Math.cos(a) * PILLAR.R), y: Math.round(PILLAR.y + Math.sin(a) * PILLAR.R) }), clear = q => GW.ad.clear(q.x, q.y, 26, 'walk');
+        const ring = (d, a0 = 0, laps = 1) => { const o = []; for (let k = 1; k <= 24 * laps; k++) { const q = onRing(a0 + d * k / 24 * Math.PI * 2); if (clear(q)) o.push(q); } return o; };
+        await W.P.evaluate(`(${PACE})(${JSON.stringify({ pts: ring(-1), run: true, gaze: true, loop: 40, secs: SECS, reach: 90 })})`); ev('circles', 'anticlockwise, looking where it runs');
         let ph = 0, tRev = -1;
         while (el() < SECS) {
           const r = await lastRec(W.P);
           if (ph === 0 && ((r && r.pl === 'cut') || el() > 16)) { ph = 1; tRev = el(); ev('turns back', r && r.pl === 'cut' ? 'as it cuts across' : 'after 16 s'); const H = await W.P.evaluate(() => ({ x: __api.H.x, y: __api.H.y })), a0 = Math.atan2(H.y - PILLAR.y, H.x - PILLAR.x), back = [];
-            for (let k = 1; k <= 24; k++) { const a = a0 + k / 12 * Math.PI * 2; back.push({ x: PILLAR.x + Math.cos(a) * PILLAR.R, y: PILLAR.y + Math.sin(a) * PILLAR.R }); }
-            await W.P.evaluate(`(${PACE})(${JSON.stringify({ pts: back, run: true, gaze: true, secs: 8 })})`); }
-          if (ph === 1 && el() - tRev > 8) { ph = 2; ev('runs off', 'east down the hall'); await W.P.evaluate(`(${PACE})(${JSON.stringify({ pts: [{ x: 8600, y: HALL }], run: true, gaze: true, secs: 25 })})`); }
+            back.push(...ring(1, a0, 2));
+            await W.P.evaluate(`(${PACE})(${JSON.stringify({ pts: back, run: true, gaze: true, secs: 8, reach: 90 })})`); }
+          if (ph === 1 && el() - tRev > 8) { ph = 2; ev('runs off', 'east down the hall'); const me = await W.P.evaluate(() => ({ x: Math.round(__api.H.x), y: Math.round(__api.H.y) }));
+            await W.P.evaluate(`(${PACE})(${JSON.stringify({ pts: route(me, { x: 8600, y: HALL }) || [{ x: 8600, y: HALL }], run: true, gaze: true, secs: 25, reach: 60 })})`); }
           await sleep(200); await shot();
         }
       }
