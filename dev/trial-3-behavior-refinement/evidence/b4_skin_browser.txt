@@ -1,0 +1,46 @@
+ok   t1_script_loaded - {"skin":"object","fns":"attack,attacker,clear,deathEvent,deathSound,draw,mirror,where"}
+ok   t1_p9_keys_without_one - st,h,m,b,p,gw,it,lf,sn
+ok   t1_admin_tabs - players,monsters,deaths,world,debug -> K -> players,monsters,deaths,world,debug,skin
+ok   t1_admin_skin_tab - {"before":{"text":"SKIN-STEALER · 0 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SKIN-STEALER+ NEAR ME− SKIN-STEALERNone in the halls. The worl","buttons":["+ SKIN-STEALER","+ NEAR ME","− SKIN-STEALER","ANECK BREAKa grip from close by","BPOUNCEcarried down, then the neck","CNECK BITEheld, bitten"]},"after":{"text":"SKIN-STEALER · 1 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SKIN-STEALER+ NEAR ME− SKIN-STEALERK#9ROAMING · nearGO TOREMOVEITS DEATHS · PLAYED ON YOUANECK BREAKa ","status":"SKIN-STEALER PLACED NEAR YOU"}}
+ok   t1_in_snapshot - [{"i":9,"x":744,"y":5064,"a":1.274,"s":1,"ac":0,"v":0,"h":0}]
+ok   t1_one_view_in_creatures_layer - [{"id":9,"x":744,"y":5064,"vis":true,"tint":10066329,"inLayer":true,"masked":true}]
+ok   t1_shaded_by_light - in the dark 999999, lit e8e8e8 (light true)
+ok   t1_remove_takes_view - 0 views; keys st,h,m,b,p,gw,it,lf,sn
+ok   t1_world_reset_clears - 1 -> 0
+ok   t1_no_page_errors - []
+ok   t4_preview_buttons - skinstealer:A,skinstealer:B,skinstealer:C
+ok   t4_own_death_names_it - {"kind":"SkinStealer","v":"B","dur":3.4}
+ok   t4_own_attacker_drawn - {"killView":true,"visible":true,"at":[8342,6032],"attacker":[8342,6032],"mirroredShown":0,"el":2.47}
+ok   t4_spectator_replay - {"replay":true,"att":"skinstealer-replay","attVisible":true,"posed":true,"mirroredShown":0,"mirrored":1}
+FAIL t4_victim_frame_is_the_corpse - {"lastFrame":null,"corpse":{"cause":"SkinStealer","x":8378,"y":6057}}
+ok   t4_corpse_everywhere - {"v":[{"cause":"SkinStealer","x":8378,"y":6057}],"s":[{"cause":"SkinStealer","x":8378,"y":6057}]}
+ok   t4_creature_back_after - {"placed":[9],"after":{"shown":1,"ss":[{"i":9,"x":7488.7,"y":5987.9,"a":3.212,"s":18,"ac":3,"v":105,"h":0}]}} (ac 15 feeding; 3 leaving - disturbed at its kill by the spectator two body lengths away)
+ok   t4_sounds_through_this_script - {"victim":{"death":1,"snap":0},"spectator":{"death":1,"snap":0}} snap path wired: 1
+ok   t4_disconnect_one_corpse - {"second":{"kind":"SkinStealer","v":"A"},"after":[{"cause":"SkinStealer","x":8350,"y":6026}],"first":[{"cause":"SkinStealer","x":8378,"y":6057}]}
+ok   t4_no_page_errors - {"victim":[],"spectator":[]}
+ok   t5_debug_block - ["HUNGER 0.608 very hungry  STAMINA 100  PLAN roam","WHY roaming"]
+ok   t5_living_sounds - {"still":0,"walk":12,"walked":455,"spring":5} (noise sources started: all standing still, one walking 3 s at 150 px/s, its wind-up and leap; two per footfall)
+ok   t5_gallery_drawn - 11 Skin-Stealer views on screen (8 acts, 3 kill attackers)
+ok   t5_brrole_actor - BR-RoLE actor jobs of kind skin: 10
+ok   t5_no_page_errors - []
+ok   t5_own_death_view - {"hound":{"own":{"kind":"Hound","v":"B","dur":4.7},"at":[{"at":0.5,"el":0.93,"dark":0.794,"black":0,"shade":0,"light":1},{"at":1,"el":2.12,"dark":0.8,"black":0,"shade":0,"light":1},{"at":2,"el":2.12,"dark":0.8,"black":0,"shade":0,"light":1},{"at":3,"el":3.18,"dark":0.795,"black":0,"shade":0,"light":0.16}]},"skinstealer":{"own":{"kind":"SkinStealer","v":"B","dur":3.4},"at":[{"at":0.5,"el":0.75,"dark":0.79,"black":0,"shade":0,"light":1},{"at":1,"el":1.9,"dark":0.78,"black":0,"shade":0,"light":1},{"at":2,"el":2.88,"dark":0.827,"black":0,"shade":0.23,"light":1},{"at":3,"el":3.72,"dark":1,"black":0
+ok   t5d_no_page_errors - {"victim":[],"spectator":[]}
+ok   t6_skin_earned - {"kill":{"kind":"SkinStealer","v":"B"},"dg":"none|plain|#e6bb76|#ffcc77"}
+ok   t6_heard_counts_only - {"sAt":{"x":3821,"y":2957,"r":420},"lAt":{"x":3899,"y":3002},"lHeard":true,"dbg":{"hd":[0],"dg":{"from":7,"left":411},"words":false}}
+ok   t6_entity_line - {"eheard":{"id":"e11","mode":"","of":20},"live":["K3Speaker nearby says: The Exit Is This Way","A voice nearby says: the exit is this way"],"voice":{"ctx":"running","level":0.63,"speaking":[],"scheduled":9,"late":16,"stopped":0,"cut":0,"said":2,"capped":0,"previews":0}}
+ok   t6_disguise_drawn - {"avatar":true,"avVisible":true,"gear":false,"hands":[[-16,-2],[16,-2]],"creatureVisible":false,"peers":"K3Prey,K3Speaker"}
+ok   t6_mutes - {"speakerButton":true,"echoOfMutedSilent":true,"genericShown":true,"entityLabel":"An unknown voice: heard","entityMuteSilent":true}
+ok   t6_no_page_errors - {"victim":[],"speaker":[],"listener":[]}
+ok   t7_world_has_all_three - {"dg":"none|plain|#e6bb76|#ffcc77","lists":{"keys":"st,h,m,b,p,gw,it,lf,sn,ss","ss":1,"hounds":3,"smilers":4},"kill":{"kind":"SkinStealer","v":"A"}}
+ok   t7_line_each_as_set - {"a":{"id":"e12","shown":1,"of":8},"m":{"id":"e12","shown":8,"of":8},"voices":{"a":1,"m":0},"eheard":{"a":1,"m":1},"mAt":{"x":1165,"y":2909},"aAt":{"x":1025,"y":2909,"r":380,"off":0.26},"k0":[982,3287,4.56],"k1":[982,3287,380],"trace":[[null,[1025,2909],null,null,null,null,null,"alive"],[null,[1025,2909],null,null,null,null,null,"alive"],[164,[1025,2909],[1014,3073],"watch","mingle","it stands and stares at P11",0.014,"alive"],[164,[1025,2909],[1014,3073],"watch","mingle","it stands and stares at P11",0.014,"alive"],[164,[1025,2909],[1014,3073],"mimic","mingle","it stands and stares at P11",0.
+ok   t7_phone_draws_the_skin - true
+ok   t7_other_room_nothing - {"heard":0,"ss":null,"keys":"st,h,m,b,p,gw,it,lf,sn","views":0}
+ok   t7_disconnect_goes_on - {"ss":1,"snaps":4966}
+ok   t7_world_reset_clears - {"reset":{"ss":null,"skinViews":0,"skins":0,"bubbles":0,"keys":"st,h,m,b,p,gw,it,lf,sn"},"tab":"SKIN-STEALER · 0 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SK"}
+ok   t7_no_page_errors - {"victim":[],"desktop":[],"phone":[],"other":[]}
+SKIN BROWSER: FAIL - 39 of 40 cases
+
+real	14m10.846s
+user	0m42.813s
+sys	0m11.077s
+exit 0

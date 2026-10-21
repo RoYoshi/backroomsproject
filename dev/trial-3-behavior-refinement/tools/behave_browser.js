@@ -124,6 +124,15 @@ const BOT = `(o) => { const K = window.__k3, held = new Set(), key = (c, down) =
       AudioBufferSourceNode.prototype.start = function (...a) { if (this.buffer && this.buffer.numberOfChannels === 1 && this.buffer.length === this.context.sampleRate) window.__k3.src.push(performance.now()); return st.apply(this, a); }; });
     await A.P.bringToFront();
     await A.P.evaluate(`(${BOT})(${JSON.stringify({ orbit: 15, press: +ARG.secs })})`);
+    if (SHOTS) {                                                                               // the warning and the wind-up as the person's page draws them
+      const shot = { warn: 0, wind: 0 }, end = Date.now() + (15 + +ARG.secs + 20) * 1000;
+      while (Date.now() < end && !(await A.P.evaluate(() => !!window.__k3.botDone))) {
+        const k = await A.P.evaluate(() => (window.__k3.ss || [])[0] || null);
+        if (k && !shot.warn && k.s === SCODE.PROVOKED && k.ac === KACT.creep) { shot.warn = 1; await A.P.screenshot({ path: path.join(SHOTS, 'b4_warning_640.png') }); }
+        else if (k && !shot.wind && k.ac === KACT.wind) { shot.wind = 1; await A.P.screenshot({ path: path.join(SHOTS, 'b4_windup_640.png') }); }
+        await sleep(120);
+      }
+    }
     await until(A.P, () => window.__k3.botDone, null, (15 + +ARG.secs + 20) * 1000, 500);
     const rec = await A.P.evaluate(() => window.__k3.rec), death = await A.P.evaluate(() => window.__k3.death || null);
     R.trace = rec.map(r => [r.t, r.ph, r.d, r.s, r.ac, r.h, r.pl, r.aw ? r.aw.p : 0, r.rx, r.hu, r.vx, r.vy]);

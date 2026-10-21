@@ -11,7 +11,8 @@ row is filled in by the next checkpoint (the last by a receipt commit).
 | B0 audit, plan, reproduction, baseline | `4e4a1cf31f856ba8b552ae30ce0e20a2424b5467` | `d7e7a9cc62d8daeacb2be7400a67b48f6cfd15d6` | `020b5b5` | yes: `evidence/remote/b0.json` (ls-remote and the GitHub API agree; one line from `020b5b5`; every protected ref at its head; no other branch moved or new); secret scan of the pushed commit CLEAN |
 | B1 awareness while it roams or leaves | `0d6f7b9f00ee34318975a5b157bfe548ab0e20d7` | `9672dbbd20b83ebd7cce8ebee6e70304c7ef8cdf` | `4e4a1cf` | yes: `evidence/remote/b1.json`; secret scan of the pushed commit CLEAN |
 | B2 provocation, warnings, fading, the very hungry departure | `17563927677a45c32fa561467b1c60a9aa81f73c` | `d0696e246d3cdefa0840216344dae9672626e40e` | `0d6f7b9` | yes: `evidence/remote/b2.json`; secret scan of the pushed commit CLEAN |
-| B3 defence | (this commit: `evidence/remote/b3.json` arrives with B4) | | `1756392` | |
+| B3 defence | `67250cef964f0b9f41315bb684857b90ce01def1` | `790fc69cd12b2fbc122774f54822d5da273e4a1d` | `1756392` | yes: `evidence/remote/b3.json`; secret scan of the pushed commit CLEAN |
+| B4 integrated regression and performance | (this commit: `evidence/remote/b4.json` arrives with B5) | | `67250ce` | |
 
 ## B0 — audit and plan, no game change
 
@@ -107,3 +108,25 @@ scenario reports how close it came. No creature behaviour was changed for these.
 | `npm test` | 202 / 215 (`evidence/b3_npm_test.txt`); the 13 failures are B0's, name for name |
 | `tools/behave_browser.js` (real server, headless Chromium, two 640x360 pages; first run) | 9 / 9 (`evidence/b3_browser_smoke.json`): moved by the page's own keys; a look 2.4 s after it came close, 3 while circling, its head turned; a warning on the wire at 16.7 s (state PROVOKED, act creep); a defence at 19.8 s (strike, odds 0.45) with its wind-up on the wire and its sound (12 noise sources); the person's own death 1 s later named the Skin-Stealer; the overlay drew AWARE (noticed, provoked, warned 1x) and DEFENCE lines; no page error. Three earlier runs of the new tool failed on the tool itself (a 1280x720 software-rendered page too slow for its own steering; the creature allowed to earn a skin before the person came; the overlay's own switch not on) |
 | build, `build:check`, parts, modules, facts, window contract, docs, API contract, scope | PASS |
+
+## B4 — integrated regression and performance (no game change)
+
+Changed: `dev/trial-3-behavior-refinement/` only — new `tools/perf_br.js` (BR18: the server's cost against Trial 3, and the soak);
+`tools/behave_browser.js` takes a screenshot at the warning and at a wind-up when `--shots` is given; the reports `BEHAVIOR_DECISIONS.md`,
+`CHANGED_FILES.md`, `REGRESSION_REPORT.md`, `HUMAN_QA.md`, `DEFERRED.md`; evidence. The runtime is B3's byte for byte. Comparison trees
+were detached worktrees outside the repository: P9 (`1ff9374`, tree `d6b71b8`) and Trial 3 (`020b5b5`, tree `26234cd`).
+
+| Run | Result |
+|---|---|
+| `npm test` | 202 / 215 (`evidence/b4_npm_test.txt`); the 13 failures are B0's, name for name (compared line by line); the 53 SK and BR notes identical to B3's |
+| `npm run test:humanqa` | 5 / 6, X03 as on P9 (`evidence/b4_humanqa.txt`) |
+| build, `build:check`, parts, modules, facts, window contract, docs, API contract, scope | PASS (`evidence/b4_static.txt`) |
+| fast gate | PASS, 21 steps, 17 min 39 s, on `67250ce` (`evidence/b4_gate_fast.txt`, `.json`) |
+| `equiv_p9.js` against P9 | 6 / 6 seeds identical tick for tick (7200 snapshots); self-test 6 / 6 (`evidence/b4_equiv_p9*.txt`) |
+| `tools/perf_br.js` (5 rounds × 60 s, 8 players, seed 7) | PASS: without a Skin-Stealer −2.4 % (tolerance 0.03 ms); one +1.2 %, four +1.8 % (mean), within the 60 Hz budget; four with every player pressing one −20 % against Trial 3 (`evidence/b4_perf_br.*`). Its first run applied the absolute budget to the pressing case as well and failed it (p99 4.37 ms against 4.175 ms; Trial 3's own 4.61 ms); that case is now judged against Trial 3 (`REGRESSION_REPORT.md`; the first run kept as `b4_perf_br_run1.*`) |
+| soak, 600 s, 4 Skin-Stealers, 8 players pressing them | PASS: 0 violations, at most 4 records, pressure at most 1.2, mean 0.158 ms (`evidence/b4_soak_br.*`; Trial 3 on the same seed `b4_soak_t3_same_seed.json`) |
+| `tools/behave_browser.js` | 9 / 9 (`evidence/b4_behave_browser.*`, `b4_shots/`) |
+| Trial 3's `skin_browser.js` | 39 / 40; then the death section twice: 9 / 10 and 10 / 10 — two different single-sample timing cases of a death played in a frozen world (`REGRESSION_REPORT.md`; `evidence/b4_skin_browser*`) |
+
+Noted at B4, from B3: BR03's sixth circling run now ends one of its looks with a warning and a defensive withdrawal (a new departure),
+so BR03 reads 5 / 6 (its bar since B1) where B1 and B2 read 6 / 6.
