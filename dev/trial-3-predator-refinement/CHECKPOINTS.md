@@ -16,7 +16,8 @@ hash: each row is filled in by the next checkpoint (the last by a receipt commit
 | R5 its size on the page | `16847755c5b5198853fe4f3b3096ef505fef78e3` | `a855f0364efe2dc58816a409d834348eea253dab` | `ef70370` | 2026-10-21 07:39 UTC, `evidence/remote/r5.json`; scans `r5_pre.txt` / `r5_post.txt` clean |
 | R6 several people, parity, stress, cost | `7e85e94dfaa720f24dda4bfc06e69cec1c0df39d` | `002d98294df6cc7811746050cf276fcbf93785f7` | `1684775` | 2026-10-21 08:57 UTC, `evidence/remote/r6.json`; scans `r6_pre.txt` / `r6_post.txt` clean |
 | R7 independent review and fixes | `7b9d704919532d4d0ec1dca6156f29b15ce6a5db` | `ad1ab19593f2c79d5718e6506750b99172698bee` | `7e85e94` | 2026-10-21 10:08 UTC, `evidence/remote/r7.json`; scans `r7_pre.txt` / `r7_post.txt` clean |
-| R8 final documents and receipts | (this commit: its read-back, `evidence/remote/r8.json`, arrives with the receipt commit) | | `7b9d704` | |
+| R8 final documents and receipts | `62a887e65e47e4a67f242a17c22faea098c8e702` | `8491edc7d32af1255efe71d129186738ab384de8` | `7b9d704` | 2026-10-21 10:13 UTC, `evidence/remote/r8.json`; scans `r8_pre.txt` / `r8_post.txt` clean |
+| receipt (R8's read-back only) | the commit after `62a887e`, named in the handoff message | | `62a887e` | read back after its push (the handoff message) |
 
 ## R0 — audit and plan, no game change
 
