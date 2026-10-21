@@ -676,8 +676,8 @@
   },
   {
    "out": "generated/server/ai.js",
-   "bytes": 301022,
-   "sha256": "c8225e491d652c64b5e57f5114aa5cddb19c8fb67d7501a1b66867bc0b45ae91",
+   "bytes": 319175,
+   "sha256": "3319ff51c1d926ce1f34f4279c6917c6f9e4cb90c1f985005d8c2b75d9505472",
    "parts": [
     {
      "path": "src/frameworks/nani/server/ai.head.js",
@@ -726,8 +726,8 @@
     },
     {
      "path": "src/frameworks/nani/server/ai.skinstealer.js",
-     "sha256": "9e511bb24d65b005841d91ef4049bf4134d9c56f8a520f39f45692afcfb9bf87",
-     "headerBytes": 442
+     "sha256": "682ce5dc6f98ced3be000de85cf5a08cf5975918072032b2ebd175fe54a13f80",
+     "headerBytes": 446
     },
     {
      "path": "src/frameworks/nani/server/ai.engine.js",

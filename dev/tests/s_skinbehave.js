@@ -279,7 +279,7 @@ add('BR13 a long harassment: three minutes of somebody pressing in on it, coming
   });
   return { ok: rate(rs) === 1, note: `${rs.filter(r => r.ok).length}/3: warnings ${rs.map(r => r.warns).join('/')} (never closer than ${rs.map(r => r.minGap).join('/')} s apart), awareness records at most ${rs.map(r => r.maxAw).join('/')}, reacting ${rs.map(r => r.reacting).join('/')} of the time, ${rs.map(r => r.places).join('/')} 200-px places visited; defensive strikes ${rs.map(r => r.defences).join('/')} (apart ${rs.map(r => r.gaps.join(', ') || '-').join(' / ')} s; each after a fresh warning), withdrawals ${rs.map(r => r.withdrew).join('/')}, kills ${rs.map(r => r.kills).join('/')} in ${rs.map(r => r.deaths).join('/')} deaths`, data: rs };
 });
-add('BR14 a very hungry departure: thought over only on fresh sight of somebody it may hunt, after a few seconds, at most once a second - never because hunger rose, never for the person it left, never after a lost race', () => {
+add('BR14 a very hungry departure: thought over only on fresh sight of somebody it may hunt, after a few seconds, at most once a second - never because hunger rose, never for the person it left; and (R1) a lost race is no departure but never a new chase for a while', () => {
   // A: it leaves two people (A, B); B walks off out of sight, A stays (on its cooldown); later a newcomer C comes into view alone
   const fresh = over([1, 2, 3, 4], seed => {
     const { w, e, p } = stage(seed, { hunger: .7 }); const b = w.player(ARENA.x + 330, ARENA.y + 90, { light: true, angle: Math.PI }); b.stop('stand'); b.look = Math.PI;
@@ -305,24 +305,27 @@ add('BR14 a very hungry departure: thought over only on fresh sight of somebody 
     });
     return { ok: leftAt >= 0 && !changed && e.hunger >= .8, leftAt: +leftAt.toFixed(1), hunger: +e.hunger.toFixed(3), changed, ended: ended || 'still leaving', seenAfter, reconsider: e.tally.reconsider };
   });
-  // C: it loses a straight race (SK22's), then somebody new comes into view during that departure: it keeps going
+  // C: it loses a straight race (SK22's).  (Predator refinement R1, the owner's instruction for a very hungry one: a lost race is no longer
+  // a departure - it keeps to the runner's trail.  What B2 protected stays: it does not become a chaser because the runner stays in view -
+  // no new chase for SK.chaseRest after the lost race and never faster in that time than its free walking pace (SK.runFrom); and
+  // somebody new coming into view does not send it after them either while that holds.)
   const race = over([1, 2, 3, 4], seed => {
     const w = World(seed + 300), y = 3504; const p = w.player(5300, y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
     const e = w.eng.spawn('skinstealer', 5000, y, { hunger: .7 }); e.tier = 'near'; e.ang = 0; p.go(8700, y, 'run');
-    let P0 = null, c = null, changed = false, ended = '', seenC = 0;
+    let lostAt = -1, c = null, seenC = 0, chaseAgain = -1, vmax = 0, plans = new Set(), left = false;
     w.run(26, (ww, t) => {
-      if (!P0 && planOf(e) === 'leave') P0 = e.plan;
-      if (P0 && !c && w.eng.now - P0.t0 > 5) { const s0 = ahead(w, e); if (s0) { c = w.player(s0.x, s0.y, { light: true, angle: s0.a }); c.stop('stand'); c.look = s0.a; } }
+      if (lostAt < 0 && e.tally.chaseLost) lostAt = t;
+      if (lostAt >= 0 && !c && t - lostAt > 5) { const s0 = ahead(w, e); if (s0) { c = w.player(s0.x, s0.y, { light: true, angle: s0.a }); c.stop('stand'); c.look = s0.a; } }
       if (c && e.seenNow.has(c.id)) seenC++;
-      if (P0 && !ended && e.pounce) ended = 'its arm\'s-reach grab (Trial 3: a hungry one grabs whoever is in its reach)';
-      if (P0 && !ended && e.plan !== P0) { ended = P0.goal && Math.hypot(P0.goal.x - e.x, P0.goal.y - e.y) < 90 ? 'arrived' : w.eng.now >= P0.until - .2 ? 'its time' : 'changed'; changed = ended === 'changed'; }
+      if (lostAt >= 0 && t - lostAt < AI.SK.chaseRest - .2) { if (planOf(e) === 'chase' && chaseAgain < 0) chaseAgain = +(t - lostAt).toFixed(1); if (!e.pounce && !e.recover && !e.trav && t - lostAt > .5) vmax = Math.max(vmax, e.speed); plans.add(planOf(e)); }   // (after half a second: it slows from the race; a vault on the way is the engine's traversal, not its stride)
+      if (lostAt >= 0 && planOf(e) === 'leave') left = true;
       return true;
     });
-    return { ok: !!P0 && P0.race === true && !changed, race: !!(P0 && P0.race), seenC, changed, ended: ended || 'still leaving' };
+    return { ok: lostAt >= 0 && chaseAgain < 0 && vmax <= AI.SK.runFrom + 1, lostAt: +lostAt.toFixed(1), chaseAgain, vmax: Math.round(vmax), plans: [...plans].join('/'), left, seenC };
   });
   const fr = fresh.filter(r => r.changedAt >= 0);
-  return { ok: rate(fresh) === 1 && rate(stale) === 1 && race.filter(r => r.seenC > 0).length >= 2 && rate(race) === 1,
-    note: `newcomer: ${fresh.map(r => `left at ${r.leftAt} s, newcomer seen at ${r.seenC} s, ${r.changedAt < 0 ? 'kept its departure' : r.reconsider ? 'gave up its departure at ' + r.changedAt + ' s' : 'its departure ended at ' + r.changedAt + ' s (kept it when it thought again)'}`).join(' | ')} | hidden, hunger past 0.8 during the departure: changed ${stale.filter(r => r.changed).length}/4 (${stale.map(r => r.ended).join(', ')}; hunger at the end ${stale.map(r => r.hunger).join('/')}) | after a lost race: a lost-race departure ${race.filter(r => r.race).length}/4, the newcomer seen ${race.map(r => r.seenC).join('/')} ticks, changed ${race.filter(r => r.changed).length}/4 (${race.map(r => r.ended).join(', ')})`, data: { fresh, stale, race } };
+  return { ok: rate(fresh) === 1 && rate(stale) === 1 && rate(race) === 1,
+    note: `newcomer: ${fresh.map(r => `left at ${r.leftAt} s, newcomer seen at ${r.seenC} s, ${r.changedAt < 0 ? 'kept its departure' : r.reconsider ? 'gave up its departure at ' + r.changedAt + ' s' : 'its departure ended at ' + r.changedAt + ' s (kept it when it thought again)'}`).join(' | ')} | hidden, hunger past 0.8 during the departure: changed ${stale.filter(r => r.changed).length}/4 (${stale.map(r => r.ended).join(', ')}; hunger at the end ${stale.map(r => r.hunger).join('/')}) | after a lost race (R1: no departure for a very hungry one): chase again within ${AI.SK.chaseRest} s ${race.filter(r => r.chaseAgain >= 0).length}/4, fastest then ${race.map(r => r.vmax).join('/')} px/s (its free pace ${AI.SK.runFrom}), plans ${race.map(r => r.plans).join(' | ')}; it later left ${race.filter(r => r.left).length}/4; the newcomer seen ${race.map(r => r.seenC).join('/')} ticks`, data: { fresh, stale, race } };
 });
 add('BR20 nothing stale survives: a person who leaves the game, goes far away for a minute, or an admin clear, a removal or a world reset - their pressure goes with it', () => {
   const press = (seed) => { const { w, e, p, anchor } = stage(seed, { hunger: 0 }); const go = presser(w, e, p); w.run(5, (ww, t) => { if (t > .5) go(); return true; }); return { w, e, p, anchor, p0: e.aw.get(p.id) ? +e.aw.get(p.id).p.toFixed(2) : 0 }; };

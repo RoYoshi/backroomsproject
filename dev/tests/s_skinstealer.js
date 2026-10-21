@@ -100,12 +100,14 @@ add('SK08 admin navigation and summon reach its own hooks (never the Smiler\'s s
   const w = World(61), p = w.player(5000, LONG.y); p.stop('stand');
   const e = w.eng.spawn('skinstealer', 5600, LONG.y); e.tier = 'near';
   const r1 = w.eng.navCmd(e, 'hunt', p), st1 = e.state, tg = e.target;
-  const r2 = w.eng.navCmd(e, 'clear', p), st2 = e.state;
+  const r2 = w.eng.navCmd(e, 'clear', p), st2 = e.state, tg2 = e.target;
   const ok3 = w.eng.summon(e, 5600, LONG.y, 5000, LONG.y, p.id), st3 = e.state, goal = e.roam.goal;
-  w.run(3); const st4 = e.state;
-  const bad = ['STALKING', 'HIDDEN', 'FOLLOWING', 'WATCHING'].filter(s => [st1, st2, st3, st4].includes(s) && s !== 'WATCHING');
-  const ok = /WATCHING|RECORD/.test(r1) && tg === p.id && /CLEARED/.test(r2) && e.target === null && ok3 && goal && goal.x === 5000 && !bad.length;
-  return { ok, note: `hunt: "${r1}" (${st1}, target ${tg}); clear: "${r2}" (${st2}); summon: ${ok3} -> goal ${goal && goal.x},${goal && goal.y} (${st3}); 3 s later ${st4}` };
+  w.run(3); const st4 = e.state, own4 = e.plan && ['approach', 'flank', 'intercept'].includes(e.plan.k);
+  // (predator refinement R1) a hungry one (an admin spawn starts at .45-.65) may now begin its own approach or flank within those 3 s;
+  // STALKING is then its own plan's state (SK_STATE), not the Smiler's stalk - which is what this scenario guards against
+  const bad = ['STALKING', 'HIDDEN', 'FOLLOWING', 'WATCHING'].filter(s => [st1, st2, st3, st4].includes(s) && s !== 'WATCHING' && !(s === 'STALKING' && [st1, st2, st3].every(q => q !== s) && st4 === s && own4));
+  const ok = /WATCHING|RECORD/.test(r1) && tg === p.id && /CLEARED/.test(r2) && tg2 === null && ok3 && goal && goal.x === 5000 && !bad.length;   // (R1: the target is judged right after the clear - 3 s later a hungry one may have chosen them again)
+  return { ok, note: `hunt: "${r1}" (${st1}, target ${tg}); clear: "${r2}" (${st2}); summon: ${ok3} -> goal ${goal && goal.x},${goal && goal.y} (${st3}); 3 s later ${st4}${own4 ? ' (its own ' + e.plan.k + ')' : ''}` };
 });
 
 /* ---------------------------------------------------------------- T2: the animal, its senses, non-engagement, budgets */
@@ -260,7 +262,7 @@ function baitRun(seed, follow) {
     const k = planOf(e);
     if (k === 'lure' && R.lureAt < 0) { R.lureAt = w.t; R.pos = { x: e.x, y: e.y }; R.hidden = !g.los(p.x, p.y, e.x, e.y); R.d0 = Math.hypot(p.x - e.x, p.y - e.y); }
     if (k === 'lure') { R.moved = Math.max(R.moved, Math.hypot(e.x - R.pos.x, e.y - R.pos.y)); R.lureD = Math.min(R.lureD, Math.hypot(p.x - e.x, p.y - e.y)); }
-    if (R.lureAt >= 0 && R.endAt < 0 && k !== 'lure') { R.endAt = w.t; R.why = e.dbg.why; R.after = k; }
+    if (R.lureAt >= 0 && R.endAt < 0 && k !== 'lure') { R.endAt = w.t; R.why = e.dbg.why; R.after = k; R.huntOn = !!(e.hunt && e.hunt.pid === p.id && e.hunt.baitFailed); }
     if (follow && R.lureAt >= 0 && !p.going && w.t - R.lureAt > 1) { p.going = 1; p.look = null; p.route([{ x: 1020, y: SW.gapP.y }, { x: SW.gapK.x, y: SW.gapK.y }], 'walk'); }
     return true;
   });
@@ -269,9 +271,12 @@ function baitRun(seed, follow) {
 add('SK21 the bait: seen, a hungry one backs round a corner and waits there, still; nobody follows - it gives up and leaves; somebody follows - they come round that corner close to it', () => {
   const stay = over([1, 2, 3, 4, 5, 6, 7, 8], s => baitRun(s, false)), fol = over([1, 2, 3, 4, 5, 6, 7, 8], s => baitRun(s, true));
   const lured = stay.filter(r => r.lureAt >= 0), lf = fol.filter(r => r.lureAt >= 0);
-  const okStay = lured.length >= 6 && lured.every(r => r.hidden && r.moved < 30 && r.lureD >= r.d0 - 30 && r.after === 'leave' && /did not follow/.test(r.why) && r.dur <= AI.SK.lureMax + .5);
+  // (Predator refinement R1, the owner's instruction for a very hungry one - .7 here: a bait nobody followed is one failed tactic, not the end
+  // of the hunt.  What T3 protected stays - it lies in wait hidden and still, nobody follows, the wait ends within SK.lureMax and the bait is
+  // recorded as failed; then it leaves, or (R1) goes on with the same hunt - listening, going after them - instead of a departure.)
+  const okStay = lured.length >= 6 && lured.every(r => r.hidden && r.moved < 30 && r.lureD >= r.d0 - 30 && ((r.after === 'leave' && /did not follow/.test(r.why)) || r.huntOn) && r.dur <= AI.SK.lureMax + .5);
   const came = lf.filter(r => r.came > 0 && r.lureD < 320);
-  return { ok: okStay && lf.length >= 6 && came.length >= 5, note: `stays put: ${lured.length}/8 lay in wait, hidden ${lured.filter(r => r.hidden).length}, moved at most ${Math.max(...lured.map(r => Math.round(r.moved)))} px, gave up after ${lured.map(r => r.dur).join('/')} s ("${lured[0] && lured[0].why}") | follows: ${lf.length}/8 lay in wait, they came round the corner within ${lf.map(r => Math.round(r.lureD)).join('/')} px of it (${came.length} within 320)`, data: { stay, fol } };
+  return { ok: okStay && lf.length >= 6 && came.length >= 5, note: `stays put: ${lured.length}/8 lay in wait, hidden ${lured.filter(r => r.hidden).length}, moved at most ${Math.max(...lured.map(r => Math.round(r.moved)))} px, gave up the wait after ${lured.map(r => r.dur).join('/')} s (then ${lured.map(r => r.huntOn ? 'hunted on' : r.after).join('/')}) ("${lured[0] && lured[0].why}") | follows: ${lf.length}/8 lay in wait, they came round the corner within ${lf.map(r => Math.round(r.lureD)).join('/')} px of it (${came.length} within 320)`, data: { stay, fol } };
 });
 
 add('SK22 the straight race: a fresh runner on a straight wins - it gives chase, falls behind and gives up for that reason; a winded one does not - it closes to striking distance', () => {
@@ -280,13 +285,17 @@ add('SK22 the straight race: a fresh runner on a straight wins - it gives chase,
     const p = w.player(5300, y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0; if (winded) p.exhaust();
     const e = w.eng.spawn('skinstealer', 5000, y, { hunger: .7 }); e.tier = 'near'; e.ang = 0;
     p.go(8700, y, 'run');
-    let chased = false, dmin = 1e9, why = '';
-    w.run(14, () => { if (planOf(e) === 'chase') chased = true; else if (chased && !why) why = e.dbg.why; if (w.t > .5) dmin = Math.min(dmin, Math.hypot(p.x - e.x, p.y - e.y)); return true; });
-    return { chased, dmin: Math.round(dmin), why, end: Math.round(Math.hypot(p.x - e.x, p.y - e.y)), lost: e.tally.chaseLost };
+    let chased = false, dmin = 1e9, why = '', lossD = -1, runD = 1e9;
+    w.run(14, () => { const d = Math.hypot(p.x - e.x, p.y - e.y); if (planOf(e) === 'chase') chased = true; else if (chased && !why) { why = e.dbg.why; lossD = d; } if (w.t > .5) dmin = Math.min(dmin, d);
+      if (lossD >= 0 && p.tx !== null) runD = Math.min(runD, d); return true; });
+    return { chased, dmin: Math.round(dmin), why, lossD: Math.round(lossD), runD: Math.round(runD), end: Math.round(Math.hypot(p.x - e.x, p.y - e.y)), lost: e.tally.chaseLost };
   };
   const fresh = over([1, 2, 3, 4], s => race(s, false)), tired = over([1, 2, 3, 4], s => race(s, true));
-  const ok = fresh.every(r => r.chased && /losing the race/.test(r.why) && r.dmin >= 280 && r.end > 1500) && tired.every(r => r.chased && r.dmin <= 185);
-  return { ok, note: `fresh: never closer than ${fresh.map(r => r.dmin).join('/')} px, gave up ("${fresh[0].why}"), ${fresh.map(r => r.end).join('/')} px apart after 14 s | winded: it closed to ${tired.map(r => r.dmin).join('/')} px (striking distance ${AI.SK.approachStop}..185; the pounce is T4's)`, data: { fresh, tired } };
+  // (Predator refinement R1: a hungry one that loses the race no longer leaves - it keeps to the runner's trail at its free walking pace.
+  // T3's "1500 px apart after 14 s" measured the departure; what it protected - the fresh runner wins - is asserted directly instead: once
+  // the race is lost, the gap never closes while they keep running.)
+  const ok = fresh.every(r => r.chased && /losing the race/.test(r.why) && r.dmin >= 280 && r.runD >= r.lossD - 15) && tired.every(r => r.chased && r.dmin <= 185);
+  return { ok, note: `fresh: never closer than ${fresh.map(r => r.dmin).join('/')} px, gave up the chase ("${fresh[0].why}") ${fresh.map(r => r.lossD).join('/')} px behind, never closer than ${fresh.map(r => r.runD).join('/')} px while they ran on, ${fresh.map(r => r.end).join('/')} px apart after 14 s | winded: it closed to ${tired.map(r => r.dmin).join('/')} px (striking distance ${AI.SK.approachStop}..185; the pounce is T4's)`, data: { fresh, tired } };
 });
 
 /* interception: a person with a torch walks north past wall C's gap, where it sees them; past the gap they switch the torch off and walk on.
@@ -411,10 +420,14 @@ add('SK31 counterplay: someone who sees the wind-up and steps aside makes it mis
   const rs = over([1, 2, 3, 4, 5, 6], seed => {
     const R = strike(seed + 920, { px: 5170, secs: 14, drive: (w, p, e, R) => {
       if (e.pounce && e.act === 'wind' && !p.dodged) { p.dodged = 1; p.look = null; p.route([{ x: p.x + 20, y: p.y - 150 }, { x: p.x + 1600, y: p.y - 150 }], 'run'); }   // the tell: it crouches - they break sideways, then run
+      if (p.dodged && p.stoppedAt === undefined && p.mode === 'stand') p.stoppedAt = w.t;   // (R1) where their run ended
     } });
-    return { ok: R.how === 'missed' && R.recover >= AI.SK.recoverMiss[0] - .05 && R.cool >= AI.SK.pounceCool[0] - .05 && !R.kills.length && R.stam0 - R.stam1 >= AI.SK.pounceCost - 1, how: R.how, recover: +(R.recover || 0).toFixed(2), cool: R.cool, kills: R.kills.length };
+    // (predator refinement R1) "a fresh runner gets away" is judged while they run: a very hungry one no longer gives up the hunt when it
+    // misses, so somebody who then stops in the open, facing away, may be hunted again later - reported, not counted as caught in the run
+    const k0 = R.kills[0], stopAt = R.p.stoppedAt ?? 1e9, during = !!k0 && k0.at < stopAt;
+    return { ok: R.how === 'missed' && R.recover >= AI.SK.recoverMiss[0] - .05 && R.cool >= AI.SK.pounceCool[0] - .05 && !during && R.stam0 - R.stam1 >= AI.SK.pounceCost - 1, how: R.how, recover: +(R.recover || 0).toFixed(2), cool: R.cool, kills: R.kills.length, during, later: !!k0 && !during, stopAt: stopAt < 1e9 ? +stopAt.toFixed(1) : -1, killAt: k0 ? +k0.at.toFixed(1) : -1 };
   });
-  return { ok: rate(rs) >= 5 / 6, note: rs.map(r => `${r.how}, recovering ${r.recover} s, ${r.cool} s before another, ${r.kills ? 'KILLED' : 'got away'}`).join(' | '), data: rs };
+  return { ok: rate(rs) >= 5 / 6, note: rs.map(r => `${r.how}, recovering ${r.recover} s, ${r.cool} s before another, ${r.during ? 'KILLED while running' : r.later ? `got away; hunted again after they stopped (${r.stopAt} s) and taken at ${r.killAt} s` : 'got away'}`).join(' | '), data: rs };
 });
 
 add('SK32 lethal only on contact: every kill it makes has its body against the victim\'s with nothing solid between; someone behind a wall within reach of its leap is never taken through it', () => {
@@ -569,19 +582,24 @@ add('SK41 its lines from hiding: lying in wait, hungry and unseen, it calls out 
     w.run(40);
     return { lines, tally: e.tally, w };
   };
-  const rs = over([1, 2, 3, 4, 5, 6], s => {
+  // (predator refinement R1) a very hungry one now answers being seen by going round them as often as by the bait (its hunt's own
+  // seeded choice), so not every run lies in wait: the runs that did (sixteen seeds) are judged - each called out from hiding - and
+  // enough of them must have
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], s => {
     const A = run(s, true), B = run(s, false), bad = [];
-    const la = A.lines, lb = B.lines;
-    if (!la.length || !lb.length) bad.push(`no line (${la.length}/${lb.length})`);
+    const la = A.lines, lb = B.lines, wa = A.tally.lure > 0, wb = B.tally.lure > 0;
+    if (!wa && !wb) return { ok: true, waited: 0, a: [], b: [] };
+    if ((wa && !la.length) || (wb && !lb.length)) bad.push(`no line (${la.length}/${lb.length}, lay in wait ${wa ? 1 : 0}/${wb ? 1 : 0})`);
     for (const L of la.concat(lb)) { if (L.plan !== 'lure') bad.push('said in ' + L.plan); if (L.seenNow) bad.push('said while seen'); }
     if (la[0] && !(la[0].o > 0 && /^is anybody over there\? i lost(\.\.\. lost)?$/.test(la[0].text) && la[0].text.split(' ').length <= 7 && la[0].text === la[0].text.toLowerCase())) bad.push('heard line ' + JSON.stringify(la[0].text));
     if (lb[0] && !(lb[0].o === 0 && ['hello?', 'is someone there?', 'over here', 'wait for me', 'can you help me?', "i'm lost", 'this way'].includes(lb[0].text))) bad.push('bait ' + JSON.stringify(lb[0].text));
     for (const L of [la, lb]) for (let i = 1; i < L.length; i++) if (L[i].at - L[i - 1].at < AI.SK.sayGap[0] - .05) bad.push('too close');
     if (la.length > AI.SK.sayEnc || lb.length > AI.SK.sayEnc) bad.push('too many');
     out.push(la[0] && la[0].text, lb[0] && lb[0].text);
-    return { ok: !bad.length, bad, a: la.map(L => L.text), b: lb.map(L => L.text) };
+    return { ok: !bad.length, bad, waited: (wa ? 1 : 0) + (wb ? 1 : 0), a: la.map(L => L.text), b: lb.map(L => L.text) };
   });
-  return { ok: rate(rs) >= 5 / 6, note: `${rs.filter(r => r.ok).length}/6; said: ${[...new Set(out.filter(Boolean))].map(t => JSON.stringify(t)).join(', ')}${rs.some(r => !r.ok) ? ' | ' + rs.filter(r => !r.ok).map(r => r.bad ? r.bad.join(';') : r.err).join(' | ') : ''}`, data: rs };
+  const waited = rs.filter(r => r.waited), n = rs.reduce((q, r) => q + (r.waited || 0), 0);
+  return { ok: n >= 6 && rate(waited) >= 5 / 6, note: `lay in wait in ${n} of 32 runs; ${waited.filter(r => r.ok).length}/${waited.length} seeds right; said: ${[...new Set(out.filter(Boolean))].map(t => JSON.stringify(t)).join(', ')}${rs.some(r => !r.ok) ? ' | ' + rs.filter(r => !r.ok).map(r => r.bad ? r.bad.join(';') : r.err).join(' | ') : ''}`, data: rs };
 });
 add('SK42 the skin is earned: only at a kill it made, only if it then feeds 8 s; it wears exactly the look\'s four drawn fields (never a name, light or id) and the snapshot shows it as a wanderer\'s look; disturbed at its meal sooner, it leaves the skin; a bad look is refused; one that never killed never wears one', () => {
   const rs = over([1, 2, 3, 4], s => {

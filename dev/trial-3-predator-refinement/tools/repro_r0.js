@@ -25,7 +25,7 @@ const REPO = path.resolve(ARG.repo || path.join(__dirname, '..', '..', '..'));
 const { World, DT } = require(path.join(REPO, 'dev', 'harness.js'));
 const SEEDS = ARG.seeds.split(',').map(Number), ONLY = ARG.only ? ARG.only.split(',') : null;
 const LONG = { y: 3504 };
-const planOf = e => e.plan ? e.plan.k : 'roam';
+const planOf = e => e.plan ? e.plan.k : e.hunt ? 'hunt' : 'roam';   // ('hunt': between two steps of a hunt - from R1 on)
 /* a far, hidden, crouched bystander: keeps the room alive after a death (the server pauses a room with nobody alive) */
 function bystander(w, x, y) { const q = w.player(x, y, { light: false }); q.stop('crouch'); return q; }
 /* the record of one run: plan changes, time per plan, sounds after the last sighting */

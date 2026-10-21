@@ -1,0 +1,66 @@
+PASS H01 bait a lunge and sidestep: a late sidestep beats it most of the time; standing still does not  [7412ms]
+       sidestep evades 100%   standing still is caught 96%
+PASS H02 no i-frames: a lunge that connects catches you whatever you were doing (walking/running); a slide can pass under it  [1549ms]
+       walking away is caught 10/10; a sliding player evaded 0/10 (slide passes under a lunge)
+PASS H03 chase outcomes in the long corridor: a fresh runner with a head start lasts; an exhausted one is caught fast  [2536ms]
+       runner with a 450px lead survives 8s+ in 100%; exhausted caught 100% (avg 3.9s); walker caught 100%
+PASS H04 lunges start only when in range, roughly aligned and with a clear line  [1118ms]
+       15/16 runs produced a lunge, 0 outside range/alignment limits
+PASS H05 poor sharp turning: the hound turns much slower at full speed than at a crawl  [608ms]
+       p95 turn rate at speed>230: 1.72 rad/s (1316 samples); at slow speed 9.31 (188)
+PASS H06 after a missed lunge it recovers (skids, turns slowly) before it runs again  [1059ms]
+       100% recover >0.9s before regaining speed (gaps 1.45,1.18,1.5,1.55,1.42,1.2,1.27,1.37)
+FAIL H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)  [16307ms]
+       reached 12/13: ROAMING, CURIOUS, HUNTING, EXCITED, DORMANT, STALKING, FEEDING, SEARCHING, PLAYING, FRUSTRATED, RETREATING, CAUTIOUS   MISSING: ALERT
+PASS H08 searching is logical: it starts at the last known position, fans out around it, and does not home in on a quiet crouching player  [1712ms]
+       100% began at the lead and fanned out around it (avg 4.1 goals; mean goal distance to the lead 319px vs to the real player 1672px); found the hidden player in 1/10
+PASS H09 the wall impact only ever happens against a wall that is really there  [10062ms]
+       open ground: C 0/37; wall behind: C 27/60 (bad wall records 0)
+PASS H10 exhausted prey: variant D only ever for a player with nothing left (and is the usual end for one caught from behind)  [16955ms]
+       exhausted: D 60/76; fresh: D 0/74
+PASS H11 no repeated identical death selection (variant history is respected)  [489ms]
+       90 kills: {"A":28,"B":28,"C":34,"D":0}, longest identical streak 2
+PASS H12 after a kill: it is worked up (EXCITED), then feeds; an intruder at the body is guarded against and hunted  [2514ms]
+       90% excited -> fed -> reacted to an intruder (excited 18, fed 20, guard 0, hunt/stalk 20, intruder caught 20)
+PASS H13 pack instinct: hounds near each other share a pack id, and one hound sounding off draws the others  [1324ms]
+       100% of runs formed a pack and drew a second hound (largest pack seen 3)
+PASS H14 far hounds sleep and wake: no perception when far; awake when a player is near  [84ms]
+       tier far=far, perception ticks while far 0; after a player arrives: near
+PASS SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased  [1745ms]
+       light on, in its view, standing: chased 8/8 (wind-up before the chase avg 4.1 s); light off, same spot: chased 0/8, struck 0, perceived at all 5/8 (not perceived at 645 px, 621 px, 717 px), watched 4/5 of those
+PASS SM02 strikes only on canon triggers: a quiet still person is never struck; a fast retreat in front of it (panic) or a loud noise close by is  [2555ms]
+       quiet and still (looking at it or away), 40 s: struck 0/8; ran away in front of it: struck 8/8 ("P100 retreated fast in front of it (panic)"); a hard landing close by: struck 8/8 ("a loud land from P100, close")
+PASS SM03 eye contact: watched, it holds; backing away slowly while watching it gets you let go (it withdraws, no strike)  [1084ms]
+       8 runs: held by eye contact 8, unharmed while backing away crouched and watching it 8, let go (it withdrew, "let ... go") 8
+PASS SM04 no hidden position: an unsensed player moved elsewhere changes nothing the Smiler does (tick by tick)  [1359ms]
+       6 valid pairs (hidden player never sensed): identical decisions 6/6 (the placement validator is the one sanctioned system rule; hidden spots are kept > 2200 px from the action)
+PASS SM05 lost player: it goes where it last had them (with an uncertainty), not where they really went  [863ms]
+       7 losses: it went to look 0 px from the last sighting (±87), 1657 px from the truth; 0 px from the last sighting (±87), 1758 px from the truth; 0 px from the last sighting (±87), 1844 px from the truth; 0 px from the last sighting (±87), 1543 px from the truth; 0 px from the last sighting (±87), 1867 px from the truth; 0 px from the last sighting (±87), 1344 px from the truth; 0 px from the last sighting (±87), 1230 px from the truth
+PASS SM06 light lead: drawn to what it observed (an uncertain region), and the same observations replayed with the carrier far away give identical decisions  [2019ms]
+       10 runs where it was drawn by a light it saw without the person: identical decisions with the carrier moved away 10/10 (compared until the person was first perceived: 0.4 s, 1.0 s, 0.3 s, 0.4 s, 1.0 s, 0.3 s, 4.1 s, 0.7 s, 1.8 s, 1.1 s); leads litwall ±338 (155 px from the carrier), beam ±251 (146 px from the carrier), litwall ±338 (160 px from the carrier), litwall ±338 (155 px from the carrier), beam ±251 (146 px from the carrier), litwall ±338 (160 px from the carrier), beam ±289 (146 px from the carrier), litwall ±351 (160 px from the carrier), litwall ±337 (158 px from the carrier), beam ±218 (146 px from the carrier)
+PASS SM07 wall occlusion: a torch lighting the far side of a wall draws nothing; the smiler stays where it is  [1590ms]
+       19 setups: light leads through the wall 0; smilers that left their spot 0
+PASS SM08 infrared OFF vs HIGH: identical Smiler decisions (camcorders raised, infrared written everywhere a client could put it)  [777ms]
+       3/3 worlds identical over 1200 ticks
+PASS SM09 attention: a one-frame glance does nothing; through a wall nothing; sustained eye contact (with line of sight) holds it  [2079ms]
+       one-frame glances every 0.75 s: no hold 8/8; sustained eye contact: held 8/8; through a wall: attention registered 0/16
+PASS SM10 hold is counterplay, not immunity: standing and staring, it creeps in and drifts sideways; a fixed gaze loses it; up close a small sound triggers it  [1267ms]
+       8 stand-offs: it closed in (avg 410 px, to 137 px) and did not go away while watched 8; drifted sideways 8; a fixed gaze lost it 7; up close (8): a crouched shuffle set it off 0, then one walking step set it off 8
+PASS SM11 multiplayer: one watches it in the dark, another walks about with a light - it works on the light, settles (no flicker), and a lit player it has never seen never wins  [1621ms]
+       11 runs: worked on the light carrier 11; targeted the lit player behind walls before ever seeing them 0 (saw them later, legitimately: 1); target switches 0,0,0,0,0,0,0,0,0,0,0 (inside the 3 s dwell while the old one was still in view: 0)
+PASS SM12 personality: bounded, deterministic per seed, and no extreme tiers  [213ms]
+       200 individuals: all in [0.02, 0.98] true; same seed -> same creature true; patience 0.57-0.83, boldness 0.37-0.63; chase threshold 0.59-0.65
+PASS SM13 state validity over long mixed runs: finite, valid targets and states, legal transitions, never inside walls, never stuck  [3827ms]
+       18000 samples, 126 transitions, states seen HIDDEN FOLLOWING WATCHING ATTACKING DISAPPEARING PROVOKED; problems 0; longest time in one active state 45 s
+PASS SM14 no teleporting: every move is walked (bounded per tick), whatever it is doing  [1164ms]
+       10 runs of 90 s: biggest single-tick step 5.0 px (300 px/s) @{"t":0.83,"s":"ATTACKING","x":2372,"y":3331}
+PASS SM15 presentation: no limbs; the face glow is its own channel (not the generic entity alpha); no aggression UI outside debug  [7ms]
+       arms drawn false, legs drawn false; glow reads the generic alpha false; aggression UI false; internal values debug-only true
+PASS SM16 multiplayer: a light elsewhere draws it off somebody it only watches in the dark (once - no back-and-forth); eye contact keeps it  [5085ms]
+       not watched back (15): drawn off to the light 7, of which went on to the carrier 7; pulled more than once 0; held by eye contact (15): drawn off 0
+PASS SM17 close-range pressure: holding its eyes does not let you walk up to it - walking, crouching or inching in on it ends in a strike; standing still or backing away does not  [4798ms]
+       holding eye contact the whole time - walked at it: struck 8/8 (at 130 px, "P100 walked in on it to point-blank (120 px, closed 291 px)"); crouched at it: 8/8; inched in (35 px, 4 s pauses): 8/8; stood still while it crept in: 0/8; side-stepped only: 0/8
+
+30/31 passed
+FAILED: H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)
+EXIT 1

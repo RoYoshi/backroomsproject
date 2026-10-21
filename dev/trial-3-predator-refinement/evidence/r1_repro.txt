@@ -1,0 +1,40 @@
+W h=0.05: left within 45 s 8/8 (at 0.1/0.1/0.1/0.1/0/0/0.1/0.1 s), retreated 0/8, share leave 0.47, roam 0.53; closest 447/434/447/447/447/447/437/439 px; kills 0
+W h=0.2: left within 45 s 8/8 (at 0.1/0.1/0.1/0.1/0/0/0.1/0.1 s), retreated 0/8, share leave 0.47, roam 0.53; closest 447/434/447/447/447/447/437/439 px; kills 0
+W h=0.5: left within 45 s 8/8 (at 15/15.3/14.5/15.5/14.5/14.3/17/15.6 s), retreated 8/8, share retreat 0.14, lure 0.19, leave 0.45, roam 0.21; closest 447/447/447/445/447/447/352/446 px; kills 0
+W h=0.75: left within 45 s 0/8 (at -1/-1/-1/-1/-1/-1/-1/-1 s), retreated 4/8, share retreat 0.03, lure 0.12, approach 0.12, roam 0.35, search 0.01; closest 10/14/32/31/36/1/16/13 px; kills 8
+W h=0.95: left within 45 s 0/8 (at -1/-1/-1/-1/-1/-1/-1/-1 s), retreated 0/8, share approach 0.11, roam 0.43; closest 8/33/38/36/37/37/37/35 px; kills 8
+W h=1: left within 45 s 0/8 (at -1/-1/-1/-1/-1/-1/-1/-1 s), retreated 0/8, share approach 0.11, roam 0.42; closest 8/33/38/17/37/37/37/35 px; kills 8
+U h=0.05: left within 45 s 8/8 (at 0.1/0.1/0.1/0.1/0/0/0.1/0.1 s), retreated 0/8, share leave 0.47, roam 0.53; closest 447/434/447/447/447/447/437/439 px; kills 0
+U h=0.2: left within 45 s 8/8 (at 0.1/0.1/0.1/0.1/0/0/0.1/0.1 s), retreated 0/8, share leave 0.47, roam 0.53; closest 447/434/447/447/447/447/437/439 px; kills 0
+U h=0.5: left within 45 s 0/8 (at -1/-1/-1/-1/-1/-1/-1/-1 s), retreated 0/8, share approach 0.11, roam 0.71; closest 8/33/38/17/38/37/37/35 px; kills 8
+U h=0.75: left within 45 s 0/8 (at -1/-1/-1/-1/-1/-1/-1/-1 s), retreated 0/8, share approach 0.11, roam 0.57; closest 38/33/38/17/37/37/37/35 px; kills 8
+U h=0.95: left within 45 s 0/8 (at -1/-1/-1/-1/-1/-1/-1/-1 s), retreated 0/8, share approach 0.11, roam 0.44; closest 8/33/38/17/37/37/37/35 px; kills 8
+U h=1: left within 45 s 0/8 (at -1/-1/-1/-1/-1/-1/-1/-1 s), retreated 0/8, share approach 0.11, roam 0.42; closest 8/33/38/17/37/37/37/35 px; kills 8
+C (watched 120 s at .95): kills 1/1/1/1/1/1/1/1; departures 0/0/0/0/0/0/0/0; closest 8/33/38/36/37/37/37/35 px; share of time approaching 0.04/0.04/0.04/0.04/0.04/0.04/0.04/0.04
+L: kills 0
+  seed 1: roam  | sounds after the last sighting 0a/0n, plan changes on a sound 0 | ends: roaming
+  seed 2: roam>approach>intercept>approach>chase>listen>search>hunt>search>hunt>listen>search>leave  | sounds after the last sighting 9a/2n, plan changes on a sound 3 | ends: the trail of P101 is cold: it gives up
+  seed 3: roam>approach>intercept>search>hunt>listen>search>leave  | sounds after the last sighting 10a/0n, plan changes on a sound 0 | ends: no sign of P101 for 20 s: it gives up
+  seed 4: roam>approach>listen>search>hunt>listen>search>hunt>search>leave  | sounds after the last sighting 0a/0n, plan changes on a sound 0 | ends: the trail of P101 is cold: it gives up
+  seed 5: roam>approach>intercept>approach>chase>listen>search>hunt>listen>search>hunt>listen>search>leave  | sounds after the last sighting 6a/1n, plan changes on a sound 7 | ends: no sign of P101 for 20 s: it gives up
+  seed 6: roam>approach>intercept>approach>chase>listen>search>hunt>listen>search>hunt>search>leave  | sounds after the last sighting 8a/2n, plan changes on a sound 9 | ends: the trail of P101 is cold: it gives up
+  seed 7: roam>approach>intercept>leave>roam  | sounds after the last sighting 8a/0n, plan changes on a sound 0 | ends: it left; it roams again
+  seed 8: roam>approach>intercept>leave>roam  | sounds after the last sighting 9a/0n, plan changes on a sound 0 | ends: roaming the dark
+F: kills 1
+  seed 1: roam>search>approach>chase>listen>search>roam>feed  | sounds after the last sighting 0a/0n, plan changes on a sound 0 | ends: it feeds at its kill
+  seed 2: roam>approach>intercept>leave>roam  | sounds after the last sighting 5a/0n, plan changes on a sound 0 | ends: it left; it roams again
+  seed 3: roam>approach>intercept>search>hunt>listen>search>leave>roam  | sounds after the last sighting 17a/0n, plan changes on a sound 2 | ends: it left; it roams again
+  seed 4: roam>approach>listen>search>hunt>listen>search>hunt>search>leave>roam  | sounds after the last sighting 6a/2n, plan changes on a sound 5 | ends: it left; it roams again
+  seed 5: roam>approach>intercept>leave>roam  | sounds after the last sighting 0a/0n, plan changes on a sound 0 | ends: it left; it roams again
+  seed 6: roam>approach>intercept>leave>roam  | sounds after the last sighting 0a/0n, plan changes on a sound 0 | ends: it left; it roams again
+  seed 7: roam>approach>intercept>leave>roam  | sounds after the last sighting 0a/0n, plan changes on a sound 0 | ends: it left; it roams again
+  seed 8: roam>approach>intercept>leave>roam  | sounds after the last sighting 0a/0n, plan changes on a sound 0 | ends: roaming the dark
+R: kills 7
+  seed 1: lost the race at 3.9 s; then approach>intercept>approach>roam>feed; closest 40 px
+  seed 2: lost the race at 3.5 s; then approach>listen>roam; closest 300 px
+  seed 3: lost the race at 3.5 s; then approach>intercept>approach>roam>feed; closest 41 px
+  seed 4: lost the race at 3.5 s; then approach>intercept>approach>roam>feed; closest 38 px
+  seed 5: lost the race at 4 s; then approach>intercept>approach>roam>feed; closest 38 px
+  seed 6: lost the race at 3.9 s; then approach>intercept>approach>roam>feed; closest 38 px
+  seed 7: lost the race at 3.9 s; then intercept>approach>roam>feed; closest 38 px
+  seed 8: lost the race at 3.9 s; then approach>intercept>approach>roam>feed; closest 40 px
