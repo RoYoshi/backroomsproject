@@ -1,0 +1,181 @@
+{
+ "tool": "dev/trial-3-skin-stealer/tools/skin_browser.js",
+ "dir": "<this repository>",
+ "chromium": "141.0.7390.37",
+ "sections": {
+  "t6": {
+   "alive": true,
+   "away": [
+    {
+     "x": 7278,
+     "y": 3891
+    },
+    {
+     "x": 7315,
+     "y": 3639
+    }
+   ],
+   "eid": 10,
+   "kill": {
+    "kind": "SkinStealer",
+    "v": "B"
+   },
+   "dg": "none|plain|#e6bb76|#ffcc77",
+   "k0": {
+    "x": 4729,
+    "y": 3371,
+    "a": 4.111
+   },
+   "sAt": {
+    "x": 4985,
+    "y": 3038,
+    "r": 420
+   },
+   "lAt": {
+    "x": 5075,
+    "y": 3038
+   },
+   "sState": {
+    "started": true,
+    "paused": false,
+    "caught": false,
+    "on": true,
+    "dlg": [],
+    "sheets": [],
+    "open": true
+   },
+   "lHeardSpeaker": true,
+   "dbg": {
+    "hd": [
+     0
+    ],
+    "dg": {
+     "from": 1,
+     "left": 339
+    },
+    "words": false
+   },
+   "lAt2": {
+    "x": 4749,
+    "y": 2992,
+    "r": 380,
+    "off": 0.65
+   },
+   "trace": [
+    null,
+    null,
+    [
+     252,
+     "pace",
+     "mingle",
+     "in P1's skin it walks up to P3",
+     null,
+     0.028
+    ],
+    [
+     165,
+     "watch",
+     "mingle",
+     "it stands and stares at P3",
+     null,
+     0.029
+    ],
+    [
+     165,
+     "mimic",
+     "mingle",
+     "it stands and stares at P3",
+     {
+      "ago": 0.9,
+      "src": "heard",
+      "why": "staring"
+     },
+     0.031
+    ]
+   ],
+   "eheard": {
+    "id": "e10",
+    "mode": "",
+    "of": 27
+   },
+   "drawn": {
+    "avatar": true,
+    "avVisible": true,
+    "gear": false,
+    "hands": [
+     [
+      -16,
+      -2
+     ],
+     [
+      16,
+      -2
+     ]
+    ],
+    "creatureVisible": false,
+    "peers": "K3Prey,K3Speaker"
+   },
+   "live": [
+    "K3Speaker nearby says: The Exit Is This Way",
+    "A voice nearby says: the exit is this way... way"
+   ],
+   "voice": {
+    "ctx": "running",
+    "level": 0.63,
+    "speaking": [],
+    "scheduled": 9,
+    "late": 19,
+    "stopped": 0,
+    "cut": 0,
+    "said": 2,
+    "capped": 0,
+    "previews": 0
+   },
+   "mute": {
+    "speakerButton": true,
+    "echoOfMutedSilent": true,
+    "genericShown": true,
+    "entityLabel": "An unknown voice: heard",
+    "entityMuteSilent": true
+   },
+   "errors": {
+    "victim": [],
+    "speaker": [],
+    "listener": []
+   }
+  }
+ },
+ "cases": [
+  {
+   "name": "t6_skin_earned",
+   "ok": true,
+   "detail": "{\"kill\":{\"kind\":\"SkinStealer\",\"v\":\"B\"},\"dg\":\"none|plain|#e6bb76|#ffcc77\"}"
+  },
+  {
+   "name": "t6_heard_counts_only",
+   "ok": true,
+   "detail": "{\"sAt\":{\"x\":4985,\"y\":3038,\"r\":420},\"lAt\":{\"x\":5075,\"y\":3038},\"lHeard\":true,\"dbg\":{\"hd\":[0],\"dg\":{\"from\":1,\"left\":339},\"words\":false}}"
+  },
+  {
+   "name": "t6_entity_line",
+   "ok": true,
+   "detail": "{\"eheard\":{\"id\":\"e10\",\"mode\":\"\",\"of\":27},\"live\":[\"K3Speaker nearby says: The Exit Is This Way\",\"A voice nearby says: the exit is this way... way\"],\"voice\":{\"ctx\":\"running\",\"level\":0.63,\"speaking\":[],\"scheduled\":9,\"late\":19,\"stopped\":0,\"cut\":0,\"said\":2,\"capped\":0,\"previews\":0}}"
+  },
+  {
+   "name": "t6_disguise_drawn",
+   "ok": true,
+   "detail": "{\"avatar\":true,\"avVisible\":true,\"gear\":false,\"hands\":[[-16,-2],[16,-2]],\"creatureVisible\":false,\"peers\":\"K3Prey,K3Speaker\"}"
+  },
+  {
+   "name": "t6_mutes",
+   "ok": true,
+   "detail": "{\"speakerButton\":true,\"echoOfMutedSilent\":true,\"genericShown\":true,\"entityLabel\":\"An unknown voice: heard\",\"entityMuteSilent\":true}"
+  },
+  {
+   "name": "t6_no_page_errors",
+   "ok": true,
+   "detail": "{\"victim\":[],\"speaker\":[],\"listener\":[]}"
+  }
+ ],
+ "ok": true
+}

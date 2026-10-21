@@ -17,7 +17,8 @@ filled in by the next checkpoint.
 | C5 multiplayer, fairness, regression | `776e85368237ccb424c9a5b7df377442647b9b40` | `4e4eae1f7fc8b62a00978f4eff3521914b0dee79` | `93fe6ca` | read back from GitHub (`evidence/remote/c5.json`: ok); scans before and after clean |
 | C6a real pages, R8 against this build | `5f8bdfef9d942d9d06391a8ca00ddf44584b95e3` | `6076701fd6a6b09375969fcabbdf2f6d60e86911` | `776e853` | read back from GitHub (`evidence/remote/c6a.json`: ok); scans before and after clean |
 | C6b performance, the gate, the earlier browser checks | `d708f426e4f1d1224596693a6d8b57bf07b24f9f` | `8d4843b37ea3a80a364c0d6fc9c546c05d7228df` | `5f8bdfe` | read back from GitHub (`evidence/remote/c6b.json`: ok); scans before and after clean |
-| C7a the independent review and its fixes | (this commit: `evidence/remote/c7a.json` arrives with C7b) | | `d708f42` | |
+| C7a the independent review and its fixes | `91de3eb153807c66f6a2bf3e71876669e7f4f346` | `64afa401f5c9b899981912fd4194c2dd711cdb19` | `d708f42` | read back from GitHub (`evidence/remote/c7a.json`: ok); scans before and after clean |
+| C7b the fixed build, re-run in full | (this commit: `evidence/remote/c7b.json` arrives with C8) | | `91de3eb` | |
 
 ## C0 — diagnosis first (no game change)
 
@@ -294,3 +295,22 @@ review and its kit.
 | `tools/c0_audit.js` (`evidence/c7_audit.*`) | as at C4 but: watched at .5 / .55 and the lure-runner scene, the longest idle in view **8.0–8.2 s** (C4: 18.9–39.9 s), the plans now end in `leave` after a stand-off; the passer-by at .45 1 / 6 killed (C4 2 / 6: one passed over is now let go); every other scene's kills unchanged |
 | the review's four experiments again (`evidence/c7_review/out_after_fix/`) | stamina 15 / 100 still differs (drawn heaving - see F1); group: no pounce, 3 grabs in reach; passed over: 1 of 19 taken up, after its hunger rose past the draw; stared down: in view 11–35 s, then it goes or got beside them unseen |
 | static checks (`evidence/c7_checks.txt`) | all PASS |
+
+## C7b — the fixed build, re-run in full
+
+Changed: no game code (C7a's). `tools/c7_pool.py` (the review's F5: every pass pooled, with n, and every try left out and why).
+Everything the review asked to re-run after its fixes, on the fixed build:
+
+| Run | Result |
+|---|---|
+| `npm test` (`evidence/c7b_npm_test.txt`, `c7b_npm_compare.txt`) | **254 / 267; 13 failures, each on R8's inherited list by its whole name**; none new, none fixed |
+| `npm run test:humanqa` (`evidence/c7b_humanqa.txt`) | 5 / 6, X03 inherited |
+| P9 equivalence, six seeds × 120 s (`evidence/c7b_equiv_p9.txt`) | **PASS** - 6 / 6 identical tick for tick |
+| the fast gate (`evidence/c7b_gate.txt`) | **PASS, 21 / 21** |
+| `tools/c6_browser.js`, two passes of three tries a scene (`evidence/c7b_browser_p1.*`, `_p2.*`; shots `c7b_shots/`) | per scene, pooled with R8's and the pre-fix build's every valid pass (`evidence/c7b_browser_pool.txt`): watched page turning its back **R8 4 / 7 kills, before the fix 8 / 9, fixed 6 / 6**; the fork's double-back R8 3 / 6, 4 / 7, **2 / 4 - fooled twice** (it searched the way it saw them go, listened, gave up); the decoy R8 3 / 5, 3 / 4, 1 / 2 (three tries out: A held up by a wall); the pillar R8 1 / 3, 3 / 3, 4 / 5 (**no cut-off in this pass**: stand-offs and a flank reached them first; the simulation's cut-offs are unchanged, C06 9 / 9); the fresh runner R8 0 / 6, 2 / 8, **1 / 6** (never caught running; the one killed had hidden round the corner it searched). **All: R8 11 / 27, before the fix 20 / 31, fixed 14 / 23.** n is small; this cannot separate "smarter" from "deadlier" - it says the fixed build is deadlier than R8 where a page looks away, circles, or hides near where it ran, and no deadlier where the page runs and keeps going |
+| B1–B5's `behave_browser.js` (`evidence/c7b_behave_browser.*`) | **9 / 9** |
+| R8's `predator_browser.js` (`evidence/c7b_predator_browser.*`) | 6 / 7; `pr_listened_then_looked` not exercised (as at C6b: `DEFERRED.md`) |
+| Trial 3's `skin_browser.js`, section by section (`evidence/c7b_skin_browser/`) | **40 / 40** (t1 10, t4 10, t5 5, t5d 2, t6 6, t7 7) |
+| `perf_pr.js` against R8, three interleaved rounds (`evidence/c7b_perf.*`) | **PASS** (0 violations). Medians R8 → fixed: none 0.169 → 0.187 (+11 %, the same code: noise), one 0.201 → 0.208 (p99 1.24 → 1.93), four 0.286 → 0.257 (p99 3.42 → 3.09), **four pressed 0.279 → 0.291 (p99 2.50 → 3.83, +53 %: within the tool's tolerance by its spread, i.e. borderline)**, four starving 0.280 → 0.275 (p99 4.21 → 2.87). Red runs: R8 three (4.31, 4.21, 4.24), fixed one (4.25, four pressed, round 1) |
+| the same matrix again, because the pressed pair was borderline (`evidence/c7b_perf_run2.*`) | **PASS** (0 violations). none 0.175 → 0.190, one 0.199 → 0.214 (p99 1.94 → 2.53), four 0.307 → 0.267 (p99 4.16 → 2.61), **four pressed 0.294 → 0.295 (p99 3.22 → 3.66, +14 %)**, four starving 0.300 → 0.276 (p99 4.19 → 3.75). Red runs: R8 three (4.27, 4.29, 4.19), fixed two (4.29 four pressed, 4.23 four starving). **Across all four matrices the pressed pair's p99 was higher on this build three times (+9, +53, +14 %) and lower once (−19 %), its mean the same (±5 %)**: within the 60 Hz budget and the tool's tolerance every time, but a tendency, stated in `PERFORMANCE.md` |
+| `perf_pr.js --soak 600` (`evidence/c7b_soak.*`) | **PASS**: mean 0.158 ms, p99 0.83, worst 12.9 ms; 0 violations |

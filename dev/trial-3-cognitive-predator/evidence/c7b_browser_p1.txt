@@ -1,0 +1,31 @@
+lookaway #1: hunger 0.526; first saw {"1":1}; events 2 seen, 8.3 looks away, 11 looks back, 18.8 looks away, 21.8 looks back; first strike 10.4 s, A died 11.2 s, closest 4 px, cut-off null s; hunted 1 (A 1, B null)
+   0.4 roam | 1 approach P1 | 6.3 stand P1 | 11.2 roam
+lookaway #2: hunger 0.492; first saw {"2":1}; events 1 seen, 8.4 looks away, 10.6 looks back, 18.4 looks away, 21.6 looks back; first strike 11.4 s, A died 12 s, closest 38 px, cut-off null s; hunted 2 (A 2, B null)
+   0.2 roam | 1 approach P2 | 5.1 stand P2 | 12 roam
+lookaway #3: hunger 0.627; first saw {"3":0.6}; events 2.2 seen, 8.2 looks away, 11.3 looks back, 18.4 looks away, 21.1 looks back; first strike 10.2 s, A died 10.7 s, closest 34 px, cut-off null s; hunted 3 (A 3, B null)
+   0.4 roam | 0.6 approach P3 | 6.4 stand P3 | 10.7 roam
+fork #1: hunger 0.532; SETUP MISS (it never saw a page); first saw {}; events 0.8 walks, 2.3 torch off, 4.1 doubles back, 4.3 still; first strike null s, A died null s, closest 745 px, cut-off null s; hunted - (A 4, B null)
+   0.3 roam
+fork #2: hunger 0.587; first saw {"5":0.9}; events 0.6 walks, 1 seen, 2.4 torch off, 3.8 doubles back, 3.9 still; first strike null s, A died null s, closest 189 px, cut-off null s; hunted 5 (A 5, B null)
+   0.2 roam | 0.9 approach P5 | 3.3 listen P5 | 3.8 search P5 | 12.3 listen P5 | 14.3 search P5 | 19.2 leave | 39.7 roam
+fork #3: hunger 0.535; first saw {"6":1.5}; events 0.7 walks, 2 seen, 2.2 torch off, 4.1 doubles back, 4.2 still; first strike 6.7 s, A died 7.3 s, closest 23 px, cut-off null s; hunted 6 (A 6, B null)
+   0.3 roam | 1.5 approach P6 | 3.8 listen P6 | 5.4 search P6 | 7.3 roam
+decoy #1: hunger 0.552; SETUP MISS (it never saw a page); first saw {}; events 10.2 A hides, 13 B runs; first strike null s, A died null s, closest 450 px, cut-off null s; hunted - (A 7, B 8)
+   0.6 roam
+decoy #2: hunger 0.617; first saw {"9":0.9}; events 3.6 A seen, 6.6 A hides, 8.2 B runs; first strike null s, A died 10.8 s, closest 14 px, cut-off null s; hunted 9 (A 9, B 10)
+   0.6 roam | 0.9 approach P9 | 7 stand P9 | 8.7 listen P9 | 9.4 search P9 | 10.8 roam | 14.2 feed | 24 roam
+decoy #3: hunger 0.459; first saw {"11":1.1,"12":24.2}; events 3.9 A seen, 6.1 A hides, 8.2 B runs; first strike null s, A died 10.4 s, closest 22 px, cut-off null s; hunted 11 (A 11, B 12)
+   0.7 roam | 1.1 approach P11 | 8 leave | 10.4 roam | 14.2 feed | 22.1 roam | 24.2 leave
+pillar #1: hunger 0.549; first saw {"13":1.1}; events 0.2 circles, 16.1 turns back, 24.2 runs off; first strike null s, A died 7.1 s, closest 4 px, cut-off null s; hunted 13 (A 13, B null)
+   0.4 roam | 1.1 stand P13 | 4.3 flank P13 | 7.2 roam
+pillar #2: hunger 0.6; first saw {"14":1.3}; events 0.3 circles, 16.2 turns back, 24.4 runs off; first strike 12.7 s, A died 13 s, closest 10 px, cut-off null s; hunted 14 (A 14, B null)
+   0.3 roam | 1.3 stand P14 | 3.6 flank P14 | 8.7 approach P14 | 9.9 stand P14 | 13 roam
+pillar #3: hunger 0.535; first saw {"15":1.3}; events 0.2 circles, 16.2 turns back, 24.4 runs off; first strike 14.3 s, A died 15.1 s, closest 21 px, cut-off null s; hunted 15 (A 15, B null)
+   0.4 roam | 1.3 approach P15 | 1.7 stand P15 | 2.8 listen P15 | 3.1 search P15 | 6.2 flank P15 | 12.1 approach P15 | 12.7 chase P15 | 15.1 roam
+escape #1: hunger 0.526; first saw {"16":0.8}; events 2.2 seen, 4.3 runs, 21.3 hides; first strike null s, A died null s, closest 329 px, cut-off null s; hunted 16 (A 16, B null)
+   0.4 roam | 0.8 watch P16 | 3.1 approach P16 | 5.8 stand P16 | 18.7 listen P16 | 19.7 search P16 | 35.6 leave
+escape #2: hunger 0.52; first saw {"17":0.6}; events 1.9 seen, 3.6 runs, 15.4 hides; first strike 32.2 s, A died 32.7 s, closest 17 px, cut-off null s; hunted 17 (A 17, B null)
+   0.3 roam | 0.6 approach P17 | 4.6 stand P17 | 7 listen P17 | 7.3 search P17 | 12.1 stand P17 | 15.5 listen P17 | 16.8 search P17 | 30.4 approach P17 | 32.7 roam
+escape #3: hunger 0.515; first saw {"18":1.1}; events 1.1 seen, 3.8 runs, 24.3 hides; first strike null s, A died null s, closest 415 px, cut-off null s; hunted 18 (A 18, B null)
+   0.2 roam | 1.1 approach P18 | 4.3 stand P18 | 5.7 listen P18 | 6 search P18 | 16.3 roam | 16.6 listen P18 | 18 search P18 | 21.1 leave
+exit 0

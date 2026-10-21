@@ -1,0 +1,274 @@
+{
+ "tool": "dev/trial-3-skin-stealer/tools/skin_browser.js",
+ "dir": "<this repository>",
+ "chromium": "141.0.7390.37",
+ "sections": {
+  "t7": {
+   "eid": 13,
+   "kill": {
+    "kind": "SkinStealer",
+    "v": "A"
+   },
+   "dg": "none|plain|#e6bb76|#ffcc77",
+   "lists": {
+    "keys": "st,h,m,b,p,gw,it,lf,sn,ss",
+    "ss": 1,
+    "hounds": 3,
+    "smilers": 4
+   },
+   "monsters": "st,h,m,b,p,gw,it,lf,sn,ss",
+   "aAt": {
+    "x": 653,
+    "y": 3699,
+    "r": 380,
+    "off": 0
+   },
+   "mAt": {
+    "x": 793,
+    "y": 3699
+   },
+   "k1": [
+    648,
+    4079,
+    380
+   ],
+   "trace": [
+    [
+     null,
+     [
+      653,
+      3699
+     ],
+     null,
+     null,
+     null,
+     null,
+     null,
+     "alive"
+    ],
+    [
+     null,
+     [
+      653,
+      3699
+     ],
+     null,
+     null,
+     null,
+     null,
+     null,
+     "alive"
+    ],
+    [
+     239,
+     [
+      653,
+      3699
+     ],
+     [
+      650,
+      3938
+     ],
+     "pace",
+     "mingle",
+     "in P1's skin it walks up to P2",
+     0.021,
+     "alive"
+    ],
+    [
+     239,
+     [
+      653,
+      3699
+     ],
+     [
+      650,
+      3938
+     ],
+     "pace",
+     "mingle",
+     "in P1's skin it walks up to P2",
+     0.021,
+     "alive"
+    ],
+    [
+     164,
+     [
+      653,
+      3699
+     ],
+     [
+      651,
+      3863
+     ],
+     "watch",
+     "mingle",
+     "it stands and stares at P2",
+     0.022,
+     "alive"
+    ],
+    [
+     164,
+     [
+      653,
+      3699
+     ],
+     [
+      651,
+      3863
+     ],
+     "watch",
+     "mingle",
+     "it stands and stares at P2",
+     0.022,
+     "alive"
+    ],
+    [
+     164,
+     [
+      653,
+      3699
+     ],
+     [
+      651,
+      3863
+     ],
+     "mimic",
+     "mingle",
+     "it stands and stares at P2",
+     0.023,
+     "alive"
+    ],
+    [
+     164,
+     [
+      653,
+      3699
+     ],
+     [
+      651,
+      3863
+     ],
+     "watch",
+     "mingle",
+     "it stands and stares at P2",
+     0.03,
+     "alive"
+    ],
+    [
+     164,
+     [
+      653,
+      3699
+     ],
+     [
+      651,
+      3863
+     ],
+     "watch",
+     "mingle",
+     "it stands and stares at P2",
+     0.031,
+     "alive"
+    ],
+    [
+     164,
+     [
+      653,
+      3699
+     ],
+     [
+      651,
+      3863
+     ],
+     "watch",
+     "mingle",
+     "it stands and stares at P2",
+     0.033,
+     "alive"
+    ]
+   ],
+   "aLine": {
+    "id": "e13",
+    "shown": 1,
+    "of": 16
+   },
+   "mLine": {
+    "id": "e13",
+    "shown": 16,
+    "of": 16
+   },
+   "eh": {
+    "a": 1,
+    "m": 1
+   },
+   "voices": {
+    "a": 1,
+    "m": 0
+   },
+   "mSkin": true,
+   "other": {
+    "heard": 0,
+    "ss": null,
+    "keys": "st,h,m,b,p,gw,it,lf,sn",
+    "views": 0
+   },
+   "afterPhone": {
+    "ss": 1,
+    "snaps": 4895
+   },
+   "afterReset": {
+    "ss": null,
+    "skinViews": 0,
+    "skins": 0,
+    "bubbles": 0,
+    "keys": "st,h,m,b,p,gw,it,lf,sn"
+   },
+   "tab": "SKIN-STEALER · 0 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SK",
+   "errors": {
+    "victim": [],
+    "desktop": [],
+    "phone": [],
+    "other": []
+   }
+  }
+ },
+ "cases": [
+  {
+   "name": "t7_world_has_all_three",
+   "ok": true,
+   "detail": "{\"dg\":\"none|plain|#e6bb76|#ffcc77\",\"lists\":{\"keys\":\"st,h,m,b,p,gw,it,lf,sn,ss\",\"ss\":1,\"hounds\":3,\"smilers\":4},\"kill\":{\"kind\":\"SkinStealer\",\"v\":\"A\"}}"
+  },
+  {
+   "name": "t7_line_each_as_set",
+   "ok": true,
+   "detail": "{\"a\":{\"id\":\"e13\",\"shown\":1,\"of\":16},\"m\":{\"id\":\"e13\",\"shown\":16,\"of\":16},\"voices\":{\"a\":1,\"m\":0},\"eheard\":{\"a\":1,\"m\":1},\"mAt\":{\"x\":793,\"y\":3699},\"aAt\":{\"x\":653,\"y\":3699,\"r\":380,\"off\":0},\"k0\":[648,4079,4.73],\"k1\":[648,4079,380],\"trace\":[[null,[653,3699],null,null,null,null,null,\"alive\"],[null,[653,3699],null,null,null,null,null,\"alive\"],[239,[653,3699],[650,3938],\"pace\",\"mingle\",\"in P1's skin it walks up to P2\",0.021,\"alive\"],[239,[653,3699],[650,3938],\"pace\",\"mingle\",\"in P1's skin it walks up to P2\",0.021,\"alive\"],[164,[653,3699],[651,3863],\"watch\",\"mingle\",\"it stands and stares at P2\",0.022,\"al"
+  },
+  {
+   "name": "t7_phone_draws_the_skin",
+   "ok": true,
+   "detail": "true"
+  },
+  {
+   "name": "t7_other_room_nothing",
+   "ok": true,
+   "detail": "{\"heard\":0,\"ss\":null,\"keys\":\"st,h,m,b,p,gw,it,lf,sn\",\"views\":0}"
+  },
+  {
+   "name": "t7_disconnect_goes_on",
+   "ok": true,
+   "detail": "{\"ss\":1,\"snaps\":4895}"
+  },
+  {
+   "name": "t7_world_reset_clears",
+   "ok": true,
+   "detail": "{\"reset\":{\"ss\":null,\"skinViews\":0,\"skins\":0,\"bubbles\":0,\"keys\":\"st,h,m,b,p,gw,it,lf,sn\"},\"tab\":\"SKIN-STEALER · 0 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SK\"}"
+  },
+  {
+   "name": "t7_no_page_errors",
+   "ok": true,
+   "detail": "{\"victim\":[],\"desktop\":[],\"phone\":[],\"other\":[]}"
+  }
+ ],
+ "ok": true
+}

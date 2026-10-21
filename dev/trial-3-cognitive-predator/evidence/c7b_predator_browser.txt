@@ -1,0 +1,16 @@
+PASS pr_heard_not_named
+       {"listened":false,"looked":true,"unearnedNames":0,"firstUnearned":null,"firstNameSample":{"t":36.64,"att":1,"pl":"approach","pid":1,"ht":1,"hu":0.562,"ac":10,"why":"P1 turns its way: it freezes","lkSeen":1,"sees":[1],"dec":1,"hr":[0.2,0.52,"run"],"heardQ":0,"curious":1,"H":[1304,4716],"K":[1456.6,5059.4]},"quietNamed":0,"quietSeen":0,"attempts":1}
+FAIL pr_listened_then_looked
+       it did not react to the footsteps in this run (where the spot fell, how it was turned): [[["roam","search","approach","stand","listen","chase","feed"],17]]
+PASS pr_quiet_never_named
+       plans or hunts about the quiet page without a sighting before: 0 (samples in which it saw the quiet page: 0)
+PASS pr_hunt_on_sight
+       {"t":36.64,"att":1,"pl":"approach","pid":1,"ht":1,"hu":0.562,"ac":10,"why":"P1 turns its way: it freezes","lkSeen":1,"sees":[1],"dec":1,"hr":[0.2,0.52,"run"],"heardQ":0,"curious":1,"H":[1304,4716],"K":[1456.6,5059.4]}
+PASS pr_overlay_hunt_line
+       ["HUNT P1 sure 1 (seen 0s ago, ±82px)  effort 0/81s  flanks 0  guesses 0  failed 0  heard 0  revised 0","HUNT P1 sure 0.99 (heard 0.1s ago, ±188px, heard 0.1s ago)  effort 0.5/81s  flanks 0  guesses 0  failed 0  heard 1  revised 0","HUNT P1 sure 0.98 (heard 0.2s ago, ±201px, heard 0.2s ago)  effort 0.6/81s  flanks 0  guesses 0  failed 0  heard 1  revised 0"]
+PASS pr_snapshot_public_fields_only
+       ["i","x","y","a","s","ac","v","h"]
+PASS pr_no_page_errors
+       {"noise":[],"quiet":[]}
+PREDATOR BROWSER: PASS - 6 of 7 cases (one not exercised in this run)
+exit 0

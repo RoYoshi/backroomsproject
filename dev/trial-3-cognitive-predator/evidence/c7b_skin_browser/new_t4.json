@@ -1,0 +1,349 @@
+{
+ "tool": "dev/trial-3-skin-stealer/tools/skin_browser.js",
+ "dir": "<this repository>",
+ "chromium": "141.0.7390.37",
+ "sections": {
+  "t4": {
+   "sstand": {
+    "x": 546,
+    "y": 3144
+   },
+   "placed": [
+    11
+   ],
+   "previews": "skinstealer:A,skinstealer:B,skinstealer:C",
+   "own": {
+    "kind": "SkinStealer",
+    "v": "B",
+    "dur": 3.4
+   },
+   "vMid": {
+    "killView": true,
+    "visible": true,
+    "at": [
+     312,
+     3144
+    ],
+    "attacker": [
+     312,
+     3144
+    ],
+    "mirroredShown": 0,
+    "el": 1.35
+   },
+   "sMid": {
+    "replay": true,
+    "att": "skinstealer-replay",
+    "attVisible": true,
+    "posed": true,
+    "mirroredShown": 0,
+    "mirrored": 1
+   },
+   "vEnd": {
+    "x": 306,
+    "y": 3189.2,
+    "a": -1.101,
+    "el": 3.62
+   },
+   "timeline": [
+    {
+     "t": 0,
+     "v": {
+      "snaps": 1634,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 1323,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 0.5,
+     "v": {
+      "snaps": 1665,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 1353,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 1,
+     "v": {
+      "snaps": 1687,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 1375,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 1.5,
+     "v": {
+      "snaps": 1716,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 1403,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 2,
+     "v": {
+      "snaps": 1741,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 1428,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 2.5,
+     "v": {
+      "snaps": 1766,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 1454,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 3,
+     "v": {
+      "snaps": 1792,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 1479,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 3.5,
+     "v": {
+      "snaps": 1816,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 1504,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 4,
+     "v": {
+      "snaps": 1841,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 1528,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    }
+   ],
+   "vCorpse": [
+    {
+     "cause": "SkinStealer",
+     "x": 306,
+     "y": 3189
+    }
+   ],
+   "sCorpse": [
+    {
+     "cause": "SkinStealer",
+     "x": 306,
+     "y": 3189
+    }
+   ],
+   "sAfter": {
+    "shown": 1,
+    "ss": [
+     {
+      "i": 11,
+      "x": 985.8,
+      "y": 3658.9,
+      "a": 1.348,
+      "s": 18,
+      "ac": 3,
+      "v": 105,
+      "h": 0
+     }
+    ]
+   },
+   "snd": {
+    "victim": {
+     "death": 1,
+     "snap": 0
+    },
+    "spectator": {
+     "death": 1,
+     "snap": 0
+    }
+   },
+   "snapWired": 1,
+   "second": {
+    "kind": "SkinStealer",
+    "v": "A"
+   },
+   "sCorpse2": [
+    {
+     "cause": "SkinStealer",
+     "x": 310,
+     "y": 3166
+    }
+   ],
+   "errors": {
+    "victim": [],
+    "spectator": []
+   }
+  }
+ },
+ "cases": [
+  {
+   "name": "t4_preview_buttons",
+   "ok": true,
+   "detail": "skinstealer:A,skinstealer:B,skinstealer:C"
+  },
+  {
+   "name": "t4_own_death_names_it",
+   "ok": true,
+   "detail": "{\"kind\":\"SkinStealer\",\"v\":\"B\",\"dur\":3.4}"
+  },
+  {
+   "name": "t4_own_attacker_drawn",
+   "ok": true,
+   "detail": "{\"killView\":true,\"visible\":true,\"at\":[312,3144],\"attacker\":[312,3144],\"mirroredShown\":0,\"el\":1.35}"
+  },
+  {
+   "name": "t4_spectator_replay",
+   "ok": true,
+   "detail": "{\"replay\":true,\"att\":\"skinstealer-replay\",\"attVisible\":true,\"posed\":true,\"mirroredShown\":0,\"mirrored\":1}"
+  },
+  {
+   "name": "t4_victim_frame_is_the_corpse",
+   "ok": true,
+   "detail": "{\"lastFrame\":{\"x\":306,\"y\":3189.2,\"a\":-1.101,\"el\":3.62},\"corpse\":{\"cause\":\"SkinStealer\",\"x\":306,\"y\":3189}}"
+  },
+  {
+   "name": "t4_corpse_everywhere",
+   "ok": true,
+   "detail": "{\"v\":[{\"cause\":\"SkinStealer\",\"x\":306,\"y\":3189}],\"s\":[{\"cause\":\"SkinStealer\",\"x\":306,\"y\":3189}]}"
+  },
+  {
+   "name": "t4_creature_back_after",
+   "ok": true,
+   "detail": "{\"placed\":[11],\"after\":{\"shown\":1,\"ss\":[{\"i\":11,\"x\":985.8,\"y\":3658.9,\"a\":1.348,\"s\":18,\"ac\":3,\"v\":105,\"h\":0}]}} (ac 15 feeding; 3 leaving - disturbed at its kill by the spectator two body lengths away)"
+  },
+  {
+   "name": "t4_sounds_through_this_script",
+   "ok": true,
+   "detail": "{\"victim\":{\"death\":1,\"snap\":0},\"spectator\":{\"death\":1,\"snap\":0}} snap path wired: 1"
+  },
+  {
+   "name": "t4_disconnect_one_corpse",
+   "ok": true,
+   "detail": "{\"second\":{\"kind\":\"SkinStealer\",\"v\":\"A\"},\"after\":[{\"cause\":\"SkinStealer\",\"x\":310,\"y\":3166}],\"first\":[{\"cause\":\"SkinStealer\",\"x\":306,\"y\":3189}]}"
+  },
+  {
+   "name": "t4_no_page_errors",
+   "ok": true,
+   "detail": "{\"victim\":[],\"spectator\":[]}"
+  }
+ ],
+ "ok": true
+}

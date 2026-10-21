@@ -1,0 +1,112 @@
+{
+ "tool": "dev/trial-3-skin-stealer/tools/skin_browser.js",
+ "dir": "<this repository>",
+ "chromium": "141.0.7390.37",
+ "sections": {
+  "t5d": {
+   "spot": {
+    "x": 3600,
+    "y": 3480
+   },
+   "hound": {
+    "own": {
+     "kind": "Hound",
+     "v": "B",
+     "dur": 4.7
+    },
+    "at": [
+     {
+      "at": 0.5,
+      "el": 0.87,
+      "dark": 0.962,
+      "black": 0,
+      "shade": 0,
+      "light": 1
+     },
+     {
+      "at": 1,
+      "el": 1.98,
+      "dark": 0.962,
+      "black": 0,
+      "shade": 0,
+      "light": 1
+     },
+     {
+      "at": 2,
+      "el": 3.08,
+      "dark": 0.983,
+      "black": 0,
+      "shade": 0,
+      "light": 0
+     },
+     {
+      "at": 3,
+      "el": 3.08,
+      "dark": 0.983,
+      "black": 0,
+      "shade": 0,
+      "light": 0
+     }
+    ]
+   },
+   "skinstealer": {
+    "own": {
+     "kind": "SkinStealer",
+     "v": "B",
+     "dur": 3.4
+    },
+    "at": [
+     {
+      "at": 0.5,
+      "el": 0.78,
+      "dark": 0.96,
+      "black": 0,
+      "shade": 0,
+      "light": 1
+     },
+     {
+      "at": 1,
+      "el": 1.68,
+      "dark": 0.955,
+      "black": 0,
+      "shade": 0,
+      "light": 1
+     },
+     {
+      "at": 2,
+      "el": 2.93,
+      "dark": 0.969,
+      "black": 0,
+      "shade": 0.32,
+      "light": 1
+     },
+     {
+      "at": 3,
+      "el": 3.92,
+      "dark": 1,
+      "black": 0,
+      "shade": 1,
+      "light": 0.56
+     }
+    ]
+   },
+   "errors": {
+    "victim": [],
+    "spectator": []
+   }
+  }
+ },
+ "cases": [
+  {
+   "name": "t5_own_death_view",
+   "ok": true,
+   "detail": "{\"hound\":{\"own\":{\"kind\":\"Hound\",\"v\":\"B\",\"dur\":4.7},\"at\":[{\"at\":0.5,\"el\":0.87,\"dark\":0.962,\"black\":0,\"shade\":0,\"light\":1},{\"at\":1,\"el\":1.98,\"dark\":0.962,\"black\":0,\"shade\":0,\"light\":1},{\"at\":2,\"el\":3.08,\"dark\":0.983,\"black\":0,\"shade\":0,\"light\":0},{\"at\":3,\"el\":3.08,\"dark\":0.983,\"black\":0,\"shade\":0,\"light\":0}]},\"skinstealer\":{\"own\":{\"kind\":\"SkinStealer\",\"v\":\"B\",\"dur\":3.4},\"at\":[{\"at\":0.5,\"el\":0.78,\"dark\":0.96,\"black\":0,\"shade\":0,\"light\":1},{\"at\":1,\"el\":1.68,\"dark\":0.955,\"black\":0,\"shade\":0,\"light\":1},{\"at\":2,\"el\":2.93,\"dark\":0.969,\"black\":0,\"shade\":0.32,\"light\":1},{\"at\":3,\"el\":3.92,\"dark\":1,\"black"
+  },
+  {
+   "name": "t5d_no_page_errors",
+   "ok": true,
+   "detail": "{\"victim\":[],\"spectator\":[]}"
+  }
+ ],
+ "ok": true
+}

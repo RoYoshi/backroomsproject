@@ -1,0 +1,3 @@
+SOAK 600 s, 4 starving Skin-Stealers, 8 players wandering: mean 0.158 ms, p99 0.830, worst 12.89 ms; 83 kills (Smiler/Hound/SkinStealer); records at most 1, pressure at most 0.022; violations 0; their record {"lure":0,"lureCame":0,"intercept":1,"interceptCame":0,"chase":2,"chaseLost":0,"search":6,"searchFound":0,"pounce":5,"grab":0,"hit":5,"miss":0,"wall":0,"kills":5,"mingle":0,"say":0,"sayHeard":0,"sayBait":0,"skin":0,"skinLost":0,"reveal":0,"look":0,"lookSound":1,"warn":0,"reconsider":2,"defend":0,"defendHit":0,"defendMiss":0,"withdraw":0,"hunt":17,"huntCold":1,"huntSpent":0,"flank":0,"shadow":0,"listenLost":3,"reengage":0,"heardQ":4,"revise":0,"wrong":0,"alt":1,"curious":3,"curiousDrop":0,"freeze":3,"noFlank":0}
+PERF PR SOAK: PASS
+soak-exit 0

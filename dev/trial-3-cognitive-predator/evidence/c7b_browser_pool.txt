@@ -1,0 +1,55 @@
+# C7b: real-page outcomes pooled over every pass of tools/c6_browser.js, per scene and build, with n (tools/c7_pool.py; the rules for leaving a try out are in its header)
+# R8 = git archive f378049; C6 = the build the review read (C4's game code); C7 = the fixed build (this branch's head)
+scene      R8                      C6                      C7
+lookaway   4 kills / 7 valid       8 kills / 9 valid       6 kills / 6 valid
+fork       3 kills / 6 valid       4 kills / 7 valid       2 kills / 4 valid
+decoy      3 kills / 5 valid       3 kills / 4 valid       1 kills / 2 valid
+pillar     1 kills / 3 valid       3 kills / 3 valid       4 kills / 5 valid
+escape     0 kills / 6 valid       2 kills / 8 valid       1 kills / 6 valid
+all        11 kills / 27 valid     20 kills / 31 valid     14 kills / 23 valid
+
+left out:
+  R8 lookaway: final #3: setup miss
+  R8 fork: v1 #2: setup miss; final #3: setup miss
+  R8 decoy: v1 #1: faulty tool (v1); v1 #2: faulty tool (v1); final #1: setup miss
+  R8 pillar: v1 #1: setup miss; v1 #2: faulty tool (v1); v2 #1: faulty tool (v2); v2 #2: faulty tool (v2); v2 #3: faulty tool (v2)
+  R8 escape: v1 #1: faulty tool (v1); v1 #2: faulty tool (v1)
+  C6 fork: v1 #1: setup miss; final #3: setup miss
+  C6 decoy: v1 #1: setup miss; v1 #2: faulty tool (v1); v1 #3: faulty tool (v1); final #1: A held up (2 skips); final #3: A held up (8 skips)
+  C6 pillar: v1 #1: faulty tool (v1); v1 #2: faulty tool (v1); v1 #3: faulty tool (v1); v2 #1: faulty tool (v2); v2 #2: faulty tool (v2); v2 #3: faulty tool (v2)
+  C6 escape: v1 #1: faulty tool (v1); v1 #2: faulty tool (v1); v1 #3: faulty tool (v1); v2 #2: setup miss
+  C7 fork: c7a #1: setup miss; c7b #2: setup miss
+  C7 decoy: c7a #1: setup miss; c7a #2: A held up (6 skips); c7a #3: A held up (2 skips); c7b #2: A held up (2 skips)
+  C7 pillar: c7b #2: setup miss
+
+# one line per try, the fixed build's two passes
+C7-pass1 lookaway #1 hunger 0.526: A killed at 11.2 s; first strike 10.4 s; closest 4 px; cut-off None s; page moved 0 px (held-up skips 0) | events: 2 seen; 8.3 looks away; 11 looks back; 18.8 looks away; 21.8 looks back | plans: roam > approach > stand > roam
+C7-pass1 lookaway #2 hunger 0.492: A killed at 12 s; first strike 11.4 s; closest 38 px; cut-off None s; page moved 0 px (held-up skips 0) | events: 1 seen; 8.4 looks away; 10.6 looks back; 18.4 looks away; 21.6 looks back | plans: roam > approach > stand > roam
+C7-pass1 lookaway #3 hunger 0.627: A killed at 10.7 s; first strike 10.2 s; closest 34 px; cut-off None s; page moved 0 px (held-up skips 0) | events: 2.2 seen; 8.2 looks away; 11.3 looks back; 18.4 looks away; 21.1 looks back | plans: roam > approach > stand > roam
+C7-pass1 fork #1 hunger 0.532: SETUP MISS (never saw a page); first strike None s; closest 745 px; cut-off None s; page moved 960 px (held-up skips 1) | events: 0.8 walks; 2.3 torch off; 4.1 doubles back; 4.3 still | plans: roam
+C7-pass1 fork #2 hunger 0.587: A alive at the end; first strike None s; closest 189 px; cut-off None s; page moved 913 px (held-up skips 1) | events: 0.6 walks; 1 seen; 2.4 torch off; 3.8 doubles back; 3.9 still | plans: roam > approach > listen > search > listen > search > leave > roam
+C7-pass1 fork #3 hunger 0.535: A killed at 7.3 s; first strike 6.7 s; closest 23 px; cut-off None s; page moved 670 px (held-up skips 3) | events: 0.7 walks; 2 seen; 2.2 torch off; 4.1 doubles back; 4.2 still | plans: roam > approach > listen > search > roam
+C7-pass1 decoy #1 hunger 0.552: SETUP MISS (never saw a page); first strike None s; closest 450 px; cut-off None s; B first seen None s; page moved 522 px (held-up skips 0) | events: 10.2 A hides; 13 B runs | plans: roam
+C7-pass1 decoy #2 hunger 0.617: A killed at 10.8 s; first strike None s; closest 14 px; cut-off None s; B first seen None s; page moved 150 px (held-up skips 6) | events: 3.6 A seen; 6.6 A hides; 8.2 B runs | plans: roam > approach > stand > listen > search > roam > feed > roam
+C7-pass1 decoy #3 hunger 0.459: A killed at 10.4 s; first strike None s; closest 22 px; cut-off None s; B first seen 24.2 s; page moved 193 px (held-up skips 2) | events: 3.9 A seen; 6.1 A hides; 8.2 B runs | plans: roam > approach > leave > roam > feed > roam > leave
+C7-pass1 pillar #1 hunger 0.549: A killed at 7.1 s; first strike None s; closest 4 px; cut-off None s; page moved 1175 px (held-up skips 22) | events: 0.2 circles; 16.1 turns back; 24.2 runs off | plans: roam > stand > flank > roam
+C7-pass1 pillar #2 hunger 0.6: A killed at 13 s; first strike 12.7 s; closest 10 px; cut-off None s; page moved 2231 px (held-up skips 18) | events: 0.3 circles; 16.2 turns back; 24.4 runs off | plans: roam > stand > flank > approach > stand > roam
+C7-pass1 pillar #3 hunger 0.535: A killed at 15.1 s; first strike 14.3 s; closest 21 px; cut-off None s; page moved 2562 px (held-up skips 16) | events: 0.2 circles; 16.2 turns back; 24.4 runs off | plans: roam > approach > stand > listen > search > flank > approach > chase > roam
+C7-pass1 escape #1 hunger 0.526: A alive at the end; first strike None s; closest 329 px; cut-off None s; ran from 450 px; page moved 3225 px (held-up skips 0) | events: 2.2 seen; 4.3 runs; 21.3 hides | plans: roam > watch > approach > stand > listen > search > leave
+C7-pass1 escape #2 hunger 0.52: A killed at 32.7 s; first strike 32.2 s; closest 17 px; cut-off None s; ran from 449 px; page moved 2401 px (held-up skips 0) | events: 1.9 seen; 3.6 runs; 15.4 hides | plans: roam > approach > stand > listen > search > stand > listen > search > approach > roam
+C7-pass1 escape #3 hunger 0.515: A alive at the end; first strike None s; closest 415 px; cut-off None s; ran from 450 px; page moved 4182 px (held-up skips 0) | events: 1.1 seen; 3.8 runs; 24.3 hides | plans: roam > approach > stand > listen > search > roam > listen > search > leave
+C7-pass2 lookaway #1 hunger 0.622: A killed at 11 s; first strike 10.5 s; closest 24 px; cut-off None s; page moved 0 px (held-up skips 0) | events: 1.9 seen; 8.5 looks away; 11.2 looks back; 18.7 looks away; 21 looks back | plans: roam > approach > stand > roam
+C7-pass2 lookaway #2 hunger 0.493: A killed at 11.1 s; first strike 10.4 s; closest 39 px; cut-off None s; page moved 0 px (held-up skips 0) | events: 1.9 seen; 8.1 looks away; 11.4 looks back; 18.3 looks away; 21 looks back | plans: roam > approach > stand > roam
+C7-pass2 lookaway #3 hunger 0.457: A killed at 12.5 s; first strike 11.7 s; closest 16 px; cut-off None s; page moved 0 px (held-up skips 0) | events: 1.1 seen; 8.5 looks away; 11 looks back; 18.4 looks away; 20.9 looks back | plans: roam > approach > stand > roam
+C7-pass2 fork #1 hunger 0.582: A killed at 4.7 s; first strike 4.1 s; closest 8 px; cut-off None s; page moved 450 px (held-up skips 3) | events: 0.7 walks; 2.1 seen; 2.4 torch off; 4.5 doubles back; 4.7 still | plans: roam > approach > roam
+C7-pass2 fork #2 hunger 0.5: SETUP MISS (never saw a page); first strike None s; closest 133 px; cut-off None s; page moved 1222 px (held-up skips 0) | events: 0.7 walks; 2.4 torch off; 3.9 doubles back; 4.1 still | plans: roam
+C7-pass2 fork #3 hunger 0.469: A alive at the end; first strike None s; closest 236 px; cut-off None s; page moved 1124 px (held-up skips 0) | events: 0.5 walks; 2.4 seen; 2.7 torch off; 4.4 doubles back; 4.5 still | plans: roam > approach > intercept > listen > search > leave
+C7-pass2 decoy #1 hunger 0.508: A alive at the end; first strike None s; closest 448 px; cut-off None s; B first seen None s; page moved 334 px (held-up skips 0) | events: 3.4 A seen; 5.5 A hides; 7.6 B runs | plans: roam > watch > leave > roam
+C7-pass2 decoy #2 hunger 0.645: A killed at 16.3 s; first strike 15.8 s; closest 15 px; cut-off None s; B first seen 12.7 s; page moved 690 px (held-up skips 2) | events: 3.5 A seen; 5.9 A hides; 7.5 B runs | plans: roam > approach > stand > listen > search > approach > stand > roam > feed > roam
+C7-pass2 decoy #3 hunger 0.458: A killed at 15.4 s; first strike 11.8 s; closest 5 px; cut-off None s; B first seen 8.5 s; page moved 491 px (held-up skips 0) | events: 3.2 A seen; 5.5 A hides; 7.2 B runs | plans: roam > approach > listen > stand > roam > feed > roam
+C7-pass2 pillar #1 hunger 0.64: A alive at the end; first strike None s; closest 190 px; cut-off None s; page moved 3558 px (held-up skips 11) | events: 0.2 circles; 16.1 turns back; 24.3 runs off | plans: roam > approach > flank > approach > listen > search
+C7-pass2 pillar #2 hunger 0.467: SETUP MISS (never saw a page); first strike None s; closest 679 px; cut-off None s; page moved 2804 px (held-up skips 14) | events: 0.2 circles; 16 turns back; 24.2 runs off | plans: roam
+C7-pass2 pillar #3 hunger 0.618: A killed at 11.2 s; first strike 4.3 s; closest 18 px; cut-off None s; page moved 2074 px (held-up skips 20) | events: 0 circles; 16.2 turns back; 24.3 runs off | plans: roam > approach > stand > listen > intercept > stand > listen > search > stand > roam
+C7-pass2 escape #1 hunger 0.57: A alive at the end; first strike None s; closest 379 px; cut-off None s; ran from 412 px; page moved 4412 px (held-up skips 0) | events: 2.2 seen; 4 runs; 26 hides | plans: roam > approach > flank > stand > listen > search > leave
+C7-pass2 escape #2 hunger 0.599: A alive at the end; first strike None s; closest 203 px; cut-off None s; ran from 420 px; page moved 2482 px (held-up skips 0) | events: 2.1 seen; 4.1 runs; 16 hides | plans: roam > approach > chase > approach > retreat > lure > listen > search > leave
+C7-pass2 escape #3 hunger 0.581: A alive at the end; first strike None s; closest 373 px; cut-off None s; ran from 397 px; page moved 4571 px (held-up skips 0) | events: 1.8 seen; 4.3 runs; 27.8 hides | plans: roam > approach > stand > listen > search > roam > listen > search > leave > roam

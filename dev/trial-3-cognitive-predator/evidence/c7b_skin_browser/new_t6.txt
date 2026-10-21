@@ -1,0 +1,8 @@
+ok   t6_skin_earned - {"kill":{"kind":"SkinStealer","v":"B"},"dg":"none|plain|#e6bb76|#ffcc77"}
+ok   t6_heard_counts_only - {"sAt":{"x":4985,"y":3038,"r":420},"lAt":{"x":5075,"y":3038},"lHeard":true,"dbg":{"hd":[0],"dg":{"from":1,"left":339},"words":false}}
+ok   t6_entity_line - {"eheard":{"id":"e10","mode":"","of":27},"live":["K3Speaker nearby says: The Exit Is This Way","A voice nearby says: the exit is this way... way"],"voice":{"ctx":"running","level":0.63,"speaking":[],"scheduled":9,"late":19,"stopped":0,"cut":0,"said":2,"capped":0,"previews":0}}
+ok   t6_disguise_drawn - {"avatar":true,"avVisible":true,"gear":false,"hands":[[-16,-2],[16,-2]],"creatureVisible":false,"peers":"K3Prey,K3Speaker"}
+ok   t6_mutes - {"speakerButton":true,"echoOfMutedSilent":true,"genericShown":true,"entityLabel":"An unknown voice: heard","entityMuteSilent":true}
+ok   t6_no_page_errors - {"victim":[],"speaker":[],"listener":[]}
+SKIN BROWSER: PASS - 6 of 6 cases
+exit 0
