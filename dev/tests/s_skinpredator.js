@@ -633,7 +633,9 @@ add('PR29 (R7) a departure it keeps keeps its cooldown: starving, it leaves two 
     const A = w.player(5100, y - 30, { light: true, angle: Math.PI / 2 }), B = w.player(5130, y + 30, { light: true, angle: Math.PI / 2 });
     for (const q of [A, B]) { q.stop('stand'); q.look = Math.PI / 2; }
     const e = w.eng.spawn('skinstealer', 5500, y, { hunger: .95 }); e.tier = 'near'; e.ang = Math.PI;
-    let leftAt = -1; w.run(4, (ww, t) => { if (leftAt < 0 && e.plan && e.plan.k === 'leave' && e.left.size) { leftAt = t; return false; } return true; });
+    // (cognitive refinement C2: a starving one now shadows two people together from a distance for its stand-off - 4-10 s - before it
+    // leaves them; so the scene waits up to 25 s for the departure, R7's 4 s being before it.  What R7 protected is unchanged)
+    let leftAt = -1; w.run(25, (ww, t) => { if (leftAt < 0 && e.plan && e.plan.k === 'leave' && e.left.size) { leftAt = t; return false; } return true; });
     if (leftAt < 0) return { ok: false, why: 'it never left them', plan: planOf(e) };
     const L = [...e.left.keys()][0], O = L === A.id ? B : A, Lp = L === A.id ? A : B;
     w.run(5);                                                                             // its departure under way (past SK.leaveDwell and SK.leftFresh)
@@ -642,7 +644,9 @@ add('PR29 (R7) a departure it keeps keeps its cooldown: starving, it leaves two 
     put(Lp, 240, -30); put(O, 290, 30);
     const re0 = e.tally.reengage; let kept = 0;
     w.run(1.5, (ww, t) => { if (e.dbg.lv && /keeps going/.test(e.dbg.lv) && w.eng.now - (e.dbg.lvAt || -9) < .05) kept++; return true; });
-    const leaving = !!(e.plan && e.plan.k === 'leave'), still = e.left.has(L), took = e.tally.reengage - re0;
+    // (C2: a departure begun from where its stand-off was can reach its goal within these seconds - it then roams on, the person it left
+    // still left: kept, as a departure carried through is)
+    const leaving = !!(e.plan && e.plan.k === 'leave') || (planOf(e) === 'roam' && e.left.has(L)), still = e.left.has(L), took = e.tally.reengage - re0;
     return { ok: leaving ? still && took === 0 : took > 0 && !still, leaving, still, took, kept: kept > 0, plan: planOf(e) };
   });
   const keptRuns = rs.filter(r => r.leaving);

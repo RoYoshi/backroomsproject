@@ -1,7 +1,7 @@
 /* SKIN-STEALER scenarios (Trial 3; dev/trial-3-skin-stealer/).  Each runs on the real simulation (sim.js + ai.js) with the harness's
  * scripted players (the game's own move.js model); seeded and headless.  T1: the species' identity and plumbing; T2: the animal; T3: lying in wait, prediction, the race, hearing; T4: the strike and the kill; T6: what it hears and says, the skin it earns. */
 'use strict';
-const { World, DT, LONG, over, rate, AI, floorNear, bystander } = require('./lib.js');
+const { World, DT, LONG, over, rate, AI, floorNear, bystander, geo } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
 const SKS = w => w.eng.entities.filter(e => e.kind === 'skinstealer');
 const P9_KEYS = 'st,h,m,b,p,gw,it,lf,sn';
@@ -215,13 +215,18 @@ add('SK16 the encounter budget: nobody is pinned for ever - someone who keeps an
 });
 
 add('SK17 more than one of them: two people in view make it leave (it is a lone ambusher)', () => {
+  // (cognitive refinement C2, the owner's "passive": a hungry one no longer turns away the moment it sees two people together - it keeps
+  // out of their way and watches them for a while (its stand-off), in case one of them goes off alone; two who stay together it leaves.
+  // What T3 protected is asserted in full: it never comes at people together - no approach, chase, flank or spring - and it leaves them;
+  // the scene runs 25 s instead of 15 for the watching first)
   const rs = over([1, 2, 3, 4, 5, 6], seed => {
     const { w, p, e } = duel(seed + 190, { hunger: .55, ex: 5600, pa: Math.PI, light: true });
     const q = w.player(5000, LONG.y + 120, { light: true, angle: 0 }); q.stop('stand');
-    let left = false; w.run(15, () => { if (planOf(e) === 'leave') left = true; return true; });
-    return { ok: left, why: e.dbg.why };
+    let left = false, cameAt = 0, why = ''; const kinds = new Set();
+    w.run(25, () => { const k = planOf(e); kinds.add(k); if (k === 'leave' && !left) { left = true; why = e.dbg.why; } if (['approach', 'chase', 'flank'].includes(k) || e.pounce) cameAt++; return true; });
+    return { ok: left && !cameAt && !w.kills.length, why, plans: [...kinds].join('+') };
   });
-  return { ok: rate(rs) >= .8, note: `${rs.filter(r => r.ok).length}/${rs.length} left; ${[...new Set(rs.map(r => r.why))].join(' / ')}`, data: rs };
+  return { ok: rate(rs) >= .8, note: `${rs.filter(r => r.ok).length}/${rs.length} left them, never coming at them (plans ${[...new Set(rs.map(r => r.plans))].join(' | ')}); ${[...new Set(rs.map(r => r.why))].join(' / ')}`, data: rs };
 });
 
 add('SK18 navigation: its routes never use crawl or tight-gap cells, and over long runs it never stands inside solid geometry', () => {
@@ -256,19 +261,25 @@ add('SK20 route prediction is its own guess from a record: the real person (unse
   return { ok: same === 16 && guesses.size >= 2 && counts[0] >= 8 && !guesses.has('none'), note: `${same}/16 identical wherever the real person is (or with nobody there); guesses ${[...guesses].map(([k, n]) => `${k} x${n}`).join(', ')}` };
 });
 
-/* the bait: a person with a torch sees it 600 px off through wall A's gap; it backs away round a corner and waits */
+/* the bait: a person with a torch sees it 600 px off through wall A's gap; it backs away round a corner and waits.
+ * (cognitive refinement C2: the bait is used only where its spot gives an ambush - somebody following first sees it within its spring's
+ * reach (C08); the south-west gap has no such spot near where it is seen (it now goes round them or holds its ground there instead), so
+ * the bait is tested in the lit hall, 450 px from a person who keeps facing it, where the corner into the side room north of the hall
+ * gives one.  What T3 protected is asserted as before.) */
 function baitRun(seed, follow) {
-  const w = World(seed + 400), g = w.eng.geo;
-  const p = w.player(SW.gapP.x, SW.gapP.y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
-  const e = w.eng.spawn('skinstealer', SW.gapK.x, SW.gapK.y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI;
-  const R = { lureAt: -1, moved: 0, lureD: 1e9, d0: 0, endAt: -1, why: '', after: '' }; let LP = null;
+  const w = World(seed + 400), g = w.eng.geo, y = LONG.y; bystander(w, 1300, 3300);
+  const p = w.player(5000, y, { light: true, angle: 0 }); p.stop('stand');
+  const e = w.eng.spawn('skinstealer', 5450, y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI; p.look = () => Math.atan2(e.y - p.y, e.x - p.x);
+  const R = { lureAt: -1, moved: 0, lureD: 1e9, d0: 0, endAt: -1, why: '', after: '' }; let LP = null, from = null;
   w.run(40, () => {
     const k = planOf(e);
+    if (k === 'retreat' && e.plan.from) from = e.plan.from;
     if (k === 'lure' && R.lureAt < 0) { R.lureAt = w.t; LP = e.plan; R.pos = { x: e.x, y: e.y }; R.hidden = !g.los(p.x, p.y, e.x, e.y); R.d0 = Math.hypot(p.x - e.x, p.y - e.y); }
     // (that wait: predator refinement R1-R2 - the hunt can go on afterwards, and a later wait elsewhere is another one)
     if (k === 'lure' && e.plan === LP) { R.moved = Math.max(R.moved, Math.hypot(e.x - R.pos.x, e.y - R.pos.y)); R.lureD = Math.min(R.lureD, Math.hypot(p.x - e.x, p.y - e.y)); }
     if (R.lureAt >= 0 && R.endAt < 0 && k !== 'lure') { R.endAt = w.t; R.why = e.dbg.why; R.after = k; R.huntOn = !!(e.hunt && e.hunt.pid === p.id && e.hunt.baitFailed); }
-    if (follow && R.lureAt >= 0 && !p.going && w.t - R.lureAt > 1) { p.going = 1; p.look = null; p.route([{ x: 1020, y: SW.gapP.y }, { x: SW.gapK.x, y: SW.gapK.y }], 'walk'); }
+    // the follower walks to where they last saw it, and on round the corner the way it went
+    if (follow && R.lureAt >= 0 && !p.going && w.t - R.lureAt > 1) { p.going = 1; p.look = null; p.route([from || { x: 5450, y }, { x: R.pos.x, y: R.pos.y }], 'walk'); }
     return true;
   });
   R.came = e.tally.lureCame; R.dur = R.endAt < 0 ? -1 : +(R.endAt - R.lureAt).toFixed(1); return R;
@@ -587,20 +598,26 @@ add('SK41 its lines from hiding: lying in wait, hungry and unseen, it calls out 
   const out = [];
   const run = (seed, heard) => {
     const w = World(seed + 400), g = w.eng.geo, lines = [];
-    const p = w.player(SW.gapP.x, SW.gapP.y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
-    const o = w.player(SW.gapK.x - 450, SW.gapP.y + 40, { light: false }); o.stop('crouch');   // (in the dark, crouched, 450 px from it: it hears them, does not see them)
-    const e = w.eng.spawn('skinstealer', SW.gapK.x, SW.gapK.y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI;
+    // (cognitive refinement C2: the hall, where a bait has an ambush corner - see baitRun; the second person in the dark out of its sight,
+    // 380-520 px from it: it hears them, does not see them)
+    const y = LONG.y, p = w.player(5000, y, { light: true, angle: 0 }); p.stop('stand');
+    const G = geo(), D = G.cells.map(c => ({ x: G.g.cx(c), y: G.g.cy(c) })).find(q => { const dd = Math.hypot(q.x - 5450, q.y - y); return dd > 380 && dd < 520 && !g.los(q.x, q.y, 5450, y) && !g.los(q.x, q.y, 5000, y) && w.ad.clear(q.x, q.y, 24, 'walk'); });
+    const o = w.player(D.x, D.y, { light: false }); o.stop('crouch');
+    const e = w.eng.spawn('skinstealer', 5450, y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI; p.look = () => Math.atan2(e.y - p.y, e.x - p.x);
     w.eng.voiceOut = L => lines.push(Object.assign({ at: w.t, plan: planOf(e), seenNow: g.los(p.x, p.y, e.x, e.y) && e.seenNow.has(p.id) }, L));
     w.run(.3); if (heard) w.eng.hearSpeech({ id: o.id, x: o.x, y: o.y, text: 'Is Anybody Over There? I lost my light near the stairs' });
-    w.run(40);
-    return { lines, tally: e.tally, w };
+    // (cognitive refinement C1: a wait round a corner now ends at once on fresh evidence - somebody seen, heard going away - so a wait can
+    // last a tenth of a second; it lay in wait when one wait lasted past the moment it calls out, SK.sayLure, by half a second)
+    let LP = null, lt = 0, long = false;
+    w.run(40, () => { const P = e.plan; if (P && P.k === 'lure') { if (P !== LP) { LP = P; lt = 0; } lt += DT; if (lt >= AI.SK.sayLure + .5) long = true; } return true; });
+    return { lines, tally: e.tally, w, long };
   };
   // (predator refinement R1) a very hungry one now answers being seen by going round them as often as by the bait (its hunt's own
   // seeded choice), so not every run lies in wait: the runs that did (sixteen seeds) are judged - each called out from hiding - and
   // enough of them must have
   const rs = over([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], s => {
     const A = run(s, true), B = run(s, false), bad = [];
-    const la = A.lines, lb = B.lines, wa = A.tally.lure > 0, wb = B.tally.lure > 0;
+    const la = A.lines, lb = B.lines, wa = A.long, wb = B.long;
     if (!wa && !wb) return { ok: true, waited: 0, a: [], b: [] };
     if ((wa && !la.length) || (wb && !lb.length)) bad.push(`no line (${la.length}/${lb.length}, lay in wait ${wa ? 1 : 0}/${wb ? 1 : 0})`);
     for (const L of la.concat(lb)) { if (L.plan !== 'lure') bad.push('said in ' + L.plan); if (L.seenNow) bad.push('said while seen'); }

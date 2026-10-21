@@ -1,0 +1,1328 @@
+{
+ "tool": "dev/trial-3-cognitive-predator/tools/cog_browser.js",
+ "dir": "cognitive-predator",
+ "runs": [
+  {
+   "scene": "watched",
+   "try": 1,
+   "ids": {
+    "watcher": 1,
+    "walker": null
+   },
+   "watcherAt": {
+    "x": 5086,
+    "y": 3834,
+    "lit": true,
+    "wide": false
+   },
+   "hunger": 0.452,
+   "firstSeen": {
+    "1": 1.1
+   },
+   "setupMiss": false,
+   "timeline": [
+    [
+     0.2,
+     "roam",
+     "roaming"
+    ],
+    [
+     1.1,
+     "approach P1",
+     "P1 turns its way: it freezes"
+    ],
+    [
+     6.1,
+     "stand P1",
+     "seen by P1: it holds still and watches them"
+    ]
+   ],
+   "share": {
+    "roam": 0.03,
+    "approach": 0.11,
+    "stand": 0.86
+   },
+   "firstMove": 4.4,
+   "firstStrike": null,
+   "outOfViewSecs": 0,
+   "closest": 272,
+   "died": null,
+   "huntOf": [
+    1
+   ],
+   "trace": [
+    [
+     0.2,
+     "roam",
+     0,
+     420,
+     1,
+     0,
+     0,
+     0.452
+    ],
+    [
+     2.9,
+     "approach",
+     1,
+     420,
+     1,
+     0,
+     10,
+     0.456
+    ],
+    [
+     5.7,
+     "approach",
+     1,
+     306,
+     1,
+     62,
+     10,
+     0.46
+    ],
+    [
+     7.5,
+     "stand",
+     1,
+     291,
+     1,
+     0,
+     1,
+     0.463
+    ],
+    [
+     9.2,
+     "stand",
+     1,
+     291,
+     1,
+     0,
+     1,
+     0.466
+    ],
+    [
+     11.2,
+     "stand",
+     1,
+     291,
+     1,
+     0,
+     1,
+     0.469
+    ],
+    [
+     13,
+     "stand",
+     1,
+     291,
+     1,
+     0,
+     1,
+     0.472
+    ],
+    [
+     15,
+     "stand",
+     1,
+     274,
+     1,
+     0,
+     1,
+     0.475
+    ],
+    [
+     17.2,
+     "stand",
+     1,
+     274,
+     1,
+     0,
+     1,
+     0.479
+    ],
+    [
+     20.5,
+     "stand",
+     1,
+     274,
+     1,
+     0,
+     1,
+     0.483
+    ],
+    [
+     22.7,
+     "stand",
+     1,
+     274,
+     1,
+     0,
+     1,
+     0.487
+    ],
+    [
+     25,
+     "stand",
+     1,
+     274,
+     1,
+     0,
+     1,
+     0.491
+    ],
+    [
+     27.9,
+     "stand",
+     1,
+     274,
+     1,
+     0,
+     1,
+     0.496
+    ],
+    [
+     30.2,
+     "stand",
+     1,
+     274,
+     1,
+     0,
+     1,
+     0.5
+    ],
+    [
+     32.1,
+     "stand",
+     1,
+     274,
+     1,
+     0,
+     1,
+     0.502
+    ],
+    [
+     34.1,
+     "stand",
+     1,
+     274,
+     1,
+     0,
+     1,
+     0.506
+    ]
+   ],
+   "errors": []
+  },
+  {
+   "scene": "watched",
+   "try": 2,
+   "ids": {
+    "watcher": 2,
+    "walker": null
+   },
+   "watcherAt": {
+    "x": 4854,
+    "y": 4251,
+    "lit": false,
+    "wide": false
+   },
+   "hunger": 0.613,
+   "firstSeen": {
+    "2": 1.5
+   },
+   "setupMiss": false,
+   "timeline": [
+    [
+     0.3,
+     "roam",
+     "roaming"
+    ],
+    [
+     1.5,
+     "approach P2",
+     "P2 is not watching: it comes closer"
+    ],
+    [
+     6.8,
+     "stand P2",
+     "seen by P2: it holds still and watches them"
+    ],
+    [
+     14.3,
+     "approach P2",
+     "P2 has seen it: starving, it comes on anyway"
+    ],
+    [
+     14.6,
+     "stand P2",
+     "seen by P2: it holds still and watches them"
+    ],
+    [
+     21.8,
+     "approach P2",
+     "P2 has seen it: starving, it comes on anyway"
+    ],
+    [
+     22.3,
+     "stand P2",
+     "seen by P2: it holds still and watches them"
+    ]
+   ],
+   "share": {
+    "roam": 0.02,
+    "approach": 0.18,
+    "stand": 0.8
+   },
+   "firstMove": 1.5,
+   "firstStrike": null,
+   "outOfViewSecs": 0,
+   "closest": 172,
+   "died": null,
+   "huntOf": [
+    2
+   ],
+   "trace": [
+    [
+     0.3,
+     "roam",
+     0,
+     450,
+     1,
+     0,
+     0,
+     0.613
+    ],
+    [
+     3.1,
+     "approach",
+     2,
+     415,
+     1,
+     0,
+     10,
+     0.616
+    ],
+    [
+     4.9,
+     "approach",
+     2,
+     367,
+     1,
+     62,
+     10,
+     0.62
+    ],
+    [
+     6.8,
+     "stand",
+     2,
+     279,
+     1,
+     0,
+     1,
+     0.622
+    ],
+    [
+     9.1,
+     "stand",
+     2,
+     279,
+     1,
+     0,
+     1,
+     0.626
+    ],
+    [
+     11.1,
+     "stand",
+     2,
+     279,
+     1,
+     0,
+     1,
+     0.629
+    ],
+    [
+     13.2,
+     "stand",
+     2,
+     279,
+     1,
+     0,
+     1,
+     0.633
+    ],
+    [
+     15.4,
+     "stand",
+     2,
+     273,
+     1,
+     0,
+     1,
+     0.636
+    ],
+    [
+     17.6,
+     "stand",
+     2,
+     273,
+     1,
+     0,
+     1,
+     0.64
+    ],
+    [
+     19.8,
+     "stand",
+     2,
+     273,
+     1,
+     0,
+     1,
+     0.643
+    ],
+    [
+     21.8,
+     "approach",
+     2,
+     260,
+     1,
+     32,
+     1,
+     0.646
+    ],
+    [
+     24.2,
+     "stand",
+     2,
+     250,
+     1,
+     5,
+     10,
+     0.65
+    ],
+    [
+     25.8,
+     "stand",
+     2,
+     242,
+     1,
+     5,
+     10,
+     0.653
+    ],
+    [
+     28.2,
+     "stand",
+     2,
+     230,
+     1,
+     6,
+     10,
+     0.656
+    ],
+    [
+     30.5,
+     "stand",
+     2,
+     214,
+     1,
+     7,
+     10,
+     0.661
+    ],
+    [
+     33.2,
+     "stand",
+     2,
+     197,
+     1,
+     7,
+     10,
+     0.665
+    ],
+    [
+     34.8,
+     "stand",
+     2,
+     183,
+     1,
+     8,
+     10,
+     0.667
+    ]
+   ],
+   "errors": []
+  },
+  {
+   "scene": "crowd",
+   "try": 1,
+   "ids": {
+    "watcher": 3,
+    "walker": 4
+   },
+   "watcherAt": {
+    "x": 4769,
+    "y": 3860,
+    "lit": false,
+    "wide": true
+   },
+   "walkerAt": {
+    "x": 5191,
+    "y": 3562
+   },
+   "hunger": 0.55,
+   "firstSeen": {
+    "3": 4
+   },
+   "setupMiss": false,
+   "timeline": [
+    [
+     0.9,
+     "roam",
+     "roaming"
+    ],
+    [
+     4,
+     "approach P3",
+     "P3 turns its way: it freezes"
+    ],
+    [
+     11.1,
+     "stand P3",
+     "seen by P3: it steps out of the light and watches them"
+    ],
+    [
+     15.1,
+     "roam",
+     "it has P3"
+    ],
+    [
+     17.9,
+     "leave",
+     "disturbed at its kill by P4"
+    ]
+   ],
+   "share": {
+    "roam": 0.18,
+    "approach": 0.21,
+    "stand": 0.09,
+    "leave": 0.52
+   },
+   "firstMove": 7.4,
+   "firstStrike": null,
+   "outOfViewSecs": 1.2,
+   "closest": 42,
+   "died": 15.1,
+   "huntOf": [
+    3
+   ],
+   "trace": [
+    [
+     0.9,
+     "roam",
+     0,
+     450,
+     1,
+     0,
+     0,
+     0.55
+    ],
+    [
+     6.5,
+     "approach",
+     3,
+     421,
+     1,
+     0,
+     10,
+     0.556
+    ],
+    [
+     11.1,
+     "stand",
+     3,
+     187,
+     1,
+     90,
+     9,
+     0.564
+    ],
+    [
+     17.3,
+     "roam",
+     0,
+     42,
+     1,
+     0,
+     15,
+     0.573
+    ],
+    [
+     23.1,
+     "leave",
+     0,
+     471,
+     1,
+     105,
+     3,
+     0.232
+    ],
+    [
+     28.7,
+     "leave",
+     0,
+     1006,
+     0,
+     105,
+     3,
+     0.242
+    ],
+    [
+     35.3,
+     "leave",
+     0,
+     1317,
+     0,
+     105,
+     3,
+     0.252
+    ]
+   ],
+   "errors": []
+  },
+  {
+   "scene": "crowd",
+   "try": 2,
+   "ids": {
+    "watcher": 5,
+    "walker": 6
+   },
+   "watcherAt": {
+    "x": 4806,
+    "y": 3966,
+    "lit": true,
+    "wide": false
+   },
+   "walkerAt": {
+    "x": 4751,
+    "y": 3756
+   },
+   "hunger": 0.579,
+   "firstSeen": {
+    "5": 2.4
+   },
+   "setupMiss": false,
+   "timeline": [
+    [
+     0,
+     "roam",
+     "roaming"
+    ],
+    [
+     2.4,
+     "approach P5",
+     "P5 turns its way: it freezes"
+    ],
+    [
+     3.9,
+     "stand P5",
+     "more than one of them (2): it keeps out of the way and watches them"
+    ],
+    [
+     10.9,
+     "leave",
+     "more than one of them (2)"
+    ],
+    [
+     32.6,
+     "roam",
+     "roaming the dark"
+    ]
+   ],
+   "share": {
+    "roam": 0.19,
+    "approach": 0.02,
+    "stand": 0.17,
+    "leave": 0.62
+   },
+   "firstMove": null,
+   "firstStrike": null,
+   "outOfViewSecs": 3.4,
+   "closest": 446,
+   "died": null,
+   "huntOf": [
+    5
+   ],
+   "trace": [
+    [
+     0,
+     "roam",
+     0,
+     450,
+     1,
+     0,
+     0,
+     0.579
+    ],
+    [
+     6.1,
+     "stand",
+     5,
+     450,
+     1,
+     0,
+     1,
+     0.586
+    ],
+    [
+     10.1,
+     "stand",
+     5,
+     450,
+     1,
+     0,
+     1,
+     0.593
+    ],
+    [
+     14.5,
+     "leave",
+     0,
+     747,
+     0,
+     105,
+     3,
+     0.6
+    ],
+    [
+     18.5,
+     "leave",
+     0,
+     1102,
+     0,
+     105,
+     3,
+     0.606
+    ],
+    [
+     21.7,
+     "leave",
+     0,
+     1439,
+     0,
+     105,
+     3,
+     0.612
+    ],
+    [
+     25,
+     "leave",
+     0,
+     1754,
+     0,
+     105,
+     3,
+     0.617
+    ],
+    [
+     28.8,
+     "leave",
+     0,
+     2140,
+     0,
+     105,
+     3,
+     0.623
+    ],
+    [
+     32.6,
+     "roam",
+     0,
+     2540,
+     0,
+     105,
+     0,
+     0.63
+    ],
+    [
+     35.4,
+     "roam",
+     0,
+     2744,
+     0,
+     105,
+     0,
+     0.634
+    ]
+   ],
+   "errors": []
+  },
+  {
+   "scene": "circle",
+   "try": 1,
+   "ids": {
+    "watcher": 7,
+    "walker": null
+   },
+   "hunger": 0.585,
+   "firstSeen": {
+    "7": 1.3
+   },
+   "setupMiss": false,
+   "timeline": [
+    [
+     0.2,
+     "roam",
+     "roaming"
+    ],
+    [
+     1.3,
+     "approach P7",
+     "P7 turns its way: it freezes"
+    ],
+    [
+     4.3,
+     "stand P7",
+     "seen by P7: it holds still and watches them"
+    ],
+    [
+     16.7,
+     "roam",
+     "it has P7"
+    ]
+   ],
+   "share": {
+    "roam": 0.52,
+    "approach": 0.08,
+    "stand": 0.4
+   },
+   "firstMove": 3.6,
+   "firstStrike": 16.1,
+   "outOfViewSecs": 0,
+   "closest": 32,
+   "died": 16.7,
+   "huntOf": [
+    7
+   ],
+   "trace": [
+    [
+     0.2,
+     "roam",
+     0,
+     627,
+     1,
+     0,
+     0,
+     0.585
+    ],
+    [
+     2.4,
+     "approach",
+     7,
+     705,
+     1,
+     0,
+     10,
+     0.588
+    ],
+    [
+     4,
+     "approach",
+     7,
+     648,
+     1,
+     200,
+     9,
+     0.59
+    ],
+    [
+     5.6,
+     "stand",
+     7,
+     542,
+     1,
+     0,
+     1,
+     0.593
+    ],
+    [
+     7,
+     "stand",
+     7,
+     365,
+     1,
+     0,
+     1,
+     0.595
+    ],
+    [
+     8.3,
+     "stand",
+     7,
+     341,
+     1,
+     0,
+     1,
+     0.597
+    ],
+    [
+     9.6,
+     "stand",
+     7,
+     341,
+     1,
+     130,
+     9,
+     0.6
+    ],
+    [
+     11,
+     "stand",
+     7,
+     423,
+     1,
+     131,
+     9,
+     0.602
+    ],
+    [
+     12.2,
+     "stand",
+     7,
+     284,
+     1,
+     131,
+     9,
+     0.604
+    ],
+    [
+     13.5,
+     "stand",
+     7,
+     366,
+     1,
+     0,
+     10,
+     0.606
+    ],
+    [
+     14.8,
+     "stand",
+     7,
+     363,
+     1,
+     38,
+     9,
+     0.608
+    ],
+    [
+     16.2,
+     "stand",
+     7,
+     33,
+     1,
+     0,
+     15,
+     0.61
+    ],
+    [
+     18.1,
+     "roam",
+     0,
+     32,
+     1,
+     0,
+     15,
+     0.611
+    ],
+    [
+     20.2,
+     "roam",
+     0,
+     44,
+     1,
+     0,
+     15,
+     0.611
+    ],
+    [
+     21.7,
+     "roam",
+     0,
+     44,
+     1,
+     0,
+     15,
+     0.611
+    ],
+    [
+     23.3,
+     "roam",
+     0,
+     44,
+     1,
+     0,
+     15,
+     0.611
+    ],
+    [
+     24.9,
+     "roam",
+     0,
+     44,
+     1,
+     0,
+     15,
+     0.611
+    ],
+    [
+     26.5,
+     "roam",
+     0,
+     44,
+     1,
+     0,
+     15,
+     0.611
+    ],
+    [
+     28.2,
+     "roam",
+     0,
+     44,
+     1,
+     0,
+     15,
+     0.611
+    ],
+    [
+     29.8,
+     "roam",
+     0,
+     44,
+     1,
+     0,
+     15,
+     0.611
+    ],
+    [
+     31.7,
+     "roam",
+     0,
+     44,
+     1,
+     0,
+     15,
+     0.611
+    ],
+    [
+     33.2,
+     "roam",
+     0,
+     44,
+     1,
+     0,
+     15,
+     0.611
+    ],
+    [
+     34.9,
+     "roam",
+     0,
+     44,
+     1,
+     0,
+     15,
+     0.611
+    ]
+   ],
+   "errors": []
+  },
+  {
+   "scene": "circle",
+   "try": 2,
+   "ids": {
+    "watcher": 8,
+    "walker": null
+   },
+   "hunger": 0.616,
+   "firstSeen": {
+    "8": 1.5
+   },
+   "setupMiss": false,
+   "timeline": [
+    [
+     0.2,
+     "roam",
+     "roaming"
+    ],
+    [
+     1.5,
+     "approach P8",
+     "P8 turns its way: it freezes"
+    ],
+    [
+     4.5,
+     "flank P8",
+     "seen by P8: it slips out of their sight to come at them from the side"
+    ],
+    [
+     9.3,
+     "approach P8",
+     "out of P8's sight at their side: it comes at them from there"
+    ],
+    [
+     14.1,
+     "chase P8",
+     "P8 is winded: it closes in"
+    ],
+    [
+     16.3,
+     "roam",
+     "it has P8"
+    ]
+   ],
+   "share": {
+    "roam": 0.58,
+    "approach": 0.21,
+    "flank": 0.15,
+    "chase": 0.07
+   },
+   "firstMove": 4.2,
+   "firstStrike": 15.6,
+   "outOfViewSecs": 1.3,
+   "closest": 23,
+   "died": 16.3,
+   "huntOf": [
+    8
+   ],
+   "trace": [
+    [
+     0.2,
+     "roam",
+     0,
+     668,
+     1,
+     0,
+     0,
+     0.616
+    ],
+    [
+     2.2,
+     "approach",
+     8,
+     757,
+     1,
+     0,
+     10,
+     0.619
+    ],
+    [
+     3.8,
+     "approach",
+     8,
+     753,
+     1,
+     0,
+     9,
+     0.621
+    ],
+    [
+     5.4,
+     "flank",
+     8,
+     748,
+     1,
+     170,
+     9,
+     0.624
+    ],
+    [
+     6.9,
+     "flank",
+     8,
+     877,
+     0,
+     170,
+     9,
+     0.626
+    ],
+    [
+     8.6,
+     "flank",
+     8,
+     730,
+     0,
+     170,
+     9,
+     0.629
+    ],
+    [
+     10.2,
+     "approach",
+     8,
+     612,
+     0,
+     200,
+     9,
+     0.632
+    ],
+    [
+     12,
+     "approach",
+     8,
+     363,
+     1,
+     190,
+     9,
+     0.634
+    ],
+    [
+     13.8,
+     "approach",
+     8,
+     240,
+     1,
+     183,
+     9,
+     0.637
+    ],
+    [
+     15.3,
+     "chase",
+     8,
+     148,
+     1,
+     173,
+     11,
+     0.64
+    ],
+    [
+     17.1,
+     "roam",
+     0,
+     52,
+     1,
+     0,
+     15,
+     0.641
+    ],
+    [
+     18.7,
+     "roam",
+     0,
+     52,
+     1,
+     0,
+     15,
+     0.641
+    ],
+    [
+     20.3,
+     "roam",
+     0,
+     23,
+     1,
+     0,
+     15,
+     0.641
+    ],
+    [
+     22,
+     "roam",
+     0,
+     23,
+     1,
+     0,
+     15,
+     0.641
+    ],
+    [
+     23.7,
+     "roam",
+     0,
+     23,
+     1,
+     0,
+     15,
+     0.641
+    ],
+    [
+     25.4,
+     "roam",
+     0,
+     23,
+     1,
+     0,
+     15,
+     0.641
+    ],
+    [
+     27.3,
+     "roam",
+     0,
+     23,
+     1,
+     0,
+     15,
+     0.641
+    ],
+    [
+     29.1,
+     "roam",
+     0,
+     23,
+     1,
+     0,
+     15,
+     0.641
+    ],
+    [
+     30.6,
+     "roam",
+     0,
+     23,
+     1,
+     0,
+     15,
+     0.641
+    ],
+    [
+     32.2,
+     "roam",
+     0,
+     23,
+     1,
+     0,
+     15,
+     0.641
+    ],
+    [
+     33.9,
+     "roam",
+     0,
+     23,
+     1,
+     0,
+     15,
+     0.641
+    ],
+    [
+     35.6,
+     "roam",
+     0,
+     23,
+     1,
+     0,
+     15,
+     0.641
+    ]
+   ],
+   "errors": []
+  }
+ ],
+ "chromium": "141.0.7390.37"
+}

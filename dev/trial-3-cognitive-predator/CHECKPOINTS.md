@@ -10,7 +10,8 @@ filled in by the next checkpoint.
 | Checkpoint | Commit | Tree | Parent | Verified |
 |---|---|---|---|---|
 | C0 diagnosis, no game change | `cc8c8f2ba5a2473e496fca2259d0d85a93edeeb3` | `f9f46d96797dd2e954d8a45d0faf9f4359a2bfaf` | `f378049` | read back from GitHub (`evidence/remote/c0.json`: ok); scans before and after clean |
-| C1 what changed, interrupts, reaction | (this commit: `evidence/remote/c1.json` arrives with C2) | | `cc8c8f2` | |
+| C1 what changed, interrupts, reaction | `54b59846d0c884a766cc5504ef4b5a9e352971d8` | `eb397a1d6c4129492c6e1fd09c880e8df05f4d01` | `cc8c8f2` | read back from GitHub (`evidence/remote/c1.json`: ok); scans before and after clean |
+| C2 the choice: stand-off, whom, the bait as an ambush | (this commit: `evidence/remote/c2.json` arrives with C3) | | `54b5984` | |
 
 ## C0 — diagnosis first (no game change)
 
@@ -58,3 +59,45 @@ What it does now (all values in `BALANCE_TABLE.md`):
 **Honest summary of C1:** reaction is fixed where it was slow (frozen eyes, aiming, listening, twitches, blind waits) and every C1 test fails on
 R8 and passes here; the choices — backing off when watched at .45–.65, leaving a group, leaving a runner below .6 — are unchanged and
 C2's work. One measured regression, explained above (X at .5, C at .55), is expected to be undone by C2's rule change and is re-measured there.
+
+## C2 — the choice: a stand-off with a purpose, whom to go for, a bait that is an ambush
+
+Changed: the species file only in the game (every value in `BALANCE_TABLE.md` C2, UNAPPROVED), its declared-change note, five new
+scenarios (`s_skincognitive.js` C02, C03, C08, C09, C13), four R8-era scenarios adapted (below, each with its reason in the file), and
+`tools/cog_browser.js` (a watcher it has not seen after 3 s walks toward it, as a player would - C0 / C1 setup misses).
+
+What it does now:
+* **Watched, hungry: a stand-off with a purpose** instead of R8's retreat → blind wait → departure. It holds its ground or steps into the
+  dark at the edge of the light, keeping them in view; the moment nobody it sees is looking at it (for a beat) it closes in; their eyes back,
+  it freezes; very hungry, it creeps in under their eyes too. A stand-off that gained ground goes on from closer; one that gained nothing
+  gives way to going round them, the bait or coming on - or, hungry and alone with them, to another stand-off from another dark spot.
+* **"Seen in the light" and company are reasons for care, not departure** from hungry up; **people together are never come at** (a lone
+  ambusher, judged by who it has seen with them in the last 4 s, so one who steps behind a pillar does not make the other "alone"); it
+  watches a group from the dark, then leaves; one apart from the others may be taken.
+* **Whom**: the better chance it sees (not watching it, apart, near), kept unless another is 1.5 × better — R8 took the nearest.
+* **A hungry one may give chase** (R8 only from .6): the same short gamble, the same lost race.
+* **The bait is an ambush or nothing**: a spot somebody following first sees from within its reach (200 px), or its next answer at once
+  (that place remembered for 10 s); it waits on the spot itself.
+
+R8-era scenarios adapted (the protective intent kept or strengthened; nothing weakened):
+* **SK17** (two people → it leaves): the scene runs 25 s instead of 15 (it now watches a pair from the dark first); the assertion now also
+  requires that it **never** comes at them (no approach, chase, flank, spring or kill) — 6 / 6.
+* **SK21, SK41** (the bait; its lines from hiding): the scene moved from the south-west gap to the lit hall — the gap has no spot that gives an
+  ambush near where it is seen (C08), so it no longer baits there; the hall's corner into the side room does. SK41's "lay in wait" is a wait
+  lasting past the moment it calls out (C1's interrupts end some waits in a tenth of a second). Every T3 rule asserted as before
+  (hidden, still, the wait ends, the follower comes round within 43–49 px; lines only from hiding, gaps, at most 3).
+* **PR29** (a departure kept keeps its cooldown): waits up to 25 s for the departure from a pair (the stand-off first); a departure that
+  reaches its goal and roams on with the person still left counts as kept. 6 / 6.
+* Random draws: the stand-off reuses the watch's draw, so every other random choice is R8's — PR08's and PR19's seeds behave as before.
+
+| Run | Result |
+|---|---|
+| `s_skincognitive.js` on R8 (`evidence/c2_before_r8.txt`) | C01, C04, **C02, C08, C13 FAIL**; C03 and C09 pass on R8 too — they guard what R8 already did right (very hungry, it tries more than one answer and never stalls; its route searches are bounded) and C2 must not break it |
+| species suites (`evidence/c2_suites.txt`) | **90 / 90 PASS** (83 R8-era, four adapted as above; C01–C04, C08, C09, C13). C02: watched by somebody who looks away now and then, at .5 / .55 / .62 it closes in **208 px (p50) in each look away, moving within 0.8 s 13 / 13, stopping within 0.4 s when their eyes come back 8 / 8**, never just backing off or leaving; a watcher who never looks away: **0 / 12 killed**. C13: the unaware one apart taken in 15 / 18 (R8 3 / 18), at most 1 switch, no effort lost, the one only heard never named |
+| `tools/c0_audit.js` (`evidence/c2_audit.*`; kills R8 / C1 / C2 per 6 runs) | watched .45 0/0/0, **.5 0/0/1, .55 0/0/1, .65 0/0/6**, .8 and .95 6/6/6; crossing runner .5 3/1/3, .65 2/4/4; **pillar circler .55 6/5/3** (a chase on a circler is judged a lost race below .6 → a departure: C3's work); watcher + walker **.55 2/2/5**, .7 1/1/1, **.9 4/4/6**; passer-by, fork, circles round it, the straight race (0: the fresh runner wins), the lure with nothing heard (0): unchanged |
+| static checks (`evidence/c2_checks.txt`) | all PASS |
+| `tools/cog_browser.js` (`evidence/c2_browser.*`, `c2_shots/`; admin spawn hunger .45–.62) | **no setup misses**. watched #1 (.45): a stand-off 86 % of the time, closest 272 px, no strike (the page never looked away); watched #2 (.61): stand-off and short advances, closest 172 px; crowd #1: it took the watcher at 15.1 s (the walker never came into its view); crowd #2: watched the pair, then left; **circle #1 / #2 (.59 / .62): the circling page was killed at 16.7 / 16.3 s** (C1: left 61 / 83 % of the time) |
+
+**Honest summary of C2:** the owner's watched, crowd and circle scenes now end in pressure and, when earned, a kill; a watcher who keeps it
+in sight still survives below .6. Open: the pillar circler at .55 in the simulation (3 / 6, R8 6 / 6) and the lost race (12.8 s
+trailing, unchanged) are C3's.

@@ -5,9 +5,13 @@
  * own sight of it); the creature never reads them.  Timings are measured from the first tick at which it really has the evidence.
  * C1: C01 (a new sighting is faced at once; an unseen person changes nothing), C04 (interrupts: a hungry bait is not a blind wait; a
  * listen ends when the sound it waits for comes; a twitch of the eyes is not an interrupt).  Every scenario here fails on R8
- * (dev/trial-3-cognitive-predator/evidence/c1_before_r8.txt). */
+ * (dev/trial-3-cognitive-predator/evidence/c1_before_r8.txt).
+ * C2: C02 (hungry and watched: it keeps them in view and uses the moments they look away; a watcher who never does is not killed), C03 (very
+ * hungry and watched: more than one rational answer over seeds; with no way round, it comes on at once without searching again), C08 (a
+ * bait only where somebody following first sees it within its reach), C09 (its route searches stay bounded through failed tactics), C13 (two
+ * people: the better chance, no thrash, effort kept; a person only heard is never named). */
 'use strict';
-const { World, LONG, over, floorNear, bystander } = require('./lib.js');
+const { World, DT, LONG, AI, over, floorNear, bystander } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
 const planOf = e => e.plan ? e.plan.k : e.hunt ? 'hunt' : 'roam';
 const ang = (a, b) => { let d = (a - b) % (Math.PI * 2); if (d > Math.PI) d -= Math.PI * 2; else if (d < -Math.PI) d += Math.PI * 2; return d; };
@@ -105,6 +109,149 @@ add('C04 interrupts: hungry, a bait round a corner is a short wait, then it look
   const twOpen = twitch.filter(r => r.onOpening > 0), twFlick = twitch.filter(r => r.flick > 0);
   const ok = done.length >= 3 && long.length === 0 && left.length === 0 && withFollow.length >= 3 && early.length === withFollow.length && twOpen.length === 0 && twFlick.length === 0;
   return { ok, note: `(a) ${lures.length} lures at .65/.75 (${done.length} ended): longest ${q(done.map(L => L.end - L.t0), 1)} s (limit ${LURE_MAX} s), over it ${long.length}; then ${[...new Set(done.map(L => L.next))].join('/')}; left while its hunt was alive ${left.length} | (b) ${all.length} listens on a sound; ${withFollow.length} had the next footstep before their time was up - all ended within 0.25 s of it: ${early.length}/${withFollow.length} (durations ${withFollow.map(L => L.dur).join('/')} s against ${withFollow.map(L => L.planned).join('/')} s planned) | (c) a watcher's 0.1 s twitches (12 runs): a choice taken on one ${twOpen.length}, a flicker ${twFlick.length}`, data: { lures: lures.slice(0, 20), listens, twitch } };
+});
+
+/* ---- C2 ---- */
+const PILLAR = { x: 4952, y: 3584, R: 175 };
+/* every route it searches (its own plans and spots: geo.path called inside its tick) - s_skinpredator.js's PR24 counter */
+function routeCount() {
+  const tk = AI.SKIN.tick, G = new Map(); let inSk = 0;
+  const C = { n: 0, undo() { AI.SKIN.tick = tk; for (const [g, p0] of G) g.path = p0; } };
+  AI.SKIN.tick = function (eng, ...a) {
+    const g = eng.geo; if (!G.has(g)) { const p0 = g.path; G.set(g, p0); g.path = function (...b) { if (inSk) C.n++; return p0.apply(this, b); }; }
+    inSk++; try { return tk.call(this, eng, ...a); } finally { inSk--; } };
+  return C;
+}
+/* the lit hall: a person 450 px off keeps facing it, except while look(t) says they look away (their back to it) */
+function watched(seed, h, away) {
+  const w = World(seed), y = LONG.y; bystander(w, 1300, 3300);
+  const p = w.player(5000, y, { light: true, angle: 0 }); p.stop('stand');
+  const e = w.eng.spawn('skinstealer', 5450, y, { hunger: h }); e.tier = 'near'; e.ang = Math.PI;
+  p.look = () => Math.atan2(e.y - p.y, e.x - p.x) + (away && away(w.t) ? Math.PI : 0);
+  return { w, p, e };
+}
+
+add('C02 hungry, not starving (.5 / .55 / .62), watched from 450 px in the light by somebody who looks away for 2.5 s now and then: it does not just back off or leave (no departure in 12 s; under a fifth of its time backing out of sight - other than as a bait - watching or leaving) and uses each look away - it closes in at once, and stops when their eyes come back; somebody who never looks away is not killed (it has to earn it)', () => {
+  const AW = t => t > 6 && (t - 6) % 8 < 2.5;                                     // away 6-8.5, 14-16.5, 22-24.5 s
+  const rs = over([1, 2, 3, 4, 5, 6], seed => [.5, .55, .62].map(h => {
+    const { w, p, e } = watched(seed + 12000 + Math.round(h * 100), h, AW), g = w.eng.geo;
+    let seen = -1, view = 0, all = 0, leftAt = -1; const wins = []; let W = null;
+    w.run(30, (ww, t) => {
+      const d = Math.hypot(p.x - e.x, p.y - e.y);
+      if (seen < 0 && e.seenNow.has(p.id)) seen = t;
+      if (seen >= 0 && !w.kills.length) { all++; const k = planOf(e); if (k === 'leave' || k === 'watch' || (k === 'retreat' && !e.plan.bait)) view++; }   // (a bait - backing round a corner that gives an ambush, C08, and waiting there - is a tactic)
+      if (leftAt < 0 && planOf(e) === 'leave') leftAt = t;
+      const away = AW(t);
+      if (away && !W && !w.kills.length) { W = { t0: t, d0: d, dmin: d, moveAt: -1, view: g.los(p.x, p.y, e.x, e.y) }; wins.push(W); }
+      if (W && away) { W.dmin = Math.min(W.dmin, d); if (W.moveAt < 0 && e.speed > 40 && !e.pounce && Math.cos(Math.atan2(p.y - e.y, p.x - e.x) - e.ang) > .5) W.moveAt = t - W.t0; W.spAtEnd = e.speed; }
+      if (W && !away) { if (W.backAt === undefined) { W.backAt = t; W.adv = W.spAtEnd > 40; } if (W.stopAt === undefined && (e.speed < 40 || e.pounce || w.kills.length)) W.stopAt = t - W.backAt; if (t - W.backAt > 1) W = null; }
+      return true; });
+    const used = wins.filter(x => x.view && x.d0 > 200);
+    return { h, passive: all ? +(view / all).toFixed(2) : 0, leftAt: +leftAt.toFixed(1), killed: w.kills.length,
+      closed: used.map(x => Math.round(x.d0 - x.dmin)), moveAt: used.map(x => x.moveAt < 0 ? null : +x.moveAt.toFixed(2)), stop: used.filter(x => x.adv).map(x => x.stopAt === undefined ? null : +x.stopAt.toFixed(2)) };
+  })).flat();
+  // the negative: one who never looks away, .5 / .55, 30 s
+  const pure = over([1, 2, 3, 4, 5, 6], seed => [.5, .55].map(h => { const { w } = watched(seed + 12100 + Math.round(h * 100), h, null); w.run(30); return w.kills.length; })).flat();
+  const closed = rs.flatMap(r => r.closed), moves = rs.flatMap(r => r.moveAt), stops = rs.flatMap(r => r.stop);
+  const okView = rs.filter(r => r.passive <= .2).length >= rs.length * .8 && rs.every(r => r.leftAt < 0 || r.leftAt > 12);
+  const okOpen = closed.length >= 12 && q(closed, .5) >= 100 && moves.filter(m => m !== null && m <= .8).length >= moves.length * .7;
+  const okStop = stops.length >= 5 && stops.filter(x => x !== null && x <= .4).length >= stops.length * .7;
+  const ok = okView && okOpen && okStop && pure.every(k => k === 0);
+  return { ok, note: `backing out of sight (not a bait), watching or leaving (after first sight) p50 ${q(rs.map(r => r.passive), .5)} of its time, over a fifth in ${rs.filter(r => r.passive > .2).length}/${rs.length}; a departure in the first 12 s ${rs.filter(r => r.leftAt >= 0 && r.leftAt <= 12).length} | ${closed.length} looks away while it had them in view: closed in p50 ${q(closed, .5)} px (worst ${q(closed, 0)}), moving at them within 0.8 s in ${moves.filter(m => m !== null && m <= .8).length}/${moves.length} | their eyes back while it came on: it stopped within 0.4 s in ${stops.filter(x => x !== null && x <= .4).length}/${stops.length} | killed ${rs.filter(r => r.killed).length}/${rs.length} (at .5 / .55 / .62: ${[.5, .55, .62].map(h => rs.filter(r => r.h === h && r.killed).length).join(' / ')}) | never looking away: killed ${pure.filter(Boolean).length}/${pure.length}`, data: rs };
+});
+
+add('C03 very hungry (.8 / .95), watched without a break: more than one rational answer over the seeds (round them, a stand-off pressing in, coming on, the bait), never stalled in view; and where there is no way round (the narrow north corridor) it comes on at once and does not search for a way round again', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => [.8, .95].map(h => {
+    const { w, p, e } = watched(seed + 12200 + Math.round(h * 100), h, null);
+    let first = '', idle = 0, idleMax = 0; const kinds = new Set();
+    w.run(30, () => {
+      const k = planOf(e); if (['flank', 'stand', 'approach', 'retreat', 'lure', 'chase'].includes(k)) { kinds.add(k); if (!first) first = k; }
+      const still = e.speed < 15 && !e.pounce && !e.recover && e.seenNow.has(p.id) && !w.kills.length && k !== 'feed';
+      idle = still ? idle + DT : 0; idleMax = Math.max(idleMax, idle);
+      return !w.kills.length; });
+    return { h, first, kinds: [...kinds].join('+'), idleMax: +idleMax.toFixed(2), killed: w.kills.length };
+  })).flat();
+  const corr = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const w = World(seed + 12300); bystander(w, 1200, 4500);
+    const p = w.player(1170, 4400, { light: true, angle: Math.PI / 2 }); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', 1170, 4780, { hunger: .8 }); e.tier = 'near'; e.ang = -Math.PI / 2; p.look = () => Math.atan2(e.y - p.y, e.x - p.x);
+    // (from when it knows they see it - the first decision it makes as watched: before that, somebody facing it who has not made it out in
+    // the dark gets R3's freeze, a stalker's answer, not a stall)
+    const C = routeCount(); let seenAt = -1, moveAt = -1, n10 = 0;
+    try { w.run(12, (ww, t) => { if (seenAt < 0 && e.dbg.decide && e.dbg.decide.watched) seenAt = t; if (seenAt >= 0 && moveAt < 0 && (e.pounce || (e.speed > 40 && Math.cos(Math.atan2(p.y - e.y, p.x - e.x) - e.ang) > .5))) moveAt = t - seenAt; if (t <= 10) n10 = C.n; return !w.kills.length; }); } finally { C.undo(); }
+    return { moveAt: moveAt < 0 ? null : +moveAt.toFixed(2), noFlank: e.tally.noFlank, routes10: n10, flanks: e.tally.flank };
+  });
+  const firsts = new Set(rs.map(r => r.first)), kinds = new Set(rs.flatMap(r => r.kinds.split('+')));
+  const ok = firsts.size >= 2 && kinds.size >= 3 && rs.every(r => r.idleMax <= 1.5) && corr.every(r => r.moveAt !== null && r.moveAt <= 1 && r.noFlank <= 1 && r.routes10 <= 15);
+  return { ok, note: `first answers ${[...firsts].join('/')} (${rs.map(r => r.first).join(' ')}); answers used ${[...kinds].join('/')}; longest still in their view ${q(rs.map(r => r.idleMax), 1)} s; killed ${rs.filter(r => r.killed).length}/${rs.length} | corridor: moving at them (or springing) ${corr.map(r => r.moveAt).join('/')} s after it knew they saw it, ways round searched ${corr.map(r => r.noFlank).join('/')} (none found), routes in 10 s ${corr.map(r => r.routes10).join('/')}`, data: { rs, corr } };
+});
+
+add('C08 a bait only where it gives an ambush: every wait round a corner is first seen by somebody following from within its reach (200 px and a step); where no spot gives one (the south-west gap, close to them) it does not back away into a blind wait - it takes another answer at once', () => {
+  const runs = [];
+  const one = (seed, scene) => {
+    const w = World(seed + 12400 + (scene === 'gap' ? 50 : 0)), g = w.eng.geo, y = LONG.y; bystander(w, scene === 'gap' ? 5000 : 1300, scene === 'gap' ? y : 3300);
+    const P0 = scene === 'gap' ? { x: 700, y: 5330 } : { x: 5000, y }, K0 = scene === 'gap' ? { x: 1300, y: 5330 } : { x: 5450, y };
+    const p = w.player(P0.x, P0.y, { light: true, angle: 0 }); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', K0.x, K0.y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI; p.look = () => Math.atan2(e.y - p.y, e.x - p.x);
+    let L = null, from = null; const R = { scene, lures: [], noBait: 0, after: [] };
+    w.run(40, (ww, t) => {
+      const k = planOf(e);
+      if (k === 'retreat' && e.plan.from) from = e.plan.from;
+      if (k === 'lure' && (!L || L.P !== e.plan)) { L = { P: e.plan, at: { x: e.x, y: e.y }, first: -1 }; R.lures.push(L); if (!p.going) { p.going = 1; p.look = null; p.route([from || K0, L.at], 'walk'); } }
+      if (L && L.first < 0 && k === 'lure' && e.plan === L.P && g.los(p.x, p.y, e.x, e.y)) { L.first = Math.round(Math.hypot(p.x - e.x, p.y - e.y)); L.seenFrom = { x: Math.round(p.x), y: Math.round(p.y) }; L.from = from; L.amb = e.dbg.bait; L.seed = seed; }
+      return true; });
+    R.noBait = e.tally.noBait || 0;
+    R.after = (e.cog.log || []).map((x, i, a) => x.stim === 'nobait' ? (a[i + 1] ? a[i + 1].what : '') : null).filter(x => x !== null);
+    runs.push(R); return R;
+  };
+  over(Array.from({ length: 16 }, (_, i) => i + 1), s => { one(s, 'hall'); one(s, 'gap'); return {}; });
+  const lures = runs.flatMap(r => r.lures.filter(L => L.first >= 0).map(L => Object.assign({ scene: r.scene }, L))), far = lures.filter(L => L.first > 230);
+  const ok = lures.length >= 4 && far.length === 0;
+  return { ok, note: `${lures.length} waits round a corner that somebody following came to see (hall ${lures.filter(L => L.scene === 'hall').length}, gap ${lures.filter(L => L.scene === 'gap').length}): first seen from ${lures.map(L => L.first).join('/')} px, over 230 px ${far.length} | no spot that gives an ambush: ${runs.reduce((a, r) => a + r.noBait, 0)} times (hall ${runs.filter(r => r.scene === 'hall').reduce((a, r) => a + r.noBait, 0)}, gap ${runs.filter(r => r.scene === 'gap').reduce((a, r) => a + r.noBait, 0)}), the next answer: ${[...new Set(runs.flatMap(r => r.after))].slice(0, 6).join(' | ') || '-'}`, data: runs.map(r => ({ scene: r.scene, lures: r.lures.map(L => ({ first: L.first, at: L.at, seenFrom: L.seenFrom, from: L.from, amb: L.amb, seed: L.seed })), noBait: r.noBait })) };
+});
+
+add('C09 failed tactics, bounded thinking: a stand-off that runs out, a way round that is not there, a bait that has no corner, a group it will not come at - over 30 s each its route searches stay few (mean per second, the busiest second) and each kind of spot is not searched for again at the same place', () => {
+  const rs = [];
+  const scene = (name, mk) => over([1, 2, 3, 4], seed => {
+    const C = routeCount(); const per = []; let last = 0, lastT = 0, S;
+    try { S = mk(seed); S.w.run(30, (ww, t) => { if (t - lastT >= 1) { per.push(C.n - last); last = C.n; lastT = t; } return true; }); } finally { C.undo(); }
+    const R = { name, mean: +(per.reduce((a, b) => a + b, 0) / Math.max(1, per.length)).toFixed(2), max: Math.max(0, ...per), noFlank: S.e.tally.noFlank, noBait: S.e.tally.noBait || 0 }; rs.push(R); return R;
+  });
+  scene('watched .55', s => watched(s + 12500, .55, null));
+  scene('watched .8', s => watched(s + 12550, .8, null));
+  scene('corridor .8', s => { const w = World(s + 12600); bystander(w, 1200, 4500); const p = w.player(1170, 4400, { light: true, angle: Math.PI / 2 }); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', 1170, 4780, { hunger: .8 }); e.tier = 'near'; e.ang = -Math.PI / 2; p.look = () => Math.atan2(e.y - p.y, e.x - p.x); return { w, e }; });
+  scene('gap .7', s => { const w = World(s + 12650); bystander(w, 5000, LONG.y); const p = w.player(700, 5330, { light: true, angle: 0 }); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', 1300, 5330, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI; p.look = () => Math.atan2(e.y - p.y, e.x - p.x); return { w, e }; });
+  scene('two together .7', s => { const w = World(s + 12700), y = LONG.y; bystander(w, 1300, 3300);
+    const a = w.player(5000, y, { light: true, angle: 0 }), b = w.player(5000, y + 120, { light: true, angle: 0 }); a.stop('stand'); b.stop('stand');
+    const e = w.eng.spawn('skinstealer', 5600, y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI; return { w, e }; });
+  const ok = rs.every(r => r.mean <= 1.5 && r.max <= 8 && r.noFlank <= 3 && r.noBait <= 3);
+  return { ok, note: rs.map(r => `${r.name}: ${r.mean}/s, busiest ${r.max}, no way round ${r.noFlank}, no bait corner ${r.noBait}`).join(' | '), data: rs };
+});
+
+add('C13 two people it sees (a watcher 450 px off, and somebody 700 px from them walking off, facing away): it goes for the better chance - the unaware one apart - rather than the nearest, without switching back and forth, and the effort it spent on the first is kept; a third person it only hears (running behind a wall) is never named', () => {
+  const rs = over([1, 2, 3, 4, 5, 6], seed => [.55, .7, .9].map(h => {
+    const w = World(seed + 12800 + Math.round(h * 100)), y = LONG.y; bystander(w, 1300, 3300);
+    const a = w.player(5000, y, { light: true, angle: 0 }); a.stop('stand');
+    const b = w.player(5600, 3150, { light: true, angle: Math.PI }); b.stop('stand');
+    const c = w.player(5112, 3192, { light: false, angle: 0 }); c.stop('stand');            // (north-west of it behind the side room's wall, 460 px off: heard, not seen)
+    const e = w.eng.spawn('skinstealer', 5450, y, { hunger: h }); e.tier = 'near'; e.ang = Math.PI;
+    a.look = () => Math.atan2(e.y - a.y, e.x - a.x); b.look = 0;
+    let lastQ = 0, switches = 0, onB = 0, onA = 0, named = 0, keptBad = 0;
+    w.run(25, (ww, t) => {
+      if (t > .5 && !b.leg) { b.leg = 1; b.route([{ x: 5800, y: 3150 }, { x: 5800, y: 3700 }, { x: 5400, y: 3700 }], 'walk'); }
+      if (t > .3 && !c.leg) { c.leg = 1; c.route([{ x: 5112, y: 2792 }, { x: 5112, y: 3192 }, { x: 5112, y: 2792 }, { x: 5112, y: 3192 }, { x: 5112, y: 2792 }, { x: 5112, y: 3192 }], 'run'); }
+      const qid = (e.hunt && e.hunt.pid) || (e.plan && e.plan.pid) || 0;
+      if (qid === b.id) onB += DT; else if (qid === a.id) onA += DT;
+      if (qid && qid !== lastQ && lastQ && [a.id, b.id].includes(qid)) { switches++; const prev = e.spent.get(lastQ); if (prev !== undefined && prev <= 0) keptBad++; }
+      if (qid) lastQ = qid;
+      const rc = e.mem.p.get(c.id); if ((qid === c.id || (e.enc && e.enc.pid === c.id)) && !(rc && rc.seenAt > 0)) named++;
+      return true; });
+    return { h, onA: +onA.toFixed(1), onB: +onB.toFixed(1), switches, named, keptBad, killed: w.kills.map(k => k.pid === b.id ? 'walker' : k.pid === a.id ? 'watcher' : 'other').join('+') };
+  })).flat();
+  const forB = rs.filter(r => r.onB > 0), ok = forB.length >= rs.length * .6 && rs.every(r => r.switches <= 3 && r.named === 0 && r.keptBad === 0);
+  return { ok, note: `went for the unaware one apart in ${forB.length}/${rs.length} (at .55 / .7 / .9: ${[.55, .7, .9].map(h => rs.filter(r => r.h === h && r.onB > 0).length).join(' / ')}); seconds on watcher / walker ${rs.map(r => r.onA + '/' + r.onB).join(' ')}; switches at most ${Math.max(...rs.map(r => r.switches))}; effort lost on a switch ${rs.reduce((x, r) => x + r.keptBad, 0)}; the one only heard named ${rs.reduce((x, r) => x + r.named, 0)}; kills ${rs.map(r => r.killed || '-').join(' ')}`, data: rs };
 });
 
 module.exports = S;

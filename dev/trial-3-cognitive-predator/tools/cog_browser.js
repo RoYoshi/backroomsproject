@@ -14,6 +14,7 @@
  *   watched  a lit page stands 420-480 px in front of it and keeps the mouse on it (a stare), 35 s.
  *   circle   a lit page runs round a pillar in the hall (radius 175 px), lap after lap; the creature put near it, 35 s.
  *   crowd    two pages: a lit watcher in front of it, and a second person 600-700 px off walking slowly, facing away; 35 s.
+ * A watcher the creature has not seen 3 s in walks toward it (its keys) to 280 px and stares again (run.walkedIn).
  * Per try: when it first saw each page (a try where it saw none is a labelled setup miss), the plan timeline (when, which, why), the
  * share of time in each plan, the time to its first purposeful movement (moving
  * over 40 px/s in approach, chase, flank, intercept or search) and to the first strike, how long it was out of the watcher's view, the
@@ -149,6 +150,13 @@ const out = { tool: 'dev/trial-3-cognitive-predator/tools/cog_browser.js', dir: 
       while (Date.now() - tStart < SECS * 1000) {
         if (scene !== 'circle') await stare(W.P, 900); else await sleep(900);
         const el = (Date.now() - tStart) / 1000;
+        // (C2) as a player would: not seen by it after 3 s, the watcher walks toward where it stands until 280 px off (the page's own keys),
+        // then stands and stares again - the tries where it never saw the page measured nothing (C0 / C1: setup misses)
+        if (scene !== 'circle' && el > 3 && !run.walkedIn && !(await W.P.evaluate(id => (window.__k3.rec || []).some(r => r.sees.includes(id)), run.ids.watcher))) {
+          const to = await W.P.evaluate(() => { const k = (window.__k3.ss || [])[0], H = __api.H; if (!k) return null; const dx = H.x - k.x, dy = H.y - k.y, m = Math.hypot(dx, dy) || 1;
+            for (const r of [280, 320, 240, 360]) { const x = k.x + dx / m * r, y = k.y + dy / m * r; if (__api.sl(x, y, 26)) return { x, y }; } return null; });
+          if (to) { run.walkedIn = +el.toFixed(1); await W.P.evaluate(`(${PACE})(${JSON.stringify({ pts: [to], loop: 1, secs: 8 })})`); }
+        }
         if (SHOTS && si < shots.length && el >= shots[si]) { await W.P.screenshot({ path: path.join(SHOTS, `${scene}_${tr}_${shots[si]}s.png`) }).catch(() => { }); si++; }
       }
       const rec = await W.P.evaluate(() => window.__k3.rec.slice());
