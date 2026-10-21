@@ -15,7 +15,8 @@ row is filled in by the next checkpoint (the last by a receipt commit).
 | B4 integrated regression and performance | `ece46ac87ccef19d5273ed12c19712e08b4111c5` | `54733cbd1c46911e9c5c2802d86258ee82b5c7e8` | `67250ce` | yes: `evidence/remote/b4.json`; secret scan of the pushed commit CLEAN (its before-push scan, `scans/b4_pre.txt`, of the same commit, arrives with B5) |
 | B5a reports for the owner (an independent review in progress) | `fcc92be2a84a7903a9afca29a9c11c962d387dc6` | `8099089b7f5dad3b014cdfa85cad9b3894d14ffd` | `ece46ac` | yes: `evidence/remote/b5a.json`; secret scan of the pushed commit CLEAN |
 | B5b fixes from the independent review (runtime change) | `ad9b69fcbdcb46ab3e5ea2dc92fdec89413e002a` | `cdbd335066b7e331fed11a7db52b1b200bdc6284` | `fcc92be` | yes: `evidence/remote/b5b.json`; secret scan of the pushed commit CLEAN |
-| B5c final reports and evidence | (this commit: read back by the receipt) | | `ad9b69f` | |
+| B5c final reports and evidence | `e85c74020e73d82defbdf86a885e039349a6ecb9` | `ff5ade0e227902667ea8aedd3c3ea080e904cf21` | `ad9b69f` | yes: `evidence/remote/b5c.json`; secret scan of the pushed commit CLEAN |
+| Receipt (B5c's read-back and scans; this row) | this commit — its own read-back is in the handoff message, not in the tree | | `e85c740` | after its push |
 
 ## B0 — audit and plan, no game change
 
@@ -178,3 +179,6 @@ fast sideways (up to about 1 rad) would have failed, so it is now 1.3 rad — th
 the soak's one non-defensive kill a grab or a pounce (not recorded which), and that a warning cut short still counts in the warning
 tally and delays the next. The reviewer stressed that the defence is now the biggest behaviour change: every finished strike landed on
 a person who did not dodge (157 of 157).
+
+**Stop.** ENGINEERING COMPLETE — AWAITING OWNER HUMAN QA. Trial 3 remains NOT OWNER-APPROVED; the refinement awaits Human QA. Nothing
+was merged or deployed; no protected branch moved (every read-back above).
