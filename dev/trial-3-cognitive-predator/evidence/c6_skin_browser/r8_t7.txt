@@ -1,0 +1,9 @@
+ok   t7_world_has_all_three - {"dg":"none|plain|#e6bb76|#ffcc77","lists":{"keys":"st,h,m,b,p,gw,it,lf,sn,ss","ss":1,"hounds":2,"smilers":5},"kill":{"kind":"SkinStealer","v":"A"}}
+ok   t7_line_each_as_set - {"a":{"id":"e14","shown":6,"of":6},"m":{"id":"e14","shown":6,"of":6},"voices":{"a":1,"m":0},"eheard":{"a":1,"m":1},"mAt":{"x":2840,"y":3886},"aAt":{"x":2813,"y":3749,"r":380,"off":-0.13},"k0":[2856,4127,4.73],"k1":[2856,4127,380],"trace":[[null,[2813,3749],null,null,null,null,null,"alive"],[null,[2813,3749],null,null,null,null,null,"alive"],[239,[2813,3749],[2840,3987],"pace","mingle","in P1's skin it walks up to P2",0.029,"alive"],[239,[2813,3749],[2840,3987],"pace","mingle","in P1's skin it walks up to P2",0.029,"alive"],[163,[2813,3749],[2831,3912],"mimic","mingle","it stands and stares at
+ok   t7_phone_draws_the_skin - true
+ok   t7_other_room_nothing - {"heard":0,"ss":null,"keys":"st,h,m,b,p,gw,it,lf,sn","views":0}
+ok   t7_disconnect_goes_on - {"ss":1,"snaps":5165}
+ok   t7_world_reset_clears - {"reset":{"ss":null,"skinViews":0,"skins":0,"bubbles":0,"keys":"st,h,m,b,p,gw,it,lf,sn"},"tab":"SKIN-STEALER · 0 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SK"}
+ok   t7_no_page_errors - {"victim":[],"desktop":[],"phone":[],"other":[]}
+SKIN BROWSER: PASS - 7 of 7 cases
+exit 0

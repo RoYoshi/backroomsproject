@@ -15,7 +15,8 @@ filled in by the next checkpoint.
 | C3 what it learns from what it sees; the lost race | `caed6cdd10007bdf538a2e41675d0424b5b092a4` | `96974c49cb966510e995cf5d7ff6666310e58470` | `892d993` | read back from GitHub (`evidence/remote/c3.json`: ok); scans before and after clean |
 | C4 the hunger gradient | `93fe6caf271e3b4a238f86216cafcbac5e73e5dc` | `e4676d8b2feb63a15a1e5623b7b7b093fae7165d` | `caed6cd` | read back from GitHub (`evidence/remote/c4.json`: ok); scans before and after clean |
 | C5 multiplayer, fairness, regression | `776e85368237ccb424c9a5b7df377442647b9b40` | `4e4eae1f7fc8b62a00978f4eff3521914b0dee79` | `93fe6ca` | read back from GitHub (`evidence/remote/c5.json`: ok); scans before and after clean |
-| C6a real pages, R8 against this build | (this commit: `evidence/remote/c6a.json` arrives with C6b) | | `776e853` | |
+| C6a real pages, R8 against this build | `5f8bdfef9d942d9d06391a8ca00ddf44584b95e3` | `6076701fd6a6b09375969fcabbdf2f6d60e86911` | `776e853` | read back from GitHub (`evidence/remote/c6a.json`: ok); scans before and after clean |
+| C6b performance, the gate, the earlier browser checks | (this commit: `evidence/remote/c6b.json` arrives with the next) | | `5f8bdfe` | |
 
 ## C0 — diagnosis first (no game change)
 
@@ -183,10 +184,11 @@ What pack 08's C5 asks, and where it is shown on this build:
   six-seed P9 equivalence;
 * **latency as a person feels it** (pack C18): C18, R8 against this build, below.
 
-**Seen in C17, for the owner:** a watcher who never looks away and never moves is safe for C02's 30 s, but not for ever. Hungry (.5 / .55), the
-stand-off presses in by inches while they watch (a crouched creep, about 5 px/s), and near the end of its effort for them it springs from about
-170 px - with its whole wind-up, in their sight. In 120 s, 6 of the 12 such watchers died (at 21 s twice, at 69–71 s four times); the rest were
-left within its budget. A step aside at the tell makes the spring miss (C11, 4 / 4). Whether standing and staring should stay safe longer is
+**Seen in C17, for the owner:** a watcher who never looks away and never moves is safe for C02's 30 s, but not for ever. Its hunger rises
+(about .1 a minute): a creature spawned at .55 is past .6 after about 30 s, and from .6 the stand-off presses in under their eyes (a crouched
+creep, a few px/s at first, `SK.pressFrom`), springing from about 170 px - with its whole wind-up, in their sight. In 120 s, 6 of the 12 such
+watchers died: four at 69–71 s that way, two at 21 s after it went round them out of their sight (a flank) and came at them from there; the
+rest were left within its budget. A step aside at the tell makes the spring miss (C11, 4 / 4). Whether standing and staring should stay safe longer is
 the owner's call (`HUMAN_QA.md`).
 
 | Run | Result |
@@ -236,3 +238,19 @@ away, cuts across a circle it has watched, and does not let a fresh runner's lea
 tries ended in a kill (R8: 3 of 11). Every kill was a spring with its whole wind-up at somebody in its sight, after a look-away, a dodge
 that failed, a found hider, or within reach - no page was caught on a straight run. Whether .45–.65 should be this dangerous is the owner's
 call (`HUMAN_QA.md`). The scenes are scripted pages, not a person: a page does not dodge at the tell or choose where to hide.
+
+## C6b — performance, the fast gate, the earlier browser checks
+
+Changed: no game code. `DESIGN_DECISIONS.md` (drafted; final at C8). R8's tree for every comparison is `git archive f378049`.
+
+| Run | Result |
+|---|---|
+| `perf_pr.js --base <R8> --rounds 3 --secs 60` (`evidence/c6_perf.*`) | **PASS** (0 violations). Medians R8 → this build: no Skin-Stealer 0.185 → 0.200 ms (+8 %, within the tolerance: the same code, i.e. the noise), one 0.217 → 0.212 ms (p99 2.35 → 1.95), four 0.327 → 0.310 (p99 3.64 → 3.81), four pressed 0.337 → 0.286 (p99 4.36 → 3.55), four starving 0.311 → 0.318 (p99 4.14 → 3.75). **Red runs** (p99 over the 4.175 ms sub-budget): R8 three (4.26, 4.36, 4.59), this build two - **round 2 four-starving 6.06 ms** (mean 0.429) and round 2 four 4.28 |
+| the same matrix again, because of that red run (`evidence/c6_perf_run2.*`) | **PASS** (0 violations). Medians: none 0.178 → 0.180, one 0.193 → 0.196 (**p99 1.25 → 1.98, +59 %: judged against the 60 Hz budget only**, as the tool does for one; the runs 1.21 / 1.25 / 1.91 against 1.63 / 2.10 / 1.98 ms), four 0.290 → 0.242 (p99 3.46 → 1.98), four pressed 0.283 → 0.256 (p99 2.88 → 3.14), four starving 0.285 → 0.270 (p99 3.60 → 2.87). Red runs: none on either build (R8's highest p99 4.02, this build's 3.15) |
+| `perf_pr.js --soak 600` (`evidence/c6_soak.*`) | **PASS**: 600 s, four starving, eight players wandering: mean 0.164 ms, p99 1.03, worst 14.8 ms; records at most 1 per creature, 0 violations |
+| route searches (C14, `evidence/c5_suites.txt`) | four of them, eight people, 90 s: 0.19 per creature per second, p95 0.75, the busiest second 1.75; PR24 (R8's count) passes |
+| the fast gate (`evidence/c6_gate.txt`) | **PASS, 21 / 21 steps** (build, port, lineage, parts, modules, contracts, docs, scope, the B++ goldens, session, sim, page, protocol, mutants, raw, quick suites, bundle, chat). The full tier not run: no shared scope (C15) |
+| B1–B5's `behave_browser.js` (`evidence/c6_behave_browser.*`) | **9 / 9** |
+| R8's `predator_browser.js`, this build (`evidence/c6_predator_browser.*`, `_run2.*`) and R8 (`_r8.*`) | this build **6 / 7 twice; `pr_listened_then_looked` not exercised** (by the tool's own rule): in the attempts where it reacted to the footsteps behind the wall the first plan the page recorded was `search` (it went to look) - its listen now ends at the next footstep (C1; C04 (b): within 0.25 s), shorter than the page's sampling; in the others it never reacted (where the spot fell). Heard not named, quiet never named, hunt on sight, the HUNT line, the snapshot's fields, no page error: pass. R8 7 / 7 |
+| Trial 3's `skin_browser.js`, the whole tool (`evidence/c6_skin_browser_full_run*.txt`) | **crashed twice, at different places**: run 1 in t4 (the victim page's capture overlay was over the admin panel's unlock button - the page was held when the tool wanted to unlock), run 2 in t7 (no Skin-Stealer in the page's list when the tool read it after 45 s at double speed). Kept as they ran |
+| the same tool section by section (`evidence/c6_skin_browser/`) | this build **40 / 40** (t1 10, t4 10, t5 5, t5d 2, t6 6, t7 7); R8 **37 / 40** (t6 3 / 6: its listener was never placed, `sAt` null - the setup miss R8's own R6 run recorded) |

@@ -1,0 +1,56 @@
+{
+ "tool": "dev/trial-3-skin-stealer/tools/skin_browser.js",
+ "dir": "<this repository>",
+ "chromium": "141.0.7390.37",
+ "sections": {
+  "t5": {
+   "spot": {
+    "x": 6096,
+    "y": 5016
+   },
+   "views": 11,
+   "actors": 10,
+   "sound": {
+    "still": 0,
+    "walk": 12,
+    "walked": 480,
+    "spring": 5
+   },
+   "debug": [
+    "WHY waiting in the dark",
+    "HUNGER 0.505 hungry  STAMINA 100  PLAN roam",
+    "WHY roaming"
+   ],
+   "shots": [],
+   "errors": []
+  }
+ },
+ "cases": [
+  {
+   "name": "t5_debug_block",
+   "ok": true,
+   "detail": "[\"WHY waiting in the dark\",\"HUNGER 0.505 hungry  STAMINA 100  PLAN roam\",\"WHY roaming\"]"
+  },
+  {
+   "name": "t5_living_sounds",
+   "ok": true,
+   "detail": "{\"still\":0,\"walk\":12,\"walked\":480,\"spring\":5} (noise sources started: all standing still, one walking 3 s at 150 px/s, its wind-up and leap; two per footfall)"
+  },
+  {
+   "name": "t5_gallery_drawn",
+   "ok": true,
+   "detail": "11 Skin-Stealer views on screen (8 acts, 3 kill attackers)"
+  },
+  {
+   "name": "t5_brrole_actor",
+   "ok": true,
+   "detail": "BR-RoLE actor jobs of kind skin: 10"
+  },
+  {
+   "name": "t5_no_page_errors",
+   "ok": true,
+   "detail": "[]"
+  }
+ ],
+ "ok": true
+}

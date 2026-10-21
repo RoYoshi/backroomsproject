@@ -1,0 +1,7 @@
+ok   t5_debug_block - ["WHY waiting in the dark","HUNGER 0.505 hungry  STAMINA 100  PLAN roam","WHY roaming"]
+ok   t5_living_sounds - {"still":0,"walk":12,"walked":480,"spring":5} (noise sources started: all standing still, one walking 3 s at 150 px/s, its wind-up and leap; two per footfall)
+ok   t5_gallery_drawn - 11 Skin-Stealer views on screen (8 acts, 3 kill attackers)
+ok   t5_brrole_actor - BR-RoLE actor jobs of kind skin: 10
+ok   t5_no_page_errors - []
+SKIN BROWSER: PASS - 5 of 5 cases
+exit 0

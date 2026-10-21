@@ -1,0 +1,37 @@
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('#adminPanel [data-a="unlock"]')
+    - locator resolved to <button class="adm" data-a="unlock">UNLOCK</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div id="caught">…</div> intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div id="caught">…</div> intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div id="caught">…</div> intercepts pointer events
+  - retrying click action
+    - waiting 500ms
+
+    at dev/trial-3-skin-stealer/tools/skin_browser.js:179:128 {
+  name: 'TimeoutError'
+}
+
+Node.js v22.22.2
+skin-exit 1

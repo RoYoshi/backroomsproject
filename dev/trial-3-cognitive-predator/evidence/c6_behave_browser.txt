@@ -1,0 +1,20 @@
+PASS b4_moved_by_keys
+       110 of 137 samples with the page's own velocity over 60 px/s
+PASS b4_noticed
+       {"aware":{"t":2.3,"tier":"-","why":"close by"},"firstLook":1.1,"looksWhileCircling":2,"headTurnedSamples":6}
+PASS b4_warned_on_the_wire
+       {"warn":13.3,"provokedState":13.3,"creepAct":13.3}
+PASS b4_defence_decision
+       {"t":21.4,"k":"withdraw","odds":0.32,"cornered":0}
+PASS b4_strike_shows_its_tell
+       {"strikes":[{"t":74.7,"odds":0.74,"wind":true,"sounds":9}]}
+PASS b4_death_is_its
+       {"t":75.6,"kind":"SkinStealer","v":"B"}
+PASS b4_overlay_lines
+       {"unique":548,"aware":["AWARE P2 0 - (close by) seen 0.1s ago, 190px  REACT look 0.1s: it heard run: it turns to look","AWARE P2 0.02 - (close by) seen 0.1s ago, 140px","AWARE P2 0.07 - (close by) seen 0.1s ago, 116px"],"warned":["AWARE P2 0.58 provoked (circling it) seen 0s ago, 65px, warned 1x  REACT warn 1.3s: P2 keeps circling it: it turns on them, hunched, and backs away (a warning)","AWARE P2 0.57 provoked (circling it) seen 0s ago, 74px, warned 1x  REACT warn 1.2s: P2 keeps circling it: it turns on them, hunched, and backs away (a warning)"],"defence":["DEFENCE P2 withdrew 0.2s ago (odds 0.32)","DEFENCE P2 withdrew 0.4s ago (odds 0.32)"]}
+PASS b4_prey_died_by_it
+       {"kind":"SkinStealer","v":"A"}
+PASS b4_no_page_errors
+       {"prey":[],"pest":[]}
+BEHAVIOUR BROWSER: PASS - 9 of 9 cases
+behave-exit 0

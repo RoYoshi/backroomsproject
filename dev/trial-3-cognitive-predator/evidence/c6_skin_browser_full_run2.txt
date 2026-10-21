@@ -1,0 +1,12 @@
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.evaluate: TypeError: Cannot read properties of null (reading 'x')
+    at eval (eval at evaluate (:290:30), <anonymous>:1:139)
+    at UtilityScript.evaluate (<anonymous>:292:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at dev/trial-3-skin-stealer/tools/skin_browser.js:451:25
+
+Node.js v22.22.2
+exit 1

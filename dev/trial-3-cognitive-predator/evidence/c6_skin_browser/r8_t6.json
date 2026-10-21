@@ -1,0 +1,159 @@
+{
+ "tool": "dev/trial-3-skin-stealer/tools/skin_browser.js",
+ "dir": "<R8 tree>",
+ "chromium": "141.0.7390.37",
+ "sections": {
+  "t6": {
+   "alive": true,
+   "away": [
+    {
+     "x": 3008,
+     "y": 3864
+    },
+    {
+     "x": 2701,
+     "y": 5090
+    }
+   ],
+   "eid": 11,
+   "kill": {
+    "kind": "SkinStealer",
+    "v": "B"
+   },
+   "dg": "none|plain|#e6bb76|#ffcc77",
+   "k0": {
+    "x": 409,
+    "y": 3852,
+    "a": 4.322
+   },
+   "sAt": null,
+   "lAt": null,
+   "sState": {
+    "started": true,
+    "paused": false,
+    "caught": false,
+    "on": true,
+    "dlg": [],
+    "sheets": [],
+    "open": true
+   },
+   "lHeardSpeaker": false,
+   "dbg": {
+    "hd": [],
+    "dg": {
+     "from": 1,
+     "left": 403
+    },
+    "words": false
+   },
+   "lAt2": {
+    "x": 360,
+    "y": 3475,
+    "r": 380,
+    "off": 0.26
+   },
+   "trace": [
+    null,
+    null,
+    [
+     209,
+     "pace",
+     "mingle",
+     "in P1's skin it walks up to P3",
+     null,
+     0.011
+    ],
+    [
+     163,
+     "watch",
+     "mingle",
+     "it stands and stares at P3",
+     null,
+     0.013
+    ]
+   ],
+   "eheard": {
+    "id": "e11",
+    "mode": "",
+    "of": 8
+   },
+   "drawn": {
+    "avatar": true,
+    "avVisible": true,
+    "gear": false,
+    "hands": [
+     [
+      -16,
+      -2
+     ],
+     [
+      16,
+      -2
+     ]
+    ],
+    "creatureVisible": false,
+    "peers": "K3Prey,K3Speaker"
+   },
+   "live": [
+    "A voice nearby says: this way"
+   ],
+   "voice": {
+    "ctx": "running",
+    "level": 0.63,
+    "speaking": [],
+    "scheduled": 5,
+    "late": 0,
+    "stopped": 0,
+    "cut": 0,
+    "said": 1,
+    "capped": 0,
+    "previews": 0
+   },
+   "mute": {
+    "speakerButton": false,
+    "echoOfMutedSilent": false,
+    "genericShown": true,
+    "entityLabel": "An unknown voice: heard",
+    "entityMuteSilent": true
+   },
+   "errors": {
+    "victim": [],
+    "speaker": [],
+    "listener": []
+   }
+  }
+ },
+ "cases": [
+  {
+   "name": "t6_skin_earned",
+   "ok": true,
+   "detail": "{\"kill\":{\"kind\":\"SkinStealer\",\"v\":\"B\"},\"dg\":\"none|plain|#e6bb76|#ffcc77\"}"
+  },
+  {
+   "name": "t6_heard_counts_only",
+   "ok": false,
+   "detail": "{\"sAt\":null,\"lAt\":null,\"lHeard\":false,\"dbg\":{\"hd\":[],\"dg\":{\"from\":1,\"left\":403},\"words\":false}}"
+  },
+  {
+   "name": "t6_entity_line",
+   "ok": false,
+   "detail": "{\"eheard\":{\"id\":\"e11\",\"mode\":\"\",\"of\":8},\"live\":[\"A voice nearby says: this way\"],\"voice\":{\"ctx\":\"running\",\"level\":0.63,\"speaking\":[],\"scheduled\":5,\"late\":0,\"stopped\":0,\"cut\":0,\"said\":1,\"capped\":0,\"previews\":0}}"
+  },
+  {
+   "name": "t6_disguise_drawn",
+   "ok": true,
+   "detail": "{\"avatar\":true,\"avVisible\":true,\"gear\":false,\"hands\":[[-16,-2],[16,-2]],\"creatureVisible\":false,\"peers\":\"K3Prey,K3Speaker\"}"
+  },
+  {
+   "name": "t6_mutes",
+   "ok": false,
+   "detail": "{\"speakerButton\":false,\"echoOfMutedSilent\":false,\"genericShown\":true,\"entityLabel\":\"An unknown voice: heard\",\"entityMuteSilent\":true}"
+  },
+  {
+   "name": "t6_no_page_errors",
+   "ok": true,
+   "detail": "{\"victim\":[],\"speaker\":[],\"listener\":[]}"
+  }
+ ],
+ "ok": false
+}

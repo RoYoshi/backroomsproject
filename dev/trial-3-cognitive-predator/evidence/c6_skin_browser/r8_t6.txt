@@ -1,0 +1,8 @@
+ok   t6_skin_earned - {"kill":{"kind":"SkinStealer","v":"B"},"dg":"none|plain|#e6bb76|#ffcc77"}
+FAIL t6_heard_counts_only - {"sAt":null,"lAt":null,"lHeard":false,"dbg":{"hd":[],"dg":{"from":1,"left":403},"words":false}}
+FAIL t6_entity_line - {"eheard":{"id":"e11","mode":"","of":8},"live":["A voice nearby says: this way"],"voice":{"ctx":"running","level":0.63,"speaking":[],"scheduled":5,"late":0,"stopped":0,"cut":0,"said":1,"capped":0,"previews":0}}
+ok   t6_disguise_drawn - {"avatar":true,"avVisible":true,"gear":false,"hands":[[-16,-2],[16,-2]],"creatureVisible":false,"peers":"K3Prey,K3Speaker"}
+FAIL t6_mutes - {"speakerButton":false,"echoOfMutedSilent":false,"genericShown":true,"entityLabel":"An unknown voice: heard","entityMuteSilent":true}
+ok   t6_no_page_errors - {"victim":[],"speaker":[],"listener":[]}
+SKIN BROWSER: FAIL - 3 of 6 cases
+exit 0
