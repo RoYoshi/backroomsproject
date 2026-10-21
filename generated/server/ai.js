@@ -2476,6 +2476,8 @@ const SK = Object.freeze({
   freezeCone: 1.1, freezeMax: [3, 1.2],          // stalking: it freezes when an unaware person's facing comes within this of it (rad), for at most
                                                  //  this long (hungry .. starving) before it goes on
   noFlank: 10,                                   // seconds it remembers that a place has no way round a watcher (or until they move 200 px)
+  lostGrace: .6,                                 // (R4) seconds out of sight before an approach or a chase counts them lost (no flicker at a sight edge)
+  flankSettle: .6,                               // (R4) seconds it settles, crouched, at its flank spot before it comes on
   curious: [.8, 1.8], curiousStrong: .45,        // roaming: seconds it stops and listens after a sound; a first sound this strong is looked at alone
                                                  //  (x 1 .. .4 from mildly hungry to hungry)
 });
@@ -3278,7 +3280,11 @@ function skDecide(eng, e) {
   };
   if (cur === 'retreat' && e.plan.arrived && !watched) W.retreat = 0;                       // out of sight now: decide afresh
   for (const k in W) W[k] = Math.max(0, W[k] * (.92 + .16 * e.rng()));
-  const best = Object.keys(W).sort((a, b) => W[b] - W[a] || a.localeCompare(b))[0];
+  const pick = () => Object.keys(W).sort((a, b) => W[b] - W[a] || a.localeCompare(b))[0];
+  let best = pick(), fs = null;
+  // (R4) going round them needs a spot: with none here it remembers that for the place and takes its next best answer now (R3 held its
+  // ground for a tick first - a flicker of watching)
+  if (best === 'flank' && cur !== 'flank') { fs = skFlankSpot(eng, e, p, d); if (!fs) { e.noFlank = { x: p.x, y: p.y, t: now }; e.tally.noFlank++; if (Hn) Hn.noFlank = now; W.flank = 0; best = pick(); } }
   e.dbg.decide = { pid: r.id, d: Math.round(d), watched: !!watched, lit, crowd, h: +h.toFixed(2), spent: +spent.toFixed(2), away: Math.round(away), W: Object.fromEntries(Object.entries(W).map(([k, v]) => [k, +v.toFixed(2)])), best };
   if (P && P.k === 'leave' && e.plan === P) {                                        // (B2) a very hungry departure, thought over: kept unless clearly worse
     if (best === 'leave' || W[best] < W.leave * SK.rethink) { e.dbg.lv = `very hungry, it saw P${r.id}: it keeps going`; e.dbg.lvAt = now; return; }
@@ -3296,9 +3302,8 @@ function skDecide(eng, e) {
   }
   else if (best === 'approach') { if (h >= SK.band[1]) skHuntBegin(eng, e, r, 'it comes for them'); skBegin(eng, e, 'approach', r, watched ? `P${r.id} has seen it: starving, it comes on anyway` : `P${r.id} is not watching: it comes closer`); }
   else if (best === 'chase') { skHuntBegin(eng, e, r, 'it gives chase'); skBegin(eng, e, 'chase', r, fleeing ? `P${r.id} runs: it gives chase` : `P${r.id} is winded: it closes in`, { dmin: d }); }
-  else if (best === 'flank') {                                                                // (R1) to cover at their side
-    const s = skFlankSpot(eng, e, p, d);
-    if (!s) { e.noFlank = { x: p.x, y: p.y, t: now }; e.tally.noFlank++; if (Hn) Hn.noFlank = now; skBegin(eng, e, 'watch', r, `seen by P${r.id}, nowhere to go round them: it holds its ground`); return; }   // (R3) remembered for that place
+  else if (best === 'flank') {                                                                // (R1) to cover at their side (its spot found above)
+    const s = fs;
     const Hh = skHuntBegin(eng, e, r, 'it goes round them'); Hh.flanks++;
     skBegin(eng, e, 'flank', r, `seen by P${r.id}: it slips out of their sight to come at them from the side`, { spot: s, until: now + SK.flankDur });
     plan(eng, e, s.x, s.y, { why: 'flank', cost: skCover(eng, p), maxNodes: 3000 });
@@ -3316,7 +3321,8 @@ function skUnseen(eng, e) {
     if (H && H.pid === L.pid && H.conf < SK.huntLow && L.k !== 'retreat' && L.k !== 'flank' && L.k !== 'lure') { e.tally.huntCold++; skLeave(eng, e, r, `no sign of P${r.id} for ${Math.round(eng.now - H.evAt)} s: it gives up`); return; }
     if (L.k === 'lure' || L.k === 'intercept' || L.k === 'search' || L.k === 'listen') return;   // these work without a sighting (skAct ends them)
     if (L.k === 'approach' && L.side && eng.now - L.t0 < SK.flankCome) return;     // (R1) from a flank it comes on toward where it believes them, unseen
-    if (L.k === 'flank' && !L.arrived && eng.now < L.until) return;                 // (R3) a flank goes on to its spot though it has turned its back on them
+    if (L.k === 'flank' && (!L.arrived ? eng.now < L.until : eng.now - L.arrived < SK.flankSettle)) return;   // (R3) a flank goes on to its spot though it has turned its back on them; (R4) there it settles, crouched, a moment
+    if ((L.k === 'approach' || L.k === 'chase') && eng.now - r.seenAt < SK.lostGrace) return;   // (R4) a glimpse lost for a moment is not yet lost: it keeps on
     skLost(eng, e, L, r); return;
   }
   if (L && (L.k === 'search' || L.k === 'listen')) return;                         // looking at a sound nobody has been named for

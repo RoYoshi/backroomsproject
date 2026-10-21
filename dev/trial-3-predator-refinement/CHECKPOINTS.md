@@ -11,7 +11,8 @@ hash: each row is filled in by the next checkpoint (the last by a receipt commit
 | R0 audit, plan, reproduction, baseline | `f094dd46a7274877c07fdf27829a68bb0fad5b8c` | `491605897c6c453d2a287ac42a71b52434a81b56` | `4518f93` | 2026-10-21 05:00 UTC, `evidence/remote/r0.json` (GitHub API and `ls-remote` agree; protected refs and every other branch unchanged); scans `r0_pre.txt` / `r0_post.txt` clean |
 | R1 the hunt, hunger and eye contact, the lost race | `907de0df54ece3a0940c8aadfe23a9ba16f7b093` | `2d5fb85aa1ed4a26b8b96a37a6f44182f381d105` | `f094dd4` | 2026-10-21 05:50 UTC, `evidence/remote/r1.json`; scans `r1_pre.txt` / `r1_post.txt` clean |
 | R2 listening, belief, guesses, failed guesses | `fbeaf1fcc07d10e17da1ec514d7d16ae856df95b` | `f292ad67c38a80fc690d041f7e743091a91a6928` | `907de0d` | 2026-10-21 06:21 UTC, `evidence/remote/r2.json`; scans `r2_pre.txt` / `r2_post.txt` clean |
-| R3 stalking, going round, coming on, fair strikes | (this commit: `evidence/remote/r3.json` arrives with R4) | | `fbeaf1f` | |
+| R3 stalking, going round, coming on, fair strikes | `867d63b7de878c6b5b208f1e2fadfdb0bb97d202` | `70bc5b7a5e4b5508950b2fddb2d15e49ee7859c7` | `fbeaf1f` | 2026-10-21 06:40 UTC, `evidence/remote/r3.json`; scans `r3_pre.txt` / `r3_post.txt` clean |
+| R4 poses, debug, dithering, balance | (this commit: `evidence/remote/r4.json` arrives with R5) | | `867d63b` | |
 
 ## R0 — audit and plan, no game change
 
@@ -143,3 +144,42 @@ Changed: `ai.skinstealer.js` and its build; the `ai.js` note; `s_skinpredator.js
 |---|---|---|---|
 | SK16 | a watcher is never taken in 150 s | never taken while its hunger is under .6; a kill once hunger has risen past that is reported | its hunger rises from .55 to about .8 in the 150 s; the owner: a very hungry one is not kept off by being watched. Being left alone first, and the no-pinning budget, unchanged |
 | SK21 | 8 seeds, at least 6 lie in wait | 24 seeds, the runs that lie in wait judged (at least 6), each held to T3's rules unchanged | at .7 a watched one now more often goes round them (R1's flank, which since R3 reaches its spot) than backs off as bait — about a third of hunts bait |
+
+## R4 — poses, the admin HUNT line, dithering, balance
+
+Changed: `ai.skinstealer.js` (three dithering fixes) and its build; the Skin-Stealer's page script `src/frameworks/br-r/client/skin.body.js`
+(poses) and the admin overlay `src/frameworks/overseer/client/ents.debug.js` (one line), rebuilt into `public/assets/skinstealer.js` and
+`public/ents.js`; the `ai.js`, `ents.js` and `assets/skinstealer.js` notes; `tools/thrash_pr.js` (new); PR08, PR10, PR17 measured more
+precisely (below). No new act, state or snapshot field: every pose comes from the act and head angle the page already receives.
+
+* **Poses** (pack 06's tells, from the server's act): listening — half crouched, still, no twitch (it holds its breath), its head turned
+  exactly as the server's head angle says (the random cosmetic tilt is kept only for other still acts, never while it listens); lying in
+  wait — low and coiled, the head sweeping as the server sweeps it; searching — low, a little reach; closing in — a forward lean; running to
+  cut somebody off — leaning into the run.
+* **HUNT** (admin overlay, debug mode only): quarry, how sure and how it knows (seen / heard, how long ago, ±px, when it last heard
+  them), effort against budget, flanks, guesses and the current kind, failed guesses, whether it tried the other way, sounds taken for
+  theirs, revisions; or how the last hunt ended. Counts and kinds only — never a line of speech.
+* **Dithering** (`tools/thrash_pr.js`: three long scenes × three hungers × 6 seeds × 240 s): with no flank spot R3 held its ground for
+  one think, then came on (a 0.1 s flicker of watching, 14 A > B > A switches in the watched hall at .75); it now takes its next answer at
+  once. A glimpse lost at the edge of its sight for under 0.6 s no longer ends an approach or a chase (approach > listen > approach in under
+  a second). At a flank spot it settles 0.6 s, crouched, before coming on (a one-tick crouch before).
+
+| Run | Result |
+|---|---|
+| `tools/thrash_pr.js` (`evidence/r4_thrash.*`) | plan changes 0.7–2.3 a minute on average per scene and hunger (0–3.8 in single runs); plans under 0.3 s at most 2 in a 4-minute run (most are its very first decision after the first sighting); A > B > A inside 2 s at most 2 in a run (0 in the watched hall and the hiding scene); acts shown under 0.1 s at most 2 in a run (R3 before the fixes, 2-minute runs: up to 10 short plans and 14 A > B > A per 3 runs in the watched hall at .75) |
+| `s_skinpredator.js` | 21 / 21 (`evidence/r4_suites.txt`) |
+| `s_skinstealer.js`, `s_skinbehave.js` | 34 / 34, 19 / 19 |
+| `s_hound.js`, `s_smiler.js` | 30 / 31; H07 inherited (`evidence/r4_hound_smiler.txt`) |
+| `tools/repro_r0.js` (`evidence/r4_repro.*`) | watched at .75: no departure in 45 s (0 / 8), 6 kills of a person who only stands and stares; .95 / 1.0: 8 / 8; unaware at .5 in light: 8 / 8 hunted; a fresh runner still wins every race |
+| static checks (`evidence/r4_checks.txt`) | PASS (window contract, parts, build:check include the two page scripts) |
+
+### Test measurement changes (no contract change)
+
+| Scenario | Before | Now | Why |
+|---|---|---|---|
+| PR08 | the first guess 200 px or more from the last sighting, northward | an interception 200 px or more *along its predicted way*, or a look 150 px or more on, northward | a predicted way can turn back round a wall: one guess 768 px along its way lay 150 px from the start, behind them in a straight line |
+| PR10 | 8 seeds, at least 5 judged | 12 seeds, at least 5 judged | with the 0.6 s grace fewer runs in 8 make a wrong interception; the judgement is unchanged |
+| PR17 | still from 0.05 s into a listen | from 0.3 s | it stops from a walk; it does not halt in one tick |
+
+Balance (R4 review): no value changed for balance in R4. The measured picture is in `BALANCE_TABLE.md`; the open questions for the owner
+are listed in `DEFERRED.md` (R8).

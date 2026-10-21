@@ -47,18 +47,22 @@ function pose(S, o, t, dt) {
   const k = 1 - Math.exp(-dt * 9), fwd = vx * Math.cos(o.angle) + vy * Math.sin(o.angle); S.vx = vx; S.vy = vy;
   S.vf += (fwd - S.vf) * k;
   const a = o.act, still = a === 'watch' || a === 'wait' || a === 'lure' || a === 'listen' || a === 'mimic' || a === 'rest';
+  // (predator refinement R4) a few tells, each from the act the server sends: listening it holds still, half crouched; lying in wait it is
+  // low and coiled; searching it prowls, low; closing in it leans forward; running to cut somebody off it leans into the run
   const want = {
-    crouch: a === 'wind' ? 1 : a === 'creep' || a === 'approach' ? .6 : a === 'feed' ? .85 : a === 'chase' ? .4 : still ? .3 : .12,
-    reach: a === 'pounce' ? 1 : a === 'chase' ? .55 : a === 'feed' ? .7 : a === 'approach' || a === 'creep' ? .25 : 0,
+    crouch: a === 'wind' ? 1 : a === 'wait' ? .75 : a === 'creep' || a === 'approach' ? .6 : a === 'feed' ? .85 : a === 'listen' ? .45 : a === 'search' ? .35 : a === 'chase' ? .4 : still ? .3 : .12,
+    reach: a === 'pounce' ? 1 : a === 'chase' ? .55 : a === 'feed' ? .7 : a === 'approach' || a === 'creep' ? .25 : a === 'search' ? .12 : 0,
     back: a === 'wind' ? 1 : a === 'recover' ? .5 : 0,
-    lean: a === 'pounce' ? 1 : a === 'chase' ? .6 : a === 'feed' ? .8 : a === 'creep' ? .35 : 0,
+    lean: a === 'pounce' ? 1 : a === 'chase' ? .6 : a === 'feed' ? .8 : a === 'creep' ? .35 : a === 'approach' ? .25 : a === 'intercept' ? .4 : a === 'search' ? .15 : 0,
   };
   const e = 1 - Math.exp(-dt * (a === 'wind' || a === 'pounce' ? 18 : 6));
   for (const n in want) S[n] += (want[n] - S[n]) * e;
-  // the head: still figures tilt it, slowly, too far (a tell); otherwise it follows where the server says it looks
-  S.tiltT -= dt; if (S.tiltT <= 0) { S.tiltT = 1.5 + Math.random() * 3; S.tiltTo = still ? (Math.random() < .5 ? -1 : 1) * (.35 + Math.random() * .5) : 0; }
-  S.tilt += (S.tiltTo + clamp(o.head || 0, -1, 1) * .6 - S.tilt) * (1 - Math.exp(-dt * (still ? 1.3 : 5)));
-  S.twitch = Math.max(0, S.twitch - dt * 3); if (still && Math.random() < dt * .35) S.twitch = 1;
+  // the head: (R4) listening or lying in wait it turns its head exactly as the server says - its listening, nothing invented; other still
+  // figures tilt it, slowly, too far (the T5 tell, cosmetic); otherwise it follows where the server says it looks
+  const hearing = a === 'listen' || a === 'wait';
+  S.tiltT -= dt; if (S.tiltT <= 0) { S.tiltT = 1.5 + Math.random() * 3; S.tiltTo = still && !hearing ? (Math.random() < .5 ? -1 : 1) * (.35 + Math.random() * .5) : 0; }
+  S.tilt += (S.tiltTo + clamp(o.head || 0, -1, 1) * (hearing ? 1 : .6) - S.tilt) * (1 - Math.exp(-dt * (hearing ? 4 : still ? 1.3 : 5)));
+  S.twitch = Math.max(0, S.twitch - dt * 3); if (still && !hearing && Math.random() < dt * .35) S.twitch = 1;   // (it holds its breath when it listens)
   const spd = Math.abs(S.vf), stride = lerp(46, 92, sm(40, 260, spd));
   S.ph += Math.sign(S.vf || 1) * spd * dt / stride * TAU * .5;
   S.spd = spd;

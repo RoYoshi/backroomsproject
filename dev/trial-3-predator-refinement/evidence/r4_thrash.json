@@ -1,0 +1,1024 @@
+{
+ "tool": "thrash_pr.js",
+ "seeds": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6
+ ],
+ "secs": 240,
+ "runs": [
+  {
+   "scene": "wander",
+   "h": 0.55,
+   "seed": 1,
+   "plansPerMin": 2,
+   "shortPlans": 1,
+   "aba": 1,
+   "actsPerMin": 12,
+   "actFlicker": 2,
+   "kills": 1,
+   "longest": {
+    "roam": 5.2,
+    "approach": 1.8,
+    "intercept": 0.2,
+    "retreat": 4.9,
+    "feed": 8.1
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.55,
+   "seed": 2,
+   "plansPerMin": 2.5,
+   "shortPlans": 0,
+   "aba": 1,
+   "actsPerMin": 12.8,
+   "actFlicker": 0,
+   "kills": 1,
+   "longest": {
+    "roam": 5.2,
+    "approach": 2.7,
+    "listen": 1.2,
+    "watch": 0.3,
+    "intercept": 2.2,
+    "flank": 1.1,
+    "feed": 8
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.55,
+   "seed": 3,
+   "plansPerMin": 1.5,
+   "shortPlans": 1,
+   "aba": 0,
+   "actsPerMin": 12.5,
+   "actFlicker": 2,
+   "kills": 1,
+   "longest": {
+    "roam": 5,
+    "approach": 2.8,
+    "retreat": 0.1,
+    "feed": 8.3
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.55,
+   "seed": 4,
+   "plansPerMin": 2,
+   "shortPlans": 2,
+   "aba": 0,
+   "actsPerMin": 11,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5,
+    "approach": 5.3,
+    "watch": 0.2,
+    "listen": 1.6,
+    "search": 5.1,
+    "feed": 8.1
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.55,
+   "seed": 5,
+   "plansPerMin": 1.5,
+   "shortPlans": 0,
+   "aba": 1,
+   "actsPerMin": 9.8,
+   "actFlicker": 0,
+   "kills": 1,
+   "longest": {
+    "roam": 5,
+    "approach": 7.1,
+    "listen": 1.2,
+    "feed": 8
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.55,
+   "seed": 6,
+   "plansPerMin": 2.8,
+   "shortPlans": 1,
+   "aba": 2,
+   "actsPerMin": 11.8,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5.2,
+    "approach": 5.9,
+    "listen": 1.9,
+    "watch": 0.8,
+    "search": 1,
+    "feed": 8.2
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.75,
+   "seed": 1,
+   "plansPerMin": 2.3,
+   "shortPlans": 1,
+   "aba": 1,
+   "actsPerMin": 11.8,
+   "actFlicker": 0,
+   "kills": 1,
+   "longest": {
+    "roam": 5.2,
+    "approach": 5.8,
+    "intercept": 0.2,
+    "retreat": 5,
+    "lure": 0.5,
+    "feed": 14.5
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.75,
+   "seed": 2,
+   "plansPerMin": 2.3,
+   "shortPlans": 0,
+   "aba": 1,
+   "actsPerMin": 12.8,
+   "actFlicker": 0,
+   "kills": 1,
+   "longest": {
+    "roam": 5,
+    "approach": 2.3,
+    "listen": 1.2,
+    "chase": 1,
+    "intercept": 4.9,
+    "flank": 0.7,
+    "feed": 14.6
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.75,
+   "seed": 3,
+   "plansPerMin": 1,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 11.3,
+   "actFlicker": 2,
+   "kills": 1,
+   "longest": {
+    "roam": 5,
+    "approach": 3.4,
+    "feed": 14.1
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.75,
+   "seed": 4,
+   "plansPerMin": 2,
+   "shortPlans": 2,
+   "aba": 0,
+   "actsPerMin": 11.5,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5,
+    "approach": 5.1,
+    "watch": 0.1,
+    "listen": 1.3,
+    "search": 5.7,
+    "feed": 14.4
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.75,
+   "seed": 5,
+   "plansPerMin": 1.8,
+   "shortPlans": 1,
+   "aba": 0,
+   "actsPerMin": 10.5,
+   "actFlicker": 0,
+   "kills": 1,
+   "longest": {
+    "roam": 5,
+    "approach": 7.1,
+    "listen": 0.9,
+    "search": 0.2,
+    "feed": 14.2
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.75,
+   "seed": 6,
+   "plansPerMin": 2.8,
+   "shortPlans": 1,
+   "aba": 2,
+   "actsPerMin": 12.5,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5.2,
+    "approach": 8.2,
+    "listen": 1.4,
+    "watch": 0.8,
+    "search": 1.3,
+    "feed": 14.7
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.95,
+   "seed": 1,
+   "plansPerMin": 2,
+   "shortPlans": 1,
+   "aba": 1,
+   "actsPerMin": 9.5,
+   "actFlicker": 0,
+   "kills": 1,
+   "longest": {
+    "roam": 75.1,
+    "approach": 2.2,
+    "intercept": 0.2,
+    "feed": 21.1,
+    "leave": 22.3
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.95,
+   "seed": 2,
+   "plansPerMin": 3.8,
+   "shortPlans": 1,
+   "aba": 0,
+   "actsPerMin": 12,
+   "actFlicker": 0,
+   "kills": 1,
+   "longest": {
+    "roam": 5.2,
+    "approach": 2.6,
+    "listen": 1.2,
+    "search": 10.7,
+    "chase": 1,
+    "leave": 8.5,
+    "feed": 22.3
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.95,
+   "seed": 3,
+   "plansPerMin": 1,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 10,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5,
+    "approach": 3.2,
+    "feed": 20.1
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.95,
+   "seed": 4,
+   "plansPerMin": 2.8,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 9.5,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5.2,
+    "approach": 4,
+    "listen": 0.7,
+    "search": 17,
+    "intercept": 5.9,
+    "feed": 22.5
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.95,
+   "seed": 5,
+   "plansPerMin": 1.8,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 11,
+   "actFlicker": 0,
+   "kills": 1,
+   "longest": {
+    "roam": 5.2,
+    "approach": 6.7,
+    "listen": 0.7,
+    "search": 0.5,
+    "feed": 21.2
+   }
+  },
+  {
+   "scene": "wander",
+   "h": 0.95,
+   "seed": 6,
+   "plansPerMin": 2.5,
+   "shortPlans": 1,
+   "aba": 0,
+   "actsPerMin": 12.3,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5.2,
+    "approach": 2.9,
+    "listen": 1,
+    "search": 0.3,
+    "feed": 21.2
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.55,
+   "seed": 1,
+   "plansPerMin": 1,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 7,
+   "actFlicker": 1,
+   "kills": 0,
+   "longest": {
+    "roam": 0,
+    "retreat": 4,
+    "lure": 9.3,
+    "leave": 22.3
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.55,
+   "seed": 2,
+   "plansPerMin": 0.8,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 4.3,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {
+    "roam": 0.1,
+    "flank": 93,
+    "leave": 34.6
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.55,
+   "seed": 3,
+   "plansPerMin": 1,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 3.5,
+   "actFlicker": 1,
+   "kills": 0,
+   "longest": {
+    "roam": 0.1,
+    "flank": 3.9,
+    "approach": 7.5,
+    "leave": 19.6
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.55,
+   "seed": 4,
+   "plansPerMin": 1,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 8.8,
+   "actFlicker": 1,
+   "kills": 0,
+   "longest": {
+    "roam": 0.1,
+    "retreat": 4.4,
+    "lure": 9.3,
+    "leave": 19
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.55,
+   "seed": 5,
+   "plansPerMin": 1.5,
+   "shortPlans": 1,
+   "aba": 0,
+   "actsPerMin": 4.8,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {
+    "roam": 0.1,
+    "retreat": 6.8,
+    "lure": 9.2,
+    "leave": 29.9
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.55,
+   "seed": 6,
+   "plansPerMin": 1,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 7,
+   "actFlicker": 1,
+   "kills": 0,
+   "longest": {
+    "roam": 0.1,
+    "retreat": 5.1,
+    "lure": 9.1,
+    "leave": 18.9
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.75,
+   "seed": 1,
+   "plansPerMin": 2.8,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 11,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5.2,
+    "retreat": 2.7,
+    "lure": 11.2,
+    "listen": 1.5,
+    "search": 0.6,
+    "flank": 4.8,
+    "approach": 14.4,
+    "feed": 15.9
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.75,
+   "seed": 2,
+   "plansPerMin": 1.8,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 4.8,
+   "actFlicker": 0,
+   "kills": 1,
+   "longest": {
+    "roam": 64,
+    "flank": 114,
+    "leave": 34.8,
+    "approach": 6.8,
+    "chase": 3.8
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.75,
+   "seed": 3,
+   "plansPerMin": 1.8,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 13.8,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5,
+    "flank": 3.9,
+    "approach": 6.5,
+    "chase": 7.1,
+    "feed": 14.9
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.75,
+   "seed": 4,
+   "plansPerMin": 2.8,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 9.8,
+   "actFlicker": 2,
+   "kills": 1,
+   "longest": {
+    "roam": 5.1,
+    "retreat": 2.6,
+    "lure": 11.2,
+    "listen": 1.6,
+    "search": 0.5,
+    "flank": 51.9,
+    "approach": 13.6,
+    "feed": 18.8
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.75,
+   "seed": 5,
+   "plansPerMin": 1.5,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 11.3,
+   "actFlicker": 0,
+   "kills": 1,
+   "longest": {
+    "roam": 5.2,
+    "flank": 3.6,
+    "approach": 6.1,
+    "chase": 2.9,
+    "feed": 14.4
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.75,
+   "seed": 6,
+   "plansPerMin": 2.3,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 5.3,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5.3,
+    "retreat": 2.7,
+    "lure": 11,
+    "listen": 0.7,
+    "search": 0.7,
+    "flank": 3.5,
+    "approach": 14.8,
+    "feed": 15.7
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.95,
+   "seed": 1,
+   "plansPerMin": 1,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 9.3,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5.2,
+    "approach": 14.4,
+    "feed": 21.8
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.95,
+   "seed": 2,
+   "plansPerMin": 2,
+   "shortPlans": 1,
+   "aba": 0,
+   "actsPerMin": 3.8,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5.2,
+    "flank": 23,
+    "approach": 12.6,
+    "listen": 1.1,
+    "search": 0.2,
+    "feed": 22.5
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.95,
+   "seed": 3,
+   "plansPerMin": 1,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 8.3,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5.3,
+    "approach": 14.4,
+    "feed": 21.8
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.95,
+   "seed": 4,
+   "plansPerMin": 1,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 9.8,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5.3,
+    "approach": 14.4,
+    "feed": 21.9
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.95,
+   "seed": 5,
+   "plansPerMin": 1,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 9.8,
+   "actFlicker": 0,
+   "kills": 1,
+   "longest": {
+    "roam": 5.3,
+    "approach": 14.4,
+    "feed": 21.7
+   }
+  },
+  {
+   "scene": "watch",
+   "h": 0.95,
+   "seed": 6,
+   "plansPerMin": 1,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 8.3,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 5.2,
+    "approach": 14.4,
+    "feed": 21.9
+   }
+  },
+  {
+   "scene": "hide",
+   "h": 0.55,
+   "seed": 1,
+   "plansPerMin": 1.8,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 9.3,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {
+    "roam": 0.6,
+    "approach": 1.5,
+    "listen": 1.5,
+    "intercept": 10.6,
+    "search": 0.7,
+    "leave": 27.8
+   }
+  },
+  {
+   "scene": "hide",
+   "h": 0.55,
+   "seed": 2,
+   "plansPerMin": 0,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 9.8,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {}
+  },
+  {
+   "scene": "hide",
+   "h": 0.55,
+   "seed": 3,
+   "plansPerMin": 0,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 10,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {}
+  },
+  {
+   "scene": "hide",
+   "h": 0.55,
+   "seed": 4,
+   "plansPerMin": 0,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 9,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {}
+  },
+  {
+   "scene": "hide",
+   "h": 0.55,
+   "seed": 5,
+   "plansPerMin": 1.3,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 2.8,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {
+    "roam": 0.6,
+    "approach": 1.6,
+    "intercept": 12.1,
+    "listen": 1.4,
+    "leave": 25.3
+   }
+  },
+  {
+   "scene": "hide",
+   "h": 0.55,
+   "seed": 6,
+   "plansPerMin": 1.3,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 2.3,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {
+    "roam": 0.7,
+    "approach": 1.5,
+    "intercept": 12.8,
+    "listen": 0.9,
+    "leave": 20.1
+   }
+  },
+  {
+   "scene": "hide",
+   "h": 0.75,
+   "seed": 1,
+   "plansPerMin": 1.8,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 10.3,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {
+    "roam": 0.6,
+    "approach": 1.5,
+    "listen": 1.2,
+    "intercept": 10.4,
+    "search": 4.4,
+    "leave": 20.4
+   }
+  },
+  {
+   "scene": "hide",
+   "h": 0.75,
+   "seed": 2,
+   "plansPerMin": 0,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 9.8,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {}
+  },
+  {
+   "scene": "hide",
+   "h": 0.75,
+   "seed": 3,
+   "plansPerMin": 0,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 10,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {}
+  },
+  {
+   "scene": "hide",
+   "h": 0.75,
+   "seed": 4,
+   "plansPerMin": 0,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 9,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {}
+  },
+  {
+   "scene": "hide",
+   "h": 0.75,
+   "seed": 5,
+   "plansPerMin": 1.5,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 10.5,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {
+    "roam": 0.6,
+    "approach": 1.6,
+    "intercept": 12.1,
+    "listen": 1.5,
+    "search": 2.6,
+    "leave": 25.1
+   }
+  },
+  {
+   "scene": "hide",
+   "h": 0.75,
+   "seed": 6,
+   "plansPerMin": 2.5,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 9.3,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 42.1,
+    "approach": 1.5,
+    "intercept": 12.8,
+    "listen": 0.9,
+    "search": 2.7,
+    "leave": 22.1,
+    "feed": 18.5
+   }
+  },
+  {
+   "scene": "hide",
+   "h": 0.95,
+   "seed": 1,
+   "plansPerMin": 2.3,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 5.3,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {
+    "roam": 0.6,
+    "approach": 1.5,
+    "listen": 0.8,
+    "intercept": 8.9,
+    "search": 5,
+    "leave": 24.7
+   }
+  },
+  {
+   "scene": "hide",
+   "h": 0.95,
+   "seed": 2,
+   "plansPerMin": 0,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 9.8,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {}
+  },
+  {
+   "scene": "hide",
+   "h": 0.95,
+   "seed": 3,
+   "plansPerMin": 0,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 10,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {}
+  },
+  {
+   "scene": "hide",
+   "h": 0.95,
+   "seed": 4,
+   "plansPerMin": 0,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 9,
+   "actFlicker": 0,
+   "kills": 0,
+   "longest": {}
+  },
+  {
+   "scene": "hide",
+   "h": 0.95,
+   "seed": 5,
+   "plansPerMin": 2.5,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 9.3,
+   "actFlicker": 0,
+   "kills": 1,
+   "longest": {
+    "roam": 41.5,
+    "approach": 1.6,
+    "intercept": 12.1,
+    "listen": 1.2,
+    "search": 5.6,
+    "leave": 24.5,
+    "feed": 22.3
+   }
+  },
+  {
+   "scene": "hide",
+   "h": 0.95,
+   "seed": 6,
+   "plansPerMin": 2.5,
+   "shortPlans": 0,
+   "aba": 0,
+   "actsPerMin": 10,
+   "actFlicker": 1,
+   "kills": 1,
+   "longest": {
+    "roam": 55.4,
+    "approach": 1.5,
+    "intercept": 12.8,
+    "listen": 0.7,
+    "search": 5.6,
+    "leave": 19.8,
+    "feed": 19.4
+   }
+  }
+ ],
+ "summary": {
+  "wander 0.55": {
+   "n": 6,
+   "plans": 12.3,
+   "short": 5,
+   "aba": 5,
+   "acts": 69.89999999999999,
+   "flick": 6,
+   "kills": 6
+  },
+  "wander 0.75": {
+   "n": 6,
+   "plans": 12.2,
+   "short": 5,
+   "aba": 4,
+   "acts": 70.4,
+   "flick": 4,
+   "kills": 6
+  },
+  "wander 0.95": {
+   "n": 6,
+   "plans": 13.9,
+   "short": 3,
+   "aba": 1,
+   "acts": 64.3,
+   "flick": 3,
+   "kills": 6
+  },
+  "watch 0.55": {
+   "n": 6,
+   "plans": 6.3,
+   "short": 1,
+   "aba": 0,
+   "acts": 35.400000000000006,
+   "flick": 4,
+   "kills": 0
+  },
+  "watch 0.75": {
+   "n": 6,
+   "plans": 13,
+   "short": 0,
+   "aba": 0,
+   "acts": 56,
+   "flick": 5,
+   "kills": 6
+  },
+  "watch 0.95": {
+   "n": 6,
+   "plans": 7,
+   "short": 1,
+   "aba": 0,
+   "acts": 49.3,
+   "flick": 5,
+   "kills": 6
+  },
+  "hide 0.55": {
+   "n": 6,
+   "plans": 4.4,
+   "short": 0,
+   "aba": 0,
+   "acts": 43.199999999999996,
+   "flick": 0,
+   "kills": 0
+  },
+  "hide 0.75": {
+   "n": 6,
+   "plans": 5.8,
+   "short": 0,
+   "aba": 0,
+   "acts": 58.900000000000006,
+   "flick": 1,
+   "kills": 1
+  },
+  "hide 0.95": {
+   "n": 6,
+   "plans": 7.3,
+   "short": 0,
+   "aba": 0,
+   "acts": 53.400000000000006,
+   "flick": 1,
+   "kills": 2
+  }
+ }
+}

@@ -219,7 +219,7 @@ function sw(seed, h, way, mode, T, o = {}) {
     R.tr.push([Math.round(e.x * 10), Math.round(e.y * 10), ev, P ? P.k : '-'].join(','));
     if (P && P !== lastP && (P.k === 'intercept' || P.k === 'search')) {
       const g = P.k === 'intercept' ? { x: P.g.qx, y: P.g.qy } : P.goal;
-      R.guesses.push({ t: +t.toFixed(1), k: P.k, x: Math.round(g.x), y: Math.round(g.y), why: e.dbg.why, guess: e.dbg.guess ? e.dbg.guess.k : '', heard: e.tally.heardQ, conf: H ? +H.conf.toFixed(2) : 0 });
+      R.guesses.push({ t: +t.toFixed(1), k: P.k, x: Math.round(g.x), y: Math.round(g.y), lead: P.k === 'intercept' ? P.g.lead : null, why: e.dbg.why, guess: e.dbg.guess ? e.dbg.guess.k : '', heard: e.tally.heardQ, conf: H ? +H.conf.toFixed(2) : 0 });
     }
     if (P && lastP && P.k !== lastP.k && lastP.k === 'intercept' && R.guesses.length) R.guesses[R.guesses.length - 1].after = { k: P.k, why: e.dbg.why, conf: H ? +H.conf.toFixed(2) : 0 };
     lastP = P;
@@ -240,13 +240,16 @@ const lawOk = (A, B) => { const i = sameUntilSensed(A, B); return i >= 0 && i >=
 
 add('PR08 seen once walking north, then out of sight: it guesses a way on through the level, ahead of where it saw them; where they really went (unsensed) changes nothing it does until it senses a difference', () => {
   const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    // its first guess: on open floor, and either an interception at least 200 px ahead along the way it predicts them to walk (the route
+    // may turn back on itself round a wall), or a look at least 150 px on, northward, from where it last saw them
     const A = sw(seed, .8, 'east', 'crouch', 14), B = sw(seed, .8, 'back', 'crouch', 14), g = A.guesses[0];
     const fwd = g ? -(g.y - 5430) / Math.max(1, Math.hypot(g.x - 1300, g.y - 5430)) : -1, dd = g ? Math.round(Math.hypot(g.x - 1300, g.y - 5430)) : 0;
-    return { law: lawOk(A, B), diverged: sameUntilSensed(A, B), parted: Math.min(A.parted, B.parted), g, ok: !!g && A.w.eng.geo.clear(g.x, g.y, 24, 'walk') && dd >= 200 && fwd >= 0, fwd: +fwd.toFixed(2), dd };
+    const on = !!g && (g.k === 'intercept' ? g.lead >= 200 : dd >= 150 && fwd >= .3);
+    return { law: lawOk(A, B), diverged: sameUntilSensed(A, B), parted: Math.min(A.parted, B.parted), g, ok: !!g && A.w.eng.geo.clear(g.x, g.y, 24, 'walk') && on, fwd: +fwd.toFixed(2), dd };
   });
   const guessed = rs.filter(r => r.g);
-  return { ok: rs.every(r => r.law) && guessed.length >= 6 && guessed.filter(r => r.ok).length >= guessed.length - 1,
-    note: `the same until it sensed a difference: ${rs.filter(r => r.law).length}/8 (ticks ${rs.map(r => r.diverged + '/' + r.parted).join(' ')}, evidence first differing / the ways parting) | first guess ${guessed.map(r => r.g.k + ' (' + r.g.x + ', ' + r.g.y + ')').join(', ')}: on open floor, 200 px or more on, not behind them ${guessed.filter(r => r.ok).length}/${guessed.length}`, data: rs.map(r => ({ law: r.law, g: r.g, fwd: r.fwd, dd: r.dd })) };
+  return { ok: rs.every(r => r.law) && guessed.length >= 6 && guessed.filter(r => r.ok).length === guessed.length,
+    note: `the same until it sensed a difference: ${rs.filter(r => r.law).length}/8 (ticks ${rs.map(r => r.diverged + '/' + r.parted).join(' ')}, evidence first differing / the ways parting) | first guess ${guessed.map(r => r.g.k + ' (' + r.g.x + ', ' + r.g.y + ')').join(', ')}: on open floor and ahead (an interception 200 px or more along its predicted way: ${guessed.filter(r => r.g.k === 'intercept').map(r => r.g.lead).join('/')} px; a look 150 px or more on) ${guessed.filter(r => r.ok).length}/${guessed.length}`, data: rs.map(r => ({ law: r.law, g: r.g, fwd: r.fwd, dd: r.dd })) };
 });
 
 add('PR09 the fork at wall B: its first guess (east round wall B, or north-west) is the same whichever way they really take, and differs between seeds - so it is sometimes wrong either way', () => {
@@ -260,14 +263,14 @@ add('PR09 the fork at wall B: its first guess (east round wall B, or north-west)
 });
 
 add('PR10 a wrong interception with nothing more to go on: it remembers the place, its confidence falls, its next guesses go elsewhere, and the hunt ends for that reason - never the same empty corner again', () => {
-  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], seed => {
     const R = sw(seed, .8, 'back', 'crouch', 60), G = R.guesses, iw = G.findIndex(q => q.after && /guessed wrong/.test(q.after.why));
     const later = iw < 0 ? [] : G.slice(iw + 1), repeat = later.some(q => G.slice(0, G.indexOf(q)).some(f => Math.hypot(f.x - q.x, f.y - q.y) < 150));
     return { judged: iw >= 0, repeat, confBefore: iw >= 0 ? G[iw].conf : -1, confAfter: iw >= 0 ? G[iw].after.conf : -1, n: G.length, tries: R.maxTries, end: R.end ? R.end.why : '-', endAt: R.end ? R.end.at : -1, killed: R.w.kills.length, hunting: !!R.e.hunt, heard: R.tally.heardQ };
   });
   const j = rs.filter(r => r.judged), ok = j.filter(r => !r.repeat && r.confAfter < r.confBefore && !r.hunting && r.tries <= 4 && (r.killed || /gives up/.test(r.end)));
   return { ok: j.length >= 5 && ok.length === j.length,
-    note: `${j.length}/8 guessed wrong with nothing heard after (${j.map(r => r.heard).join('/')} sounds taken for theirs): no place guessed twice ${j.filter(r => !r.repeat).length}/${j.length}, confidence ${j.map(r => r.confBefore + '>' + r.confAfter).join(' ')}, guesses ${j.map(r => r.n).join('/')}, the hunt over at ${j.map(r => r.endAt).join('/')} s (${[...new Set(j.map(r => '"' + r.end + '"'))].join(', ')}); killed ${j.reduce((a, r) => a + r.killed, 0)}`, data: rs };
+    note: `${j.length}/12 guessed wrong with nothing heard after (${j.map(r => r.heard).join('/')} sounds taken for theirs): no place guessed twice ${j.filter(r => !r.repeat).length}/${j.length}, confidence ${j.map(r => r.confBefore + '>' + r.confAfter).join(' ')}, guesses ${j.map(r => r.n).join('/')}, the hunt over at ${j.map(r => r.endAt).join('/')} s (${[...new Set(j.map(r => '"' + r.end + '"'))].join(', ')}); killed ${j.reduce((a, r) => a + r.killed, 0)}`, data: rs };
 });
 
 add('PR11 doubling back: footsteps it really hears on the other way turn its guess toward them; the same doubling back made silently turns nothing - and the two runs are the same creature until the first sound', () => {
@@ -420,7 +423,7 @@ add('PR17 one person with a torch, seen, then out of sight: the phases show - li
       const sn = AI.SKIN.snap(e), P = e.plan;
       if (sn.ac !== AI.KACT[e.act] || sn.s !== AI.SCODE[e.state] || Math.abs(sn.h - (e.head || 0)) > .006) R.mism++;
       if (sn.ac !== lastAc) { if (t - lastT < .1 && lastAc !== -1 && !e.pounce && !e.recover) R.flick++; lastAc = sn.ac; lastT = t; }
-      if (P && P.k === 'listen' && t - (P.seenT ?? (P.seenT = t)) > .05) { R.listen++; if (e.act === 'listen') R.listenOk++; if (e.speed > 5) R.moveInListen++; if (Math.abs(e.head || 0) > .1) R.head++; }
+      if (P && P.k === 'listen' && t - (P.seenT ?? (P.seenT = t)) > .3) { R.listen++; if (e.act === 'listen') R.listenOk++; if (e.speed > 5) R.moveInListen++; if (Math.abs(e.head || 0) > .1) R.head++; }   // (after 0.3 s: it stops from a walk, it does not teleport to a halt)
       if (P && P.k === 'approach' && !e.pounce && !e.recover && e.act !== 'look') { R.appr++; if (e.act === 'approach' || e.act === 'creep') R.apprOk++; }
     } });
     return R;

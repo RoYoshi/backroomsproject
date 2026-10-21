@@ -34,3 +34,7 @@ R3 values (all UNAPPROVED): `SK.freezeCone` 1.1 rad (an unaware person's facing 
 (hungry .. starving: how long it stays frozen before it goes on), `SK.noFlank` 10 s (a place with no way round a watcher is not searched again
 for that long, or until they move 200 px). Measured (`CHECKPOINTS.md` R3): in the narrow corridor a .8 one comes on openly in 8 / 8 and a
 watcher who breaks away at the tell survives that spring 8 / 8.
+
+R4 values (all UNAPPROVED): `SK.lostGrace` .6 s (out of sight this long before an approach or a chase counts them lost), `SK.flankSettle`
+.6 s (it settles at its flank spot before coming on). Poses (page script, `skin.body.js` `pose`): crouch listen .45, wait .75, search .35;
+lean approach .25, intercept .4, search .15; reach search .12; head gain 1 while listening or waiting (.6 otherwise).
