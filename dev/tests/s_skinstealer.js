@@ -201,13 +201,17 @@ add('SK16 the encounter budget: nobody is pinned for ever - someone who keeps an
     const { w, p, e } = duel(seed + 170, { hunger: .55, ex: 5650, pa: watcher ? 0 : Math.PI, light: true });
     bystander(w);                                                                 // (the world keeps running after a death)
     if (watcher) p.look = () => Math.atan2(e.y - p.y, e.x - p.x);                  // they keep turning to face it
-    let leftAt = -1, span = 0, longest = 0;
-    w.run(150, () => { if (e.plan && e.plan.pid === p.id) { span += DT; longest = Math.max(longest, span); } else span = 0; if (leftAt < 0 && planOf(e) === 'leave') leftAt = w.t; return true; });
+    let leftAt = -1, span = 0, longest = 0, hAtKill = -1;
+    w.run(150, () => { if (e.plan && e.plan.pid === p.id) { span += DT; longest = Math.max(longest, span); } else span = 0; if (leftAt < 0 && planOf(e) === 'leave') leftAt = w.t; if (hAtKill < 0 && w.kills.length) hAtKill = e.hunger; return true; });
     const budget = AI.SK.budgetEnc[0] + AI.SK.budgetEnc[1] * .8, killed = w.kills.some(k => k.pid === p.id);
-    return { ok: longest <= budget + 2 && (watcher ? !killed && leftAt >= 0 : killed || leftAt >= 0), watcher, killed, leftAt: +leftAt.toFixed(1), engaged: +longest.toFixed(1), budget: Math.round(budget) };
+    // (Predator refinement R3: hunger rises through the 150 s, .55 to about .8.  The owner's instruction is that a very hungry one is not
+    // kept off by being watched; so the watcher is never taken while it is merely hungry - under SK.band[2] - and a kill after its hunger
+    // has passed that is reported, not counted against it.  Left alone first, and never pinned, as before.)
+    const lateKill = killed && hAtKill >= AI.SK.band[2];
+    return { ok: longest <= budget + 2 && (watcher ? (!killed || lateKill) && leftAt >= 0 : killed || leftAt >= 0), watcher, killed, hAtKill: +hAtKill.toFixed(2), leftAt: +leftAt.toFixed(1), engaged: +longest.toFixed(1), budget: Math.round(budget) };
   };
   const rs = [1, 2, 3, 4].flatMap(seed => [runOnce(seed, true), runOnce(seed, false)]);
-  return { ok: rate(rs) === 1, note: rs.map(r => `${r.watcher ? 'watching it' : 'unaware'}: ${r.killed ? 'taken' : r.leftAt >= 0 ? 'left alone at ' + r.leftAt + ' s' : 'neither'}, longest engagement ${r.engaged} s (budget about ${r.budget})`).join(' | '), data: rs };
+  return { ok: rate(rs) === 1, note: rs.map(r => `${r.watcher ? 'watching it' : 'unaware'}: ${r.killed ? (r.watcher ? `left alone at ${r.leftAt} s, taken later at hunger ${r.hAtKill}` : 'taken') : r.leftAt >= 0 ? 'left alone at ' + r.leftAt + ' s' : 'neither'}, longest engagement ${r.engaged} s (budget about ${r.budget})`).join(' | '), data: rs };
 });
 
 add('SK17 more than one of them: two people in view make it leave (it is a lone ambusher)', () => {
@@ -270,14 +274,18 @@ function baitRun(seed, follow) {
   R.came = e.tally.lureCame; R.dur = R.endAt < 0 ? -1 : +(R.endAt - R.lureAt).toFixed(1); return R;
 }
 add('SK21 the bait: seen, a hungry one backs round a corner and waits there, still; nobody follows - it gives up and leaves; somebody follows - they come round that corner close to it', () => {
-  const stay = over([1, 2, 3, 4, 5, 6, 7, 8], s => baitRun(s, false)), fol = over([1, 2, 3, 4, 5, 6, 7, 8], s => baitRun(s, true));
+  // (Predator refinement R3: a hungry one watched now more often goes round the person to cover - R1's flank, which since R3 reaches its
+  // spot - than backs off as bait (about one hunt in three at .7); the bait is one of its answers.  So the scene runs 24 seeds and judges
+  // the runs where it lay in wait, as SK41 does: at least 6 of them, each still held to T3's rules)
+  const S16 = Array.from({ length: 24 }, (_, i) => i + 1);
+  const stay = over(S16, s => baitRun(s, false)), fol = over(S16, s => baitRun(s, true));
   const lured = stay.filter(r => r.lureAt >= 0), lf = fol.filter(r => r.lureAt >= 0);
   // (Predator refinement R1, the owner's instruction for a very hungry one - .7 here: a bait nobody followed is one failed tactic, not the end
   // of the hunt.  What T3 protected stays - it lies in wait hidden and still, nobody follows, the wait ends within SK.lureMax and the bait is
   // recorded as failed; then it leaves, or (R1) goes on with the same hunt - listening, going after them - instead of a departure.)
   const okStay = lured.length >= 6 && lured.every(r => r.hidden && r.moved < 30 && r.lureD >= r.d0 - 30 && ((r.after === 'leave' && /did not follow/.test(r.why)) || r.huntOn) && r.dur <= AI.SK.lureMax + .5);
   const came = lf.filter(r => r.came > 0 && r.lureD < 320);
-  return { ok: okStay && lf.length >= 6 && came.length >= 5, note: `stays put: ${lured.length}/8 lay in wait, hidden ${lured.filter(r => r.hidden).length}, moved at most ${Math.max(...lured.map(r => Math.round(r.moved)))} px, gave up the wait after ${lured.map(r => r.dur).join('/')} s (then ${lured.map(r => r.huntOn ? 'hunted on' : r.after).join('/')}) ("${lured[0] && lured[0].why}") | follows: ${lf.length}/8 lay in wait, they came round the corner within ${lf.map(r => Math.round(r.lureD)).join('/')} px of it (${came.length} within 320)`, data: { stay, fol } };
+  return { ok: okStay && lf.length >= 6 && came.length >= lf.length - 1, note: `stays put: ${lured.length}/24 lay in wait, hidden ${lured.filter(r => r.hidden).length}, moved at most ${Math.max(...lured.map(r => Math.round(r.moved)))} px, gave up the wait after ${lured.map(r => r.dur).join('/')} s (then ${lured.map(r => r.huntOn ? 'hunted on' : r.after).join('/')}) ("${lured[0] && lured[0].why}") | follows: ${lf.length}/24 lay in wait, they came round the corner within ${lf.map(r => Math.round(r.lureD)).join('/')} px of it (${came.length} within 320)`, data: { stay, fol } };
 });
 
 add('SK22 the straight race: a fresh runner on a straight wins - it gives chase, falls behind and gives up for that reason; a winded one does not - it closes to striking distance', () => {

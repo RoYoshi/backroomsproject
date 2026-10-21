@@ -29,3 +29,8 @@ last evidence, is not theirs; capped at 1800 px); `SK.hearConf` .45 .. .85 (the 
 of listening (× .8–1.2 with PATIENCE) and `SK.curiousStrong` .45 (× 1 .. .4 from mildly hungry to hungry) for a lone sound to be looked at.
 Measured (`CHECKPOINTS.md` R2): with nothing more heard a hunt ends 15–22 s after the last evidence in the scenes measured; heard footsteps
 keep its belief 35–223 px from the person against 571–581 px without.
+
+R3 values (all UNAPPROVED): `SK.freezeCone` 1.1 rad (an unaware person's facing this near it makes it freeze), `SK.freezeMax` 3 .. 1.2 s
+(hungry .. starving: how long it stays frozen before it goes on), `SK.noFlank` 10 s (a place with no way round a watcher is not searched again
+for that long, or until they move 200 px). Measured (`CHECKPOINTS.md` R3): in the narrow corridor a .8 one comes on openly in 8 / 8 and a
+watcher who breaks away at the tell survives that spring 8 / 8.

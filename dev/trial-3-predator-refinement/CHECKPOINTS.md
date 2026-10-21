@@ -10,7 +10,8 @@ hash: each row is filled in by the next checkpoint (the last by a receipt commit
 |---|---|---|---|---|
 | R0 audit, plan, reproduction, baseline | `f094dd46a7274877c07fdf27829a68bb0fad5b8c` | `491605897c6c453d2a287ac42a71b52434a81b56` | `4518f93` | 2026-10-21 05:00 UTC, `evidence/remote/r0.json` (GitHub API and `ls-remote` agree; protected refs and every other branch unchanged); scans `r0_pre.txt` / `r0_post.txt` clean |
 | R1 the hunt, hunger and eye contact, the lost race | `907de0df54ece3a0940c8aadfe23a9ba16f7b093` | `2d5fb85aa1ed4a26b8b96a37a6f44182f381d105` | `f094dd4` | 2026-10-21 05:50 UTC, `evidence/remote/r1.json`; scans `r1_pre.txt` / `r1_post.txt` clean |
-| R2 listening, belief, guesses, failed guesses | (this commit: `evidence/remote/r2.json` arrives with R3) | | `907de0d` | |
+| R2 listening, belief, guesses, failed guesses | `fbeaf1fcc07d10e17da1ec514d7d16ae856df95b` | `f292ad67c38a80fc690d041f7e743091a91a6928` | `907de0d` | 2026-10-21 06:21 UTC, `evidence/remote/r2.json`; scans `r2_pre.txt` / `r2_post.txt` clean |
+| R3 stalking, going round, coming on, fair strikes | (this commit: `evidence/remote/r3.json` arrives with R4) | | `fbeaf1f` | |
 
 ## R0 — audit and plan, no game change
 
@@ -113,3 +114,32 @@ a fuzzy place, a strength, a time, anonymous unless the engine named it while th
 |---|---|---|---|
 | SK21 | stillness measured over every `lure` plan in the run | over its first wait | the hunt may go on after the bait (R1) and lie in wait again elsewhere: that is another wait, not movement during the first |
 | SK24 | the first plan after the sound is a search | a roaming listen (turned to the sound) may come first; the first plan after it is judged, and the listens are reported | the pack's listen-before-moving: it stops and listens, and what it hears next decides; the ≥ 3 / 6, the goal within 250 px, the duration and the silent case are unchanged |
+
+## R3 — stalking, going round, coming on, fair strikes
+
+Changed: `ai.skinstealer.js` and its build; the `ai.js` note; `s_skinpredator.js` (PR06, PR07, PR17, PR21); SK16 and SK21 (below).
+
+* **Stalking freeze**: coming at somebody unaware, when their facing turns within 1.1 rad of it (before eye contact) it freezes —
+  crouched, still (act `creep`) — until they look away (then "it comes on") or its patience runs out: 3 s when hungry, 1.2 s when
+  starving.
+* **Waiting** at an interception its head sweeps (the `h` the page already receives) toward the way they would come.
+* **A flank reaches its spot**: R1's flank ended as soon as the creature lost sight of the person — usually because it had turned its own
+  back on them while moving — so it often stopped half way, still in their view. It now goes on to its spot (or its time) and comes at
+  them from there.
+* **No way round**: when it finds no flank spot it remembers that for that place for 10 s (or until they move 200 px) instead of searching
+  again on every think; a very hungry one whose hunt has met that may then come on openly.
+
+| Run | Result |
+|---|---|
+| `s_skinpredator.js` | 21 / 21 (`evidence/r3_suites.txt`). PR06: watched at .7 in the lit hall it went round them in 8 / 8; every flank spot out of their sight (22 / 22); 18 of 21 flanks over with it out of their sight; never inside a wall, no jump. PR07: in the narrow north corridor (no way round, found 7 / 8) a .8 one came on openly while watched in 8 / 8; every spring at the watcher was in their sight with its whole wind-up first (8 / 8), every spring with its whole wind-up (16 / 16); one who broke away at the tell got away from that spring 8 / 8 — and was taken after their run ended (they stopped in the open, in a lit room; reported). PR17: listening (act `listen`, still, head turned) and approaching (act `approach` / `creep`, moving) both shown in 5 / 8 runs; the page's state, act and head equal what it does at every tick (0 mismatches); an act shown under 0.1 s at most once in a run. PR21: 18 springs each with its full wind-up; 12 kills, body against body (37.6–41.9 px) with a clear line; broke away at the tell and survived that spring 6 / 6, stood watching 0 / 6 |
+| `s_skinstealer.js`, `s_skinbehave.js` | 34 / 34, 19 / 19 (SK16, SK21 adapted) |
+| `s_hound.js`, `s_smiler.js` | 30 / 31; H07 inherited (`evidence/r3_hound_smiler.txt`) |
+| `tools/repro_r0.js` (`evidence/r3_repro.*`) | as R2 for W / U / C / R; watched at .75: kills 8 / 8 (closest 25–38 px) |
+| static checks (`evidence/r3_checks.txt`) | PASS |
+
+### Contract changes
+
+| Scenario | Before | Now | Why |
+|---|---|---|---|
+| SK16 | a watcher is never taken in 150 s | never taken while its hunger is under .6; a kill once hunger has risen past that is reported | its hunger rises from .55 to about .8 in the 150 s; the owner: a very hungry one is not kept off by being watched. Being left alone first, and the no-pinning budget, unchanged |
+| SK21 | 8 seeds, at least 6 lie in wait | 24 seeds, the runs that lie in wait judged (at least 6), each held to T3's rules unchanged | at .7 a watched one now more often goes round them (R1's flank, which since R3 reaches its spot) than backs off as bait — about a third of hunts bait |

@@ -4,7 +4,8 @@
  * as a hunger is), move people as players would, and read what it did.  Every scenario that says it perceived something says how: SEEN
  * (e.seenNow), HEARD (a sound it really received: anonymous unless the engine named it), REMEMBERED (its record), GUESSED (its own belief or
  * prediction).  The people's scripts may read where the creature really is (a player's own sight of it); the creature never reads them.
- * R1: PR01-PR05, PR18-PR20 (hunger, eye contact, the hunt, the lost race).  R2: PR08-PR16 (listening, belief, guesses, failed guesses). */
+ * R1: PR01-PR05, PR18-PR20 (hunger, eye contact, the hunt, the lost race).  R2: PR08-PR16 (listening, belief, guesses, failed guesses).
+ * R3: PR06, PR07, PR17, PR21 (going round a watcher, coming on openly, the tells, fair strikes). */
 'use strict';
 const { World, DT, LONG, over, rate, AI, floorNear, bystander } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -358,6 +359,96 @@ add('PR16 a sound that no person made (a thud in the dark): it listens and goes 
   const went = rs.filter(r => r.listen > 0 && r.look > 0);
   return { ok: went.length >= 4 && went.every(r => r.dur > 0 && r.dur <= AI.SK.searchMax + AI.SK.searchLook[1] + .5) && rs.every(r => r.recs === 0 && r.hunts === 0 && r.strikes === 0),
     note: `listened ${rs.filter(r => r.listen > 0).length}/6, went to look ${went.length}/6 (looks over in ${went.map(r => r.dur).join('/')} s) | records of a person 0, hunts 0, strikes 0: ${rs.every(r => r.recs === 0 && r.hunts === 0 && r.strikes === 0)}`, data: rs };
+});
+
+/* ---------------------------------------------------------------- R3: stalking, going round, coming on, the tells */
+add('PR06 watched while hungry (.7) in the lit hall: when it goes round them it moves under cover to a spot at their side they cannot see - reached by a real route on open floor, never through a wall', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const { w, p, e } = hall(seed + 3800, { hunger: .7, watch: true }), g = w.eng.geo;
+    // a flank ends when it is out of their sight (it comes at them from there: R1), at its spot, or when it thinks again; what counts is
+    // where it is then - out of their sight, from where they really stand
+    const R = { flanks: 0, ended: 0, hidden: 0, inWall: 0, jump: 0, seenShare: 0, n: 0, spotHidden: 0 }; let F = null, px = e.x, py = e.y;
+    w.run(25, (ww, t) => {
+      const P = e.plan;
+      if (F && P !== F) { R.ended++; if (!g.los(p.x, p.y, e.x, e.y)) R.hidden++; F = null; }
+      if (P && P.k === 'flank') {
+        if (P !== F) { F = P; R.flanks++; if (!g.los(p.x, p.y, P.spot.x, P.spot.y)) R.spotHidden++; }
+        R.n++; if (g.los(p.x, p.y, e.x, e.y)) R.seenShare++;
+        if (P.arrived && !P.counted) { P.counted = 1; R.ended++; if (!g.los(p.x, p.y, e.x, e.y)) R.hidden++; F = null; }
+      }
+      if (!g.clear(e.x, e.y, e.rc - 6, 'walk')) R.inWall++;
+      if (!e.trav && !e.pounce && Math.hypot(e.x - px, e.y - py) > AI.SKIN.speeds.run * DT * 1.5 + 2) R.jump++;
+      px = e.x; py = e.y; return true; });
+    R.seenShare = R.n ? +(R.seenShare / R.n).toFixed(2) : -1; R.killed = w.kills.length; return R;
+  });
+  const fl = rs.filter(r => r.flanks), n = fl.reduce((a, r) => a + r.flanks, 0), end = fl.reduce((a, r) => a + r.ended, 0), hid = fl.reduce((a, r) => a + r.hidden, 0), sh = fl.reduce((a, r) => a + r.spotHidden, 0);
+  return { ok: fl.length >= 4 && sh === n && end >= 4 && hid >= Math.ceil(end * .8) && rs.every(r => r.inWall === 0 && r.jump === 0),
+    note: `went round them in ${fl.length}/8 (${rs.map(r => r.flanks).join('/')} flanks), every spot out of their sight ${sh}/${n}; the flank over with it out of their sight ${hid}/${end}; in their sight on the way ${fl.map(r => r.seenShare).join('/')} of the flank's time (it starts in the open); inside a wall ${rs.reduce((a, r) => a + r.inWall, 0)} ticks, jumps ${rs.reduce((a, r) => a + r.jump, 0)}; killed ${rs.reduce((a, r) => a + r.killed, 0)}`, data: rs };
+});
+
+add('PR07 the narrow north corridor, no way round the watcher: a very hungry one (.8) comes on openly while watched - and every spring shows its wind-up to the watcher first, so one who breaks away at the tell gets away from that spring', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const w = World(seed + 3700); bystander(w, 1200, 4500);
+    const p = w.player(1170, 4400, { light: true, angle: Math.PI / 2 }); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', 1170, 4780, { hunger: .8 }); e.tier = 'near'; e.ang = -Math.PI / 2;
+    p.look = () => Math.atan2(e.y - p.y, e.x - p.x);
+    const R = { open: -1, strikes: [], flank: 0 }; let S = null;
+    w.run(30, (ww, t) => {
+      const P = e.plan; if (P && P.k === 'flank') R.flank++;
+      if (R.open < 0 && P && P.k === 'approach' && e.dbg.decide && e.dbg.decide.watched) R.open = +t.toFixed(1);
+      if (e.pounce && e.pounce !== S) { S = e.pounce; S.need = S.wind; const off = Math.abs(Math.atan2(e.y - p.y, e.x - p.x) - p.angle); R.strikes.push({ t: +t.toFixed(2), style: S.style, need: S.wind, watching: !p.fled, facing: +Math.min(off, Math.PI * 2 - off).toFixed(2), los: w.eng.geo.los(p.x, p.y, e.x, e.y), wind: 0, hit: false });
+        if (!p.fled) { p.fled = 1; p.look = null; p.route([{ x: p.x, y: 4200 }, { x: 700, y: 4250 }, { x: 700, y: 3500 }, { x: 2600, y: 3500 }], 'run'); } }   // the tell: they break away, up and out of the corridor, and run on
+      if (S && e.pounce === S && S.t < S.wind) R.strikes[R.strikes.length - 1].wind = +S.t.toFixed(2);
+      if (S && e.tally.hit && !R.strikes[R.strikes.length - 1].hit && e.pounce !== S) R.strikes[R.strikes.length - 1].hit = true;
+      if (p.fled && R.stopAt === undefined && p.path && !p.path.length) R.stopAt = +t.toFixed(1);
+      if (R.killAt === undefined && w.kills.length) R.killAt = +t.toFixed(1);
+      return true; });
+    R.first = R.strikes[0] || null; R.killed = w.kills.length; R.noFlank = e.tally.noFlank; R.whileRunning = R.killed && (R.stopAt === undefined || R.killAt < R.stopAt); return R;
+  });
+  // (the springs at a watcher: in their sight, facing it, the whole wind-up first; every later spring - at somebody running off - with its
+  // whole wind-up too.  What happens to them after the first spring - it may give chase - is reported, not judged here: PR05 / PR21)
+  const op = rs.filter(r => r.open >= 0), st = rs.flatMap(r => r.strikes), atW = st.filter(q => q.watching), shown = atW.filter(q => q.los && q.facing < .6 && q.wind >= q.need - .02);
+  const full = st.filter(q => q.wind >= (q.style === 'grab' ? AI.SK.grabWind : AI.SK.pounceWind) - .02), esc = rs.filter(r => r.first && !r.first.hit);
+  return { ok: op.length >= 5 && rs.every(r => r.flank === 0) && atW.length >= 5 && shown.length === atW.length && full.length === st.length && esc.length >= Math.ceil(rs.filter(r => r.first).length * .6),
+    note: `no way round them (none found ${rs.map(r => r.noFlank).join('/')}; flanks 0): came on openly while watched in ${op.length}/8 (from ${op.map(r => r.open).join('/')} s) | springs at the watcher ${atW.length}, each in their sight with its whole wind-up shown first ${shown.length}/${atW.length}; every spring with its whole wind-up ${full.length}/${st.length} | broke away at the first tell and got away from it ${esc.length}/${rs.filter(r => r.first).length}; caught later while still running ${rs.filter(r => r.whileRunning).length}/8, after their run ended ${rs.filter(r => r.killed && !r.whileRunning).length}/8`, data: rs };
+});
+
+add('PR17 one person with a torch, seen, then out of sight: the phases show - listening (still, its head turning) is not approaching (moving, crouched) - and what the page is sent (state, act, head) is what it is doing, without flicker', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const R = { listen: 0, listenOk: 0, appr: 0, apprOk: 0, mism: 0, flick: 0, head: 0, moveInListen: 0 }; let lastAc = -1, lastT = 0;
+    sw(seed, .8, 'back', 'crouch', 24, { on: (t, p, e) => {
+      const sn = AI.SKIN.snap(e), P = e.plan;
+      if (sn.ac !== AI.KACT[e.act] || sn.s !== AI.SCODE[e.state] || Math.abs(sn.h - (e.head || 0)) > .006) R.mism++;
+      if (sn.ac !== lastAc) { if (t - lastT < .1 && lastAc !== -1 && !e.pounce && !e.recover) R.flick++; lastAc = sn.ac; lastT = t; }
+      if (P && P.k === 'listen' && t - (P.seenT ?? (P.seenT = t)) > .05) { R.listen++; if (e.act === 'listen') R.listenOk++; if (e.speed > 5) R.moveInListen++; if (Math.abs(e.head || 0) > .1) R.head++; }
+      if (P && P.k === 'approach' && !e.pounce && !e.recover && e.act !== 'look') { R.appr++; if (e.act === 'approach' || e.act === 'creep') R.apprOk++; }
+    } });
+    return R;
+  });
+  const both = rs.filter(r => r.listen > 10 && r.appr > 10);
+  return { ok: both.length >= 5 && rs.every(r => r.mism === 0 && r.listenOk === r.listen && r.apprOk === r.appr && r.moveInListen === 0 && r.flick <= 2) && both.every(r => r.head > r.listen * .5),
+    note: `both phases in ${both.length}/8: listening ${rs.map(r => r.listen).join('/')} ticks (act listen ${rs.every(r => r.listenOk === r.listen)}, still ${rs.every(r => r.moveInListen === 0)}, head turned ${both.map(r => Math.round(100 * r.head / r.listen) + '%').join('/')}), approaching ${rs.map(r => r.appr).join('/')} ticks (act approach or creep ${rs.every(r => r.apprOk === r.appr)}) | the page's state / act / head equal to what it does: mismatches ${rs.reduce((a, r) => a + r.mism, 0)}; an act shown under 0.1 s ${rs.map(r => r.flick).join('/')}`, data: rs };
+});
+
+add('PR21 fair strikes: every spring in these hunts is shown first (a wind-up from where it is, in the open), every kill is body against body with nothing solid between - none through a wall, none without a tell; those who break away at the tell survive that spring more often than not', () => {
+  const scenes = [];
+  for (const seed of [1, 2, 3, 4, 5, 6]) for (const dodge of [true, false]) scenes.push({ seed, dodge });
+  const rs = scenes.map(({ seed, dodge }) => {
+    const { w, p, e } = hall(seed + 3900, { hunger: .95, watch: true }), g = w.eng.geo;
+    const R = { dodge, strikes: [], kills: [] }; let S = null, hits = 0;
+    w.run(30, (ww, t) => {
+      if (e.pounce && e.pounce !== S) { S = e.pounce; R.strikes.push({ style: S.style, wind: 0, need: S.wind, hit: false });
+        if (dodge && !p.fled) { p.fled = 1; p.look = null; const sx = p.x - Math.sign(e.x - p.x || 1) * 60; p.route([{ x: sx, y: p.y - 140 }, { x: sx - 900, y: p.y - 140 }], 'run'); } }
+      if (S && e.pounce === S) R.strikes[R.strikes.length - 1].wind = Math.max(R.strikes[R.strikes.length - 1].wind, +Math.min(S.t, S.wind).toFixed(3));
+      if (e.tally.hit > hits) { hits = e.tally.hit; const q = R.strikes[R.strikes.length - 1]; if (q) q.hit = true;
+        R.kills.push({ d: +Math.hypot(p.x - e.x, p.y - e.y).toFixed(1), lim: e.r + 20, clear: g.lineClear(e.x, e.y, p.x, p.y, 3, 'walk'), wind: q ? q.wind : -1, need: q ? q.need : -1 }); }
+      return true; });
+    return R;
+  });
+  const st = rs.flatMap(r => r.strikes), told = st.filter(q => q.wind >= q.need - .02), ks = rs.flatMap(r => r.kills), fair = ks.filter(k => k.clear && k.d <= k.lim && k.wind >= k.need - .02);   // (contact: within its body's reach of theirs, e.r + 18, at the hit)
+  const dFirst = rs.filter(r => r.dodge && r.strikes.length), dEsc = dFirst.filter(r => !r.strikes[0].hit);
+  return { ok: st.length >= 6 && told.length === st.length && ks.length >= 3 && fair.length === ks.length && dEsc.length > dFirst.length / 2,
+    note: `${st.length} springs, each with its full wind-up first ${told.length}/${st.length} | ${ks.length} kills, body against body (${ks.map(k => k.d).join('/')} px) with a clear line ${fair.length}/${ks.length} | broke away at the tell and survived that spring ${dEsc.length}/${dFirst.length}; stood watching and survived it ${rs.filter(r => !r.dodge && r.strikes.length && !r.strikes[0].hit).length}/${rs.filter(r => !r.dodge && r.strikes.length).length}`, data: rs };
 });
 
 module.exports = S;
