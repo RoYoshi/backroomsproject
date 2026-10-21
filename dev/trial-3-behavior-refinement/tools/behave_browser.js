@@ -73,8 +73,11 @@ async function runPage(b, port, room, vp, name) {
  * data for it, its own death. */
 const BOT = `(o) => { const K = window.__k3, held = new Set(), key = (c, down) => { if (down === held.has(c)) return; if (down) held.add(c); else held.delete(c);
     window.dispatchEvent(new KeyboardEvent(down ? 'keydown' : 'keyup', { code: c, key: c === 'ShiftLeft' ? 'Shift' : c.slice(3).toLowerCase(), bubbles: true })); };
-  const cv = document.querySelector('canvas'); let phi = null, last = -1; K.rec = []; K.botDone = false; const t0 = performance.now();
+  const cv = document.querySelector('canvas'); let phi = null, last = -1; K.rec = []; K.dfs = []; K.botDone = false; const t0 = performance.now();
+  K.noteDf = () => {   /* (one entry per decision: two are at least SK.defGapAll, 10 s, apart, and the debug data a dead page gets can be a moment old) */ const k = (K.ss || [])[0], g = k && (window.__ents.dbg || []).find(x => x.i === k.i), df = g && g.sk && g.sk.df;   // every defence decision, from the debug data as it comes
+    if (df) { const at = performance.now() - df.ago * 1000; if (!K.dfs.some(x => Math.abs(x.at - at) < 9000)) K.dfs.push(Object.assign({}, df, { at, t: +((at - t0) / 1000).toFixed(1) })); } };
   K.bot = setInterval(() => {
+    K.noteDf();
     const t = (performance.now() - t0) / 1000, k = (K.ss || [])[0], A = __api, H = A.H, D = A.death && A.death();
     if (D && D.active) { K.death = K.death || { t: +t.toFixed(1), kind: D.kind, v: D.variant }; }
     if (!k || (D && D.active) || t > o.orbit + o.press) { for (const c of [...held]) key(c, false); clearInterval(K.bot); K.botDone = true; return; }
@@ -136,7 +139,9 @@ const BOT = `(o) => { const K = window.__k3, held = new Set(), key = (c, down) =
       }
     }
     await until(A.P, () => window.__k3.botDone, null, (15 + +ARG.secs + 20) * 1000, 500);
-    const rec = await A.P.evaluate(() => window.__k3.rec), death = await A.P.evaluate(() => window.__k3.death || null);
+    for (let i = 0; i < 6; i++) { await A.P.evaluate(() => window.__k3.noteDf()); await sleep(250); }        // (a decision just before a death: its debug data comes a moment later)
+    const rec = await A.P.evaluate(() => window.__k3.rec), death = await A.P.evaluate(() => window.__k3.death || null), dfs = await A.P.evaluate(() => window.__k3.dfs.slice());
+    R.defences = dfs.map(q => ({ t: q.t, k: q.k, odds: q.odds, cornered: q.cornered }));
     R.trace = rec.map(r => [r.t, r.ph, r.d, r.s, r.ac, r.h, r.pl, r.aw ? r.aw.p : 0, r.rx, r.hu, r.vx, r.vy]);
     const seen = { look: -1, warn: -1, provoked: -1, creep: -1, def: null, wind: -1, death, aware: null, orbitLooks: 0, headTurn: 0, moving: rec.filter(r => Math.hypot(r.vx, r.vy) > 60).length };
     let lastRx = '';
@@ -151,6 +156,7 @@ const BOT = `(o) => { const K = window.__k3, held = new Set(), key = (c, down) =
       if (r.ac === KACT.wind && seen.wind < 0) { seen.wind = r.t; seen.windAt = r.at; }
       if (Math.abs(r.h) > .2 && r.ph === 'orbit') seen.headTurn++;
     }
+    { const q = dfs.find(x => x.pid === aid); if (q && (!seen.def || q.t < seen.def.t)) seen.def = { t: q.t, k: q.k, odds: q.odds, cornered: q.cornered }; }   // (the first decision, from every debug packet)
     if (SHOTS) await A.P.screenshot({ path: path.join(SHOTS, 'b4_end_640.png') });
     R.seen = seen;
     R.lines = await A.P.evaluate(() => window.__k3.lines.slice());
@@ -162,7 +168,8 @@ const BOT = `(o) => { const K = window.__k3, held = new Set(), key = (c, down) =
     check('b4_defence_decision', !!seen.def, JSON.stringify(seen.def));
     // every defensive strike (each decision on the wire: its time less how long ago it was), its wind-up seen in a snapshot and its sounds
     const winds = await A.P.evaluate(() => (window.__k3.winds || []).slice()), src = await A.P.evaluate(() => window.__k3.src.slice()), strikes = [];
-    for (const r of rec) if (r.df && r.df.k === 'strike') { const at = r.at - r.df.ago * 1000; if (!strikes.some(q => Math.abs(q.at - at) < 1500)) strikes.push({ at, t: +(r.t - r.df.ago).toFixed(1), odds: r.df.odds }); }
+    for (const q of dfs) if (q.k === 'strike') strikes.push({ at: q.at, t: q.t, odds: q.odds });
+    for (const r of rec) if (r.df && r.df.k === 'strike') { const at = r.at - r.df.ago * 1000; if (!strikes.some(q => Math.abs(q.at - at) < 9000)) strikes.push({ at, t: +(r.t - r.df.ago).toFixed(1), odds: r.df.odds }); }
     for (const q of strikes) { const w = winds.find(x => x >= q.at - 400 && x <= q.at + 1500); q.wind = w !== undefined; q.sounds = w !== undefined ? src.filter(x => x >= w - 400 && x <= w + 900).length : 0; delete q.at; }
     R.strikes = strikes;
     check('b4_strike_shows_its_tell', strikes.every(q => q.wind && q.sounds >= 3), strikes.length ? JSON.stringify({ strikes }) : `no defensive strike came in this run (decisions: ${JSON.stringify(seen.def)}) - nothing to check`);

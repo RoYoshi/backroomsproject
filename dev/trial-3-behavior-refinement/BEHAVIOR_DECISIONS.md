@@ -49,17 +49,23 @@ accidental proximity safe. Built as follows (`skDefend`, `PLAN.md` §4):
 * **A readable warning first:** only against a person it has warned, 1–15 s after that warning ended.
 * **Current evidence:** seen on this think, within 110 px, a clear walking line between them (BR10: never across a corner or a low
   obstacle), not moving away from it faster than 60 px/s.
-* **Physical contact:** a 0.5 s crouched wind-up (the pounce's own tell, its click and breath), then a committed 70 px lunge that cannot
-  steer and can catch only that person. The kill is the existing capture, death and corpse path: one of Trial 3's three deaths
+* **Physical contact:** a 0.5 s crouched wind-up (the pounce's own tell, its click and breath), then a committed lunge of about 72 px
+  that cannot steer and can catch only that person, aimed from what it sees of their motion where it reckons they will be when it
+  reaches them — never past itself, so somebody walking straight at it is met where they are (fixed at B5 after the independent review:
+  the first version led them a fixed 0.6 s and sprang *away* from anybody walking at it). The kill is the existing capture, death and corpse path: one of Trial 3's three deaths
   (mostly the neck break), one corpse, the dropped light, the kill named Skin-Stealer (BR16).
 * **It may still withdraw.** Each time the conditions hold, it chooses from its own seeded stream: withdraw (it goes, at its tired run,
   180 px/s, which a fresh runner can follow) or strike. Its odds of striking are 0.35, more when cornered (fewer than 2 of 7 ways away
   from them are open), more for each time it has already withdrawn from that person, a little more when hungrier, less when tired.
-  So a persistent harasser is eventually struck at; a single close moment is not.
+  So a persistent harasser is eventually struck at; a single close moment is not. Measured over 200 seeds (somebody who stays within
+  60 px of it, facing it, for a whole minute, its hunger 0): the first defence came typically about 7.5 s in (6.9–20.8 s); it was a strike in 73 of 200
+  (36 %, the odds' own rate); every strike that finished within the minute landed on the person, who did not dodge (157 of 157); 157 of 200 were killed within the minute (median
+  33 s: after a first withdrawal, 25 s later its odds are higher). This is the strongest dial for the owner (`BALANCE_TABLE.md`).
 * **No kill loop:** 25 s before it defends against the same person again, 10 s before it defends against anybody, a fresh warning
   before each, the defence's own stamina cost (18), the pounce's recovery and cooldown after a miss, after which it leaves them.
 * **A miss is a real escape:** breaking sideways at the wind-up made it miss in 8 of 8 runs (BR15); it recovers for about a second and
-  then leaves.
+  then leaves at its tired run. Fleeing, it does not stop to look at the person it flees (its head still turns); chased down, it can warn
+  again, and so defend again once its 25 s are up.
 
 ## Hunger and the defence
 
@@ -81,12 +87,15 @@ DEFENCE for this). A satiated creature with nobody provoking it still never atta
 
 ## What it never uses
 
-No `eng.byId` / player lookups, no exact positions of unperceived people, no stale last-known positions, no chat or mute packets. Every
-input is a seen body this think or a heard sound. The one use of a person's true position is Trial 3's existing final physical contact
+No `eng.byId` / player lookups, no exact positions of unperceived people, no chat or mute packets. Pressure, warnings and defences are
+fed only by a body it sees on that think; a sound turns its gaze to the sound's own fuzzy place and names nobody. Where it turns its head
+and faces during a look uses its own estimate of somebody it saw within about the last second (the engine's perceived position, which
+may lag the truth), never where they really are. The one use of a person's true position is Trial 3's existing final physical contact
 check of a strike already decided from perception. (`eng.byId` appears only to drop records of people who have left the game.)
 
 ## Not changed
 
 Hound and Smiler (identical to P9 tick for tick on six seeds); senses, engine, capture, G.I.B.; the art, sounds, death animations and the
 snapshot format (the warning uses an existing state and act); speech imitation and the disguise; hunger, stamina, speeds and every
-Trial 3 balance value. See `DEFERRED.md` for what this pass deliberately does not do.
+Trial 3 balance value. One visible effect comes without any client change: the creature now turns its head toward a person it has
+noticed while it walks (`e.head`, already in the snapshot), so the page's existing head tilt shows it, and its field of view follows. See `DEFERRED.md` for what this pass deliberately does not do.

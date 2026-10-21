@@ -1,0 +1,24 @@
+PASS b4_moved_by_keys
+       189 of 201 samples with the page's own velocity over 60 px/s
+PASS b4_noticed
+       {"aware":{"t":5.6,"tier":"-","why":"close by"},"firstLook":0.6,"looksWhileCircling":4,"headTurnedSamples":8}
+PASS b4_warned_on_the_wire
+       {"warn":19.9,"provokedState":19.9,"creepAct":19.9}
+PASS b4_defence_decision
+       {"t":28.6,"k":"withdraw","odds":0.43,"cornered":0}
+PASS b4_strike_shows_its_tell
+       no defensive strike came in this run (decisions: {"t":28.6,"k":"withdraw","odds":0.43,"cornered":0}) - nothing to check
+PASS b4_death_is_its
+       the person did not die in this run - nothing to check
+PASS b4_overlay_lines
+       {"unique":600,"aware":["AWARE P2 0.01 - (close by) seen 0s ago, 109px  REACT look 0.5s: it heard run: it turns to look","AWARE P2 0.02 - (close by) seen 0.1s ago, 104px  REACT look 0.2s: it heard run: it turns to look","AWARE P2 0.03 - (close by) seen 0s ago, 122px"],"warned":["AWARE P2 0.54 provoked (crowding it) seen 0s ago, 80px, warned 1x  REACT warn 1.2s: P2 keeps crowding it: it turns on them, hunched, and backs away (a warning)","AWARE P2 0.56 provoked (crowding it) seen 0.1s ago, 90px, warned 1x  REACT warn 0.9s: P2 keeps crowding it: it turns on them, hunched, and backs away (a warning)"],"defence":["DEFENCE P2 withdrew 0.5s ago (odds 0.43)","DEFENCE P2 withdrew 0.8s ago (odds 0.43)"]}
+PASS b4_prey_died_by_it
+       {"kind":"SkinStealer","v":"A"}
+PASS b4_no_page_errors
+       {"prey":[],"pest":[]}
+BEHAVIOUR BROWSER: PASS - 9 of 9 cases
+
+real	2m30.734s
+user	0m10.561s
+sys	0m2.906s
+exit 0

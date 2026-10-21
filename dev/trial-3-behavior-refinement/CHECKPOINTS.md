@@ -13,7 +13,9 @@ row is filled in by the next checkpoint (the last by a receipt commit).
 | B2 provocation, warnings, fading, the very hungry departure | `17563927677a45c32fa561467b1c60a9aa81f73c` | `d0696e246d3cdefa0840216344dae9672626e40e` | `0d6f7b9` | yes: `evidence/remote/b2.json`; secret scan of the pushed commit CLEAN |
 | B3 defence | `67250cef964f0b9f41315bb684857b90ce01def1` | `790fc69cd12b2fbc122774f54822d5da273e4a1d` | `1756392` | yes: `evidence/remote/b3.json`; secret scan of the pushed commit CLEAN |
 | B4 integrated regression and performance | `ece46ac87ccef19d5273ed12c19712e08b4111c5` | `54733cbd1c46911e9c5c2802d86258ee82b5c7e8` | `67250ce` | yes: `evidence/remote/b4.json`; secret scan of the pushed commit CLEAN (its before-push scan, `scans/b4_pre.txt`, of the same commit, arrives with B5) |
-| B5a reports for the owner (an independent review in progress) | (this commit: read back by the next) | | `ece46ac` | |
+| B5a reports for the owner (an independent review in progress) | `fcc92be2a84a7903a9afca29a9c11c962d387dc6` | `8099089b7f5dad3b014cdfa85cad9b3894d14ffd` | `ece46ac` | yes: `evidence/remote/b5a.json`; secret scan of the pushed commit CLEAN |
+| B5b fixes from the independent review (runtime change) | `ad9b69fcbdcb46ab3e5ea2dc92fdec89413e002a` | `cdbd335066b7e331fed11a7db52b1b200bdc6284` | `fcc92be` | yes: `evidence/remote/b5b.json`; secret scan of the pushed commit CLEAN |
+| B5c final reports and evidence | (this commit: read back by the receipt) | | `ad9b69f` | |
 
 ## B0 — audit and plan, no game change
 
@@ -131,3 +133,48 @@ were detached worktrees outside the repository: P9 (`1ff9374`, tree `d6b71b8`) a
 
 Noted at B4, from B3: BR03's sixth circling run now ends one of its looks with a warning and a defensive withdrawal (a new departure),
 so BR03 reads 5 / 6 (its bar since B1) where B1 and B2 read 6 / 6.
+
+## B5 — the owner's handoff, an independent review, and its fixes
+
+**B5a** (`fcc92be`, no game change): `BEHAVIOR_DECISIONS.md`, `HUMAN_QA.md`, `CHANGED_FILES.md`, `DEFERRED.md`, and B4's read-back,
+committed while an independent review ran (a separate agent that had not built the work read the code, the reports and the evidence,
+re-ran the BR suite, and checked the owner sheet against the admin UI's code).
+
+**The review** found nothing blocking (no cheating path; every defence condition present; scope respected) and these, all acted on:
+
+| Finding | Done |
+|---|---|
+| The defensive lunge was led a fixed 0.6 s, so somebody walking straight at it was reckoned behind it and it sprang away from them (every BR08 miss: 1.6–3.1 rad off; every hit at ≤ 90 px/s) | **fixed at B5b**: reckoned to the moment it reaches them (the pounce's own rule), never past itself; BR08 now requires every lunge aimed less than 1.3 rad off them (0.02–0.11 measured; a right lead for a fast sideways mover is up to about 1 rad, the old aim was 1.55–3.13 rad off) |
+| "Pressing in after a warning" counted the creature's own approach | **fixed**: the person's own motion, × blame |
+| A warning cut short by a change of plan still counted as given | **fixed**: it counts only if it lasted 1.2 s (`warnTime[0]`) |
+| A withdrawal could be interrupted by looks at the person it flees | **fixed**: no look while fleeing (head still turns); warnings still possible when chased down (so a pursuer can still be defended against). BR15 now checks it |
+| `e.defLeave` not cleared by far / clear; the debug LEAVE text never cleared; the header claimed a caution term the odds do not have | **fixed** |
+| "`DATA=1` prints each run's record" was false (only for failures); BR08's detail figures not in the evidence | corrected; new `tools/br_dump.js` writes every run's record (`evidence/b5_br_records.json`) and runs BR08's driver over 200 seeds (`b5_defence_200_seeds.json`) |
+| Two browser checks passed with nothing to check | the tool now takes every defence decision from each debug packet, checks every strike's tell, and says when nothing was there to check; the final run exercised all nine |
+| Wording: the pressing case's Trial 3 p99 (one round, not the median); the absolute budget miss not shown; balance-table figures from B2; "relative" motion where the code uses their own; the aggression jitter; BR09's "after backing off"; the head turn not disclosed; DEFERRED calling our reading "the approved decision"; HUMAN_QA missing ENTITY LABELS: FULL, the `-` tier, the skin time after a preview | corrected in `REGRESSION_REPORT.md`, `BALANCE_TABLE.md`, `BEHAVIOR_DECISIONS.md`, `CHANGED_FILES.md`, `DEFERRED.md`, `HUMAN_QA.md` |
+| Circling counts motion relative to the creature's own | kept (a straight pass cannot reach it; the creature does not walk circles round people); stated in `DEFERRED.md` |
+
+**B5b** (`ad9b69f`, the runtime change; only `ai.skinstealer.js` and its build, the tests and the tools). Checked on that runtime:
+
+| Run | Result |
+|---|---|
+| the two new checks on the B4 code | both fail (aim up to 3.13 rad off; 2851 ticks of looking while fleeing): `evidence/b5_new_checks_on_b4_code.json` |
+| `npm test` | 202 / 215; the 13 failures are B0's, name for name; the 34 SK notes identical to B4's; BR 19 / 19 (`evidence/b5_npm_test.txt`) |
+| `npm run test:humanqa` | 5 / 6, X03 as on P9 |
+| build, `build:check`, parts, modules, facts, window contract, docs, API contract, scope | PASS (`evidence/b5_static.txt`) |
+| fast gate | PASS, 21 steps, 17 min 50 s, on `ad9b69f` (`evidence/b5_gate_fast.*`) |
+| `equiv_p9.js` | 6 / 6 seeds identical tick for tick |
+| `tools/perf_br.js` | run 1 **FAIL**: with four, the median p99 4.32 ms against the 4.175 ms budget (mean 0.319 against Trial 3's 0.320 ms; Trial 3's own p99 over the budget in 2 of the same 5 rounds); run 2 PASS. Both kept; `REGRESSION_REPORT.md` |
+| soak 600 s | run 1: 2 "inside geometry" samples, both mid-vault (Trial 3's `CAN_VAULT`, `e.trav`): the invariant now skips and counts mid-vault samples; run 2 PASS, 0 violations (`evidence/b5_soak_br*`) |
+| Trial 3's `skin_browser.js` | 40 / 40 (`evidence/b5_skin_browser.*`); a first attempt stopped in the death section's setup (the victim already caught before the freeze, the unlock click covered): `b5_skin_browser_run1_crash.txt` |
+| `tools/behave_browser.js` | runs 1 and 3 failed on the tool (a decision missed before a death; one strike counted three times), both fixed; run 2 9 / 9 (a withdrawal only); run 4 9 / 9 with every check exercised: withdraw, withdraw, strike with its tell, the death (`evidence/b5_behave_browser*`) |
+
+**A second review pass** (the same reviewer, on `ad9b69f` and the reports) found the fixes correct and nothing blocking; it re-ran its own
+aim check (all 8 BR08 seeds hit, 0.02–0.11 rad). Acted on in B5c: BR08's aim bar was 0.8 rad, which a correct lead for somebody moving
+fast sideways (up to about 1 rad) would have failed, so it is now 1.3 rad — the BR suite again 19 / 19 with notes identical
+(`evidence/b5_br_final_threshold.txt`), and it still fails the B4 code in 4 of 8 runs (aims 1.55–3.13 rad;
+`evidence/b5_new_checks_on_b4_code.json`, rerun). Wording: the lunge is about 72 px (it slows through it), the first defence typically
+7.5 s in but 6.9–20.8 s over 200 seeds, Trial 3's median p99 in the pressing case 4.44–4.50 ms, the per-round p99 swing 2.4–4.4 ms,
+the soak's one non-defensive kill a grab or a pounce (not recorded which), and that a warning cut short still counts in the warning
+tally and delays the next. The reviewer stressed that the defence is now the biggest behaviour change: every finished strike landed on
+a person who did not dodge (157 of 157).

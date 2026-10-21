@@ -1,0 +1,24 @@
+$ npm run -s build:check
+BUILD CHECK: PASS (44 outputs and the manifest are what src/ builds)
+exit 0
+$ node dev/tools/checks/parts.js
+PARTS CHECK: PASS (9 outputs, 62 parts)
+exit 0
+$ node dev/tools/checks/modules.js
+MODULES CHECK: PASS (29 server files, 23 factories; the sim: 10 modules, wired in order; the page: 7 scripts, 37 modules)
+exit 0
+$ node dev/tools/checks/facts.js
+FACTS CHECK: PASS (44 facts, 176 copies, each where it is listed and holding its value)
+exit 0
+$ node dev/tools/checks/window_contract.js
+WINDOW CONTRACT: PASS (35 window members declared for the compiled client and used by it; 0 problems; TypeScript 6.0.3)
+exit 0
+$ node dev/tools/docs/docs.js --check
+DOCS CHECK: PASS (23 generated blocks in 23 documents)
+exit 0
+$ node dev/stage-3h-modernization/tools/api_contract.js --check 1
+__api: 52 members; 20 reading scripts (+ the bundle itself); unread members: Fc, ll, ul, fl, cl, dl, pl, el, yu, bodyCount, J, unwin; names read but not in the literal: {}
+exit 0
+$ node dev/tools/gate/scope_m.js
+SCOPE: PASS
+exit 0

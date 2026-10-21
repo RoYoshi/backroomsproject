@@ -21,7 +21,7 @@ From the pack (`08_DEFERRED.md`). Nothing here is implemented, simulated or fake
 
 | Issue | Seen in this pass |
 |---|---|
-| P9's 13 `npm test` failures (P01, P08, H07, NV09, C1, C3, C4, C5, C9 / C10, C18, L9, 2F F13, 2F F22) | the same 13 names at B0, B1, B2, B3 and B4 (`CHECKPOINTS.md`) |
+| P9's 13 `npm test` failures (P01, P08, H07, NV09, C1, C3, C4, C5, C9 / C10, C18, L9, 2F F13, 2F F22) | the same 13 names at B0, B1, B2, B3, B4 and B5b (`CHECKPOINTS.md`) |
 | X03 in `npm run test:humanqa` | fails as on P9 and Trial 3 (5 / 6) |
 | The stochastic one-image contact-lab issue | not exercised by this pass's checks (no full gate was run; see `REGRESSION_REPORT.md`) |
 | The admin fallback passcode and the forwarded-IP lockout finding | not touched; every check here used a synthetic passcode from the environment, never written into a report |
@@ -32,9 +32,13 @@ From the pack (`08_DEFERRED.md`). Nothing here is implemented, simulated or fake
 * **Player velocity is reported by the client** (P9's `session.js`). Pressure reads a seen person's motion as the server has it; a
   modified client that lies about its velocity could make its approach look gentler or harsher to the creature. Trial 3's hunt already
   read the same field. Server-derived velocity would be a separate change to shared code.
-* **A defence can kill somebody who keeps walking into it** without meaning harm (BR08: the misses mostly hit a person who simply kept
-  walking at it). That is the approved decision (persistent crowding after a warning), but how readable the warning is from above can
-  only be judged in play.
+* **A defence can kill somebody who keeps walking into it**, whatever they mean by it: the creature cannot know intent, only that
+  they stayed in its space after a warning. This is our reading of the owner's decision ("persistently harasses, crowds, follows, or
+  corners it"), not something the owner has confirmed; whether the warning reads clearly enough from above to make it fair can only be
+  judged in play. Over 200 seeds, somebody who keeps within 60 px of it for a minute is killed in 157 (`BEHAVIOR_DECISIONS.md`).
+* **Circling is measured by their motion relative to its own.** A straight pass cannot count (it sweeps less than half a turn), but the
+  creature walking a curve round somebody standing still would count as that person circling it. Its roaming and departures do not
+  circle people; the other kinds of pressure count the person's own motion.
 * **No reaction while it feeds or while it is in one of Trial 3's engaged plans** (watching, backing away, baiting, guessing, chasing,
   searching). Those already react to the person; pressure still accrues and a warning can follow once it roams or leaves again.
 * **No reaction in a skin**, on purpose (`BEHAVIOR_DECISIONS.md`).

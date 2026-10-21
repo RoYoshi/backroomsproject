@@ -9,18 +9,19 @@ Every file that differs from the Trial 3 head (`trial-3-skin-stealer`, `020b5b5`
 
 | File | Checkpoints | What changed |
 |---|---|---|
-| `src/frameworks/nani/server/ai.skinstealer.js` (source of the Skin-Stealer part of `generated/server/ai.js`) | B1, B2, B3 | `SK` gains the proposed values (`BALANCE_TABLE.md`). New: `skAware` (per-person awareness records from seen bodies only: pressure by kind with ceilings, blame, fading, tiers), `skAttend` (look, look at a sound, warn: only while it roams or leaves, never in a skin), `skReact` / `skReactEnd` (the reaction's motion and its end: another way out), `skWarn`, `skGaze` (head toward a noticed person while walking), `skCornered`, `skDefend` (the defence's conditions, withdraw or strike from its own seeded stream `skinstealer-aware`), `skAwTop` (debug). Changed: `skLeave` split into `skLeave` + `skLeaveGoal` (same draws, same order); `skDecide` keeps a departure but lets a very hungry one be thought over on fresh sight, and leaves fast after a missed defence; `skSpring` / `skStrikeStep` know the style `defend` (its wind-up, lunge, cost; it can catch only its person; hit / miss counts); the leave step runs at its tired speed when `P.fast`; `skinTick` calls aware → defend → decide → attend on a think; `init`, `onFar`, `onClear` set up and clear the new state; `skDebug` adds `aw`, `awN`, `rx`, `lv`, `df`; the header comment describes the refinement |
-| `generated/server/ai.js` | B1, B2, B3 | built from the above (`npm run build`) |
+| `src/frameworks/nani/server/ai.skinstealer.js` (source of the Skin-Stealer part of `generated/server/ai.js`) | B1, B2, B3, B5b | `SK` gains the proposed values (`BALANCE_TABLE.md`). New: `skAware` (per-person awareness records from seen bodies only: pressure by kind with ceilings, blame, fading, tiers), `skAttend` (look, look at a sound, warn: only while it roams or leaves, never in a skin), `skReact` / `skReactEnd` (the reaction's motion and its end: another way out), `skWarn`, `skGaze` (head toward a noticed person while walking), `skCornered`, `skDefend` (the defence's conditions, withdraw or strike from its own seeded stream `skinstealer-aware`), `skAwTop` (debug). Changed: `skLeave` split into `skLeave` + `skLeaveGoal` (same draws, same order); `skDecide` keeps a departure but lets a very hungry one be thought over on fresh sight, and leaves fast after a missed defence; `skSpring` / `skStrikeStep` know the style `defend` (its wind-up, lunge, cost; it can catch only its person; hit / miss counts); the leave step runs at its tired speed when `P.fast`; `skinTick` calls aware → defend → decide → attend on a think; `init`, `onFar`, `onClear` set up and clear the new state; `skDebug` adds `aw`, `awN`, `rx`, `lv`, `df`; the header comment describes the refinement. B5b (the independent review): the defensive lunge's aim (reckoned to the moment it reaches them, never past itself), pressing-in pressure by the person's own motion × blame, a warning cut short does not count, no look while fleeing, `defLeave` and the debug LEAVE text cleared |
+| `generated/server/ai.js` | B1, B2, B3, B5b | built from the above (`npm run build`) |
 | `src/frameworks/overseer/client/ents.debug.js` (source of the debug part of `public/ents.js`) | B1, B3 | two admin debug-overlay lines, AWARE and DEFENCE, drawn only with the debug overlay on and only from the server's admin debug data |
 | `public/ents.js` | B1, B3 | built from the above |
-| `generated/BUILD_MANIFEST.json` | B1, B2, B3 | the build's record of the two outputs' new hashes |
-| `dev/tests/s_skinbehave.js` (new) | B1, B2, B3 | the behaviour scenarios BR01–BR17, BR19, BR20 (19), each on the real simulation (`dev/harness.js`), several seeds each; BR18 (performance) is `tools/perf_br.js` |
+| `generated/BUILD_MANIFEST.json` | B1, B2, B3, B5b | the build's record of the two outputs' new hashes |
+| `dev/tests/s_skinbehave.js` (new) | B1, B2, B3, B5b, B5c | the behaviour scenarios BR01–BR17, BR19, BR20 (19), each on the real simulation (`dev/harness.js`), several seeds each; BR18 (performance) is `tools/perf_br.js`. B5b: BR08 requires every defensive lunge aimed at the person (B5c: less than 1.3 rad off them), BR15 no stop to look while fleeing; its drivers are exported (`S.helpers`) for `tools/br_dump.js` |
 | `dev/tests/run.js` | B1 | `s_skinbehave.js` in the default list (`npm test`) |
-| `dev/tools/gate/declared_changes.json` | B1, B2, B3 | the notes for `ai.js` and `ents.js` |
+| `dev/tools/gate/declared_changes.json` | B1, B2, B3, B5b | the notes for `ai.js` and `ents.js` |
 
 Not changed: `ai.senses.js`, `ai.engine.js`, `ai.capture.js`, `ai.intelligence.js`, the Hound, the Smiler, `sim.*`, G.I.B., speech,
 chat, `server.js`, the page's art, sound and animations (`public/assets/skinstealer.js`), the snapshot format, the admin panel's
-controls. No dependency changed (`package.json` / `package-lock.json` identical to Trial 3).
+controls. One visible effect needs no client change: the creature's head (`e.head`, already sent) now turns toward a person it has
+noticed while it walks, so the page's existing head tilt (`skin.body.js`) shows it. No dependency changed (`package.json` / `package-lock.json` identical to Trial 3).
 
 ## This folder (`dev/trial-3-behavior-refinement/`)
 
@@ -34,4 +35,5 @@ controls. No dependency changed (`package.json` / `package-lock.json` identical 
 | `tools/verify_remote_br.py` | the after-push read-back from GitHub (SHA, tree, parent, line from `020b5b5`, protected refs, other branches) |
 | `tools/behave_browser.js` | B3 / B4: the refinement in two real pages (real server, headless Chromium) |
 | `tools/perf_br.js` | B4: BR18, the server's cost against Trial 3 (0 / 1 / 4 Skin-Stealers, and players pressing them), and the soak |
+| `tools/br_dump.js` | B5b: every scenario run's full record (the runner prints records only on failure), and BR08's driver over many seeds |
 | `evidence/` | every run's output (`b0_*` … `b4_*`), `remote/` (the read-backs), `scans/` (the secret scans before and after each push) |

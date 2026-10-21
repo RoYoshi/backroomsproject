@@ -1,0 +1,4054 @@
+{
+ "tool": "dev/trial-3-behavior-refinement/tools/br_dump.js",
+ "node": "v22.22.2",
+ "wide": {
+  "seeds": 200,
+  "secs": 60,
+  "rows": [
+   {
+    "seed": 1,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.3,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 2,
+    "first": {
+     "t": 9.5,
+     "k": "strike",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 10,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.059
+   },
+   {
+    "seed": 3,
+    "first": {
+     "t": 7.9,
+     "k": "strike",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.4,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 4,
+    "first": {
+     "t": 7.3,
+     "k": "strike",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.8,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 5,
+    "first": {
+     "t": 7.8,
+     "k": "strike",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.3,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 6,
+    "first": {
+     "t": 7.1,
+     "k": "strike",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.6,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 7,
+    "first": {
+     "t": 7.4,
+     "k": "strike",
+     "odds": 0.35,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.9,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 8,
+    "first": {
+     "t": 7.1,
+     "k": "strike",
+     "odds": 0.34,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.6,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 9,
+    "first": {
+     "t": 7.5,
+     "k": "withdraw",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 33.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.022
+   },
+   {
+    "seed": 10,
+    "first": {
+     "t": 7.5,
+     "k": "strike",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 11,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.2,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 12,
+    "first": {
+     "t": 7.7,
+     "k": "withdraw",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 9,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 13,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": {
+     "at": 58,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 14,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.5,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 15,
+    "first": {
+     "t": 13.2,
+     "k": "strike",
+     "odds": 0.3,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 2,
+    "kill": {
+     "at": 13.8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.053
+   },
+   {
+    "seed": 16,
+    "first": {
+     "t": 7.4,
+     "k": "strike",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.9,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 17,
+    "first": {
+     "t": 7.3,
+     "k": "strike",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.8,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 18,
+    "first": {
+     "t": 9.2,
+     "k": "withdraw",
+     "odds": 0.35,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 19,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 8,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 20,
+    "first": {
+     "t": 7.4,
+     "k": "strike",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.9,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 21,
+    "first": {
+     "t": 7,
+     "k": "withdraw",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 34.9,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 22,
+    "first": {
+     "t": 7,
+     "k": "strike",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.5,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 23,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.32,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 24,
+    "first": {
+     "t": 9.2,
+     "k": "withdraw",
+     "odds": 0.35,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.7,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 25,
+    "first": {
+     "t": 7.5,
+     "k": "strike",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 26,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.34,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 27,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 33,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.022
+   },
+   {
+    "seed": 28,
+    "first": {
+     "t": 7.1,
+     "k": "strike",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.6,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 29,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 8,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 30,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.3,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 11,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 31,
+    "first": {
+     "t": 7.1,
+     "k": "strike",
+     "odds": 0.32,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.6,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 32,
+    "first": {
+     "t": 7.7,
+     "k": "withdraw",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 9,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 33,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.34,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 34.5,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.02
+   },
+   {
+    "seed": 34,
+    "first": {
+     "t": 7.2,
+     "k": "strike",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 35,
+    "first": {
+     "t": 7,
+     "k": "strike",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.5,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 36,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 2,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 37,
+    "first": {
+     "t": 7.6,
+     "k": "strike",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.2,
+     "v": "B",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 38,
+    "first": {
+     "t": 9.4,
+     "k": "withdraw",
+     "odds": 0.34,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 39,
+    "first": {
+     "t": 7.6,
+     "k": "strike",
+     "odds": 0.35,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.2,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 40,
+    "first": {
+     "t": 7.5,
+     "k": "strike",
+     "odds": 0.3,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 41,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 38.6,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.013
+   },
+   {
+    "seed": 42,
+    "first": {
+     "t": 9.5,
+     "k": "strike",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 10,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.059
+   },
+   {
+    "seed": 43,
+    "first": {
+     "t": 7.5,
+     "k": "withdraw",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.7,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.017
+   },
+   {
+    "seed": 44,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 32.9,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.023
+   },
+   {
+    "seed": 45,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 46,
+    "first": {
+     "t": 7.9,
+     "k": "withdraw",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": {
+     "at": 59.8,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 47,
+    "first": {
+     "t": 7.1,
+     "k": "withdraw",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": {
+     "at": 60,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 48,
+    "first": {
+     "t": 7.6,
+     "k": "strike",
+     "odds": 0.32,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 49,
+    "first": {
+     "t": 7.4,
+     "k": "strike",
+     "odds": 0.34,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 50,
+    "first": {
+     "t": 8.2,
+     "k": "withdraw",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 36.4,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.017
+   },
+   {
+    "seed": 51,
+    "first": {
+     "t": 15.7,
+     "k": "strike",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 2,
+    "kill": {
+     "at": 16.2,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.049
+   },
+   {
+    "seed": 52,
+    "first": {
+     "t": 9.8,
+     "k": "withdraw",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.7,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 53,
+    "first": {
+     "t": 13.4,
+     "k": "withdraw",
+     "odds": 0.35,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 54,
+    "first": {
+     "t": 6.9,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": {
+     "at": 59.9,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 55,
+    "first": {
+     "t": 7.7,
+     "k": "strike",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.3,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.061
+   },
+   {
+    "seed": 56,
+    "first": {
+     "t": 12.6,
+     "k": "withdraw",
+     "odds": 0.32,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 7,
+    "kill": {
+     "at": 40.4,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.011
+   },
+   {
+    "seed": 57,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 58,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.34,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 8,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 59,
+    "first": {
+     "t": 12.5,
+     "k": "strike",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 2,
+    "kill": {
+     "at": 13.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.054
+   },
+   {
+    "seed": 60,
+    "first": {
+     "t": 7.1,
+     "k": "withdraw",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 61,
+    "first": {
+     "t": 7,
+     "k": "withdraw",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 9,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 62,
+    "first": {
+     "t": 7.5,
+     "k": "strike",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 63,
+    "first": {
+     "t": 8.3,
+     "k": "withdraw",
+     "odds": 0.3,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.6,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 64,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 65,
+    "first": {
+     "t": 7.6,
+     "k": "strike",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 66,
+    "first": {
+     "t": 7.5,
+     "k": "strike",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 67,
+    "first": {
+     "t": 7.5,
+     "k": "strike",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 68,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 69,
+    "first": {
+     "t": 8,
+     "k": "withdraw",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 36.6,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.016
+   },
+   {
+    "seed": 70,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.32,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 71,
+    "first": {
+     "t": 7.1,
+     "k": "withdraw",
+     "odds": 0.34,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.7,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 72,
+    "first": {
+     "t": 6.9,
+     "k": "strike",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.4,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 73,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.34,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 74,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 42.6,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.007
+   },
+   {
+    "seed": 75,
+    "first": {
+     "t": 12,
+     "k": "strike",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 2,
+    "kill": {
+     "at": 12.6,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.055
+   },
+   {
+    "seed": 76,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 11,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 77,
+    "first": {
+     "t": 7.8,
+     "k": "withdraw",
+     "odds": 0.35,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 3,
+    "warnings": 11,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 78,
+    "first": {
+     "t": 7.6,
+     "k": "strike",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 79,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 8,
+    "kill": {
+     "at": 58,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 80,
+    "first": {
+     "t": 7,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 32.7,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.023
+   },
+   {
+    "seed": 81,
+    "first": {
+     "t": 7.2,
+     "k": "withdraw",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35,
+     "v": "B",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 82,
+    "first": {
+     "t": 9.9,
+     "k": "withdraw",
+     "odds": 0.3,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 11,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 83,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.9,
+     "v": "B",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.017
+   },
+   {
+    "seed": 84,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 85,
+    "first": {
+     "t": 7.2,
+     "k": "withdraw",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.2,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 86,
+    "first": {
+     "t": 7.5,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": {
+     "at": 58.8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 87,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": {
+     "at": 59.9,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 88,
+    "first": {
+     "t": 7.7,
+     "k": "withdraw",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.3,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 89,
+    "first": {
+     "t": 7.5,
+     "k": "withdraw",
+     "odds": 0.3,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 90,
+    "first": {
+     "t": 9.6,
+     "k": "withdraw",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.8,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.017
+   },
+   {
+    "seed": 91,
+    "first": {
+     "t": 7,
+     "k": "withdraw",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 34.7,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.02
+   },
+   {
+    "seed": 92,
+    "first": {
+     "t": 7.3,
+     "k": "strike",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.8,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 93,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.35,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 4,
+    "kill": {
+     "at": 37.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.016
+   },
+   {
+    "seed": 94,
+    "first": {
+     "t": 7.8,
+     "k": "withdraw",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.7,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 95,
+    "first": {
+     "t": 9.2,
+     "k": "withdraw",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": {
+     "at": 59.9,
+     "v": "B",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 96,
+    "first": {
+     "t": 7.1,
+     "k": "withdraw",
+     "odds": 0.32,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": {
+     "at": 58.2,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 97,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.5,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 98,
+    "first": {
+     "t": 10.6,
+     "k": "strike",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 11.1,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.057
+   },
+   {
+    "seed": 99,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.7,
+     "v": "B",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 100,
+    "first": {
+     "t": 7,
+     "k": "withdraw",
+     "odds": 0.34,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.2,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 101,
+    "first": {
+     "t": 7.7,
+     "k": "strike",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.3,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 102,
+    "first": {
+     "t": 7.9,
+     "k": "withdraw",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": {
+     "at": 58.6,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 103,
+    "first": {
+     "t": 7.3,
+     "k": "strike",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 104,
+    "first": {
+     "t": 7.8,
+     "k": "withdraw",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 34.9,
+     "v": "B",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 105,
+    "first": {
+     "t": 7.3,
+     "k": "strike",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.8,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 106,
+    "first": {
+     "t": 7.9,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.6,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 107,
+    "first": {
+     "t": 10.3,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 11,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 108,
+    "first": {
+     "t": 9.4,
+     "k": "withdraw",
+     "odds": 0.35,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.4,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 109,
+    "first": {
+     "t": 7.5,
+     "k": "strike",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 110,
+    "first": {
+     "t": 7,
+     "k": "withdraw",
+     "odds": 0.32,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": {
+     "at": 59.3,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 111,
+    "first": {
+     "t": 7.6,
+     "k": "strike",
+     "odds": 0.32,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.2,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 112,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 33.2,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.022
+   },
+   {
+    "seed": 113,
+    "first": {
+     "t": 7,
+     "k": "strike",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.5,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 114,
+    "first": {
+     "t": 7.7,
+     "k": "strike",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.3,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 115,
+    "first": {
+     "t": 7,
+     "k": "withdraw",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 32.7,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.023
+   },
+   {
+    "seed": 116,
+    "first": {
+     "t": 7.5,
+     "k": "withdraw",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 117,
+    "first": {
+     "t": 13.7,
+     "k": "strike",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 2,
+    "kill": {
+     "at": 14.2,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.052
+   },
+   {
+    "seed": 118,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 3,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 119,
+    "first": {
+     "t": 11.4,
+     "k": "strike",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 12,
+     "v": "B",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.055
+   },
+   {
+    "seed": 120,
+    "first": {
+     "t": 20.8,
+     "k": "withdraw",
+     "odds": 0.34,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 121,
+    "first": {
+     "t": 7.5,
+     "k": "withdraw",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 122,
+    "first": {
+     "t": 13.4,
+     "k": "strike",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 2,
+    "kill": {
+     "at": 13.9,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.053
+   },
+   {
+    "seed": 123,
+    "first": {
+     "t": 10.1,
+     "k": "strike",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 10.7,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.058
+   },
+   {
+    "seed": 124,
+    "first": {
+     "t": 7.6,
+     "k": "strike",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 125,
+    "first": {
+     "t": 9.9,
+     "k": "strike",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 10.5,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.058
+   },
+   {
+    "seed": 126,
+    "first": {
+     "t": 7.1,
+     "k": "withdraw",
+     "odds": 0.3,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 32.7,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.023
+   },
+   {
+    "seed": 127,
+    "first": {
+     "t": 9.8,
+     "k": "strike",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 10.3,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.059
+   },
+   {
+    "seed": 128,
+    "first": {
+     "t": 9.5,
+     "k": "strike",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 10,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.059
+   },
+   {
+    "seed": 129,
+    "first": {
+     "t": 7.1,
+     "k": "withdraw",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 34.8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.02
+   },
+   {
+    "seed": 130,
+    "first": {
+     "t": 7.5,
+     "k": "withdraw",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 33.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.022
+   },
+   {
+    "seed": 131,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 33.2,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.022
+   },
+   {
+    "seed": 132,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.7,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.017
+   },
+   {
+    "seed": 133,
+    "first": {
+     "t": 7.2,
+     "k": "withdraw",
+     "odds": 0.34,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 8,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 134,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.6,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 135,
+    "first": {
+     "t": 10.3,
+     "k": "strike",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 10.8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.058
+   },
+   {
+    "seed": 136,
+    "first": {
+     "t": 10.5,
+     "k": "withdraw",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 37.6,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.015
+   },
+   {
+    "seed": 137,
+    "first": {
+     "t": 7.5,
+     "k": "strike",
+     "odds": 0.35,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 138,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 33.2,
+     "v": "B",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.022
+   },
+   {
+    "seed": 139,
+    "first": {
+     "t": 10.1,
+     "k": "withdraw",
+     "odds": 0.32,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 140,
+    "first": {
+     "t": 7.2,
+     "k": "withdraw",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.3,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 141,
+    "first": {
+     "t": 7.2,
+     "k": "strike",
+     "odds": 0.3,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.7,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 142,
+    "first": {
+     "t": 7.1,
+     "k": "withdraw",
+     "odds": 0.34,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 8,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 143,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": {
+     "at": 58.3,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 144,
+    "first": {
+     "t": 7.5,
+     "k": "withdraw",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.4,
+     "v": "B",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 145,
+    "first": {
+     "t": 7,
+     "k": "withdraw",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 8,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 146,
+    "first": {
+     "t": 8,
+     "k": "withdraw",
+     "odds": 0.35,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.5,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 147,
+    "first": {
+     "t": 12.6,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 11,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 148,
+    "first": {
+     "t": 9.3,
+     "k": "strike",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 9.8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.059
+   },
+   {
+    "seed": 149,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 32.9,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.023
+   },
+   {
+    "seed": 150,
+    "first": {
+     "t": 7.5,
+     "k": "strike",
+     "odds": 0.29,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.1,
+     "v": "B",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 151,
+    "first": {
+     "t": 7.3,
+     "k": "strike",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 152,
+    "first": {
+     "t": 9.1,
+     "k": "withdraw",
+     "odds": 0.34,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 153,
+    "first": {
+     "t": 7.5,
+     "k": "strike",
+     "odds": 0.32,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 154,
+    "first": {
+     "t": 10.2,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 155,
+    "first": {
+     "t": 7.2,
+     "k": "strike",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.7,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 156,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": {
+     "at": 59.9,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 157,
+    "first": {
+     "t": 7.8,
+     "k": "withdraw",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 11,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 158,
+    "first": {
+     "t": 14.4,
+     "k": "withdraw",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 7,
+    "kill": {
+     "at": 40.5,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.01
+   },
+   {
+    "seed": 159,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 43.7,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.005
+   },
+   {
+    "seed": 160,
+    "first": {
+     "t": 7.6,
+     "k": "strike",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.2,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 161,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 162,
+    "first": {
+     "t": 7.2,
+     "k": "strike",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.7,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 163,
+    "first": {
+     "t": 7.7,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 164,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.2,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 165,
+    "first": {
+     "t": 10.6,
+     "k": "withdraw",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 166,
+    "first": {
+     "t": 7.5,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 11,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 167,
+    "first": {
+     "t": 8.2,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 11,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 168,
+    "first": {
+     "t": 7.8,
+     "k": "strike",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.4,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.061
+   },
+   {
+    "seed": 169,
+    "first": {
+     "t": 7.5,
+     "k": "strike",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 170,
+    "first": {
+     "t": 9.6,
+     "k": "strike",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 10.2,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.059
+   },
+   {
+    "seed": 171,
+    "first": {
+     "t": 8,
+     "k": "withdraw",
+     "odds": 0.34,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.5,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 172,
+    "first": {
+     "t": 7.4,
+     "k": "strike",
+     "odds": 0.32,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.9,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 173,
+    "first": {
+     "t": 10.2,
+     "k": "withdraw",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 38.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.014
+   },
+   {
+    "seed": 174,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 33,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.022
+   },
+   {
+    "seed": 175,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.29,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 11,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 176,
+    "first": {
+     "t": 7.2,
+     "k": "withdraw",
+     "odds": 0.29,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 32.8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.022
+   },
+   {
+    "seed": 177,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.32,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.4,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 178,
+    "first": {
+     "t": 7.2,
+     "k": "withdraw",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 179,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 10,
+    "kill": {
+     "at": 59.6,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 180,
+    "first": {
+     "t": 8.7,
+     "k": "withdraw",
+     "odds": 0.35,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 36.2,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.017
+   },
+   {
+    "seed": 181,
+    "first": {
+     "t": 7.5,
+     "k": "strike",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 182,
+    "first": {
+     "t": 7.9,
+     "k": "withdraw",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 183,
+    "first": {
+     "t": 8,
+     "k": "withdraw",
+     "odds": 0.35,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 36.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.017
+   },
+   {
+    "seed": 184,
+    "first": {
+     "t": 7.2,
+     "k": "strike",
+     "odds": 0.38,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.7,
+     "v": "B",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 185,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.35,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 33,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.022
+   },
+   {
+    "seed": 186,
+    "first": {
+     "t": 7.7,
+     "k": "withdraw",
+     "odds": 0.4,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.4,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.018
+   },
+   {
+    "seed": 187,
+    "first": {
+     "t": 9.9,
+     "k": "strike",
+     "odds": 0.41,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 10.5,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.058
+   },
+   {
+    "seed": 188,
+    "first": {
+     "t": 9.2,
+     "k": "withdraw",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 11,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 189,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 8,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 190,
+    "first": {
+     "t": 7.9,
+     "k": "strike",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8.4,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 191,
+    "first": {
+     "t": 8.3,
+     "k": "withdraw",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35,
+     "v": "B",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 192,
+    "first": {
+     "t": 7.6,
+     "k": "withdraw",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.9,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.017
+   },
+   {
+    "seed": 193,
+    "first": {
+     "t": 7.3,
+     "k": "withdraw",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.019
+   },
+   {
+    "seed": 194,
+    "first": {
+     "t": 7.5,
+     "k": "withdraw",
+     "odds": 0.31,
+     "cornered": false
+    },
+    "springs": 0,
+    "hits": 0,
+    "misses": 0,
+    "withdrawals": 2,
+    "warnings": 8,
+    "kill": null,
+    "others": 0,
+    "hungerEnd": 0.096
+   },
+   {
+    "seed": 195,
+    "first": {
+     "t": 10.8,
+     "k": "strike",
+     "odds": 0.3,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 11.3,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.057
+   },
+   {
+    "seed": 196,
+    "first": {
+     "t": 7.5,
+     "k": "strike",
+     "odds": 0.39,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 8,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.062
+   },
+   {
+    "seed": 197,
+    "first": {
+     "t": 7.4,
+     "k": "withdraw",
+     "odds": 0.36,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 5,
+    "kill": {
+     "at": 33.1,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.022
+   },
+   {
+    "seed": 198,
+    "first": {
+     "t": 7.1,
+     "k": "strike",
+     "odds": 0.35,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.6,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 199,
+    "first": {
+     "t": 7.2,
+     "k": "strike",
+     "odds": 0.37,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 0,
+    "warnings": 1,
+    "kill": {
+     "at": 7.7,
+     "v": "A",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.063
+   },
+   {
+    "seed": 200,
+    "first": {
+     "t": 7.1,
+     "k": "withdraw",
+     "odds": 0.33,
+     "cornered": false
+    },
+    "springs": 1,
+    "hits": 1,
+    "misses": 0,
+    "withdrawals": 1,
+    "warnings": 6,
+    "kill": {
+     "at": 35.7,
+     "v": "C",
+     "contact": true
+    },
+    "others": 0,
+    "hungerEnd": 0.017
+   }
+  ],
+  "summary": {
+   "defended": 200,
+   "firstDecisionStrike": 73,
+   "killed": 157,
+   "killedAtContact": 157,
+   "killTimes": {
+    "min": 7.4,
+    "median": 32.9,
+    "max": 60
+   },
+   "springs": 165,
+   "hits": 157,
+   "misses": 0,
+   "withdrawals": 184,
+   "otherKills": 0
+  }
+ }
+}

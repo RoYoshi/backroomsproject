@@ -368,7 +368,7 @@ add('BR08 a satiated one defends itself: at hunger 0, somebody who keeps pressin
       return true;
     });
     const K = w.kills.filter(k => k.pid === p.id), others = w.kills.length - K.length, S0 = SP.out;
-    const fair = S0.every(s => s.warns >= 1 && s.sinceWarn >= AI.SK.defAfterWarn - .05 && s.h < AI.SK.band[0] && s.line && s.seen && s.d <= AI.SK.defReach + 2 && s.wind === AI.SK.defWind && s.tid === p.id && s.aimOff < .8);   // (B5: aimed at them, never away from somebody walking at it)
+    const fair = S0.every(s => s.warns >= 1 && s.sinceWarn >= AI.SK.defAfterWarn - .05 && s.h < AI.SK.band[0] && s.line && s.seen && s.d <= AI.SK.defReach + 2 && s.wind === AI.SK.defWind && s.tid === p.id && s.aimOff < 1.3);   // (B5: never aimed away from them - a right lead for somebody moving fast sideways is up to about 1 rad; the B4 aim was 1.55-3.13 rad off somebody walking at it)
     const killedOk = K.length <= 1 && (!K.length || (S0.length >= 1 && contactOk(w, K[0], e) && p.kill && p.kill.k === 'SkinStealer' && p.dead === 'SkinStealer'));
     return { ok: h0 === 0 && drift < 1e-9 && fair && killedOk && !others && e.tally.warn >= 1, killed: K.length > 0, at: K.length ? +K[0].at.toFixed(1) : -1, v: K.length ? K[0].variant : '', springs: S0, warns: e.tally.warn, withdrew: e.tally.withdraw, h0, drift };
   });

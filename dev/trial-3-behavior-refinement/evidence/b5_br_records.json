@@ -1,0 +1,1714 @@
+{
+ "tool": "dev/trial-3-behavior-refinement/tools/br_dump.js",
+ "node": "v22.22.2",
+ "scenarios": [
+  {
+   "id": "BR01",
+   "name": "BR01 passing is safe: at hunger 0, a person who walks past once, close, gets at most a glance - no strike, no warning, no chase, no turn toward hunting",
+   "ok": true,
+   "note": "8/8 passed within 200 px (closest 118/118/99/108/118/117/118/116 px; seen close 8/8/9/11/7/8/9/7 samples): looks at them 0/0/0/0/0/0/0/0 (and at their footsteps after 1/1/1/1/1/1/1/1), strikes 0, kills 0, hunting plans 0; 2599/2904/1925/2906/2538/1966/2578/2548 px apart at the end",
+   "data": [
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 118,
+     "seenClose": 8,
+     "looks": 0,
+     "sounds": 1,
+     "strike": false,
+     "kills": 0,
+     "hunted": false,
+     "end": 2599
+    },
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 118,
+     "seenClose": 8,
+     "looks": 0,
+     "sounds": 1,
+     "strike": false,
+     "kills": 0,
+     "hunted": false,
+     "end": 2904
+    },
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 99,
+     "seenClose": 9,
+     "looks": 0,
+     "sounds": 1,
+     "strike": false,
+     "kills": 0,
+     "hunted": false,
+     "end": 1925
+    },
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 108,
+     "seenClose": 11,
+     "looks": 0,
+     "sounds": 1,
+     "strike": false,
+     "kills": 0,
+     "hunted": false,
+     "end": 2906
+    },
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 118,
+     "seenClose": 7,
+     "looks": 0,
+     "sounds": 1,
+     "strike": false,
+     "kills": 0,
+     "hunted": false,
+     "end": 2538
+    },
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 117,
+     "seenClose": 8,
+     "looks": 0,
+     "sounds": 1,
+     "strike": false,
+     "kills": 0,
+     "hunted": false,
+     "end": 1966
+    },
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 118,
+     "seenClose": 9,
+     "looks": 0,
+     "sounds": 1,
+     "strike": false,
+     "kills": 0,
+     "hunted": false,
+     "end": 2578
+    },
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 116,
+     "seenClose": 7,
+     "looks": 0,
+     "sounds": 1,
+     "strike": false,
+     "kills": 0,
+     "hunted": false,
+     "end": 2548
+    }
+   ],
+   "ms": 2835
+  },
+  {
+   "id": "BR02",
+   "name": "BR02 circles are noticed: somebody who runs circles round a satiated one, in its sight, is acknowledged within a few seconds - it stops, faces them, keeps its head on them - and only a bounded number of times",
+   "ok": true,
+   "note": "8/8: seen close 68/89/95/79/107/131/79/86 samples; first look 0.6/2/0.4/0.5/0.8/0.3/0.6/0.4 s after it first saw them close; looks 2/3/3/2/3/5/2/2 (at most 9); facing them while looking 10/27/27/20/25/36/13/23 samples; head turned toward them while walking 42/32/51/48/46/64/25/55 samples; warnings 1/1/1/1/2/3/1/1, killed in defence 0/1/0/0/0/0/1/0 (from B3: 22 s of circling it after its warnings can end so)",
+   "data": [
+    {
+     "ok": true,
+     "seenClose": 68,
+     "lag": 0.6,
+     "looks": 2,
+     "maxLooks": 9,
+     "faced": 10,
+     "head": 42,
+     "kills": 0,
+     "warns": 1,
+     "plans": "leave"
+    },
+    {
+     "ok": true,
+     "seenClose": 89,
+     "lag": 2,
+     "looks": 3,
+     "maxLooks": 9,
+     "faced": 27,
+     "head": 32,
+     "kills": 1,
+     "warns": 1,
+     "plans": "leave/roam/feed"
+    },
+    {
+     "ok": true,
+     "seenClose": 95,
+     "lag": 0.4,
+     "looks": 3,
+     "maxLooks": 9,
+     "faced": 27,
+     "head": 51,
+     "kills": 0,
+     "warns": 1,
+     "plans": "leave/roam"
+    },
+    {
+     "ok": true,
+     "seenClose": 79,
+     "lag": 0.5,
+     "looks": 2,
+     "maxLooks": 9,
+     "faced": 20,
+     "head": 48,
+     "kills": 0,
+     "warns": 1,
+     "plans": "leave"
+    },
+    {
+     "ok": true,
+     "seenClose": 107,
+     "lag": 0.8,
+     "looks": 3,
+     "maxLooks": 9,
+     "faced": 25,
+     "head": 46,
+     "kills": 0,
+     "warns": 2,
+     "plans": "leave"
+    },
+    {
+     "ok": true,
+     "seenClose": 131,
+     "lag": 0.3,
+     "looks": 5,
+     "maxLooks": 9,
+     "faced": 36,
+     "head": 64,
+     "kills": 0,
+     "warns": 3,
+     "plans": "leave"
+    },
+    {
+     "ok": true,
+     "seenClose": 79,
+     "lag": 0.6,
+     "looks": 2,
+     "maxLooks": 9,
+     "faced": 13,
+     "head": 25,
+     "kills": 1,
+     "warns": 1,
+     "plans": "leave/roam/feed"
+    },
+    {
+     "ok": true,
+     "seenClose": 86,
+     "lag": 0.4,
+     "looks": 2,
+     "maxLooks": 9,
+     "faced": 23,
+     "head": 55,
+     "kills": 0,
+     "warns": 1,
+     "plans": "leave"
+    }
+   ],
+   "ms": 2620
+  },
+  {
+   "id": "BR03",
+   "name": "BR03 a departure is not blind: while it is leaving, a person circling it or walking right behind it is looked at - and the same departure goes on afterwards (same goal, the creature on its way again)",
+   "ok": true,
+   "note": "circling: 6/6 (seen while it left 73/96/83/84/113/136; looks while leaving 2/3/2/2/3/5, the same departure after each 2/3/2/2/3/5, of which it then ended by itself 0/0/0/0/0/0) | right behind it: 6/6 (seen 75/81/72/71/70/68; looks 2/2/2/2/2/2, kept 2/2/2/2/2/2, ended by itself 0/0/0/0/0/0)",
+   "data": [
+    {
+     "kind": "orbit",
+     "seed": 1,
+     "ok": true,
+     "seenInLeave": 73,
+     "looks": 2,
+     "kept": 2,
+     "ended": 0,
+     "onWay": 2
+    },
+    {
+     "kind": "orbit",
+     "seed": 2,
+     "ok": true,
+     "seenInLeave": 96,
+     "looks": 3,
+     "kept": 3,
+     "ended": 0,
+     "onWay": 3
+    },
+    {
+     "kind": "orbit",
+     "seed": 3,
+     "ok": true,
+     "seenInLeave": 83,
+     "looks": 2,
+     "kept": 2,
+     "ended": 0,
+     "onWay": 2
+    },
+    {
+     "kind": "orbit",
+     "seed": 4,
+     "ok": true,
+     "seenInLeave": 84,
+     "looks": 2,
+     "kept": 2,
+     "ended": 0,
+     "onWay": 2
+    },
+    {
+     "kind": "orbit",
+     "seed": 5,
+     "ok": true,
+     "seenInLeave": 113,
+     "looks": 3,
+     "kept": 3,
+     "ended": 0,
+     "onWay": 3
+    },
+    {
+     "kind": "orbit",
+     "seed": 6,
+     "ok": true,
+     "seenInLeave": 136,
+     "looks": 5,
+     "kept": 5,
+     "ended": 0,
+     "onWay": 4
+    },
+    {
+     "kind": "tail",
+     "seed": 1,
+     "ok": true,
+     "seenInLeave": 75,
+     "looks": 2,
+     "kept": 2,
+     "ended": 0,
+     "onWay": 2
+    },
+    {
+     "kind": "tail",
+     "seed": 2,
+     "ok": true,
+     "seenInLeave": 81,
+     "looks": 2,
+     "kept": 2,
+     "ended": 0,
+     "onWay": 2
+    },
+    {
+     "kind": "tail",
+     "seed": 3,
+     "ok": true,
+     "seenInLeave": 72,
+     "looks": 2,
+     "kept": 2,
+     "ended": 0,
+     "onWay": 2
+    },
+    {
+     "kind": "tail",
+     "seed": 4,
+     "ok": true,
+     "seenInLeave": 71,
+     "looks": 2,
+     "kept": 2,
+     "ended": 0,
+     "onWay": 2
+    },
+    {
+     "kind": "tail",
+     "seed": 5,
+     "ok": true,
+     "seenInLeave": 70,
+     "looks": 2,
+     "kept": 2,
+     "ended": 0,
+     "onWay": 2
+    },
+    {
+     "kind": "tail",
+     "seed": 6,
+     "ok": true,
+     "seenInLeave": 68,
+     "looks": 2,
+     "kept": 2,
+     "ended": 0,
+     "onWay": 2
+    }
+   ],
+   "ms": 2780
+  },
+  {
+   "id": "BR04",
+   "name": "BR04 a departure stays a choice: somebody in view far off changes nothing; one close pass costs at most one look; no flip-flopping of plans",
+   "ok": true,
+   "note": "far (seen 4/5/5/5/5/5 samples, never closer than 512/517/517/517/512/517 px): looks 0/0/0/0/0/0, departures 1/1/1/1/1/1 | one pass (closest 110/118/118/49/113/100 px): looks at them 0/0/0/1/0/0 (at their footsteps 1/1/1/1/1/1), departures 1/1/1/1/1/1, plan changes 0/0/0/0/0/0",
+   "data": {
+    "far": [
+     {
+      "ok": true,
+      "seenFar": 4,
+      "minD": 512,
+      "looks": 0,
+      "plans": 1
+     },
+     {
+      "ok": true,
+      "seenFar": 5,
+      "minD": 517,
+      "looks": 0,
+      "plans": 1
+     },
+     {
+      "ok": true,
+      "seenFar": 5,
+      "minD": 517,
+      "looks": 0,
+      "plans": 1
+     },
+     {
+      "ok": true,
+      "seenFar": 5,
+      "minD": 517,
+      "looks": 0,
+      "plans": 1
+     },
+     {
+      "ok": true,
+      "seenFar": 5,
+      "minD": 512,
+      "looks": 0,
+      "plans": 1
+     },
+     {
+      "ok": true,
+      "seenFar": 5,
+      "minD": 517,
+      "looks": 0,
+      "plans": 1
+     }
+    ],
+    "pass": [
+     {
+      "ok": true,
+      "dmin": 110,
+      "looks": 0,
+      "sounds": 1,
+      "plans": 1,
+      "flips": 0
+     },
+     {
+      "ok": true,
+      "dmin": 118,
+      "looks": 0,
+      "sounds": 1,
+      "plans": 1,
+      "flips": 0
+     },
+     {
+      "ok": true,
+      "dmin": 118,
+      "looks": 0,
+      "sounds": 1,
+      "plans": 1,
+      "flips": 0
+     },
+     {
+      "ok": true,
+      "dmin": 49,
+      "looks": 1,
+      "sounds": 1,
+      "plans": 1,
+      "flips": 0
+     },
+     {
+      "ok": true,
+      "dmin": 113,
+      "looks": 0,
+      "sounds": 1,
+      "plans": 1,
+      "flips": 0
+     },
+     {
+      "ok": true,
+      "dmin": 100,
+      "looks": 0,
+      "sounds": 1,
+      "plans": 1,
+      "flips": 0
+     }
+    ]
+   },
+   "ms": 2213
+  },
+  {
+   "id": "BR05",
+   "name": "BR05 its hunt cooldown is not blindness: somebody it has decided to leave alone, who then follows it closely, is still noticed - and is still not hunted",
+   "ok": true,
+   "note": "6/6: seen while on its cooldown list 160/79/71/192/75/67 samples (81/1/1/53/1/1 of them after the departure, roaming): looked at them 5/2/2/6/2/2 times (3/0/0/3/0/0 while roaming); hunting plans for them 0/0/0/0/0/0; warnings 2/1/1/4/1/1, killed in defence 1/1/1/0/1/1 (from B3: following it 90 px behind for 50 s, after its warnings, can end so)",
+   "data": [
+    {
+     "ok": true,
+     "seenOnCooldown": 160,
+     "looks": 5,
+     "inRoam": 3,
+     "hunted": 0,
+     "kills": 1,
+     "warns": 2,
+     "roamSeen": 81
+    },
+    {
+     "ok": true,
+     "seenOnCooldown": 79,
+     "looks": 2,
+     "inRoam": 0,
+     "hunted": 0,
+     "kills": 1,
+     "warns": 1,
+     "roamSeen": 1
+    },
+    {
+     "ok": true,
+     "seenOnCooldown": 71,
+     "looks": 2,
+     "inRoam": 0,
+     "hunted": 0,
+     "kills": 1,
+     "warns": 1,
+     "roamSeen": 1
+    },
+    {
+     "ok": true,
+     "seenOnCooldown": 192,
+     "looks": 6,
+     "inRoam": 3,
+     "hunted": 0,
+     "kills": 0,
+     "warns": 4,
+     "roamSeen": 53
+    },
+    {
+     "ok": true,
+     "seenOnCooldown": 75,
+     "looks": 2,
+     "inRoam": 0,
+     "hunted": 0,
+     "kills": 1,
+     "warns": 1,
+     "roamSeen": 1
+    },
+    {
+     "ok": true,
+     "seenOnCooldown": 67,
+     "looks": 2,
+     "inRoam": 0,
+     "hunted": 0,
+     "kills": 1,
+     "warns": 1,
+     "roamSeen": 1
+    }
+   ],
+   "ms": 1831
+  },
+  {
+   "id": "BR06",
+   "name": "BR06 the blind flank: somebody behind a wall, or still and lightless out of its sight, changes nothing it does - the same seed without them gives the same creature, tick for tick",
+   "ok": true,
+   "note": "16/16 runs never sensed them (seen 0, heard 0, no record): identical to nobody there in 16/16",
+   "data": [
+    {
+     "who": "wall",
+     "hunger": 0,
+     "seed": 1,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "wall",
+     "hunger": 0,
+     "seed": 2,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "wall",
+     "hunger": 0,
+     "seed": 3,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "wall",
+     "hunger": 0,
+     "seed": 4,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "wall",
+     "hunger": 0.5,
+     "seed": 1,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "wall",
+     "hunger": 0.5,
+     "seed": 2,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "wall",
+     "hunger": 0.5,
+     "seed": 3,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "wall",
+     "hunger": 0.5,
+     "seed": 4,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "behind",
+     "hunger": 0,
+     "seed": 1,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "behind",
+     "hunger": 0,
+     "seed": 2,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "behind",
+     "hunger": 0,
+     "seed": 3,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "behind",
+     "hunger": 0,
+     "seed": 4,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "behind",
+     "hunger": 0.5,
+     "seed": 1,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "behind",
+     "hunger": 0.5,
+     "seed": 2,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "behind",
+     "hunger": 0.5,
+     "seed": 3,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    },
+    {
+     "who": "behind",
+     "hunger": 0.5,
+     "seed": 4,
+     "sensed": 0,
+     "seen": 0,
+     "heard": 0,
+     "first": -1,
+     "ok": true
+    }
+   ],
+   "ms": 6014
+  },
+  {
+   "id": "BR07",
+   "name": "BR07 an uncertain sound: footsteps it hears from behind a wall turn it to look toward the sound (its fuzzy place, no name) - never a record, a reaction to the person, a strike or a hunt for them",
+   "ok": true,
+   "note": "4/6 never saw them (the others saw them over the wall's end: not this case, excluded): 4/4 kept no record, never reacted to them as a person, never struck; 3/4 turned to look at the sound (2/2/2/0 times; aimed 112/123/110/142/97/169 px from where they really were)",
+   "data": [
+    {
+     "ok": true,
+     "unseen": true,
+     "seen": 0,
+     "heardLooks": 2,
+     "personLooks": 0,
+     "off": [
+      112,
+      123
+     ],
+     "rec": false,
+     "aware": false,
+     "strike": false
+    },
+    {
+     "ok": false,
+     "unseen": false,
+     "seen": 42,
+     "heardLooks": 2,
+     "personLooks": 0,
+     "off": [
+      89,
+      116
+     ],
+     "rec": true,
+     "aware": true,
+     "strike": false
+    },
+    {
+     "ok": true,
+     "unseen": true,
+     "seen": 0,
+     "heardLooks": 2,
+     "personLooks": 0,
+     "off": [
+      110,
+      142
+     ],
+     "rec": false,
+     "aware": false,
+     "strike": false
+    },
+    {
+     "ok": true,
+     "unseen": true,
+     "seen": 0,
+     "heardLooks": 2,
+     "personLooks": 0,
+     "off": [
+      97,
+      169
+     ],
+     "rec": false,
+     "aware": false,
+     "strike": false
+    },
+    {
+     "ok": true,
+     "unseen": true,
+     "seen": 0,
+     "heardLooks": 0,
+     "personLooks": 0,
+     "off": [],
+     "rec": false,
+     "aware": false,
+     "strike": false
+    },
+    {
+     "ok": false,
+     "unseen": false,
+     "seen": 56,
+     "heardLooks": 2,
+     "personLooks": 0,
+     "off": [
+      156,
+      33
+     ],
+     "rec": true,
+     "aware": true,
+     "strike": false
+    }
+   ],
+   "ms": 1081
+  },
+  {
+   "id": "BR09",
+   "name": "BR09 counterplay: somebody who presses in on a satiated one until it warns them, then backs off, is let go - the pressure fades, nothing follows them, it goes its way",
+   "ok": true,
+   "note": "6/6: warned them after 6.1/7.3/7/6.3/6/6.8 s of pressing (peak pressure 0.56/0.46/0.56/0.55/0.56/0.57); 15 s after the warning 0.09/0.07/0.09/0.09/0.09/0.09; nearest after they backed off 708/736/686/544/692/740 px; followed 0; warnings 1/1/1/1/1/1; apart at the end 3327/3651/3393/2373/1774/2729 px",
+   "data": [
+    {
+     "ok": true,
+     "warnAt": 6.1,
+     "peak": 0.56,
+     "p15": 0.09,
+     "closest": 708,
+     "followed": false,
+     "warns": 1,
+     "end": 3327
+    },
+    {
+     "ok": true,
+     "warnAt": 7.3,
+     "peak": 0.46,
+     "p15": 0.07,
+     "closest": 736,
+     "followed": false,
+     "warns": 1,
+     "end": 3651
+    },
+    {
+     "ok": true,
+     "warnAt": 7,
+     "peak": 0.56,
+     "p15": 0.09,
+     "closest": 686,
+     "followed": false,
+     "warns": 1,
+     "end": 3393
+    },
+    {
+     "ok": true,
+     "warnAt": 6.3,
+     "peak": 0.55,
+     "p15": 0.09,
+     "closest": 544,
+     "followed": false,
+     "warns": 1,
+     "end": 2373
+    },
+    {
+     "ok": true,
+     "warnAt": 6,
+     "peak": 0.56,
+     "p15": 0.09,
+     "closest": 692,
+     "followed": false,
+     "warns": 1,
+     "end": 1774
+    },
+    {
+     "ok": true,
+     "warnAt": 6.8,
+     "peak": 0.57,
+     "p15": 0.09,
+     "closest": 740,
+     "followed": false,
+     "warns": 1,
+     "end": 2729
+    }
+   ],
+   "ms": 1826
+  },
+  {
+   "id": "BR11",
+   "name": "BR11 a brief accidental bump: somebody who walks straight into a satiated one once and on - no attack of any kind; at most unease (a look, a warning)",
+   "ok": true,
+   "note": "8/8 bumped into it (closest 23/23/23/24/24/23/23/25 px): strikes 0, kills 0; peak pressure 0.18/0.18/0.18/0.27/0.25/0.18/0.18/0.41 (it may defend only from 0.8); looks 1/1/1/1/1/1/1/1, warnings 0/0/0/0/0/0/0/0",
+   "data": [
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 23,
+     "peak": 0.18,
+     "warns": 0,
+     "looks": 1,
+     "strike": false
+    },
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 23,
+     "peak": 0.18,
+     "warns": 0,
+     "looks": 1,
+     "strike": false
+    },
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 23,
+     "peak": 0.18,
+     "warns": 0,
+     "looks": 1,
+     "strike": false
+    },
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 24,
+     "peak": 0.27,
+     "warns": 0,
+     "looks": 1,
+     "strike": false
+    },
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 24,
+     "peak": 0.25,
+     "warns": 0,
+     "looks": 1,
+     "strike": false
+    },
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 23,
+     "peak": 0.18,
+     "warns": 0,
+     "looks": 1,
+     "strike": false
+    },
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 23,
+     "peak": 0.18,
+     "warns": 0,
+     "looks": 1,
+     "strike": false
+    },
+    {
+     "ok": true,
+     "exercised": true,
+     "dmin": 25,
+     "peak": 0.41,
+     "warns": 0,
+     "looks": 1,
+     "strike": false
+    }
+   ],
+   "ms": 1478
+  },
+  {
+   "id": "BR12",
+   "name": "BR12 two people: one presses in on it, the other stands by in its view - the provocation stays the presser's; the bystander is never warned, and gets no pressure beyond their own presence",
+   "ok": true,
+   "note": "6/6: the presser warned 5/1/1/1/1/1 times (peak 1.2/0.8/0.81/0.81/0.8/0.8); the bystander (seen 637/119/350/399/966/616 ticks) peaked at 0.17/0/0/0/0.18/0 (presence alone stops at 0.35), warned 0, struck at 0, killed 0",
+   "data": [
+    {
+     "ok": true,
+     "pw": 5,
+     "qMax": 0.17,
+     "qSeen": 637,
+     "qWarn": 0,
+     "pMax": 1.2
+    },
+    {
+     "ok": true,
+     "pw": 1,
+     "qMax": 0,
+     "qSeen": 119,
+     "qWarn": 0,
+     "pMax": 0.8
+    },
+    {
+     "ok": true,
+     "pw": 1,
+     "qMax": 0,
+     "qSeen": 350,
+     "qWarn": 0,
+     "pMax": 0.81
+    },
+    {
+     "ok": true,
+     "pw": 1,
+     "qMax": 0,
+     "qSeen": 399,
+     "qWarn": 0,
+     "pMax": 0.81
+    },
+    {
+     "ok": true,
+     "pw": 1,
+     "qMax": 0.18,
+     "qSeen": 966,
+     "qWarn": 0,
+     "pMax": 0.8
+    },
+    {
+     "ok": true,
+     "pw": 1,
+     "qMax": 0,
+     "qSeen": 616,
+     "qWarn": 0,
+     "pMax": 0.8
+    }
+   ],
+   "ms": 1613
+  },
+  {
+   "id": "BR13",
+   "name": "BR13 a long harassment: three minutes of somebody pressing in on it, coming back after every death - its warnings stay spaced, its records stay few, it is never pinned in one place, and every defence is a fresh incident after a fresh warning, never closer than its own gaps",
+   "ok": true,
+   "note": "3/3: warnings 6/8/1 (never closer than 5.4/5.4/99 s apart), awareness records at most 1/1/1, reacting 0.08/0.11/0.02 of the time, 44/43/56 200-px places visited; defensive strikes 1/1/1 (apart - / - / - s; each after a fresh warning), withdrawals 2/2/0, kills 1/1/1 in 1/1/1 deaths",
+   "data": [
+    {
+     "ok": true,
+     "warns": 6,
+     "minGap": 5.4,
+     "maxAw": 1,
+     "reacting": 0.08,
+     "places": 44,
+     "defences": 1,
+     "gaps": [],
+     "kills": 1,
+     "deaths": 1,
+     "withdrew": 2
+    },
+    {
+     "ok": true,
+     "warns": 8,
+     "minGap": 5.4,
+     "maxAw": 1,
+     "reacting": 0.11,
+     "places": 43,
+     "defences": 1,
+     "gaps": [],
+     "kills": 1,
+     "deaths": 1,
+     "withdrew": 2
+    },
+    {
+     "ok": true,
+     "warns": 1,
+     "minGap": 99,
+     "maxAw": 1,
+     "reacting": 0.02,
+     "places": 56,
+     "defences": 1,
+     "gaps": [],
+     "kills": 1,
+     "deaths": 1,
+     "withdrew": 0
+    }
+   ],
+   "ms": 2438
+  },
+  {
+   "id": "BR14",
+   "name": "BR14 a very hungry departure: thought over only on fresh sight of somebody it may hunt, after a few seconds, at most once a second - never because hunger rose, never for the person it left, never after a lost race",
+   "ok": true,
+   "note": "newcomer: left at 0 s, newcomer seen at 8.5 s, gave up its departure at 8.5 s | left at 0.1 s, newcomer seen at 6.1 s, gave up its departure at 6.1 s | left at 3.7 s, newcomer seen at 9.7 s, its departure ended at 27.7 s (kept it when it thought again) | left at 0.1 s, newcomer seen at 6.1 s, gave up its departure at 6.1 s | hidden, hunger past 0.8 during the departure: changed 0/4 (still leaving, arrived, still leaving, arrived; hunger at the end 0.83/0.83/0.83/0.83) | after a lost race: a lost-race departure 4/4, the newcomer seen 112/77/112/112 ticks, changed 0/4 (arrived, arrived, arrived, still leaving)",
+   "data": {
+    "fresh": [
+     {
+      "leftAt": 0,
+      "cAt": 8.5,
+      "seenC": 8.5,
+      "changedAt": 8.5,
+      "why": "very hungry, it saw P103: it gives up its departure",
+      "reconsider": 1,
+      "ok": true
+     },
+     {
+      "leftAt": 0.1,
+      "cAt": 6.1,
+      "seenC": 6.1,
+      "changedAt": 6.1,
+      "why": "very hungry, it saw P103: it gives up its departure",
+      "reconsider": 1,
+      "ok": true
+     },
+     {
+      "leftAt": 3.7,
+      "cAt": 9.7,
+      "seenC": 9.7,
+      "changedAt": 27.7,
+      "why": "very hungry, it saw P103: it keeps going",
+      "reconsider": 0,
+      "ok": true
+     },
+     {
+      "leftAt": 0.1,
+      "cAt": 6.1,
+      "seenC": 6.1,
+      "changedAt": 6.1,
+      "why": "very hungry, it saw P103: it gives up its departure",
+      "reconsider": 1,
+      "ok": true
+     }
+    ],
+    "stale": [
+     {
+      "ok": true,
+      "leftAt": 2.5,
+      "hunger": 0.83,
+      "changed": false,
+      "ended": "still leaving",
+      "seenAfter": 7,
+      "reconsider": 0
+     },
+     {
+      "ok": true,
+      "leftAt": 5.4,
+      "hunger": 0.83,
+      "changed": false,
+      "ended": "arrived",
+      "seenAfter": 7,
+      "reconsider": 0
+     },
+     {
+      "ok": true,
+      "leftAt": 3.7,
+      "hunger": 0.83,
+      "changed": false,
+      "ended": "still leaving",
+      "seenAfter": 7,
+      "reconsider": 0
+     },
+     {
+      "ok": true,
+      "leftAt": 0.1,
+      "hunger": 0.83,
+      "changed": false,
+      "ended": "arrived",
+      "seenAfter": 7,
+      "reconsider": 0
+     }
+    ],
+    "race": [
+     {
+      "ok": true,
+      "race": true,
+      "seenC": 112,
+      "changed": false,
+      "ended": "arrived"
+     },
+     {
+      "ok": true,
+      "race": true,
+      "seenC": 77,
+      "changed": false,
+      "ended": "arrived"
+     },
+     {
+      "ok": true,
+      "race": true,
+      "seenC": 112,
+      "changed": false,
+      "ended": "arrived"
+     },
+     {
+      "ok": true,
+      "race": true,
+      "seenC": 112,
+      "changed": false,
+      "ended": "still leaving"
+     }
+    ]
+   },
+   "ms": 3677
+  },
+  {
+   "id": "BR20",
+   "name": "BR20 nothing stale survives: a person who leaves the game, goes far away for a minute, or an admin clear, a removal or a world reset - their pressure goes with it",
+   "ok": true,
+   "note": "pressure built first (0.45/0.25/0.37/0.44/0.47); left the game: record dropped; a minute far away (tier far, then near): their pressure when it is near again 0, warnings in the next 8 s 0; admin clear: 0 records; removed: gone true; world reset: none true",
+   "data": {
+    "disconnect": {
+     "p0": 0.45,
+     "kept": false,
+     "rx": false
+    },
+    "far": {
+     "p0": 0.25,
+     "farTier": "far",
+     "tierBack": "near",
+     "back": 0,
+     "warns": 0
+    },
+    "clear": {
+     "p0": 0.37,
+     "n": 0,
+     "rx": false
+    },
+    "removed": {
+     "p0": 0.44,
+     "gone": true
+    },
+    "reset": {
+     "p0": 0.47,
+     "none": true
+    }
+   },
+   "ms": 733
+  },
+  {
+   "id": "BR08",
+   "name": "BR08 a satiated one defends itself: at hunger 0, somebody who keeps pressing in on it after it has warned them can be killed - by a defensive strike after a warning, that lands on their body - and its hunger is never changed for it",
+   "ok": true,
+   "note": "8/8 fair (hunger began at exactly 0 and only rose with time; every defence came after a warning, at least 1 s after it ended, within reach, seen, with a clear way, wind-up 0.5 s); killed in defence 8/8 (at 35.3/10/8.4/7.8/8.3/7.6/7.9/7.6 s, variants A/A/A/C/A/C/A/A); hunger at the first defence 0.0557/0.0152/0.0126/0.0117/0.0125/0.0113/0.0118/0.0114; its odds then 0.52/0.37/0.37/0.37/0.36/0.33/0.35/0.34; warnings 6/1/1/1/1/1/1/1; withdrawals 1/0/0/0/0/0/0/0; every lunge aimed within 0.11 rad of them (closing at up to 171 px/s)",
+   "data": [
+    {
+     "ok": true,
+     "killed": true,
+     "at": 35.3,
+     "v": "A",
+     "springs": [
+      {
+       "t": 34.78,
+       "h": 0.0557,
+       "d": 70,
+       "line": true,
+       "seen": true,
+       "warns": 6,
+       "sinceWarn": 1.03,
+       "p": 1.2,
+       "odds": 0.52,
+       "cornered": false,
+       "wind": 0.5,
+       "tid": 100,
+       "aimOff": 0.02,
+       "closing": 171
+      }
+     ],
+     "warns": 6,
+     "withdrew": 1,
+     "h0": 0,
+     "drift": 2.2429432443293873e-18
+    },
+    {
+     "ok": true,
+     "killed": true,
+     "at": 10,
+     "v": "A",
+     "springs": [
+      {
+       "t": 9.5,
+       "h": 0.0152,
+       "d": 66,
+       "line": true,
+       "seen": true,
+       "warns": 1,
+       "sinceWarn": 1.88,
+       "p": 0.81,
+       "odds": 0.37,
+       "cornered": false,
+       "wind": 0.5,
+       "tid": 100,
+       "aimOff": 0.03,
+       "closing": 123
+      }
+     ],
+     "warns": 1,
+     "withdrew": 0,
+     "h0": 0,
+     "drift": 1.2265037076242269e-18
+    },
+    {
+     "ok": true,
+     "killed": true,
+     "at": 8.4,
+     "v": "A",
+     "springs": [
+      {
+       "t": 7.87,
+       "h": 0.0126,
+       "d": 67,
+       "line": true,
+       "seen": true,
+       "warns": 1,
+       "sinceWarn": 1.62,
+       "p": 0.8,
+       "odds": 0.37,
+       "cornered": false,
+       "wind": 0.5,
+       "tid": 100,
+       "aimOff": 0.11,
+       "closing": 135
+      }
+     ],
+     "warns": 1,
+     "withdrew": 0,
+     "h0": 0,
+     "drift": 5.082197683525802e-19
+    },
+    {
+     "ok": true,
+     "killed": true,
+     "at": 7.8,
+     "v": "C",
+     "springs": [
+      {
+       "t": 7.3,
+       "h": 0.0117,
+       "d": 66,
+       "line": true,
+       "seen": true,
+       "warns": 1,
+       "sinceWarn": 1.38,
+       "p": 0.81,
+       "odds": 0.37,
+       "cornered": false,
+       "wind": 0.5,
+       "tid": 100,
+       "aimOff": 0.04,
+       "closing": 95
+      }
+     ],
+     "warns": 1,
+     "withdrew": 0,
+     "h0": 0,
+     "drift": 5.082197683525802e-19
+    },
+    {
+     "ok": true,
+     "killed": true,
+     "at": 8.3,
+     "v": "A",
+     "springs": [
+      {
+       "t": 7.8,
+       "h": 0.0125,
+       "d": 66,
+       "line": true,
+       "seen": true,
+       "warns": 1,
+       "sinceWarn": 1.73,
+       "p": 0.81,
+       "odds": 0.36,
+       "cornered": false,
+       "wind": 0.5,
+       "tid": 100,
+       "aimOff": 0.02,
+       "closing": 84
+      }
+     ],
+     "warns": 1,
+     "withdrew": 0,
+     "h0": 0,
+     "drift": 5.082197683525802e-19
+    },
+    {
+     "ok": true,
+     "killed": true,
+     "at": 7.6,
+     "v": "C",
+     "springs": [
+      {
+       "t": 7.07,
+       "h": 0.0113,
+       "d": 66,
+       "line": true,
+       "seen": true,
+       "warns": 1,
+       "sinceWarn": 1.38,
+       "p": 0.81,
+       "odds": 0.33,
+       "cornered": false,
+       "wind": 0.5,
+       "tid": 100,
+       "aimOff": 0.05,
+       "closing": 84
+      }
+     ],
+     "warns": 1,
+     "withdrew": 0,
+     "h0": 0,
+     "drift": 5.082197683525802e-19
+    },
+    {
+     "ok": true,
+     "killed": true,
+     "at": 7.9,
+     "v": "A",
+     "springs": [
+      {
+       "t": 7.38,
+       "h": 0.0118,
+       "d": 66,
+       "line": true,
+       "seen": true,
+       "warns": 1,
+       "sinceWarn": 1.5,
+       "p": 0.81,
+       "odds": 0.35,
+       "cornered": false,
+       "wind": 0.5,
+       "tid": 100,
+       "aimOff": 0.04,
+       "closing": 92
+      }
+     ],
+     "warns": 1,
+     "withdrew": 0,
+     "h0": 0,
+     "drift": 5.082197683525802e-19
+    },
+    {
+     "ok": true,
+     "killed": true,
+     "at": 7.6,
+     "v": "A",
+     "springs": [
+      {
+       "t": 7.1,
+       "h": 0.0114,
+       "d": 66,
+       "line": true,
+       "seen": true,
+       "warns": 1,
+       "sinceWarn": 1.25,
+       "p": 0.8,
+       "odds": 0.34,
+       "cornered": false,
+       "wind": 0.5,
+       "tid": 100,
+       "aimOff": 0.02,
+       "closing": 106
+      }
+     ],
+     "warns": 1,
+     "withdrew": 0,
+     "h0": 0,
+     "drift": 5.082197683525802e-19
+    }
+   ],
+   "ms": 2366
+  },
+  {
+   "id": "BR10",
+   "name": "BR10 nothing through anything solid: somebody it is ready to defend against, seen within reach across a corner or a low obstacle it cannot pass, is never sprung at; every defensive kill is at contact with a clear way",
+   "ok": true,
+   "note": "6/9 runs had it ready to defend against somebody it saw within reach with no way to them (135/23/25/41/52/77 ticks): sprung at then 0 times; defensive springs in all 8, kills 8, every one at contact with a clear way: true",
+   "data": [
+    {
+     "at": "5600,900#1",
+     "blocked": 135,
+     "springs": 1,
+     "springBlocked": 0,
+     "kills": 1,
+     "contact": true
+    },
+    {
+     "at": "5600,900#2",
+     "blocked": 0,
+     "springs": 1,
+     "springBlocked": 0,
+     "kills": 1,
+     "contact": true
+    },
+    {
+     "at": "5600,900#3",
+     "blocked": 23,
+     "springs": 1,
+     "springBlocked": 0,
+     "kills": 1,
+     "contact": true
+    },
+    {
+     "at": "3384,900#1",
+     "blocked": 25,
+     "springs": 1,
+     "springBlocked": 0,
+     "kills": 1,
+     "contact": true
+    },
+    {
+     "at": "3384,900#2",
+     "blocked": 0,
+     "springs": 1,
+     "springBlocked": 0,
+     "kills": 1,
+     "contact": true
+    },
+    {
+     "at": "3384,900#3",
+     "blocked": 41,
+     "springs": 1,
+     "springBlocked": 0,
+     "kills": 1,
+     "contact": true
+    },
+    {
+     "at": "5150,940#1",
+     "blocked": 52,
+     "springs": 0,
+     "springBlocked": 0,
+     "kills": 0,
+     "contact": true
+    },
+    {
+     "at": "5150,940#2",
+     "blocked": 0,
+     "springs": 1,
+     "springBlocked": 0,
+     "kills": 1,
+     "contact": true
+    },
+    {
+     "at": "5150,940#3",
+     "blocked": 77,
+     "springs": 1,
+     "springBlocked": 0,
+     "kills": 1,
+     "contact": true
+    }
+   ],
+   "ms": 3077
+  },
+  {
+   "id": "BR15",
+   "name": "BR15 counterplay against the defence: somebody who sees its wind-up and gets out of the way makes it miss - it stands recovering, cannot spring again for seconds, does not defend against them again for a while even when they come back, and goes",
+   "ok": true,
+   "note": "8/8 saw its wind-up and broke away; it missed 8 (caught 0): recovering 1.23/1.07/1.19/1.3/0.96/1.04/1.18/1.12 s, 2.53/2.51/2.49/2.98/2.12/2.89/2.09/2.42 s before another spring, then leave (fast)/leave (fast)/leave (fast)/leave (fast)/leave (fast)/leave (fast)/leave (fast)/leave (fast); defended against them again within 25 s of that defence although they came back and pressed in: 0 ticks; stopped to look while fleeing: 0 of 14738 ticks",
+   "data": [
+    {
+     "ok": true,
+     "dodged": true,
+     "missed": true,
+     "rec": 1.23,
+     "cool": 2.53,
+     "again": 0,
+     "plan": "leave",
+     "fast": true,
+     "fleeT": 2590,
+     "fleeLook": 0,
+     "killed": 0
+    },
+    {
+     "ok": true,
+     "dodged": true,
+     "missed": true,
+     "rec": 1.07,
+     "cool": 2.51,
+     "again": 0,
+     "plan": "leave",
+     "fast": true,
+     "fleeT": 2191,
+     "fleeLook": 0,
+     "killed": 0
+    },
+    {
+     "ok": true,
+     "dodged": true,
+     "missed": true,
+     "rec": 1.19,
+     "cool": 2.49,
+     "again": 0,
+     "plan": "leave",
+     "fast": true,
+     "fleeT": 1176,
+     "fleeLook": 0,
+     "killed": 0
+    },
+    {
+     "ok": true,
+     "dodged": true,
+     "missed": true,
+     "rec": 1.3,
+     "cool": 2.98,
+     "again": 0,
+     "plan": "leave",
+     "fast": true,
+     "fleeT": 791,
+     "fleeLook": 0,
+     "killed": 0
+    },
+    {
+     "ok": true,
+     "dodged": true,
+     "missed": true,
+     "rec": 0.96,
+     "cool": 2.12,
+     "again": 0,
+     "plan": "leave",
+     "fast": true,
+     "fleeT": 2394,
+     "fleeLook": 0,
+     "killed": 1
+    },
+    {
+     "ok": true,
+     "dodged": true,
+     "missed": true,
+     "rec": 1.04,
+     "cool": 2.89,
+     "again": 0,
+     "plan": "leave",
+     "fast": true,
+     "fleeT": 756,
+     "fleeLook": 0,
+     "killed": 0
+    },
+    {
+     "ok": true,
+     "dodged": true,
+     "missed": true,
+     "rec": 1.18,
+     "cool": 2.09,
+     "again": 0,
+     "plan": "leave",
+     "fast": true,
+     "fleeT": 2406,
+     "fleeLook": 0,
+     "killed": 1
+    },
+    {
+     "ok": true,
+     "dodged": true,
+     "missed": true,
+     "rec": 1.12,
+     "cool": 2.42,
+     "again": 0,
+     "plan": "leave",
+     "fast": true,
+     "fleeT": 2434,
+     "fleeLook": 0,
+     "killed": 1
+    }
+   ],
+   "ms": 4202
+  },
+  {
+   "id": "BR16",
+   "name": "BR16 one death, one corpse: a defensive kill names the Skin-Stealer as the killer everywhere; the victim leaving the game during it changes nothing - one kill, the server's one corpse, the creature on its kill and then at its meal",
+   "ok": true,
+   "note": "5/5 killed in defence and left the game at once: kill events 1/1/1/1/1, cause SkinStealer/SkinStealer/SkinStealer/SkinStealer/SkinStealer, the server's corpse SkinStealer/SkinStealer/SkinStealer/SkinStealer/SkinStealer (1/1/1/1/1 for that player); it fed at its kill true/true/true/true/true, then roam/roam/roam/roam/roam at 60 s",
+   "data": [
+    {
+     "ok": true,
+     "died": true,
+     "kills": 1,
+     "cause": "SkinStealer",
+     "corpse": "SkinStealer",
+     "bodies": 1,
+     "fed": true,
+     "plan": "roam"
+    },
+    {
+     "ok": true,
+     "died": true,
+     "kills": 1,
+     "cause": "SkinStealer",
+     "corpse": "SkinStealer",
+     "bodies": 1,
+     "fed": true,
+     "plan": "roam"
+    },
+    {
+     "ok": true,
+     "died": true,
+     "kills": 1,
+     "cause": "SkinStealer",
+     "corpse": "SkinStealer",
+     "bodies": 1,
+     "fed": true,
+     "plan": "roam"
+    },
+    {
+     "ok": true,
+     "died": true,
+     "kills": 1,
+     "cause": "SkinStealer",
+     "corpse": "SkinStealer",
+     "bodies": 1,
+     "fed": true,
+     "plan": "roam"
+    },
+    {
+     "ok": true,
+     "died": true,
+     "kills": 1,
+     "cause": "SkinStealer",
+     "corpse": "SkinStealer",
+     "bodies": 1,
+     "fed": true,
+     "plan": "roam"
+    }
+   ],
+   "ms": 2128
+  },
+  {
+   "id": "BR17",
+   "name": "BR17 its skin and its words are as they were: in a borrowed skin it never looks, warns or defends - it walks up openly as before - and its lines are still its own entity packets",
+   "ok": true,
+   "note": "4/4: circled at 110 px while it wore a skin (900/900/900/900 ticks): reactions 0/0/0/0, walked up openly true/true/true/true, struck false/false/false/false; lines 1/1/1/1, every one its own (entity id, never a person's session id as speaker) - SK40-SK44 are unchanged",
+   "data": [
+    {
+     "ok": true,
+     "rx": 0,
+     "mingle": true,
+     "strike": false,
+     "inSkin": 900,
+     "lines": 1
+    },
+    {
+     "ok": true,
+     "rx": 0,
+     "mingle": true,
+     "strike": false,
+     "inSkin": 900,
+     "lines": 1
+    },
+    {
+     "ok": true,
+     "rx": 0,
+     "mingle": true,
+     "strike": false,
+     "inSkin": 900,
+     "lines": 1
+    },
+    {
+     "ok": true,
+     "rx": 0,
+     "mingle": true,
+     "strike": false,
+     "inSkin": 900,
+     "lines": 1
+    }
+   ],
+   "ms": 883
+  },
+  {
+   "id": "BR19",
+   "name": "BR19 its streams are its own: provoking a Skin-Stealer (looks, warnings, a defence) does not move a single Hound or Smiler elsewhere in the world - the same seed with it left alone gives the same Hounds and Smilers, tick for tick",
+   "ok": true,
+   "note": "provoked (looks 1, warnings 3, defences or withdrawals 1) against left alone: two Hounds and two Smilers identical over 1800 ticks; none of them ever sensed the person (0000/0000); the Skin-Stealer never came within 2096 px of them",
+   "ms": 883
+  }
+ ]
+}

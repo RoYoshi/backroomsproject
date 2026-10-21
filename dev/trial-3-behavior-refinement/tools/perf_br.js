@@ -21,7 +21,8 @@
  * the p99 part of it there in the first run of this tool (8 players crowded round 4 creatures, the Hounds and Smilers drawn in too), so
  * BR-4p is judged against T3-4p instead: its median mean and median p99 each at most Trial 3's + max(Trial 3's spread across rounds,
  * 5 %); the absolute budget is still reported.  The worst single step is reported, not judged.  Every run checks each Skin-Stealer
- * once a second: perf_t3.js's invariants, and (this tree) at most SK.awMax awareness records, each of a person in the game, pressure
+ * once a second: perf_t3.js's invariants (its "never inside the level's geometry" not counted while it vaults a low obstacle, Trial 3's
+ * own CAN_VAULT: the creature is then above it, as the engine's traversal e.trav says; the samples are counted), and (this tree) at most SK.awMax awareness records, each of a person in the game, pressure
  * finite and at most 1.25, no reaction while in a skin.  --soak S: one long run of this tree, 4 Skin-Stealers, pressing players. */
 'use strict';
 const fs = require('fs'), path = require('path'), { spawnSync } = require('child_process');
@@ -38,7 +39,7 @@ if (ARG.run) {
   const R = mkRng(seed * 31 + 5), floors = [], MODES = ['walk', 'walk', 'run', 'crouch', 'walk', 'run'];
   for (let k = 0; k < 6000 && floors.length < 500; k++) { const x = 300 + R() * 9000, y = 300 + R() * 6000; if (w.ad.clear(x, y, 20, 'walk')) floors.push({ x: Math.round(x), y: Math.round(y) }); }
   const ps = []; for (let i = 0; i < +ARG.players; i++) { const f = floors[(i * 53) % floors.length]; const p = w.player(f.x, f.y, { light: i % 3 !== 2 }); p.stop('stand'); ps.push(p); }
-  const deadAt = new Map(), viol = []; let pick = 0, maxAw = 0, maxP = 0;
+  const deadAt = new Map(), viol = []; let pick = 0, maxAw = 0, maxP = 0, vaults = 0;
   const steps = [], bytes = []; let measure = false;
   const orig = w.sim.step; w.sim.step = dt => { const t0 = process.hrtime.bigint(); orig(dt); if (measure) steps.push(Number(process.hrtime.bigint() - t0) / 1e6); };
   const n = Math.round((5 + +ARG.secs) / H.DT), SK = w.eng.entities.filter(e => e.kind === 'skinstealer');
@@ -56,7 +57,8 @@ if (ARG.run) {
     }
     w.step();
     if (i % 60 === 0) for (const e of w.eng.entities) if (e.kind === 'skinstealer') {             // its invariants, once a second
-      const bad = !Number.isFinite(e.x + e.y) ? 'position' : !w.ad.clear(e.x, e.y, Math.max(4, e.rc - 6), 'walk') ? 'inside geometry' : e.heard.length > 4 ? 'heard ' + e.heard.length :
+      if (e.trav) vaults++;                                                                       // (mid-vault over a low obstacle - Trial 3's CAN_VAULT - it is above it, not inside it)
+      const bad = !Number.isFinite(e.x + e.y) ? 'position' : !e.trav && !w.ad.clear(e.x, e.y, Math.max(4, e.rc - 6), 'walk') ? 'inside geometry' : e.heard.length > 4 ? 'heard ' + e.heard.length :
         e.disguise && !(e.tally.kills > 0 && e.tally.skin > 0) ? 'unearned skin' : !(e.hunger >= 0 && e.hunger <= 1) ? 'hunger' : !(e.stam >= 0 && e.stam <= 100) ? 'stamina' : '';
       let bad2 = '';
       if (e.aw) {                                                                                 // (this refinement's own)
@@ -70,7 +72,7 @@ if (ARG.run) {
   const E = w.eng.entities, mean = steps.reduce((a, b) => a + b, 0) / steps.length;
   process.stdout.write(JSON.stringify({ steps: steps.length, mean, p95: q(steps, .95), p99: q(steps, .99), worst: Math.max(...steps), bytes: bytes.reduce((a, b) => a + b, 0) / bytes.length,
     hounds: E.filter(e => e.kind === 'hound').length, smilers: E.filter(e => e.kind === 'smiler').length, skinstealers: E.filter(e => e.kind === 'skinstealer').length, kills: w.kills.length, kinds: [...new Set(w.kills.map(k => k.kind))],
-    viol: viol.slice(0, 20), violations: viol.length, maxAw, maxP: +maxP.toFixed(3),
+    viol: viol.slice(0, 20), violations: viol.length, maxAw, maxP: +maxP.toFixed(3), vaultSamples: vaults,
     tally: E.filter(e => e.kind === 'skinstealer').reduce((a, e) => { for (const k in e.tally) a[k] = (a[k] || 0) + e.tally[k]; return a; }, {}) }) + '\n');
   process.exit(0);
 }

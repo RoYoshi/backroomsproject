@@ -1,0 +1,68 @@
+{
+ "tool": "dev/trial-3-behavior-refinement/tools/perf_br.js --soak",
+ "secs": 600,
+ "players": 8,
+ "seed": 7,
+ "ok": false,
+ "steps": 36000,
+ "mean": 0.20866314258333446,
+ "p95": 0.435805,
+ "p99": 1.320217,
+ "worst": 9.984317,
+ "bytes": 1084.4291666666666,
+ "hounds": 3,
+ "smilers": 3,
+ "skinstealers": 4,
+ "kills": 162,
+ "kinds": [
+  "SkinStealer",
+  "Hound",
+  "Smiler"
+ ],
+ "viol": [
+  [
+   458,
+   21,
+   "inside geometry"
+  ],
+  [
+   496,
+   21,
+   "inside geometry"
+  ]
+ ],
+ "violations": 2,
+ "maxAw": 4,
+ "maxP": 1.2,
+ "tally": {
+  "lure": 0,
+  "lureCame": 0,
+  "intercept": 0,
+  "interceptCame": 0,
+  "chase": 1,
+  "chaseLost": 0,
+  "search": 6,
+  "searchFound": 0,
+  "pounce": 1,
+  "grab": 1,
+  "hit": 21,
+  "miss": 1,
+  "wall": 0,
+  "kills": 21,
+  "mingle": 0,
+  "say": 0,
+  "sayHeard": 0,
+  "sayBait": 0,
+  "skin": 0,
+  "skinLost": 0,
+  "reveal": 0,
+  "look": 34,
+  "lookSound": 33,
+  "warn": 95,
+  "reconsider": 0,
+  "defend": 20,
+  "defendHit": 20,
+  "defendMiss": 0,
+  "withdraw": 20
+ }
+}

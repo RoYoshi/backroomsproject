@@ -1,0 +1,7 @@
+SOAK 600 s, 4 Skin-Stealers, 8 players pressing them: mean 0.209 ms, p99 1.320, worst 9.98 ms; 162 kills (SkinStealer/Hound/Smiler); records at most 4, pressure at most 1.2; violations 2; their record {"lure":0,"lureCame":0,"intercept":0,"interceptCame":0,"chase":1,"chaseLost":0,"search":6,"searchFound":0,"pounce":1,"grab":1,"hit":21,"miss":1,"wall":0,"kills":21,"mingle":0,"say":0,"sayHeard":0,"sayBait":0,"skin":0,"skinLost":0,"reveal":0,"look":34,"lookSound":33,"warn":95,"reconsider":0,"defend":20,"defendHit":20,"defendMiss":0,"withdraw":20}
+PERF BR SOAK: FAIL
+
+real	0m14.274s
+user	0m20.372s
+sys	0m0.650s
+exit 1

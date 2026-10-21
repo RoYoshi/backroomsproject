@@ -17,11 +17,13 @@ Open `http://localhost:8000`, start an online run. Two tabs (or two browsers) fo
 NOT CHECKED. Each meeting is the creature's own seeded choice: if something does not happen, try again or spawn another.
 
 **Setup.** Press **`** (backquote), unlock with your passcode, press **K** with the panel open (not in a text field): the **SKIN** tab
-appears. **+ NEAR ME** puts one near you. **DEBUG** tab → overlay on. Its lilac label now has two more lines:
+appears. **+ NEAR ME** puts one near you. **DEBUG** tab → overlay on, and **ENTITY LABELS: FULL** (in COMPACT the new lines are not
+drawn). Its lilac label now has two more lines:
 
 * `AWARE P<n> <pressure> <noticed | provoked | threatened> (<why>) seen <s>s ago, <d>px, warned <k>x   REACT look|warn <s>s: <why>   LEAVE: <why kept / given up>`
   — the person it has noticed most. *why* is what it saw them do: *close by*, *crowding it*, *circling it*, *following it*,
-  *in its way*, *pressing in after its warning*. It appears only for somebody it has actually seen.
+  *in its way*, *pressing in after its warning*. It appears only for somebody it has actually seen; the tier shows `-` until it has
+  noticed them (pressure 0.12).
 * `DEFENCE P<n> struck | withdrew <s>s ago (odds <x>, cornered)` — after it defended itself.
 
 HUNGER, PLAN and WHY are Trial 3's lines (the hunt). Try each part once **without** the overlay too: the point is how it reads.
@@ -47,13 +49,16 @@ HUNGER, PLAN and WHY are Trial 3's lines (the hunt). Try each part once **withou
    it withdraws (goes off at a trot) or it crouches for half a second (the pounce's click and breath) and lunges a short way. Only body
    contact kills; it is one of Trial 3's deaths, one corpse, your light dropped beside it. Step sideways during the crouch: it misses,
    recovers about a second and leaves you. A determined presser was killed after 7.5 s at the earliest in the tests; often it takes
-   longer, and sometimes it only withdraws.
+   longer, and sometimes it only withdraws. (In the simulation, somebody who stays within 60 px of it for a minute: its first decision
+   typically comes about 7.5 s in and is a strike about one time in three; otherwise it withdraws and can decide again 25 s later, more likely to
+   strike. 157 of 200 such runs ended in a kill within the minute.)
 5. **BRIEF CONTACT IS SAFE.** With a satiated one, walk straight past it once, close, without stopping. Expected: at most a look. No
    warning, no defence. (A **hungry** one still grabs anybody in arm's reach: that is Trial 3's hunt, unchanged.)
 6. **WALL.** Provoke it, then stand across a wall corner or a low obstacle from it, close. Expected: no strike through or across it.
 7. **TWO PLAYERS.** Tab B harasses it; tab A stands still nearby in its view. Expected: only B is warned or attacked; A gets at most a
    look (AWARE shows whom it means). After a defence it does not turn on A.
-8. **IN A SKIN.** Let it feed undisturbed on a preview death until it wears tab A's look (Trial 3's Part D; about 20–35 s). Circle it
+8. **IN A SKIN.** Let it feed undisturbed on a preview death until it wears tab A's look (after a preview kill about 8–12 s of feeding;
+   Trial 3's sheet says 20–35 s for a meal from higher hunger). Circle it
    with tab B. Expected: no look, no warning, no defence — it walks up openly as before; its lines are its own.
 9. **BASELINE.** Without a Skin-Stealer the game is P9's (Hound, Smiler, chat, credits, the red-only death, sounds). With one, the
    Hound and the Smiler behave as before. No new screen flashing.
@@ -61,8 +66,9 @@ HUNGER, PLAN and WHY are Trial 3's lines (the hunt). Try each part once **withou
     above, and is the half-second crouch a fair tell? Too quick to kill a presser, or too forgiving? (The numbers that set this are listed
     under "For the owner to judge first" in `BALANCE_TABLE.md`.)
 
-The deterministic version of part 4 (hunger exactly 0, eight seeds) is `node dev/tests/run.js s_skinbehave.js` (BR08; `DATA=1` prints
-each run's record).
+The deterministic version of part 4 (hunger exactly 0, eight seeds) is BR08 in `node dev/tests/run.js s_skinbehave.js`;
+`node dev/trial-3-behavior-refinement/tools/br_dump.js --only BR08` writes every run's record, and `--wide 200` runs the same pressing over
+200 seeds.
 
 ## Optional
 
