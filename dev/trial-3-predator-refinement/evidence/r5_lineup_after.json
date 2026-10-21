@@ -1,0 +1,144 @@
+{
+ "tool": "dev/trial-3-predator-refinement/tools/scale_lineup.js",
+ "dir": "predator-refinement",
+ "tag": "after",
+ "chromium": "141.0.7390.37",
+ "hound": {
+  "i": 12,
+  "x": 5580.7,
+  "y": 3394.3,
+  "a": 5.876,
+  "s": 1,
+  "ac": 1,
+  "v": 0,
+  "h": -0.5,
+  "lh": -0.5,
+  "l": -1,
+  "tg": 0,
+  "cp": 0,
+  "k": 0
+ },
+ "lineup": {
+  "sx": 5600,
+  "sy": 3080,
+  "row": [
+   {
+    "x": 5400,
+    "y": 3380
+   },
+   {
+    "x": 5500,
+    "y": 3380
+   },
+   {
+    "x": 5700,
+    "y": 3380
+   },
+   {
+    "x": 5800,
+    "y": 3380
+   }
+  ]
+ },
+ "look": "||||",
+ "lineupMeasure": [
+  {
+   "label": "",
+   "x": 5581,
+   "y": 3394,
+   "sc": 1,
+   "lb": {
+    "w": 86.4,
+    "h": 164.8
+   }
+  },
+  {
+   "label": "",
+   "x": 5500,
+   "y": 3380,
+   "sc": 1,
+   "lb": {
+    "w": 39.9,
+    "h": 59.5
+   }
+  },
+  {
+   "label": "skinstealer#9101",
+   "x": 5400,
+   "y": 3380,
+   "sc": 1.3,
+   "lb": {
+    "w": 55,
+    "h": 77.6
+   }
+  },
+  {
+   "label": "skinstealer#9102",
+   "x": 5700,
+   "y": 3380,
+   "sc": 1.3,
+   "lb": {
+    "w": 62.4,
+    "h": 77.3
+   }
+  },
+  {
+   "label": "skinstealer#9103",
+   "x": 5800,
+   "y": 3380,
+   "sc": 1.3,
+   "lb": {
+    "w": 70.3,
+    "h": 70.1
+   }
+  },
+  {
+   "label": "skinstealer-skin#9104",
+   "x": 5500,
+   "y": 3240,
+   "sc": 1,
+   "lb": {
+    "w": 45.5,
+    "h": 37.5
+   }
+  }
+ ],
+ "lineupShot": "lineup_after_1280.png",
+ "doorMeasure": [
+  {
+   "label": "skinstealer#9201",
+   "x": 8310,
+   "y": 3560,
+   "sc": 1.3,
+   "lb": {
+    "w": 55,
+    "h": 77.6
+   }
+  },
+  {
+   "label": "skinstealer#9202",
+   "x": 8255,
+   "y": 3380,
+   "sc": 1.3,
+   "lb": {
+    "w": 55,
+    "h": 77.6
+   }
+  },
+  {
+   "label": "skinstealer#9203",
+   "x": 8255,
+   "y": 3720,
+   "sc": 1.3,
+   "lb": {
+    "w": 62.4,
+    "h": 77.3
+   }
+  }
+ ],
+ "doorShot": "doorway_after_1280.png",
+ "errors": {
+  "observer": [],
+  "wanderer": []
+ }
+}

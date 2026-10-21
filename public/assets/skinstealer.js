@@ -8,6 +8,10 @@ const lerp = (a, b, t) => a + (b - a) * t;
 const sm = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
 const angDiff = (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b));
 const API = () => window.__api;
+/* (predator refinement R5) the undisguised body's drawn size: its one scale (dev/trial-3-predator-refinement/BALANCE_TABLE.md; UNAPPROVED).
+ * Only the drawing grows: the server's body (radius 24), its reach and its routes are unchanged, and a borrowed skin is the page's own
+ * Wanderer avatar at a player's size */
+const BODY_SCALE = 1.3;
 /* the script's public object: each module adds its own entries (mirror: the snapshot's list, and (T6) where an entity is drawn for chat.js;
  * body: draw, clear; kill: the attacker in a death; audio: a death's sounds) */
 const K = window.__skin = {};
@@ -18,7 +22,7 @@ const lend = (name, fn) => { if (name in hooks) hooks[name] = fn; };
  * KACT); dev/tools/checks/facts.json holds every copy of each to the same list */
 const STATES = ['DORMANT', 'ROAMING', 'CURIOUS', 'ALERT', 'WATCHING', 'STALKING', 'HUNTING', 'SEARCHING', 'CAUTIOUS', 'FRUSTRATED', 'EXCITED', 'FEEDING', 'PLAYING', 'RETREATING', 'HIDDEN', 'FOLLOWING', 'PROVOKED', 'ATTACKING', 'DISAPPEARING'];
 const ACTS = ['', 'watch', 'back', 'leave', 'wait', 'lure', 'intercept', 'search', 'listen', 'approach', 'creep', 'chase', 'wind', 'pounce', 'recover', 'feed', 'mimic', 'rest', 'pace'];
-return { ACTS, angDiff, API, clamp, hooks, K, lend, lerp, sm, STATES, TAU };
+return { ACTS, angDiff, API, BODY_SCALE, clamp, hooks, K, lend, lerp, sm, STATES, TAU };
 }
 function skinMirror({ head: { ACTS, angDiff, K, STATES } }) {
 const MAX = 8, LOOK = /^[a-z]{1,12}\|[a-z]{1,12}\|#[0-9a-fA-F]{6}\|#[0-9a-fA-F]{6}$/;
@@ -47,7 +51,7 @@ K.mirror = mirror;
 K.where = id => { const o = slots.get(id); return o ? { x: o.x, y: o.y } : null; };   // (T6) where this page draws entity id (chat.js: its line's bubble and voice)
 return { clear, list };
 }
-function skinBody({ head: { API, clamp, hooks, K, lerp, sm, TAU }, mirror: { clear, list } }) {
+function skinBody({ head: { API, BODY_SCALE, clamp, hooks, K, lerp, sm, TAU }, mirror: { clear, list } }) {
 const SC = { line: 0x14100d, skin: 0xbcab9a, skinLo: 0x7f6c5e, skinHi: 0xdfd1bf, fold: 0x8f7b6b, nail: 0x2a2320, hair: 0x15120f, mouth: 0x2a0d0e };   // (T5) sallow, bloodless human skin: pale under a lamp, black in the dark
 const views = new Map();                                   // entity id -> view
 let Cc = null, Gc = null;                                  // the page's Container and Graphics classes
@@ -66,10 +70,11 @@ function ik(ax, ay, tx, ty, l1, l2, side) {
   let px = -dy / d, py = dx / d; if (px * side < 0) { px = -px; py = -py; }
   return { ex: ax + dx * a / d + px * h, ey: ay + dy * a / d + py * h, tx, ty };
 }
-/* a view (a Container holding one Graphics) with its pose state; (Trial 3 T4) the kill module makes its attackers with it too */
+/* a view (a Container holding one Graphics) with its pose state; (Trial 3 T4) the kill module makes its attackers with it too; (R5) every
+ * view of the undisguised body - living, our own death's attacker, a replay's - is drawn at the one BODY_SCALE */
 function newView(label) {
   const v = new Cc(), g = new Gc();
-  v.addChild(g); v.__g = g; v.__skin = true; v.label = label;
+  v.addChild(g); v.__g = g; v.__skin = true; v.label = label; v.scale.set(BODY_SCALE);
   v.__s = { ph: Math.random() * TAU, px: null, py: null, vf: 0, crouch: 0, reach: 0, back: 0, lean: 0, tilt: 0, tiltT: 0, tiltTo: 0, twitch: 0, seed: Math.random() * 100, spd: 0 };
   return v;
 }
@@ -88,7 +93,7 @@ function pose(S, o, t, dt) {
   // low and coiled; searching it prowls, low; closing in it leans forward; running to cut somebody off it leans into the run
   const want = {
     crouch: a === 'wind' ? 1 : a === 'wait' ? .75 : a === 'creep' || a === 'approach' ? .6 : a === 'feed' ? .85 : a === 'listen' ? .45 : a === 'search' ? .35 : a === 'chase' ? .4 : still ? .3 : .12,
-    reach: a === 'pounce' ? 1 : a === 'chase' ? .55 : a === 'feed' ? .7 : a === 'approach' || a === 'creep' ? .25 : a === 'search' ? .12 : 0,
+    reach: a === 'pounce' ? 1 : a === 'chase' ? .4 : a === 'feed' ? .7 : a === 'approach' || a === 'creep' ? .12 : a === 'search' ? .06 : 0,   // (R5: arms kept low until the strike - no raised-arms figure)
     back: a === 'wind' ? 1 : a === 'recover' ? .5 : 0,
     lean: a === 'pounce' ? 1 : a === 'chase' ? .6 : a === 'feed' ? .8 : a === 'creep' ? .35 : a === 'approach' ? .25 : a === 'intercept' ? .4 : a === 'search' ? .15 : 0,
   };
@@ -126,10 +131,11 @@ function paint(v, o, t) {
   g.clear();
   const walk = sm(8, 60, spd), sw = Math.sin(S.ph), sw2 = Math.sin(S.ph + Math.PI);
   const tall = 1 + lean * .12 - cr * .1;                     // a pounce stretches the body, a crouch shortens it
-  // legs (half under the body): hips to feet, a long stride when it runs
+  // legs (half under the body): hips to feet, a long stride when it runs.  (R5) Seen from above a standing leg is foreshortened: shorter,
+  // the feet under the hips, so the knees no longer splay out to the sides (the squatting, frog-like outline)
   for (const side of [-1, 1]) {
-    const ph = side < 0 ? sw : sw2, hx = side * 6.5, hy = 13 * tall, fx = side * (8 + cr * 6), fy = hy + 15 - cr * 4 + ph * walk * lerp(8, 17, sm(60, 255, spd));
-    limb(g, hx, hy, fx, fy, 15, 16, side, 5.4, 4, SC.skinLo);
+    const ph = side < 0 ? sw : sw2, hx = side * 6.5, hy = 13 * tall, fx = side * (6.5 + cr * 3.5), fy = hy + 13 - cr * 3 + ph * walk * lerp(8, 17, sm(60, 255, spd));
+    limb(g, hx, hy, fx, fy, 6.5 + walk * 3, 7 + walk * 3.5, side, 5.4, 4, SC.skinLo);   // (nearly straight when it stands; the stride lengthens them)
   }
   // the torso: bony shoulders, a narrow waist, the spine showing through loose skin
   const sy = -11 * tall - lean * 3, wy = 5 * tall, hy = 15 * tall, shw = 12.5 - cr * 1.2;
@@ -144,10 +150,10 @@ function paint(v, o, t) {
   }
   // arms: very long.  Seen from above an arm that hangs is foreshortened (it points at the floor): drawn short and close along the body,
   // the long fingers past the hips; it swings a little when it walks, reaches out when it hunts, draws back and wide for a pounce
-  const fore = lerp(.6, 1, Math.max(reach, back * .85, walk * .12));
+  const fore = lerp(.6, 1, Math.max(reach, back * .85, walk * .12)) * (1 - .22 * cr * (1 - reach));   // (R5: a crouch folds the arms in with the body, elbows not out)
   for (const side of [-1, 1]) {
     const ph = side < 0 ? sw2 : sw, ax = side * (shw - 1.5), ay = sy + 2;
-    const hangX = side * (shw + 3.5 + cr * 2), hangY = hy - 1 + ph * walk * 7;
+    const hangX = side * (shw + 1.5 + cr * 1.5), hangY = hy - 1 + ph * walk * 7;   // (R5: hanging close along the body)
     const reachX = side * (6 + (1 - reach) * 6), reachY = sy - 30 - reach * 12 + ph * walk * (1 - reach) * 6;
     const backX = side * 23, backY = hy + 3;
     let tx = lerp(hangX, reachX, reach), ty = lerp(hangY, reachY, reach);

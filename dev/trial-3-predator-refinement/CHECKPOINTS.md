@@ -12,7 +12,8 @@ hash: each row is filled in by the next checkpoint (the last by a receipt commit
 | R1 the hunt, hunger and eye contact, the lost race | `907de0df54ece3a0940c8aadfe23a9ba16f7b093` | `2d5fb85aa1ed4a26b8b96a37a6f44182f381d105` | `f094dd4` | 2026-10-21 05:50 UTC, `evidence/remote/r1.json`; scans `r1_pre.txt` / `r1_post.txt` clean |
 | R2 listening, belief, guesses, failed guesses | `fbeaf1fcc07d10e17da1ec514d7d16ae856df95b` | `f292ad67c38a80fc690d041f7e743091a91a6928` | `907de0d` | 2026-10-21 06:21 UTC, `evidence/remote/r2.json`; scans `r2_pre.txt` / `r2_post.txt` clean |
 | R3 stalking, going round, coming on, fair strikes | `867d63b7de878c6b5b208f1e2fadfdb0bb97d202` | `70bc5b7a5e4b5508950b2fddb2d15e49ee7859c7` | `fbeaf1f` | 2026-10-21 06:40 UTC, `evidence/remote/r3.json`; scans `r3_pre.txt` / `r3_post.txt` clean |
-| R4 poses, debug, dithering, balance | (this commit: `evidence/remote/r4.json` arrives with R5) | | `867d63b` | |
+| R4 poses, debug, dithering, balance | `ef70370de82b63c958a8df02cc7360b3a8f91f4d` | `eae4a5255b8e8fe4760be3053af54c597847a20a` | `867d63b` | 2026-10-21 06:53 UTC, `evidence/remote/r4.json`; scans `r4_pre.txt` / `r4_post.txt` clean |
+| R5 its size on the page | (this commit: `evidence/remote/r5.json` arrives with R6) | | `ef70370` | |
 
 ## R0 — audit and plan, no game change
 
@@ -183,3 +184,31 @@ precisely (below). No new act, state or snapshot field: every pose comes from th
 
 Balance (R4 review): no value changed for balance in R4. The measured picture is in `BALANCE_TABLE.md`; the open questions for the owner
 are listed in `DEFERRED.md` (R8).
+
+## R5 — its size on the page
+
+Changed: the Skin-Stealer's page script only — `src/frameworks/nani/client/skin.head.js` (one constant, `BODY_SCALE`) and
+`src/frameworks/br-r/client/skin.body.js` (it applied in `newView`; a minimal pose correction), rebuilt into `public/assets/skinstealer.js`;
+the `assets/skinstealer.js` note; PR23; `tools/scale_lineup.js` (new); `tools/repro_r0.js` and `tools/scale_browser.js` now record a
+folder's name, not its path. The server — the body (radius 24, clearance 21), the grab and the pounce, routes — is unchanged.
+
+* **One scale**: `BODY_SCALE = 1.3` (the pack's 1.2–1.35), defined once in the script's head and set on every view of the undisguised body,
+  which `newView` makes: the living one, our own death's attacker and a replay's. A borrowed skin is the page's own Wanderer avatar and is
+  never scaled.
+* **Minimal pose correction** (readable from above; no new art): a standing leg is foreshortened — shorter, the foot under the hip — so the
+  knees no longer splay out to the sides (the squatting, frog-like outline at Trial 3); hanging arms lie close along the body and fold in
+  when it crouches; the arms stay low until the strike (no raised-arms figure while it creeps or chases).
+* **Collision honesty**: a larger drawing over the same body is in the player's favour — nothing reaches farther than it did. Against a
+  wall the part of the drawing past the wall's face is under the wall (the doorway screenshots); a kill's attacker is posed by the death's
+  own physics, as before.
+
+| Run | Result |
+|---|---|
+| `tools/scale_lineup.js` before (on `4518f93`) and after, the same camera, no overlay (`evidence/r5_lineup_*`, `r5_shots/lineup_before_after.png`) | standing: 49.6 × 61.6 → 55.0 × 77.6 world px; creeping 55.1 × 60.9 → 62.4 × 77.3; winding up 64.0 × 53.6 → 70.3 × 70.1; a Wanderer 39.7–40.0 × 59.2–59.5 (with its torch); a Hound 85.9–86.4 × 164.8–168.5 (moving); in a skin 45.5 × 37.5–37.7 at its own scale 1 both before and after (the Wanderer avatar, nothing in its hands) |
+| doorway and wall (`r5_shots/doorway_before_after.png`) | standing in a 160 px doorway it fills more of it; facing a wall as close as its body lets it stand, the part past the wall's face is hidden under the wall — no limb drawn across the wall |
+| `tools/scale_browser.js` after (`evidence/r5_scale_after.*`; before: `r0_scale_before.*`) | 54.9 × 77.5 world px at scale 1.3 (R0 49.6 × 61.5 at 1), a Wanderer 40.1 × 59.8, a Hound 86.2 × 162.5 |
+| Trial 3's `skin_browser.js` t5 before / after (`evidence/r5_skin_browser_t5_*.txt`, `r5_shots/gallery_*`) | 5 / 5 both: every act and the three deaths drawn, BR-RoLE's actor shadows, the debug block, its sounds; no page error |
+| Trial 3's `skin_browser.js` t1 + t4 after (`evidence/r5_skin_browser_t1t4_after.txt`, `r5_shots/kill/`) | 19 / 20: one t4 timing case (`t4_victim_frame_is_the_corpse`, no last frame captured); a rerun of t4 failed `t4_spectator_replay` instead — and t4 on `4518f93` fails the same case (`r5_skin_browser_t4_before.txt`): the scene's random monsters and SwiftShader timing, not the size; R6 runs the browser checks again |
+| `s_skinpredator.js` | 22 / 22 (PR23: `BODY_SCALE` 1.3, every undisguised view scaled, the skin not, the server's body and reach unchanged) |
+| `s_skinstealer.js`, `s_skinbehave.js` | 34 / 34, 19 / 19 |
+| static checks (`evidence/r5_checks.txt`) | PASS |

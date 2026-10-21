@@ -1,0 +1,22 @@
+ok   t1_script_loaded - {"skin":"object","fns":"attack,attacker,clear,deathEvent,deathSound,draw,mirror,where"}
+ok   t1_p9_keys_without_one - st,h,m,b,p,gw,it,lf,sn
+ok   t1_admin_tabs - players,monsters,deaths,world,debug -> K -> players,monsters,deaths,world,debug,skin
+ok   t1_admin_skin_tab - {"before":{"text":"SKIN-STEALER · 0 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SKIN-STEALER+ NEAR ME− SKIN-STEALERNone in the halls. The worl","buttons":["+ SKIN-STEALER","+ NEAR ME","− SKIN-STEALER","ANECK BREAKa grip from close by","BPOUNCEcarried down, then the neck","CNECK BITEheld, bitten"]},"after":{"text":"SKIN-STEALER · 1 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SKIN-STEALER+ NEAR ME− SKIN-STEALERK#8ROAMING · nearGO TOREMOVEITS DEATHS · PLAYED ON YOUANECK BREAKa ","status":"SKIN-STEALER PLACED NEAR YOU"}}
+ok   t1_in_snapshot - [{"i":8,"x":1512,"y":3576,"a":5.72,"s":1,"ac":0,"v":0,"h":0}]
+ok   t1_one_view_in_creatures_layer - [{"id":8,"x":1512,"y":3576,"vis":true,"tint":11382189,"inLayer":true,"masked":true}]
+ok   t1_shaded_by_light - in the dark adadad, lit e8e8e8 (light true)
+ok   t1_remove_takes_view - 0 views; keys st,h,m,b,p,gw,it,lf,sn
+ok   t1_world_reset_clears - 1 -> 0
+ok   t1_no_page_errors - []
+ok   t4_preview_buttons - skinstealer:A,skinstealer:B,skinstealer:C
+ok   t4_own_death_names_it - {"kind":"SkinStealer","v":"B","dur":3.4}
+ok   t4_own_attacker_drawn - {"killView":true,"visible":true,"at":[1098,3299],"attacker":[1098,3299],"mirroredShown":0,"el":2.12}
+ok   t4_spectator_replay - {"replay":true,"att":"skinstealer-replay","attVisible":true,"posed":true,"mirroredShown":0,"mirrored":1}
+FAIL t4_victim_frame_is_the_corpse - {"lastFrame":null,"corpse":{"cause":"SkinStealer","x":1131,"y":3321}}
+ok   t4_corpse_everywhere - {"v":[{"cause":"SkinStealer","x":1131,"y":3321}],"s":[{"cause":"SkinStealer","x":1131,"y":3321}]}
+ok   t4_creature_back_after - {"placed":[10],"after":{"shown":1,"ss":[{"i":10,"x":2198.9,"y":3481.4,"a":6.28,"s":18,"ac":3,"v":105,"h":0}]}} (ac 15 feeding; 3 leaving - disturbed at its kill by the spectator two body lengths away)
+ok   t4_sounds_through_this_script - {"victim":{"death":1,"snap":0},"spectator":{"death":1,"snap":1}} snap path wired: 1
+ok   t4_disconnect_one_corpse - {"second":{"kind":"SkinStealer","v":"A"},"after":[{"cause":"SkinStealer","x":1102,"y":3288}],"first":[{"cause":"SkinStealer","x":1131,"y":3321}]}
+ok   t4_no_page_errors - {"victim":[],"spectator":[]}
+SKIN BROWSER: FAIL - 19 of 20 cases
+EXIT 0

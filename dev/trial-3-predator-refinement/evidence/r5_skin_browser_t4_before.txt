@@ -1,0 +1,11 @@
+ok   t4_preview_buttons - skinstealer:A,skinstealer:B,skinstealer:C
+ok   t4_own_death_names_it - {"kind":"SkinStealer","v":"B","dur":3.4}
+ok   t4_own_attacker_drawn - {"killView":true,"visible":true,"at":[981,3283],"attacker":[981,3283],"mirroredShown":0,"el":2.28}
+FAIL t4_spectator_replay - {"replay":true,"att":"skinstealer-replay","attVisible":false,"posed":true,"mirroredShown":0,"mirrored":1}
+ok   t4_victim_frame_is_the_corpse - {"lastFrame":{"x":983,"y":3324.5,"a":-1.252,"el":3.4},"corpse":{"cause":"SkinStealer","x":983,"y":3325}}
+ok   t4_corpse_everywhere - {"v":[{"cause":"SkinStealer","x":983,"y":3325}],"s":[{"cause":"SkinStealer","x":983,"y":3325}]}
+ok   t4_creature_back_after - {"placed":[11],"after":{"shown":1,"ss":[{"i":11,"x":2174.7,"y":3481.4,"a":6.28,"s":18,"ac":3,"v":105,"h":0}]}} (ac 15 feeding; 3 leaving - disturbed at its kill by the spectator two body lengths away)
+ok   t4_sounds_through_this_script - {"victim":{"death":1,"snap":1},"spectator":{"death":1,"snap":0}} snap path wired: 1
+ok   t4_disconnect_one_corpse - {"second":{"kind":"SkinStealer","v":"A"},"after":[{"cause":"SkinStealer","x":979,"y":3299}],"first":[{"cause":"SkinStealer","x":983,"y":3325}]}
+ok   t4_no_page_errors - {"victim":[],"spectator":[]}
+SKIN BROWSER: FAIL - 9 of 10 cases

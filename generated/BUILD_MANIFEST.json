@@ -289,13 +289,13 @@
   },
   {
    "out": "public/assets/skinstealer.js",
-   "bytes": 29860,
-   "sha256": "9173ebc526c68433740b5e51812b8666f87c0f70dc69e517711ee726527e0bb7",
+   "bytes": 30850,
+   "sha256": "c09059140357d1d72024ee35d315576beeacea930d4b77006e013dd51e200264",
    "parts": [
     {
      "path": "src/frameworks/nani/client/skin.head.js",
-     "sha256": "967e87dd6630ecdc636c679a13a7e4afd54dc957abd46ceedcd5720202753949",
-     "headerBytes": 939
+     "sha256": "9747ca3d593d15e8ffe65ef45fe918561c4a136ecc39d1af105dcceeb6d32228",
+     "headerBytes": 951
     },
     {
      "path": "src/frameworks/nani/client/skin.mirror.js",
@@ -304,8 +304,8 @@
     },
     {
      "path": "src/frameworks/br-r/client/skin.body.js",
-     "sha256": "c1619f4ca4cd66c97bc35cf6e17ff517ce946060ab2a8f6ebe81142b808d7959",
-     "headerBytes": 961
+     "sha256": "3f5b8d1aec9639319dbf871795e6a1ec52e8620779d6365f1424872d98d049dc",
+     "headerBytes": 972
     },
     {
      "path": "src/frameworks/br-r/client/skin.kill.js",

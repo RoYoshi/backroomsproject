@@ -63,7 +63,7 @@ const MEASURE = `(() => { const L = __api.layer(), out = [];
 (async () => {
   const { p: srv, port } = await serve();
   const b = await pw.chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
-  const R = { tool: 'dev/trial-3-predator-refinement/tools/scale_browser.js', dir: DIR, tag: ARG.tag, chromium: b.version() };
+  const R = { tool: 'dev/trial-3-predator-refinement/tools/scale_browser.js', dir: path.basename(DIR), tag: ARG.tag, chromium: b.version() };
   try {
     const room = 'sc' + (Date.now() % 1e6);
     const O = await runPage(b, port, room, { width: 1280, height: 720 }, 'K3Look');

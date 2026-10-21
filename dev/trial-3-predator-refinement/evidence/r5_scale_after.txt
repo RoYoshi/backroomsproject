@@ -1,0 +1,10 @@
+{"creature":{"i":12,"x":3768,"y":3336,"a":2.101,"s":1,"ac":0,"v":0,"h":0},"spot":{"wx":3729.177143234622,"wy":3480.88887394336,"sx":4086.7555226753925,"sy":3421.410284883832,"ox":0.9659258262890683,"oy":0.25881904510252074},"camera":{"H":{"x":4087,"y":3421,"a":1.57},"dpr":1,"w":1280,"h":720}}
+skinstealer: local 54.9 x 77.5 world px (its own scale 1.3); on the screen 72 x 79 px at rotation 3.67
+wanderer: local 40.1 x 59.8 world px (its own scale 1); on the screen 33 x 50 px at rotation 3.14
+hound: local 86.2 x 162.5 world px (its own scale 1); on the screen 153 x 128 px at rotation 5.22
+{"label":"","depth":0,"x":3729,"y":3481,"rot":3.14,"sc":1,"lb":{"w":40.1,"h":59.8},"gb":{"x":325,"y":393,"w":33,"h":50},"n":7}
+{"label":"","depth":1,"x":0,"y":0,"rot":0,"sc":1,"lb":{"w":37.6,"h":38},"gb":{"x":326,"y":393,"w":31,"h":32},"n":1}
+{"label":"","depth":1,"x":-13,"y":-13,"rot":0,"sc":1,"lb":{"w":13.5,"h":13.5},"gb":{"x":347,"y":415,"w":11,"h":11},"n":1}
+{"label":"","depth":1,"x":13,"y":-15,"rot":0,"sc":1,"lb":{"w":13.5,"h":13.5},"gb":{"x":325,"y":416,"w":11,"h":11},"n":1}
+{"label":"Graphics","depth":1,"x":13,"y":-15,"rot":0.01,"sc":1,"lb":{"w":13.8,"h":34.2},"gb":{"x":325,"y":414,"w":12,"h":29},"n":0}
+{"label":"skinstealer#12","depth":0,"x":3768,"y":3336,"rot":3.67,"sc":1.3,"lb":{"w":54.9,"h":77.5},"gb":{"x":338,"y":250,"w":72,"h":79},"n":1}

@@ -17,7 +17,7 @@ the value it built and what was measured.
 | `SK.predictLook`, `predictTurns` | 1500 px, 2 turns | kept for the main guess; one alternative branch; failed places remembered within the encounter | unchanged; R2 guesses: the interception, along the predicted way (140 px/s × age + 150), the other way at the first turn, the belief, the last place; `SK.failedTtl` 60 s, `SK.failedNear` 200 px (at most 4 places, 3 turns); a failed interception costs `SK.wrongCost` .15 confidence, a failed search .075 |
 | `SK.pounceRange`, strike numbers | 55–185 px, wind-up .22 s | unchanged | unchanged |
 | speeds (`SKIN.speeds`) | run 255 (a fresh sprint is 285) | unchanged | unchanged; new `flank` 170 (under a person's walk 172) |
-| body drawing scale | 1 (no factor) | about 1.3 (pack: 1.2–1.35), the collider unchanged | (R5) |
+| body drawing scale | 1 (no factor) | about 1.3 (pack: 1.2–1.35), the collider unchanged | R5: `BODY_SCALE` 1.3 (`skin.head.js`), every undisguised view; the collider 24 and every reach unchanged; the skin unscaled |
 
 R1 measured (8 seeds; `evidence/r1_repro.txt`, `CHECKPOINTS.md` R1): watched at .75 it no longer leaves within 45 s (0 / 8, R0 8 / 8); a person who
 only stands and stares is killed at .75 and above; an unaware person in light is hunted from .5 (R0: left at .5); a fresh runner still wins

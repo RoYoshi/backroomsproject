@@ -5,7 +5,7 @@
  * (e.seenNow), HEARD (a sound it really received: anonymous unless the engine named it), REMEMBERED (its record), GUESSED (its own belief or
  * prediction).  The people's scripts may read where the creature really is (a player's own sight of it); the creature never reads them.
  * R1: PR01-PR05, PR18-PR20 (hunger, eye contact, the hunt, the lost race).  R2: PR08-PR16 (listening, belief, guesses, failed guesses).
- * R3: PR06, PR07, PR17, PR21 (going round a watcher, coming on openly, the tells, fair strikes). */
+ * R3: PR06, PR07, PR17, PR21 (going round a watcher, coming on openly, the tells, fair strikes).  R5: PR23 (its drawn size). */
 'use strict';
 const { World, DT, LONG, over, rate, AI, floorNear, bystander } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -452,6 +452,22 @@ add('PR21 fair strikes: every spring in these hunts is shown first (a wind-up fr
   const dFirst = rs.filter(r => r.dodge && r.strikes.length), dEsc = dFirst.filter(r => !r.strikes[0].hit);
   return { ok: st.length >= 6 && told.length === st.length && ks.length >= 3 && fair.length === ks.length && dEsc.length > dFirst.length / 2,
     note: `${st.length} springs, each with its full wind-up first ${told.length}/${st.length} | ${ks.length} kills, body against body (${ks.map(k => k.d).join('/')} px) with a clear line ${fair.length}/${ks.length} | broke away at the tell and survived that spring ${dEsc.length}/${dFirst.length}; stood watching and survived it ${rs.filter(r => !r.dodge && r.strikes.length && !r.strikes[0].hit).length}/${rs.filter(r => !r.dodge && r.strikes.length).length}`, data: rs };
+});
+
+/* ---------------------------------------------------------------- R5: its drawn size */
+add('PR23 its size: the undisguised body is drawn at one scale in the pack\'s 1.2-1.35 range, for every view of it (living, our own death\'s attacker, a replay\'s); a borrowed skin is the page\'s own Wanderer avatar, unscaled; the server\'s body, reach and routes are what they were', () => {
+  const fs = require('fs'), path = require('path'), root = path.join(__dirname, '..', '..');
+  const js = fs.readFileSync(path.join(root, 'public', 'assets', 'skinstealer.js'), 'utf8');
+  const m = js.match(/const BODY_SCALE = ([\d.]+);/), scale = m ? +m[1] : NaN;
+  const nv = js.slice(js.indexOf('function newView('), js.indexOf('function make('));
+  const sv = js.slice(js.indexOf('function skinView('), js.indexOf('function dropSkin('));
+  const kill = js.slice(js.indexOf('function attack('), js.indexOf('K.attack = attack;'));
+  const one = (js.match(/BODY_SCALE/g) || []).length;                                   // its definition, the head's export, the body's import and use
+  const viewsScaled = /v\.scale\.set\(BODY_SCALE\)/.test(nv) && /newView\('skinstealer-kill'\)/.test(kill) && /newView\('skinstealer-replay'\)/.test(kill) && !/\.scale\./.test(kill);
+  const skinPlain = !/BODY_SCALE|\.scale\./.test(sv);
+  const S = AI.SKIN, K = AI.SK, server = S.radius === 24 && S.clearance === 21 && K.grabReach === 46 && K.pounceRange[0] === 55 && K.pounceRange[1] === 185 && K.pounceSpeed === 430 && K.pounceDur === .36;
+  return { ok: scale >= 1.2 && scale <= 1.35 && viewsScaled && skinPlain && server && one <= 6,
+    note: `BODY_SCALE ${scale} (the one source: ${one} mentions in the page script); every undisguised view made by newView at that scale (living, our own death's attacker, a replay's) ${viewsScaled}; the borrowed skin (the page's Wanderer avatar) never scaled ${skinPlain}; the server's body radius ${S.radius}, clearance ${S.clearance}, grab reach ${K.grabReach}, pounce ${K.pounceRange.join('-')} px at ${K.pounceSpeed} px/s for ${K.pounceDur} s - unchanged ${server}.  Its size on the page against a Wanderer and a Hound: tools/scale_lineup.js (evidence/r5_lineup_*)` };
 });
 
 module.exports = S;
