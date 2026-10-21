@@ -1,0 +1,13 @@
+FAIL 2F F13 death/respawn/leave/world reset clear encounter identity
+FAIL 2F F22 species physical/canon parameter preservation
+FAIL C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it
+FAIL C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out
+FAIL C3 it does not track the hidden prey exactly: after losing it, its goals come from memory and sound, never from where the prey really is
+FAIL C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)
+FAIL C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you
+FAIL C9 / C10 an exhausted runner is far more vulnerable; a fresh one can still make distance
+FAIL H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)
+FAIL L9 lifecycle (v22.2): a living player starts a new run only through the NEW RUN sequence (vanish, 2 s or more, then leave / join), once per 30 s
+FAIL NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm
+FAIL P01 noticing distance: run > walk > crouch (resting hound, corridor)
+FAIL P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming
