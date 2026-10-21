@@ -1,0 +1,9 @@
+The R7 scenarios run against the R6 code (7e85e94; only dev/tests/s_skinpredator.js replaced by the R7 version):
+FAIL PR27 (R7) a won race stays won: a fresh runner who outruns it and keeps going - winded after about 10 s, then walking - is never closed on while they move; it keeps to their trail, and only a person who stops is reached
+       0/8 (hunger 0.95/0.75/0.95/0.75/0.95/0.75/0.95/0.75): race lost at 3.5/3.9/3.5/3.9/3.9/3.5/4/4 s, 449/458/449/454/454/449/448/448 px behind; the runner winded at 9.5/9.5/9.5/9.5/9.5/9.5/9.5/9.5 s, 1054/851/1054/848/848/1054/835/835 px ahead, and walked on to the hall's end (23.9/23.9/23.9/23.9/23.9/23.9/23.9/23.9 s); while they moved never closer than 449/458/449/454/454/449/448/448 px, and once winded never closer than 1023/700/1023/698/698/1023/671/671 px; kept to their trail 8/8; killed after they stopped 5/8
+FAIL PR28 (R7) effort is kept when its attention moves to somebody else: what it spent on A is still A's after it has dealt with B, and when it sees A again
+       1/6: effort on A 3.85/3.85/3.85/3.97/3.97/3.97 s; its attention moved to B 5/6 (judged); A's kept meanwhile -1/-1/-1/-1/-1 s; A seen again, their effort 0/0/0/0/0 s - it went on from there (halving every 90 s), not from a fresh budget
+FAIL PR29 (R7) a departure it keeps keeps its cooldown: starving, it leaves two people together (a lone ambusher); some seconds into its departure the two step into its view again - when it keeps going, the person it left is still left alone (not counted as taken up); only when it takes them up does the cooldown go
+       0/6: it went on leaving 6/6 (the person it left still left alone 0, counted as taken up 6); it took them up 0/6 (plans -), the cooldown gone then
+FAIL PR30 (R7) an admin summon during a hunt: the hunt ends and it goes where it was summoned
+       1/4: a hunt under way 3/4, none after the summon; the summoned place 894/646/865/923 px off, 4 s later 1012/323/1175/857 px

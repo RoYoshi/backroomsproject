@@ -64,8 +64,9 @@ To reach a band:
    *Expected:* it follows the noise and is **fooled** when nothing more comes (5 of 8 in the tests). Make a second clear sound on the
    way back: it can **revise** its guess toward it (not guaranteed: sounds are fuzzy).
 6. **Fresh sprint (2 min), very hungry.** Full stamina, run away along the long lit hall. *Expected:* it gives chase and **loses** the
-   race (it never runs faster than its own top speed; you pull away). A hungry one then **does not go home**: it keeps to your trail at a
-   walk, and if you stop in the open it reaches you; if you break its sight and go quiet, it listens, searches and gives up.
+   race (it never runs faster than its own top speed; you pull away). A hungry one then **does not go home**: it keeps to your trail,
+   a little slower than you. Keep moving — even winded, walking — and you keep your lead; stop in the open and it reaches you; break its
+   sight and go quiet, and it listens, searches and gives up.
 7. **Winded runner (2 min).** Repeat with your stamina low. *Expected:* it closes to striking distance and is far more dangerous.
 8. **Satiated temperament (2 min).** Satiated (setup above). Walk past it once. *Expected:* at most a look; no hunt, no attack. Then
    crowd it and follow it: B1–B5's warning (it hunches, backs off), and if you keep pressing, its defence (a short lunge or a

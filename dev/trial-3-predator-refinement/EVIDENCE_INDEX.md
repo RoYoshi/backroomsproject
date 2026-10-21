@@ -43,6 +43,21 @@ Linux container; Chromium headless with SwiftShader for the page checks. `rN_` n
 | `r6_predator_browser.json` / `.txt`, `r6_shots/` | `tools/predator_browser.js`: two real pages — footsteps heard behind a wall, a quiet second person, a sighting, the HUNT line, the snapshot's fields |
 | `r6_skin_browser.*`, `r6_skin_browser_t6_rerun.*`, `r6_behave_browser.*` | Trial 3's browser check (every section, then t6 again) and B1–B5's on this branch; `r6_skin_browser_t6_base.txt`: a t6 run on `4518f93` that stopped on a closed page (no result) |
 
+## Independent review and fixes (R7)
+
+| File | What it shows |
+|---|---|
+| `r7_review.md` | the independent reviewer's report, verbatim (dispositions in `CHECKPOINTS.md` R7) |
+| `r7_new_checks_on_r6_code.txt` | PR27–PR30 run against the R6 code: each fails there (the problems the review found) |
+| `r7_suites.txt` | the three Skin-Stealer suites on R7's code: PR01–PR30, SK (34), BR (19) |
+| `r7_hound_smiler.txt` | `s_hound.js`, `s_smiler.js` (H07 inherited) |
+| `r7_repro.json` / `.txt` | `tools/repro_r0.js` on R7's code (the same rows and seeds as R0) |
+| `r7_npm_test.txt`, `r7_humanqa.txt` | every suite; the Human QA suite (the same inherited failures) |
+| `r7_equiv_p9.txt` | the P9 equivalence on R7's code |
+| `r7_checks.txt`, `r7_gate.txt` | the static checks; the fast release gate on R7's code |
+| `r7_perf_check.json` / `.txt` | `tools/perf_pr.js`, one round, against `4518f93` on R7's code (one configuration flagged; kept) |
+| `r7_predator_browser.*`, `r7_shots/`, `r7_behave_browser.*` | the predator browser check and B1–B5's on R7's code |
+
 ## Remote and secrets
 
 | File | What it shows |

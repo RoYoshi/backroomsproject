@@ -1,0 +1,20 @@
+PASS b4_moved_by_keys
+       134 of 145 samples with the page's own velocity over 60 px/s
+PASS b4_noticed
+       {"aware":{"t":5.3,"tier":"-","why":"close by"},"firstLook":4.6,"looksWhileCircling":3,"headTurnedSamples":8}
+PASS b4_warned_on_the_wire
+       {"warn":11.5,"provokedState":11.5,"creepAct":11.5}
+PASS b4_defence_decision
+       {"t":19.5,"k":"withdraw","odds":0.36,"cornered":0}
+PASS b4_strike_shows_its_tell
+       {"strikes":[{"t":90.9,"odds":0.79,"wind":true,"sounds":13}]}
+PASS b4_death_is_its
+       {"t":91.9,"kind":"SkinStealer","v":"C"}
+PASS b4_overlay_lines
+       {"unique":600,"aware":["AWARE P2 0.01 - (close by) seen 0.1s ago, 159px  REACT look 0.5s: it heard run: it turns to look","AWARE P2 0.02 - (close by) seen 0.1s ago, 183px  REACT look 0.2s: it heard run: it turns to look","AWARE P2 0.06 - (close by) seen 0s ago, 138px"],"warned":["AWARE P2 0.47 provoked (in its way) seen 0s ago, 87px, warned 1x  REACT warn 1.4s: P2 keeps in its way: it turns on them, hunched, and backs away (a warning)","AWARE P2 0.49 provoked (in its way) seen 0s ago, 152px, warned 1x  REACT warn 1s: P2 keeps in its way: it turns on them, hunched, and backs away (a warning)"],"defence":["DEFENCE P2 withdrew 0.2s ago (odds 0.36)","DEFENCE P2 withdrew 0.7s ago (odds 0.36)"]}
+PASS b4_prey_died_by_it
+       {"kind":"SkinStealer","v":"A"}
+PASS b4_no_page_errors
+       {"prey":[],"pest":[]}
+BEHAVIOUR BROWSER: PASS - 9 of 9 cases
+EXIT 0

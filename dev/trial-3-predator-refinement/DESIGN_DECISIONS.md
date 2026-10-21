@@ -17,9 +17,12 @@ state).
 
 ## Effort that cannot be reset (R1)
 
-**Chosen.** 30 + 90 × hunger seconds per person, carried across its departures and halving every 90 s.
+**Chosen.** 30 + 90 × hunger seconds per person, carried across its departures and halving every 90 s; kept, too, when its attention
+moves to somebody else (R7), and a departure it keeps keeps that person's cooldown (R7).
 **Why.** Trial 3's budget restarted when it left and came back: "leave, return, leave" pinned nobody but also never committed. Carrying
-it makes a long hunt possible for a starving one while still finite — no infinite pinning (pack 03).
+it makes a long hunt possible for a starving one while still finite — no infinite pinning (pack 03). Until R7 the effort record was
+replaced, unsaved, whenever it turned to somebody else, so a glimpse of a second person refilled the first's budget (the independent
+review's second finding).
 
 ## Eye contact is information (R1, R3)
 
@@ -34,9 +37,12 @@ no way round is remembered for 10 s (R3, R4).
 ## The lost race (R1)
 
 **Chosen.** Top speeds and the race rule unchanged: a fresh runner wins. A hungry one that loses stops running, may not give chase again
-for 10 s, and keeps to the trail at its free walking pace (200 px/s, under the stamina-costing pace).
-**Why.** "A fresh runner still wins the straight race; after losing, the creature may search on evidence rather than go home." The
-measured consequence — a runner who then stops in the open is reached — is listed in `DEFERRED.md` for the owner.
+for 10 s, and keeps to the trail at 85 % of the runner's speed (R7; never above its free 200 px/s), so a lead won stays won while the
+person moves — even winded and walking.
+**Why.** "A fresh runner still wins the straight race; after losing, the creature may search on evidence rather than go home." R1–R6
+shadowed at the person's speed + 30 px/s (Trial 3's pace for coming up on a walker): the independent review showed that closed on a runner
+once their stamina ran out, so the race was only won for the length of a sprint. The remaining consequence — a runner who stops in the
+open is reached — is listed in `DEFERRED.md` for the owner.
 
 ## Listening and belief, never identity (R2)
 
@@ -69,7 +75,8 @@ Waiting at an interception its head sweeps. These are the tells pack 06 asks for
 ## Dithering (R4)
 
 Three measured fixes (`tools/thrash_pr.js`): no one-tick "hold its ground" when there is no flank spot; a glimpse lost for under 0.6 s
-does not end an approach; it settles 0.6 s at a flank spot. No timer was added to hide a real decision.
+does not end an approach; it settles 0.6 s at a flank spot. No timer was added to hide a real decision. (R7) A flank spot — up to two
+route searches — is looked for only when going round would really be begun, not when the plan under way would be kept anyway.
 
 ## Presence and size (R4, R5)
 

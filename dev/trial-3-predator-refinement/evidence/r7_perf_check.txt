@@ -1,0 +1,17 @@
+round 1 BR-0: mean 0.215 ms, p95 0.404, p99 1.775, worst 24.69; entities 711 B; 2H 3S 0K; kills 10; violations 0
+round 1 PR-0: mean 0.236 ms, p95 0.451, p99 2.556, worst 13.31; entities 711 B; 2H 3S 0K; kills 10; violations 0
+round 1 BR-1: mean 0.308 ms, p95 0.638, p99 3.638, worst 12.94; entities 785 B; 2H 3S 1K; kills 10; violations 0
+round 1 PR-1: mean 0.298 ms, p95 0.543, p99 3.233, worst 21.49; entities 785 B; 2H 3S 1K; kills 10; violations 0
+round 1 BR-4: mean 0.383 ms, p95 0.734, p99 4.476, worst 18.15; entities 992 B; 2H 3S 4K; kills 7; violations 0
+round 1 PR-4: mean 0.354 ms, p95 0.761, p99 3.793, worst 24.94; entities 988 B; 2H 3S 4K; kills 8; violations 0
+round 1 BR-4p: mean 0.367 ms, p95 0.746, p99 4.398, worst 8.96; entities 1001 B; 2H 3S 4K; kills 7; violations 0
+round 1 PR-4p: mean 0.420 ms, p95 0.917, p99 3.890, worst 11.69; entities 1000 B; 2H 3S 4K; kills 5; violations 0
+round 1 BR-4h: mean 0.472 ms, p95 0.863, p99 4.539, worst 36.30; entities 991 B; 2H 3S 4K; kills 8; violations 0
+round 1 PR-4h: mean 0.392 ms, p95 0.742, p99 4.468, worst 13.89; entities 988 B; 2H 3S 4K; kills 8; violations 0
+without a Skin-Stealer: base 0.2148 ms, refinement 0.2358 ms (+9.8 %, tolerance 0.0107 ms): MORE
+one: base 0.3077 ms (p99 3.6385), refinement 0.2983 ms (p99 3.2326): -3.1 % mean, -11.2 % p99; entities +0 B; within the 60 Hz budget true; no worse than the base true (judged: the 60 Hz budget)
+four: base 0.3834 ms (p99 4.4762), refinement 0.3543 ms (p99 3.7929): -7.6 % mean, -15.3 % p99; entities -4 B; within the 60 Hz budget true; no worse than the base true (judged: the 60 Hz budget)
+four, every player pressing one: base 0.3674 ms (p99 4.3977), refinement 0.4197 ms (p99 3.8896): +14.2 % mean, -11.6 % p99; entities -1 B; within the 60 Hz budget true; no worse than the base false (judged: against the base)
+four starving, players wandering: base 0.472 ms (p99 4.5388), refinement 0.3918 ms (p99 4.4684): -17 % mean, -1.6 % p99; entities -3 B; within the 60 Hz budget false; no worse than the base true (judged: against the base)
+PERF PR: FAIL (violations 0)
+EXIT 1

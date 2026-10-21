@@ -14,7 +14,8 @@ hash: each row is filled in by the next checkpoint (the last by a receipt commit
 | R3 stalking, going round, coming on, fair strikes | `867d63b7de878c6b5b208f1e2fadfdb0bb97d202` | `70bc5b7a5e4b5508950b2fddb2d15e49ee7859c7` | `fbeaf1f` | 2026-10-21 06:40 UTC, `evidence/remote/r3.json`; scans `r3_pre.txt` / `r3_post.txt` clean |
 | R4 poses, debug, dithering, balance | `ef70370de82b63c958a8df02cc7360b3a8f91f4d` | `eae4a5255b8e8fe4760be3053af54c597847a20a` | `867d63b` | 2026-10-21 06:53 UTC, `evidence/remote/r4.json`; scans `r4_pre.txt` / `r4_post.txt` clean |
 | R5 its size on the page | `16847755c5b5198853fe4f3b3096ef505fef78e3` | `a855f0364efe2dc58816a409d834348eea253dab` | `ef70370` | 2026-10-21 07:39 UTC, `evidence/remote/r5.json`; scans `r5_pre.txt` / `r5_post.txt` clean |
-| R6 several people, parity, stress, cost | (this commit: `evidence/remote/r6.json` arrives with R7) | | `1684775` | |
+| R6 several people, parity, stress, cost | `7e85e94dfaa720f24dda4bfc06e69cec1c0df39d` | `002d98294df6cc7811746050cf276fcbf93785f7` | `1684775` | 2026-10-21 08:57 UTC, `evidence/remote/r6.json`; scans `r6_pre.txt` / `r6_post.txt` clean |
+| R7 independent review and fixes | (this commit: `evidence/remote/r7.json` arrives with R8) | | `7e85e94` | |
 
 ## R0 — audit and plan, no game change
 
@@ -237,3 +238,50 @@ on them; `onFar` and `onClear` forget the no-flank place), rebuilt; the `ai.js` 
 | `tools/predator_browser.js` (`evidence/r6_predator_browser.*`, `r6_shots/`) | 7 / 7: footsteps of a running page behind a wall → it stopped and listened, went quietly to look (anonymous), found them, hunted them; the quiet crouched page never in a plan or a hunt; no name before a sighting; the HUNT line drawn; snapshot fields `a, ac, dg, h, i, s, v, x, y`; no page error (after six development runs that corrected the scene and the check: `REGRESSION_REPORT.md`) |
 | Trial 3's `skin_browser.js`, every section (`evidence/r6_skin_browser.*`) | 37 / 40: t4's intermittent timing case (as on `4518f93`), and one t6 setup miss (no open floor in the creature's view to put the listener: `lAt2` null) failing two t6 cases; t6 again 6 / 6 (`r6_skin_browser_t6_rerun.*`); a t6 run on `4518f93` for comparison stopped on a closed page, no result (`r6_skin_browser_t6_base.txt`) |
 | B1–B5's `behave_browser.js` (`evidence/r6_behave_browser.*`) | 9 / 9 |
+
+## R7 — independent review and fixes
+
+**The review.** A fresh agent that had not seen the work reviewed `4518f93..7e85e94` against the owner's rules and pack 09's seven
+questions, read-only, running the suites and its own probes (its report, verbatim: `evidence/r7_review.md`). On the seven questions it
+found no reading of unsensed truth, no strike without its wind-up, sight, stamina and the collider, guesses only from belief, no unfair
+appearance against the collider, the Hound, the Smiler and the snapshot unchanged, and the disguise untouched. It found two MAJOR and
+three MINOR problems and some NITs. Each is reproduced, fixed or answered below; the new scenarios fail on the R6 code
+(`evidence/r7_new_checks_on_r6_code.txt`: PR27 0 / 8, PR28 1 / 6, PR29 0 / 6, PR30 1 / 4) and pass on R7's.
+
+| # | Finding | Disposition |
+|---|---|---|
+| 1 MAJOR | after a lost race the shadow (the runner's speed + 30 px/s, Trial 3's pace for coming up on a walker, stamina-free up to 200 px/s) closed on a runner once winded (148 px/s): the race was won only for the length of a sprint; `DEFERRED.md` item 2 and the SK22 wording overstated the safety | **fixed**: on a runner's trail after a lost race it goes at `SK.shadowPace` = .85 of their speed (creep .. 200 px/s), so a person who keeps moving keeps their lead; only one who stops is reached. **PR27** (new): a runner sprints until winded and walks on — never closer once winded (8 / 8; on the R6 code 0 / 8). SK22's comment, `DEFERRED.md` 2, `DESIGN_DECISIONS.md`, `HUMAN_QA.md` part 6 corrected |
+| 2 MAJOR | the effort record was replaced, unsaved, when its attention moved to somebody else: a glimpse of a second person refilled the first's budget, so effort was finite only within one uninterrupted encounter | **fixed**: `skEnc` keeps the outgoing person's effort (`skKeepSpent`) before it turns to somebody else; leaving saves the current one as before. **PR28** (new): A's effort is still A's after it turned to B and when it sees A again (6 / 6, five runs where it turned to B judged; on the R6 code A's effort was gone) |
+| 3 MINOR | the cooldown of a person it had left was erased (and counted as "taken up") before the decision, even when it then kept its departure | **fixed**: the record is dropped only when it really begins something else about them. **PR29** (new, without setting any state: it leaves two people together and they step into its view again): still leaving 6 / 6, the person it left still left alone, none counted (on the R6 code all 6 erased) |
+| 4 MINOR | PR24 and `PERFORMANCE.md` counted only the engine's `plan()` routes, not its own flank-spot and prediction searches (and PR24's scene ran neither); a flank spot could be searched for and then not used | **fixed**: PR24 counts every route searched inside its tick and has two more scenes (four watched in the lit hall: flanks and places with no way round; a person seen and then lost, eight times: guesses); a flank spot is searched for only when going round would really be begun. **Not changed**: the flank's own route is still planned again when the flank begins (the engine's shared `plan()` smooths and stores it; at most 3 flanks a hunt) |
+| 5 MINOR | an admin summon was undone by the hunt's next step | **fixed**: a summon ends the hunt (as the admin clear does). **PR30** (new): 4 / 4 go toward the summoned place (on the R6 code 1 / 4) |
+| NIT | a hunt begun from a remembered record started its belief "now" | **fixed**: the belief is as old as the record |
+| NIT | a local `S` hid the engine's state names | renamed |
+| NIT | SK16, SK31, PR05 titles claimed more than they check | titles now say what is checked |
+| NIT | the container's absolute path to the repository in evidence (`r0_npm_test.txt`, `r6_npm_test.txt`, `r0`–`r4_repro.json`, `r0_scale_before.json`) | replaced by the folder's name (the results unchanged) |
+| found re-running R7's checks (not the reviewer's) | `tools/repro_r0.js` did not run since R5: R5's edit to record only the folder's name put a `//` comment in the middle of a line, which swallowed the rest of it (R5 and R6 did not re-run the tool, so nothing showed it) | fixed; every tool syntax-checked; the tool re-run on R7 (`evidence/r7_repro.*`) |
+
+Changed: the species (`ai.skinstealer.js`: `SK.shadowPace`, `skEnc`, `skDecide`'s retake and flank-spot order, `summon`, `skHuntBegin`,
+the header's R4–R7 paragraph) and its build; the `ai.js` note; `s_skinpredator.js` (PR24 rewritten, PR27–PR30, PR05's title);
+`s_skinstealer.js` (SK16's and SK31's titles, SK22's comment); `tools/repro_r0.js` (the syntax fix); the documents.
+
+Checked on R7's code:
+
+| Run | Result |
+|---|---|
+| `s_skinpredator.js`, `s_skinstealer.js`, `s_skinbehave.js` (`evidence/r7_suites.txt`) | **83 / 83**: PR01–PR30, SK 34, BR 19. Notes that changed from R6: SK22 the runner 932–968 px ahead after 14 s (R6 698–733); PR05 reached after stopping at the hall's end 6 / 8 (R6 8 / 8); PR20 out of sight and silent, let go 8 / 8 (R6 7 / 8) |
+| PR27 | 8 / 8: the race lost 448–458 px behind; winded at 9.5 s, 838–1057 px ahead, walking on to the hall's end at 23.9 s — never closer once winded than when winded; none taken while moving |
+| PR28 | 6 / 6 (5 judged): A's effort 3.85–3.97 s kept while its attention was on B; A seen again, their effort 3.81–3.92 s (halving every 90 s), not 0 |
+| PR29 | 6 / 6: it kept its departure each time; the person it left still left alone, none counted as taken up |
+| PR30 | 4 / 4: no hunt after the summon; 894 / 646 / 865 / 923 px off → 506 / 323 / 512 / 532 px 4 s later |
+| PR24 (every route it searches) | mixed 0.07 / 0.25 / 0.5 a creature a second (mean / p95 / worst); watched 0.08 / 0.25 / 1.25 (1 flank, 4 places with no way round); seen then lost 0.20 / 2 / 3 (12 guesses) — `PERFORMANCE.md` |
+| `npm test` (`evidence/r7_npm_test.txt`) | 232 / 245; the 13 inherited failures, name for name |
+| `npm run test:humanqa` | 5 / 6, X03 inherited |
+| `s_hound.js`, `s_smiler.js` | 30 / 31, H07 inherited |
+| P9 equivalence (`evidence/r7_equiv_p9.txt`) | PASS, 6 / 6 seeds tick for tick |
+| `tools/repro_r0.js` (`evidence/r7_repro.*`) | as at R4 except: the race row's kills 6 (R4 7); closest distances in the .95 / 1.0 watched rows within a few px |
+| static checks (`evidence/r7_checks.txt`) | PASS |
+| the fast gate (`evidence/r7_gate.txt`) | **PASS**, 21 / 21 steps |
+| `tools/predator_browser.js` (`evidence/r7_predator_browser.*`) | 7 / 7: it heard the running page behind a wall, listened, went to look (anonymous), saw them and watched them; no name before a sighting |
+| B1–B5's `behave_browser.js` (`evidence/r7_behave_browser.*`) | 9 / 9 |
+| `tools/perf_pr.js`, **one round** (`evidence/r7_perf_check.*`) | **FAIL** on one judgement: four creatures, every player pressing one, mean +14.2 % against the base (0.420 against 0.367 ms; p99 −11.6 %); every other configuration no worse (−3.1 % to −17 % mean), 0 violations. One round cannot tell this from noise — the base's own mean for this configuration was 0.414 ms at R6 and 0.367 ms here, and R6's spreads were 0.06–0.07 ms — so, as pack 09 rule 7 asks, the interleaved 3-round matrix is run on R7's code; its result is recorded in R8, and this first result is kept |

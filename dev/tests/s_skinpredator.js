@@ -6,7 +6,10 @@
  * prediction).  The people's scripts may read where the creature really is (a player's own sight of it); the creature never reads them.
  * R1: PR01-PR05, PR18-PR20 (hunger, eye contact, the hunt, the lost race).  R2: PR08-PR16 (listening, belief, guesses, failed guesses).
  * R3: PR06, PR07, PR17, PR21 (going round a watcher, coming on openly, the tells, fair strikes).  R5: PR23 (its drawn size).
- * R6: PR22, PR24, PR25 (in-tree part), PR26 (deaths, many players and creatures, the Hound and the Smiler, nothing left behind). */
+ * R6: PR22, PR24, PR25 (in-tree part), PR26 (deaths, many players and creatures, the Hound and the Smiler, nothing left behind).
+ * R7 (the independent review): PR24 counts every route it searches (not only the engine's plan() calls) and adds a scene of watchers and
+ * flanks; PR27 (a won race stays won to exhaustion), PR28 (effort kept when its attention moves to somebody else), PR29 (a departure kept
+ * keeps its cooldown), PR30 (an admin summon during a hunt). */
 'use strict';
 const { World, DT, LONG, over, rate, AI, floorNear, bystander } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -111,7 +114,7 @@ add('PR04 starving: a person it keeps seeing stays hunted across a long encounte
   return { ok, note: `kept in view: ${keep.filter(r => r.ok).length}/6 (killed ${keep.map(r => r.killed).join('/')}, hunting for ${keep.map(r => r.huntT).join('/')} s of 70, left at ${keep.map(r => r.leftAt).join('/')} s) | out of sight and silent: gave up ${qOk}/${qj.length} judged runs (of 8; out of its sight from ${qj.map(r => r.hideAt).join('/')} s, given up at ${qj.map(r => r.at).join('/')} s): ${[...new Set(qj.map(r => '"' + r.why + '"'))].join(', ')}; killed ${qj.reduce((a, r) => a + r.killed, 0)}`, data: { keep, quiet } };
 });
 
-add('PR05 starving, the straight race: a fresh runner still wins (never closer than it started the race, never faster than its run) - then it does not simply go home: it listens, searches or guesses on the evidence', () => {
+add('PR05 starving, the straight race: a fresh runner wins the race (never closer than it started the race, never faster than its run, not taken while they run) - then it does not simply go home: it listens, searches or guesses on the evidence; one who stops at the hall\'s end may be reached (reported)', () => {
   const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
     const w = World(seed + 2400), y = LONG.y; bystander(w, 1300, 3300);
     const p = w.player(5300, y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
@@ -494,24 +497,64 @@ add('PR22 its hunts end in its own deaths: one kill event per victim, one of its
     note: `${died.length}/${rs.length} killed (${['hall-unaware', 'hall-watched', 'corridor'].map(k => k + ' ' + died.filter(r => r.k === k).map(r => r.v).join('')).join(', ')}): one kill event each ${died.every(r => r.kills === 1)}, one corpse each though they left at once ${died.every(r => r.corpses === 1)}, fed after ${died.filter(r => r.fed).length}/${died.length}; deaths seen ${vs.join(', ')}.  Disguise and speech: SK40-SK44`, data: rs };
 });
 
-add('PR24 stress: eight people (walking, running, crouching, torches on and off) and four hungry ones in the dark south-west and the hall - routes, sounds and guesses stay bounded: no burst of route planning, no memory that grows, every one of them on open floor', () => {
-  const w = World(4400), g = w.eng.geo, P = [], E = [], pts = [{ x: 700, y: 5330 }, { x: 1300, y: 5900 }, { x: 1720, y: 4900 }, { x: 1900, y: 5560 }, { x: 600, y: 5900 }, { x: 1300, y: 5150 }, { x: 2600, y: 3504 }, { x: 4200, y: 3504 }];
-  for (let i = 0; i < 8; i++) { const q = pts[i]; const p = w.player(q.x, q.y, { light: i % 2 === 0 }); p.stop('stand'); p.leg = i; P.push(p); }
-  for (const [x, y] of [[1850, 5570], [900, 5000], [2400, 3504], [3800, 3504]]) { const e = w.eng.spawn('skinstealer', x, y, { hunger: .9 }); e.tier = 'near'; E.push(e); }
-  const R = { secs: 0, paths0: w.eng.stats.paths, perSec: [], maxFailed: 0, maxBad: 0, maxSpent: 0, maxSounds: 0, maxLeft: 0, maxLeftAt: 0, inWall: 0, hunts: 0, kills: 0, stale: 0 };
-  let last = w.eng.stats.paths, lastT = 0;
-  w.run(120, (ww, t) => {
-    for (const p of P) if (!p.dead && ((!p.path || !p.path.length) && !p.tx)) { const q = pts[(p.leg++ * 5 + 3) % pts.length]; p.light = p.leg % 3 !== 0; p.pathTo(q.x, q.y, p.leg % 4 === 1 ? 'run' : p.leg % 5 === 2 ? 'crouch' : 'walk'); }
-    for (const p of P) if (p.dead && !p.back) { p.back = t; } else if (p.dead && t - p.back > 5) { w.sim.respawn && w.sim.respawn(p); p.back = 0; }
-    if (t - lastT >= 1) { R.perSec.push((w.eng.stats.paths - last) / E.length); last = w.eng.stats.paths; lastT = t;
-      for (const e of E) { const H = e.hunt; if (H) { R.maxFailed = Math.max(R.maxFailed, H.failed.length); R.maxBad = Math.max(R.maxBad, H.badA.length); if (!w.eng.byId.has(H.pid)) R.stale++; }
-        R.maxSpent = Math.max(R.maxSpent, e.spent.size); R.maxSounds = Math.max(R.maxSounds, e.mem.sounds.length); R.maxLeft = Math.max(R.maxLeft, e.left.size); R.maxLeftAt = Math.max(R.maxLeftAt, e.leftAt ? e.leftAt.size : 0);
-        if (!e.trav && !e.commit && !e.cap && !g.clear(e.x, e.y, e.rc - 6, 'walk')) R.inWall++; } }
-    return true; });
-  R.hunts = E.reduce((a, e) => a + e.tally.hunt, 0); R.kills = w.kills.length;
-  const ps = R.perSec.slice().sort((a, b) => a - b), mean = R.perSec.reduce((a, b) => a + b, 0) / R.perSec.length, p95 = ps[Math.floor(ps.length * .95)], mx = ps[ps.length - 1];
-  return { ok: mean <= 3 && p95 <= 8 && R.maxFailed <= 4 && R.maxBad <= 3 && R.maxSpent <= 6 && R.maxSounds <= 8 && R.maxLeftAt <= R.maxLeft && R.inWall === 0 && R.stale === 0 && R.hunts > 0,
-    note: `120 s, 8 people, 4 hungry ones (${R.hunts} hunts, ${R.kills} kills): routes planned per creature a second - mean ${mean.toFixed(2)}, 95th percentile ${p95.toFixed(2)}, worst ${mx.toFixed(2)}; most held at once - failed places ${R.maxFailed} (cap 4), failed turns ${R.maxBad} (cap 3), effort records ${R.maxSpent} (cap 6), sounds ${R.maxSounds} (the engine's 8), departures ${R.maxLeft}, their times ${R.maxLeftAt}; a hunt of somebody gone ${R.stale}; inside a wall ${R.inWall}`, data: Object.assign(R, { perSec: undefined }) };
+/* (R7) every route the Skin-Stealer searches - the engine's plan() and its own geo.path calls (a flank spot, a predicted way) - counted
+ * while its tick runs (the people's own routes are not counted) */
+function routeCount() {
+  const tk = AI.SKIN.tick, G = new Map(); let inSk = 0;
+  const C = { n: 0, undo() { AI.SKIN.tick = tk; for (const [g, p0] of G) g.path = p0; } };
+  AI.SKIN.tick = function (eng, ...a) {
+    const g = eng.geo; if (!G.has(g)) { const p0 = g.path; G.set(g, p0); g.path = function (...b) { if (inSk) C.n++; return p0.apply(this, b); }; }
+    inSk++; try { return tk.call(this, eng, ...a); } finally { inSk--; } };
+  return C;
+}
+add('PR24 stress: eight people (walking, running, crouching, torches on and off) and four hungry ones in the dark south-west and the hall; four very hungry ones each watched by somebody in the lit hall who later walks off; a person seen and then lost, eight times - every route it searches (its plans, its flank spots, its predicted ways) stays bounded, no memory grows, every one of them on open floor', () => {
+  const scene = (kind) => {
+    const w = World(kind === 'mixed' ? 4400 : 4410), g = w.eng.geo, P = [], E = [];
+    const pts = [{ x: 700, y: 5330 }, { x: 1300, y: 5900 }, { x: 1720, y: 4900 }, { x: 1900, y: 5560 }, { x: 600, y: 5900 }, { x: 1300, y: 5150 }, { x: 2600, y: 3504 }, { x: 4200, y: 3504 }];
+    if (kind === 'mixed') {
+      for (let i = 0; i < 8; i++) { const q = pts[i]; const p = w.player(q.x, q.y, { light: i % 2 === 0 }); p.stop('stand'); p.leg = i; P.push(p); }
+      for (const [x, y] of [[1850, 5570], [900, 5000], [2400, 3504], [3800, 3504]]) { const e = w.eng.spawn('skinstealer', x, y, { hunger: .9 }); e.tier = 'near'; E.push(e); }
+    } else {                                   // four in the lit hall, each watched from 450 px by one person, torch on (a second person far off in the dark)
+      bystander(w, 1300, 3300);
+      for (const x of [3500, 5200, 6900, 8500]) { const e = w.eng.spawn('skinstealer', x, LONG.y, { hunger: .8 }); e.tier = 'near'; e.ang = Math.PI; E.push(e);
+        const p = w.player(x - 450, LONG.y, { light: true, angle: 0 }); p.stop('stand'); p.look = () => Math.atan2(e.y - p.y, e.x - p.x); p.home = x - 450; P.push(p); }
+    }
+    const C = routeCount();
+    const R = { perSec: [], maxFailed: 0, maxBad: 0, maxSpent: 0, maxSounds: 0, maxLeft: 0, maxLeftAt: 0, inWall: 0, stale: 0 };
+    let last = 0, lastT = 0;
+    try {
+      w.run(120, (ww, t) => {
+        if (kind === 'mixed') {
+          for (const p of P) if (!p.dead && ((!p.path || !p.path.length) && !p.tx)) { const q = pts[(p.leg++ * 5 + 3) % pts.length]; p.light = p.leg % 3 !== 0; p.pathTo(q.x, q.y, p.leg % 4 === 1 ? 'run' : p.leg % 5 === 2 ? 'crouch' : 'walk'); }
+        } else if (t > 20) {                    // after 20 s the watchers walk off along the hall and back, torch off half the time (it loses them, guesses)
+          for (const p of P) if (!p.dead && ((!p.path || !p.path.length) && !p.tx)) { p.leg = (p.leg || 0) + 1; p.look = 0; p.light = p.leg % 2 === 0; p.pathTo(Math.max(3100, Math.min(8700, p.home + (p.leg % 2 ? -700 : 300))), LONG.y + (p.leg % 3 - 1) * 60, p.leg % 3 === 0 ? 'crouch' : 'walk'); }
+        }
+        for (const p of P) if (p.dead && !p.back) { p.back = t; } else if (p.dead && t - p.back > 5) { w.sim.respawn && w.sim.respawn(p); p.back = 0; }
+        if (t - lastT >= 1) { R.perSec.push((C.n - last) / E.length); last = C.n; lastT = t;
+          for (const e of E) { const H = e.hunt; if (H) { R.maxFailed = Math.max(R.maxFailed, H.failed.length); R.maxBad = Math.max(R.maxBad, H.badA.length); if (!w.eng.byId.has(H.pid)) R.stale++; }
+            R.maxSpent = Math.max(R.maxSpent, e.spent.size); R.maxSounds = Math.max(R.maxSounds, e.mem.sounds.length); R.maxLeft = Math.max(R.maxLeft, e.left.size); R.maxLeftAt = Math.max(R.maxLeftAt, e.leftAt ? e.leftAt.size : 0);
+            if (!e.trav && !e.commit && !e.cap && !g.clear(e.x, e.y, e.rc - 6, 'walk')) R.inWall++; } }
+        return true; });
+    } finally { C.undo(); }
+    const sum = k => E.reduce((a, e) => a + (e.tally[k] || 0), 0);
+    const ps = R.perSec.slice().sort((a, b) => a - b), mean = R.perSec.reduce((a, b) => a + b, 0) / R.perSec.length;
+    return Object.assign(R, { kind, mean, p95: ps[Math.floor(ps.length * .95)], mx: ps[ps.length - 1], total: C.n, hunts: sum('hunt'), flanks: sum('flank'), noFlank: sum('noFlank'), guesses: sum('intercept') + sum('search'), kills: w.kills.length });
+  };
+  // and its guesses: R2's south-west scene (a person seen, then out of sight one of four ways, walking or crouched) 8 times, 30 s each
+  const lost = (() => {
+    const C = routeCount(), perSec = []; let guesses = 0, hunts = 0, kills = 0, maxFailed = 0, maxBad = 0;
+    try { for (let i = 0; i < 8; i++) { let last = C.n, lastT = 0;
+      const R = sw(i + 1, .9, ['east', 'back', 'north', 'northEast'][i % 4], i % 2 ? 'crouch' : 'walk', 30, { on: (t, p, e) => { if (t - lastT >= 1) { perSec.push(C.n - last); last = C.n; lastT = t; }
+        if (e.hunt) { maxFailed = Math.max(maxFailed, e.hunt.failed.length); maxBad = Math.max(maxBad, e.hunt.badA.length); } } });
+      guesses += R.guesses.length; hunts += R.tally.hunt; kills += R.w.kills.length; } } finally { C.undo(); }
+    const ps = perSec.slice().sort((a, b) => a - b);
+    return { kind: 'seen then lost (8 x 30 s, one creature)', mean: perSec.reduce((a, b) => a + b, 0) / perSec.length, p95: ps[Math.floor(ps.length * .95)], mx: ps[ps.length - 1], total: C.n, hunts, flanks: 0, noFlank: 0, guesses, kills,
+      maxFailed, maxBad, maxSpent: 0, maxSounds: 0, maxLeft: 0, maxLeftAt: 0, stale: 0, inWall: 0 };
+  })();
+  const rs = [scene('mixed'), scene('watched'), lost];
+  const ok = rs.every(R => R.mean <= 3 && R.p95 <= 8 && R.maxFailed <= 4 && R.maxBad <= 3 && R.maxSpent <= 6 && R.maxSounds <= 8 && R.maxLeftAt <= R.maxLeft && R.inWall === 0 && R.stale === 0 && R.hunts > 0)
+    && rs[1].flanks + rs[1].noFlank > 0 && rs[2].guesses > 0;
+  return { ok, note: rs.map(R => `${R.kind}${R === lost ? '' : ', 120 s'} (${R.hunts} hunts, ${R.flanks} flanks and ${R.noFlank} places with no way round, ${R.guesses} guesses, ${R.kills} kills): every route it searched, per creature a second - mean ${R.mean.toFixed(2)}, 95th percentile ${R.p95.toFixed(2)}, worst ${R.mx.toFixed(2)} (${R.total} in all); most held at once - failed places ${R.maxFailed} (cap 4), failed turns ${R.maxBad} (cap 3)${R === lost ? '' : `, effort records ${R.maxSpent} (cap 6), sounds ${R.maxSounds} (the engine's 8), departures ${R.maxLeft}, their times ${R.maxLeftAt}; a hunt of somebody gone ${R.stale}; inside a wall ${R.inWall}`}`).join(' | '), data: rs.map(R => ({ kind: R.kind, perSec: R.perSec })) };
 });
 
 add('PR25 (in-tree part) the Hound and the Smiler: the shared engine and their own code are byte for byte the starting commit\'s (4518f93, itself proven equal to P9 at Trial 3 and B1-B5); with no Skin-Stealer in a world none of its code runs - the full P9 comparison is the tool dev/trial-3-skin-stealer/tools/equiv_p9.js (evidence/r6_equiv_p9.txt)', () => {
@@ -540,6 +583,84 @@ add('PR26 nothing of a hunt is left behind: the quarry leaving the game, an admi
   const ok = Object.values(out).every(o => o.had !== false) && !out.leave.hunt && !out.leave.plan && !out.leave.spent && !out.leave.left && !out.leave.leftAt && !out.clear.hunt && !out.clear.plan && !out.clear.spent && !out.clear.noFlank &&
     out.far.tier === 'far' && !out.far.hunt && out.removed.gone && out.reset.none && out.snap.keys === 'a,ac,h,i,s,v,x,y';
   return { ok, note: `a hunt under way each time (${Object.values(out).map(o => o.had).join('/')}); they left the game: hunt ${out.leave.hunt}, plan ${out.leave.plan}, effort record ${out.leave.spent}, departure ${out.leave.left} ("${out.leave.why}") | admin clear: hunt ${out.clear.hunt}, plan ${out.clear.plan}, effort records ${out.clear.spent} | everyone far (tier ${out.far.tier}): hunt ${out.far.hunt} | removed ${out.removed.gone}, world reset ${out.reset.none} | its snapshot entry ${out.snap.keys}`, data: out };
+});
+
+add('PR27 (R7) a won race stays won: a fresh runner who outruns it and keeps going - winded after about 10 s, then walking - is never closed on while they move; it keeps to their trail, and only a person who stops is reached', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const h = seed % 2 ? .95 : .75, w = World(seed + 7700), y = LONG.y; bystander(w, 1300, 3300);
+    const p = w.player(3600, y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
+    const e = w.eng.spawn('skinstealer', 3300, y, { hunger: h }); e.tier = 'near'; e.ang = 0;
+    p.go(8700, y, 'run');                                       // 5100 px: a sprint, then winded, walking on to the hall's end
+    let lostAt = -1, gap0 = -1, minGap = 1e9, wind = -1, gapWind = -1, minWind = 1e9, stoppedAt = -1, shadowed = false;
+    w.run(45, (ww, t) => {
+      const d = Math.hypot(p.x - e.x, p.y - e.y), moving = p.tx !== null;
+      if (lostAt < 0 && e.tally.chaseLost) { lostAt = t; gap0 = d; }
+      if (wind < 0 && p.ex) { wind = t; gapWind = d; } if (stoppedAt < 0 && t > 1 && !moving) stoppedAt = t;
+      if (e.plan && e.plan.shadow) shadowed = true;
+      if (lostAt >= 0 && moving) minGap = Math.min(minGap, d);
+      if (wind >= 0 && moving) minWind = Math.min(minWind, d);                      // (winded, walking at 148 px/s: the lead they won must not shrink)
+      return true; });
+    const killT = w.kills.length ? w.kills[0].at : -1, killMoving = killT >= 0 && (stoppedAt < 0 || killT < stoppedAt);
+    return { ok: lostAt >= 0 && wind > lostAt && stoppedAt > wind && minGap >= gap0 - 20 && minWind >= gapWind - 20 && !killMoving, h, lostAt: +lostAt.toFixed(1), gap0: Math.round(gap0), minGap: Math.round(minGap), wind: +wind.toFixed(1), gapWind: Math.round(gapWind), minWind: Math.round(minWind), stoppedAt: +stoppedAt.toFixed(1), shadowed, killed: killT >= 0 ? +killT.toFixed(1) : -1 };
+  });
+  return { ok: rate(rs) === 1, note: `${rs.filter(r => r.ok).length}/8 (hunger ${rs.map(r => r.h).join('/')}): race lost at ${rs.map(r => r.lostAt).join('/')} s, ${rs.map(r => r.gap0).join('/')} px behind; the runner winded at ${rs.map(r => r.wind).join('/')} s, ${rs.map(r => r.gapWind).join('/')} px ahead, and walked on to the hall's end (${rs.map(r => r.stoppedAt).join('/')} s); while they moved never closer than ${rs.map(r => r.minGap).join('/')} px, and once winded never closer than ${rs.map(r => r.minWind).join('/')} px; kept to their trail ${rs.filter(r => r.shadowed).length}/8; killed after they stopped ${rs.filter(r => r.killed >= 0).length}/8`, data: rs };
+});
+
+add('PR28 (R7) effort is kept when its attention moves to somebody else: what it spent on A is still A\'s after it has dealt with B, and when it sees A again', () => {
+  const rs = over([1, 2, 3, 4, 5, 6], seed => {
+    const w = World(seed + 7800), y = LONG.y; bystander(w, 1300, 3300);
+    const a = w.player(5000, y, { light: true, angle: 0 }); a.stop('stand'); a.look = Math.PI;
+    const e = w.eng.spawn('skinstealer', 5600, y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI;
+    w.run(4);                                                    // it sees A and spends time on them
+    const encA = e.enc && e.enc.pid === a.id ? e.enc.spent : -1;
+    a.x = 600; a.y = 3900; a.light = false; a.stop('crouch');                                     // A goes far out of its sight
+    const b = w.player(e.x - 260, y, { light: true, angle: 0 }); b.stop('stand'); b.look = 0;  // B, right in front of it, not watching
+    w.run(1.5);
+    const onB = e.enc ? e.enc.pid === b.id : false, keptA = e.spent.has(a.id) ? e.spent.get(a.id).s : -1;
+    w.sim.removePlayer(b);                                                                        // B gone; A steps back into its view, ahead of it
+    const f = floorNear(w, e.x + Math.cos(e.ang) * 260, e.y + Math.sin(e.ang) * 260); a.x = f.x; a.y = f.y; a.light = true; a.stop('stand'); a.look = e.ang;
+    let again = -1; w.run(2, () => { if (e.enc && e.enc.pid === a.id) { again = e.enc.spent; return false; } return true; });
+    // (what it spent halves every SK.carryHalf, 90 s: a few seconds later it is still at least 95 % of it; a fresh budget would be 0)
+    return { ok: encA >= 2 && (!onB || (keptA >= encA * .95 && again >= encA * .95)), encA: +encA.toFixed(2), onB, keptA: +keptA.toFixed(2), again: +again.toFixed(2) };
+  });
+  const judged = rs.filter(r => r.onB);
+  return { ok: rate(rs) === 1 && judged.length >= 4, note: `${rs.filter(r => r.ok).length}/6: effort on A ${rs.map(r => r.encA).join('/')} s; its attention moved to B ${judged.length}/6 (judged); A's kept meanwhile ${judged.map(r => r.keptA).join('/')} s; A seen again, their effort ${judged.map(r => r.again).join('/')} s - it went on from there (halving every 90 s), not from a fresh budget`, data: rs };
+});
+
+add('PR29 (R7) a departure it keeps keeps its cooldown: starving, it leaves two people together (a lone ambusher); some seconds into its departure the two step into its view again - when it keeps going, the person it left is still left alone (not counted as taken up); only when it takes them up does the cooldown go', () => {
+  const rs = over([1, 2, 3, 4, 5, 6], seed => {
+    const w = World(seed + 7900), y = LONG.y; bystander(w, 1300, 3300);
+    const A = w.player(5100, y - 30, { light: true, angle: Math.PI / 2 }), B = w.player(5130, y + 30, { light: true, angle: Math.PI / 2 });
+    for (const q of [A, B]) { q.stop('stand'); q.look = Math.PI / 2; }
+    const e = w.eng.spawn('skinstealer', 5500, y, { hunger: .95 }); e.tier = 'near'; e.ang = Math.PI;
+    let leftAt = -1; w.run(4, (ww, t) => { if (leftAt < 0 && e.plan && e.plan.k === 'leave' && e.left.size) { leftAt = t; return false; } return true; });
+    if (leftAt < 0) return { ok: false, why: 'it never left them', plan: planOf(e) };
+    const L = [...e.left.keys()][0], O = L === A.id ? B : A, Lp = L === A.id ? A : B;
+    w.run(5);                                                                             // its departure under way (past SK.leaveDwell and SK.leftFresh)
+    // the two step into its view again, ahead of it, side by side, facing away (the person it left the nearer)
+    const ax = Math.cos(e.ang), ay = Math.sin(e.ang), put = (q, d, side) => { const f = floorNear(w, e.x + ax * d - ay * side, e.y + ay * d + ax * side); q.x = f.x; q.y = f.y; q.angle = Math.atan2(ay, ax); q.look = q.angle; q.stop('stand'); };
+    put(Lp, 240, -30); put(O, 290, 30);
+    const re0 = e.tally.reengage; let kept = 0;
+    w.run(1.5, (ww, t) => { if (e.dbg.lv && /keeps going/.test(e.dbg.lv) && w.eng.now - (e.dbg.lvAt || -9) < .05) kept++; return true; });
+    const leaving = !!(e.plan && e.plan.k === 'leave'), still = e.left.has(L), took = e.tally.reengage - re0;
+    return { ok: leaving ? still && took === 0 : took > 0 && !still, leaving, still, took, kept: kept > 0, plan: planOf(e) };
+  });
+  const keptRuns = rs.filter(r => r.leaving);
+  return { ok: rate(rs) === 1 && keptRuns.length >= 2, note: `${rs.filter(r => r.ok).length}/6: it went on leaving ${keptRuns.length}/6 (the person it left still left alone ${keptRuns.filter(r => r.still).length}, counted as taken up ${keptRuns.filter(r => r.took).length}); it took them up ${rs.filter(r => !r.leaving).length}/6 (plans ${rs.filter(r => !r.leaving).map(r => r.plan).join('/') || '-'}), the cooldown gone then`, data: rs };
+});
+
+add('PR30 (R7) an admin summon during a hunt: the hunt ends and it goes where it was summoned', () => {
+  const rs = over([1, 2, 3, 4], seed => {
+    const w = World(seed + 3000); const far = w.player(8400, 900, { light: false }); far.stop('crouch');
+    const p = w.player(1300, 5600, { light: true, angle: -Math.PI / 2 }); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', 2100, 5560, { hunger: .8 }); e.tier = 'near'; e.ang = Math.PI;
+    w.run(.6); p.route([{ x: 1300, y: 5420 }, { x: 1300, y: 5150 }], 'walk');
+    w.run(2.5, (ww, t) => { if (p.y < 5440) p.light = false; return true; });
+    const had = !!e.hunt, tx = 2600, ty = 5560; w.eng.summon(e, e.x, e.y, tx, ty, 0);
+    const d0 = Math.hypot(tx - e.x, ty - e.y), huntAfter = !!e.hunt; w.run(4); const d1 = Math.hypot(tx - e.x, ty - e.y);
+    return { ok: !huntAfter && d1 < d0 - 150, had, huntAfter, d0: Math.round(d0), d1: Math.round(d1), why: e.dbg.huntEnd ? e.dbg.huntEnd.why : '' };
+  });
+  return { ok: rate(rs) === 1, note: `${rs.filter(r => r.ok).length}/4: a hunt under way ${rs.filter(r => r.had).length}/4, none after the summon; the summoned place ${rs.map(r => r.d0).join('/')} px off, 4 s later ${rs.map(r => r.d1).join('/')} px`, data: rs };
 });
 
 module.exports = S;

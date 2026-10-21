@@ -9,9 +9,11 @@ QA (`HUMAN_QA.md`) or belongs to a later, separately approved project (pack 11).
    a .75 one now kills in 6–8 of 8 runs within 45 s and a .95 one in 8 of 8 (Trial 3: none). A watcher who breaks away at the wind-up
    survives that spring (8 / 8 in the corridor, 6 / 6 in the hall). The knobs are the eye-contact weights in `skDecide` and `SK.freeze*`
    (`BALANCE_TABLE.md`). Too much, or right?
-2. **The trail after a lost race.** A hungry one keeps to a runner's trail at 200 px/s after losing the race. A fresh runner who keeps
-   running pulls away (85 px/s faster) and wins; one who stops in the open is reached (PR05: 8 / 8, after their run ended; PR07 the same).
-   Keep, or stop shadowing after a time / a distance?
+2. **The trail after a lost race.** A hungry one keeps to a runner's trail after losing the race, at 85 % of their speed (`SK.shadowPace`,
+   at most 200 px/s). A runner who keeps moving keeps the lead they won — sprinting (285 px/s) for about 9.5 s, then winded and walking
+   (148 px/s) — and one who stops in the open is reached (PR27: 8 / 8 never closer once winded; PR05: reached after stopping at the hall's
+   end in most runs). Until R7 the trail was at their speed + 30 px/s and closed on a winded runner at about 30 px/s — the independent
+   review's first finding, fixed (`CHECKPOINTS.md` R7). Keep the trail, or stop shadowing after a time / a distance?
 3. **How long a lead lasts.** Without new evidence a hunt ends 10–22 s after the last sighting or sound in the scenes measured (`SK.forget`
    10–30 s, `SK.wrongCost`, `SK.huntTries` 2–4). Longer feels more relentless and makes hiding harder.
 4. **Hungry but not starving, watched.** At .5 a watched one still backs out of sight, waits, and then leaves (7–8 of 8, after 14–17 s);

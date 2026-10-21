@@ -50,7 +50,7 @@ function recorder(w, e, p) {
   R.done = () => { for (const k in R.time) R.time[k] = +R.time[k].toFixed(1); R.closest = Math.round(R.closest); R.kills = w.kills.filter(q => q.pid === p.id).length; delete R.take; delete R.done; return R; };
   return R;
 }
-const out = { tool: 'dev/trial-3-predator-refinement/tools/repro_r0.js', repo: path.basename(REPO),   // (its folder's name only: no machine path in the evidence) node: process.version, seeds: SEEDS, runs: {} };
+const out = { tool: 'dev/trial-3-predator-refinement/tools/repro_r0.js', repo: path.basename(REPO), node: process.version, seeds: SEEDS, runs: {} };   // (repo: its folder's name only - no machine path in the evidence)
 const want = k => !ONLY || ONLY.includes(k);
 /* W / U: a lit person in the long hall, the creature 450 px east of them, facing each other (W) or the person facing away (U) */
 function hall(seed, h, watched, secs) {

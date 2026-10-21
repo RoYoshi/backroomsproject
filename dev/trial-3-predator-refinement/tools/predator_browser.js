@@ -157,7 +157,7 @@ const ANCHORS = [{ x: 1300, y: 5600 }, { x: 7536, y: 5235 }, { x: 600, y: 5331 }
     if (view) { await N.P.evaluate(s => __api.tp(s.x, s.y), view); if (!(await N.P.evaluate(() => __api.lightOn()))) await N.P.keyboard.press('KeyF'); }
     N.cmd({ c: 'freeze', on: false });
     await until(N.P, ([nid, n0]) => (window.__k3.rec || []).slice(n0).some(r => r.ht === nid), [nid, rec1.length], 12000, 200);
-    if (SHOTS) { await sleep(400); await N.P.screenshot({ path: path.join(SHOTS, 'r6_hunt_overlay_640.png') }); }    // (the hunt live, its HUNT line drawn)
+    if (SHOTS) { await sleep(400); await N.P.screenshot({ path: path.join(SHOTS, 'hunt_overlay_640.png') }); }    // (the hunt live, its HUNT line drawn)
     await sleep(2500);
     const rec = await N.P.evaluate(() => window.__k3.rec.slice()), lines = await N.P.evaluate(() => window.__k3.lines.slice()), extra = await N.P.evaluate(() => [...window.__k3.extra]);
     R.trace = rec.map(r => [r.t, r.att, r.pl, r.pid, r.ht, r.hu, r.ac, r.sees.join('/'), r.hr ? r.hr.join('/') : '', r.H.join(','), r.K.join(','), r.why.slice(0, 60)]);

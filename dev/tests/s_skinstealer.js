@@ -196,7 +196,7 @@ add('SK15 the evidence law: an unsensed person changes nothing it does (the same
   return { ok: first < 0 && !a.seen && !b.seen, note: first < 0 ? `identical over ${a.tr.length / 4} ticks; it never sensed either hidden person` : `diverged at tick ${first >> 2}` };
 });
 
-add('SK16 the encounter budget: nobody is pinned for ever - someone who keeps an eye on it is never taken and is left alone; someone who stands unaware is taken or left, within its time on them', () => {
+add('SK16 the encounter budget: nobody is pinned for ever - someone who keeps an eye on it is not taken while it is under very hungry (.6) and is left alone or taken later, within its time on them; someone who stands unaware is taken or left, within its time on them', () => {
   const runOnce = (seed, watcher) => {
     const { w, p, e } = duel(seed + 170, { hunger: .55, ex: 5650, pa: watcher ? 0 : Math.PI, light: true });
     bystander(w);                                                                 // (the world keeps running after a death)
@@ -302,7 +302,8 @@ add('SK22 the straight race: a fresh runner on a straight wins - it gives chase,
   const fresh = over([1, 2, 3, 4], s => race(s, false)), tired = over([1, 2, 3, 4], s => race(s, true));
   // (Predator refinement R1: a hungry one that loses the race no longer leaves - it keeps to the runner's trail at its free walking pace.
   // T3's "1500 px apart after 14 s" measured the departure; what it protected - the fresh runner wins - is asserted directly instead: once
-  // the race is lost, the gap never closes while they keep running.)
+  // the race is lost, the gap never closes while they keep running - over these 14 s, a sprint; PR27 (R7) runs on until the runner is
+  // winded and walking, and asserts the lead they won does not shrink then either.)
   const ok = fresh.every(r => r.chased && /losing the race/.test(r.why) && r.dmin >= 280 && r.runD >= r.lossD - 15) && tired.every(r => r.chased && r.dmin <= 185);
   return { ok, note: `fresh: never closer than ${fresh.map(r => r.dmin).join('/')} px, gave up the chase ("${fresh[0].why}") ${fresh.map(r => r.lossD).join('/')} px behind, never closer than ${fresh.map(r => r.runD).join('/')} px while they ran on, ${fresh.map(r => r.end).join('/')} px apart after 14 s | winded: it closed to ${tired.map(r => r.dmin).join('/')} px (striking distance ${AI.SK.approachStop}..185; the pounce is T4's)`, data: { fresh, tired } };
 });
@@ -428,7 +429,7 @@ add('SK30 the strike: a hungry one springs at someone unaware within reach - a c
   return { ok: rate(rs) === 1, note: rs.map(r => `${r.v || 'no kill'} at ${r.at} s (wind-up ${r.wind} s, leap ${r.moved} px, stamina -${r.cost})`).join(' | '), data: rs.map(r => ({ ...r, w: undefined })) };
 });
 
-add('SK31 counterplay: someone who sees the wind-up and steps aside makes it miss; it then stands recovering, cannot spring again at once, and has paid the stamina - a fresh runner gets away', () => {
+add('SK31 counterplay: someone who sees the wind-up and steps aside makes it miss; it then stands recovering, cannot spring again at once, and has paid the stamina - a fresh runner is not taken while they run (one who stops later may be)', () => {
   const rs = over([1, 2, 3, 4, 5, 6], seed => {
     const R = strike(seed + 920, { px: 5170, secs: 14, drive: (w, p, e, R) => {
       if (e.pounce && e.act === 'wind' && !p.dodged) { p.dodged = 1; p.look = null; p.route([{ x: p.x + 20, y: p.y - 150 }, { x: p.x + 1600, y: p.y - 150 }], 'run'); }   // the tell: it crouches - they break sideways, then run

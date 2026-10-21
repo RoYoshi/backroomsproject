@@ -217,7 +217,7 @@ PASS L7 the server fallback corpse is the physical death run to rest: determinis
 PASS L8 lifecycle (v22.2): held - leave is refused too, so leave -> join cannot escape; walking out (disconnect) forfeits the capture as a death  [322ms]
        4 holds: leave false,false,false,false; then join false,false,false,false; still held 4/4; forfeit -> Hound/forfeit,Hound/forfeit,Hound/forfeit,Hound/forfeit
 FAIL L9 lifecycle (v22.2): a living player starts a new run only through the NEW RUN sequence (vanish, 2 s or more, then leave / join), once per 30 s  [126ms]
-       EXCEPTION TypeError: w.sim.vanish is not a function |     at Object.fn (/home/claude/predator-refinement/dev/tests/s_audit.js:88:20) |     at Object.<anonymous> (/home/claude/predator-refinement/dev/tests/run.js:10:17) |     at Module._compile (node:internal/modules/cjs/loader:1705:14)
+       EXCEPTION TypeError: w.sim.vanish is not a function |     at Object.fn (predator-refinement/dev/tests/s_audit.js:88:20) |     at Object.<anonymous> (predator-refinement/dev/tests/run.js:10:17) |     at Module._compile (node:internal/modules/cjs/loader:1705:14)
 PASS E1 walls stop light: a torch lights nothing and gives no evidence on the far side of a wall  [2027ms]
        28 torch-into-wall setups with a hound on the far side: evidence through the wall 0, light level raised through the wall 0
 PASS E2 a lit wall seen without the person: an anonymous lead (no player, wide uncertainty), not a target and not a record  [989ms]
@@ -305,7 +305,7 @@ PASS 2F F11 habit never learns a hidden branch and wrong prediction is fallible 
 PASS 2F F12 TTL and encounter end both expire habits  [83ms]
        assertions passed
 FAIL 2F F13 death/respawn/leave/world reset clear encounter identity  [284ms]
-       EXCEPTION TypeError: w.sim.vanish is not a function |     at /home/claude/predator-refinement/dev/tests/s_shared2f.js:35:478 |     at Object.fn (/home/claude/predator-refinement/dev/tests/s_shared2f.js:6:71) |     at Object.<anonymous> (/home/claude/predator-refinement/dev/tests/run.js:10:17)
+       EXCEPTION TypeError: w.sim.vanish is not a function |     at predator-refinement/dev/tests/s_shared2f.js:35:478 |     at Object.fn (predator-refinement/dev/tests/s_shared2f.js:6:71) |     at Object.<anonymous> (predator-refinement/dev/tests/run.js:10:17)
 PASS 2F F14 / R1 extra Smiler draws cannot perturb Hound  [231ms]
        assertions passed
 PASS 2F F15 / R2 extra Hound draws cannot perturb Smiler  [293ms]
