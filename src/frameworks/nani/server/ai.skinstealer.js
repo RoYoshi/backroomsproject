@@ -245,6 +245,9 @@ const SK = Object.freeze({
   aimLead: .6,                                   // in sight, it aims where their seen motion takes them, at most this far ahead (s); R8 aimed behind
   cogLog: 24,                                    // decisions kept in its QA record (e.cog; never sent to players)
   // cognitive refinement C2: the stand-off and the choice of whom (all UNAPPROVED)
+  windedSeen: 22,                                // (C7) winded as it is seen: every page draws a person under this stamina heaving (move.poses.js,
+                                                 //  from the state the server sends every page) - the creature judges no finer than that
+  standAgain: 1,                                 // (C7) a stand-off renewed at most this often per hunt, and only from a new spot it walks to
   standFor: [3.5, 8],                            // the longest a stand-off lasts (x PATIENCE; shorter when starving) before it tries something else
   standVantage: [80, 150, 220],                  // how far it looks for a darker spot that keeps them in view (no route searched: a straight walk)
   standLamp: .12,                                // ... at least this much darker than where it stands
@@ -386,7 +389,7 @@ function skBegin(eng, e, k, r, why, extra) {
   const p = Object.assign({ k, pid: r ? r.id : 0, t0: eng.now, why }, extra || {});
   e.plan = p; e.dbg.why = why; e.path = []; e.goalKey = '';
   if (r) setTarget(e, r.id, eng.now);
-  if (k === 'watch') p.until = eng.now + rand(e, SK.watch[0], SK.watch[1]) * (.7 + .6 * e.tr.PATIENCE);
+  if (k === 'watch' && p.until === undefined) p.until = eng.now + rand(e, SK.watch[0], SK.watch[1]) * (.7 + .6 * e.tr.PATIENCE);   // (C7: a watch given its time keeps it - no draw)
   if (e.tally[k] !== undefined) e.tally[k]++;
   setState(e, SK_STATE[k][0], SK_STATE[k][1]);
   return p;
@@ -792,6 +795,9 @@ function skSearch(eng, e, r, why, goal, extra) {
 function skLost(eng, e, P, r) {
   const now = eng.now, h = e.hunger, H = e.hunt && e.hunt.pid === r.id ? e.hunt : null;
   if (P.k === 'retreat' && (!P.arrived || now - P.arrived < SK.retreatHold)) return;          // still getting out of their sight
+  // (C7) somebody it passed over (C4's draw) who walks out of its view is let go: no guess, no search, no ambush - a hunt needs it to have
+  // gone for them (a later sighting, or a sound, starts afresh)
+  if (!H && e.enc && e.enc.pid === r.id && e.enc.passed) { e.plan = null; e.target = null; e.dbg.why = `P${r.id} went out of its view: it had let them be`; return; }
   if (P.k === 'retreat') {
     if (h >= SK.band[1] && !e.exh) { skLure(eng, e, r, P); return; }                     // out of their sight, as it wanted: it lies in wait
     e.plan = null; e.target = null; e.dbg.why = 'out of sight: it goes about its business'; return;
@@ -853,6 +859,7 @@ function skStrike(eng, e) {
   const r = e.mem.p.get(P.pid); if (!r || !r.seen || !r.visual || tgtGone(eng, e, r)) return false;
   const p = perc(eng, e, r), d = Math.hypot(p.x - e.x, p.y - e.y);
   if (d < SK.pounceRange[0] || d > (e.disguise ? SK.mingleStrike : SK.pounceRange[1])) return false;   // (T6: in a skin it waits until they are close)
+  if (skCompany(eng, e, r, p.x, p.y)) return false;                              // (C7) never a spring at somebody with company (people together are never come at; arm's reach is contact)
   // only a leap that can reach them (from what it sees of their motion: moving away they get further during the wind-up and the leap),
   // aimed where it believes they will be at the moment it reaches them, with a seeded error that INTELLIGENCE shrinks
   const leapV = SK.pounceSpeed * .85, touch = e.r + 16, vr = d > 1 ? clamp(((p.x - e.x) * p.vx + (p.y - e.y) * p.vy) / d, -200, 300) : 0;
@@ -1175,7 +1182,7 @@ function skDecide(eng, e) {
   if (watched) enc.eyes = now;
   // (C3) what it has seen them do: going round something is not running from it
   skObserve(eng, e, r); const circ = h >= SK.band[1] && !e.disguise ? skCircle(eng, e, r) : null; e.circ = circ ? Object.assign({ pid: r.id, t: now }, circ) : null;
-  const away = d > 1 ? ((p.x - e.x) * p.vx + (p.y - e.y) * p.vy) / d : 0, fleeing = !circ && (away > 200 || (away > 110 && now - (enc.eyes ?? -99) < 4)), winded = r.ex || r.stamina < 25;
+  const away = d > 1 ? ((p.x - e.x) * p.vx + (p.y - e.y) * p.vy) / d : 0, fleeing = !circ && (away > 200 || (away > 110 && now - (enc.eyes ?? -99) < 4)), winded = r.ex || r.stamina < SK.windedSeen;   // (C7: R8 read under 25 - three points finer than anyone can see)
   // (T6) in a borrowed skin it does not hide: it walks up like one of them; a hungry one drops the skin to run after somebody who flees
   if (e.disguise && crowd === 1) {
     if (fleeing && h >= SK.band[2] && !e.exh && e.stam >= SK.stamLow + 15 && d < SK.chaseFrom && cur !== 'chase') {
@@ -1227,6 +1234,7 @@ function skDecide(eng, e) {
   // over, it is curious: it watches them a while, then goes.  A hunt already under way, or very hungry, is always taken up
   if (enc.bold === undefined) enc.bold = e.boldRng();
   const engaged = h >= SK.band[2] || !!Hn || enc.bold < lerp(SK.boldAt[0], 1, sm(SK.boldAt[1], SK.boldAt[2], h));
+  enc.passed = !engaged;                                                           // (C7) remembered for when they walk out of its view (skLost)
   if (!engaged) { W.stand = W.approach = W.flank = W.chase = W.cut = 0; W.retreat = Math.min(W.retreat, .3); W.watch = cur === 'watch' && now > e.plan.until ? 0 : W.watch + SK.curious2 * sm(SK.band[0] - .05, SK.band[0] + .05, h); }
   // (the same draws as R8, one per R8 answer, in R8's order: the stand-off takes the watch's - its sibling - so adding an answer moves no
   // other random choice it makes)
@@ -1257,10 +1265,13 @@ function skDecide(eng, e) {
   }
   // (C2) a stand-off run out with nothing better to try than leaving: hungry and alone with them, it holds its ground again instead (its
   // effort budget still ends it; a group it leaves)
-  if (best === 'leave' && standOver && apart && crowd === 1 && h >= SK.band[1] && !e.exh && spent < .85) {
-    e.plan.until = now + lerp(SK.standFor[0], SK.standFor[1], T.PATIENCE) * lerp(1.1, .7, hs); e.plan.again = (e.plan.again || 0) + 1;
-    const v = skVantage(eng, e, p, d, true); if (v) { e.plan.spot = v; e.plan.atSpot = 0; directTo(eng, e, v.x, v.y); }   // (it shifts its ground: another dark spot that keeps them in view)
-    e.dbg.why = `P${r.id} still has its eyes on it: it holds its ground`; skNote(eng, e, 'again', 'nothing better than leaving: it holds its ground', r.id); return;
+  // (C7) ...only by going to another spot (it is seen to move: never the same still stand-off again), and at most SK.standAgain times in a
+  // hunt; with no new spot, or once that is used, it goes on to its next answer (R8's C17 scene stood still 53-63 s in their view)
+  const again = Math.max(Hn ? Hn.standAgain || 0 : 0, standCur ? e.plan.again || 0 : 0), v = best === 'leave' && standOver && apart && crowd === 1 && h >= SK.band[1] && !e.exh && spent < .85 && again < SK.standAgain ? skVantage(eng, e, p, d, true) : null;
+  if (v) {
+    e.plan.until = now + lerp(SK.standFor[0], SK.standFor[1], T.PATIENCE) * lerp(1.1, .7, hs); e.plan.again = (e.plan.again || 0) + 1; if (Hn) Hn.standAgain = again + 1;
+    e.plan.spot = v; e.plan.atSpot = 0; directTo(eng, e, v.x, v.y);                          // (it shifts its ground: another dark spot that keeps them in view)
+    e.dbg.why = `P${r.id} still has its eyes on it: it moves to another spot`; skNote(eng, e, 'again', 'nothing better than leaving: it shifts its ground', r.id); return;
   }
   e.dbg.decide = { pid: r.id, d: Math.round(d), watched: !!watched, lit, crowd, h: +h.toFixed(2), spent: +spent.toFixed(2), away: Math.round(away), W: Object.fromEntries(Object.entries(W).map(([k, v]) => [k, +v.toFixed(2)])), best };
   if (P && P.k === 'leave' && e.plan === P) {                                        // (B2) a very hungry departure, thought over: kept unless clearly worse

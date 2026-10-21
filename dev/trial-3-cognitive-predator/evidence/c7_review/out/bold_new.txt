@@ -1,0 +1,37 @@
+seed 1: first seen 7.05s; bold draw 0.062 vs chance 0.556 -> ENGAGED by the draw; hunt begun 7.05s in approach ("P101 is not watching: it comes closer"); killed 0
+   0.00 -
+   6.58 listen "it heard walk: it stops and listens"
+   6.93 search "it heard walk again: it goes quietly to look"
+   7.05 approach* "P101 is not watching: it comes closer"
+   7.98 intercept* "lost P101: it guesses their way (straight on) and goes round to meet t"
+   8.22 leave "it decides against P101"
+seed 2: first seen -1s; bold draw null vs chance 0.556 -> n/a; hunt begun never; killed 0
+   0.00 -
+seed 3: first seen -1s; bold draw null vs chance 0.556 -> n/a; hunt begun never; killed 0
+   0.00 -
+seed 4: first seen 6.02s; bold draw 0.101 vs chance 0.556 -> ENGAGED by the draw; hunt begun 6.02s in approach ("P101 is not watching: it comes closer"); killed 1
+   0.00 -
+   5.43 listen "it heard walk: it stops and listens"
+   5.78 search "it heard walk again: it goes quietly to look"
+   6.02 approach* "P101 is not watching: it comes closer"
+   9.82 -
+seed 5: first seen 11.37s; bold draw 0.011 vs chance 0.556 -> ENGAGED by the draw; hunt begun 11.37s in approach ("P101 is not watching: it comes closer"); killed 1
+   0.00 -
+   11.37 approach* "P101 is not watching: it comes closer"
+   18.10 -
+seed 6: first seen 7.98s; bold draw 0.48 vs chance 0.556 -> ENGAGED by the draw; hunt begun 7.98s in approach ("P101 is not watching: it comes closer"); killed 1
+   0.00 -
+   7.98 approach* "P101 is not watching: it comes closer"
+   14.95 -
+seed 7: first seen 0.57s; bold draw 0.633 vs chance 0.556 -> PASSED OVER by the draw; hunt begun 1.38s in intercept ("lost P101: it guesses their way (straight on) and goes round to meet them 528 px"); killed 1
+   0.00 -
+   0.57 watch "it watches P101"
+   1.38 intercept* "lost P101: it guesses their way (straight on) and goes round to meet t"
+   3.72 approach* "P101 is not watching: it comes closer"
+   4.32 -
+seed 8: first seen 10.87s; bold draw 0.586 vs chance 0.556 -> PASSED OVER by the draw; hunt begun 10.87s in approach ("P101 is not watching: it comes closer"); killed 1
+   0.00 -
+   10.87 approach* "P101 is not watching: it comes closer"
+   11.68 intercept* "lost P101: it guesses their way (straight on) and goes round to meet t"
+   12.15 approach* "P101 is not watching: it comes closer"
+   18.67 -

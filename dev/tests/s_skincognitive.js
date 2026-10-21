@@ -19,7 +19,8 @@
  * of them, eight people, every new tactic at once: its new records bounded, its route searches few), C16 (what players are sent is R8's),
  * C17 (no endless hunt: a watcher who never gives it an opening is left within its budget; the effort spent never refills), C15 (in-tree
  * part: no game file but the species' differs from R8's; with no Skin-Stealer none of its code runs), C18 (latency as a person feels it, R8
- * against this build, and a glance where faster would be worse). */
+ * against this build, and a glance where faster would be worse).
+ * C7: C19 (winded only as seen), C20 (no spring at people together), C21 (a person passed over is let go), C22 (stared down, not a statue). */
 'use strict';
 const { World, DT, LONG, AI, over, floorNear, bystander } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -300,7 +301,7 @@ add('C05 seen walking north, then out of sight round a corner (torch off, crouch
   return { ok, note: `the same until its senses differed ${rs.filter(r => r.sameUntilSensed).length}/8 | a guess ${guessed.map(r => r.guessIn).join('/')} s after it lost them (${guessed.length}/8): ${guessed.map(r => r.g.k + (r.g.lead ? ' ' + r.g.lead + ' px ahead' : '')).join(', ')}; ahead on the way it saw ${guessed.filter(r => r.ahead).length}/${guessed.length}`, data: rs };
 });
 
-add('C06 somebody running round the pillar in its view: after it has seen them go a full turn round, it cuts across to where they will come round (not chasing their tail, not leaving) and meets them; a turn back the other way at that moment can fool it - it thinks again once it sees them going the other way; laps it did not see teach it nothing', () => {
+add('C06 somebody running round the pillar in its view: after it has seen them go a full turn round, it cuts across to where they will come round (not chasing their tail, not leaving) and meets them; a turn back the other way at that moment leaves it at the wrong place for a moment - it gives the guess up once it sees them going the other way (on this pillar it is still close enough to catch them: C7, F6 - a reversal that saves you needs a bigger loop, and this does not claim one); laps it did not see teach it nothing', () => {
   const ring = (dir, laps) => { const out = []; for (let l = 0; l < laps; l++) for (let k = 0; k < 16; k++) { const a = dir * k / 16 * Math.PI * 2; out.push({ x: PILLAR.x + Math.cos(a) * PILLAR.R, y: PILLAR.y + Math.sin(a) * PILLAR.R }); } return out; };
   const one = (seed, h, rev) => {
     const w = World(seed + 13200 + Math.round(h * 100) + (rev ? 50 : 0)); bystander(w, 1300, 3300);
@@ -603,4 +604,70 @@ add('C18 latency as a person feels it (p50 / p95 / worst over seeds, from the ti
     note: `(a) walked into its view (${A.length} runs at .55/.8): faced ${N(face)} s; chose ${N(choose)} s; moving ${N(move)} s | (b) a back turned for 2.5 s (${B.length} runs at .55/.62): moved in ${N(moveIn)} s (within ${LAT.moveIn} s: ${moveIn.filter(v => v !== null && v <= LAT.moveIn).length}/${B.length}) | (c) lost round a corner (${C.length} runs at .75): its next step ${N(next)} s (${[...new Set(C.map(r => r.k))].join(', ')}) | (d) faster is worse - 0.15 s glances away (${dn} at .62/.75): it dropped what it was doing within 0.5 s of ${dh} (${(dh / Math.max(1, dn) * 100).toFixed(0)} %; at most ${LAT.twitch * 100} %)`,
     data: { A, B, C, D } };
 });
+/* ---- C7: the independent review's findings (dev/trial-3-cognitive-predator/evidence/c7_review.md), each a scenario that fails on the
+ * build it reviewed (d708f42) and passes after its fix - built from the reviewer's own experiments ---- */
+add('C19 (C7 F1) winded only as it is seen: two worlds the same but for a still, unexhausted person\'s stamina - 23 against 100 (no page draws either heaving: move.poses.js draws it under 22) - give the same creature, tick for tick, at .45 / .5 / .55 / .65; at 15 (drawn heaving) it may differ', () => {
+  const one = (seed, h, st) => {
+    const w = World(seed + 26000 + Math.round(h * 100)), y = LONG.y; bystander(w, 1300, 3300);
+    const p = w.player(5120, y, { light: true, angle: Math.PI }); p.stop('stand'); p.look = Math.PI; p.stamina = st;
+    const e = w.eng.spawn('skinstealer', 5450, y, { hunger: h }); e.tier = 'near'; e.ang = Math.PI;
+    const tr = []; let breath = 0;
+    w.run(6, (ww, t) => { if (t > 2 && !p.leg) { p.leg = 1; p.go(3400, y, 'crouch'); } tr.push([Math.round(e.x * 10), Math.round(e.y * 10), planOf(e)].join(',')); if (e.mem.sounds.some(q => q.type === 'breath')) breath = 1; return !w.kills.length; });
+    return { tr: tr.join('|'), breath };
+  };
+  const rs = over([1, 2, 3, 4, 5, 6], seed => [.45, .5, .55, .65].map(h => { const A = one(seed, h, 23), B = one(seed, h, 100), C = one(seed, h, 15); return { h, same: A.tr === B.tr, breath: A.breath || B.breath, seen15: C.tr !== B.tr }; })).flat();
+  const ok = rs.every(r => r.same);
+  return { ok, note: `23 against 100: the same creature in ${rs.filter(r => r.same).length}/${rs.length} (a breath heard in ${rs.filter(r => r.breath).length}) | 15 (drawn heaving) against 100: different in ${rs.filter(r => r.seen15).length}/${rs.length}` };
+});
+
+add('C20 (C7 F2) people together are never sprung at: two lit people 90 px apart face it, then walk up to it together (.55 / .7 / .9, 8 seeds, 25 s) - no pounce from any plan while they are together; one who walks into its arm\'s reach can still be grabbed (contact, R8\'s rule)', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => [.55, .7, .9].map(h => {
+    const w = World(seed + 22000 + Math.round(h * 100)), y = LONG.y; bystander(w, 1300, 3300);
+    const a = w.player(5000, y - 45, { light: true, angle: 0 }), b = w.player(5000, y + 45, { light: true, angle: 0 }); a.stop('stand'); b.stop('stand');
+    const e = w.eng.spawn('skinstealer', 5600, y, { hunger: h }); e.tier = 'near'; e.ang = Math.PI;
+    for (const q of [a, b]) q.look = () => Math.atan2(e.y - q.y, e.x - q.x);
+    let pounce = 0, grab = 0, P0 = null;
+    w.run(25, (ww, t) => {
+      if (t > 4 && !a.leg) { a.leg = b.leg = 1; const tx = e.x - 120; a.go(tx, y - 45, 'walk'); b.go(tx, y + 45, 'walk'); }
+      if (e.pounce && e.pounce !== P0) { P0 = e.pounce; if (P0.style === 'pounce') pounce++; else if (P0.style === 'grab') grab++; }
+      return !w.kills.length; });
+    return { h, pounce, grab, killed: w.kills.length };
+  })).flat();
+  const ok = rs.every(r => r.pounce === 0);
+  return { ok, note: `pounces at .55 / .7 / .9: ${[.55, .7, .9].map(h => rs.filter(r => r.h === h && r.pounce).length).join(' / ')} of 8 | grabs (they walked into its reach) ${rs.filter(r => r.grab).length}/${rs.length}, kills ${rs.filter(r => r.killed).length}` };
+});
+
+add('C21 (C7 F3) somebody C4\'s draw passed over is not hunted when they walk out of its view: C12\'s passer (24 seeds at .42 / .45 / .48) - no hunt of a passed-over person unless its hunger has since risen past the same draw', () => {
+  const SKc = AI.SK, smc = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); }, chance = h => SKc.boldAt[0] + (1 - SKc.boldAt[0]) * smc(SKc.boldAt[1], SKc.boldAt[2], h);
+  const rs = over(Array.from({ length: 24 }, (_, i) => i + 1), seed => [.42, .45, .48].map(H => {
+    const w = World(seed + 24000 + Math.round(H * 100)), y = LONG.y; bystander(w, 1300, 3300);
+    const p = w.player(4700, y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
+    const e = w.eng.spawn('skinstealer', 5600, 3150, { hunger: H }); e.tier = 'near'; e.ang = Math.PI / 2;
+    let draw = null, pass = null, anyway = false, requal = false;
+    w.run(25, (ww, t) => {
+      if (t > .5 && !p.leg) { p.leg = 1; p.go(6500, y, 'walk'); }
+      if (draw === null && e.enc && e.enc.pid === p.id && e.enc.bold !== undefined) { draw = e.enc.bold; pass = !(draw < chance(e.hunger)) && !e.hunt; }
+      if (pass && !anyway && !requal && e.hunt && e.hunt.pid === p.id) { if (draw < chance(e.hunger)) requal = true; else anyway = true; }
+      return !w.kills.length; });
+    return { H, pass, anyway, requal, killed: w.kills.length };
+  })).flat().filter(r => r.pass !== null);
+  const passed = rs.filter(r => r.pass), anyway = passed.filter(r => r.anyway);
+  return { ok: passed.length >= 10 && anyway.length === 0, note: `passed over by the draw ${passed.length} (at .42 / .45 / .48: ${[.42, .45, .48].map(H => passed.filter(r => r.H === H).length).join(' / ')}); hunted all the same ${anyway.length}; taken up once its hunger rose past the draw ${passed.filter(r => r.requal).length}; killed ${passed.filter(r => r.killed).length}` };
+});
+
+add('C22 (C7 F4) stared down, it is not a statue: C17\'s watcher (450 px, never looks away, .5 / .55, 120 s) - the longest it stands still in their view is a stand-off\'s length (at most 10 s), then it moves (another spot, round them) or goes; and it does not stay in front of them for a minute', () => {
+  const rs = over([1, 2, 3, 4, 5, 6], seed => [.5, .55].map(h => {
+    const { w, p, e } = watched(seed + 15800 + Math.round(h * 100), h, null);
+    let run = 0, longest = 0, inView = 0, endAt = -1;
+    w.run(120, (ww, t) => {
+      const d = Math.hypot(p.x - e.x, p.y - e.y), vis = w.eng.geo.los(p.x, p.y, e.x, e.y) && d < 900, still = vis && e.speed < 15 && !e.pounce;
+      run = still ? run + DT : 0; longest = Math.max(longest, run); if (vis) inView += DT;
+      if (endAt < 0 && (w.kills.length || planOf(e) === 'leave')) endAt = t;
+      return !w.kills.length; });
+    return { h, longest: +longest.toFixed(1), inView: +inView.toFixed(1), endAt: +endAt.toFixed(1), killed: w.kills.length };
+  })).flat();
+  const ok = rs.every(r => r.longest <= 10 && r.inView <= 45);
+  return { ok, note: `longest still in their view ${rs.map(r => r.longest).join('/')} s (at most 10); in their view ${rs.map(r => r.inView).join('/')} s (at most 45); it left or struck at ${rs.map(r => r.endAt).join('/')} s; killed ${rs.filter(r => r.killed).length}/${rs.length}` };
+});
+
 module.exports = S;

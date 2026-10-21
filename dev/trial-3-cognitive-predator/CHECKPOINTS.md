@@ -16,7 +16,8 @@ filled in by the next checkpoint.
 | C4 the hunger gradient | `93fe6caf271e3b4a238f86216cafcbac5e73e5dc` | `e4676d8b2feb63a15a1e5623b7b7b093fae7165d` | `caed6cd` | read back from GitHub (`evidence/remote/c4.json`: ok); scans before and after clean |
 | C5 multiplayer, fairness, regression | `776e85368237ccb424c9a5b7df377442647b9b40` | `4e4eae1f7fc8b62a00978f4eff3521914b0dee79` | `93fe6ca` | read back from GitHub (`evidence/remote/c5.json`: ok); scans before and after clean |
 | C6a real pages, R8 against this build | `5f8bdfef9d942d9d06391a8ca00ddf44584b95e3` | `6076701fd6a6b09375969fcabbdf2f6d60e86911` | `776e853` | read back from GitHub (`evidence/remote/c6a.json`: ok); scans before and after clean |
-| C6b performance, the gate, the earlier browser checks | (this commit: `evidence/remote/c6b.json` arrives with the next) | | `5f8bdfe` | |
+| C6b performance, the gate, the earlier browser checks | `d708f426e4f1d1224596693a6d8b57bf07b24f9f` | `8d4843b37ea3a80a364c0d6fc9c546c05d7228df` | `5f8bdfe` | read back from GitHub (`evidence/remote/c6b.json`: ok); scans before and after clean |
+| C7a the independent review and its fixes | (this commit: `evidence/remote/c7a.json` arrives with C7b) | | `d708f42` | |
 
 ## C0 — diagnosis first (no game change)
 
@@ -223,7 +224,7 @@ without background timer throttling. Only the final pass is compared below; it r
 | Scene (pack) | R8 (valid tries) | This build (valid tries) |
 |---|---|---|
 | **B-C1** watched, the page turns its back at 8 s and 18 s for 2.5 s | 2 (1 setup miss): approach → retreat → approach → retreat → leave, closest 236 px; one approach head-on while watched → a kill at 14.2 s. In the first look-away R8 closed 474 → 439 and 436 → 306 px | **3 / 3: a stand-off, then it used the look-away** - closed 416 → 289, 275 → 38 (struck at 10.0 s, 2 s into it) and 201 → 156 px (struck 10.5 s); killed at 12.4 / 10.8 / 11.0 s, each spring with its whole wind-up |
-| **B-C2** a glimpse at the fork, torch off, a crouched double-back | 2 (1 miss): intercept → listen → search → **leave** (fooled, the earned wrong guess); listen → search → a kill at 7.0 s | 2 (1 miss): watch → approach → listen → search on a footstep **heard** (walking, before the double-back) → found at 95 px → killed 7.2 s; one sprung on at 4.8 s from about 160 px, as the double-back began (it had come on at up to 200 px/s while the page walked north and turned its torch off). **No earned wrong guess in this pass**; the simulation shows them (C05: a guess ahead on the way they went; the double-back is then the other way) |
+| **B-C2** a glimpse at the fork, torch off, a crouched double-back | 2 (1 miss): intercept → listen → search → **leave** (fooled, the earned wrong guess); listen → search → a kill at 7.0 s | 2 (1 miss): watch → approach → listen → search on a footstep **heard** (walking, before the double-back) → found at 95 px → killed 7.2 s; one sprung on at 4.8 s from about 160 px, as the double-back began (it had come on at up to 200 px/s while the page walked north and turned its torch off). **No earned wrong guess in this pass**; *the earlier v2 pass had two (C7, F5)*; the simulation shows them (C05: a guess ahead on the way they went; the double-back is then the other way) |
 | **B-C3** A seen, then hides crouched, torchless; B, unseen, runs a lane | 2 (1 miss): approach → **retreat → lure → leave** both times; A alive | **3 / 3 A killed** (12.1, 14.6, 10.0 s). B's running made it stop and listen in 2 (anonymous: B never named before it saw B, at 11.8 s in one), then it went back to A. In 2 of the 3 A's page was held up on its way to the pillar (8 and 2 skips; it moved 84 and 319 px) |
 | **B-C4** circling the pillar, turning back, then running off | 3: approach / watch / approach / retreat → chase → a kill at 10.8 s; **a dither** - approach 5 times, watch 3, retreat 3 in 16 s - → lure → leave; watch → approach → leave at 5 s | **3 / 3 a cut-off** (at 13.0, 7.4, 11.1 s, after watching them go round; the page turned back as it cut across) → chase / a spring → killed at 16.5, 11.5, 23.0 s (the last after the page, running off, was held up by a wall). Its first springs missed (5.5, 8.3, 5.6 s): the circler got away by going round |
 | **fresh runner**: seen, then sprints away down the hall (route away from it), hides round the far corner | 3: approach → leave within 4.7–8.2 s, every time; all alive | **never caught while running (3 / 3)**. It stood off, listened, searched the way they went: **one escape** (it gave up at 25.2 s); two hiders found round that corner, 31.4 and 35.6 s in, one on its way out after giving up |
@@ -234,8 +235,9 @@ from 409 px at 4.5 s, never closer than 335 px; it listens, searches the hall's 
 
 **What this pass says, and does not.** Against R8 the owner's complaint is visible in R8's own runs (retreat → lure → leave with a hungry
 creature and a person in plain view; a dither at the pillar) and absent from this build's: it holds them in view, presses in when they look
-away, cuts across a circle it has watched, and does not let a fresh runner's lead shrink. It is also **much deadlier**: 12 of 14 valid
-tries ended in a kill (R8: 3 of 11). Every kill was a spring with its whole wind-up at somebody in its sight, after a look-away, a dodge
+away, cuts across a circle it has watched, and does not let a fresh runner's lead shrink. It is also **much deadlier**: 13 of 14 valid
+tries ended in a kill (R8: 3 of 12) - *corrected at C7 (the review's F5); this said 12 of 14 and 3 of 11; and it rests on one pass:
+the pooled count over every valid pass is in C7*. Every kill was a spring with its whole wind-up at somebody in its sight, after a look-away, a dodge
 that failed, a found hider, or within reach - no page was caught on a straight run. Whether .45–.65 should be this dangerous is the owner's
 call (`HUMAN_QA.md`). The scenes are scripted pages, not a person: a page does not dodge at the tell or choose where to hide.
 
@@ -245,7 +247,7 @@ Changed: no game code. `DESIGN_DECISIONS.md` (drafted; final at C8). R8's tree f
 
 | Run | Result |
 |---|---|
-| `perf_pr.js --base <R8> --rounds 3 --secs 60` (`evidence/c6_perf.*`) | **PASS** (0 violations). Medians R8 → this build: no Skin-Stealer 0.185 → 0.200 ms (+8 %, within the tolerance: the same code, i.e. the noise), one 0.217 → 0.212 ms (p99 2.35 → 1.95), four 0.327 → 0.310 (p99 3.64 → 3.81), four pressed 0.337 → 0.286 (p99 4.36 → 3.55), four starving 0.311 → 0.318 (p99 4.14 → 3.75). **Red runs** (p99 over the 4.175 ms sub-budget): R8 three (4.26, 4.36, 4.59), this build two - **round 2 four-starving 6.06 ms** (mean 0.429) and round 2 four 4.28 |
+| `perf_pr.js --base <R8> --rounds 3 --secs 60` (`evidence/c6_perf.*`) | **PASS** (0 violations). Medians R8 → this build: no Skin-Stealer 0.185 → 0.200 ms (+8 %, within the tolerance: the same code, i.e. the noise), one 0.217 → 0.212 ms (p99 2.35 → 1.95), four 0.327 → 0.310 (p99 3.64 → 3.81), four pressed 0.337 → 0.286 (p99 4.36 → 3.55), four starving 0.311 → 0.318 (p99 4.14 → 3.75). **Red runs** (p99 over the 4.175 ms sub-budget): R8 four (4.26, 4.36, 4.59, 4.20 - *the fourth added at C7, F10*), this build two - **round 2 four-starving 6.06 ms** (mean 0.429) and round 2 four 4.28 |
 | the same matrix again, because of that red run (`evidence/c6_perf_run2.*`) | **PASS** (0 violations). Medians: none 0.178 → 0.180, one 0.193 → 0.196 (**p99 1.25 → 1.98, +59 %: judged against the 60 Hz budget only**, as the tool does for one; the runs 1.21 / 1.25 / 1.91 against 1.63 / 2.10 / 1.98 ms), four 0.290 → 0.242 (p99 3.46 → 1.98), four pressed 0.283 → 0.256 (p99 2.88 → 3.14), four starving 0.285 → 0.270 (p99 3.60 → 2.87). Red runs: none on either build (R8's highest p99 4.02, this build's 3.15) |
 | `perf_pr.js --soak 600` (`evidence/c6_soak.*`) | **PASS**: 600 s, four starving, eight players wandering: mean 0.164 ms, p99 1.03, worst 14.8 ms; records at most 1 per creature, 0 violations |
 | route searches (C14, `evidence/c5_suites.txt`) | four of them, eight people, 90 s: 0.19 per creature per second, p95 0.75, the busiest second 1.75; PR24 (R8's count) passes |
@@ -254,3 +256,41 @@ Changed: no game code. `DESIGN_DECISIONS.md` (drafted; final at C8). R8's tree f
 | R8's `predator_browser.js`, this build (`evidence/c6_predator_browser.*`, `_run2.*`) and R8 (`_r8.*`) | this build **6 / 7 twice; `pr_listened_then_looked` not exercised** (by the tool's own rule): in the attempts where it reacted to the footsteps behind the wall the first plan the page recorded was `search` (it went to look) - its listen now ends at the next footstep (C1; C04 (b): within 0.25 s), shorter than the page's sampling; in the others it never reacted (where the spot fell). Heard not named, quiet never named, hunt on sight, the HUNT line, the snapshot's fields, no page error: pass. R8 7 / 7 |
 | Trial 3's `skin_browser.js`, the whole tool (`evidence/c6_skin_browser_full_run*.txt`) | **crashed twice, at different places**: run 1 in t4 (the victim page's capture overlay was over the admin panel's unlock button - the page was held when the tool wanted to unlock), run 2 in t7 (no Skin-Stealer in the page's list when the tool read it after 45 s at double speed). Kept as they ran |
 | the same tool section by section (`evidence/c6_skin_browser/`) | this build **40 / 40** (t1 10, t4 10, t5 5, t5d 2, t6 6, t7 7); R8 **37 / 40** (t6 3 / 6: its listener was never placed, `sAt` null - the setup miss R8's own R6 run recorded) |
+
+## C7 — the independent adversarial review, and its fixes
+
+**The review.** A separate agent with a fresh context (it had not seen this work being made) read the owner's verdict, the pack, the code
+against R8, the documents, one failed R8 trace and the fixed traces, and tried to break the claims with its own experiments (13 scripts on
+the real simulation, R8 and this build). Its report is kept verbatim (`evidence/c7_review.md`; only absolute machine paths replaced), its
+scripts and their outputs in `evidence/c7_review/` (`out/` as it ran them, `out_after_fix/` on the fixed build). Its verdict on d708f42:
+**not ready for owner handoff** - one blocker, four majors. It found the scope clean, no new perception leak (24 / 24 paired invisible
+worlds identical through stand-offs, openings and cut-offs), PR27 / PR28 intact (including a no-race lead beyond C10's range), a real
+dodge (a step aside up to about 0.35–0.40 s after the wind-up begins escapes), no replanning storm, the circling inference honest.
+
+| Finding | Severity | Disposition | Proof |
+|---|---|---|---|
+| F1 the chase reads a seen person's exact stamina (`r.stamina < 25`, R8's line, used here from .4) | BLOCKER | **fixed, in part disputed.** Stamina is not hidden from a viewer in this game: the server sends every person's stamina and exhaustion to every page (`src/core/server/loop.js`, `mv`) and every page draws them heaving when exhausted or under 22 (`src/frameworks/br-r/client/move.poses.js`). The reviewer's pair (15 against 100) differs because 15 is drawn heaving. What was wrong is R8's 25: three points finer than anyone can see. Now `SK.windedSeen` 22 | C19 (new): 23 against 100 the same creature 24 / 24 (before the fix 9 / 24, R8 18 / 24); 15 against 100 still differs (drawn) |
+| F2 springs at two people together from the group stand-off | MAJOR | **fixed**: no pounce at somebody with company (`skCompany`); a grab at arm's reach stays (contact; R8's rule) | C20 (new): pounces 0 / 24 (before 14 / 24; R8 0); grabs 3 / 24 when they walked into its reach |
+| F3 C4's hunger draw bypassed: a passed-over person hunted as soon as they leave view | MAJOR | **fixed**: the encounter remembers the draw's answer; out of view, a passed-over person is let go | C21 (new): hunted all the same 0 of 19 (before 15–16); 1 taken up after its hunger rose past the same draw (the review's own rule) |
+| F4 stared down: 44–63 s standing still in the watcher's view, renewing the same stand-off | MAJOR | **fixed**: one renewal a hunt, and only from a new spot it walks to (`SK.standAgain`); otherwise its next answer | C22 (new, movement-based - the review's point that C02 / C17 judged a label): longest still in view 6–8 s (before 44–63 s); it goes at 14–29 s or got beside them unseen (3 / 12) |
+| F5 the real-page comparison miscounted (13 / 14 vs 3 / 12, not 12 / 14 vs 3 / 11) and from one pass | MAJOR | **fixed in the documents**: C6a corrected in place (marked); the pooled count over every valid pass, with n, and the fixed build's own pass, below | below |
+| F6 C06's "a turn back can fool it" passes while every reverser dies | MINOR | **retitled**: C06 now says what it measures - a reversal undoes the guess at once, but on this pillar (its ring inside its spring's reach from the cut point) it catches them anyway; a reversal that saves you needs a bigger loop. An owner-visible limitation (`HUMAN_QA.md`, `DEFERRED.md`) | C06 title and note |
+| F7 PR20's bar lowered (a runner who stops far off is lost more often) | MINOR | **owner decision, kept documented** (C3): the price of 3 s on the trail instead of 13 s | `DEFERRED.md`, `HUMAN_QA.md` part 7 |
+| F8 `pr_listened_then_looked` not exercised in the real pages | MINOR | **documented** (C6b): the listen now ends at the next footstep (C04 (b)); R8's tool samples slower than that. Not changed: R8's tool is R8's evidence | `DEFERRED.md` |
+| F9 real-page traces too coarse for sub-second claims | MINOR | **documented**: the sub-second latencies are the simulation's (C01, C18); the real pages show ordering and outcome only | `HUMAN_QA.md`, `DEFERRED.md` |
+| F10 R8 had four red p99 runs in the first matrix, not three; the soak barely exercises the new tactics | NIT | **fixed** (C6b corrected in place); the soak's limit stated - C14 is the stress evidence for the new tactics | `PERFORMANCE.md` |
+| F11 the trail-end watch's 8 s overwritten by a drawn 1.4–7.8 s (an extra draw) | NIT | **fixed**: a watch given its time keeps it | code |
+| F12 documents vs code (stand-off from .4 not "mild"; pressing visible from about .65; "under cover" only without a straight line) | NIT | **fixed** in `DESIGN_DECISIONS.md` and `BALANCE_TABLE.md` | — |
+| F13 a twitch holds every plan change for up to one beat | NIT | **kept by design** (C1: a glance shorter than the beat is not evidence); noted | — |
+
+Changed (C7a): the species file (`BALANCE_TABLE.md` C7, UNAPPROVED; its declared-change note), four new scenarios (C19–C22, each from the
+review's own experiment), C06's title (F6; its checks unchanged), `DESIGN_DECISIONS.md` (F12, the C7 section), `HUMAN_QA.md` (drafted), the
+review and its kit.
+
+| Run | Result |
+|---|---|
+| C19–C22 on the reviewed build's game code (`git archive 93fe6ca`, the same game as d708f42) and on R8 (`evidence/c7_before_fix.txt`) | **all four FAIL on the reviewed build** (C19 9 / 24 the same; C20 14 pounces at .55 / .7; C21 15 hunted all the same; C22 longest still 44–63 s). On R8: C19 FAIL (R8's 25: 18 / 24), C20 and C22 pass (R8 leaves in 7–17 s), C21 does not apply (no draw: nothing passed over) |
+| species suites on the fixed build (`evidence/c7_suites.txt`) | **105 / 105 PASS** (C5's 101 and C19–C22). C06 ran under its old title (retitled after; nothing it checks changed) |
+| `tools/c0_audit.js` (`evidence/c7_audit.*`) | as at C4 but: watched at .5 / .55 and the lure-runner scene, the longest idle in view **8.0–8.2 s** (C4: 18.9–39.9 s), the plans now end in `leave` after a stand-off; the passer-by at .45 1 / 6 killed (C4 2 / 6: one passed over is now let go); every other scene's kills unchanged |
+| the review's four experiments again (`evidence/c7_review/out_after_fix/`) | stamina 15 / 100 still differs (drawn heaving - see F1); group: no pounce, 3 grabs in reach; passed over: 1 of 19 taken up, after its hunger rose past the draw; stared down: in view 11–35 s, then it goes or got beside them unseen |
+| static checks (`evidence/c7_checks.txt`) | all PASS |

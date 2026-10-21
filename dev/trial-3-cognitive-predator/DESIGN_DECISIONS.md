@@ -37,11 +37,12 @@ taken (R8 4 %).
 
 ## The stand-off: watched is information, not a reason to go (C2)
 
-**Chosen.** A new answer, `stand`, from mild hunger when somebody it sees is looking at it: it may first walk to a darker spot that keeps
+**Chosen.** A new answer, `stand`, from hungry (.4) when somebody it sees is looking at it: it may first walk to a darker spot that keeps
 them in view, then holds - crouched, facing them - and **closes in on every look away** (after the beat, at its stalk .. flank pace,
-`SK.openRush`), freezing when their eyes come back; very hungry it creeps in under their eyes too (`SK.pressFrom`, never under 160 px,
-its spring decides from there). A stand-off that gained ground lasts longer; alone with them, hungry, with effort left, it renews from
-another dark spot instead of leaving (`SK.standFor`).
+`SK.openRush`; by a straight line when it has one, else by a route under cover), freezing when their eyes come back; very hungry it
+creeps in under their eyes too (`SK.pressFrom`: from .6 at nothing, more than a few px/s from about .65; never under 160 px, its spring
+decides from there). A stand-off that gained ground lasts longer; alone with them, hungry, with effort left, it may renew once, from another
+spot it walks to, instead of leaving (`SK.standFor`, `SK.standAgain` - C7). It never springs at somebody with company (C7).
 **Why.** The owner's "incredibly passive": BD1 / BD5 / BD6 - back out of sight, wait blind, go. It turns "they are looking at me" into a
 contest a player can see and play: keep your eyes on it and it waits; look away and it comes.
 **Rejected.** Coming on regardless of eyes (that is the very hungry band's job, and would remove the counterplay); a longer watch (R8's
@@ -100,7 +101,19 @@ was meant to stop (`BALANCE_TABLE.md` C5, `evidence/c5_guard.patch`).
 the snapshot (C16) or the overlay.
 **Why.** The pack asks for evidence-driven decisions that can be reviewed; the admin overlay already has its WHY line.
 
+## What the independent review changed (C7)
+
+**Winded only as it is seen.** R8's chase read `stamina < 25`; every page draws a person heaving when exhausted or under 22
+(`move.poses.js`, from the state the server sends every page), so the creature now judges exactly that (`SK.windedSeen`). The reviewer
+called the read a hidden-truth leak; the state is public on the wire and drawn, so what was wrong was the three points nobody can see (C19).
+**Never a spring at company.** The stand-off made springs possible from a watching plan, and nothing asked whether the person was alone
+(C20). **A person passed over is let go** when they walk out of view, instead of R8's lost-sight interception hunting them anyway (C21).
+**A stare-down is not a minute of a statue.** One renewal at most, and only from a new spot; then its next answer, usually going (C22).
+**Rejected:** dropping `r.ex` or the drawn heave altogether (they are seen); attacking groups when starving (R8 never did; no evidence the
+owner wants it).
+
 ## What is not claimed
 
 The browser scenes are scripted pages, not a person; none dodges at the tell. The owner's play-test decides whether this reads as a
-creature that thinks - and whether .45–.65 should now be as deadly as C6 measured (12 kills in 14 valid real-page tries, R8 3 in 11).
+creature that thinks - and whether .45–.65 should now be as deadly as the real pages measured (`CHECKPOINTS.md` C6a and C7: per scene,
+pooled over every valid pass, with n; 2–3 tries a scene and pass cannot separate "smarter" from "deadlier").
