@@ -1,0 +1,13 @@
+watched #1: hunger 0.537; first purposeful move 4.3 s, first strike null s, out of the watcher's view 2.2 s, closest 189 px, a page died null; shares {"roam":0.02,"approach":0.46,"retreat":0.25,"lure":0.01,"leave":0.26}; hunted 1 (watcher 1, walker null)
+   0.2 roam | 1 approach P1 | 8.4 retreat P1 | 13.6 approach P1 | 18.6 retreat P1 | 22 lure P1 | 22.3 approach P1 | 26.9 leave
+watched #2: hunger 0.496; first purposeful move null s, first strike null s, out of the watcher's view 11.9 s, closest 450 px, a page died null; shares {"roam":1}; hunted - (watcher 2, walker null)
+   0.2 roam
+circle #1: hunger 0.581; first purposeful move 3.8 s, first strike null s, out of the watcher's view 3.7 s, closest 404 px, a page died null; shares {"roam":0.02,"approach":0.46,"watch":0.06,"retreat":0.11,"intercept":0.05,"leave":0.29}; hunted 3 (watcher 3, walker null)
+   0.3 roam | 1 approach P3 | 1.8 watch P3 | 2.6 approach P3 | 2.8 watch P3 | 3 approach P3 | 6.9 watch P3 | 7.1 approach P3 | 7.9 watch P3 | 8.3 approach P3 | 8.9 watch P3 | 9.5 approach P3 | 16.4 retreat P3 | 20.2 approach P3 | 23.5 intercept P3 | 25.2 approach P3 | 26.9 leave
+circle #2: hunger 0.498; first purposeful move 4.5 s, first strike null s, out of the watcher's view 9 s, closest 402 px, a page died null; shares {"roam":0.02,"approach":0.14,"watch":0.02,"leave":0.83}; hunted 4 (watcher 4, walker null)
+   0.2 roam | 0.8 approach P4 | 1.5 watch P4 | 1.9 approach P4 | 3.9 watch P4 | 4.3 approach P4 | 6.8 leave
+crowd #1: hunger 0.539; first purposeful move 2.1 s, first strike null s, out of the watcher's view 4.6 s, closest 218 px, a page died null; shares {"roam":0.5,"flank":0.04,"approach":0.13,"listen":0.04,"search":0.06,"feed":0.23}; hunted 5,6 (watcher 5, walker 6)
+   0.4 roam | 2.1 flank P5 | 3.3 approach P6 | 4.9 listen P6 | 6.3 search P6 | 7.9 approach P6 | 10.9 roam | 14.8 feed | 22.8 roam
+crowd #2: hunger 0.648; first purposeful move null s, first strike null s, out of the watcher's view 6.5 s, closest 427 px, a page died null; shares {"roam":1}; hunted - (watcher 7, walker 8)
+   0.8 roam
+EXIT 0
