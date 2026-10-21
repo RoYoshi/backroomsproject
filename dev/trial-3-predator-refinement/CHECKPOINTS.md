@@ -15,7 +15,8 @@ hash: each row is filled in by the next checkpoint (the last by a receipt commit
 | R4 poses, debug, dithering, balance | `ef70370de82b63c958a8df02cc7360b3a8f91f4d` | `eae4a5255b8e8fe4760be3053af54c597847a20a` | `867d63b` | 2026-10-21 06:53 UTC, `evidence/remote/r4.json`; scans `r4_pre.txt` / `r4_post.txt` clean |
 | R5 its size on the page | `16847755c5b5198853fe4f3b3096ef505fef78e3` | `a855f0364efe2dc58816a409d834348eea253dab` | `ef70370` | 2026-10-21 07:39 UTC, `evidence/remote/r5.json`; scans `r5_pre.txt` / `r5_post.txt` clean |
 | R6 several people, parity, stress, cost | `7e85e94dfaa720f24dda4bfc06e69cec1c0df39d` | `002d98294df6cc7811746050cf276fcbf93785f7` | `1684775` | 2026-10-21 08:57 UTC, `evidence/remote/r6.json`; scans `r6_pre.txt` / `r6_post.txt` clean |
-| R7 independent review and fixes | (this commit: `evidence/remote/r7.json` arrives with R8) | | `7e85e94` | |
+| R7 independent review and fixes | `7b9d704919532d4d0ec1dca6156f29b15ce6a5db` | `ad1ab19593f2c79d5718e6506750b99172698bee` | `7e85e94` | 2026-10-21 10:08 UTC, `evidence/remote/r7.json`; scans `r7_pre.txt` / `r7_post.txt` clean |
+| R8 final documents and receipts | (this commit: its read-back, `evidence/remote/r8.json`, arrives with the receipt commit) | | `7b9d704` | |
 
 ## R0 — audit and plan, no game change
 
@@ -285,3 +286,25 @@ Checked on R7's code:
 | `tools/predator_browser.js` (`evidence/r7_predator_browser.*`) | 7 / 7: it heard the running page behind a wall, listened, went to look (anonymous), saw them and watched them; no name before a sighting |
 | B1–B5's `behave_browser.js` (`evidence/r7_behave_browser.*`) | 9 / 9 |
 | `tools/perf_pr.js`, **one round** (`evidence/r7_perf_check.*`) | **FAIL** on one judgement: four creatures, every player pressing one, mean +14.2 % against the base (0.420 against 0.367 ms; p99 −11.6 %); every other configuration no worse (−3.1 % to −17 % mean), 0 violations. One round cannot tell this from noise — the base's own mean for this configuration was 0.414 ms at R6 and 0.367 ms here, and R6's spreads were 0.06–0.07 ms — so, as pack 09 rule 7 asks, the interleaved 3-round matrix is run on R7's code; its result is recorded in R8, and this first result is kept |
+
+## R8 — final documents and receipts
+
+Changed: documents and evidence only (no game change): the R7 performance matrix run twice on R7's code (`evidence/r7_perf.*`: the
+tool's FAIL on one judgement — with four, p99 4.49 ms over the 4.175 ms line, the base 4.59 ms over it in the same rounds — and
+`r7_perf_run2.*`: PASS; `PERFORMANCE.md`); R7's read-back and scan; `DEFERRED.md`'s known items; every final document read through.
+(Already in R7's commit: `tools/predator_browser.js` names its screenshot without a checkpoint; the R7 run's, made as
+`r6_hunt_overlay_640.png`, was renamed `r7_shots/hunt_overlay_640.png`.)
+
+| Run | Result |
+|---|---|
+| `tools/perf_pr.js` on R7's code, 3 interleaved rounds, twice | run 1 **FAIL** (the absolute p99 budget with four: both trees over it; against the base +5 % mean, −2 % p99); run 2 **PASS**; four creatures with every player pressing −7.5 % / −7.1 % (the one-round flag was noise); 0 violations in 60 runs |
+
+**Delivery.** Branch `trial-3-predator-refinement`, created from `4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a` (tree
+`28815b06019ed38aff8c083e93b1ba7056da3d67`); R0–R7 as in the table above, each read back from GitHub. This commit is R8; the receipt
+commit after it carries R8's read-back. The full gate tier was not run: pack 09 keeps it for new shared scope, and this branch changes
+no shared code (PR25; the fast gate PASS at R6 and R7). Nothing was merged or deployed; no protected branch moved
+(`trial-3-skin-stealer` `020b5b5`, P9 `1ff9374`, `main` `7781e1a`, `trial-3-behavior-refinement` `4518f93`: every read-back).
+
+**Stop.** ENGINEERING COMPLETE — AWAITING OWNER HUMAN QA. Trial 3, the B1–B5 refinement and this predator refinement remain NOT
+OWNER-APPROVED. No OVERSEER work was begun; no organic spawning was added.
+

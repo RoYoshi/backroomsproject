@@ -36,7 +36,7 @@ To reach a band:
 * **Satiated (under 0.2):** stand by it, **SKIN tab → NECK BREAK** (the preview plays a real kill on you); it feeds on your body and its
   hunger drops (a kill takes 0.35, feeding about 0.03 a second). Respawn and repeat once more if it is still above 0.2. Disturb it within
   8 s with the second tab if you do not want it to wear your skin.
-* For a deterministic look at the same situations without a browser: `node dev/tests/run.js s_skinpredator.js` (26 scenarios on the real
+* For a deterministic look at the same situations without a browser: `node dev/tests/run.js s_skinpredator.js` (30 scenarios on the real
   simulation; each prints what it measured) and `node dev/trial-3-predator-refinement/tools/repro_r0.js` (the before/after table).
 
 ## The parts

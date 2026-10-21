@@ -56,7 +56,8 @@ Linux container; Chromium headless with SwiftShader for the page checks. `rN_` n
 | `r7_equiv_p9.txt` | the P9 equivalence on R7's code |
 | `r7_checks.txt`, `r7_gate.txt` | the static checks; the fast release gate on R7's code |
 | `r7_perf_check.json` / `.txt` | `tools/perf_pr.js`, one round, against `4518f93` on R7's code (one configuration flagged; kept) |
-| `r7_predator_browser.*`, `r7_shots/`, `r7_behave_browser.*` | the predator browser check and B1–B5's on R7's code |
+| `r7_perf.json` / `.txt`, `r7_perf_run2.json` / `.txt` | the interleaved 3-round matrix on R7's code, twice (run 1 FAIL on the absolute p99 budget with four, the base over it too; run 2 PASS) |
+| `r7_predator_browser.*`, `r7_shots/`, `r7_behave_browser.*` | the predator browser check (its screenshot `r7_shots/hunt_overlay_640.png`) and B1–B5's on R7's code |
 
 ## Remote and secrets
 

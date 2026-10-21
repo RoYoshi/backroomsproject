@@ -36,6 +36,16 @@ QA (`HUMAN_QA.md`) or belongs to a later, separately approved project (pack 11).
   out of scope (pack 11) and deferred until the behaviour is accepted.
 * **Death variety in hunts.** Kills in the measured hunts are mostly the pounce (B) and the starving kill (C); the grab (A) happens when a
   person comes within arm's reach (SK33). Unchanged from Trial 3.
+* **The p99 of four Skin-Stealers** sits near the 60 Hz budget's 4.175 ms line in both trees (3.6–4.6 ms across R6's and R7's runs):
+  one of R7's two 3-round runs went over it, with the base over it in the same rounds (`PERFORMANCE.md`). Garbage collection and the
+  container's scheduler; not caused here, not fixed here.
+* **A flank's route is searched twice** (once to find the spot, once by the engine's shared `plan()` when the flank begins; at most
+  3 flanks a hunt). Reusing the first would mean storing a route outside the shared engine's own planner; left as it is (the review's
+  NIT; `CHECKPOINTS.md` R7).
+* **Contact at arm's reach** (Trial 3's rule, unchanged): a hungry one grabs a person who comes within 46 px with a clear line even if it
+  has not seen them — physical contact, not perception. A development run of `tools/predator_browser.js` (not kept) showed it once:
+  the quiet, crouched, unlit page was in its path as it left and was taken.
+  The owner may want to judge it in play.
 * **The security items** (the inherited default admin passcode; the untrusted `X-Forwarded-For` lockout) — separate security work; not
   touched.
 

@@ -20,7 +20,20 @@ judged. Invariants checked once a second in every run (inside the level's geomet
 most 4 failed places and 3 failed turns per hunt, a hunt only of somebody in the game, at most 6 effort records each of somebody in the
 game, B1–B5's awareness records): **0 violations** in 30 runs.
 
-**R7** (the independent review's fixes): a one-round check on R7's code (`evidence/r7_perf_check.*`) flagged one configuration — four creatures, every player pressing one: mean +14.2 % against the base in that round (p99 −11.6 %; all other configurations −3 % to −17 %; 0 violations). One round cannot separate that from noise (the base's own mean there moved from 0.414 to 0.367 ms between R6 and that round), so the interleaved 3-round matrix is run again on R7's code (its result is added at R8).
+**R7** (the independent review's fixes): a one-round check on R7's code (`evidence/r7_perf_check.*`) flagged one configuration — four creatures, every player pressing one: mean +14.2 % against the base in that round (p99 −11.6 %; all other configurations −3 % to −17 %; 0 violations). One round cannot separate that from noise (the base's own mean there moved from 0.414 to 0.367 ms between R6 and that round), so the interleaved 3-round matrix was run again on R7's code, twice (`evidence/r7_perf.*`, `r7_perf_run2.*`):
+
+| Configuration | R7 run 1: base / R7 mean (p99), ms | R7 run 2: base / R7 mean (p99), ms | Judged |
+|---|---|---|---|
+| no Skin-Stealer | 0.221 / 0.230 (+3.9 %) | 0.220 / 0.210 (−4.5 %) | same cost, both runs |
+| one, players wandering | 0.273 (2.68) / 0.245 (2.40) | 0.266 (3.02) / 0.281 (3.68) | the 60 Hz budget: PASS both runs |
+| four, players wandering | 0.425 (4.59) / 0.446 (4.49): +5 % / −2 % | 0.385 (3.71) / 0.353 (3.57): −8.3 % / −3.8 % | the 60 Hz budget: **run 1 FAIL** — p99 4.49 ms over the 4.175 ms line, the base 4.59 ms over it in the same rounds; run 2 PASS |
+| four, every player pressing one | 0.384 (4.37) / 0.355 (4.21): −7.5 % | 0.406 (4.28) / 0.377 (4.08): −7.1 % | against the base: PASS both runs (the one-round flag was noise) |
+| four starving, players wandering | 0.433 (4.61) / 0.345 (4.20): −20.4 % | 0.392 (4.35) / 0.392 (3.61): +0.2 % / −17.1 % p99 | against the base: PASS both runs |
+
+0 invariant violations in all 60 runs. The tool's verdict was FAIL for run 1 (one judgement: the absolute p99 budget with four, which
+the base missed too) and PASS for run 2; nothing is erased. With four Skin-Stealers the p99 of a 60-second run sits near that 4.175 ms
+line in both trees (3.6–4.6 ms over R6's and R7's runs): garbage collection and the container's scheduler, not this branch. R7 costs
+no more than the base.
 
 **Soak** (`evidence/r6_soak.*`): 600 s, 4 starving Skin-Stealers, 8 players wandering, director on: mean 0.185 ms, p99 1.04 ms, worst
 30.9 ms; 70 kills by all species, 4 by Skin-Stealers; 0 violations — PASS.
