@@ -10,7 +10,8 @@ row is filled in by the next checkpoint (the last by a receipt commit).
 |---|---|---|---|---|
 | B0 audit, plan, reproduction, baseline | `4e4a1cf31f856ba8b552ae30ce0e20a2424b5467` | `d7e7a9cc62d8daeacb2be7400a67b48f6cfd15d6` | `020b5b5` | yes: `evidence/remote/b0.json` (ls-remote and the GitHub API agree; one line from `020b5b5`; every protected ref at its head; no other branch moved or new); secret scan of the pushed commit CLEAN |
 | B1 awareness while it roams or leaves | `0d6f7b9f00ee34318975a5b157bfe548ab0e20d7` | `9672dbbd20b83ebd7cce8ebee6e70304c7ef8cdf` | `4e4a1cf` | yes: `evidence/remote/b1.json`; secret scan of the pushed commit CLEAN |
-| B2 provocation, warnings, fading, the very hungry departure | (this commit: `evidence/remote/b2.json` arrives with B3) | | `0d6f7b9` | |
+| B2 provocation, warnings, fading, the very hungry departure | `17563927677a45c32fa561467b1c60a9aa81f73c` | `d0696e246d3cdefa0840216344dae9672626e40e` | `0d6f7b9` | yes: `evidence/remote/b2.json`; secret scan of the pushed commit CLEAN |
+| B3 defence | (this commit: `evidence/remote/b3.json` arrives with B4) | | `1756392` | |
 
 ## B0 — audit and plan, no game change
 
@@ -76,4 +77,33 @@ Found and fixed while building B2, each by a scenario:
 | `s_skinbehave.js` BR01–BR07, BR09, BR11–BR14, BR20 | 13 / 13 (`evidence/b2_br.txt`): BR01–BR07 as at B1; pressing in at 70 px is warned after 6.0–7.3 s (peak 0.46–0.57), 15 s after they back off 0.07–0.09, nothing follows them; a brush past at 23–25 px: one look, no warning (peak 0.18–0.41); a bystander peaks at 0.17–0.18, never warned; three minutes of pressing: 29–30 warnings, never closer than 5.3 s apart, at most 1 record, reacting 45–46 % of the time, 35 places; a very hungry departure gave up for a newcomer it saw (3 of 4; the fourth kept it when it thought it over), never for a hidden person while its hunger passed 0.8 (0 / 4), never after a lost race (0 / 4); nothing stale after leaving the game, a minute far away, an admin clear, a removal or a world reset |
 | `s_skinstealer.js` | 34 / 34; the same 32 notes as B0's; SK07 (debug fields) and SK25's fourth seed differ as at B1 |
 | `npm test` | 196 / 209 (`evidence/b2_npm_test.txt`); the 13 failures are B0's, name for name. (A comment in the species header was reworded after this run; the code it ran is the code committed; SK and BR were run again on the final build: 47 / 47, the BR notes identical) |
+| build, `build:check`, parts, modules, facts, window contract, docs, API contract, scope | PASS |
+
+## B3 — defence
+
+Changed: `ai.skinstealer.js` (→ `generated/server/ai.js`): `SK` gains the B3 values; `skCornered`; `skDefend` (on its think after
+`skAware` and before `skDecide`: the conditions of `PLAN.md` §4; strike or withdraw from its own stream; it sets the per-person and the
+overall cooldowns); `skSpring` gives the style `defend` its own wind-up, lunge and stamina cost; `skStrikeStep` lets a defence catch only
+its person, counts its hits and misses, and after a miss `skDecide` makes it leave them at its tired run (`P.fast`); a kill ends that
+person's awareness record; debug `df` and the tier `threatened`. `ents.debug.js`: one more line, DEFENCE. `s_skinbehave.js`: BR08, BR10,
+BR15–BR17, BR19; BR13 now lets the harasser come back after each death. `declared_changes.json`: notes. New tool
+`tools/behave_browser.js` (B4's real-page check, first run here).
+
+**Two B1 scenarios changed with the behaviour, not weakened:** BR02 (somebody circling it for 22 s) and BR05 (somebody following it 90
+px behind for 50 s) asserted "no kill", because B1 had no defence. From B3 such long harassment may end in a defensive kill, as the owner
+decided; both now assert that any kill is the person under test, made by a defensive strike, after at least one warning - and keep
+every awareness check they had. Measured: BR02 killed 2 of 8 circlers (after 1 warning each), BR05 4 of 6 followers.
+
+Test-driver corrections found while building B3: BR08 measured hunger drift on the first callback, before any step (it reported the
+rate itself as drift); BR15 measured the 25 s cooldown from the miss instead of from the defence's start, and judged the plan before the
+decision that follows recovery; BR16 expected the creature still at its meal at 60 s; BR19 compared Hounds and Smilers that the
+Skin-Stealer's own (legitimately different) path came near - they are now placed more than 2000 px from anywhere it goes, and the
+scenario reports how close it came. No creature behaviour was changed for these.
+
+| Run | Result |
+|---|---|
+| `s_skinbehave.js`, 19 scenarios | 19 / 19 (`evidence/b3_br.txt`). BR08: in 8 of 8 runs every defence came after a warning (1.0–3.3 s after it ended), within reach, seen, with a clear way, its hunger begun at exactly 0 and risen only with time (0.011–0.015 at a first defence, 0.096 for one at 59.8 s); 4 of 8 runs ended in a defensive kill at contact (the earliest after 7.5 s of pressing), the others in misses and withdrawals. BR10: 5 of 9 runs had it ready to defend against somebody it saw within reach across a corner or a low obstacle (13–53 ticks): sprung at 0 times; 11 defensive springs, 5 kills, all at contact with a clear way. BR15: 8 of 8 who broke away at the wind-up made it miss; recovery 0.96–1.3 s, 2.1–3.0 s before another spring, then a fast departure, no defence against them within 25 s although they came back. BR16: a defensive kill whose victim leaves the game at once: one kill event, cause SkinStealer, the server's one corpse, the creature fed. BR17: in a skin, circled at 110 px: no reaction, it walks up openly, its lines its own. BR19: provoked (5 looks, 5 warnings, one defensive decision) against left alone: two Hounds and two Smilers identical over 1800 ticks |
+| `s_skinstealer.js` | 34 / 34; the same 32 notes as B0's |
+| `npm test` | 202 / 215 (`evidence/b3_npm_test.txt`); the 13 failures are B0's, name for name |
+| `tools/behave_browser.js` (real server, headless Chromium, two 640x360 pages; first run) | 9 / 9 (`evidence/b3_browser_smoke.json`): moved by the page's own keys; a look 2.4 s after it came close, 3 while circling, its head turned; a warning on the wire at 16.7 s (state PROVOKED, act creep); a defence at 19.8 s (strike, odds 0.45) with its wind-up on the wire and its sound (12 noise sources); the person's own death 1 s later named the Skin-Stealer; the overlay drew AWARE (noticed, provoked, warned 1x) and DEFENCE lines; no page error. Three earlier runs of the new tool failed on the tool itself (a 1280x720 software-rendered page too slow for its own steering; the creature allowed to earn a skin before the person came; the overlay's own switch not on) |
 | build, `build:check`, parts, modules, facts, window contract, docs, API contract, scope | PASS |

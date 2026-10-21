@@ -399,8 +399,8 @@
   },
   {
    "out": "public/ents.js",
-   "bytes": 82503,
-   "sha256": "4c909a393d76e0d4f96f546599f344da09d03a16449ac5c492e088f6fc3ad9f6",
+   "bytes": 82687,
+   "sha256": "dbb4517ca165ddaab63aca4403725c6b1c7b9c5a7743e519a0b261845358ba99",
    "parts": [
     {
      "path": "src/frameworks/br-r/client/ents.head.js",
@@ -429,7 +429,7 @@
     },
     {
      "path": "src/frameworks/overseer/client/ents.debug.js",
-     "sha256": "f9b2f7268722a7112c811ed2be39081562604279119c84a472ea381036ea962a",
+     "sha256": "dc29a0b58b375ed1b31e94d001d3fac45efe6216133cf84609cb0d0051ad616a",
      "headerBytes": 473
     },
     {
@@ -676,8 +676,8 @@
   },
   {
    "out": "generated/server/ai.js",
-   "bytes": 293022,
-   "sha256": "4d8a3a653ac5baf567548def9a2e2be9db0e16b7581174b8f2bb2c516e985da5",
+   "bytes": 299419,
+   "sha256": "b76b77eaae3be357d0c227b8ce8ea9358f9f39333053395b4f8724c13af18c57",
    "parts": [
     {
      "path": "src/frameworks/nani/server/ai.head.js",
@@ -726,7 +726,7 @@
     },
     {
      "path": "src/frameworks/nani/server/ai.skinstealer.js",
-     "sha256": "37d1446f8bbd52f1e2494d5da57768e6a2d0fd92f5921d19095be0e8152fdf53",
+     "sha256": "f5974c1a1debb59577026baf62ef209a93bde4fb6a9b903c945944399d2eb915",
      "headerBytes": 442
     },
     {

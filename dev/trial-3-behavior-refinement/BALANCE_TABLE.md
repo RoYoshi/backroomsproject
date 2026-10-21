@@ -5,8 +5,8 @@ owner plays. Trial 3's own values (`dev/trial-3-skin-stealer/BALANCE_TABLE.md`) 
 vision, the pounce, the hungry grab, the departure (1200–2200 px, at most 45 s), the hunt cooldown (30–60 s; 12 s starving), the
 encounter budget.
 
-Status: B1's and B2's values are built (B1 as proposed plus `pFast` and `rxGap`; B2 as proposed plus blame and the moving-into-its-way rule, below).
-B3 is still the starting proposal; its built values are filled in when it lands (`CHECKPOINTS.md`).
+Status: every value below is built (B1 as proposed plus `pFast` and `rxGap`; B2 as proposed plus blame and the moving-into-its-way rule; B3
+as proposed). All remain proposals for the owner's play-testing.
 
 ## Awareness (B1)
 
@@ -45,17 +45,27 @@ Measured (BR09–BR14): a person pressing in at 70 px is warned after 6.0–7.3 
 back off it is 0.07–0.09 (under the 0.12 at which it would look at them). A brush past at 23–25 px peaks at 0.18–0.41: one look, no
 warning. Three minutes of pressing: 29–30 warnings, never closer than 5.3 s apart.
 
-## Defence (B3)
+## Defence (B3) — built
 
-| Name | Proposed | Meaning |
+| Name | Value | Meaning |
 |---|---|---|
-| `pDefend` | 0.8 | pressure at which it may defend (after a warning) |
-| `defAfterWarn` / `defWindow` | 1 s / 15 s | the warning must have ended at least / at most this long before |
-| `defReach` | 110 px | they must be this close, seen, with a clear line |
-| `defWind` | 0.5 s | the defensive wind-up (the hungry grab's is 0.12 s, the pounce's 0.22 s: both unchanged) |
-| `defDur`, `defSpeed` | 0.25 s, 340 px/s | the lunge (about 70 px) |
-| `defCost` | 18 | stamina per defensive lunge |
-| `defCool` | 25 s | before it defends against the same person again |
-| `defGapAll` | 10 s | before it defends against anybody again |
-| withdrawal speed | 180 px/s (its tired run, under the 200 px/s that costs stamina) | how fast it goes when it withdraws |
-| strike odds | 0.35, + 0.4 cornered, + 0.2 per earlier withdrawal, + (aggression − 0.45) × 0.5, + 0.3 × hunger, − 0.2 if its stamina is under 40; kept within 0.1–0.95 | strike rather than withdraw |
+| `pDefend` | 0.8 | pressure from which it may defend - only against somebody it has warned |
+| `defAfterWarn` / window | 1 s / `pressFor` 15 s | the warning must have ended at least 1 s and at most 15 s before |
+| `defReach` | 110 px | they must be this close, seen now, with a clear walking line (nothing it could not pass) and not moving away from it faster than 60 px/s |
+| `defWind` | 0.5 s | the defensive wind-up: the pounce's own crouch and click (act `wind`). The hungry grab's 0.12 s and the pounce's 0.22 s are unchanged |
+| `defDur`, `defSpeed` | 0.25 s, 340 px/s | the lunge, about 70 px, committed (it cannot steer), only the person it is against can be caught |
+| `defCost` | 18 | stamina per defensive lunge; it cannot defend under 18, nor when exhausted |
+| `defCool`, `defGapAll` | 25 s, 10 s | from a defence's start, before it defends against the same person again; against anybody |
+| withdrawal | its tired run, 180 px/s (under the 200 px/s that costs stamina) | a fresh runner (285 px/s) can follow it; a walker (172 px/s) cannot |
+| odds of striking rather than withdrawing | 0.35 (`defBase`), + 0.4 cornered (`defCornered`: fewer than 2 of 7 directions away from them have 180 px of floor), + 0.2 per earlier withdrawal from them (`defPerWithdraw`), + (aggression − 0.45) × 0.5 (`defAggr`; 0 for this species), + 0.3 × hunger (`defHunger`), − 0.2 under 40 stamina (`defTired`); kept within 0.1–0.95 | drawn from its own stream (`skinstealer-aware`) |
+
+Measured (BR08, BR13, BR15; hunger at spawn exactly 0): somebody who keeps within 60 px of it, facing it, for 60 s: warned first in every
+run; its strikes came 1.0–3.3 s after a warning ended, at 57–80 px, with odds 0.33–0.37 when it had not withdrawn from them before (0.57 after one withdrawal, 0.73 after two);
+11 strikes in 8 runs, 4 of them kills (the earliest after 7.5 s of pressing; the rest missed a person who simply kept walking at it); hunger at the first defence 0.011–0.015 (0.096 in the run whose first defence came at 59.8 s), only ever
+risen by time. Somebody who breaks sideways at the wind-up: it missed 8 of 8, recovered 0.96–1.3 s, could not spring for 2.1–3.0 s, left
+them at its tired run and did not defend against them again for 25 s. Three minutes of a harasser who comes back after each death:
+defences against them never closer than 25.1 s, each after a fresh warning.
+
+**For the owner to judge first:** how soon a determined presser can be killed (7.5 s of continuous crowding, one warning) - `warnAfter`,
+`pWarn`, `pDefend`, `defBase` and `defCornered` set it; whether the warning (stop, face, hunch, back away for 1.2–1.8 s) and the 0.5 s
+wind-up read clearly enough from above.

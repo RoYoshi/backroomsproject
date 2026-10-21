@@ -88,6 +88,16 @@
  *     it, one way: SK.orbitArc, then each further half-turn - a straight pass sweeps less than half a turn), following it as it walks
  *     (SK.tailMin), moving into its way (SK.awBlock), and pressing in after it has warned them.  A sound adds nothing: it names nobody it
  *     does not see.  The fade counts all the time since it last saw them, far away too.
+ *   B3 DEFENCE: a satiated creature can kill, but only like this - it has WARNED this person, the warning ended at least SK.defAfterWarn
+ *     and at most SK.pressFor ago, their pressure is at least SK.pDefend, it sees them now within SK.defReach with a clear way to them,
+ *     they are not backing away, it is not exhausted and has the stamina, and neither its pounce cooldown, nor SK.defCool since it last
+ *     defended against them, nor SK.defGapAll since it last defended at all, holds it back.  Then, from its own stream, it chooses:
+ *     WITHDRAW (a departure away from them at its tired run, 180 px/s) or STRIKE; cornered, after earlier withdrawals from them, or the
+ *     more aggressive, it strikes more often; caution lowers it; hunger raises it a little - hunger never decides whether it may defend,
+ *     and nothing changes hunger.  The strike is the pounce's own path with its own numbers: a crouched wind-up of SK.defWind (the same
+ *     tell: act wind), aimed where it believes they will be, a short committed lunge that only that person can be caught by, lethal only
+ *     on contact (skStrikeStep, nothing solid between), then the engine's capture, one of the three kills, G.I.B.'s corpse.  A miss: the
+ *     usual recovery and pounce cooldown, then it leaves them, fast.  The hungry grab and pounce are unchanged.
  *     At SK.pWarn, after it has noticed them for SK.warnAfter, it WARNS: it turns on them, hunches (act creep, state PROVOKED) and backs
  *     away for SK.warnTime, then turns away by another way out (a departure keeps its time; roaming, it leaves).  No more often than
  *     SK.warnGap.  A very hungry departure may be reconsidered, after SK.leaveDwell, only on fresh sight of somebody it may hunt - never
@@ -157,6 +167,11 @@ const SK = Object.freeze({
   pWarn: .45, warnAfter: 3,                      // pressure at which it warns, once it has noticed them this long
   warnTime: [1.2, 1.8], warnGap: 4, warnBack: 40,   // a warning lasts; the least time to the next; how fast it backs away meanwhile (px/s)
   leaveDwell: 4,                                 // a very hungry departure can be reconsidered only after this long (and only on fresh sight)
+  // behaviour refinement B3: defence
+  pDefend: .8, defAfterWarn: 1, defReach: 110,   // pressure from which it may defend; at least this long after a warning ended; this close (seen, a clear way)
+  defWind: .5, defDur: .25, defSpeed: 340, defCost: 18,   // the defensive wind-up (the tell), the lunge (about 70 px), its stamina
+  defCool: 25, defGapAll: 10,                    // seconds before it defends against the same person again; against anybody
+  defBase: .35, defCornered: .4, defPerWithdraw: .2, defAggr: .5, defHunger: .3, defTired: .2,   // the odds of striking rather than withdrawing (kept within .1-.95)
 });
 /* (T6) the generic calls, used only when it has heard nothing it may repeat: none of them claims to know anything about anybody */
 const SK_BAIT = Object.freeze(['hello?', 'is someone there?', 'over here', 'wait for me', 'can you help me?', "i'm lost", 'this way']);
@@ -195,7 +210,7 @@ const SKIN = {
     e.voice = { h: Math.round(lerp(-4, 2, e.sayRng())), s: Math.round(lerp(78, 92, e.sayRng())) };   // its voice (pitch, pace): slow and a little low
     e.roam = { goal: null, until: 0, pause: 0 }; e.dbg.why = 'roaming'; e.dbg.decide = null; e.dbg.predict = null; e.dbg.soundSeen = 0;
     e.tally = { lure: 0, lureCame: 0, intercept: 0, interceptCame: 0, chase: 0, chaseLost: 0, search: 0, searchFound: 0, pounce: 0, grab: 0, hit: 0, miss: 0, wall: 0, kills: 0,
-      mingle: 0, say: 0, sayHeard: 0, sayBait: 0, skin: 0, skinLost: 0, reveal: 0, look: 0, lookSound: 0, warn: 0, reconsider: 0 };   // its record (debug, tests, the balance report)
+      mingle: 0, say: 0, sayHeard: 0, sayBait: 0, skin: 0, skinLost: 0, reveal: 0, look: 0, lookSound: 0, warn: 0, reconsider: 0, defend: 0, defendHit: 0, defendMiss: 0, withdraw: 0 };   // its record (debug, tests, the balance report)
     e.pounceCool = 0;
     e.aw = new Map(); e.rx = null; e.awAt = 0; e.awSound = 0; e.soundLookAt = 0;                // (B1) its awareness records; a reaction in progress
     e.awRng = mkRng(deriveSeed(eng.seed, 'skinstealer-aware', e.id));                           // (B1) its own stream: noticing never moves its other choices
@@ -464,9 +479,10 @@ function skStrike(eng, e) {
   return true;
 }
 function skSpring(eng, e, dir, tid, style, why) {
-  const grab = style === 'grab';
-  e.pounce = { t: 0, wind: grab ? SK.grabWind : SK.pounceWind, dur: grab ? .16 : SK.pounceDur, speed: grab ? 200 : SK.pounceSpeed, dir, tid, style, paid: false };
-  e.tally[grab ? 'grab' : 'pounce']++; e.path = []; e.dbg.why = why; e.dbg.pounce = style;
+  const grab = style === 'grab', def = style === 'defend';                      // (B3: 'defend' - its own wind-up, lunge and cost; only tid can be caught)
+  e.pounce = { t: 0, wind: grab ? SK.grabWind : def ? SK.defWind : SK.pounceWind, dur: grab ? .16 : def ? SK.defDur : SK.pounceDur, speed: grab ? 200 : def ? SK.defSpeed : SK.pounceSpeed,
+    cost: def ? SK.defCost : SK.pounceCost, dir, tid, style, paid: false };
+  if (!def) e.tally[grab ? 'grab' : 'pounce']++; e.path = []; e.dbg.why = why; e.dbg.pounce = style;
   if (e.disguise) skUndress(eng, e, 'it drops the skin to spring');                      // (T6) the wind-up shows what it is
   setState(e, S.ATTACKING, 'wind');
 }
@@ -483,18 +499,20 @@ function skStrikeStep(eng, e, dt) {
     const da = ((L.dir - e.ang + Math.PI * 3) % TAU) - Math.PI; e.ang = (e.ang + clamp(da, -12 * dt, 12 * dt) + TAU) % TAU;
     e.speed = approach(e.speed, 0, 1600 * dt); return null;
   }
-  if (!L.paid) { L.paid = true; e.stam = Math.max(0, e.stam - SK.pounceCost); setAct(e, 'pounce'); }   // every leap costs, hit or miss
+  if (!L.paid) { L.paid = true; e.stam = Math.max(0, e.stam - (L.cost || SK.pounceCost)); setAct(e, 'pounce'); }   // every leap costs, hit or miss
   const k = (L.t - L.wind) / L.dur, want = L.speed * (1 - .3 * k) * dt;
   e.ang = (L.dir + TAU) % TAU; e.speed = L.speed * (1 - .3 * k);
   e.moved = moveCollide(eng, e, Math.cos(L.dir) * want, Math.sin(L.dir) * want);
   for (const pv of eng.nearPlayers(e.x, e.y, e.r + 22)) {                         // contact: a body its own body has reached, nothing solid between
     if (!pv.alive || pv.caught || Math.hypot(pv.x - e.x, pv.y - e.y) >= e.r + 18 || !eng.geo.lineClear(e.x, e.y, pv.x, pv.y, 3, 'walk')) continue;
-    e.pounce = null; e.recover = 0; e.tally.hit++; e.dbg.pounce = L.style + ': hit';
+    if (L.style === 'defend' && pv.id !== L.tid) continue;                          // (B3) a defence catches only the person it was against
+    e.pounce = null; e.recover = 0; e.tally.hit++; e.dbg.pounce = L.style + ': hit'; if (L.style === 'defend') e.tally.defendHit++;
+    e.aw.delete(pv.id); e.rx = null;                                                 // (B3) whatever it held against them ends with them
     e.plan = null; e.target = null; e.enc = null; e.dbg.why = `it has P${pv.id}`;           // its plan is over: the kill (the engine's capture) takes it from here
     return { pv, dir: L.dir, speed: e.speed, style: L.style };
   }
-  if (e.moved < want * .4) { e.pounce = null; e.recover = SK.recoverWall; e.pounceCool = eng.now + rand(e, SK.pounceCool[0], SK.pounceCool[1]); setAct(e, 'recover'); e.tally.wall++; e.dbg.pounce = 'into a wall'; e.dbg.why = 'it leapt into a wall: stunned'; return null; }
-  if (k >= 1) { e.pounce = null; e.recover = rand(e, SK.recoverMiss[0], SK.recoverMiss[1]); e.pounceCool = eng.now + rand(e, SK.pounceCool[0], SK.pounceCool[1]); setAct(e, 'recover'); e.tally.miss++; e.dbg.pounce = 'missed'; e.dbg.why = 'it missed: it recovers'; }
+  if (e.moved < want * .4) { e.pounce = null; e.recover = SK.recoverWall; e.pounceCool = eng.now + rand(e, SK.pounceCool[0], SK.pounceCool[1]); setAct(e, 'recover'); e.tally.wall++; e.dbg.pounce = 'into a wall'; e.dbg.why = 'it leapt into a wall: stunned'; if (L.style === 'defend') { e.tally.defendMiss++; e.defLeave = L.tid; } return null; }
+  if (k >= 1) { e.pounce = null; e.recover = rand(e, SK.recoverMiss[0], SK.recoverMiss[1]); e.pounceCool = eng.now + rand(e, SK.pounceCool[0], SK.pounceCool[1]); setAct(e, 'recover'); e.tally.miss++; e.dbg.pounce = 'missed'; e.dbg.why = 'it missed: it recovers'; if (L.style === 'defend') { e.tally.defendMiss++; e.defLeave = L.tid; } }
   return null;
 }
 /* after its kill (the commitment over): the meal, then it feeds beside the body for a while - it never moves the body */
@@ -646,6 +664,39 @@ function skReact(eng, e, dt) {
   if (e.act !== 'watch') setAct(e, 'watch');
   return true;
 }
+/* ---- B3: defence ---- */
+/* no open way away from them: of seven directions away from where it sees them (straight away, and up to 1.2 rad either side), fewer than
+ * two have 180 px of floor */
+function skCornered(eng, e, v) {
+  const a0 = Math.atan2(e.y - v.y, e.x - v.x); let open = 0;
+  for (const da of [0, .4, -.4, .8, -.8, 1.2, -1.2]) if (eng.geo.ray(e.x, e.y, a0 + da, 200) >= 180) open++;
+  return open < 2;
+}
+/* on its think, before deciding: the person it has warned, still pressing it, within its reach - strike, or withdraw (see the header) */
+function skDefend(eng, e) {
+  const now = eng.now;
+  if (e.exh || e.disguise || e.stam < SK.defCost || now < e.pounceCool || now < (e.defNext || 0) || (e.plan && e.plan.k === 'feed')) return '';
+  let A = null;
+  for (const q of e.aw.values()) if (now - q.last < .05 && q.p >= SK.pDefend && q.warns && !(e.rx && e.rx.k === 'warn' && e.rx.pid === q.pid) && now - q.warnEnd >= SK.defAfterWarn && now - q.warnEnd <= SK.pressFor && now >= (q.defUntil || 0) && (!A || q.p > A.p)) A = q;
+  if (!A) return '';
+  const r = e.mem.p.get(A.pid); if (!r || !r.seen || !r.visual || tgtGone(eng, e, r)) return '';
+  const v = r.visual, d = r.dist; if (d > SK.defReach || !eng.geo.lineClear(e.x, e.y, v.x, v.y, e.rc * .6, 'walk')) return '';   // in reach, and a way to them: nothing solid between
+  if ((v.vx * (v.x - e.x) + v.vy * (v.y - e.y)) / Math.max(1, d) > 60) return '';   // they are backing away: it lets them
+  const cornered = skCornered(eng, e, v);
+  const odds = clamp(SK.defBase + (cornered ? SK.defCornered : 0) + SK.defPerWithdraw * (A.withdrew || 0) + (e.tr.AGGRESSION - .45) * SK.defAggr + SK.defHunger * e.hunger - (e.stam < 40 ? SK.defTired : 0), .1, .95);
+  A.defUntil = now + SK.defCool; e.defNext = now + SK.defGapAll; A.defAt = now; e.rx = null; e.dbg.rx = '';
+  const strike = e.awRng() < odds;
+  e.dbg.def = { pid: A.pid, k: strike ? 'strike' : 'withdraw', odds: +odds.toFixed(2), cornered, p: +A.p.toFixed(2), why: A.why, h: +e.hunger.toFixed(3), at: now };
+  if (strike) {
+    const tc = SK.defWind + .1, ax = v.x + v.vx * tc, ay = v.y + v.vy * tc, err = (e.awRng() - .5) * (1.2 - e.tr.INTELLIGENCE) * .4;   // where it believes they will be, its seeded error
+    skSpring(eng, e, Math.atan2(ay - e.y, ax - e.x) + err, r.id, 'defend', `P${r.id} would not stop ${A.why}: it defends itself`);
+    A.defs = (A.defs || 0) + 1; e.tally.defend++; eng.note(`K#${e.id} defends itself against P${r.id} (${A.why})`);
+    return 'strike';
+  }
+  A.withdrew = (A.withdrew || 0) + 1; A.p *= .7; e.tally.withdraw++;
+  skLeave(eng, e, r, `P${r.id} would not stop ${A.why}: it withdraws, fast`).fast = true; eng.note(`K#${e.id} withdraws from P${r.id}`);
+  return 'withdraw';
+}
 /* (B2) a warning: at most one at a time, never sooner than SK.warnGap after the last ended */
 function skWarn(eng, e, A) {
   const now = eng.now;
@@ -677,6 +728,10 @@ function skGaze(eng, e, dt) {
 function skDecide(eng, e) {
   const now = eng.now, P = e.plan;
   for (const [id, until] of e.left) if (until <= now || !eng.byId.has(id)) e.left.delete(id);
+  if (e.defLeave) {                                                                 // (B3) its defence missed: it leaves them, fast
+    const r = e.mem.p.get(e.defLeave); e.defLeave = 0;
+    if (r && !tgtGone(eng, e, r)) { skLeave(eng, e, r, `its defence against P${r.id} missed: it goes`).fast = true; return; }
+  }
   if (P && P.k === 'leave') {
     if (now < P.until && !(P.goal && Math.hypot(P.goal.x - e.x, P.goal.y - e.y) < 80)) {   // a departure is carried through...
       // (B2) ...unless a very hungry one, some way into it, sees somebody it may hunt now - never after a lost race, never on hunger alone
@@ -907,7 +962,7 @@ function skAct(eng, e, dt, thinkNow) {
       if (!P.goal) { e.plan = null; return; }
       if (e.act !== 'leave') setAct(e, 'leave');                                     // (B1: after a look)
       if (thinkNow && !e.path.length && e.pathAge > 2) plan(eng, e, P.goal.x, P.goal.y, { why: 'leave' });
-      follow(eng, e, dt, skSpeed(e, 'roam'), { arrive: 60 });
+      follow(eng, e, dt, skSpeed(e, P.fast ? 'fatigued' : 'roam'), { arrive: 60 });   // (B3: a withdrawal at its tired run, under the speed that costs stamina)
       return;
     }
   }
@@ -940,7 +995,13 @@ function skinTick(eng, e, dt, thinkNow) {
   if (e.cap) { skHold(eng, e, dt); return null; }
   if (e.pounce || e.recover > 0) return skStrikeStep(eng, e, dt);                 // a strike, once begun, is carried through
   if (thinkNow && skStrike(eng, e)) return skStrikeStep(eng, e, dt);              // (before deciding: at striking distance it does not stop to think)
-  if (thinkNow) { skAware(eng, e); skDecide(eng, e); skAttend(eng, e); }           // (B1: what it notices, then the decision, then any reaction)
+  if (thinkNow) {                                                                  // (B1: what it notices, then the decision, then any reaction)
+    skAware(eng, e);
+    const df = skDefend(eng, e);                                                   // (B3) a warned, still provoked creature may defend itself, or withdraw
+    if (df === 'strike') return skStrikeStep(eng, e, dt);
+    if (!df) skDecide(eng, e);
+    skAttend(eng, e);
+  }
   skAct(eng, e, dt, thinkNow);
   return null;
 }
@@ -956,11 +1017,12 @@ function skDebug(eng, e) {
     dg: e.disguise ? { from: e.disguise.from, left: Math.round(e.disguise.until - eng.now) } : 0, sk: e.skin ? e.skin.pid : 0, sn: e.dbg.skin || '',
     hd: e.heard.map(q => Math.round(eng.now - q.at)), sd: e.dbg.said ? { ago: +(eng.now - e.dbg.said.at).toFixed(1), src: e.dbg.said.src, why: e.dbg.said.why } : null,
     // (B1) the person it is most aware of (only ever somebody it has seen): pressure, whether it has noticed them, why, how long since it saw them; its reaction
-    aw: skAwTop(eng, e), awN: e.aw.size, rx: e.rx ? { k: e.rx.k, pid: e.rx.pid, left: +(e.rx.until - eng.now).toFixed(1), why: e.dbg.rx || '' } : null, lv: e.dbg.lv || '' };
+    aw: skAwTop(eng, e), awN: e.aw.size, rx: e.rx ? { k: e.rx.k, pid: e.rx.pid, left: +(e.rx.until - eng.now).toFixed(1), why: e.dbg.rx || '' } : null, lv: e.dbg.lv || '',
+    df: e.dbg.def ? { pid: e.dbg.def.pid, k: e.dbg.def.k, odds: e.dbg.def.odds, cornered: e.dbg.def.cornered ? 1 : 0, ago: +(eng.now - e.dbg.def.at).toFixed(1) } : null };
 }
 function skAwTop(eng, e) {
   let A = null; for (const q of e.aw.values()) if (!A || q.p > A.p) A = q;
-  return A ? { pid: A.pid, p: +A.p.toFixed(2), tier: A.p >= SK.pWarn ? 'provoked' : A.tier ? 'noticed' : '-', why: A.why, ago: +(eng.now - A.last).toFixed(1), d: A.d, looks: A.looks,
+  return A ? { pid: A.pid, p: +A.p.toFixed(2), tier: A.p >= SK.pDefend && A.warns ? 'threatened' : A.p >= SK.pWarn ? 'provoked' : A.tier ? 'noticed' : '-', why: A.why, ago: +(eng.now - A.last).toFixed(1), d: A.d, looks: A.looks,
     warns: A.warns || 0, orbits: A.orbits || 0 } : null;
 }
 SKIN.tick = skinTick;

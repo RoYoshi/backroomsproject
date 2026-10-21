@@ -4,9 +4,10 @@
  * that says the creature noticed or ignored somebody also counts whether that person was SEEN (e.seenNow) or HEARD at the time.
  * (The scripts that move a person may use where the creature really is: that is the player's own sight of it, not the creature's.)
  * B1: BR01-BR07, awareness while it roams or leaves.  B2: BR09, BR11-BR14, BR20, provocation, warnings, fading, the very hungry
- * departure. */
+ * departure.  B3: BR08, BR10, BR15-BR17, BR19, defence.  (From B3 on, BR02 and BR05 - long harassment - allow a kill, but only a defence
+ * after a warning.) */
 'use strict';
-const { World, DT, over, rate, AI } = require('./lib.js');
+const { World, DT, over, rate, AI, floorNear, bystander } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
 const ARENA = { x: 3960, y: 3384 };                    // an open hall (every wall at least 300 px off), dim (lamp .15)
 const WALL_A = { e: { x: 1240, y: 5100 }, far: [{ x: 900, y: 4960 }, { x: 900, y: 5250 }] };   // wall A of the dark south-west (x 976..1072)
@@ -107,9 +108,10 @@ add('BR02 circles are noticed: somebody who runs circles round a satiated one, i
     const firstClose = T.find(s => s.seen && s.d < 200), L = looks(T).filter(s => s.rx.endsWith(':' + R.p.id)), first = L[0];
     const faced = T.filter(s => s.rx && s.face < .6).length, head = T.filter(s => !s.rx && s.v > 20 && Math.abs(s.head) > .2).length;
     const lag = firstClose && first ? +(first.t - firstClose.t).toFixed(1) : -1, maxLooks = Math.ceil((T.length / 10) / AI.SK.ackGap[0]) + 1;
-    return { ok: !!firstClose && !!first && lag <= 3 && faced > 0 && L.length <= maxLooks && !R.strike && !R.w.kills.length, seenClose: T.filter(s => s.seen && s.d < 200).length, lag, looks: L.length, maxLooks, faced, head, plans: [...new Set(T.map(s => s.plan))].join('/') };
+    const kills = R.w.kills.filter(k => k.pid === R.p.id).length, warned = R.e.tally.warn > 0, defended = kills <= R.e.tally.defendHit;   // (B3: a kill, if any, only by a defence after a warning)
+    return { ok: !!firstClose && !!first && lag <= 3 && faced > 0 && L.length <= maxLooks && (!kills || (warned && defended)) && R.w.kills.length === kills, seenClose: T.filter(s => s.seen && s.d < 200).length, lag, looks: L.length, maxLooks, faced, head, kills, warns: R.e.tally.warn, plans: [...new Set(T.map(s => s.plan))].join('/') };
   });
-  return { ok: rate(rs) >= 7 / 8, note: `${rs.filter(r => r.ok).length}/8: seen close ${rs.map(r => r.seenClose).join('/')} samples; first look ${rs.map(r => r.lag).join('/')} s after it first saw them close; looks ${rs.map(r => r.looks).join('/')} (at most ${rs[0].maxLooks}); facing them while looking ${rs.map(r => r.faced).join('/')} samples; head turned toward them while walking ${rs.map(r => r.head).join('/')} samples; plans ${[...new Set(rs.map(r => r.plans))].join(', ')}`, data: rs };
+  return { ok: rate(rs) >= 7 / 8, note: `${rs.filter(r => r.ok).length}/8: seen close ${rs.map(r => r.seenClose).join('/')} samples; first look ${rs.map(r => r.lag).join('/')} s after it first saw them close; looks ${rs.map(r => r.looks).join('/')} (at most ${rs[0].maxLooks}); facing them while looking ${rs.map(r => r.faced).join('/')} samples; head turned toward them while walking ${rs.map(r => r.head).join('/')} samples; warnings ${rs.map(r => r.warns).join('/')}, killed in defence ${rs.map(r => r.kills).join('/')} (from B3: 22 s of circling it after its warnings can end so)`, data: rs };
 });
 add('BR03 a departure is not blind: while it is leaving, a person circling it or walking right behind it is looked at - and the same departure goes on afterwards (same goal, the creature on its way again)', () => {
   const rs = [];
@@ -153,9 +155,10 @@ add('BR05 its hunt cooldown is not blindness: somebody it has decided to leave a
     w.run(50, (ww, t) => { if (!go && planOf(e) === 'leave') go = tailer(w, e, p, 90); if (go) go(); return every(T.take)(ww, t); });
     const cool = T.filter(s => s.left), L = looks(cool).filter(s => s.rx.endsWith(':' + p.id)), roamL = L.filter(s => s.plan === 'roam');
     const hunted = cool.filter(s => HUNT.has(s.plan) && s.P && s.P.pid === p.id).length;
-    return { ok: cool.length > 0 && L.length >= 1 && hunted === 0 && !w.kills.length, seenOnCooldown: cool.filter(s => s.seen).length, looks: L.length, inRoam: roamL.length, hunted, roamSeen: cool.filter(s => s.seen && s.plan === 'roam').length };
+    const kills = w.kills.filter(k => k.pid === p.id).length, defended = kills <= e.tally.defendHit && e.tally.warn > 0;   // (B3: a kill, if any, only by a defence after a warning)
+    return { ok: cool.length > 0 && L.length >= 1 && hunted === 0 && (!kills || defended) && w.kills.length === kills, seenOnCooldown: cool.filter(s => s.seen).length, looks: L.length, inRoam: roamL.length, hunted, kills, warns: e.tally.warn, roamSeen: cool.filter(s => s.seen && s.plan === 'roam').length };
   });
-  return { ok: rate(rs) >= 5 / 6, note: `${rs.filter(r => r.ok).length}/6: seen while on its cooldown list ${rs.map(r => r.seenOnCooldown).join('/')} samples (${rs.map(r => r.roamSeen).join('/')} of them after the departure, roaming): looked at them ${rs.map(r => r.looks).join('/')} times (${rs.map(r => r.inRoam).join('/')} while roaming); hunting plans for them ${rs.map(r => r.hunted).join('/')}`, data: rs };
+  return { ok: rate(rs) >= 5 / 6, note: `${rs.filter(r => r.ok).length}/6: seen while on its cooldown list ${rs.map(r => r.seenOnCooldown).join('/')} samples (${rs.map(r => r.roamSeen).join('/')} of them after the departure, roaming): looked at them ${rs.map(r => r.looks).join('/')} times (${rs.map(r => r.inRoam).join('/')} while roaming); hunting plans for them ${rs.map(r => r.hunted).join('/')}; warnings ${rs.map(r => r.warns).join('/')}, killed in defence ${rs.map(r => r.kills).join('/')} (from B3: following it 90 px behind for 50 s, after its warnings, can end so)`, data: rs };
 });
 /* somebody it cannot perceive: on the far side of wall A, crouch-walking (or standing still in the dark behind it) - against nobody */
 function blind(seed, hunger, who) {
@@ -259,19 +262,22 @@ add('BR12 two people: one presses in on it, the other stands by in its view - th
   });
   return { ok: rate(rs) === 1, note: `${rs.filter(r => r.ok).length}/6: the presser warned ${rs.map(r => r.pw).join('/')} times (peak ${rs.map(r => r.pMax).join('/')}); the bystander (seen ${rs.map(r => r.qSeen).join('/')} ticks) peaked at ${rs.map(r => r.qMax).join('/')} (presence alone stops at ${AI.SK.capNear}), warned 0, struck at 0, killed 0`, data: rs };
 });
-add('BR13 a long harassment: three minutes of somebody pressing in on it - its warnings stay spaced, its records stay few, it is never pinned in one place', () => {
+add('BR13 a long harassment: three minutes of somebody pressing in on it, coming back after every death - its warnings stay spaced, its records stay few, it is never pinned in one place, and every defence is a fresh incident after a fresh warning, never closer than its own gaps', () => {
   const rs = over([1, 2, 3], seed => {
-    const { w, e, p } = stage(seed, { hunger: 0 }); const T = trace(w, e, p); const go = presser(w, e, p, 80);
-    let maxAw = 0, react = 0, n = 0, maxHeard = 0; const cells = new Set();
+    const { w, e, p } = stage(seed, { hunger: 0 }); const T = trace(w, e, p); const go = presser(w, e, p, 80), SP = springs(w, e, p);
+    let maxAw = 0, react = 0, n = 0, deadAt = -1, deaths = 0; const cells = new Set();
     w.run(180, (ww, t) => {
-      if (t > .5 && !p.dead) go();
-      maxAw = Math.max(maxAw, e.aw.size); maxHeard = Math.max(maxHeard, e.heard.length); n++; if (e.rx) react++; cells.add(Math.round(e.x / 200) + ',' + Math.round(e.y / 200));
+      if (p.dead) { if (deadAt < 0) { deadAt = t; deaths++; } else if (t - deadAt > 5 && w.sim.canRespawn && w.sim.canRespawn(p)) { w.sim.respawn(p); p.safe = 0; deadAt = -1; } }   // they come back
+      else if (t > .5) go();
+      maxAw = Math.max(maxAw, e.aw.size); n++; if (e.rx) react++; cells.add(Math.round(e.x / 200) + ',' + Math.round(e.y / 200)); SP.take(t);
       return every(T.take)(ww, t);
     });
-    const W = warnsOf(T, p.id), gaps = W.slice(1).map((s, i) => +(s.t - W[i].t).toFixed(1)), minGap = gaps.length ? Math.min(...gaps) : 99;
-    return { ok: maxAw <= AI.SK.awMax && minGap >= AI.SK.warnTime[0] + AI.SK.warnGap - .15 && react / n < .6 && cells.size >= 4, warns: W.length, minGap, maxAw, reacting: +(react / n).toFixed(2), places: cells.size, kills: w.kills.length };
+    const W = warnsOf(T, p.id), gaps = W.slice(1).map((s, i) => +(s.t - W[i].t).toFixed(1)), minGap = gaps.length ? Math.min(...gaps) : 99, D = SP.out;
+    const dg = D.slice(1).map((s, i) => +(s.t - D[i].t).toFixed(1)), fresh = D.every(s => s.warns >= 1 && s.sinceWarn >= AI.SK.defAfterWarn - .05 && s.sinceWarn <= AI.SK.pressFor + .05);
+    return { ok: maxAw <= AI.SK.awMax && minGap >= AI.SK.warnTime[0] + AI.SK.warnGap - .15 && react / n < .6 && cells.size >= 4 && fresh && (!dg.length || Math.min(...dg) >= AI.SK.defGapAll - .05) && w.kills.length <= deaths,
+      warns: W.length, minGap, maxAw, reacting: +(react / n).toFixed(2), places: cells.size, defences: D.length, gaps: dg, kills: w.kills.length, deaths, withdrew: e.tally.withdraw };
   });
-  return { ok: rate(rs) === 1, note: `${rs.filter(r => r.ok).length}/3: warnings ${rs.map(r => r.warns).join('/')} (never closer than ${rs.map(r => r.minGap).join('/')} s apart), awareness records at most ${rs.map(r => r.maxAw).join('/')}, reacting ${rs.map(r => r.reacting).join('/')} of the time, ${rs.map(r => r.places).join('/')} 200-px places visited; kills ${rs.map(r => r.kills).join('/')}`, data: rs };
+  return { ok: rate(rs) === 1, note: `${rs.filter(r => r.ok).length}/3: warnings ${rs.map(r => r.warns).join('/')} (never closer than ${rs.map(r => r.minGap).join('/')} s apart), awareness records at most ${rs.map(r => r.maxAw).join('/')}, reacting ${rs.map(r => r.reacting).join('/')} of the time, ${rs.map(r => r.places).join('/')} 200-px places visited; defensive strikes ${rs.map(r => r.defences).join('/')} (apart ${rs.map(r => r.gaps.join(', ') || '-').join(' / ')} s; each after a fresh warning), withdrawals ${rs.map(r => r.withdrew).join('/')}, kills ${rs.map(r => r.kills).join('/')} in ${rs.map(r => r.deaths).join('/')} deaths`, data: rs };
 });
 add('BR14 a very hungry departure: thought over only on fresh sight of somebody it may hunt, after a few seconds, at most once a second - never because hunger rose, never for the person it left, never after a lost race', () => {
   // A: it leaves two people (A, B); B walks off out of sight, A stays (on its cooldown); later a newcomer C comes into view alone
@@ -331,6 +337,128 @@ add('BR20 nothing stale survives: a person who leaves the game, goes far away fo
   { const { w, p0 } = press(5); w.sim.resetWorld(); out.reset = { p0, none: !w.eng.entities.some(x => x.kind === 'skinstealer') }; }
   const ok = Object.values(out).every(o => o.p0 >= AI.SK.pAware) && !out.disconnect.kept && !out.disconnect.rx && out.far.farTier === 'far' && out.far.tierBack === 'near' && out.far.back < .05 && !out.far.warns && out.clear.n === 0 && !out.clear.rx && out.removed.gone && out.reset.none;
   return { ok, note: `pressure built first (${Object.values(out).map(o => o.p0).join('/')}); left the game: record ${out.disconnect.kept ? 'KEPT' : 'dropped'}; a minute far away (tier ${out.far.farTier}, then ${out.far.tierBack}): their pressure when it is near again ${out.far.back}, warnings in the next 8 s ${out.far.warns}; admin clear: ${out.clear.n} records; removed: gone ${out.removed.gone}; world reset: none ${out.reset.none}`, data: out };
+});
+
+/* ---------------------------------------------------------------- B3: defence */
+/* somebody who will not let it be: they keep R px from it, facing it, walking - running when it gets away (their own sight of it) */
+const persist = (w, e, p, R = 60) => () => { const d = Math.hypot(p.x - e.x, p.y - e.y), ux = (p.x - e.x) / (d || 1), uy = (p.y - e.y) / (d || 1); p.mode = d > 160 ? 'run' : 'walk'; p.path = null; p.tx = { x: e.x + ux * R, y: e.y + uy * R }; p.look = Math.atan2(e.y - p.y, e.x - p.x); };
+/* a kill made at contact: the killer's body against the victim's, nothing solid between (SK32's rule) */
+const contactOk = (w, k, e) => Math.hypot(k.geo.ax - k.victim.x, k.geo.ay - k.victim.y) < e.r + 18 + 1 && w.eng.geo.lineClear(k.geo.ax, k.geo.ay, k.victim.x, k.victim.y, 3, 'walk');
+/* every defensive spring: what it knew and how it stood at that instant */
+function springs(w, e, p) {
+  const out = []; let on = false;
+  return { out, take(t) {
+    if (e.pounce && e.pounce.style === 'defend' && !on) {
+      on = true; const A = e.aw.get(p.id) || {}, d = Math.hypot(p.x - e.x, p.y - e.y);
+      out.push({ t: +t.toFixed(2), h: +e.hunger.toFixed(4), d: Math.round(d), line: w.eng.geo.lineClear(e.x, e.y, p.x, p.y, 3, 'walk'), seen: e.seenNow.has(p.id), warns: A.warns || 0,
+        sinceWarn: +(w.eng.now - (A.warnEnd ?? -99)).toFixed(2), p: +(A.p || 0).toFixed(2), odds: e.dbg.def && e.dbg.def.odds, cornered: !!(e.dbg.def && e.dbg.def.cornered), wind: e.pounce.wind, tid: e.pounce.tid });
+    }
+    if (!e.pounce) on = false;
+  } };
+}
+add('BR08 a satiated one defends itself: at hunger 0, somebody who keeps pressing in on it after it has warned them can be killed - by a defensive strike after a warning, that lands on their body - and its hunger is never changed for it', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const { w, e, p } = stage(seed, { hunger: 0 }); const h0 = e.hunger, go = persist(w, e, p), SP = springs(w, e, p);
+    let prevH = null, drift = 0, killAt = -1;
+    w.run(60, (ww, t) => {
+      if (!p.dead && !p.caught) go();
+      if (killAt < 0 && prevH !== null) { drift = Math.max(drift, Math.abs(e.hunger - prevH - AI.SK.hungerRate * DT)); if (w.kills.length) killAt = t; }   // (each step: exactly its rate; until the kill, then it feeds)
+      prevH = e.hunger; SP.take(t);
+      return true;
+    });
+    const K = w.kills.filter(k => k.pid === p.id), others = w.kills.length - K.length, S0 = SP.out;
+    const fair = S0.every(s => s.warns >= 1 && s.sinceWarn >= AI.SK.defAfterWarn - .05 && s.h < AI.SK.band[0] && s.line && s.seen && s.d <= AI.SK.defReach + 2 && s.wind === AI.SK.defWind && s.tid === p.id);
+    const killedOk = K.length <= 1 && (!K.length || (S0.length >= 1 && contactOk(w, K[0], e) && p.kill && p.kill.k === 'SkinStealer' && p.dead === 'SkinStealer'));
+    return { ok: h0 === 0 && drift < 1e-9 && fair && killedOk && !others && e.tally.warn >= 1, killed: K.length > 0, at: K.length ? +K[0].at.toFixed(1) : -1, v: K.length ? K[0].variant : '', springs: S0, warns: e.tally.warn, withdrew: e.tally.withdraw, h0, drift };
+  });
+  const killed = rs.filter(r => r.killed), first = rs.map(r => r.springs[0]).filter(Boolean);
+  return { ok: rate(rs) === 1 && killed.length >= 3, note: `${rs.filter(r => r.ok).length}/8 fair (hunger began at exactly 0 and only rose with time; every defence came after a warning, at least ${AI.SK.defAfterWarn} s after it ended, within reach, seen, with a clear way, wind-up ${AI.SK.defWind} s); killed in defence ${killed.length}/8 (at ${killed.map(r => r.at).join('/')} s, variants ${killed.map(r => r.v).join('/')}); hunger at the first defence ${first.map(s => s.h).join('/')}; its odds then ${first.map(s => s.odds + (s.cornered ? ' cornered' : '')).join('/')}; warnings ${rs.map(r => r.warns).join('/')}; withdrawals ${rs.map(r => r.withdrew).join('/')}`, data: rs.map(r => ({ ...r, springs: r.springs.slice(0, 3) })) };
+});
+add('BR10 nothing through anything solid: somebody it is ready to defend against, seen within reach across a corner or a low obstacle it cannot pass, is never sprung at; every defensive kill is at contact with a clear way', () => {
+  const rs = [];
+  for (const [cx, cy] of [[5600, 900], [3384, 900], [5150, 940]]) for (const seed of [1, 2, 3]) {
+    const w = World(seed), s0 = floorNear(w, cx, cy, 24), e = w.eng.spawn('skinstealer', s0.x, s0.y, { hunger: 0 }); e.tier = 'near'; e.ang = Math.PI / 2;
+    const s1 = floorNear(w, s0.x, s0.y + 150, 20), p = w.player(s1.x, s1.y, { light: true }); p.stop('stand');
+    const anchor = w.player(s0.x - 1500, s0.y + 900, { light: false }); anchor.stop('crouch');
+    const go = persist(w, e, p); let blocked = 0, springBlocked = 0, on = false, springs = 0;
+    w.run(60, () => {
+      if (!p.dead && !p.caught) go();
+      const A = e.aw.get(p.id), d = Math.hypot(p.x - e.x, p.y - e.y), line = w.eng.geo.lineClear(e.x, e.y, p.x, p.y, e.rc * .6, 'walk');
+      const ready = A && A.p >= AI.SK.pDefend && A.warns && e.seenNow.has(p.id) && d <= AI.SK.defReach;
+      if (ready && !line) blocked++;
+      if (e.pounce && e.pounce.style === 'defend' && !on) { on = true; springs++; if (!line) springBlocked++; } if (!e.pounce) on = false;
+      return true;
+    });
+    const K = w.kills.filter(k => k.kind === 'SkinStealer');
+    rs.push({ at: `${cx},${cy}#${seed}`, blocked, springs, springBlocked, kills: K.length, contact: K.every(k => contactOk(w, k, e)) });
+  }
+  const ex = rs.filter(r => r.blocked > 0);
+  return { ok: ex.length >= 3 && rs.every(r => !r.springBlocked && r.contact), note: `${ex.length}/9 runs had it ready to defend against somebody it saw within reach with no way to them (${ex.map(r => r.blocked).join('/')} ticks): sprung at then ${rs.reduce((a, r) => a + r.springBlocked, 0)} times; defensive springs in all ${rs.reduce((a, r) => a + r.springs, 0)}, kills ${rs.reduce((a, r) => a + r.kills, 0)}, every one at contact with a clear way: ${rs.every(r => r.contact)}`, data: rs };
+});
+add('BR15 counterplay against the defence: somebody who sees its wind-up and gets out of the way makes it miss - it stands recovering, cannot spring again for seconds, does not defend against them again for a while even when they come back, and goes', () => {
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const { w, e, p } = stage(seed, { hunger: 0 }); const go = persist(w, e, p); let dodge = 0, missAt = -1, rec = 0, cool = 0, back = -1, after = 0, plan = '', fast = false, recEnd = -1;
+    w.run(90, (ww, t) => {
+      if (!dodge && e.pounce && e.pounce.style === 'defend' && e.act === 'wind') { dodge = t; const a = Math.atan2(p.y - e.y, p.x - e.x) + Math.PI / 2; p.look = null; p.route([{ x: p.x + Math.cos(a) * 160, y: p.y + Math.sin(a) * 160 }, { x: p.x + Math.cos(a) * 160 + Math.cos(a - Math.PI / 2) * 900, y: p.y + Math.sin(a) * 160 + Math.sin(a - Math.PI / 2) * 900 }], 'run'); }   // the tell: they break sideways, then run
+      if (dodge && missAt < 0 && e.tally.defendMiss) { missAt = t; rec = e.recover; cool = +(e.pounceCool - w.eng.now).toFixed(2); }
+      if (missAt >= 0 && back < 0 && t - missAt > 6) back = t;                     // they come back and press in again
+      if (back >= 0 && !p.dead && !p.caught) go();
+      else if (!dodge && !p.dead && !p.caught) go();
+      if (missAt >= 0 && recEnd < 0 && !e.pounce && e.recover <= 0) recEnd = t;
+      if (recEnd >= 0 && !plan && t - recEnd > .3) { plan = e.plan ? e.plan.k : 'roam'; fast = !!(e.plan && e.plan.fast); }   // (its decision once it has recovered)
+      if (missAt >= 0 && t - dodge < AI.SK.defCool - .1 && e.pounce && e.pounce.style === 'defend' && e.tally.defend > 1) after++;   // (its cooldown runs from that defence's start)
+      return true;
+    });
+    return { ok: !dodge || (missAt < 0 ? !!w.kills.length : rec >= AI.SK.recoverMiss[0] - .05 && cool >= AI.SK.pounceCool[0] - .05 && !after && plan === 'leave' && fast), dodged: !!dodge, missed: missAt >= 0, rec: +rec.toFixed(2), cool, again: after, plan, fast, killed: w.kills.length };
+  });
+  const missed = rs.filter(r => r.missed);
+  return { ok: rate(rs) === 1 && missed.length >= 3, note: `${rs.filter(r => r.dodged).length}/8 saw its wind-up and broke away; it missed ${missed.length} (caught ${rs.filter(r => r.dodged && !r.missed).length}): recovering ${missed.map(r => r.rec).join('/')} s, ${missed.map(r => r.cool).join('/')} s before another spring, then ${missed.map(r => r.plan + (r.fast ? ' (fast)' : '')).join('/')}; defended against them again within ${AI.SK.defCool} s of that defence although they came back and pressed in: ${missed.reduce((a, r) => a + r.again, 0)} ticks`, data: rs };
+});
+add('BR16 one death, one corpse: a defensive kill names the Skin-Stealer as the killer everywhere; the victim leaving the game during it changes nothing - one kill, the server\'s one corpse, the creature on its kill and then at its meal', () => {
+  const D = require(require('../tools/layout.js').at('death_srv.js'));
+  const rs = over([2, 3, 4, 5, 6], seed => {
+    const { w, e, p } = stage(seed, { hunger: 0 }); bystander(w); const go = persist(w, e, p); let gone = -1, kill = null, body = null, fed = false, caps = 0, info = { name: 'k', look: 'none|a', ek: 'flashlight', ec: '#ffe7b2', ep: '', vx: 0, vy: 0, light: true };
+    w.run(60, (ww, t) => {
+      if (gone >= 0 && planOf(e) === 'feed') fed = true; if (e.cap) caps++;
+      if (!p.dead && !p.caught && gone < 0) go();
+      if (gone < 0 && p.dead) { gone = t; kill = Object.assign({}, p.kill); body = D.bodyFor(p.id, kill, info, w.sim); w.sim.removePlayer(p); }   // they close the game the moment they die
+      if (gone >= 0 && body && !body.put && t - gone >= D.durOf(kill)) { body.put = 1; w.sim.setBody(p.id, body.body); }   // the death plays out on the server; its corpse
+      return true;
+    });
+    const K = w.kills.filter(k => k.pid === p.id), mine = w.sim.bodies ? [...w.sim.bodies.values()].filter(b => b.k === p.id) : [];
+    return { ok: gone < 0 || (K.length === 1 && kill.k === 'SkinStealer' && body.body.c === 'SkinStealer' && mine.length === 1 && !e.cap && !caps && e.tally.kills === 1 && fed && e.tally.defendHit === 1), died: gone >= 0, kills: K.length, cause: kill && kill.k, corpse: body && body.body.c, bodies: mine.length, fed, plan: e.plan ? e.plan.k : 'roam' };
+  });
+  const died = rs.filter(r => r.died);
+  return { ok: rate(rs) === 1 && died.length >= 2, note: `${died.length}/${rs.length} killed in defence and left the game at once: kill events ${died.map(r => r.kills).join('/')}, cause ${died.map(r => r.cause).join('/')}, the server's corpse ${died.map(r => r.corpse).join('/')} (${died.map(r => r.bodies).join('/')} for that player); it fed at its kill ${died.map(r => r.fed).join('/')}, then ${died.map(r => r.plan).join('/')} at 60 s`, data: rs };
+});
+add('BR17 its skin and its words are as they were: in a borrowed skin it never looks, warns or defends - it walks up openly as before - and its lines are still its own entity packets', () => {
+  const LOOK = 'cap|freckles|#aabbcc|#112233|none';
+  const rs = over([1, 2, 3, 4], seed => {
+    const w = World(4300 + seed), y = 3504; bystander(w);
+    const v = w.player(5160, y, { light: true, angle: 0 }); v.look = 0; v.stop('stand');
+    const e = w.eng.spawn('skinstealer', 5000, y, { hunger: .7 }); e.tier = 'near'; e.ang = 0; let took = false;
+    w.run(60, () => { if (!took && v.kill && !e.commit && planOf(e) === 'feed') { w.sim.killerEnd(v.id, e.x, e.y, e.ang); took = w.eng.skinFrom(e.id, v.id, LOOK); } return !e.disguise; });
+    if (!e.disguise) return { ok: false, why: 'no skin' };
+    e.hunger = .12; const lines = []; w.eng.voiceOut = L => lines.push(L);
+    const s = floorNear(w, e.x + 300, e.y), q = w.player(s.x, s.y, { light: true, angle: Math.PI }); q.stop('stand');
+    const go = orbiter(w, e, q, 110, 'run'); let rx = 0, mingle = false, strike = false, inSkin = 0;
+    w.run(15, (ww, t) => { if (t > 1.5) go(); if (e.disguise) { inSkin++; if (e.rx) rx++; } if (planOf(e) === 'mingle') mingle = true; if (e.pounce) strike = true; return true; });
+    return { ok: !rx && mingle && !strike && lines.every(L => L.e === e.id && Number.isSafeInteger(L.o)), rx, mingle, strike, inSkin, lines: lines.length };
+  });
+  return { ok: rate(rs) >= 3 / 4, note: `${rs.filter(r => r.ok).length}/4: circled at 110 px while it wore a skin (${rs.map(r => r.inSkin).join('/')} ticks): reactions ${rs.map(r => r.rx).join('/')}, walked up openly ${rs.map(r => r.mingle).join('/')}, struck ${rs.map(r => r.strike).join('/')}; lines ${rs.map(r => r.lines).join('/')}, every one its own (entity id, never a person's session id as speaker) - SK40-SK44 are unchanged`, data: rs };
+});
+add('BR19 its streams are its own: provoking a Skin-Stealer (looks, warnings, a defence) does not move a single Hound or Smiler elsewhere in the world - the same seed with it left alone gives the same Hounds and Smilers, tick for tick', () => {
+  const run = (press) => {
+    const w = World(19), { x, y } = ARENA;
+    const e = w.eng.spawn('skinstealer', x, y, { hunger: 0 }); e.tier = 'near'; e.ang = 0;
+    const p = w.player(x + 350, y, { light: true, angle: Math.PI }); p.stop('stand'); p.look = Math.PI;
+    const others = [w.hound(8600, 700), w.hound(8500, 6300), w.smiler(700, 6300), w.smiler(8600, 3500)].map(o => (o.tierT = 1e9, o));   // (far from anywhere it goes; their level of detail held)
+    const go = persist(w, e, p); const tr = []; let near = 1e9;
+    w.run(30, () => { if (press && !p.dead && !p.caught) go(); for (const o of others) { tr.push(Math.round(o.x * 100), Math.round(o.y * 100), o.state.length); near = Math.min(near, Math.hypot(o.x - e.x, o.y - e.y)); } return true; });
+    return { tr, warns: e.tally.warn, defend: e.tally.defend + e.tally.withdraw, looks: e.tally.look, near: Math.round(near), seenBy: others.map(o => o.mem.p.has(p.id) ? 1 : 0).join('') };
+  };
+  const a = run(true), b = run(false); let first = -1; for (let i = 0; i < a.tr.length; i++) if (a.tr[i] !== b.tr[i]) { first = i; break; }
+  return { ok: first < 0 && a.warns >= 1 && a.defend >= 1 && a.seenBy === '0000' && b.seenBy === '0000' && Math.min(a.near, b.near) > 1500, note: `provoked (looks ${a.looks}, warnings ${a.warns}, defences or withdrawals ${a.defend}) against left alone: two Hounds and two Smilers ${first < 0 ? 'identical over ' + a.tr.length / 12 + ' ticks' : 'DIFFERENT from tick ' + Math.floor(first / 12)}; none of them ever sensed the person (${a.seenBy}/${b.seenBy}); the Skin-Stealer never came within ${Math.min(a.near, b.near)} px of them` };
 });
 
 module.exports = S;
