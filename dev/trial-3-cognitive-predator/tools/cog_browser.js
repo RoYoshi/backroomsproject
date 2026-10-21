@@ -14,7 +14,8 @@
  *   watched  a lit page stands 420-480 px in front of it and keeps the mouse on it (a stare), 35 s.
  *   circle   a lit page runs round a pillar in the hall (radius 175 px), lap after lap; the creature put near it, 35 s.
  *   crowd    two pages: a lit watcher in front of it, and a second person 600-700 px off walking slowly, facing away; 35 s.
- * Per try: the plan timeline (when, which, why), the share of time in each plan, the time to its first purposeful movement (moving
+ * Per try: when it first saw each page (a try where it saw none is a labelled setup miss), the plan timeline (when, which, why), the
+ * share of time in each plan, the time to its first purposeful movement (moving
  * over 40 px/s in approach, chase, flank, intercept or search) and to the first strike, how long it was out of the watcher's view, the
  * closest it came, whether a page died, page errors; screenshots at 1, 8, 16 and 30 s when --shots is given.  Every name and passcode is
  * synthetic. */
@@ -73,7 +74,7 @@ const REC = `() => { const K = window.__k3; K.rec = []; K.recT = setInterval(() 
     const d = (window.__ents.dbg || []).find(x => x.i === k.i), q = d && d.sk, H = __api.H, A = __api;
     const dist = Math.hypot(k.x - H.x, k.y - H.y), los = A.Uc(H.x, H.y, Math.atan2(k.y - H.y, k.x - H.x), dist) >= dist - 6;
     K.rec.push({ t: +(performance.now() / 1000).toFixed(2), x: Math.round(k.x), y: Math.round(k.y), v: k.v, ac: k.ac, pl: q ? q.pl : '?', pid: q ? q.pid || 0 : 0, why: q ? (q.why || '').slice(0, 90) : '', hu: q ? q.hu : null,
-      ht: q && q.ht && q.ht.pid ? q.ht.pid : 0, sees: d ? [].concat(d.lk && d.lk.seen && d.tg ? [d.tg] : [], (d.ec || []).map(c => c[0])) : [], d: Math.round(dist), los, dead: !!(A.death() && A.death().active) }); }, 100); }`;
+      ht: q && q.ht && q.ht.pid ? q.ht.pid : 0, sees: d ? [].concat(d.lk && d.lk.seen && d.tg ? [d.tg] : [], (d.ec || []).map(c => c[0]), q && q.aw && q.aw.ago <= .2 ? [q.aw.pid] : [], q && q.dec && q.dec.pid ? [q.dec.pid] : []) : [], d: Math.round(dist), los, dead: !!(A.death() && A.death().active) }); }, 100); }`;
 async function stare(P, ms) {                                              // the mouse kept on the creature's drawn position (the facing, the torch)
   const t0 = Date.now(); while (Date.now() - t0 < ms) { const s = await P.evaluate(() => { const k = (window.__k3.ss || [])[0]; return k ? window.__k3.screen(k.x, k.y) : null; }).catch(() => null); if (s) await P.mouse.move(s.x, s.y, { steps: 2 }).catch(() => { }); await sleep(150); }
 }
@@ -83,7 +84,12 @@ function summary(rec, ids, t0) {
   const share = {}; for (const r of R) share[r.pl] = (share[r.pl] || 0) + 1; for (const k in share) share[k] = +(share[k] / Math.max(1, R.length)).toFixed(2);
   const mv = R.find(r => MOVE.includes(r.pl) && r.v > 40), strike = R.find(r => r.ac === 12 || r.ac === 13);
   const hidden = R.filter(r => !r.los).length / 10, dead = R.find(r => r.dead);
-  return { hunger: R.length ? R[0].hu : null, timeline: tl, share, firstMove: mv ? +(mv.t - t0).toFixed(1) : null, firstStrike: strike ? +(strike.t - t0).toFixed(1) : null,
+  // (C1) when it first had each page in sight (the admin debug's own records: its target in sight, eye contact, the person it is most
+  // aware of seen within 0.2 s, the person its last decision was about - decisions are only ever made about somebody seen); a try in which it never saw the watcher
+  // measured nothing about it, and is labelled a setup miss rather than counted as gameplay
+  const firstSeen = {}; for (const r of R) for (const id of r.sees) if (firstSeen[id] === undefined) firstSeen[id] = +(r.t - t0).toFixed(1);
+  const sawW = ids && firstSeen[ids.watcher] !== undefined;
+  return { hunger: R.length ? R[0].hu : null, firstSeen, setupMiss: !sawW && !(ids && ids.walker && firstSeen[ids.walker] !== undefined), timeline: tl, share, firstMove: mv ? +(mv.t - t0).toFixed(1) : null, firstStrike: strike ? +(strike.t - t0).toFixed(1) : null,
     outOfViewSecs: +hidden.toFixed(1), closest: R.length ? Math.min(...R.map(r => r.d)) : null, died: dead ? +(dead.t - t0).toFixed(1) : null, huntOf: [...new Set(R.filter(r => r.ht).map(r => r.ht))] };
 }
 const out = { tool: 'dev/trial-3-cognitive-predator/tools/cog_browser.js', dir: path.basename(DIR), runs: [] };
@@ -109,10 +115,17 @@ const out = { tool: 'dev/trial-3-cognitive-predator/tools/cog_browser.js', dir: 
       run.ids = { watcher: await W.P.evaluate(() => __api.H.id), walker: B ? await B.P.evaluate(() => __api.H.id) : null };
       // the watcher: in front of it 420-480 px with a clear line (the circle: on the pillar's ring, the creature wherever 'near' put it)
       if (scene !== 'circle') {
-        const spot = await W.P.evaluate(k => { const A = __api; for (const r of [450, 420, 480, 400, 520]) for (let i = 0; i < 24; i++) { const a = (+k.a || 0) + (i % 2 ? 1 : -1) * Math.ceil(i / 2) / 24 * Math.PI * 2, x = k.x + Math.cos(a) * r, y = k.y + Math.sin(a) * r;
-          if (A.sl(x, y, 30) && A.Uc(k.x, k.y, a, r) >= r - 4) return { x, y }; } return null; }, K0);
+        // (C1) in front of it (within 1 rad of its facing, nearest first), 400-520 px off, a clear line - a lamp-lit spot first (the page's
+        // own light sample), else any in front, else anywhere clear; R8's C0 runs took the first clear spot and in two tries the creature
+        // never saw the page
+        const spot = await W.P.evaluate(k => { const A = __api, a0 = +k.a || 0, L = window.__light; let any = null, wide = null;
+          for (let i = 0; i < 24; i++) for (const r of [450, 420, 480, 400, 520]) { const da = Math.ceil(i / 2) / 24 * Math.PI * 2, a = a0 + (i % 2 ? 1 : -1) * da, x = k.x + Math.cos(a) * r, y = k.y + Math.sin(a) * r;
+            if (!(A.sl(x, y, 30) && A.Uc(k.x, k.y, a, r) >= r - 4)) continue;
+            if (da > 1) { if (!wide) wide = { x, y, lit: false, wide: true }; continue; }                    // (outside its field of view: a last resort)
+            if (L && L.sample(x, y, false).lamp > .3) return { x, y, lit: true }; if (!any) any = { x, y, lit: false }; }
+          return any || wide; }, K0);
         if (!spot) throw new Error('no open floor in front of it');
-        await W.P.evaluate(s => __api.tp(s.x, s.y), spot); run.watcherAt = { x: Math.round(spot.x), y: Math.round(spot.y) };
+        await W.P.evaluate(s => __api.tp(s.x, s.y), spot); run.watcherAt = { x: Math.round(spot.x), y: Math.round(spot.y), lit: spot.lit, wide: !!spot.wide };
       }
       if (B) {
         const bs = await B.P.evaluate(k => { const A = __api; for (const r of [650, 600, 700, 560, 750]) for (let i = 0; i < 32; i++) { const a = i / 32 * Math.PI * 2, x = k.x + Math.cos(a) * r, y = k.y + Math.sin(a) * r;
@@ -144,7 +157,7 @@ const out = { tool: 'dev/trial-3-cognitive-predator/tools/cog_browser.js', dir: 
       run.errors = pages.map(q => q.errs).flat();
     } catch (e) { run.error = String(e && e.stack).split('\n').slice(0, 3).join(' | '); }
     finally { for (const q of pages) await q.ctx.close().catch(() => { }); }
-    console.log(`${scene} #${tr}: hunger ${run.hunger}; ${run.error ? 'ERROR ' + run.error : `first purposeful move ${run.firstMove} s, first strike ${run.firstStrike} s, out of the watcher's view ${run.outOfViewSecs} s, closest ${run.closest} px, a page died ${run.died}; shares ${JSON.stringify(run.share)}; hunted ${run.huntOf.join(',') || '-'} (watcher ${run.ids && run.ids.watcher}, walker ${run.ids && run.ids.walker})`}`);
+    console.log(`${scene} #${tr}: hunger ${run.hunger}; ${run.error ? 'ERROR ' + run.error : `${run.setupMiss ? 'SETUP MISS (it never saw a page); ' : ''}first saw ${JSON.stringify(run.firstSeen)} s; first purposeful move ${run.firstMove} s, first strike ${run.firstStrike} s, out of the watcher's view ${run.outOfViewSecs} s, closest ${run.closest} px, a page died ${run.died}; shares ${JSON.stringify(run.share)}; hunted ${run.huntOf.join(',') || '-'} (watcher ${run.ids && run.ids.watcher}, walker ${run.ids && run.ids.walker})`}`);
     if (run.timeline) console.log('   ' + run.timeline.map(q => `${q[0]} ${q[1]}`).join(' | ').slice(0, 700));
   }
   await b.close().catch(() => { }); try { process.kill(srv.pid); } catch (e) { }

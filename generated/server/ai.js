@@ -2412,7 +2412,8 @@ const SK = Object.freeze({
   rethink: 1.3,                                  // a new plan must score this much better than the one it has (no dithering)
   retreatHold: 1,                                // seconds out of sight before it decides what next (lure, or go about its business)
   approachStop: 150,                             // T3: it comes no closer than this (the pounce and the kill are T4's)
-  lure: [4, 12], lureMax: 22,                    // waiting round the corner: 4 + 12 x hunger x PATIENCE s; never longer than lureMax
+  lure: [4, 12], lureMax: 22,                    // waiting round the corner: 4 + 12 x hunger x PATIENCE s; never longer than lureMax (C1: from mildly
+                                                 //  hungry up, SK.lureHungry instead, and then it looks again)
   predictLook: 1500, predictTurns: 2,            // how far along their way it thinks ahead; how many turns it guesses
   predictMargin: .8,                             // seconds it wants to be there before them
   interceptMax: 26, interceptWait: [4, 9],       // the longest an interception lasts; how long it waits at the spot (x PATIENCE)
@@ -2488,6 +2489,15 @@ const SK = Object.freeze({
   flankSettle: .6,                               // (R4) seconds it settles, crouched, at its flank spot before it comes on
   curious: [.8, 1.8], curiousStrong: .45,        // roaming: seconds it stops and listens after a sound; a first sound this strong is looked at alone
                                                  //  (x 1 .. .4 from mildly hungry to hungry)
+  // cognitive refinement C1: what changed, and what interrupts a plan (dev/trial-3-cognitive-predator/BALANCE_TABLE.md; all UNAPPROVED)
+  lureHungry: [2.5, 4.5],                        // waiting round the corner when hungry: this long (x PATIENCE), then it looks again (no blind 9 s)
+  reHunger: .45,                                 // a departure can be thought over from this hunger (R8: .6) - on an opening only, below .6
+  reDwell: [3, 1.2], reGap: .5,                  // ... after this long into it (hungry .. starving), at most this often (R8: 4 s, 1 s)
+  openBeat: [.35, .12],                          // seconds between seeing them look away and using it (mildly hungry .. starving): a beat, not a twitch
+  heardTurn: 3.6, heardNear: 350,                // listening to a sound this close it turns to it at its full turning (R8: 2.2 rad/s)
+  trackHead: .8, trackTurn: 1.6,                 // frozen, its head follows them this far (rad), its body turns past that at this rate (R8: neither)
+  aimLead: .6,                                   // in sight, it aims where their seen motion takes them, at most this far ahead (s); R8 aimed behind
+  cogLog: 24,                                    // decisions kept in its QA record (e.cog; never sent to players)
 });
 /* (T6) the generic calls, used only when it has heard nothing it may repeat: none of them claims to know anything about anybody */
 const SK_BAIT = Object.freeze(['hello?', 'is someone there?', 'over here', 'wait for me', 'can you help me?', "i'm lost", 'this way']);
@@ -2531,6 +2541,7 @@ const SKIN = {
     e.aw = new Map(); e.rx = null; e.awAt = 0; e.awSound = 0; e.soundLookAt = 0;                // (B1) its awareness records; a reaction in progress
     e.awRng = mkRng(deriveSeed(eng.seed, 'skinstealer-aware', e.id));                           // (B1) its own stream: noticing never moves its other choices
     e.hunt = null; e.spent = new Map();                                                         // (R1) its hunt; the effort it has spent on each person
+    e.cog = { n: 0, log: [] };                                                                  // (C1) what changed and what it did about it (QA only)
     e.huntRng = mkRng(deriveSeed(eng.seed, 'skinstealer-hunt', e.id));                          // (R1) its own stream: how it goes about a hunt never moves its other choices
     Object.assign(e.tally, { hunt: 0, huntCold: 0, huntSpent: 0, flank: 0, shadow: 0, listenLost: 0, reengage: 0, heardQ: 0, revise: 0, wrong: 0, alt: 0, curious: 0, curiousDrop: 0, freeze: 0, noFlank: 0 });
   },
@@ -2545,7 +2556,7 @@ const SKIN = {
   },
   still(e) { return e.still; },                                  // (the engine's stuck watchdog: it held still this tick on purpose)
   onStuck(eng, e) { if (e.plan && e.plan.k !== 'lure') e.plan.stuck = (e.plan.stuck || 0) + 1; e.roam.goal = null; e.dbg.why = 'stuck: the watchdog cleared its route'; },
-  onClear(eng, e) { e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.aw.clear(); e.rx = null; e.head = 0; e.defLeave = 0; e.dbg.lv = ''; e.hunt = null; e.spent.clear(); e.noFlank = null; setState(e, S.ROAMING, ''); },
+  onClear(eng, e) { e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.aw.clear(); e.rx = null; e.head = 0; e.defLeave = 0; e.dbg.lv = ''; e.hunt = null; e.spent.clear(); e.noFlank = null; e.cog = { n: 0, log: [] }; setState(e, S.ROAMING, ''); },
   debugHunt(eng, e, r) { e.left.delete(r.id); setTarget(e, r.id, eng.now); skBegin(eng, e, 'watch', r, 'admin: it was given a record of you'); return 'WATCHING YOU (real AI)'; },
   /* its own target scoring and commitment (ai.intelligence.js's debug asks for them; never the Smiler's sScore) */
   targetScore(eng, e, r) { const age = eng.now - Math.max(r.seenAt, r.heardAt); return r.aw * .8 + r.conf * .7 - Math.min(1, age / 30) * .3 + (r.seen ? .5 : 0) + (r.id === e.target ? .4 : 0); },
@@ -2568,6 +2579,21 @@ function skBody(eng, e, dt) {
 }
 /* it holds still on purpose: no route left behind (the engine's stuck watchdog would take a deliberate stop for being stuck) */
 function skHold(eng, e, dt) { if (e.path.length) e.path = []; stopMoving(eng, e, dt); e.still = true; }
+/* (C1) held still, its eyes stay on them: the head follows at once, the body turns (slowly) only past what the head can - R8's frozen
+ * creature kept its old facing and lost from view the person it was freezing for */
+function skTrack(e, x, y, dt) {
+  const want = angDiff(Math.atan2(y - e.y, x - e.x), e.ang), lim = SK.trackHead;
+  e.head = (e.head || 0) + (clamp(want, -lim, lim) - (e.head || 0)) * Math.min(1, dt * 8);
+  if (Math.abs(want) > lim) faceToward(e, x, y, dt, SK.trackTurn);
+}
+/* (C1) a person in sight, aimed at by a straight line (no route searched): where their seen motion takes them in the time it needs to get
+ * there (at most `lead` s; 0 on a lost race's trail, so a lead won stays won), else where they are; false when neither line is clear */
+function skAim(eng, e, p, d, maxD, lead) {
+  const t = Math.min(lead, d / 250), ax = p.x + p.vx * t, ay = p.y + p.vy * t;
+  if (t > 0 && directOk(eng, e, ax, ay, maxD)) { directTo(eng, e, ax, ay); return true; }
+  if (directOk(eng, e, p.x, p.y, maxD)) { directTo(eng, e, p.x, p.y); return true; }
+  return false;
+}
 /* the fastest it may go now: exhausted it walks, tired it runs slower */
 const skCap = e => e.exh ? e.sp.speeds.roam : e.stam < SK.stamLow ? e.sp.speeds.fatigued : e.sp.speeds.run;
 const skSpeed = (e, k) => Math.min(e.sp.speeds[k] || 100, skCap(e), e.disguise ? e.sp.speeds.disguise : 1e9);   // (T6: in a skin, never faster than its walk)
@@ -2597,6 +2623,12 @@ function skBegin(eng, e, k, r, why, extra) {
   if (e.tally[k] !== undefined) e.tally[k]++;
   setState(e, SK_STATE[k][0], SK_STATE[k][1]);
   return p;
+}
+/* (C1) its QA record: a stimulus it really sensed (or a plan's premise failing) and what it did; bounded, never sent to players, never read
+ * by any decision.  stim: 'opening' (they looked away), 'eyes' (they looked back), 'sighted', 'heard', 'away' (heard going away), ... */
+function skNote(eng, e, stim, what, pid) {
+  const C = e.cog || (e.cog = { n: 0, log: [] }); C.n++;
+  C.log.push({ t: +eng.now.toFixed(2), stim, what, pid: pid || 0, plan: e.plan ? e.plan.k : '' }); if (C.log.length > SK.cogLog) C.log.shift();
 }
 /* the person's encounter: its spent seconds (real time, counted on its thinks; never refilled by a change of plan) */
 function skEnc(eng, e, r, count) {
@@ -2882,7 +2914,9 @@ function skHeardNear(eng, e, r, within) {
   return best;
 }
 function skLure(eng, e, r, R) {
-  const P = skBegin(eng, e, 'lure', r, `out of P${r.id}'s sight: it waits round the corner for them to follow`, { until: eng.now + SK.lure[0] + SK.lure[1] * e.hunger * e.tr.PATIENCE, bait: !!R.bait });
+  // (C1) hungry, a short wait and then it looks again (R8 waited 4 + 12 x hunger x PATIENCE s, blind, for somebody with no reason to come)
+  const wait = e.hunger >= SK.band[1] ? lerp(SK.lureHungry[0], SK.lureHungry[1], e.tr.PATIENCE) : SK.lure[0] + SK.lure[1] * e.hunger * e.tr.PATIENCE;
+  const P = skBegin(eng, e, 'lure', r, `out of P${r.id}'s sight: it waits round the corner for them to follow`, { until: eng.now + wait, bait: !!R.bait });
   P.face = R.from || { x: r.lkx, y: r.lky };                                                     // the corner it came round: where they would come from
 }
 function skIntercept(eng, e, r, g, pre) {
@@ -2934,9 +2968,13 @@ function skListen(eng, e) {
 }
 /* (R2) after listening to a sound while it roamed: a later sound that fits the first (the same thing, moving), or a strong first, sends it
  * to look - quietly, at the freshest place; a weak sound with nothing after it is let go.  Anonymous: it names nobody */
+/* (R2) a later sound that fits the first (the same thing, moving), or null (newest first) */
+function skFollowUp(eng, e, C) {
+  for (const q of e.mem.sounds) if (q.id > C.id && eng.now - q.t < SK.heardFresh + 1 && Math.hypot(q.x - C.x, q.y - C.y) <= C.u + q.u + 120 + SK.hearReach * Math.max(0, q.t - C.t)) return q;
+  return null;
+}
 function skCurious(eng, e, C) {
-  let q2 = null;
-  for (const q of e.mem.sounds) if (q.id > C.id && eng.now - q.t < SK.heardFresh + 1 && Math.hypot(q.x - C.x, q.y - C.y) <= C.u + q.u + 120 + SK.hearReach * Math.max(0, q.t - C.t)) { q2 = q; break; }   // (newest first)
+  const q2 = skFollowUp(eng, e, C);
   if (!q2 && C.I < SK.curiousStrong * lerp(1, .4, sm(.3, .6, e.hunger))) { e.tally.curiousDrop++;   // (the hungrier, the fainter a sound it goes to look at)
     e.dbg.why = `nothing more after the ${C.type || 'sound'}: it lets it go`; return; }
   const g = q2 || C; e.tally.curious++;
@@ -2979,7 +3017,7 @@ function skSpring(eng, e, dir, tid, style, why) {
 }
 /* the wind-up, the committed leap, the recovery; a hit returns the capture to the engine (ai.engine.js begins it) */
 function skStrikeStep(eng, e, dt) {
-  e.still = true;
+  e.still = true; if (e.head) e.head = Math.abs(e.head) < .02 ? 0 : e.head * Math.max(0, 1 - dt * 6);   // (C1) its head comes round to its leap
   if (!e.pounce) {                                                                // recovering: it skids to a stop, then stands
     e.recover -= dt; e.speed = approach(e.speed, 0, 900 * dt); e.moved = e.speed > 1 ? moveCollide(eng, e, Math.cos(e.ang) * e.speed * dt, Math.sin(e.ang) * e.speed * dt) : 0;
     if (e.recover <= 0) { e.recover = 0; const P = e.plan; if (P && SK_STATE[P.k]) setState(e, SK_STATE[P.k][0], SK_STATE[P.k][1]); else setState(e, S.ROAMING, ''); }
@@ -3237,8 +3275,10 @@ function skDecide(eng, e) {
   if (P && P.k === 'leave') {
     if (now < P.until && !(P.goal && Math.hypot(P.goal.x - e.x, P.goal.y - e.y) < 80)) {   // a departure is carried through...
       // (B2) ...unless a very hungry one, some way into it, sees somebody it may hunt now - never after a lost race, never on hunger alone
-      if (!(e.hunger >= SK.band[2] && !e.exh && !P.race && now - P.t0 >= SK.leaveDwell && now >= (P.reT || 0) && skSeen(eng, e).some(r => skMayHunt(eng, e, r)))) return;
-      P.reT = now + 1;                                                               // (it thinks again at most once a second)
+      // (C1) from hungry (R8: very hungry), sooner and more often; below very hungry only on an opening - somebody it may hunt who is not watching it
+      const h = e.hunger, opp = r => skMayHunt(eng, e, r) && (h >= SK.band[2] || !skWatched(eng, e, r));
+      if (!(h >= SK.reHunger && !e.exh && !P.race && now - P.t0 >= lerp(SK.reDwell[0], SK.reDwell[1], sm(SK.reHunger, .95, h)) && now >= (P.reT || 0) && skSeen(eng, e).some(opp))) return;
+      P.reT = now + SK.reGap;                                                        // (it thinks again at most twice a second)
     } else { e.plan = null; e.dbg.why = 'it left; it roams again'; }
   }
   const all = skSeen(eng, e), seen = all.filter(r => skMayHunt(eng, e, r));                   // (R1: a starving one may take up a person it left, on fresh sight)
@@ -3253,8 +3293,20 @@ function skDecide(eng, e) {
   if (!seen.length) { skUnseen(eng, e); return; }
   const r = seen[0], h = e.hunger, p = perc(eng, e, r), d = Math.hypot(p.x - e.x, p.y - e.y), Hn = e.hunt && e.hunt.pid === r.id ? e.hunt : null;
   const retake = e.left.has(r.id);                                                               // (R1) somebody it left, seen again (a starving one may take them up)
-  const enc = skEnc(eng, e, r, true), watched = skWatched(eng, e, r), lit = skLit(eng, e) > SK.exposed, crowd = seen.length;
+  const enc = skEnc(eng, e, r, true), eyesOn = skWatched(eng, e, r), lit = skLit(eng, e) > SK.exposed, crowd = seen.length;
   const spent = enc.spent / skBudget(e), T = e.tr, cur = e.plan && e.plan.pid === r.id ? e.plan.k : null;
+  // (C1) eye contact as it changes, on the plan about them: they looked away (an opening, taken after a beat that shortens with hunger)
+  // or looked back.  Their facing is part of seeing them (R8's skWatched); nothing here is read without a sighting
+  const Pw = cur ? e.plan : null, was = Pw ? Pw.w : undefined;
+  if (Pw) {
+    Pw.w = !!eyesOn;
+    if (was === true && !eyesOn) { Pw.openAt = now; skNote(eng, e, 'opening', `P${r.id} looked away`, r.id); }
+    else if (eyesOn) { if (was === false && Pw.openAt !== undefined) skNote(eng, e, 'eyes', `P${r.id} looked back`, r.id); Pw.openAt = undefined; }
+  }
+  // a look away shorter than its beat is a twitch, not an opening: until it has lasted the beat the plan under way is kept (R8 changed
+  // its plan on a tenth of a second's glance, and back again - noise is not an interrupt)
+  const beat = lerp(SK.openBeat[0], SK.openBeat[1], sm(SK.band[1], .95, h)), away0 = Pw && Pw.openAt !== undefined && !eyesOn ? now - Pw.openAt : -1;
+  const watched = eyesOn, twitch = away0 >= 0 && away0 < beat, opening = away0 >= beat && h >= SK.band[1];
   const waiting = cur === 'lure' || (cur === 'intercept' && e.plan.arrived) || cur === 'search';
   if (waiting && e.plan.came === undefined && d < 320) { e.plan.came = now; if (cur === 'lure') e.tally.lureCame++; else if (cur === 'intercept') e.tally.interceptCame++; else e.tally.searchFound++; }
   if (spent >= 1) { skLeave(eng, e, r, `its time with P${r.id} is spent (${Math.round(enc.spent)} s)`); return; }
@@ -3304,8 +3356,12 @@ function skDecide(eng, e) {
     if (best === 'leave' || W[best] < W.leave * SK.rethink) { e.dbg.lv = `very hungry, it saw P${r.id}: it keeps going`; e.dbg.lvAt = now; return; }
     e.tally.reconsider++; e.dbg.lv = `very hungry, it saw P${r.id}: it gives up its departure`; e.dbg.lvAt = now;
   }
-  if (cur && best !== cur && W[best] < (W[cur] || 0) * SK.rethink && !(cur === 'watch' && now > e.plan.until)) return;   // keep the plan unless something is clearly better
+  // keep the plan unless something is clearly better - (C1) or they have looked away and coming on is now its best answer: an opening is
+  // used, not watched out to the end of a timer
+  if (cur && best !== cur && twitch) return;                                                     // (C1) not yet an opening: no change on a twitch
+  if (cur && best !== cur && W[best] < (W[cur] || 0) * SK.rethink && !(cur === 'watch' && now > e.plan.until) && !(opening && (best === 'approach' || best === 'chase'))) return;
   if (best === cur) return;
+  skNote(eng, e, opening ? 'opening' : 'seen', `${cur || (P ? P.k : '-')} -> ${best}`, r.id);
   if (retake && best !== 'leave') { e.left.delete(r.id); e.tally.reengage++; }                  // (R1, R7) taken up again - only now that it does: a departure kept keeps its cooldown
   if (best === 'leave') skLeave(eng, e, r, h < SK.band[0] ? `not hungry: it leaves P${r.id} alone` : crowd > 1 ? `more than one of them (${crowd})` : e.exh ? 'exhausted' : lit && watched ? 'seen in the light' : `it decides against P${r.id}`);
   else if (best === 'watch') skBegin(eng, e, 'watch', r, `it watches P${r.id}`);
@@ -3315,7 +3371,7 @@ function skDecide(eng, e) {
     skBegin(eng, e, 'retreat', r, bait ? `seen by P${r.id}: it backs away slowly, round a corner (inviting them to follow)` : `seen by P${r.id}: it backs out of sight`, { spot: s, bait, from: { x: e.x, y: e.y } });
     if (s) plan(eng, e, s.x, s.y, { why: 'retreat' });
   }
-  else if (best === 'approach') { if (h >= SK.band[1]) skHuntBegin(eng, e, r, 'it comes for them'); skBegin(eng, e, 'approach', r, watched ? `P${r.id} has seen it: starving, it comes on anyway` : `P${r.id} is not watching: it comes closer`); }
+  else if (best === 'approach') { if (h >= SK.band[1]) skHuntBegin(eng, e, r, 'it comes for them'); skBegin(eng, e, 'approach', r, watched ? `P${r.id} has seen it: starving, it comes on anyway` : opening ? `P${r.id} looked away: it comes on` : `P${r.id} is not watching: it comes closer`); }
   else if (best === 'chase') { skHuntBegin(eng, e, r, 'it gives chase'); skBegin(eng, e, 'chase', r, fleeing ? `P${r.id} runs: it gives chase` : `P${r.id} is winded: it closes in`, { dmin: d }); }
   else if (best === 'flank') {                                                                // (R1) to cover at their side (its spot found above)
     const s = fs;
@@ -3375,12 +3431,13 @@ function skAct(eng, e, dt, thinkNow) {
         const off = Math.abs(angDiff(Math.atan2(e.y - v.y, e.x - v.x), v.angle));
         if (off < SK.freezeCone && (P.frozen || 0) < lerp(SK.freezeMax[0], SK.freezeMax[1], sm(.55, .95, e.hunger))) {
           P.frozen = (P.frozen || 0) + dt; if (!P.froze) { P.froze = 1; e.tally.freeze++; e.dbg.why = `P${r.id} turns its way: it freezes`; }
-          skHold(eng, e, dt); if (e.act !== 'creep') setAct(e, 'creep'); return;
+          skHold(eng, e, dt); skTrack(e, v.x, v.y, dt); if (e.act !== 'creep') setAct(e, 'creep'); return;
         }
         if (off > SK.freezeCone + .25 && P.froze) { P.froze = 0; P.frozen = Math.max(0, P.frozen - .5); e.dbg.why = `P${r.id} looks away: it comes on`; }
       }
       if (d < SK.approachStop && Math.hypot(p.vx, p.vy) < 40) { skHold(eng, e, dt); faceToward(e, p.x, p.y, dt, 3); if (e.act !== 'creep') setAct(e, 'creep'); return; }
-      if (thinkNow && (now - (P.planT || -9) > 1.5 || !e.path.length)) {
+      // (C1) somebody in sight is aimed at afresh on every think (a straight line only); R8 re-aimed every 1.5 s, at where they had been
+      if (thinkNow && !(r.seen && skAim(eng, e, p, d, 420, P.shadow ? 0 : SK.aimLead)) && (now - (P.planT || -9) > 1.5 || !e.path.length)) {
         P.planT = now;
         if (directOk(eng, e, p.x, p.y, 420)) directTo(eng, e, p.x, p.y);
         else plan(eng, e, p.x, p.y, { why: 'approach under cover', cost: skCover(eng, p), maxNodes: 3000 });
@@ -3407,7 +3464,7 @@ function skAct(eng, e, dt, thinkNow) {
           if (Hh && e.hunger >= SK.band[2] && !e.exh && d <= P.dmin + SK.chaseLose * 3) { Hh.raceAt = now; e.tally.shadow++; skBegin(eng, e, 'approach', r, `${why}: it lets them run and keeps to their trail`, { shadow: 1 }); return; }
           skLeave(eng, e, r, why).race = true; return;                                   // (B2: a lost race stays a departure)
         }
-        if (now - (P.planT || -9) > .5 || !e.path.length) { P.planT = now; if (directOk(eng, e, p.x, p.y, 640)) directTo(eng, e, p.x, p.y); else plan(eng, e, p.x, p.y, { why: 'chase', maxNodes: 3000 }); }
+        if (!(r.seen && skAim(eng, e, p, d, 640, SK.aimLead)) && (now - (P.planT || -9) > .5 || !e.path.length)) { P.planT = now; if (directOk(eng, e, p.x, p.y, 640)) directTo(eng, e, p.x, p.y); else plan(eng, e, p.x, p.y, { why: 'chase', maxNodes: 3000 }); }   // (C1: in sight, every think)
       }
       setAct(e, 'chase');
       follow(eng, e, dt, skSpeed(e, 'run'), { arrive: 30 });                              // it runs on to them (the strike decides when it springs)
@@ -3421,10 +3478,16 @@ function skAct(eng, e, dt, thinkNow) {
         if (!P.spoke && now - P.t0 > SK.sayLure && e.hunger >= SK.band[2] && !(r && r.seen) && skSay(eng, e, r, 'from hiding')) P.spoke = now;
         if (skComing(eng, e, P)) { P.until = Math.min(Math.max(P.until, now + 2.5), P.t0 + SK.lureMax); if (r && now - r.heardAt < 2.5) P.face = { x: r.hx, y: r.hy }; e.dbg.why = 'it hears them coming: it waits, ready'; }
         if (P.came === undefined && skHeardNear(eng, e, r, 320)) { P.came = now; e.tally.lureCame++; }
+        // (C1) what it hears says they are going away (its evidence moving off, not their real place): the bait has failed - now
+        const Ha = r && e.hunt && e.hunt.pid === r.id ? e.hunt : null, away = P.near !== undefined && P.near < 1e9 && P.nearMin !== undefined && P.near > P.nearMin + 90;
+        if (P.near !== undefined && P.near < 1e9) P.nearMin = Math.min(P.nearMin ?? 1e9, P.near);
+        if (away && Ha && e.hunger >= SK.band[1] && !e.exh && Ha.hAt > P.t0) { skNote(eng, e, 'away', `heard P${P.pid}'s way going off: the bait failed`, P.pid); Ha.baitFailed = now; e.plan = null; skHuntNext(eng, e, `it hears P${P.pid} going away`); return; }
         if (now > P.until) {
           const Hh = r && e.hunt && e.hunt.pid === r.id ? e.hunt : null;                   // (R1) very hungry, a failed bait is one tactic, not the end of the hunt
           if (Hh) Hh.baitFailed = now;
-          if (Hh && e.hunger >= SK.band[2] && !e.exh && Hh.conf >= SK.huntLow) { e.plan = null; e.dbg.why = `P${P.pid} did not follow: ${e.hunger >= SK.band[3] ? 'starving' : 'very hungry'}, it goes after them instead`; skHuntNext(eng, e); return; }
+          if (Hh && e.hunger >= SK.band[1] && !e.exh && Hh.conf >= SK.huntLow) { e.plan = null; e.dbg.why = `P${P.pid} did not follow: it goes after them instead`; skNote(eng, e, 'timeout', 'nobody came round the corner: it goes after them', P.pid); skHuntNext(eng, e); return; }   // (C1: from hungry, R8 from very hungry)
+          // (C1) hungry, no hunt yet (it backed off rather than baited): it looks round the corner for them before it gives anything up
+          if (!Hh && r && e.hunger >= SK.band[1] && !e.exh && r.conf > .2) { skNote(eng, e, 'timeout', 'nobody came: it looks for them', P.pid); skSearch(eng, e, r, `nobody came: it looks round the corner for P${P.pid}`, { x: r.lkx, y: r.lky }); return; }
           skLeave(eng, e, r, P.bait ? `P${P.pid} did not follow: the bait failed` : `nobody came: it gives up on P${P.pid}`); return;
         }
       }
@@ -3555,9 +3618,15 @@ function skAct(eng, e, dt, thinkNow) {
     case 'listen': {                                                                   // (R1) it stands still and listens, its head turning
       skHold(eng, e, dt);
       const C = P.curious;                                                             // (R2) roaming: turned toward the sound it heard
-      if (C) faceToward(e, C.x, C.y, dt, 2.2);
+      if (C) faceToward(e, C.x, C.y, dt, Math.hypot(C.x - e.x, C.y - e.y) < SK.heardNear ? SK.heardTurn : 2.2);   // (C1: a close sound at its full turning)
       e.head = Math.sin((now - P.t0) * 1.7 + e.id) * (C ? .35 : .8);
       if (e.act !== 'listen') setAct(e, 'listen');
+      // (C1) the second sound it was listening for has come (roaming), or a sound that fits its quarry (a hunt): it goes now, not when the
+      // listening time is up
+      if (thinkNow && now - P.t0 >= .3 && now <= P.until) {
+        const Hq = e.hunt;
+        if (C ? !!skFollowUp(eng, e, C) : !!(Hq && !(r && r.seen) && Hq.hAt > P.t0)) { P.until = now - .001; skNote(eng, e, 'heard', C ? 'it heard it again: it goes now' : `a sound where P${Hq.pid} could be: it goes now`, C ? 0 : Hq.pid); }
+      }
       if (thinkNow && now > P.until) {
         e.plan = null; e.head = 0; e.dbg.why = 'it has listened';
         if (C) { skCurious(eng, e, C); return; }

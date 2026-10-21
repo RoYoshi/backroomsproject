@@ -1,0 +1,12 @@
+watched #1: hunger 0.48; first saw {"1":0.9} s; first purposeful move 14.8 s, first strike null s, out of the watcher's view 1.9 s, closest 140 px, a page died null; shares {"roam":0.02,"approach":0.32,"retreat":0.15,"lure":0.11,"listen":0.04,"search":0.02,"flank":0.13,"leave":0.21}; hunted 1 (watcher 1, walker null)
+   0.2 roam | 0.9 approach P1 | 4.1 retreat P1 | 9.1 lure P1 | 13 listen P1 | 14.5 search P1 | 15 flank P1 | 20 approach P1 | 28 leave
+watched #2: hunger null; first saw {"2":1.1} s; first purposeful move 4 s, first strike 17.2 s, out of the watcher's view 3.3 s, closest 0 px, a page died 17.5; shares {"?":0.01,"roam":0.46,"approach":0.38,"flank":0.08,"listen":0.03,"search":0.04}; hunted 2 (watcher 2, walker null)
+   0.3 ? | 0.7 roam | 1.1 approach P2 | 6.6 flank P2 | 9 approach P2 | 15.1 listen P2 | 16 search P2 | 17.2 flank P2 | 17.5 roam
+crowd #1: hunger 0.638; first saw {"3":1.8} s; first purposeful move null s, first strike null s, out of the watcher's view 6.3 s, closest 450 px, a page died null; shares {"roam":0.41,"leave":0.59}; hunted - (watcher 3, walker 4)
+   0.3 roam | 1.8 leave | 23.6 roam
+crowd #2: hunger 0.591; first saw {"5":2.1} s; first purposeful move null s, first strike null s, out of the watcher's view 5.5 s, closest 420 px, a page died null; shares {"roam":0.07,"leave":0.93}; hunted - (watcher 5, walker 6)
+   0.3 roam | 2.1 leave | 35.5 roam
+circle #1: hunger 0.471; first saw {"7":1.1} s; first purposeful move null s, first strike null s, out of the watcher's view 11.1 s, closest 616 px, a page died null; shares {"roam":0.38,"approach":0.02,"leave":0.61}; hunted 7 (watcher 7, walker null)
+   0.2 roam | 1.1 approach P7 | 1.9 leave | 23.6 roam
+circle #2: hunger 0.512; first saw {"8":1.6} s; first purposeful move null s, first strike null s, out of the watcher's view 8.3 s, closest 613 px, a page died null; shares {"roam":0.03,"approach":0.12,"watch":0.02,"leave":0.83}; hunted 8 (watcher 8, walker null)
+   0.2 roam | 1.6 approach P8 | 4.7 watch P8 | 5.1 approach P8 | 5.8 watch P8 | 6.2 approach P8 | 7.1 leave
