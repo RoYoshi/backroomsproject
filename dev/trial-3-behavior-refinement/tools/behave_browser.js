@@ -19,9 +19,10 @@
  *   defence), the snapshot's state and act codes for it, the lines the admin overlay draws (AWARE, DEFENCE), the creature's noise sources
  *   started (its wind-up's tell), and their own death if it comes (the page's death: its kind).
  * Checks: it noticed them (an awareness record, a look); it warned them (state PROVOKED, act creep, on the wire); it defended itself
- * (a decision: strike or withdraw); a strike showed its wind-up on the wire (act wind) with its sound; a death, if any, is the
- * Skin-Stealer's on the victim's own page; the overlay drew the new lines; no page error.  A strike is the creature's own seeded choice:
- * a run with only withdrawals passes the defence check and reports that no strike came.  Every name and passcode is synthetic. */
+ * (a decision: strike or withdraw); EVERY defensive strike showed its wind-up in a snapshot (act wind; every snapshot is noted, not only
+ * the half-second samples) with its sounds; a death, if any, is the Skin-Stealer's on the victim's own page; the overlay drew the new
+ * lines; no page error.  A strike is the creature's own seeded choice: a run with no strike, or no death, passes those two checks with
+ * a detail that says nothing was there to check (the report counts only exercised checks).  Every name and passcode is synthetic. */
 'use strict';
 const fs = require('fs'), path = require('path'), http = require('http'), net = require('net');
 const { spawn, execFileSync } = require('child_process');
@@ -40,7 +41,8 @@ const INIT = `(() => {
   window.WebSocket = function (u, p) { const ws = new S(u, p);
     if (/\\/ws(\\?|$)/.test(u)) { window.__k3.game = ws; ws.addEventListener('message', e => { try { const m = JSON.parse(e.data);
       if (m.t === 'admin' && m.ok) window.__k3.unlocked = true;
-      if (m.t === 's' && m.e) { window.__k3.snaps++; window.__k3.ss = m.e.ss || null; window.__k3.keys = Object.keys(m.e).join(','); } } catch (x) { } }); }
+      if (m.t === 's' && m.e) { window.__k3.snaps++; window.__k3.ss = m.e.ss || null; window.__k3.keys = Object.keys(m.e).join(',');
+        const wd = (m.e.ss || []).some(t => t.ac === ${KACT.wind}); if (wd && !window.__k3.inWind) (window.__k3.winds = window.__k3.winds || []).push(performance.now()); window.__k3.inWind = wd; } } catch (x) { } }); }   // (every wind-up's start, from every snapshot)
     return ws; };
   window.WebSocket.prototype = S.prototype; Object.assign(window.WebSocket, { OPEN: 1, CLOSED: 3, CONNECTING: 0, CLOSING: 2 });
   let mp = null; Object.defineProperty(window, '__mp', { configurable: true, get: () => mp ? (a => { window.__k3.cam = { x: a.cam.x, y: a.cam.y, sc: a.sc }; return mp(a); }) : mp, set: f => { mp = f; } });
@@ -158,8 +160,13 @@ const BOT = `(o) => { const K = window.__k3, held = new Set(), key = (c, down) =
     check('b4_noticed', seen.aware && seen.look >= 0, JSON.stringify({ aware: seen.aware, firstLook: seen.look, looksWhileCircling: seen.orbitLooks, headTurnedSamples: seen.headTurn }));
     check('b4_warned_on_the_wire', seen.warn >= 0 && seen.provoked >= 0 && seen.creep >= 0, JSON.stringify({ warn: seen.warn, provokedState: seen.provoked, creepAct: seen.creep }));
     check('b4_defence_decision', !!seen.def, JSON.stringify(seen.def));
-    check('b4_strike_shows_its_tell', !seen.def || seen.def.k !== 'strike' || (seen.wind >= 0 && R.windSounds >= 3), JSON.stringify({ decision: seen.def && seen.def.k, windAct: seen.wind, soundsAroundIt: R.windSounds }));
-    check('b4_death_is_its', !seen.death || seen.death.kind === 'SkinStealer', JSON.stringify(seen.death));
+    // every defensive strike (each decision on the wire: its time less how long ago it was), its wind-up seen in a snapshot and its sounds
+    const winds = await A.P.evaluate(() => (window.__k3.winds || []).slice()), src = await A.P.evaluate(() => window.__k3.src.slice()), strikes = [];
+    for (const r of rec) if (r.df && r.df.k === 'strike') { const at = r.at - r.df.ago * 1000; if (!strikes.some(q => Math.abs(q.at - at) < 1500)) strikes.push({ at, t: +(r.t - r.df.ago).toFixed(1), odds: r.df.odds }); }
+    for (const q of strikes) { const w = winds.find(x => x >= q.at - 400 && x <= q.at + 1500); q.wind = w !== undefined; q.sounds = w !== undefined ? src.filter(x => x >= w - 400 && x <= w + 900).length : 0; delete q.at; }
+    R.strikes = strikes;
+    check('b4_strike_shows_its_tell', strikes.every(q => q.wind && q.sounds >= 3), strikes.length ? JSON.stringify({ strikes }) : `no defensive strike came in this run (decisions: ${JSON.stringify(seen.def)}) - nothing to check`);
+    check('b4_death_is_its', !seen.death || seen.death.kind === 'SkinStealer', seen.death ? JSON.stringify(seen.death) : 'the person did not die in this run - nothing to check');
     const aw = R.lines.filter(l => /^AWARE P\d+ /.test(l)), df = R.lines.filter(l => /^DEFENCE P\d+ (struck|withdrew)/.test(l));
     check('b4_overlay_lines', aw.length && (!seen.def || df.length), JSON.stringify({ unique: R.lines.length, aware: aw.slice(0, 3), warned: aw.filter(l => /warned \d+x|REACT warn/.test(l)).slice(0, 2), defence: df.slice(0, 2) }));
     check('b4_prey_died_by_it', R.preyDeath && R.preyDeath.kind === 'SkinStealer', JSON.stringify(R.preyDeath));

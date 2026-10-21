@@ -2340,21 +2340,24 @@ SMILER.snap = e => ({ i: e.id, x: Math.round(e.x * 10) / 10, y: Math.round(e.y *
  *     never escalates: in its space (SK.capNear), crowding it (SK.awCrowd) - both by how much THEY closed the distance lately (somebody
  *     standing still that it walked up to, or backed into, has done nothing to it) - circling it (their motion relative to its own, round
  *     it, one way: SK.orbitArc, then each further half-turn - a straight pass sweeps less than half a turn), following it as it walks
- *     (SK.tailMin), moving into its way (SK.awBlock), and pressing in after it has warned them.  A sound adds nothing: it names nobody it
- *     does not see.  The fade counts all the time since it last saw them, far away too.
+ *     (SK.tailMin), moving into its way (SK.awBlock), and pressing in after it has warned them (their own motion, and as much as they
+ *     closed the distance).  A sound adds nothing: it names nobody it does not see.  The fade counts all the time since it last saw them,
+ *     far away too.
  *   B3 DEFENCE: a satiated creature can kill, but only like this - it has WARNED this person, the warning ended at least SK.defAfterWarn
  *     and at most SK.pressFor ago, their pressure is at least SK.pDefend, it sees them now within SK.defReach with a clear way to them,
  *     they are not backing away, it is not exhausted and has the stamina, and neither its pounce cooldown, nor SK.defCool since it last
  *     defended against them, nor SK.defGapAll since it last defended at all, holds it back.  Then, from its own stream, it chooses:
  *     WITHDRAW (a departure away from them at its tired run, 180 px/s) or STRIKE; cornered, after earlier withdrawals from them, or the
- *     more aggressive, it strikes more often; caution lowers it; hunger raises it a little - hunger never decides whether it may defend,
- *     and nothing changes hunger.  The strike is the pounce's own path with its own numbers: a crouched wind-up of SK.defWind (the same
- *     tell: act wind), aimed where it believes they will be, a short committed lunge that only that person can be caught by, lethal only
+ *     more aggressive, it strikes more often; tired (under 40 stamina), less; hunger raises it a little - hunger never decides whether it
+ *     may defend, and nothing changes hunger.  The strike is the pounce's own path with its own numbers: a crouched wind-up of SK.defWind
+ *     (the same tell: act wind), aimed where it believes they will be when it reaches them (never past itself: somebody walking straight
+ *     at it is met where they are, by their sideways motion only), a short committed lunge that only that person can be caught by, lethal only
  *     on contact (skStrikeStep, nothing solid between), then the engine's capture, one of the three kills, G.I.B.'s corpse.  A miss: the
  *     usual recovery and pounce cooldown, then it leaves them, fast.  The hungry grab and pounce are unchanged.
  *     At SK.pWarn, after it has noticed them for SK.warnAfter, it WARNS: it turns on them, hunches (act creep, state PROVOKED) and backs
  *     away for SK.warnTime, then turns away by another way out (a departure keeps its time; roaming, it leaves).  No more often than
- *     SK.warnGap.  A very hungry departure may be reconsidered, after SK.leaveDwell, only on fresh sight of somebody it may hunt - never
+ *     SK.warnGap; a warning cut short by a change of plan before SK.warnTime[0] is not counted as given.  Fleeing (a withdrawal, or leaving
+ *     after a missed defence) it does not stop to look - its head still turns - but chased down it may still warn.  A very hungry departure may be reconsidered, after SK.leaveDwell, only on fresh sight of somebody it may hunt - never
  *     after a lost race, never from hunger rising alone. */
 const KACT = { '': 0, watch: 1, back: 2, leave: 3, wait: 4, lure: 5, intercept: 6, search: 7, listen: 8, approach: 9, creep: 10, chase: 11, wind: 12, pounce: 13, recover: 14, feed: 15, mimic: 16, rest: 17, pace: 18 };
 /* the balance table (proposed; every value is named so it can be tested and tuned) */
@@ -2471,7 +2474,7 @@ const SKIN = {
   },
   /* the engine's hooks (ai.engine.js): it never borrows a Hound's or a Smiler's own functions */
   onFar(eng, e) {
-    e.pounce = null; e.recover = 0; e.rx = null; e.head = 0; if (e.plan && e.plan.k === 'feed') return;   // feeding at its kill it carries on, alone
+    e.pounce = null; e.recover = 0; e.rx = null; e.head = 0; e.defLeave = 0; if (e.plan && e.plan.k === 'feed') return;   // feeding at its kill it carries on, alone
     e.plan = null; e.roam.goal = null; e.roam.pause = 0; setState(e, S.ROAMING, ''); e.dbg.why = 'nobody within reach: it waits where it is';
   },
   farTick(eng, e, dt) {                                           // far from everyone it stands still, and is still hungry (or still feeding)
@@ -2480,7 +2483,7 @@ const SKIN = {
   },
   still(e) { return e.still; },                                  // (the engine's stuck watchdog: it held still this tick on purpose)
   onStuck(eng, e) { if (e.plan && e.plan.k !== 'lure') e.plan.stuck = (e.plan.stuck || 0) + 1; e.roam.goal = null; e.dbg.why = 'stuck: the watchdog cleared its route'; },
-  onClear(eng, e) { e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.aw.clear(); e.rx = null; e.head = 0; setState(e, S.ROAMING, ''); },
+  onClear(eng, e) { e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.aw.clear(); e.rx = null; e.head = 0; e.defLeave = 0; e.dbg.lv = ''; setState(e, S.ROAMING, ''); },
   debugHunt(eng, e, r) { e.left.delete(r.id); setTarget(e, r.id, eng.now); skBegin(eng, e, 'watch', r, 'admin: it was given a record of you'); return 'WATCHING YOU (real AI)'; },
   /* its own target scoring and commitment (ai.intelligence.js's debug asks for them; never the Smiler's sScore) */
   targetScore(eng, e, r) { const age = eng.now - Math.max(r.seenAt, r.heardAt); return r.aw * .8 + r.conf * .7 - Math.min(1, age / 30) * .3 + (r.seen ? .5 : 0) + (r.id === e.target ? .4 : 0); },
@@ -2876,8 +2879,9 @@ function skAware(eng, e) {
     if (A.tailT >= SK.tailMin) skBump(A, SK.pTail * dt, SK.capTail, 'following it', now);
     if ((!P || P.k === 'leave') && e.path.length && sp > 40 && along > 0 && along < SK.awBlock && lat < 60) A.blockT += dt; else A.blockT = Math.max(0, A.blockT - 2 * dt);   // (moving into its way: somebody standing still is not blocking it)
     if (A.blockT >= .6) skBump(A, SK.pBlock * dt, SK.capBlock, 'in its way', now);
-    // pressing in after it has warned them: close, and not backing off
-    if (now - A.warnEnd < SK.pressFor && d < SK.pressNear && vr < 30) skBump(A, SK.pPress * (.5 + .5 * skClose(d)) * dt, SK.capPress, 'pressing in after its warning', now);
+    // pressing in after it has warned them: close, and not backing off - by their own motion, and as much as they closed the distance
+    // (the creature walking up to somebody standing still is not them pressing in)
+    if (now - A.warnEnd < SK.pressFor && d < SK.pressNear && own < 30) skBump(A, SK.pPress * (.5 + .5 * skClose(d)) * blame * dt, SK.capPress, 'pressing in after its warning', now);
     if (!A.tier && A.p >= SK.pAware) { A.tier = 1; A.ack = now; }
   }
 }
@@ -2887,6 +2891,7 @@ function skAttend(eng, e) {
   if (e.rx || e.disguise || e.pounce || e.recover > 0 || (P && P.k !== 'leave')) return;
   let A = null; for (const q of e.aw.values()) if (q.tier && now - q.last < .05 && (!A || q.p > A.p)) A = q;   // noticed, and seen on this very think
   if (A && A.p >= SK.pWarn && now - A.ack >= SK.warnAfter && now >= A.nextWarn && A.d < SK.awNear + 60) { skWarn(eng, e, A); return; }   // (B2)
+  if (P && P.fast) return;                         // fleeing (a withdrawal, or leaving after a missed defence) it does not stop to look - its head still turns; chased down, it may still warn
   if (A && now >= A.nextAck) {
     e.rx = { k: 'look', pid: A.pid, at: null, t0: now, until: now + lerp(SK.look[0], SK.look[1], e.awRng()) };
     A.nextAck = e.rx.until + lerp(SK.ackGap[0], SK.ackGap[1], e.awRng()); A.looks++; e.tally.look++;
@@ -2942,7 +2947,13 @@ function skDefend(eng, e) {
   const strike = e.awRng() < odds;
   e.dbg.def = { pid: A.pid, k: strike ? 'strike' : 'withdraw', odds: +odds.toFixed(2), cornered, p: +A.p.toFixed(2), why: A.why, h: +e.hunger.toFixed(3), at: now };
   if (strike) {
-    const tc = SK.defWind + .1, ax = v.x + v.vx * tc, ay = v.y + v.vy * tc, err = (e.awRng() - .5) * (1.2 - e.tr.INTELLIGENCE) * .4;   // where it believes they will be, its seeded error
+    // where it believes they will be when it reaches them (the pounce's own reckoning, from what it sees of their motion), its seeded error;
+    // somebody coming straight at it would be reckoned past it: then it meets them where they are, led only by their sideways motion
+    const ux = (v.x - e.x) / Math.max(1, d), uy = (v.y - e.y) / Math.max(1, d), touch = e.r + 16, vr = clamp(v.vx * ux + v.vy * uy, -300, 300);
+    const tc = SK.defWind + clamp((d + vr * SK.defWind - touch) / Math.max(60, SK.defSpeed - vr), 0, SK.defDur);
+    let ax = v.x + v.vx * tc, ay = v.y + v.vy * tc;
+    if ((ax - e.x) * ux + (ay - e.y) * uy < touch) { ax = v.x + (v.vx - vr * ux) * tc; ay = v.y + (v.vy - vr * uy) * tc; }
+    const err = (e.awRng() - .5) * (1.2 - e.tr.INTELLIGENCE) * .4;
     skSpring(eng, e, Math.atan2(ay - e.y, ax - e.x) + err, r.id, 'defend', `P${r.id} would not stop ${A.why}: it defends itself`);
     A.defs = (A.defs || 0) + 1; e.tally.defend++; eng.note(`K#${e.id} defends itself against P${r.id} (${A.why})`);
     return 'strike';
@@ -2963,7 +2974,7 @@ function skWarn(eng, e, A) {
 function skReactEnd(eng, e, done) {
   const R = e.rx; e.rx = null; e.dbg.rx = ''; e.rxEnd = eng.now;
   if (R.k !== 'warn') return;
-  const A = R.pid ? e.aw.get(R.pid) : null, P = e.plan; if (A) A.warnEnd = eng.now;
+  const A = R.pid ? e.aw.get(R.pid) : null, P = e.plan; if (A && (done || eng.now - R.t0 >= SK.warnTime[0])) A.warnEnd = eng.now;   // (a warning cut short is no warning)
   if (P && SK_STATE[P.k]) setState(e, SK_STATE[P.k][0], SK_STATE[P.k][1]); else setState(e, S.ROAMING, '');
   if (!done || e.disguise) return;
   const r = R.pid ? e.mem.p.get(R.pid) : null;
@@ -3038,8 +3049,8 @@ function skDecide(eng, e) {
   const best = Object.keys(W).sort((a, b) => W[b] - W[a] || a.localeCompare(b))[0];
   e.dbg.decide = { pid: r.id, d: Math.round(d), watched, lit, crowd, h: +h.toFixed(2), spent: +spent.toFixed(2), away: Math.round(away), W: Object.fromEntries(Object.entries(W).map(([k, v]) => [k, +v.toFixed(2)])), best };
   if (P && P.k === 'leave' && e.plan === P) {                                        // (B2) a very hungry departure, thought over: kept unless clearly worse
-    if (best === 'leave' || W[best] < W.leave * SK.rethink) { e.dbg.lv = `very hungry, it saw P${r.id}: it keeps going`; return; }
-    e.tally.reconsider++; e.dbg.lv = `very hungry, it saw P${r.id}: it gives up its departure`;
+    if (best === 'leave' || W[best] < W.leave * SK.rethink) { e.dbg.lv = `very hungry, it saw P${r.id}: it keeps going`; e.dbg.lvAt = now; return; }
+    e.tally.reconsider++; e.dbg.lv = `very hungry, it saw P${r.id}: it gives up its departure`; e.dbg.lvAt = now;
   }
   if (cur && best !== cur && W[best] < (W[cur] || 0) * SK.rethink && !(cur === 'watch' && now > e.plan.until)) return;   // keep the plan unless something is clearly better
   if (best === cur) return;
@@ -3271,7 +3282,7 @@ function skDebug(eng, e) {
     dg: e.disguise ? { from: e.disguise.from, left: Math.round(e.disguise.until - eng.now) } : 0, sk: e.skin ? e.skin.pid : 0, sn: e.dbg.skin || '',
     hd: e.heard.map(q => Math.round(eng.now - q.at)), sd: e.dbg.said ? { ago: +(eng.now - e.dbg.said.at).toFixed(1), src: e.dbg.said.src, why: e.dbg.said.why } : null,
     // (B1) the person it is most aware of (only ever somebody it has seen): pressure, whether it has noticed them, why, how long since it saw them; its reaction
-    aw: skAwTop(eng, e), awN: e.aw.size, rx: e.rx ? { k: e.rx.k, pid: e.rx.pid, left: +(e.rx.until - eng.now).toFixed(1), why: e.dbg.rx || '' } : null, lv: e.dbg.lv || '',
+    aw: skAwTop(eng, e), awN: e.aw.size, rx: e.rx ? { k: e.rx.k, pid: e.rx.pid, left: +(e.rx.until - eng.now).toFixed(1), why: e.dbg.rx || '' } : null, lv: e.dbg.lv && eng.now - (e.dbg.lvAt || 0) < 5 ? e.dbg.lv : '',
     df: e.dbg.def ? { pid: e.dbg.def.pid, k: e.dbg.def.k, odds: e.dbg.def.odds, cornered: e.dbg.def.cornered ? 1 : 0, ago: +(eng.now - e.dbg.def.at).toFixed(1) } : null };
 }
 function skAwTop(eng, e) {

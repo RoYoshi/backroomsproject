@@ -351,7 +351,8 @@ function springs(w, e, p) {
     if (e.pounce && e.pounce.style === 'defend' && !on) {
       on = true; const A = e.aw.get(p.id) || {}, d = Math.hypot(p.x - e.x, p.y - e.y);
       out.push({ t: +t.toFixed(2), h: +e.hunger.toFixed(4), d: Math.round(d), line: w.eng.geo.lineClear(e.x, e.y, p.x, p.y, 3, 'walk'), seen: e.seenNow.has(p.id), warns: A.warns || 0,
-        sinceWarn: +(w.eng.now - (A.warnEnd ?? -99)).toFixed(2), p: +(A.p || 0).toFixed(2), odds: e.dbg.def && e.dbg.def.odds, cornered: !!(e.dbg.def && e.dbg.def.cornered), wind: e.pounce.wind, tid: e.pounce.tid });
+        sinceWarn: +(w.eng.now - (A.warnEnd ?? -99)).toFixed(2), p: +(A.p || 0).toFixed(2), odds: e.dbg.def && e.dbg.def.odds, cornered: !!(e.dbg.def && e.dbg.def.cornered), wind: e.pounce.wind, tid: e.pounce.tid,
+        aimOff: +Math.abs(angDiff(e.pounce.dir, Math.atan2(p.y - e.y, p.x - e.x))).toFixed(2), closing: Math.round(-((p.x - e.x) * (p.vx || 0) + (p.y - e.y) * (p.vy || 0)) / Math.max(1, d)) });   // (B5: the lunge's aim against where they are, and how fast they come at it)
     }
     if (!e.pounce) on = false;
   } };
@@ -367,12 +368,12 @@ add('BR08 a satiated one defends itself: at hunger 0, somebody who keeps pressin
       return true;
     });
     const K = w.kills.filter(k => k.pid === p.id), others = w.kills.length - K.length, S0 = SP.out;
-    const fair = S0.every(s => s.warns >= 1 && s.sinceWarn >= AI.SK.defAfterWarn - .05 && s.h < AI.SK.band[0] && s.line && s.seen && s.d <= AI.SK.defReach + 2 && s.wind === AI.SK.defWind && s.tid === p.id);
+    const fair = S0.every(s => s.warns >= 1 && s.sinceWarn >= AI.SK.defAfterWarn - .05 && s.h < AI.SK.band[0] && s.line && s.seen && s.d <= AI.SK.defReach + 2 && s.wind === AI.SK.defWind && s.tid === p.id && s.aimOff < .8);   // (B5: aimed at them, never away from somebody walking at it)
     const killedOk = K.length <= 1 && (!K.length || (S0.length >= 1 && contactOk(w, K[0], e) && p.kill && p.kill.k === 'SkinStealer' && p.dead === 'SkinStealer'));
     return { ok: h0 === 0 && drift < 1e-9 && fair && killedOk && !others && e.tally.warn >= 1, killed: K.length > 0, at: K.length ? +K[0].at.toFixed(1) : -1, v: K.length ? K[0].variant : '', springs: S0, warns: e.tally.warn, withdrew: e.tally.withdraw, h0, drift };
   });
   const killed = rs.filter(r => r.killed), first = rs.map(r => r.springs[0]).filter(Boolean);
-  return { ok: rate(rs) === 1 && killed.length >= 3, note: `${rs.filter(r => r.ok).length}/8 fair (hunger began at exactly 0 and only rose with time; every defence came after a warning, at least ${AI.SK.defAfterWarn} s after it ended, within reach, seen, with a clear way, wind-up ${AI.SK.defWind} s); killed in defence ${killed.length}/8 (at ${killed.map(r => r.at).join('/')} s, variants ${killed.map(r => r.v).join('/')}); hunger at the first defence ${first.map(s => s.h).join('/')}; its odds then ${first.map(s => s.odds + (s.cornered ? ' cornered' : '')).join('/')}; warnings ${rs.map(r => r.warns).join('/')}; withdrawals ${rs.map(r => r.withdrew).join('/')}`, data: rs.map(r => ({ ...r, springs: r.springs.slice(0, 3) })) };
+  return { ok: rate(rs) === 1 && killed.length >= 3, note: `${rs.filter(r => r.ok).length}/8 fair (hunger began at exactly 0 and only rose with time; every defence came after a warning, at least ${AI.SK.defAfterWarn} s after it ended, within reach, seen, with a clear way, wind-up ${AI.SK.defWind} s); killed in defence ${killed.length}/8 (at ${killed.map(r => r.at).join('/')} s, variants ${killed.map(r => r.v).join('/')}); hunger at the first defence ${first.map(s => s.h).join('/')}; its odds then ${first.map(s => s.odds + (s.cornered ? ' cornered' : '')).join('/')}; warnings ${rs.map(r => r.warns).join('/')}; withdrawals ${rs.map(r => r.withdrew).join('/')}; every lunge aimed within ${Math.max(0, ...rs.flatMap(r => r.springs.map(s => s.aimOff)))} rad of them (closing at up to ${Math.max(0, ...rs.flatMap(r => r.springs.map(s => s.closing)))} px/s)`, data: rs.map(r => ({ ...r, springs: r.springs.slice(0, 3) })) };
 });
 add('BR10 nothing through anything solid: somebody it is ready to defend against, seen within reach across a corner or a low obstacle it cannot pass, is never sprung at; every defensive kill is at contact with a clear way', () => {
   const rs = [];
@@ -397,8 +398,9 @@ add('BR10 nothing through anything solid: somebody it is ready to defend against
 });
 add('BR15 counterplay against the defence: somebody who sees its wind-up and gets out of the way makes it miss - it stands recovering, cannot spring again for seconds, does not defend against them again for a while even when they come back, and goes', () => {
   const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
-    const { w, e, p } = stage(seed, { hunger: 0 }); const go = persist(w, e, p); let dodge = 0, missAt = -1, rec = 0, cool = 0, back = -1, after = 0, plan = '', fast = false, recEnd = -1;
+    const { w, e, p } = stage(seed, { hunger: 0 }); const go = persist(w, e, p); let dodge = 0, missAt = -1, rec = 0, cool = 0, back = -1, after = 0, plan = '', fast = false, recEnd = -1, fleeLook = 0, fleeT = 0;
     w.run(90, (ww, t) => {
+      if (e.plan && e.plan.k === 'leave' && e.plan.fast) { fleeT++; if (e.rx && e.rx.k === 'look') fleeLook++; }   // (B5: fleeing, it does not stop to look)
       if (!dodge && e.pounce && e.pounce.style === 'defend' && e.act === 'wind') { dodge = t; const a = Math.atan2(p.y - e.y, p.x - e.x) + Math.PI / 2; p.look = null; p.route([{ x: p.x + Math.cos(a) * 160, y: p.y + Math.sin(a) * 160 }, { x: p.x + Math.cos(a) * 160 + Math.cos(a - Math.PI / 2) * 900, y: p.y + Math.sin(a) * 160 + Math.sin(a - Math.PI / 2) * 900 }], 'run'); }   // the tell: they break sideways, then run
       if (dodge && missAt < 0 && e.tally.defendMiss) { missAt = t; rec = e.recover; cool = +(e.pounceCool - w.eng.now).toFixed(2); }
       if (missAt >= 0 && back < 0 && t - missAt > 6) back = t;                     // they come back and press in again
@@ -409,10 +411,10 @@ add('BR15 counterplay against the defence: somebody who sees its wind-up and get
       if (missAt >= 0 && t - dodge < AI.SK.defCool - .1 && e.pounce && e.pounce.style === 'defend' && e.tally.defend > 1) after++;   // (its cooldown runs from that defence's start)
       return true;
     });
-    return { ok: !dodge || (missAt < 0 ? !!w.kills.length : rec >= AI.SK.recoverMiss[0] - .05 && cool >= AI.SK.pounceCool[0] - .05 && !after && plan === 'leave' && fast), dodged: !!dodge, missed: missAt >= 0, rec: +rec.toFixed(2), cool, again: after, plan, fast, killed: w.kills.length };
+    return { ok: !dodge || (missAt < 0 ? !!w.kills.length : rec >= AI.SK.recoverMiss[0] - .05 && cool >= AI.SK.pounceCool[0] - .05 && !after && plan === 'leave' && fast && !fleeLook), dodged: !!dodge, missed: missAt >= 0, rec: +rec.toFixed(2), cool, again: after, plan, fast, fleeT, fleeLook, killed: w.kills.length };
   });
   const missed = rs.filter(r => r.missed);
-  return { ok: rate(rs) === 1 && missed.length >= 3, note: `${rs.filter(r => r.dodged).length}/8 saw its wind-up and broke away; it missed ${missed.length} (caught ${rs.filter(r => r.dodged && !r.missed).length}): recovering ${missed.map(r => r.rec).join('/')} s, ${missed.map(r => r.cool).join('/')} s before another spring, then ${missed.map(r => r.plan + (r.fast ? ' (fast)' : '')).join('/')}; defended against them again within ${AI.SK.defCool} s of that defence although they came back and pressed in: ${missed.reduce((a, r) => a + r.again, 0)} ticks`, data: rs };
+  return { ok: rate(rs) === 1 && missed.length >= 3, note: `${rs.filter(r => r.dodged).length}/8 saw its wind-up and broke away; it missed ${missed.length} (caught ${rs.filter(r => r.dodged && !r.missed).length}): recovering ${missed.map(r => r.rec).join('/')} s, ${missed.map(r => r.cool).join('/')} s before another spring, then ${missed.map(r => r.plan + (r.fast ? ' (fast)' : '')).join('/')}; defended against them again within ${AI.SK.defCool} s of that defence although they came back and pressed in: ${missed.reduce((a, r) => a + r.again, 0)} ticks; stopped to look while fleeing: ${missed.reduce((a, r) => a + r.fleeLook, 0)} of ${missed.reduce((a, r) => a + r.fleeT, 0)} ticks`, data: rs };
 });
 add('BR16 one death, one corpse: a defensive kill names the Skin-Stealer as the killer everywhere; the victim leaving the game during it changes nothing - one kill, the server\'s one corpse, the creature on its kill and then at its meal', () => {
   const D = require(require('../tools/layout.js').at('death_srv.js'));
@@ -461,4 +463,5 @@ add('BR19 its streams are its own: provoking a Skin-Stealer (looks, warnings, a 
   return { ok: first < 0 && a.warns >= 1 && a.defend >= 1 && a.seenBy === '0000' && b.seenBy === '0000' && Math.min(a.near, b.near) > 1500, note: `provoked (looks ${a.looks}, warnings ${a.warns}, defences or withdrawals ${a.defend}) against left alone: two Hounds and two Smilers ${first < 0 ? 'identical over ' + a.tr.length / 12 + ' ticks' : 'DIFFERENT from tick ' + Math.floor(first / 12)}; none of them ever sensed the person (${a.seenBy}/${b.seenBy}); the Skin-Stealer never came within ${Math.min(a.near, b.near)} px of them` };
 });
 
+S.helpers = { stage, persist, springs, contactOk };              // (for dev/trial-3-behavior-refinement/tools/br_dump.js: the same drivers, more seeds)
 module.exports = S;
