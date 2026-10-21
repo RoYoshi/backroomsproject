@@ -1,0 +1,12 @@
+watched #1: hunger 0.487; first saw {"1":2} s; first purposeful move 5.5 s, first strike null s, out of the watcher's view 0 s, closest 232 px, a page died null; shares {"roam":0.03,"approach":0.12,"stand":0.85}; hunted 1 (watcher 1, walker null)
+   0.5 roam | 2 approach P1 | 7.2 stand P1
+watched #2: hunger 0.496; first saw {"2":1.1} s; first purposeful move 3.9 s, first strike 8.2 s, out of the watcher's view 0 s, closest 34 px, a page died 9.6; shares {"roam":0.73,"approach":0.27}; hunted 2 (watcher 2, walker null)
+   0.2 roam | 1.1 approach P2 | 9.6 roam
+crowd #1: hunger 0.587; first saw {"3":16.8,"4":2.8} s; first purposeful move 2.8 s, first strike 5.7 s, out of the watcher's view 2 s, closest 420 px, a page died null; shares {"roam":0.15,"approach":0.13,"feed":0.18,"leave":0.54}; hunted 4 (watcher 3, walker 4)
+   0.5 roam | 2.8 approach P4 | 6.6 roam | 10.2 feed | 16.8 leave
+crowd #2: hunger 0.633; SETUP MISS (it never saw a page); first saw {} s; first purposeful move null s, first strike null s, out of the watcher's view 3.7 s, closest 520 px, a page died null; shares {"roam":1}; hunted - (watcher 5, walker 6)
+   0.7 roam
+circle #1: hunger 0.489; first saw {"7":2.1} s; first purposeful move 15.3 s, first strike 9.7 s, out of the watcher's view 0 s, closest 18 px, a page died 17.6; shares {"roam":0.54,"approach":0.01,"stand":0.37,"chase":0.08}; hunted 7 (watcher 7, walker null)
+   0.3 roam | 2.1 approach P7 | 2.3 stand P7 | 15.3 chase P7 | 18.1 roam
+circle #2: hunger 0.597; first saw {"8":2} s; first purposeful move 3.2 s, first strike 13.5 s, out of the watcher's view 0 s, closest 15 px, a page died 17.9; shares {"roam":0.5,"stand":0.21,"flank":0.18,"approach":0.04,"listen":0.01,"search":0.02,"chase":0.04}; hunted 8 (watcher 8, walker null)
+   0.2 roam | 2 stand P8 | 3.2 flank P8 | 9 approach P8 | 10 stand P8 | 15.4 listen P8 | 15.7 search P8 | 16.5 chase P8 | 17.9 roam

@@ -9,7 +9,10 @@
  * C2: C02 (hungry and watched: it keeps them in view and uses the moments they look away; a watcher who never does is not killed), C03 (very
  * hungry and watched: more than one rational answer over seeds; with no way round, it comes on at once without searching again), C08 (a
  * bait only where somebody following first sees it within its reach), C09 (its route searches stay bounded through failed tactics), C13 (two
- * people: the better chance, no thrash, effort kept; a person only heard is never named). */
+ * people: the better chance, no thrash, effort kept; a person only heard is never named).
+ * C3: C05 (a heading seen, then out of sight: a grounded guess at once; the same until it senses a difference), C06 (somebody seen going
+ * round a pillar: a cut-off; a turn back fools it; only what it saw counts), C10 (the lost race: a fresh runner still wins, and the
+ * creature chooses its next step within a second instead of 13 s on their trail). */
 'use strict';
 const { World, DT, LONG, AI, over, floorNear, bystander } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -17,6 +20,8 @@ const planOf = e => e.plan ? e.plan.k : e.hunt ? 'hunt' : 'roam';
 const ang = (a, b) => { let d = (a - b) % (Math.PI * 2); if (d > Math.PI) d -= Math.PI * 2; else if (d < -Math.PI) d += Math.PI * 2; return d; };
 // the requirement, stated here and not read from the creature's constants: hungry, no blind wait round a corner longer than this (s)
 const LURE_MAX = 4.5;
+// ... and after a lost race, no longer than this on their trail before its next step (s)
+const TRAIL_MAX = 3.5;
 const q = (a, p) => { const v = a.filter(x => x !== null && x !== undefined).sort((x, y) => x - y); return v.length ? +v[Math.min(v.length - 1, Math.floor(p * v.length))].toFixed(2) : null; };
 
 add('C01 a person who walks into its view is faced at once (the first near thinks), hunger .55 - and where an unsensed person is (in the dark behind it, crouched, still, unlit: two different places) changes nothing it does, tick for tick', () => {
@@ -252,6 +257,99 @@ add('C13 two people it sees (a watcher 450 px off, and somebody 700 px from them
   })).flat();
   const forB = rs.filter(r => r.onB > 0), ok = forB.length >= rs.length * .6 && rs.every(r => r.switches <= 3 && r.named === 0 && r.keptBad === 0);
   return { ok, note: `went for the unaware one apart in ${forB.length}/${rs.length} (at .55 / .7 / .9: ${[.55, .7, .9].map(h => rs.filter(r => r.h === h && r.onB > 0).length).join(' / ')}); seconds on watcher / walker ${rs.map(r => r.onA + '/' + r.onB).join(' ')}; switches at most ${Math.max(...rs.map(r => r.switches))}; effort lost on a switch ${rs.reduce((x, r) => x + r.keptBad, 0)}; the one only heard named ${rs.reduce((x, r) => x + r.named, 0)}; kills ${rs.map(r => r.killed || '-').join(' ')}`, data: rs };
+});
+
+/* ---- C3 ---- */
+add('C05 seen walking north, then out of sight round a corner (torch off, crouched, one way or the other): within its grace and its listening time (2.5 s) it makes a grounded guess - an interception ahead on the way it saw them go, or a look on along it - and where they really went changes nothing it does until it senses a difference', () => {
+  const ways = { east: [{ x: 1720, y: 4900 }], back: [{ x: 1150, y: 5380 }, { x: 900, y: 5380 }, { x: 700, y: 5330 }] };
+  const one = (seed, way) => {
+    const w = World(seed + 13000); bystander(w, 8400, 900);
+    const p = w.player(1300, 5600, { light: true, angle: -Math.PI / 2 }); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', 2100, 5560, { hunger: .75 }); e.tier = 'near'; e.ang = Math.PI;
+    const R = { tr: [], ev: [], lostAt: -1, guess: null, guessAt: -1 };
+    w.run(10, (ww, t) => {
+      if (t > .5 && !p.going) { p.going = 1; p.route([{ x: 1300, y: 5420 }, { x: 1300, y: 5150 }], 'walk'); }
+      if (p.going === 1 && p.path && !p.path.length) { p.going = 2; p.route(ways[way], 'crouch'); }
+      if (p.light && p.y < 5440) p.light = false;
+      const r = e.mem.p.get(p.id), seen = e.seenNow.has(p.id), P = e.plan;
+      if (R.lostAt < 0 && e.hunt && !seen && R.seenOnce) R.lostAt = t; if (seen) R.seenOnce = 1;
+      if (R.lostAt >= 0 && !R.guess && P && (P.k === 'intercept' || P.k === 'search')) { R.guess = P.k === 'intercept' ? { k: 'intercept', x: P.g.qx, y: P.g.qy, lead: P.g.lead } : { k: 'search', x: P.goal.x, y: P.goal.y }; R.guessAt = t; }
+      R.ev.push([seen ? 1 : 0, r ? [r.heardAt, r.seenAt, r.lkx, r.lky, r.lvx, r.lvy].map(v => Math.round(v * 10)).join(':') : '-', e.mem.sounds.map(q => q.id + ':' + Math.round(q.x) + ':' + Math.round(q.y)).join(';')].join('|'));
+      R.tr.push([Math.round(e.x * 10), Math.round(e.y * 10), P ? P.k : '-'].join(','));
+      return true; });
+    return R;
+  };
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+    const A = one(seed, 'east'), B = one(seed, 'back');
+    let k = 0; while (k < A.ev.length && A.ev[k] === B.ev[k]) k++;                     // the first tick its senses differ
+    let j = 0; while (j < A.tr.length && A.tr[j] === B.tr[j]) j++;                     // the first tick it acts differently
+    const g = A.guess, dd = g ? Math.hypot(g.x - 1300, g.y - 5430) : 0, fwd = g ? -(g.y - 5430) / Math.max(1, dd) : -1;
+    return { sameUntilSensed: j >= k, k, j, guessIn: A.guess ? +(A.guessAt - A.lostAt).toFixed(2) : null, g, ahead: !!g && (g.k === 'intercept' ? g.lead >= 200 : dd >= 150 && fwd >= .3) };
+  });
+  const guessed = rs.filter(r => r.g), ok = rs.every(r => r.sameUntilSensed) && guessed.length >= 6 && guessed.every(r => r.ahead && r.guessIn <= 2.5);
+  return { ok, note: `the same until its senses differed ${rs.filter(r => r.sameUntilSensed).length}/8 | a guess ${guessed.map(r => r.guessIn).join('/')} s after it lost them (${guessed.length}/8): ${guessed.map(r => r.g.k + (r.g.lead ? ' ' + r.g.lead + ' px ahead' : '')).join(', ')}; ahead on the way it saw ${guessed.filter(r => r.ahead).length}/${guessed.length}`, data: rs };
+});
+
+add('C06 somebody running round the pillar in its view: after it has seen them go a full turn round, it cuts across to where they will come round (not chasing their tail, not leaving) and meets them; a turn back the other way at that moment can fool it - it thinks again once it sees them going the other way; laps it did not see teach it nothing', () => {
+  const ring = (dir, laps) => { const out = []; for (let l = 0; l < laps; l++) for (let k = 0; k < 16; k++) { const a = dir * k / 16 * Math.PI * 2; out.push({ x: PILLAR.x + Math.cos(a) * PILLAR.R, y: PILLAR.y + Math.sin(a) * PILLAR.R }); } return out; };
+  const one = (seed, h, rev) => {
+    const w = World(seed + 13200 + Math.round(h * 100) + (rev ? 50 : 0)); bystander(w, 1300, 3300);
+    const p = w.player(PILLAR.x + PILLAR.R, PILLAR.y, { light: true, angle: -Math.PI / 2 }); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', rev ? 5700 : 5450, LONG.y, { hunger: h }); e.tier = 'near'; e.ang = Math.PI;   // (the turn-back scene: farther off, so it sees laps before it is close)
+    const R = { seenArc: 0, arcAtCirc: -1, cutAt: -1, revAt: -1, rethinkIn: null, killAt: -1, closest: 1e9, killAfterRev: false, plans: new Set() };
+    let lastA = null, lastT = -9, revSeen = -1;
+    w.run(30, (ww, t) => {
+      if (t > .3 && !p.leg) { p.leg = 1; p.route(ring(-1, 14), 'run'); }
+      const seen = e.seenNow.has(p.id), A = Math.atan2(p.y - PILLAR.y, p.x - PILLAR.x);
+      if (seen && lastA !== null && t - lastT <= .35) R.seenArc += Math.abs(ang(A, lastA)); if (seen) { lastA = A; lastT = t; }
+      if (R.arcAtCirc < 0 && e.circ) R.arcAtCirc = +R.seenArc.toFixed(2);
+      if (R.cutP && e.plan === R.cutP) R.toGoal = Math.min(R.toGoal, Math.hypot(p.x - R.cutP.goal.x, p.y - R.cutP.goal.y));
+      if (R.cutAt < 0 && e.plan && e.plan.k === 'cut') { R.cutAt = t; R.cutP = e.plan; R.toGoal = 1e9; if (rev && R.revAt < 0) { R.revAt = t; const a0 = Math.atan2(p.y - PILLAR.y, p.x - PILLAR.x), back = []; for (let l = 0; l < 6; l++) for (let k = 1; k <= 16; k++) { const a = a0 + k / 16 * Math.PI * 2; back.push({ x: PILLAR.x + Math.cos(a) * PILLAR.R, y: PILLAR.y + Math.sin(a) * PILLAR.R }); } p.route(back, 'run'); } }
+      if (R.revAt >= 0 && revSeen < 0 && seen && t - R.revAt > .3) revSeen = t;
+      if (revSeen >= 0 && R.rethinkIn === null && !(e.plan && e.plan.k === 'cut' && e.plan.t0 < R.revAt + .01)) R.rethinkIn = +(t - revSeen).toFixed(2);
+      if (e.plan) R.plans.add(e.plan.k);
+      R.closest = Math.min(R.closest, Math.hypot(p.x - e.x, p.y - e.y));
+      if (R.killAt < 0 && w.kills.length) { R.killAt = t; R.killAfterRev = R.revAt >= 0 && t - R.revAt < 2.5; }
+      return !w.kills.length; });
+    return { h, rev, cut: R.cutAt >= 0, cutAt: +R.cutAt.toFixed(1), toGoal: R.cutP ? Math.round(R.toGoal) : null, arcAtCirc: R.arcAtCirc, killed: R.killAt >= 0, killAt: +R.killAt.toFixed(1), closest: Math.round(R.closest), rethinkIn: R.rethinkIn, killAfterRev: R.killAfterRev, left: R.plans.has('leave') && R.killAt < 0 };
+  };
+  const vis = over([1, 2, 3, 4, 5, 6], seed => [.55, .75].map(h => one(seed, h, false))).flat();
+  const rev = over([1, 2, 3, 4, 5, 6, 7, 8], seed => one(seed, .55, true));
+  // laps it never saw: the same person running round the pillar while it stands far off in the dark, out of sight of the ring (it may hear
+  // them) - its guess of a circle, if any, only ever comes after a full turn of arcs it saw
+  const hid = over([1, 2, 3, 4], seed => { const w = World(seed + 13300); bystander(w, 1300, 3300);
+    const p = w.player(PILLAR.x + PILLAR.R, PILLAR.y, { light: false }); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', 5928, 2712, { hunger: .65 }); e.tier = 'near';
+    let arc = 0, lastA = null, lastT = -9, bad = 0;
+    w.run(20, (ww, t) => { if (t > .3 && !p.leg) { p.leg = 1; p.route(ring(-1, 10), 'run'); } const seen = e.seenNow.has(p.id), A = Math.atan2(p.y - PILLAR.y, p.x - PILLAR.x);
+      if (seen && lastA !== null && t - lastT <= .35) arc += Math.abs(ang(A, lastA)); if (seen) { lastA = A; lastT = t; } if (e.circ && arc < Math.PI * 2 * .9) bad++; return true; });
+    return { bad, arc: +arc.toFixed(1), cut: e.tally.cut || 0 };
+  });
+  const knew = vis.filter(r => r.arcAtCirc >= 0), cuts = knew.filter(r => r.cut), met = vis.filter(r => r.killed || r.closest <= 150), early = vis.filter(r => r.arcAtCirc >= 0 && r.arcAtCirc < Math.PI * 2 * .9);
+  const revCut = rev.filter(r => r.cut), fooled = revCut.filter(r => r.toGoal > 150), quick = revCut.filter(r => r.rethinkIn !== null && r.rethinkIn <= 1);
+  const ok = knew.length >= vis.length * .5 && cuts.length >= knew.length * .8 && met.length >= vis.length * .8 && vis.every(r => !r.left) && early.length === 0 && revCut.length >= 3 && fooled.length >= 1 && quick.length >= revCut.length * .75 && hid.every(r => r.bad === 0);
+  return { ok, note: `in its view (.55 / .75, 12 runs): it took them for going round in ${knew.length} (the rest met before a full turn), a cut-off in ${cuts.length} of those (after ${cuts.map(r => r.cutAt).join('/')} s; first guessed after ${[...new Set(vis.filter(r => r.arcAtCirc >= 0).map(r => r.arcAtCirc))].slice(0, 6).join('/')} rad of arcs seen, under a turn ${early.length}); they came to where it cut across (150 px) ${cuts.filter(r => r.toGoal !== null && r.toGoal <= 150).length}/${cuts.length}; met them ${met.length}/12 (killed ${vis.filter(r => r.killed).length}, at ${vis.filter(r => r.killed).map(r => r.killAt).join('/')} s); left them ${vis.filter(r => r.left).length} | turning back as it cuts across (.55, 8 runs): a cut ${revCut.length}, fooled - they never came within 150 px of where it waited (closest ${revCut.map(r => r.toGoal).join('/')} px) - ${fooled.length}, caught within 2.5 s of the turn all the same ${revCut.filter(r => r.killAfterRev).length}, it thought again within 1 s of seeing them go the other way ${quick.length}/${revCut.length} (${revCut.map(r => r.rethinkIn).join('/')} s) | laps it did not see: a circle guessed early ${hid.reduce((a, r) => a + r.bad, 0)} ticks (arcs seen ${hid.map(r => r.arc).join('/')} rad; cut-offs ${hid.map(r => r.cut).join('/')})`, data: { vis, rev, hid } };
+});
+
+add('C10 the straight race (very hungry, .75 / .95): a fresh runner still wins - never caught while running, the gap never closing once it is lost - and when it loses it chooses at once - a way round that gets ahead of them, or at most 3.5 s on their trail, then listening and its guesses - not 13 s of trailing', () => {
+  const rs = over([1, 2, 3, 4, 5, 6], seed => [.75, .95].map(h => {
+    const w = World(seed + 13400 + Math.round(h * 100)), y = LONG.y; bystander(w, 1300, 3300);
+    const p = w.player(3600, y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
+    const e = w.eng.spawn('skinstealer', 3300, y, { hunger: h }); e.tier = 'near'; e.ang = 0;
+    let lostAt = -1, lossD = -1, minAfter = 1e9, nextIn = null, trail = 0, killWhileRun = false, lostPlan = null;
+    w.run(30, (ww, t) => {
+      if (t > .3 && !p.leg) { p.leg = 1; p.go(8700, y, 'run'); }
+      const d = Math.hypot(p.x - e.x, p.y - e.y), running = p.tx !== null;
+      if (lostAt < 0 && e.tally.chaseLost) { lostAt = t; lossD = d; lostPlan = e.plan; }
+      if (lostAt >= 0 && running) minAfter = Math.min(minAfter, d);
+      if (lostAt >= 0 && nextIn === null) nextIn = e.plan ? e.plan.k + (e.plan.shadow ? ' (their trail)' : '') : planOf(e);
+      if (lostAt >= 0 && e.plan && e.plan.k === 'approach' && e.plan.shadow) trail += DT;
+      if (w.kills.length && running) killWhileRun = true;
+      return true; });
+    return { h, lostAt: +lostAt.toFixed(1), lossD: Math.round(lossD), minAfter: Math.round(minAfter), nextIn, trail: +trail.toFixed(1), killWhileRun, after: e.tally.raceCut ? 'a way round' : 'trail', kills: w.kills.length };
+  })).flat();
+  const ok = rs.every(r => r.lostAt > 0 && !r.killWhileRun && r.minAfter >= r.lossD - 15 && r.trail <= TRAIL_MAX);
+  return { ok, note: `lost the race at ${rs.map(r => r.lostAt).join('/')} s; never caught while running ${rs.filter(r => !r.killWhileRun).length}/${rs.length}; the gap after it never under the gap at the loss (- 15 px) ${rs.filter(r => r.minAfter >= r.lossD - 15).length}/${rs.length}; what it did at the loss: ${[...new Set(rs.map(r => r.nextIn))].join(' | ')}; on their trail ${rs.map(r => r.trail).join('/')} s (at most ${TRAIL_MAX})`, data: rs };
 });
 
 module.exports = S;

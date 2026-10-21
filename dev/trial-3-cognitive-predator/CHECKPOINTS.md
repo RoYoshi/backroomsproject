@@ -11,7 +11,8 @@ filled in by the next checkpoint.
 |---|---|---|---|---|
 | C0 diagnosis, no game change | `cc8c8f2ba5a2473e496fca2259d0d85a93edeeb3` | `f9f46d96797dd2e954d8a45d0faf9f4359a2bfaf` | `f378049` | read back from GitHub (`evidence/remote/c0.json`: ok); scans before and after clean |
 | C1 what changed, interrupts, reaction | `54b59846d0c884a766cc5504ef4b5a9e352971d8` | `eb397a1d6c4129492c6e1fd09c880e8df05f4d01` | `cc8c8f2` | read back from GitHub (`evidence/remote/c1.json`: ok); scans before and after clean |
-| C2 the choice: stand-off, whom, the bait as an ambush | (this commit: `evidence/remote/c2.json` arrives with C3) | | `54b5984` | |
+| C2 the choice: stand-off, whom, the bait as an ambush | `892d9934f43bb16e048abf45159b6115fe4fae26` | `420d6d94e1f77cc9395fc612b5804e939aa59d49` | `54b5984` | read back from GitHub (`evidence/remote/c2.json`: ok); scans before and after clean |
+| C3 what it learns from what it sees; the lost race | (this commit: `evidence/remote/c3.json` arrives with C4) | | `892d993` | |
 
 ## C0 — diagnosis first (no game change)
 
@@ -101,3 +102,33 @@ R8-era scenarios adapted (the protective intent kept or strengthened; nothing we
 **Honest summary of C2:** the owner's watched, crowd and circle scenes now end in pressure and, when earned, a kill; a watcher who keeps it
 in sight still survives below .6. Open: the pillar circler at .55 in the simulation (3 / 6, R8 6 / 6) and the lost race (12.8 s
 trailing, unchanged) are C3's.
+
+## C3 — what it learns from what it sees them do; the lost race
+
+Changed: the species file only in the game (`BALANCE_TABLE.md` C3, UNAPPROVED), its declared-change note, three new scenarios (C05, C06,
+C10), one R8-era scenario adapted (PR20, below).
+
+What it does now:
+* **It keeps what it saw its quarry do** (their places, while it sees them, 10 s; nothing filled in behind a wall). **Somebody it has seen
+  go a full turn round something** (arcs it actually saw; a fitted circle 90–420 px) **is going round, not running from it** - and it
+  **cuts across** to a point ahead of them that it can reach first by a straight run, and waits there crouched. **Seeing them go the
+  other way undoes the guess at once** (it starts learning again); laps it did not see teach it nothing.
+* **The lost race, very hungry: a choice at once** - a way round that gets it ahead of them (R8's own route prediction; only when it really
+  arrives first), else **3 s on their trail** (R8: 12.7–12.9 s), then it stops and watches where they go while it can see them, listens,
+  and takes its hunt's guesses; its step stands while they keep running (no fresh approach on their heels). PR27's law kept: the gap they
+  won never shrinks while they move.
+* **A runner it will not chase** (below .6, or out of its chase range), before any lost race: a stand-off that keeps them in view rather
+  than a departure - they may be going round.
+
+R8-era scenario adapted: **PR20** ("a runner who escapes and later stops in its view is hunted again"): it no longer trails the runner to
+the hall's end, so in 2 of 6 runs the runner who stops 1400 px on is beyond its sight when they stop; the law is judged where the evidence
+came - in every run in which it saw them again it hunted them again (4 / 4, at least four required); the out-of-sight, silent half is
+unchanged (8 / 8 let go). Its trade-off is in the owner's hands: a short trail loses some runners who stop far off.
+
+| Run | Result |
+|---|---|
+| `s_skincognitive.js` C05 / C06 / C10 on R8 (`evidence/c3_before_r8.txt`) | **C06 FAIL** (no cut-off: R8 never took them for going round), **C10 FAIL** (on their trail 11.1–13.3 s); C05 passes on R8 too - R8 already guessed a way on at once; it guards that |
+| species suites (`evidence/c3_suites.txt`) | **93 / 93 PASS**. C06: it took them for going round in 9 of 12 runs (the rest met before a full turn), cut across in 9 / 9, they came to its cut-off (150 px) 9 / 9, met 12 / 12; first guessed only after 6.5–9.8 rad of arcs seen (never under a turn); turning back as it cut across: it thought again on seeing it 8 / 8, fooled 1 / 8 on the small pillar; unseen laps: nothing learned. C10: a fresh runner never caught while running 12 / 12, the gap never shrinking; 3 s on their trail in all 12 (R8 11–13 s). C05: the same until its senses differed 8 / 8, a guess ahead 0.58–2.1 s after it lost them |
+| `tools/c0_audit.js` (`evidence/c3_audit.*`; kills R8 / C2 / C3) | **pillar circler at .55: 6 / 3 / 6**; the straight race: still 0 kills, **trailing 3 s** (R8 12.7–12.9 s); every other scene as at C2 |
+| static checks (`evidence/c3_checks.txt`) | all PASS |
+| `tools/cog_browser.js` (`evidence/c3_browser.*`, `c3_shots/`; and `c3_circle.*`, three more circle tries after the cut-off was weighted above a held stand-off) | watched #1 (.49): a stand-off 85 %, closest 232 px, no strike; watched #2 (.50): it took the page at 9.6 s; crowd #1: it took the walker (apart, unaware) at 6.6 s; crowd #2: a setup miss (labelled); circle: killed at 17.6 / 17.9 s (first run) and 16.8 / 19.5 s (`c3_circle`; one cut-off at 18.6 s), one left after 17.5 s. In real pages the circling page is often taken for watching it (its facing follows the mouse, not its running), which holds the hungry creature in a stand-off: C6 gives the page a natural gaze |

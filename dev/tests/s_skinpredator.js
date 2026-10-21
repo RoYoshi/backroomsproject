@@ -170,12 +170,13 @@ add('PR20 a failed chase, then a reacquisition only on new evidence: a runner wh
     const p = w.player(5300, y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
     const e = w.eng.spawn('skinstealer', 5000, y, { hunger: .85 }); e.tier = 'near'; e.ang = 0;
     p.go(8600, y, 'run'); const T = trace(w, e, p);
-    let lostAt = -1, reAt = -1, stopAt = -1, lastSeen = 0, ph = 0, end1 = null, killAt = -1, had = false;
+    let lostAt = -1, reAt = -1, stopAt = -1, lastSeen = 0, ph = 0, end1 = null, killAt = -1, had = false, seenAfterStop = false;
     w.run(60, (ww, t) => {
       if (lostAt < 0 && e.tally.chaseLost) lostAt = t;
       if (e.seenNow.has(p.id)) lastSeen = t;
       if (killAt < 0 && w.kills.length) killAt = t;
       if (stopAt < 0 && p.tx === null) stopAt = t;
+      if (stopAt >= 0 && e.seenNow.has(p.id)) seenAfterStop = true;
       if (hide) {
         if (ph === 0 && p.tx === null) { ph = 1; p.look = null; p.route([{ x: 8560, y: 4220 }, { x: 8070, y: 4300 }, { x: 8070, y: 4900 }], 'run'); }
         if (ph === 1 && (t - lastSeen > .5 || (p.path && !p.path.length))) { ph = 2; p.light = false; p.route([{ x: 8070, y: 4900 }, { x: 7500, y: 4950 }], 'crouch'); }
@@ -184,14 +185,18 @@ add('PR20 a failed chase, then a reacquisition only on new evidence: a runner wh
       if (lostAt >= 0 && e.hunt && e.hunt.pid === p.id) had = true;
       if (had && !end1 && !(e.hunt && e.hunt.pid === p.id)) end1 = { why: (e.dbg.huntEnd || {}).why || '', t: +t.toFixed(1) };   // the hunt after the lost race: how it ended
       T.take(t); return true; });
-    return { lostAt: +lostAt.toFixed(1), stopAt: +stopAt.toFixed(1), reAt: +reAt.toFixed(1), killed: w.kills.length, killAt: +killAt.toFixed(1), end: end1 ? end1.why : '', endAt: end1 ? end1.t : -1, lastSeen: +lastSeen.toFixed(1), plans: plansOf(T.filter(s => s.t > lostAt)).join('>') };
+    return { lostAt: +lostAt.toFixed(1), stopAt: +stopAt.toFixed(1), reAt: +reAt.toFixed(1), seenAfterStop, killed: w.kills.length, killAt: +killAt.toFixed(1), end: end1 ? end1.why : '', endAt: end1 ? end1.t : -1, lastSeen: +lastSeen.toFixed(1), plans: plansOf(T.filter(s => s.t > lostAt)).join('>') };
   };
   const back = over([1, 2, 3, 4, 5, 6], s => run(s, false)), gone = over([1, 2, 3, 4, 5, 6, 7, 8], s => run(s, true));
-  const okBack = back.filter(r => r.lostAt >= 0 && (r.reAt >= 0 || r.killed)).length;
+  // (cognitive refinement C3: after a lost race it no longer trails the runner until they are out of sight - a short trail, then it watches
+  // where they go and goes after them on that evidence, slower than they ran; so a runner who stops 1400 px on, at the hall's end, may
+  // be beyond its sight when they stop (2 of 6 here).  What this protects is judged where the evidence came: every run in which it saw them
+  // again after they stopped, it hunted them again - at least four - and the out-of-sight half below is unchanged)
+  const sawAgain = back.filter(r => r.lostAt >= 0 && r.seenAfterStop), okBack = sawAgain.filter(r => r.reAt >= 0 || r.killed).length;
   // let go: the hunt that outlived the race ends for want of evidence, with nobody caught during it (a chance meeting later, while it
   // roams, is a new encounter on new evidence - reported, allowed)
   const okGone = gone.filter(r => r.lostAt >= 0 && /no sign|cold|guessed wrong|searched|gives up/.test(r.end) && !(r.killAt >= 0 && r.killAt <= r.endAt)).length;
-  return { ok: okBack >= 5 && okGone >= 7, note: `stopped in view: hunted again ${okBack}/6 (stopped at ${back.map(r => r.stopAt).join('/')} s, hunted on sight at ${back.map(r => r.reAt).join('/')} s; killed ${back.map(r => r.killed).join('/')}) | out of sight, silent: let go ${okGone}/8 at ${gone.map(r => r.endAt).join('/')} s (${[...new Set(gone.map(r => '"' + r.end + '"'))].join(', ')}); met again later while roaming and killed ${gone.map(r => r.killed).join('/')}`, data: { back, gone } };
+  return { ok: sawAgain.length >= 4 && okBack === sawAgain.length && okGone >= 7, note: `stopped where it could see them again ${sawAgain.length}/6: hunted again ${okBack}/${sawAgain.length} (stopped at ${back.map(r => r.stopAt).join('/')} s, hunted on sight at ${back.map(r => r.reAt).join('/')} s; killed ${back.map(r => r.killed).join('/')}) | out of sight, silent: let go ${okGone}/8 at ${gone.map(r => r.endAt).join('/')} s (${[...new Set(gone.map(r => '"' + r.end + '"'))].join(', ')}); met again later while roaming and killed ${gone.map(r => r.killed).join('/')}`, data: { back, gone } };
 });
 
 /* ---------------------------------------------------------------- R2: listening, belief, guesses */

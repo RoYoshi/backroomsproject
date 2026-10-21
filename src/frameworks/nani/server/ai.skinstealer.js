@@ -256,6 +256,11 @@ const SK = Object.freeze({
   apart: 450,                                    // a person this far from every other one it sees is apart (a group is not attacked)
   groupMem: 4,                                   // ... or has seen within this many seconds (one who stepped out of its view is still there)
   switchGain: 1.5,                               // somebody else must be this much the better chance before its quarry stops being its quarry
+  // cognitive refinement C3: what it learns from what it sees them do; the lost race (all UNAPPROVED)
+  circWin: 10, circFade: 3,                      // going round something: its sightings of them within this many s; the guess lapses this long after the last
+  circSweep: 6.3, circR: [90, 420], circFit: .25,  // ... at least a full turn of arcs actually seen (rad), a circle this big, sightings this close to it (x radius)
+  cutMax: [.6, 3.2], cutLead: .2,               // a cut-off: a point this far round ahead of them (rad) it reaches this long before they do (s)
+  trailFor: 3,                                   // a lost race: at most this long on their trail before its next step (R8: until they were out of sight)
 });
 /* (T6) the generic calls, used only when it has heard nothing it may repeat: none of them claims to know anything about anybody */
 const SK_BAIT = Object.freeze(['hello?', 'is someone there?', 'over here', 'wait for me', 'can you help me?', "i'm lost", 'this way']);
@@ -372,7 +377,7 @@ const skLit = (eng, e) => eng.geo.lightLevel(e.x, e.y, eng.lightPlayers());
 const SK_STATE = { stand: [S.WATCHING, 'watch'], watch: [S.WATCHING, 'watch'], retreat: [S.RETREATING, 'back'], approach: [S.STALKING, 'approach'], chase: [S.HUNTING, 'chase'],
   lure: [S.CAUTIOUS, 'lure'], intercept: [S.STALKING, 'intercept'], search: [S.SEARCHING, 'search'], leave: [S.DISAPPEARING, 'leave'], feed: [S.FEEDING, 'feed'],
   mingle: [S.STALKING, 'pace'],                                                                // (T6) in a borrowed skin, walking up openly
-  flank: [S.STALKING, 'approach'], listen: [S.ALERT, 'listen'] };                             // (R1) to cover at their side; standing, listening
+  flank: [S.STALKING, 'approach'], listen: [S.ALERT, 'listen'], cut: [S.STALKING, 'intercept'] };   // (C3: a cut-off - to where they will come round)                             // (R1) to cover at their side; standing, listening
 function skBegin(eng, e, k, r, why, extra) {
   const p = Object.assign({ k, pid: r ? r.id : 0, t0: eng.now, why }, extra || {});
   e.plan = p; e.dbg.why = why; e.path = []; e.goalKey = '';
@@ -545,6 +550,53 @@ function skVantage(eng, e, p, d, shift) {
   return best;
 }
 const skBeat = h => lerp(SK.openBeat[0], SK.openBeat[1], sm(SK.band[1], .95, h));   // (C1) the beat before an opening is used
+/* (C3) what it has seen its quarry do: where it saw them, on its thinks, only while it sees them (never filled in behind a wall); one person
+ * at a time, its last SK.circWin seconds */
+function skObserve(eng, e, r) {
+  const O = e.obs && e.obs.pid === r.id ? e.obs : (e.obs = { pid: r.id, s: [] });
+  if (r.seen && r.visual) { O.s.push(eng.now, r.visual.x, r.visual.y); while (O.s.length > 3 && eng.now - O.s[0] > SK.circWin) O.s.splice(0, 3); }
+  return O;
+}
+/* (C3) going round something, from those sightings alone: a circle fitted to them (least squares), at least a full turn of arcs it actually
+ * saw (consecutive sightings 0.35 s apart at most - a stretch out of its sight adds nothing), the way round they go; the last stretch going
+ * the other way (a reversal) undoes it.  null when that is not what it saw; lapses SK.circFade s after the last sighting */
+function skCircle(eng, e, r, minSweep = SK.circSweep) {
+  const O = e.obs; if (!O || O.pid !== r.id) return null;
+  const S = O.s, n = S.length / 3; if (n < 15 || eng.now - S[S.length - 3] > SK.circFade) return null;
+  let sx = 0, sy = 0, sxx = 0, syy = 0, sxy = 0, sz = 0, sxz = 0, syz = 0;
+  for (let i = 0; i < S.length; i += 3) { const x = S[i + 1], y = S[i + 2], z = x * x + y * y; sx += x; sy += y; sxx += x * x; syy += y * y; sxy += x * y; sz += z; sxz += x * z; syz += y * z; }
+  // x^2 + y^2 + a x + b y + c = 0 (Kasa): the normal equations, solved by Cramer's rule
+  const M = [[sxx, sxy, sx], [sxy, syy, sy], [sx, sy, n]], V = [-sxz, -syz, -sz];
+  const det = m => m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+  const D = det(M); if (Math.abs(D) < 1e-6) return null;
+  const col = (k) => M.map((row, i) => row.map((v, j) => j === k ? V[i] : v)), a = det(col(0)) / D, b = det(col(1)) / D, c = det(col(2)) / D;
+  const cx = -a / 2, cy = -b / 2, R2 = cx * cx + cy * cy - c; if (!(R2 > 0)) return null;
+  const R = Math.sqrt(R2); if (R < SK.circR[0] || R > SK.circR[1]) return null;
+  let res = 0, sweep = 0, recent = 0, lastA = null, lastT = -9;
+  for (let i = 0; i < S.length; i += 3) {
+    const t = S[i], x = S[i + 1], y = S[i + 2], dd = Math.hypot(x - cx, y - cy) - R, A = Math.atan2(y - cy, x - cx); res += dd * dd;
+    if (lastA !== null && t - lastT <= .35) { const da = angDiff(A, lastA); sweep += da; if (eng.now - t < .7) recent += da; }
+    lastA = A; lastT = t;
+  }
+  if (Math.sqrt(res / n) > SK.circFit * R || Math.abs(sweep) < minSweep) return null;
+  const sign = Math.sign(sweep);
+  if (recent * sign < -.35) { O.s = O.s.slice(-3); skNote(eng, e, 'reversal', `P${r.id} turned back the other way round`, r.id); return null; }   // (it starts learning again)
+  const L = S.length - 3, ph = Math.atan2(S[L + 2] - cy, S[L + 1] - cx);
+  return { cx, cy, R, sign, ph, at: S[L], sweep: +sweep.toFixed(2) };
+}
+/* (C3) a point round that circle ahead of them, the nearest it can reach first by a straight run (its run speed; no route searched) */
+function skCutPoint(eng, e, r, C) {
+  const geo = eng.geo, vp = clamp(Math.hypot(r.visual ? r.visual.vx || 0 : 0, r.visual ? r.visual.vy || 0 : 0) || Math.hypot(r.lvx, r.lvy), 150, 300), run = skSpeed(e, 'run');
+  const age = eng.now - C.at, ph = C.ph + C.sign * vp * age / C.R;                          // (where they are by now, going on round as it saw)
+  for (let D = SK.cutMax[0]; D <= SK.cutMax[1]; D += .2) {
+    const A = ph + C.sign * D, x = C.cx + Math.cos(A) * (C.R + 10), y = C.cy + Math.sin(A) * (C.R + 10);
+    const tc = Math.hypot(x - e.x, y - e.y) / run + .25, tp = C.R * D / vp;
+    if (tc + SK.cutLead > tp) continue;
+    if (!geo.clear(x, y, e.rc + 2, 'walk') || !geo.lineClear(e.x, e.y, x, y, e.rc, 'walk')) continue;
+    return { x, y, tp, D: +D.toFixed(1), from: { x: C.cx + Math.cos(A - C.sign * .6) * C.R, y: C.cy + Math.sin(A - C.sign * .6) * C.R } };
+  }
+  return null;
+}
 /* (R1) its preferred answer to being seen, drawn once for the next hunt from its own stream */
 const skStyle = e => e.styleNext || (e.styleNext = e.huntRng() < lerp(.3, .75, sm(.4, .8, e.hunger)) ? 'flank' : 'bait');
 const skForget = e => lerp(SK.forget[0], SK.forget[1], e.hunger) * (.85 + .3 * e.tr.PERSISTENCE);
@@ -783,7 +835,7 @@ function skCurious(eng, e, C) {
 }
 
 /* ---- T4: the strike ---- */
-const SK_STRIKE = { approach: 1, chase: 1, lure: 1, intercept: 1, search: 1, mingle: 1, flank: 1, listen: 1, stand: 1 };    // the plans it springs from (never while watching, retreating, leaving or feeding; R1: a flank, a pause to listen)
+const SK_STRIKE = { approach: 1, chase: 1, lure: 1, intercept: 1, search: 1, mingle: 1, flank: 1, listen: 1, stand: 1, cut: 1 };    // the plans it springs from (never while watching, retreating, leaving or feeding; R1: a flank, a pause to listen)
 /* on its think: somebody in arm's reach of a hungry one is grabbed; somebody its plan is about, in sight 55-185 px away, it springs at */
 function skStrike(eng, e) {
   if (e.exh || e.hunger < SK.band[1] || eng.now < e.pounceCool || e.commit || e.cap) return false;
@@ -1117,7 +1169,9 @@ function skDecide(eng, e) {
   // which way they are moving, relative to it (from what it sees): running from it, or coming at it
   // (fleeing: running from it, or hurrying off after meeting its eyes - somebody who simply walks on has not noticed it)
   if (watched) enc.eyes = now;
-  const away = d > 1 ? ((p.x - e.x) * p.vx + (p.y - e.y) * p.vy) / d : 0, fleeing = away > 200 || (away > 110 && now - (enc.eyes ?? -99) < 4), winded = r.ex || r.stamina < 25;
+  // (C3) what it has seen them do: going round something is not running from it
+  skObserve(eng, e, r); const circ = h >= SK.band[1] && !e.disguise ? skCircle(eng, e, r) : null; e.circ = circ ? Object.assign({ pid: r.id, t: now }, circ) : null;
+  const away = d > 1 ? ((p.x - e.x) * p.vx + (p.y - e.y) * p.vy) / d : 0, fleeing = !circ && (away > 200 || (away > 110 && now - (enc.eyes ?? -99) < 4)), winded = r.ex || r.stamina < 25;
   // (T6) in a borrowed skin it does not hide: it walks up like one of them; a hungry one drops the skin to run after somebody who flees
   if (e.disguise && crowd === 1) {
     if (fleeing && h >= SK.band[2] && !e.exh && e.stam >= SK.stamLow + 15 && d < SK.chaseFrom && cur !== 'chase') {
@@ -1134,6 +1188,9 @@ function skDecide(eng, e) {
   // still sends a mildly hungry one away; a hungry one flanks; a starving one comes on openly or flanks, and rarely backs off.
   const nf = e.noFlank && now - e.noFlank.t < SK.noFlank && Math.hypot(p.x - e.noFlank.x, p.y - e.noFlank.y) < 200;   // (R3) no way round them here
   const hm = sm(.3, .6, h), hs = sm(.55, .95, h), restRace = Hn && now - Hn.raceAt < SK.chaseRest, spentTactics = !!(Hn && (Hn.flanks >= SK.flankMax || Hn.baitFailed || (nf && Hn.noFlank) || Hn.stood));
+  // (C3) after a lost race its next step stands while they keep running from it - no fresh approach on their heels (the lead they won
+  // stays won, R7); it re-decides when they stop running, or the step is done
+  if (restRace && fleeing && cur && (cur === 'listen' || cur === 'watch' || cur === 'intercept' || cur === 'search' || (cur === 'approach' && e.plan.shadow))) return;
   // (C2) a stand-off ends at its time - unless it is closing in on an opening right now, or it gained ground in it since it was last
   // weighed (then it holds on, from closer, for half as long again); one that gained nothing is spent for this hunt
   const standCur = cur === 'stand', Ps = standCur ? e.plan : null;
@@ -1149,18 +1206,22 @@ function skDecide(eng, e) {
     // (C2) hungry and seen, backing out of sight only as a bait (very hungry, its preferred answer); otherwise it keeps them in view (stand)
     retreat: e.disguise ? 0 : (watched && h >= SK.band[1] ? (.45 + h * .6 + T.INTELLIGENCE * .2) * (style === 'bait' && h >= SK.band[2] ? 1 : 1 - .8 * hm) + (style === 'bait' && h >= SK.band[2] ? .4 : 0) : watched && d < SK.near ? .9 * (1 - .8 * hm) : 0) * (1 - .6 * hs),   // (T6: in a skin, being looked at is the point)
     // (C2) the stand-off with a purpose: it keeps them in view from the dark, still while they look at it, closing in when they look away
-    stand: e.disguise || e.exh || h < SK.band[1] || standOver || !(watchedAny || crowd > 1 || standCur) ? 0 : (.7 + .9 * hm - .35 * hs - (style === 'bait' && h >= SK.band[2] && !standCur ? .5 : 0)) * (Hn && Hn.stood ? .75 : 1),   // (a bait-minded hunt, very hungry, baits first; a spent stand-off weighs less against another answer)
+    stand: e.disguise || e.exh || h < SK.band[1] || standOver || !(watchedAny || crowd > 1 || standCur || (fleeing && !restRace && d > SK.near && (h < SK.band[2] || d > SK.chaseFrom))) ? 0 :   // (C3: somebody running off it will not chase, not yet after a lost race: it keeps them in view - they may be going round)
+      (.7 + .9 * hm - .35 * hs - (style === 'bait' && h >= SK.band[2] && !standCur ? .5 : 0)) * (Hn && Hn.stood ? .75 : 1),   // (a bait-minded hunt, very hungry, baits first; a spent stand-off weighs less against another answer)
     flank: cur === 'flank' && !e.plan.arrived ? 2 :                                        // (R1) to their side, out of their sight (a flank under way goes on)
       !watched || e.disguise || h < SK.band[1] || e.exh || crowd > 1 || nf || (Hn && Hn.flanks >= SK.flankMax) ? 0 : .35 + hm * (1 - .5 * hs) + T.INTELLIGENCE * .25 + (style === 'flank' ? .4 : -.45),
     approach: h < .35 || e.exh ? 0 : (watched ? .15 + 1.1 * hs + (spentTactics ? .45 * hm : 0) : fleeing && !(cur === 'approach' && e.plan.shadow) ? .3 : 1) * (h * 1.6 - T.CAUTION * .25 + (lit ? -.1 : .25) + (watched ? 0 : .3 * hm * (1 - hs))) * (crowd > 1 ? (apart ? .5 : 0) : 1),   // (C2: people together are never come at - a lone ambusher; one apart from the others may be, warily) (R1: hungry, it goes for an unaware person even in light; watched, it comes on openly when starving, or very hungry once its flanks and its bait have failed; still a lone ambusher; after a lost race it keeps to the runner's trail)
     chase: cur === 'chase' ? (e.plan.lost ? 0 : 2) :                                       // a chase runs until its own rules end it (skAct)
       // (C2) hungry (R8: only from very hungry), a dash at somebody running from it - the same short gamble, the same lost race
       h < SK.band[1] || e.exh || restRace || e.stam < SK.stamLow + 15 || d > SK.chaseFrom || crowd > 1 || !(fleeing || winded) ? 0 : (.55 + h * .9 + (winded ? .5 : 0) - T.CAUTION * .3) * (h >= SK.band[2] ? 1 : hm),
+    // (C3) somebody it has seen go round and round: it cuts across to where they will come round (a cut-off it can reach first, or none) -
+    // until it sees them turn back the other way
+    cut: cur === 'cut' && now < e.plan.until && circ && circ.sign === e.plan.sign ? 2 : circ && !e.exh && crowd === 1 && (!watched || h >= SK.band[2]) && cur !== 'cut' ? 1.7 + .7 * hm : 0,   // (above a stand-off held, with its hysteresis)
   };
   if (cur === 'retreat' && e.plan.arrived && !watched) W.retreat = 0;                       // out of sight now: decide afresh
   // (the same draws as R8, one per R8 answer, in R8's order: the stand-off takes the watch's - its sibling - so adding an answer moves no
   // other random choice it makes)
-  { let fw = 1; for (const k of ['leave', 'watch', 'retreat', 'flank', 'approach', 'chase']) { const f = .92 + .16 * e.rng(); if (k === 'watch') fw = f; W[k] = Math.max(0, W[k] * f); } W.stand = Math.max(0, W.stand * fw); }
+  { let fw = 1, fa = 1; for (const k of ['leave', 'watch', 'retreat', 'flank', 'approach', 'chase']) { const f = .92 + .16 * e.rng(); if (k === 'watch') fw = f; if (k === 'approach') fa = f; W[k] = Math.max(0, W[k] * f); } W.stand = Math.max(0, W.stand * fw); W.cut = Math.max(0, W.cut * fa); }   // (C3: the cut-off takes the approach's)
   const pick = () => Object.keys(W).sort((a, b) => W[b] - W[a] || a.localeCompare(b))[0];
   let best = pick(), fs = null;
   // (R4) going round them needs a spot: with none here it remembers that for the place and takes its next best answer now (R3 held its
@@ -1169,6 +1230,8 @@ function skDecide(eng, e) {
   const kept = k => (P && P.k === 'leave' && e.plan === P && W[k] < W.leave * SK.rethink) || (!!cur && k !== cur && W[k] < (W[cur] || 0) * SK.rethink && !(cur === 'watch' && now > e.plan.until));
   // (C2) a bait is a tactic only where it gives an ambush: a corner whose far side is within its reach of somebody coming round it (R8 backed
   // off to any hidden spot, up to 520 px away, and waited); with none here it takes its next answer now, as for a flank - each searched once
+  let cp = null;
+  if (best === 'cut' && cur !== 'cut') { cp = skCutPoint(eng, e, r, circ); if (!cp) { e.tally.noCut = (e.tally.noCut || 0) + 1; W.cut = 0; best = pick(); } }   // (C3: nowhere it gets first: its next answer)
   const baitNow = h >= SK.band[2] && !e.exh && (d > SK.near || !!(Hn && Hn.flanks > 0));
   let bs = null;
   for (let tries = 0; tries < 3; tries++) {
@@ -1211,13 +1274,20 @@ function skDecide(eng, e) {
       { until: now + dur, spot: v, w: !!watchedAny, openAt: watchedAny ? undefined : now, groupHold: crowd > 1 && !apart });   // (nobody looking: the opening is already there)
     if (v) directTo(eng, e, v.x, v.y);
   }
+  else if (best === 'cut') {                                                                  // (C3) a cut-off
+    const g = cp || skCutPoint(eng, e, r, circ);
+    skHuntBegin(eng, e, r, 'it goes to meet them');
+    if (g) { skBegin(eng, e, 'cut', r, `P${r.id} goes round and round: it cuts across to meet them`, { goal: g, until: now + g.tp + 1.5, sign: circ.sign }); directTo(eng, e, g.x, g.y); e.tally.cut = (e.tally.cut || 0) + 1; }
+    else skBegin(eng, e, 'approach', r, `P${r.id} goes round: nowhere to get ahead of them, it comes closer`);
+  }
   else if (best === 'retreat') {
     const bait = baitNow, s = bait ? bs : skHideSpot(eng, e, p, false);   // (R1: after its flanks failed, backing round a corner is the bait, however close; C2: the corner found above)
     if (bait) { const Hb = skHuntBegin(eng, e, r, 'the bait'); Hb.baited = (Hb.baited || 0) + 1; }
     skBegin(eng, e, 'retreat', r, bait ? `seen by P${r.id}: it backs away slowly, round a corner (inviting them to follow)` : `seen by P${r.id}: it backs out of sight`, { spot: s, bait, from: { x: e.x, y: e.y } });
     if (s) plan(eng, e, s.x, s.y, { why: 'retreat' });
   }
-  else if (best === 'approach') { if (h >= SK.band[1]) skHuntBegin(eng, e, r, 'it comes for them'); skBegin(eng, e, 'approach', r, watched ? `P${r.id} has seen it: starving, it comes on anyway` : opening ? `P${r.id} looked away: it comes on` : `P${r.id} is not watching: it comes closer`); }
+  else if (best === 'approach' && restRace && (fleeing || d > SK.chaseFrom) && Hn && Hn.trailed && Hn.trailed > Hn.raceAt) { skHuntNext(eng, e, `P${r.id} is still running from it`); }   // (C3: one trail per lost race; then its guesses)
+  else if (best === 'approach') { if (h >= SK.band[1]) skHuntBegin(eng, e, r, 'it comes for them'); skBegin(eng, e, 'approach', r, watched ? `P${r.id} has seen it: starving, it comes on anyway` : opening ? `P${r.id} looked away: it comes on` : `P${r.id} is not watching: it comes closer`, restRace ? { shadow: 1, trailUntil: now + SK.trailFor } : undefined); }
   else if (best === 'chase') { skHuntBegin(eng, e, r, 'it gives chase'); skBegin(eng, e, 'chase', r, fleeing ? `P${r.id} runs: it gives chase` : `P${r.id} is winded: it closes in`, { dmin: d }); }
   else if (best === 'flank') {                                                                // (R1) to cover at their side (its spot found above)
     const s = fs;
@@ -1238,6 +1308,7 @@ function skUnseen(eng, e) {
     if (H && H.pid === L.pid && H.conf < SK.huntLow && L.k !== 'retreat' && L.k !== 'flank' && L.k !== 'lure') { e.tally.huntCold++; skLeave(eng, e, r, `no sign of P${r.id} for ${Math.round(eng.now - H.evAt)} s: it gives up`); return; }
     if (L.k === 'lure' || L.k === 'intercept' || L.k === 'search' || L.k === 'listen') return;   // these work without a sighting (skAct ends them)
     if (L.k === 'approach' && L.side && eng.now - L.t0 < SK.flankCome) return;     // (R1) from a flank it comes on toward where it believes them, unseen
+    if (L.k === 'cut' && eng.now < L.until) return;                                  // (C3) out of its sight behind what they go round: the cut-off waits for them
     if (L.k === 'flank' && (!L.arrived ? eng.now < L.until : eng.now - L.arrived < SK.flankSettle)) return;   // (R3) a flank goes on to its spot though it has turned its back on them; (R4) there it settles, crouched, a moment
     if ((L.k === 'approach' || L.k === 'chase' || L.k === 'stand') && eng.now - r.seenAt < SK.lostGrace) return;   // (R4) a glimpse lost for a moment is not yet lost: it keeps on (C2: a stand-off too)
     skLost(eng, e, L, r); return;
@@ -1249,7 +1320,7 @@ function skUnseen(eng, e) {
 /* ---- carrying a plan out (every tick) ---- */
 function skAct(eng, e, dt, thinkNow) {
   const P = e.plan, now = eng.now;
-  if (!P || P.k === 'leave') skGaze(eng, e, dt); else if (e.head && !(P.k === 'stand' || (P.k === 'approach' && P.froze))) e.head = Math.abs(e.head) < .02 ? 0 : e.head * Math.max(0, 1 - dt * 6);   // (B1; C1/C2: its eyes held on somebody are not let go here)
+  if (!P || P.k === 'leave') skGaze(eng, e, dt); else if (e.head && !(P.k === 'stand' || P.k === 'cut' || (P.k === 'approach' && P.froze))) e.head = Math.abs(e.head) < .02 ? 0 : e.head * Math.max(0, 1 - dt * 6);   // (B1; C1/C2: its eyes held on somebody are not let go here)
   if (e.rx && skReact(eng, e, dt)) return;                                          // (B1) a look, over the plan
   if (!P) { if (e.hunt) { skHold(eng, e, dt); return; } skRoam(eng, e, dt, thinkNow); return; }   // (R1: between two steps of a hunt it does not wander off)
   const r = P.pid ? e.mem.p.get(P.pid) : null;
@@ -1302,6 +1373,9 @@ function skAct(eng, e, dt, thinkNow) {
     }
     case 'approach': {
       if (!r || tgtGone(eng, e, r)) { e.plan = null; return; }
+      // (C3) the trail is short: then it stops and watches where they go while it can see them (the gap they won grows), or listens
+      if (P.shadow && P.trailUntil && thinkNow && now > P.trailUntil) { if (e.hunt) e.hunt.trailed = now; e.plan = null;
+        if (r.seen) skBegin(eng, e, 'watch', r, `P${r.id} keeps running: it stops and watches where they go`, { until: now + 8 }); else skListenLost(eng, e, r, `it has seen which way P${r.id} runs: it stops and listens`); return; }
       const p = perc(eng, e, r), d = Math.hypot(p.x - e.x, p.y - e.y);
       // (R3) somebody unaware turning its way, before they meet its eyes: it freezes, crouched, until they look away or its patience runs out
       const v = r.seen ? r.visual : null;
@@ -1333,19 +1407,44 @@ function skAct(eng, e, dt, thinkNow) {
       P.dmin = Math.min(P.dmin, d);
       if (thinkNow) {
         // it stops when it is losing the race, when its breath gives out, or after a short run: a chase is a gamble, never a long pursuit
+        // (C3) one it has seen going round something is not winning a race when the gap opens: they come round again - it thinks again
+        if (d > P.dmin + SK.chaseLose && ((e.circ && e.circ.pid === r.id && now - e.circ.t < .5) || skCircle(eng, e, r, Math.PI))) { e.plan = null; e.dbg.why = `P${r.id} goes round: it stops running after them`; return; }   // (half a turn seen is enough to doubt a race)
         const why = d > P.dmin + SK.chaseLose ? `it is losing the race with P${r.id} (${Math.round(d)} px, it was ${Math.round(P.dmin)})` : e.stam < SK.stamLow ? `out of breath chasing P${r.id}` : now - P.t0 > SK.chaseMax ? `P${r.id} has run long enough: it stops` : '';
         if (why) {
           P.lost = true; e.tally.chaseLost++;
           // (R1) a hungry one that is only losing the race does not give up the hunt: it stops running and keeps to the trail at its free
           // walking pace (no faster than it may go without spending stamina), and will not give chase again for SK.chaseRest
           const Hh = e.hunt && e.hunt.pid === r.id ? e.hunt : null;
-          if (Hh && e.hunger >= SK.band[2] && !e.exh && d <= P.dmin + SK.chaseLose * 3) { Hh.raceAt = now; e.tally.shadow++; skBegin(eng, e, 'approach', r, `${why}: it lets them run and keeps to their trail`, { shadow: 1 }); return; }
+          // (C3) ...and at once it chooses: a way round that gets it ahead of them (its own route, from the heading it saw, arriving first - its
+          // run against their speed), else a few seconds on their trail to see where they go, then its hunt's next step (R8: trailing until
+          // they were out of sight, 12-13 s)
+          if (Hh && e.hunger >= SK.band[2] && !e.exh && d <= P.dmin + SK.chaseLose * 3) {
+            Hh.raceAt = now; const g = skPredict(eng, e, r);
+            if (g && Math.hypot(g.qx - e.x, g.qy - e.y) > 200) { skNote(eng, e, 'lostrace', `a way round ahead of P${r.id}`, r.id); e.tally.raceCut = (e.tally.raceCut || 0) + 1; skIntercept(eng, e, r, g, `${why}: it goes round to meet them - `); return; }
+            e.tally.shadow++; skNote(eng, e, 'lostrace', `no way round ahead of P${r.id}: a few seconds on their trail`, r.id);
+            skBegin(eng, e, 'approach', r, `${why}: it lets them run and keeps to their trail`, { shadow: 1, trailUntil: now + SK.trailFor }); return;
+          }
           skLeave(eng, e, r, why).race = true; return;                                   // (B2: a lost race stays a departure)
         }
         if (!(r.seen && skAim(eng, e, p, d, 640, SK.aimLead)) && (now - (P.planT || -9) > .5 || !e.path.length)) { P.planT = now; if (directOk(eng, e, p.x, p.y, 640)) directTo(eng, e, p.x, p.y); else plan(eng, e, p.x, p.y, { why: 'chase', maxNodes: 3000 }); }   // (C1: in sight, every think)
       }
       setAct(e, 'chase');
       follow(eng, e, dt, skSpeed(e, 'run'), { arrive: 30 });                              // it runs on to them (the strike decides when it springs)
+      return;
+    }
+    case 'cut': {                                                                      // (C3) to the cut-off, at a run; there it waits, crouched, facing the way they come
+      if (!r || tgtGone(eng, e, r)) { e.plan = null; return; }
+      const g = P.goal;
+      if (!P.arrived) {
+        if (thinkNow && !e.path.length) directTo(eng, e, g.x, g.y);
+        if (e.act !== 'intercept') setAct(e, 'intercept');
+        follow(eng, e, dt, skSpeed(e, 'run'), { arrive: 16 });
+        if (Math.hypot(g.x - e.x, g.y - e.y) < 24 || (!e.path.length && e.pathAge > .8)) { P.arrived = now; e.dbg.why = `in place: it waits where P${r.id} will come round`; }
+        return;
+      }
+      skHold(eng, e, dt); { const q = r.seen ? perc(eng, e, r) : g.from; skTrack(e, q.x, q.y, dt); }
+      if (e.act !== 'creep') setAct(e, 'creep');
+      if (thinkNow && now > P.until) { e.plan = null; e.dbg.why = `P${r.id} did not come round: it thinks again`; skNote(eng, e, 'timeout', `P${r.id} did not come round`, r.id); if (e.hunt && !r.seen) skHuntNext(eng, e); }
       return;
     }
     case 'lure': {
