@@ -1,0 +1,6 @@
+one walker (control) h=0.7: runs with a kill 6/8; pounces 7, grabs 0; plan seconds listen 3, approach 53, intercept 3, search 12
+one walker (control) h=0.95: runs with a kill 3/8; pounces 3, grabs 0; plan seconds listen 3, approach 29, search 19
+two walkers 100 px apart h=0.7: runs with a kill 0/8; pounces 0, grabs 0; plan seconds leave 66
+two walkers 100 px apart h=0.95: runs with a kill 1/8; pounces 2, grabs 0; plan seconds approach 4, leave 88
+two walkers 400 px apart h=0.7: runs with a kill 4/8; pounces 5, grabs 0; plan seconds approach 43, retreat 6, leave 45
+two walkers 400 px apart h=0.95: runs with a kill 3/8; pounces 4, grabs 0; plan seconds approach 21, leave 30, listen 2, search 7

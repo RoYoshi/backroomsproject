@@ -18,7 +18,8 @@ filled in by the next checkpoint.
 | C6a real pages, R8 against this build | `5f8bdfef9d942d9d06391a8ca00ddf44584b95e3` | `6076701fd6a6b09375969fcabbdf2f6d60e86911` | `776e853` | read back from GitHub (`evidence/remote/c6a.json`: ok); scans before and after clean |
 | C6b performance, the gate, the earlier browser checks | `d708f426e4f1d1224596693a6d8b57bf07b24f9f` | `8d4843b37ea3a80a364c0d6fc9c546c05d7228df` | `5f8bdfe` | read back from GitHub (`evidence/remote/c6b.json`: ok); scans before and after clean |
 | C7a the independent review and its fixes | `91de3eb153807c66f6a2bf3e71876669e7f4f346` | `64afa401f5c9b899981912fd4194c2dd711cdb19` | `d708f42` | read back from GitHub (`evidence/remote/c7a.json`: ok); scans before and after clean |
-| C7b the fixed build, re-run in full | (this commit: `evidence/remote/c7b.json` arrives with C8) | | `91de3eb` | |
+| C7b the fixed build, re-run in full | `9a8373abe0143685687e73f78f83434e7c532ab1` | `34107a0372b144e5fa7b71c3ab32e2dd4f802871` | `91de3eb` | read back from GitHub (`evidence/remote/c7b.json`: ok); scans before and after clean |
+| C7c the review's re-check, and its fix | (this commit: `evidence/remote/c7c.json` arrives with C8) | | `9a8373a` | |
 
 ## C0 — diagnosis first (no game change)
 
@@ -314,3 +315,30 @@ Everything the review asked to re-run after its fixes, on the fixed build:
 | `perf_pr.js` against R8, three interleaved rounds (`evidence/c7b_perf.*`) | **PASS** (0 violations). Medians R8 → fixed: none 0.169 → 0.187 (+11 %, the same code: noise), one 0.201 → 0.208 (p99 1.24 → 1.93), four 0.286 → 0.257 (p99 3.42 → 3.09), **four pressed 0.279 → 0.291 (p99 2.50 → 3.83, +53 %: within the tool's tolerance by its spread, i.e. borderline)**, four starving 0.280 → 0.275 (p99 4.21 → 2.87). Red runs: R8 three (4.31, 4.21, 4.24), fixed one (4.25, four pressed, round 1) |
 | the same matrix again, because the pressed pair was borderline (`evidence/c7b_perf_run2.*`) | **PASS** (0 violations). none 0.175 → 0.190, one 0.199 → 0.214 (p99 1.94 → 2.53), four 0.307 → 0.267 (p99 4.16 → 2.61), **four pressed 0.294 → 0.295 (p99 3.22 → 3.66, +14 %)**, four starving 0.300 → 0.276 (p99 4.19 → 3.75). Red runs: R8 three (4.27, 4.29, 4.19), fixed two (4.29 four pressed, 4.23 four starving). **Across all four matrices the pressed pair's p99 was higher on this build three times (+9, +53, +14 %) and lower once (−19 %), its mean the same (±5 %)**: within the 60 Hz budget and the tool's tolerance every time, but a tendency, stated in `PERFORMANCE.md` |
 | `perf_pr.js --soak 600` (`evidence/c7b_soak.*`) | **PASS**: mean 0.158 ms, p99 0.83, worst 12.9 ms; 0 violations |
+
+## C7c — the review's re-check, and its fix
+
+**The re-check.** The same reviewer, resumed, checked the fixes at 9a8373a (`evidence/c7_recheck.md` verbatim; its new probes
+`c7_review/exp_bold3.js`, `exp_pairs.js`, `exp_stare3–5.js`, outputs in `c7_review/out2/`). **F1 closed** (it confirmed the premise:
+every page receives each person's stamina and draws under 22 as heaving - a faint cue, it notes, a 1.4 % pulse; no new hidden read).
+**F2 correct, no new immunity against R8** (a pair 100 px apart: kills 0 / 8 and 1 / 8 on both builds; 400 px apart: 3–4 / 8 on both) -
+a pair within 450 px is never sprung at, at any hunger: a design choice to state to the owner (`HUMAN_QA.md` part 9). **F3 correct, no
+bypass found** (19 passed over, 0 hunted or killed in 60 s, walking back included). **F5's pool fair** (reproduced exactly). Performance
+MINOR and documented. **One MAJOR left open:** F4 was fixed for the stand-off only - with a watcher who never looks away, at 450 or 300 px
+in the lit hall or in the dark south-west, .45–.7, 120 s, it stood still in their view 20 s or more in 19 of 108 runs (47–107 s each; R8
+16 / 108): **a flank spot it reached that they could still see** ("out of their sight", its reason said) and **a bait corner reached
+while still seen**, each held until its effort ran out.
+
+**Fixed:** an arrived flank or bait that is still seen and looked at past a beat has failed: it remembers the place (no flank, no bait
+there for a while) and takes its next answer (`BALANCE_TABLE.md`, C7's last row; the declared-change note).
+
+| Run | Result |
+|---|---|
+| the re-check's own probe, `exp_stare5.js` (`evidence/c7_review/out2_after_fix/stare5_new.txt`) | **0 / 108** stretches of 20 s or more still in their view (C7b 19 / 108, R8 16 / 108) |
+| its `exp_stare3.js` on the fix (`out2_after_fix/stare3_new.txt`) | the longest still in view: worst 10.4 s, p90 8.0 s (C7b worst 107 s, p90 75; R8 107, 50). Ends: kills 49, departures 59 of 108 (C7b 41 / 67; R8 12 / 96) - the extra kills at .62–.65, where it had stood frozen, now coming on or going round; none below .6 that were not there before |
+| C23 (new; the re-check's probe as a scenario: 3 places × .5 / .62 / .65 × 6 seeds, 120 s) on this build, on C7a's (`git archive 91de3eb`) and on R8 (`evidence/c7c_c23.txt`) | **PASS here** (the longest 8.2 s, 54 runs); **FAIL on C7a** (13 runs over 12 s, worst 92.6 s) and **on R8** (10 runs, worst 57.2 s) |
+| species suites (`evidence/c7c_suites.txt`) | **106 / 106 PASS** (C7a's 105 and C23) |
+| `tools/c0_audit.js` (`evidence/c7c_audit.*`) | the same 12 scenes as at C7a, run for run (none of its scenes reaches a flank or bait in plain view) |
+| static checks (`evidence/c7c_checks.txt`) | all PASS |
+
+The rest of the regression (npm test, P9 equivalence, the fast gate, a real-page pass, performance) is re-run on this build at C8.

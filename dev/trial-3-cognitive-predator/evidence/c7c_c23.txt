@@ -1,0 +1,14 @@
+# C23 on this build (the re-check fix), on C7a's build (git archive 91de3eb) and on R8 (git archive f378049)
+## this build
+PASS C22 (C7 F4) stared down, it is not a statue: C17's watcher (450 px, never looks away, .5 / .55, 120 s) - the longest it stands still in their view is a stand-off's length (at most 10 s), then it moves (another spot, round them) or goes; and it does not stay in front of them for a minute  [5078ms]
+       longest still in their view 8.2/8/7.8/7.8/7.1/6.4/7.6/7.3/6.6/8.3/8/7.3 s (at most 10); in their view 10.8/28.9/27.5/11.1/24.4/18.2/34.5/24.6/18.5/21.9/28.9/10.7 s (at most 45); it left or struck at 16.4/28.7/22.2/14.4/25.4/21/27/26.6/21.1/21.5/28.7/14.4 s; killed 3/12
+PASS C23 (C7 re-check) no spot held in plain view: a watcher who never looks away and never moves - in the lit hall at 450 and at 300 px, and in the dark south-west - at .5 / .62 / .65, 120 s: the longest it stands still in their view is at most 12 s (a flank spot or a bait corner it reached that they can still see is given up after a beat; R8 and C7a held such a spot 47-107 s)  [15612ms]
+       54 runs: the longest still in their view p50 6.2 / worst 8.2 s (at most 12); the three longest hall450 0.5 s1 8.2 s (stand), hall300 0.5 s1 8.2 s (leave), sw 0.5 s1 8.2 s (flank); over 12 s 0; killed 30/54
+
+2/2 passed
+## C7a
+FAIL C23 (C7 re-check) no spot held in plain view: a watcher who never looks away and never moves - in the lit hall at 450 and at 300 px, and in the dark south-west - at .5 / .62 / .65, 120 s: the longest it stands still in their view is at most 12 s (a flank spot or a bait corner it reached that they can still see is given up after a beat; R8 and C7a held such a spot 47-107 s)
+       54 runs: the longest still in their view p50 7.3 / worst 92.6 s (at most 12); the three longest hall450 0.65 s3 92.6 s (leave), hall450 0.65 s2 92.2 s (leave), hall450 0.62 s6 89.4 s (leave); over 12 s 13; killed 26/54
+## R8
+FAIL C23 (C7 re-check) no spot held in plain view: a watcher who never looks away and never moves - in the lit hall at 450 and at 300 px, and in the dark south-west - at .5 / .62 / .65, 120 s: the longest it stands still in their view is at most 12 s (a flank spot or a bait corner it reached that they can still see is given up after a beat; R8 and C7a held such a spot 47-107 s)
+       54 runs: the longest still in their view p50 2.8 / worst 57.2 s (at most 12); the three longest hall300 0.65 s6 57.2 s (leave), hall300 0.65 s1 55.9 s (leave), hall300 0.62 s4 52.9 s (leave); over 12 s 10; killed 8/54

@@ -1,0 +1,8 @@
+runs 108; with a stretch of 20 s or more standing still in their view: 19
+  1 x leave "its time with P101 is spent (82 s)": hall450/0.45/s2:81s
+  2 x leave "its time with P101 is spent (98 s)": hall450/0.6/s2:86s hall450/0.6/s5:87s
+  3 x leave "its time with P101 is spent (100 s)": hall450/0.62/s3:89s hall450/0.62/s5:89s hall450/0.62/s6:89s
+  2 x leave "its time with P101 is spent (103 s)": hall450/0.65/s2:92s hall450/0.65/s3:93s
+  1 x leave "its time with P101 is spent (109 s)": hall450/0.7/s5:107s
+  9 x leave "seen in the light": hall300/0.5/s1:47s hall300/0.6/s2:78s hall300/0.62/s6:75s hall300/0.65/s3:74s sw/0.6/s6:69s sw/0.62/s4:68s sw/0.62/s6:67s sw/0.65/s1:66s sw/0.65/s3:67s
+  1 x approach "P101 has seen it: starving, it comes on anywa": sw/0.7/s6:61s

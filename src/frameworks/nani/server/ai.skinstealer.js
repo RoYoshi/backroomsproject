@@ -1230,6 +1230,17 @@ function skDecide(eng, e) {
     cut: cur === 'cut' && now < e.plan.until && circ && circ.sign === e.plan.sign ? 2 : circ && !e.exh && crowd === 1 && (!watched || h >= SK.band[2]) && cur !== 'cut' ? 1.7 + .7 * hm : 0,   // (above a stand-off held, with its hysteresis)
   };
   if (cur === 'retreat' && e.plan.arrived && !watched) W.retreat = 0;                       // out of sight now: decide afresh
+  // (C7, the review's re-check) a flank or a bait that ended where they can still see it - arrived, and they keep looking at it past a
+  // beat - has failed: it remembers the place (no flank / no bait here for a while) and takes its next answer (R8 held such a spot,
+  // 'out of their sight', in plain view until its effort ran out: 60-100 s)
+  if ((cur === 'flank' || cur === 'retreat') && e.plan.arrived && watched) {
+    const Pa = e.plan; if (Pa.inView === undefined) Pa.inView = now;
+    if (now - Pa.inView > skBeat(h)) {
+      if (cur === 'flank') { W.flank = 0; e.noFlank = { x: p.x, y: p.y, t: now }; if (Hn) Hn.noFlank = now; }
+      else { W.retreat = 0; e.noBait = { x: e.x, y: e.y, t: now }; if (Hn) Hn.baitFailed = now; }
+      if (!Pa.inViewNoted) { Pa.inViewNoted = 1; skNote(eng, e, 'seen', `its ${cur === 'flank' ? 'spot at their side' : 'corner'} is in P${r.id}'s sight: it tries something else`, r.id); }
+    }
+  } else if (cur && e.plan.inView !== undefined) e.plan.inView = undefined;
   // (C4) the hunger gradient: hungry, from .4 to .55, it goes for somebody only sometimes - .4 at .4, about .7 at .47, always from .55 - drawn once per encounter from its own stream (so the same person on the same seed meets the same creature); passed
   // over, it is curious: it watches them a while, then goes.  A hunt already under way, or very hungry, is always taken up
   if (enc.bold === undefined) enc.bold = e.boldRng();

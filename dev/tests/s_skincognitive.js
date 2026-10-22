@@ -20,7 +20,8 @@
  * C17 (no endless hunt: a watcher who never gives it an opening is left within its budget; the effort spent never refills), C15 (in-tree
  * part: no game file but the species' differs from R8's; with no Skin-Stealer none of its code runs), C18 (latency as a person feels it, R8
  * against this build, and a glance where faster would be worse).
- * C7: C19 (winded only as seen), C20 (no spring at people together), C21 (a person passed over is let go), C22 (stared down, not a statue). */
+ * C7: C19 (winded only as seen), C20 (no spring at people together), C21 (a person passed over is let go), C22 (stared down, not a statue),
+ * C23 (the review's re-check: no flank spot or bait corner held in plain view). */
 'use strict';
 const { World, DT, LONG, AI, over, floorNear, bystander } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -668,6 +669,24 @@ add('C22 (C7 F4) stared down, it is not a statue: C17\'s watcher (450 px, never 
   })).flat();
   const ok = rs.every(r => r.longest <= 10 && r.inView <= 45);
   return { ok, note: `longest still in their view ${rs.map(r => r.longest).join('/')} s (at most 10); in their view ${rs.map(r => r.inView).join('/')} s (at most 45); it left or struck at ${rs.map(r => r.endAt).join('/')} s; killed ${rs.filter(r => r.killed).length}/${rs.length}` };
+});
+
+add('C23 (C7 re-check) no spot held in plain view: a watcher who never looks away and never moves - in the lit hall at 450 and at 300 px, and in the dark south-west - at .5 / .62 / .65, 120 s: the longest it stands still in their view is at most 12 s (a flank spot or a bait corner it reached that they can still see is given up after a beat; R8 and C7a held such a spot 47-107 s)', () => {
+  const SC = { hall450: { p: [5000, LONG.y], k: [5450, LONG.y], b: [1300, 3300] }, hall300: { p: [5150, LONG.y], k: [5450, LONG.y], b: [1300, 3300] }, sw: { p: [700, 5330], k: [1300, 5330], b: [5000, LONG.y] } };
+  const rs = over([1, 2, 3, 4, 5, 6], seed => Object.entries(SC).flatMap(([name, S]) => [.5, .62, .65].map(h => {
+    const w = World(seed + 31000 + Math.round(h * 100)); bystander(w, S.b[0], S.b[1]);
+    const p = w.player(S.p[0], S.p[1], { light: true, angle: 0 }); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', S.k[0], S.k[1], { hunger: h }); e.tier = 'near'; e.ang = Math.PI;
+    p.look = () => Math.atan2(e.y - p.y, e.x - p.x);
+    let run = 0, longest = 0, held = '';
+    w.run(120, () => {
+      const d = Math.hypot(p.x - e.x, p.y - e.y), still = w.eng.geo.los(p.x, p.y, e.x, e.y) && d < 900 && e.speed < 15 && !e.pounce;
+      run = still ? run + DT : 0; if (run > longest) { longest = run; held = planOf(e) + (e.plan && e.plan.arrived ? ' (arrived)' : ''); }
+      return !w.kills.length; });
+    return { name, h, seed, longest: +longest.toFixed(1), held, killed: w.kills.length };
+  }))).flat();
+  const worst = rs.slice().sort((a, b) => b.longest - a.longest).slice(0, 3);
+  return { ok: rs.every(r => r.longest <= 12), note: `${rs.length} runs: the longest still in their view p50 ${q(rs.map(r => r.longest), .5)} / worst ${q(rs.map(r => r.longest), 1)} s (at most 12); the three longest ${worst.map(r => `${r.name} ${r.h} s${r.seed} ${r.longest} s (${r.held})`).join(', ')}; over 12 s ${rs.filter(r => r.longest > 12).length}; killed ${rs.filter(r => r.killed).length}/${rs.length}` };
 });
 
 module.exports = S;
