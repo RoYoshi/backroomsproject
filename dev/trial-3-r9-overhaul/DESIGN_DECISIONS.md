@@ -830,7 +830,8 @@ creature had not come past the room. A void scene is never a pass: before R16g-2
 (admin-only, debug mode only: `ents.debug.js`) now shows `EYES SOUND | MOTION | SIGHT (its body turned): <what>` and `FOOTWORK P<n>
 sideways <s> backing <s>`, and `CUT | KEPT <plan> (<class>) <s>s ago: <why>` - the owner's Human QA reads them (`HUMAN_QA.md`). R16f's
 `sn` (whom it sees) shared its key with T6's `sn` (its skin's note) in the same object, so the note was no longer sent; it is now `sw`.
-Nothing a player's page receives changed.
+Nothing a player's page receives changed. (R16e-6 also said the drawn snap would be checked in this campaign: the campaign checks the
+head angle each page receives, which the drawing follows; the drawing itself was looked at in the videos only.)
 
 **R16g-5 The independent review of R16d-R16f** (a separate agent, read-only, given the diff from R16c and the locks, not this record).
 It found no read of a person's hidden place, no sight through a wall and no step over its run. Its findings, most severe first, and what
@@ -938,3 +939,31 @@ front - reconsidered. G: roaming with nobody about - seconds a minute standing (
 prowls). B: a sprint 350 px behind it - its head and its body turning after the sound; then, hungry, how long until it sees them standing
 unlit. A: a lit person ahead or at the side - px it walked on after seeing them; seen at 85 degrees off its way. P: a person walking
 across a room 100 degrees off its way, 420 px - noticed. C: circled at 230 px - its mean facing error; scenes with sideways steps.
+
+## R16h — the full gate's findings, fixed (client only)
+
+**R16h-1 Found.** The full gate (`npm run gate:full`'s steps, run in three groups for the session's two-hour limit on one command) on
+R16g's tree failed three steps of its first group (`evidence/r16h/gate/gate_full_group1_on_r16g.txt`); each passes on R8
+(`bisect_r8_f378049.txt`). Bisected by running the same steps on the checkpoints' trees:
+- **`cli_golden`** (B++'s client scenes in a fake-clock page, traced call by call) - from **R10** (`bisect_r10_d4a0edc.txt`). In the
+  `admin` and `hum_dread` scenes, with no Skin-Stealer anywhere, one audio parameter differed: the gain of the heartbeat's second beat.
+  B++'s second beat, scheduled 140 ms after the first, read the dread level `k` when it played; R10's read the value of the frame that
+  scheduled it (`kb`, a constant of that frame). R10's claim - with no Skin-Stealer in sight every output is what it was - was therefore
+  not true to the last digit, and its own checks (V12, the real pages' thump counts) could not see it.
+- **`lineage`** - from **R10**: the `window.__api` contract (`src/core/client/bundle/api_contract.json`, a committed ledger of who reads
+  each member) still listed R8's readers; R10's sight-only warning, in `assets/skinstealer.js`, reads `Ul` (the client's exposure) and
+  `Uc` and `H` once more each.
+- **`page`** (B++'s page scripts under a debug fixture made from B++'s own sim, which has no Skin-Stealer; every function but two must
+  run) - from **R11** (`bisect_r11_a002a2d.txt`): R11's `MIND` and R12's `WAYS` overlay lines added four callbacks (`.map(o => ...)`)
+  that the scene can never reach.
+
+**R16h-2 Fixed** (`gate_fixed_steps_r16h.txt`: the three steps and the static ones pass):
+- `mp.frame.js`: the second beat reads the levels when it plays - `max(k, ksLive)`, `ksLive` the Skin-Stealer's level as of the last
+  frame - so with none in sight it is B++'s `.35 * k + .06` exactly, and with one in sight it follows the stronger, as the first beat does.
+- `ents.debug.js`: the `MIND` and `WAYS` lines are built with loops (the text is the same).
+- The contract regenerated with its own tool (`api_contract.js`, then `lineage_doc.js`): `assets/skinstealer.js` now listed as a reader
+  of `Ul`, and of `Uc` and `H` three times instead of two (8 members instead of 7); nothing else in it changed.
+Checked again (`evidence/r16h/`): `s_skinsight` 10/10; `npm test` 324/337 with the same 13 inherited failures; Human QA hotfix 5/6 (X03
+inherited); the sight-only warning on real pages 12/12 twice - its first run, straight after `npm test`, failed 6 of 12 on page A as
+R16g's first two runs did (page A's frame hook did not run in the whole scene: its camera never came to it, no dread even from the
+Hound; R16g-7). All three runs are kept. The server is unchanged, so R16g's campaign, probes and the cost against R8 stand.

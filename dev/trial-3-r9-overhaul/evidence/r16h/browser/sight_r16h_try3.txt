@@ -1,0 +1,26 @@
+PASS V12 no Skin-Stealer: silent  A 0/0, B 0/0
+PASS V02 in sight: heartbeat and one sting  A thumps 10, stings 1
+PASS V07 the other page (a wall between): nothing  B thumps 0, stings 0
+PASS V01 behind a wall beside the page: nothing  A thumps 0, stings 0 (B, which sees it: 9/1)
+PASS V03 in sight in the dark: nothing  A 0/0
+PASS V04 the torch reveals it, and its loss releases it  on: 7 thumps, 1 sting; off: 1 thumps in 3 s
+PASS V05 off screen: nothing; on screen: the cue  off: 0/0; widened: 5 thumps
+PASS V09 disguised: nothing; the skin dropped: the cue and a sting  disguised 0/0; dropped 6/1
+PASS V10 SOUND OFF: no thump, any sting at master gain 0  thumps 0, sting gains [0] (button: SOUND OFF)
+PASS V11 three in sight: one heartbeat, at most one sting  thumps 10 in 6 s, stings 1
+PASS V12 the Hound's dread as before  thumps 8, vignette 0.665
+PASS no page error  {"A":[],"B":[]}
+SIGHT: PASS - 12 of 12
+V12 none: A thumps 0 stings 0 vignette 0 views [[1,3,0.598,1]] | B thumps 0 stings 0 vignette 0 views [[1,0,0,0]]
+V02 V07 in A's sight, not in B's: A thumps 10 stings 1 (master gain 0.14) vignette 0 views [[1,3,0.598,1]] | B thumps 0 stings 0 vignette 0 views [[1,0,0,0]]
+V01 behind a wall beside A: A thumps 0 stings 0 vignette 0 views [[1,0,0,0]] | B thumps 9 stings 1 (master gain 0.14) vignette 0 views [[1,3,0.344,1]]
+V03 in sight, in the dark, torch off: A thumps 0 stings 0 vignette 0 views [[1,3,0.04,0]] | B thumps 0 stings 0 vignette 0 views [[0,0,0,0]]
+V04 the torch on it: A thumps 7 stings 1 (master gain 0.14) vignette 0 views [[1,3,0.388,1]] | B thumps 0 stings 0 vignette 0 views [[0,0,0,0]]
+V04 the torch off again: A thumps 1 stings 0 vignette 0 views [[1,3,0.04,0]] | B thumps 0 stings 0 vignette 0 views [[0,0,0,0]]
+V05 off screen (in the mask, lit): A thumps 0 stings 0 vignette 0 views [[0,3,0.828,0]] | B thumps 6 stings 1 (master gain 0.14) vignette 0 views [[1,1,0.867,1]]
+V05 the window widened: on screen: A thumps 5 stings 0 vignette 0 views [[1,3,0.828,1]] | B thumps 7 stings 0 vignette 0 views [[1,1,0.867,1]]
+V09 disguised in sight: A thumps 0 stings 0 vignette 0 views [[1,3,0.598,1]] | B thumps 0 stings 0 vignette 0 views [[1,0,0,0]]
+V09 the skin dropped: A thumps 6 stings 1 (master gain 0.14) vignette 0 views [[1,3,0.598,1]] | B thumps 0 stings 0 vignette 0 views [[1,0,0,0]]
+V10 sound off, in sight: A thumps 0 stings 1 (master gain 0) vignette 0 views [[1,3,0.598,1]] | B thumps 0 stings 0 vignette 0 views [[1,0,0,0]]
+V11 three in sight: A thumps 10 stings 1 (master gain 0.14) vignette 0 views [[1,3,0.579,1]] | B thumps 0 stings 0 vignette 0 views [[1,0,0,0]]
+V12 the Hound 260 px east: A thumps 8 stings 1 (master gain 0.14) vignette 0.665 views [[1,3,0.598,1]] | B thumps 9 stings 1 (master gain 0.14) vignette 0.59 views [[1,0,0,0]]

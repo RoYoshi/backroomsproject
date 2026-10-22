@@ -1,0 +1,20 @@
+$ node dev/tools/gate/golden/cli_golden.js --old-ref 143b63ff42b88c6780c5043e0f61d64100f81f40 --baseline <repo>/dev/stage-3h/evidence/h1/golden/cli_traces --out <tmp> --keep <tmp>
+PASS load: old 20 entries 1dd9e3b9f038 (141 ms) | new 20 entries 1dd9e3b9f038 (102 ms) | identical | baseline same
+PASS menu_online: old 1844 entries 7c17bb5dce53 (132 ms) | new 1844 entries 7c17bb5dce53 (129 ms) | identical | baseline same
+FAIL run_online: old 7413 entries d61f90bf0c38 (205 ms) | new 7413 entries 5911501089fd (208 ms) | DIFFERENT | baseline DIFFERENT
+   first difference at entry 2967
+   old: [3823.333333333323,"param.setValueAtTime","gain8.gain",0.17929262426825066,2.823333333333323]
+   new: [3823.333333333323,"param.setValueAtTime","gain8.gain",0.08891166730559699,2.823333333333323]
+PASS interp: old 11483 entries 7eb8f6d25d57 (241 ms) | new 11483 entries 7eb8f6d25d57 (261 ms) | identical | baseline same
+PASS fx_bodies: old 22762 entries f41b0dbe275e (341 ms) | new 22762 entries f41b0dbe275e (304 ms) | identical | baseline same
+PASS facade: old 1164 entries 6c709388b64a (137 ms) | new 1164 entries 6c709388b64a (156 ms) | identical | baseline same
+FAIL admin: old 1333 entries 90c1239bb505 (240 ms) | new 1333 entries f8cb4e5f5247 (248 ms) | DIFFERENT | baseline DIFFERENT
+   first difference at entry 1228
+   old: [12219.999999999985,"param.setValueAtTime","gain12.gain",0.2269839874357707,11.219999999999985]
+   new: [12219.999999999985,"param.setValueAtTime","gain12.gain",0.22695160485173013,11.219999999999985]
+PASS reconnect_solo: old 739 entries 8c3a6b38b816 (127 ms) | new 739 entries 8c3a6b38b816 (115 ms) | identical | baseline same
+FAIL hum_dread: old 4876 entries 116637e7f617 (173 ms) | new 4876 entries 5e24d22e81f1 (159 ms) | DIFFERENT | baseline DIFFERENT
+   first difference at entry 3292
+   old: [7856.666666666719,"param.setValueAtTime","gain149.gain",0.17440707229116503,6.856666666666719]
+   new: [7856.666666666719,"param.setValueAtTime","gain149.gain",0.09784163306451613,6.856666666666719]
+client golden traces: DIFFERENCES FOUND

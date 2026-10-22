@@ -217,3 +217,15 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `dev/trial-3-r9-overhaul/tools/r9_browser.js`, `tools/qa_server.js` | dev tools | the page helpers exported (main guarded); a spawn may carry a roam goal |
 | `dev/trial-3-r9-overhaul/evidence/r16g/`, `evidence/r16f/` (R16f's receipt, scan) | evidence | the campaign's records, screenshots, video, sheets; the suites, `npm test`, Human QA; the probes |
 | `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `HUMAN_QA.md`, `README.md` | docs | R16g-1 … R16g-7; the R16f rows; this table; the owner's play-test; an index of the documents |
+
+## R16h — the full gate's findings, fixed (client only)
+
+| File | Kind | Change |
+|---|---|---|
+| `src/core/client/mp.frame.js` | source | the heartbeat's second beat reads the levels when it plays (B++'s exactly with no Skin-Stealer in sight) |
+| `src/frameworks/overseer/client/ents.debug.js` | source | the `MIND` and `WAYS` overlay lines built with loops, not callbacks (the same text) |
+| `src/core/client/bundle/api_contract.json`, `API_CONTRACT.md` | source ledger (regenerated) | `assets/skinstealer.js` as a reader of `Ul`, `Uc`, `H` |
+| `public/mp.js`, `public/ents.js`, `generated/BUILD_MANIFEST.json` | built | rebuilt from the above |
+| `dev/tools/gate/declared_changes.json` | the scope gate's list | R16h's reasons on `mp.js` and `ents.js` |
+| `dev/trial-3-r9-overhaul/evidence/r16h/`, `evidence/r16g/` (R16g's receipt, scan) | evidence | the gate's first group on R16g, the three steps on R8, R10 and R11, the fixed steps; the suites, `npm test`, Human QA, the sight scene |
+| `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `HUMAN_QA.md` | docs | R16h-1, R16h-2 (and R16g-4 on the drawn snap, R16g-7's real-page reruns and probes); the R16g rows; this table; which QA parts want two tabs and headphones |

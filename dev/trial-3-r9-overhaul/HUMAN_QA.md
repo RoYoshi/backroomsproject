@@ -19,7 +19,7 @@ npm run build:check             # should say PASS
 ADMIN_PASSCODE=<a passcode of your own> node server.js
 ```
 
-Open `http://localhost:8000` and start an **online** run; two tabs or two browsers for parts 5, 9 and 12. Headphones help (parts 6, 7).
+Open `http://localhost:8000` and start an **online** run; two tabs or two browsers for parts 12 and 14. Headphones help (parts 3 and 10).
 
 * Press **`** (backquote), unlock with your passcode, then **K** with the panel open (not in a text field): the **SKIN** tab appears.
   **+ NEAR ME** puts one a few hundred px from you, out of sight where it can; **+ SKIN-STEALER** puts one far off in the dark. At most
@@ -45,7 +45,7 @@ satiated, 0.2–0.4 mild, 0.4–0.6 hungry, 0.6–0.8 very hungry, 0.8+ starving
 1. **It sees me and stops going where it was going (3 min), hungry 0.4+.** Let it roam; step into its sight ahead of it, lit, 400–600 px
    off. *Expected:* on that moment (within about half a second) it gives up its route - it turns to you and approaches, flanks, watches
    or withdraws by its plan. It never walks on along its old route as if it had not seen you. Satiated or mildly hungry it may only look
-   and go its way - that is its choice, said on the label (`KEPT …` or a `leave`).
+   and go its way - that is its choice, said on its label (`PLAN`, `WHY`).
 2. **The edge of its eye (3 min).** Stand still in the dark beside its route, off to its side; as it passes, walk. *Expected:* movement
    at the edge of its view turns its **head first** (a snap, about a tenth of a second), its **body** follows when the head cannot reach;
    then it sees you, or - if you were too far or too dark to make out - it looks toward where it noticed something. Standing still in the

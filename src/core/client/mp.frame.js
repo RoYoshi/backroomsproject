@@ -24,6 +24,7 @@ function mpFrame({ core: { cv, cx, dread, EN, game, humUpdate, light }, session:
 let k = 0, stingCd = 6;
 let beatT = 0;                                      // (C3c) the heartbeat's timer (Spacious Audio's part declared it at M8; only this hook uses it)
 let kStingAt = -1e9, sStingAt = -1e9;              // (R10) when the k sting last played (performance.now(), ms): the Skin-Stealer's does not double it; (R16) and the other way round
+let ksLive = 0;                                     // (R17) the Skin-Stealer's level as of the last frame (the second beat reads it then, as it reads k)
 const STING_MIX = 1200;
 window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   const dpr = devicePixelRatio || 1, W = innerWidth, H = innerHeight;
@@ -56,8 +57,10 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   k += (target - k) * Math.min(1, t * (target > k ? 3 : .8));
   setDrone(k);
   beatT -= t;
-  const kb = ks > k ? ks : k;                       // (R10: the heartbeat follows the stronger of the two; with ks 0 it is k's, as it was)
-  if (kb > .08 && beatT <= 0) { beatT = .95 - .6 * kb; thump(.5 * kb + .1, 70); setTimeout(() => thump(.35 * kb + .06, 58), 140); }
+  const kb = ks > k ? ks : k; ksLive = ks;          // (R10: the heartbeat follows the stronger of the two; with ks 0 it is k's, as it was)
+  // (R17: its second beat, 140 ms on, reads the levels then, as R8's read k then - with no Skin-Stealer in sight it is R8's beat to the
+  // last digit; R10's took this frame's value, which the gate's client traces caught)
+  if (kb > .08 && beatT <= 0) { beatT = .95 - .6 * kb; thump(.5 * kb + .1, 70); setTimeout(() => thump(.35 * (ksLive > k ? ksLive : k) + .06, 58), 140); }
   fadeHit(t);
   const dv = k < .05 ? 0 : Math.min(1, k * 1.15) * (.75 + .25 * Math.sin(now / (140 - 70 * k)));
   dread.style.opacity = Math.max(dv, hitFlash() * .95);

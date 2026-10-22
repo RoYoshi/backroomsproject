@@ -1,0 +1,8 @@
+$ node dev/tools/gate/golden/page_scripts.js --out <tmp>
+SAME move.js: 15215 trace lines (27 kinds) equal, the page's elements equal, errors 0/0; functions run: B++ 44 of 45, this tree 48 of 49
+SAME camcorder.js: 11336 trace lines (25 kinds) equal, the page's elements equal, errors 0/0; functions run: B++ 78 of 80, this tree 82 of 84
+SAME glitch.js: 21927 trace lines (22 kinds) equal, the page's elements equal, errors 0/0; functions run: B++ 13 of 13, this tree 16 of 16
+FAIL ents.js: 1204222 trace lines (39 kinds) equal, the page's elements equal, errors 0/0; functions run: B++ 141 of 143, this tree 147 of 153 - NOT REACHED: the scene must run every function but 2 (the sound of a dropped light striking something (a death event the scene does not produce) and the Smiler's eye-contact line of a selected record) without errors
+  not run (B++): play.far@47870, (anonymous)@61147
+  not run (this tree): play.far@48648, (anonymous)@62300, (anonymous)@65356, (anonymous)@65601, (anonymous)@67118, (anonymous)@67386
+PAGE SCRIPTS: FAIL (4 scripts, B++'s against this tree's; the debug fixture: 30 frames, 90 records)

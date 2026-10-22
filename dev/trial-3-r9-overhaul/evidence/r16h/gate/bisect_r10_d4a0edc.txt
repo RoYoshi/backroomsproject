@@ -1,0 +1,4 @@
+FAIL lineage: 83 compared; steps replayed (bundle, stylesheet, page); blame.json what the ledger gives; the v11 snapshot's tree proven; the __api contract (52 members) NOT CURRENT; its pages current (2 s)
+PASS page: 1255007 compared; world.js: 2295 comparisons equal; move, camcorder, glitch, ents: 1252700 trace lines equal, each scene reaching its script; 12 of 12 seam mutants caught (73 s)
+FAIL cli_golden: 30 compared; B++ client scenes 3; all 18 scenes in one page, running 232 of mp.js's 234 functions (14 s)
+MODERNIZATION GATE (full: lineage,page,cli_golden): FAIL  - report <tmp>
