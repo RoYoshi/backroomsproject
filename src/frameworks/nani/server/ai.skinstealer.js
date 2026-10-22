@@ -1,8 +1,8 @@
 /** @part generated/server/ai.js - N.A.N.I.: the Skin-Stealer (Trial 3): a patient, deceptive predator with hunger, stamina and its own plans
  * provides: KACT, SK, SKIN
- * uses: S, SCODE, TAU, angDiff, approach, clamp, commitTick, deriveSeed, directOk, directTo, facedBy, faceToward, follow, goTo, hearEvent,
- *       lerp, mkRng, moveCollide, perc, plan, rand, randomFloor, setAct, setState, setTarget, skMindDbg, skMindKept, skMindLog, skMindNew, skMindTick, sm,
- *       stopMoving, tgtGone
+ * uses: S, SCODE, SKI, TAU, angDiff, approach, clamp, commitTick, deriveSeed, directOk, directTo, facedBy, faceToward, follow, goTo, hearEvent,
+ *       lerp, mkRng, moveCollide, perc, plan, rand, randomFloor, setAct, setState, setTarget, skHypAt, skHypDbg, skHypHeard, skHypOf, skHyps,
+ *       skMindDbg, skMindKept, skMindLog, skMindNew, skMindTick, sm, stopMoving, tgtGone
  * writes: -
  */
 
@@ -443,7 +443,7 @@ function skHuntTick(eng, e, dt) {
   if (r.seen && r.visual) { const v = r.visual; if (H.ev !== 'seen' || now - (H.logAt ?? -99) > 2) { skMindLog(e, H, now, 'seen', v.x, v.y, 20, H.ev !== 'seen' ? 'in sight again' : ''); H.logAt = now; } H.x = v.x; H.y = v.y; H.vx = v.vx; H.vy = v.vy; H.bt = now; H.u = 20; H.conf = 1; H.evAt = now; H.ev = 'seen'; H.sid = e.mem.soundId || 0; H.badA.length = 0; return; }   // (R11: the evidence log, a new sighting or every 2 s in sight)
   // (R2) oldest first; a creature's sound (src -1) is never theirs, nor one named for somebody else; nothing here names anybody
   const snd = e.mem.sounds;
-  for (let i = snd.length - 1; i >= 0; i--) { const q = snd[i]; if (q.id <= H.sid) continue; H.sid = q.id; if ((q.src === 0 || q.pid === H.pid) && skFits(H, q)) skHeardQuarry(e, H, q); }
+  for (let i = snd.length - 1; i >= 0; i--) { const q = snd[i]; if (q.id <= H.sid) continue; H.sid = q.id; if ((q.src === 0 || q.pid === H.pid) && skFits(H, q)) { skHypHeard(eng, e, H, q); skHeardQuarry(e, H, q); } }   // (R12: which of its ways the sound fits, then the belief moves)
   H.conf = Math.max(0, H.conf - dt / skForget(e));
 }
 /* (R2) could the quarry have made that sound: is it within reach of the last evidence (both uncertainties, and the way a person can go since) */
@@ -518,7 +518,7 @@ function skHuntNext(eng, e, pre) {
   if (H.tries >= skTries(e)) { e.tally.huntCold++; skLeave(eng, e, r, `${P0}it searched for P${r.id} ${H.tries} times: it gives up`); return; }
   const G = skGuess(eng, e, H);
   if (!G) { e.tally.huntCold++; skLeave(eng, e, r, `${P0}nowhere left to look for P${r.id}: it gives up`); return; }
-  H.tries++; H.guess = G.k; skMindLog(e, H, now, 'inferred', G.x ?? G.g.qx, G.y ?? G.g.qy, H.u, G.k);   // (R11) its guess, as evidence it made itself
+  H.tries++; H.guess = G.k; skMindLog(e, H, now, 'inferred', G.x ?? G.g.qx, G.y ?? G.g.qy, H.u, G.k + (G.hyp ? ` way ${G.hyp} p ${(H.hyp.list.find(h => h.id === G.hyp) || { p: 0 }).p.toFixed(2)}` : ''));   // (R11) its guess, as evidence it made itself
   if (G.k === 'intercept') { skIntercept(eng, e, r, G.g, P0); return; }
   if (G.k === 'alt') { H.altTried = now; e.tally.alt++; }
   skSearch(eng, e, r, P0 + (G.k === 'alt' ? `it tries the other way P${r.id} could have gone` : G.k === 'route' ? `it goes the way it thinks P${r.id} went (${H.ev} ${age} s ago)` : G.k === 'last' ? `it goes back to where it last had P${r.id} (${H.ev} ${age} s ago)` : `it goes to where it believes P${r.id} is (${H.ev} ${age} s ago)`), { x: G.x, y: G.y }, { turnA: G.a ?? null });
@@ -529,23 +529,51 @@ function skHuntNext(eng, e, pre) {
  * new evidence comes); a seeded element (its own stream, less for the cleverer) lets it choose wrong.  It never looks at where they
  * really are. */
 function skGuess(eng, e, H) {
-  const now = eng.now, age = now - H.bt, B = skBelief(eng, e, H), C = [], geo = eng.geo, rec = skBeliefRec(H);
+  const now = eng.now, age = now - H.bt, B = skBelief(eng, e, H), C = [], rej = [], geo = eng.geo, rec = skBeliefRec(H), run = skSpeed(e, 'run');
   const near = (x, y) => H.failed.some(f => f.t > H.bt && Math.hypot(f.x - x, f.y - y) < SK.failedNear);   // (a failure older than its newest evidence no longer counts)
   const ok = q => q && !near(q.x, q.y) && geo.clear(q.x, q.y, e.rc + 2, 'walk');
   const stopped = H.ev === 'heard' && H.heard >= 2 && age > 1.5;                    // footsteps that stopped: they are likely near where they stopped
   const along = R => { let i = Math.min(R.pts.length - 1, Math.round(clamp(140 * age + 150, 250, SK.predictLook) / 48)); while (i > 2 && !geo.clear(R.pts[i].x, R.pts[i].y, e.rc + 2, 'walk')) i--; return R.pts[i]; };
-  if (Math.hypot(H.vx, H.vy) > 60 && age < 4) { const g = skPredict(eng, e, rec); if (g && !near(g.qx, g.qy) && !near(g.x, g.y) && !(g.turns.length && H.badA.some(b => Math.abs(angDiff(g.turns[0].a, b)) < .3))) C.push({ k: 'intercept', g, s: 1.2 }); }
+  // (R12) the ways it holds (skHyps): each guess is labelled with the way it lies on, weighed by how likely that way is now, and a guess on
+  // a way that evidence has ruled out (a sound that does not fit it, an empty place, a failed turn) is not made
+  const Y = skHyps(eng, e, H), pm = Math.max(...Y.list.map(h => h.p)), wt = h => h ? Math.max(-.6, .3 * Math.log(Math.max(1e-3, h.p) / pm)) : 0;
+  const way = (k, x, y) => { const h = skHypOf(Y, x, y); if (h && h.f < 1) { rej.push([k, h.id, 'disproved']); return false; } return h || null; };
+  if (Math.hypot(H.vx, H.vy) > 60 && age < SKI.fresh) {                          // its walk of their way (R8's, its seeded error), while fresh enough to get ahead
+    const g = skPredict(eng, e, rec);
+    if (!g) rej.push(['intercept', 0, 'late_to_intercept']);
+    else if (near(g.qx, g.qy) || near(g.x, g.y) || (g.turns.length && H.badA.some(b => Math.abs(angDiff(g.turns[0].a, b)) < .3))) rej.push(['intercept', 0, 'disproved']);
+    else { const h = way('intercept', g.qx, g.qy); if (h !== false) { g.hyp = h ? h.id : 0; C.push({ k: 'intercept', g, hyp: g.hyp, s: 1.2 + wt(h) }); } }
+  } else rej.push(['intercept', 0, Math.hypot(H.vx, H.vy) > 60 ? 'evidence_stale' : 'no_heading']);
   const R1 = skRoute(eng, e, rec, H.badA.length ? { avoid: H.badA } : null);
   if (R1) {
-    const q = along(R1); if (ok(q)) C.push({ k: 'route', x: q.x, y: q.y, a: R1.turns.length ? R1.turns[0].a : null, s: stopped ? .85 : H.ev === 'heard' ? 1.05 : 1 });
-    if (R1.turns.length) { const R2 = skRoute(eng, e, rec, { avoid: H.badA.concat([R1.turns[0].a]) }); if (R2 && R2.turns.length) { const q2 = along(R2); if (ok(q2)) C.push({ k: 'alt', x: q2.x, y: q2.y, a: R2.turns[0].a, s: H.badA.length ? 1.05 : .8 }); } }
-  }
+    const q = along(R1), h = q && way('route', q.x, q.y);
+    if (h !== false) { if (ok(q)) C.push({ k: 'route', hyp: h ? h.id : 0, x: q.x, y: q.y, a: R1.turns.length ? R1.turns[0].a : null, s: (stopped ? .85 : H.ev === 'heard' ? 1.05 : 1) + wt(h) }); else rej.push(['route', h ? h.id : 0, q && near(q.x, q.y) ? 'disproved' : 'no_floor']); }
+    if (R1.turns.length) { const R2 = skRoute(eng, e, rec, { avoid: H.badA.concat([R1.turns[0].a]) }); if (R2 && R2.turns.length) { const q2 = along(R2), h2 = q2 && way('alt', q2.x, q2.y);
+      if (h2 !== false) { if (ok(q2)) C.push({ k: 'alt', hyp: h2 ? h2.id : 0, x: q2.x, y: q2.y, a: R2.turns[0].a, s: (H.badA.length ? 1.05 : .8) + wt(h2) }); else rej.push(['alt', h2 ? h2.id : 0, q2 && near(q2.x, q2.y) ? 'disproved' : 'no_floor']); } } }
+  } else rej.push(['route', 0, 'no_heading']);
   const b = skFloorNear(eng, e, B.x, B.y), L = skFloorNear(eng, e, H.x, H.y);          // (a heard place is fuzzy: it may fall in a wall)
-  if (ok(b) && !C.some(c => Math.hypot((c.x ?? c.g.x) - b.x, (c.y ?? c.g.y) - b.y) < 120)) C.push({ k: 'belief', x: b.x, y: b.y, s: stopped ? 1.25 : H.ev === 'heard' ? 1.1 : .9 });
+  if (ok(b) && !C.some(c => Math.hypot((c.x ?? c.g.x) - b.x, (c.y ?? c.g.y) - b.y) < 120)) { const h = way('belief', b.x, b.y); if (h !== false) C.push({ k: 'belief', hyp: h ? h.id : 0, x: b.x, y: b.y, s: (stopped ? 1.25 : H.ev === 'heard' ? 1.1 : .9) + wt(h) }); }
+  else rej.push(['belief', 0, b ? (near(b.x, b.y) ? 'disproved' : 'on_a_way') : 'no_floor']);
   if (ok(L) && (!b || Math.hypot(b.x - L.x, b.y - L.y) > 150)) C.push({ k: 'last', x: L.x, y: L.y, s: .6 });
   for (const c of C) c.s += (e.huntRng() - .5) * .5 * (1.3 - e.tr.INTELLIGENCE);
+  // (R12) a way it holds that none of these lies on, likely enough: where they would be along it by now is a guess too (after R8's draws)
+  for (const h of Y.list) {
+    if (h.k === 'stop' || C.some(c => c.hyp === h.id)) continue;
+    if (h.f < 1) { rej.push(['way', h.id, 'disproved']); continue; }
+    if (h.p < SKI.minP) { rej.push(['way', h.id, 'unlikely']); continue; }
+    const q = skHypAt(Y, h, now, geo, e.rc + 2); if (!ok(q)) { rej.push(['way', h.id, q && near(q.x, q.y) ? 'disproved' : 'no_floor']); continue; }
+    C.push({ k: 'way', hyp: h.id, x: q.x, y: q.y, a: h.turns.length ? h.turns[0].a : null, s: .75 + wt(h) + (e.huntRng() - .5) * .5 * (1.3 - e.tr.INTELLIGENCE) });
+  }
+  // (R12) time and uncertainty: a place far away is reached late, and by then they could be anywhere within a wider ring - weaker
+  for (const c of C) {
+    const x = c.x ?? c.g.x, y = c.y ?? c.g.y, T = Math.hypot(x - e.x, y - e.y) * 1.2 / run, u = B.u + 90 * T;
+    c.T = +T.toFixed(1); c.u = Math.round(u); c.s -= .02 * T + (u > SKI.uWeak ? .2 : 0);
+  }
   C.sort((a, b) => b.s - a.s || a.k.localeCompare(b.k));
-  e.dbg.guess = C.length ? { at: +now.toFixed(1), k: C[0].k, of: C.map(c => c.k).join('/') } : null;
+  for (const c of C.slice(1)) rej.push([c.k, c.hyp || 0, 'less_likely']);
+  Y.bet = C.length ? C[0].hyp || 0 : 0;
+  e.dbg.guess = { at: +now.toFixed(1), k: C.length ? C[0].k : '-', hyp: Y.bet, of: C.map(c => c.k).join('/'), rej: rej.slice(0, 8) };
+  H.rej = rej.slice(0, 8);
   return C[0] || null;
 }
 function skListenLost(eng, e, r, why) {
@@ -587,18 +615,20 @@ function skRoute(eng, e, r, o) {
 }
 function skPredict(eng, e, r) {
   const R = skRoute(eng, e, r); if (!R) return null;
+  e.tally.predQ = (e.tally.predQ || 0) + 1;
   const geo = eng.geo, sp = Math.hypot(r.lvx, r.lvy), { pts, turns, s } = R;
   // the first point of that route it can be at before them: a quick estimate, then its own route there (at most four routes worked out)
   const age = eng.now - Math.max(r.seenAt, r.heardAt), v = clamp(sp, 90, 300), run = skSpeed(e, 'run');
   let q = null, tries = 0;
+  let slack = 0;
   for (const c of pts) {
     if (c.s < 160) continue;
     const left = c.s / v - age - SK.predictMargin;                               // the seconds before they are there
     if (Math.hypot(c.x - e.x, c.y - e.y) * 1.15 / run >= left) continue;
     if (++tries > 4) break;
-    const way = geo.path(e.x, e.y, c.x, c.y, e.caps, { maxNodes: 3000 }); if (!way) continue;
+    const way = geo.path(e.x, e.y, c.x, c.y, e.caps, { maxNodes: 3000 }); e.tally.pathQ = (e.tally.pathQ || 0) + 1; if (!way) continue;
     let L = 0, ax = e.x, ay = e.y; for (const w of way) { L += Math.hypot(w.x - ax, w.y - ay); ax = w.x; ay = w.y; }
-    if (L / run < left) { q = c; break; }
+    if (L / run < left) { q = c; slack = left - L / run; break; }                // (R12: how much sooner it is there than they are, on its real route)
   }
   if (!q) return null;                                                           // it cannot get ahead of them
   const back = pts[Math.max(0, pts.indexOf(q) - 4)];                             // where somebody coming along the route is just before
@@ -611,8 +641,10 @@ function skPredict(eng, e, r) {
   }
   if (!S0) { if (!geo.clear(q.x, q.y, e.rc + 2, 'walk')) return null; S0 = { x: q.x, y: q.y, hidden: false }; }
   return { x: S0.x, y: S0.y, hidden: S0.hidden, qx: q.x, qy: q.y, jx: back.x, jy: back.y, end: s < SK.predictLook && pts.length > 1, from: { x: r.lkx, y: r.lky },
-    heading: +Math.atan2(r.lvy, r.lvx).toFixed(3), turns, options: turns.length ? turns[0].n : 1, lead: Math.round(q.s) };
+    heading: +Math.atan2(r.lvy, r.lvx).toFixed(3), turns, options: turns.length ? turns[0].n : 1, lead: Math.round(q.s), slack: +slack.toFixed(2) };
 }
+/* (R12) a stand-in for a hunt, from a record's last evidence (before a hunt begins): only what skHyps reads */
+const skHypSrc = r => ({ pid: r.id, x: r.lkx, y: r.lky, vx: r.lvx, vy: r.lvy, bt: Math.max(r.seenAt, r.heardAt), u: 20, ev: 'seen', heard: 0, badA: [], failed: [], hyp: null });
 /* a route that keeps off their own trail (from where it last knew them to the junction) when there is another way round */
 function skAround(eng, from, to) {
   const geo = eng.geo, dx = to.x - from.x, dy = to.y - from.y, L2 = dx * dx + dy * dy || 1;
@@ -667,7 +699,12 @@ function skLost(eng, e, P, r) {
   if (P.k === 'flank') { skBegin(eng, e, 'approach', r, `out of P${r.id}'s sight at their side: it comes at them from there`, { side: 1 }); return; }
   // they went out of sight moving: predict where they are going and try to be there first
   const moving = Math.hypot(r.lvx, r.lvy) > 60, fresh = now - Math.max(r.seenAt, r.heardAt) < 2.5;
-  if (h >= SK.band[1] && !e.exh && moving && fresh) { const g = skPredict(eng, e, r); if (g) { skIntercept(eng, e, r, g, ''); return; } }
+  if (h >= SK.band[1] && !e.exh && moving && fresh) {
+    // (R12) its walk of their way (R8's), labelled with the way it lies on among those it holds; not made on a way evidence has ruled out
+    const src = H || skHypSrc(r), Y = skHyps(eng, e, src), g = skPredict(eng, e, r), w = g ? skHypOf(Y, g.qx, g.qy) : null;
+    if (g && !(w && w.f < 1)) { g.hyp = w ? w.id : 0; Y.bet = g.hyp; skIntercept(eng, e, r, g, ''); if (!H && e.hunt && e.hunt.pid === r.id && !e.hunt.hyp && Math.abs(e.hunt.bt - src.bt) < 1e-6) e.hunt.hyp = Y; return; }
+    e.dbg.guess = { at: +now.toFixed(1), k: '-', hyp: 0, of: '', rej: [['intercept', w ? w.id : 0, g ? 'disproved' : 'late_to_intercept']] };
+  }
   // (R1) a hunt goes on without them in sight: it stops to listen, then follows its belief (skHuntNext); it gives up for a stated reason
   if (H && !e.exh) { skListenLost(eng, e, r, `it lost sight of P${r.id}: it stops and listens`); return; }
   // otherwise a hungry one goes to look where it last knew them, briefly (stale evidence ends it); a less hungry one lets it go
@@ -1159,7 +1196,9 @@ function skAct(eng, e, dt, thinkNow) {
         if (off > SK.freezeCone + .25 && P.froze) { P.froze = 0; P.frozen = Math.max(0, P.frozen - .5); e.dbg.why = `P${r.id} looks away: it comes on`; }
       }
       if (d < SK.approachStop && Math.hypot(p.vx, p.vy) < 40) { skHold(eng, e, dt); faceToward(e, p.x, p.y, dt, 3); if (e.act !== 'creep') setAct(e, 'creep'); return; }
-      if (thinkNow && (now - (P.planT || -9) > 1.5 || !e.path.length)) {
+      // (R12: within its stopping distance of somebody who keeps moving against it - pressed up to a low wall or its own body - a used-up
+      // route is worked out again at most twice a second, not on every think)
+      if (thinkNow && (now - (P.planT || -9) > 1.5 || (!e.path.length && (d >= SK.approachStop || now - P.planT > .5)))) {
         P.planT = now;
         if (directOk(eng, e, p.x, p.y, 420)) directTo(eng, e, p.x, p.y);
         else plan(eng, e, p.x, p.y, { why: 'approach under cover', cost: skCover(eng, p), maxNodes: 3000 });
@@ -1217,7 +1256,8 @@ function skAct(eng, e, dt, thinkNow) {
         P.hAt = hAt;
         const sx = Hh && Hh.hAt >= r.heardAt ? Hh.x : r.hx, sy = Hh && Hh.hAt >= r.heardAt ? Hh.y : r.hy;
         if (Math.hypot(sx - g.x, sy - g.y) > 350) {
-          const g2 = skPredict(eng, e, Hh ? skBeliefRec(Hh) : r);
+          const g2 = skPredict(eng, e, Hh ? skBeliefRec(Hh) : r), w2 = g2 && Hh ? skHypOf(skHyps(eng, e, Hh), g2.qx, g2.qy) : null;   // (R12: labelled with its way)
+          if (g2) g2.hyp = w2 ? w2.id : 0;
           if (g2 && Math.hypot(g2.x - g.x, g2.y - g.y) > 250) {
             P.re++; P.reAt = now; if (Hh) Hh.revised++; e.tally.revise++; P.g = g2; if (P.arrived) { P.arrived = 0; P.until = Math.min(P.t0 + SK.interceptMax + 8, now + 10); }
             e.dbg.predict = Object.assign({ at: +now.toFixed(2), pid: r.id, corrected: 1 }, g2); plan(eng, e, g2.x, g2.y, { why: 'intercept (heard)', cost: skAround(eng, g2.from, { x: g2.qx, y: g2.qy }), maxNodes: 4000 });
@@ -1416,7 +1456,7 @@ function skHuntDbg(eng, e) {
   return { pid: H.pid, conf: +H.conf.toFixed(2), ev: H.ev, ago: +(eng.now - H.evAt).toFixed(1), u: Math.round(B.u), eff: e.enc && e.enc.pid === H.pid ? +e.enc.spent.toFixed(1) : 0, max: Math.round(skBudget(e)),
     flanks: H.flanks, tries: H.tries, failed: H.failed.length, heard: H.heard, rev: H.revised, why: H.why,
     g: H.guess || '', alt: H.altTried ? 1 : 0, hAgo: H.hAt > 0 ? +(eng.now - H.hAt).toFixed(1) : -1,   // (R2) its current guess; the other way tried; its last sound of them
-    log: (H.log || []).slice(-4) };                                                   // (R11) its last evidence: seen / heard / inferred / disproved
+    log: (H.log || []).slice(-4), hy: skHypDbg(H), rj: H.rej || [] };                   // (R12) the ways it holds; its guess's rejected rivals                                                   // (R11) its last evidence: seen / heard / inferred / disproved
 }
 function skAwTop(eng, e) {
   let A = null; for (const q of e.aw.values()) if (!A || q.p > A.p) A = q;

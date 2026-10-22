@@ -1,5 +1,5 @@
 'use strict';
-const files = process.argv.slice(2).length ? process.argv.slice(2) : ['s_percept.js', 's_hound.js', 's_smiler.js', 's_capture.js', 's_system.js', 's_admin.js', 's_commit.js', 's_nav.js', 's_chase.js', 's_audit.js', 's_evidence.js', 's_ir.js', 's_hound2e.js', 's_shared2f.js', 's_skinstealer.js', 's_skinbehave.js', 's_skinpredator.js', 's_skinsight.js', 's_skinmind.js'];   // (Trial 3: the Skin-Stealer; its behaviour refinement; its predator refinement; R10: its dread only in sight; R11: its mind)
+const files = process.argv.slice(2).length ? process.argv.slice(2) : ['s_percept.js', 's_hound.js', 's_smiler.js', 's_capture.js', 's_system.js', 's_admin.js', 's_commit.js', 's_nav.js', 's_chase.js', 's_audit.js', 's_evidence.js', 's_ir.js', 's_hound2e.js', 's_shared2f.js', 's_skinstealer.js', 's_skinbehave.js', 's_skinpredator.js', 's_skinsight.js', 's_skinmind.js', 's_skinroute.js'];   // (Trial 3: the Skin-Stealer; its behaviour refinement; its predator refinement; R10: its dread only in sight; R11: its mind; R12: its inference)
 const only = process.env.ONLY ? new RegExp(process.env.ONLY, 'i') : null;
 let total = 0, pass = 0; const fails = [];
 for (const f of files) {

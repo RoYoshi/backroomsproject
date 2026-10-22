@@ -128,3 +128,75 @@ tool reads FAIL — the same second-slot bias as the A/A run, in the one case wh
 R8's). R11 → R8 (swapped): without a Skin-Stealer the same cost (R8 5 % faster, inside the tolerance); four starving R8 +8 % mean /
 +50 % p99 *slower* than R11, which that line reads as a failure of R8. Neither order separates the trees beyond the run-to-run noise;
 every run kept the 60 Hz budget with no invariant violation. R16 repeats this with more rounds in both orders.
+
+## R12 — inference: the ways a quarry could have gone, held as hypotheses
+
+**Requirement** (pack `02` "belief and imperfect prediction", `03`; checkpoint R12): legitimate inference, multiple route hypotheses,
+time-, cost- and uncertainty-aware candidate reasoning; wrong-turn, anonymous-audio and evidence-equivalence checks; no oracle; capped
+CPU. R8 guessed a way with one seeded walk; "the other way" existed only once the first had failed.
+
+**R12-1 The ways, listed from its own evidence.** A new server part, `src/frameworks/nani/server/ai.skin.infer.js`. From where it last had
+them and the heading it saw (never where they are), it walks the heading until the way is blocked; there it tries 16 directions, groups
+adjacent open ones into openings (an opening wider than 135° is split), takes each opening's direction nearest the heading, and walks each
+on (at later blocks the turn that keeps the heading best — no draw). With "they stopped or hid near where it last had them" it holds at
+most four ways. Prior of a way: `exp(cos turn)` — R8's own measure of how people keep their heading (its walk scored turns by `cos` plus
+its seeded error) — so two 68° turns are .39 each, the 135° way back .13, the stop .08 (more when they were slow or their steps stopped).
+Measured (C21): two to four ways at every first guess, probabilities summing to one, the likeliest the one nearest the heading, every
+segment on walkable floor, and the very same ways whichever way the person really went.
+
+**R12-2 Anchored on a sighting.** The ways are listed when it last saw them and kept while sounds and empty places weigh them; listed
+again only from a newer sighting, or — once evidence has ruled out every one — from its newest evidence. (A first version re-listed them
+from every sound: each listing started at the sound, so no sound could ever tell the ways apart.) At most one listing every 0.4 s; a
+listing is a few hundred line tests and no route search. R12-B: in eight seen-and-lost hunts one or two listings in 30 s each, at most
+four ways held, the interception's real-route checks (`geo.path`) never more than four per interception weighed.
+
+**R12-3 Evidence moves them.** *An empty place* it searched or waited at, on a way's own stretch (at least 200 px past its fork — at the
+fork an empty place says nothing about which way they took), DISPROVES that way: its weight ×0.1, kept with the reason, never erased —
+the record of what the wrong guess cost. *A fresh sound it takes for theirs* (R2's existing fit test decides that, before anything
+here) re-weighs every way by how well it explains the sound: the way's nearest point a person could have reached by then (40–320 px/s
+from the anchor), a Gaussian spread of 90 px plus half the sound's own fuzz; a way under 0.2 of the best is REJECTED, the sound named.
+Then the belief moves to the sound as in R2. C22: a person running east or north-west after the glimpse — of 12 runs, 7 had sounds taken
+for theirs while ways were held; in all 7 the sounds re-weighed them (a way rejected or one gaining at least .15), and each time a next
+guess followed it went to the side it heard (3/3); the same moves crouched rejected nothing. C20: a person who doubles back unheard — in
+9 of 12 runs its bet was wrong; in all 9 the way was disproved with its reason, the next guess went to another way or its belief, no
+place twice, and the hunt ended within its guesses ("no sign … it gives up").
+
+**R12-4 Its bet stays R8's walk; the ways label, weigh and veto.** `skGuess` still makes R8's candidates in R8's order with R8's draws —
+the interception on its walk of their way, where they would be along that walk, the other way at its first turn, its belief, the place
+it last had them — and R12 then labels each with the way it lies on (`skHypOf`: the way whose own stretch passes within 200 px), adds
+`0.3 × ln(p/p_max)` (at most −0.6) to its score, refuses a candidate on a ruled-out way (reason `disproved`), and adds, after R8's draws,
+a guess along a likely way none of them lies on (`way`, at least p .06). The interception made at the moment it loses sight, and its
+correction on hearing them elsewhere, are labelled and refused the same way. *Why not bet among the ways directly:* a first version bet
+on `argmax(ln p + R8's error)`; it is equivalent in distribution but consumed the streams differently, and every later draw moved — R8's
+statistical scenes shifted (PR11 heard the runner in 3 of 8 runs instead of 6, PR24 ran into a latent re-planning storm). Keeping R8's
+walk keeps PR09's property (its first guess at wall B differs between seeds — sometimes wrong either way) by construction.
+
+**R12-5 Time, cost and uncertainty.** An interception is weighed only within 4 s of its newest evidence (else `evidence_stale`) and only
+where its real route beats them (R8's check: at most four `geo.path` routes; the slack is now recorded; else `late_to_intercept`). Every
+candidate's travel time `T = 1.2 × distance / run speed` costs `0.02 × T`, and one whose uncertainty on arrival (`belief u + 90 px/s × T`)
+exceeds 900 px loses 0.2: a near, sure guess beats a far, vague one of the same worth. These change which candidate wins, never the draws.
+
+**R12-6 Reasons for what it did not do.** Each guess records its rejected rivals: `evidence_stale`, `no_heading`, `late_to_intercept`,
+`disproved`, `unlikely`, `no_floor`, `on_a_way`, `less_likely` (R12-A: 27 rivals over 13 guesses, four kinds, none outside the
+vocabulary; never an interception on evidence older than 4 s). The hunt's evidence log gains the way and its probability for each
+inference; the admin overlay shows `WAYS` (each way, its likelihood, the one its guess lies on, ruled-out marks) and, for the selected
+creature, why each was ruled out and the rejected rivals. `evidence/r12/trace_r12.txt` follows three hunts line by line.
+
+**R12-7 Evidence equivalence and no oracle.** C23: a person who silently takes one way or another — alone, and with a never-seen second
+person running the same lane in both worlds — its ways, bets, rejected rivals and every decision are identical tick for tick until it
+senses a difference (eight pairs). C09 (R11's) now also covers the ways (the debug holds them): while it cannot sense a person nothing it
+keeps holds their true place. C05/C06 still hold: footsteps it cannot attribute name nobody; a second player's running can mislead it.
+
+**R12-8 Found on the way.** In one PR24 hunt R12's changed choices led an approach to a person pressed against a low wall 47 px away: it
+could neither reach nor grab across the wall (the reach test is a walk test) and, inside its stopping distance with the person still
+pushing, re-planned a used-up route on every think (173 route searches in 20 s, PR24's bound broken). The re-planning is now at most
+twice a second inside the stopping distance (unchanged beyond it); the deadlock itself — it should go round or wait — is a physical
+legality question for R13 (C27).
+
+**R12-9 Cost** (`evidence/r12/perf_*`). Three rounds R8 → R12 read +20 % mean with one creature and +21 % with four pressed (FAIL against
+the base on those two lines); the same three rounds swapped (R12 in the base slot) read R8 11–12 % *faster* on the same lines; five
+rounds R8 → R12 then read −3.7 % (one), −5.3 % (four), +10.3 % (four pressed), +3 % (four starving), and five rounds R8 → R11 +5.1 %,
+−0.5 %, +9.2 %, −9.5 % — PASS both. The one consistent signal is about +10 % mean (≈ 0.02 ms a step) with four creatures pressed by
+eight players, present at R11 already: the mind's per-think exposure test for every person in sight (a CPU profile of that run: the
+mind 1.1 % of all samples, inside the Skin-Stealer's 16.5 %). Every run stays far inside the 60 Hz budget (means ≤ 0.27 ms, p99 ≤ 3.8 ms)
+with no invariant violation. R16 measures again with more rounds.

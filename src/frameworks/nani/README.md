@@ -34,6 +34,7 @@ AI perception is server-side and limited to evidence.
 | [`server/ai.intelligence.js`](server/ai.intelligence.js) | N.A.N.I.: shared evidence tools: arbitration, identities, habits (Stage 2F); never a species' action brain | `generated/server/ai.js` (a part) |
 | [`server/ai.light.js`](server/ai.light.js) | N.A.N.I.: visible light as evidence (Part 2, stage 2C) | `generated/server/ai.js` (a part) |
 | [`server/ai.senses.js`](server/ai.senses.js) | N.A.N.I.: perception, memory, leads and social awareness; the evidence law (Part 2, stage 2C) | `generated/server/ai.js` (a part) |
+| [`server/ai.skin.infer.js`](server/ai.skin.infer.js) | N.A.N.I.: the Skin-Stealer's inference (Trial 3 R12): the ways its quarry could have gone, how likely each, what ruled one out | `generated/server/ai.js` (a part) |
 | [`server/ai.skin.mind.js`](server/ai.skin.mind.js) | N.A.N.I.: the Skin-Stealer's mind (Trial 3 R11): who could see it, what changed since its last think, what it knows of its quarry | `generated/server/ai.js` (a part) |
 | [`server/ai.skinstealer.js`](server/ai.skinstealer.js) | N.A.N.I.: the Skin-Stealer (Trial 3): a patient, deceptive predator with hunger, stamina and its own plans | `generated/server/ai.js` (a part) |
 | [`server/ai.smiler.js`](server/ai.smiler.js) | N.A.N.I.: the canon Smiler (Part 2, stage 2D) | `generated/server/ai.js` (a part) |

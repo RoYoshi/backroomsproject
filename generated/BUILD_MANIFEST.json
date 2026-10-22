@@ -1,7 +1,7 @@
 {
  "note": "Written by dev/tools/build/build.js. Every built output, its parts in order and their SHA-256. Do not edit: run npm run build.",
  "recipes": "src/build-recipes.json",
- "recipesSha256": "82351f0c03b50ff5e50fad711e8d90abe9a877c81dcd2bc3513fc0eea9eb771c",
+ "recipesSha256": "cf4b65034c6ed0c7c53e941849ed529a1eaa7fb9651fd5e95c3cc8b02d609eb2",
  "tool": "dev/tools/build/build.js",
  "toolSha256": "3d0d0f257f70756d5b910c060ce058f67669899e680216c176b40629eda2a8fd",
  "outputs": [
@@ -404,8 +404,8 @@
   },
   {
    "out": "public/ents.js",
-   "bytes": 84000,
-   "sha256": "b627fcdef09b3f7685b89923ff243c40dc43ecb4aeeb496138dca834f51468c9",
+   "bytes": 84664,
+   "sha256": "6a814b892464f3261530993167d5a2eaf7260e2825113ea833b37a3b1725e337",
    "parts": [
     {
      "path": "src/frameworks/br-r/client/ents.head.js",
@@ -434,7 +434,7 @@
     },
     {
      "path": "src/frameworks/overseer/client/ents.debug.js",
-     "sha256": "edc36f473497034243febf82bb76acbdc978e6bab708fd0607de4ca536cbc6da",
+     "sha256": "0c413d5444df38b673f3ca919d528355fce022d34678701188f29e005b4694f6",
      "headerBytes": 473
     },
     {
@@ -681,8 +681,8 @@
   },
   {
    "out": "generated/server/ai.js",
-   "bytes": 354754,
-   "sha256": "6e3a9fc5c55bce3b33812567808ea22c4fb994159ace057fecaf9208a585f10a",
+   "bytes": 371864,
+   "sha256": "d5150aee9629579be0caf1d4662ca136734cb8537b1054e2570ebd68dd1cdfb4",
    "parts": [
     {
      "path": "src/frameworks/nani/server/ai.head.js",
@@ -735,9 +735,14 @@
      "headerBytes": 272
     },
     {
+     "path": "src/frameworks/nani/server/ai.skin.infer.js",
+     "sha256": "2f06e16a4f6db3e228560f0525bfefbd8a70a54223cd172481a10c01053ca2a9",
+     "headerBytes": 279
+    },
+    {
      "path": "src/frameworks/nani/server/ai.skinstealer.js",
-     "sha256": "611aa341c9d69724901b28b75233048b8c9ffda9788b6c732ae5c5e81a2b70dc",
-     "headerBytes": 512
+     "sha256": "e49e2439f72b0236cd46c1a000028e90b95d8d6770c229f9f0f18fcafd69fc3f",
+     "headerBytes": 565
     },
     {
      "path": "src/frameworks/nani/server/ai.engine.js",

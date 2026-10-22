@@ -37,3 +37,17 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `dev/trial-3-r9-overhaul/tools/c15_hashes.js`, `fixtures/c15_r8.json` | dev tool, test fixture | C15: per-second snapshot hashes, no Skin-Stealer, three seeds; the fixture made on R8 `f378049` |
 | `dev/trial-3-r9-overhaul/tools/trace_r11.js` | dev tool | the state traces with reasons (`evidence/r11/trace_r11.txt`): plan, act, why, head, who could see it, events and their answers, evidence |
 | `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `evidence/r10/` (receipt, scans), `evidence/r11/` | docs, evidence | R11-1 … R11-7; R10's receipt |
+
+## R12 — its inference: the ways a quarry could have gone (server)
+| File | Kind | Change |
+|---|---|---|
+| `src/frameworks/nani/server/ai.skin.infer.js` | new part of `generated/server/ai.js` | `skHypList` (the ways on from a place and heading: every opening at the first block, walked on without a draw), `skHyps` (anchored on a sighting; priors; disproved by empty places on a way's own stretch), `skHypHeard` (a sound re-weighs the ways; far worse ones rejected), `skHypOf` / `skHypAt` (the way a place lies on; where they would be along a way), `skHypDbg` |
+| `src/frameworks/nani/server/ai.skinstealer.js` | source | a sound taken for theirs is weighed against the ways first; `skGuess` keeps R8's candidates and draws, labels each with its way, weighs it by that way's probability, refuses one on a ruled-out way, adds a guess along a likely way none lies on, discounts a far or very uncertain place, records the rejected rivals with reasons; the interception on losing sight and its correction are labelled and refused on a ruled-out way; tallies `hypBuild`, `predQ`, `pathQ`; within its stopping distance an approach re-plans a used-up route at most twice a second (a latent R8 re-planning storm the R12 runs exposed); debug `ht.hy`, `ht.rj` |
+| `src/frameworks/overseer/client/ents.debug.js` | source (admin overlay, debug mode only) | the `WAYS` line (each way, its likelihood, the one its guess lies on, ruled-out marks) and, selected, the reasons and the rejected rivals |
+| `src/build-recipes.json` | build | the new part, after `ai.skin.mind.js` |
+| `generated/server/ai.js`, `public/ents.js`, `generated/BUILD_MANIFEST.json` | built | rebuilt from the above |
+| `docs/architecture/BUILD_PIPELINE.md`, `docs/architecture/FRAMEWORKS.md`, `src/frameworks/nani/README.md` | generated doc tables | `node dev/tools/docs/docs.js` |
+| `dev/tests/s_skinroute.js` | new suite, in `run.js`'s default list | C20–C23, R12-A, R12-B (R13 adds C16–C19, C24–C27) |
+| `dev/tests/run.js` | test list | `s_skinroute.js` added |
+| `dev/trial-3-r9-overhaul/tools/trace_r12.js` | dev tool | the inference traces (`evidence/r12/trace_r12.txt`) |
+| `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `evidence/r11/` (receipt, scan), `evidence/r12/` | docs, evidence | R12-1 … R12-7; R11's receipt |
