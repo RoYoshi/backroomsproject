@@ -109,6 +109,9 @@ called the read a hidden-truth leak; the state is public on the wire and drawn, 
 **Never a spring at company.** The stand-off made springs possible from a watching plan, and nothing asked whether the person was alone
 (C20). **A person passed over is let go** when they walk out of view, instead of R8's lost-sight interception hunting them anyway (C21).
 **A stare-down is not a minute of a statue.** One renewal at most, and only from a new spot; then its next answer, usually going (C22).
+The review's re-check found two more ways to stand still in plain view, both inherited: a flank spot it reached that the person could
+still see, and a bait corner reached while still seen - each held until its effort ran out. Now either, still seen and looked at past a
+beat, has failed: the place is remembered and it takes its next answer (C23).
 **Rejected:** dropping `r.ex` or the drawn heave altogether (they are seen); attacking groups when starving (R8 never did; no evidence the
 owner wants it).
 

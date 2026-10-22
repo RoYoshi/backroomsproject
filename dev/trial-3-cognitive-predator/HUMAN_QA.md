@@ -28,7 +28,7 @@ Open `http://localhost:8000`, start an **online** run. Two tabs (or two browsers
   sight, **MONSTERS → WORLD SPEED 3×**, watch `HUNGER` on its label (from 0.55: 0.8 in about 50 s, 0.95 in about 85 s), then **1×**; do
   not FREEZE meanwhile. **Satiated:** stand by it, **SKIN → NECK BREAK** (a real kill on you); feeding lowers it. (Re-checked on this
   build: the SKIN tab, + NEAR ME and the death previews in Trial 3's `skin_browser.js` t1 / t4, the world speed in t6.)
-* A deterministic look at the same situations without a browser: `node dev/tests/run.js s_skincognitive.js` (C01–C22, each printing what
+* A deterministic look at the same situations without a browser: `node dev/tests/run.js s_skincognitive.js` (C01–C23, each printing what
   it measured) and `node dev/trial-3-cognitive-predator/tools/c0_audit.js --seeds 1,2` (the C0 scenes).
 
 ## The parts (pack 07)
@@ -44,7 +44,8 @@ Open `http://localhost:8000`, start an **online** run. Two tabs (or two browsers
    and it misses. A runner close by may be chased.
 3. **Stared down (3 min), 0.5–0.6, then starving.** Keep looking at it and do not move. *Expected (C7):* it does **not** stand like a statue:
    it stands off a few seconds (at most about 8 s still), may go round you out of your sight to come at you from the side, may move to
-   another spot once, and then goes (in the simulation 14–29 s); it comes back hungrier. Starving (0.8+) it creeps in under your eyes and
+   another spot once, and then goes (in the simulation 14–29 s); it comes back hungrier. If its spot at your side, or its corner, turns
+   out to be in your view, it gives it up at once (C23: never more than about 10 s still in your view, in three places, .5–.65). Starving (0.8+) it creeps in under your eyes and
    springs from about 170 px: **real danger even while you stare**, and the tell still saves you if you move.
 4. **A glimpse, then gone (3 min), hungry.** Let it see you walk toward a fork, turn the corner, go silent (crouch, torch off), double
    back. *Expected:* a guess at once on the way it saw you go — a cut-off ahead, or a look along it — so a silent double-back **fools it**
@@ -63,7 +64,7 @@ Open `http://localhost:8000`, start an **online** run. Two tabs (or two browsers
 8. **Hound comparison (2 min).** A Hound in another room: instinct and pursuit; the Skin-Stealer should feel deliberate — waiting for
    your eyes to leave it, going round, guessing.
 9. **Two people (3 min), two tabs.** Stand together, then walk up to it together; then split up. *Expected:* it never springs at either of
-   you while you are together (C7); it holds you from the dark. Apart, it takes the one who is the better chance (not watching it, alone)
+   you while you are together - within about 450 px of each other, at any hunger (C7; R8's lone-ambusher rule, a design choice for you); it holds you from the dark. Apart, it takes the one who is the better chance (not watching it, alone)
    and keeps to them. Walk right into it and it can still grab (contact).
 10. **Threat without cheating (3 min).** Let it catch you by a visible mistake (looking away, standing in reach, walking into it); then
     escape by being clever (keeping it in view, breaking its sight and going silent, a double-back). Watch the wind-up, the contact, the
@@ -71,11 +72,15 @@ Open `http://localhost:8000`, start an **online** run. Two tabs (or two browsers
 
 ## What the evidence does not tell you (please judge these)
 
-* **How dangerous .45–.65 should be.** In real pages it killed far more often than R8 (`CHECKPOINTS.md` C6a / C7, pooled with n). Every
+* **How dangerous .45–.65 should be.** In real pages, pooled over every valid try (`CHECKPOINTS.md` C7b): R8 killed in 11 of 27; after the review,
+  20 of 35 (`evidence/c8_browser_pool.txt`) - 9 of 9 when the page turned its back, 2 of 9 when it ran and kept going, 6 of 8 circling
+  the pillar (a reversal saved one). Every
   kill was a spring with its whole wind-up at somebody in sight, or a grab in reach — but scripted pages never dodge at the tell.
 * **The dodge window** is about 0.35–0.40 s after its wind-up begins (the review's measurement, before network delay): real, but tight.
 * **How long a stare-down should last** before it goes (now 14–29 s; R8 7–17 s; before the review, a minute standing still).
 * The real-page traces are sampled about once a second: sub-second reaction times are the simulation's (C01, C18), not shown on a page.
+* **Performance:** the server's mean cost per step is R8's; its slowest steps (p99) with one creature, and with four while everybody
+  presses one, came out higher than R8's in most measurements (4 of 5, 3 of 5), inside the 60 Hz budget (`PERFORMANCE.md`). Note any hitch.
 
 ## Owner report (pack 07; copy and annotate)
 

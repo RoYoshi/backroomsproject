@@ -19,7 +19,8 @@ filled in by the next checkpoint.
 | C6b performance, the gate, the earlier browser checks | `d708f426e4f1d1224596693a6d8b57bf07b24f9f` | `8d4843b37ea3a80a364c0d6fc9c546c05d7228df` | `5f8bdfe` | read back from GitHub (`evidence/remote/c6b.json`: ok); scans before and after clean |
 | C7a the independent review and its fixes | `91de3eb153807c66f6a2bf3e71876669e7f4f346` | `64afa401f5c9b899981912fd4194c2dd711cdb19` | `d708f42` | read back from GitHub (`evidence/remote/c7a.json`: ok); scans before and after clean |
 | C7b the fixed build, re-run in full | `9a8373abe0143685687e73f78f83434e7c532ab1` | `34107a0372b144e5fa7b71c3ab32e2dd4f802871` | `91de3eb` | read back from GitHub (`evidence/remote/c7b.json`: ok); scans before and after clean |
-| C7c the review's re-check, and its fix | (this commit: `evidence/remote/c7c.json` arrives with C8) | | `9a8373a` | |
+| C7c the review's re-check, and its fix | `626972cc71aea0c9084a11d2c83edc5727bb05ad` | `470d548b231a383915c6760f8bd624e8b19b61b2` | `9a8373a` | read back from GitHub (`evidence/remote/c7c.json`: ok); scans before and after clean |
+| C8 final documents and the last regression | (this commit: `evidence/remote/c8.json` arrives with the receipt commit) | | `626972c` | |
 
 ## C0 — diagnosis first (no game change)
 
@@ -342,3 +343,29 @@ there for a while) and takes its next answer (`BALANCE_TABLE.md`, C7's last row;
 | static checks (`evidence/c7c_checks.txt`) | all PASS |
 
 The rest of the regression (npm test, P9 equivalence, the fast gate, a real-page pass, performance) is re-run on this build at C8.
+
+## C8 — the final code re-run, the documents, the stop
+
+Changed: no game code (C7c's is final). `BEFORE_AFTER.md`, `CHANGED_FILES.md`, `REGRESSION_REPORT.md`, `PERFORMANCE.md`, `DEFERRED.md`,
+`EVIDENCE_INDEX.md`, `HUMAN_QA.md` (final), `DESIGN_DECISIONS.md` (the re-check). The regression on the final game code (626972c):
+
+| Run | Result |
+|---|---|
+| `npm test` (`evidence/c8_npm_test.txt`, `c8_npm_compare.txt`) | **255 / 268; the 13 inherited failures by their whole names**; none new, none fixed |
+| `npm run test:humanqa` | 5 / 6, X03 inherited |
+| P9 equivalence, six seeds × 120 s | **PASS** - 6 / 6 identical tick for tick |
+| the fast gate (`evidence/c8_gate.txt`) | **PASS, 21 / 21** |
+| B1–B5's `behave_browser.js`; R8's `predator_browser.js` | **9 / 9; 7 / 7** (its listen-then-look case exercised this time) |
+| `tools/c6_browser.js`, one pass (`evidence/c8_browser.*`, `c8_shots/`; pooled: `c8_browser_pool.txt`) | 6 kills in 12 valid tries: the turned back 3 / 3; the fork 0 / 2 (fooled once, passed over once); the pillar 2 / 3 - **cut-offs in 2, and one runner saved by turning back as it cut across**; the fresh runner 1 / 3 (the hider found). **Pooled after the review (C7a's build and this): 20 / 35; R8 11 / 27** |
+| `perf_pr.js` against R8, three interleaved rounds (`evidence/c8_perf.*`) | **PASS** (0 violations); medians R8 → this: one 0.195 → 0.201 (p99 1.22 → 1.84), four 0.312 → 0.258, four pressed 0.309 → 0.301 (p99 3.76 → 3.20), four starving 0.289 → 0.275; red runs R8 two, this build none |
+| `perf_pr.js --soak 600` | **PASS**: mean 0.152 ms, p99 0.84, worst 12.4 ms |
+
+**Delivery.** Branch `trial-3-cognitive-predator-refinement`, created from R8 `f378049a825e53eafc626a637b8c43397e4072f0` (tree
+`a6d72690727a58dbab6e770dfda64a1d9dbf70f3`); C0–C7c as in the table above, each read back from GitHub. This commit is C8; the receipt
+commit after it carries C8's read-back. Game code changed in one file, the Skin-Stealer species (`CHANGED_FILES.md`); the full gate tier
+was not run (no shared scope: C15, the scope step; the fast gate PASS at C6b, C7b and C8). Nothing was merged or deployed; no protected
+branch moved (R8 `f378049`, `trial-3-skin-stealer` `020b5b5`, `trial-3-behavior-refinement` `4518f93`, P9 `1ff9374`, `main` `7781e1a`:
+every read-back). Owner decisions and known limits: `DEFERRED.md`, `HUMAN_QA.md`.
+
+**Stop.** ENGINEERING COMPLETE — AWAITING OWNER HUMAN QA. Trial 3, B1–B5, the predator refinement and this cognitive refinement remain
+NOT OWNER-APPROVED. No OVERSEER or Hound work was begun; no organic spawning was added; the admin-only cap of 4 is unchanged.
