@@ -753,6 +753,10 @@ function drawEntities(cx, view, list, cfg, stale) {
         if (q.ht) { const h = q.ht;                                                   // (predator refinement) its hunt: how sure it is and how it knows, its effort, its guesses
           lines.push(h.end ? `HUNT over ${h.ago}s ago: ${h.end}` : `HUNT P${h.pid} sure ${h.conf} (${h.ev} ${h.ago}s ago, ±${h.u}px${h.hAgo >= 0 ? ', heard ' + h.hAgo + 's ago' : ''})  effort ${h.eff}/${h.max}s  flanks ${h.flanks}  guesses ${h.tries}${h.g ? ' (' + h.g + ')' : ''}  failed ${h.failed}${h.alt ? ' (tried the other way)' : ''}  heard ${h.heard}  revised ${h.rev}`); }
         if (q.pr && (cfg.evid || sel)) lines.push(`GUESS ${q.pr.turns} turn(s), ${q.pr.lead} px ahead, waits at ${q.pr.x},${q.pr.y}${q.pr.hid ? ' out of sight' : ''}`);
+        if (q.mi && (cfg.evid || sel)) { const m = q.mi;                              // (R11) its mind: whether the people it sees could see it; its last events and how it answered
+          lines.push(`MIND ${m.obs.length ? m.obs.map(o => 'P' + o.pid + (o.view ? ' COULD SEE IT' : ' could not see it') + (!o.view && o.saw < 8 ? ' (could ' + o.saw + 's ago)' : '') + (o.eyes < 4 ? ' eyes ' + o.eyes + 's ago' : '')).join(', ') : 'sees nobody'}`,
+            'events ' + (m.ev.map(v => v[1] + (v[2] ? ' P' + v[2] : '') + ' ' + (v[3] >= 0 ? v[4] + ' ' + v[3] + 's' : 'open')).join('  ') || '-'));
+          if (sel && q.ht && q.ht.log) for (const l of q.ht.log) lines.push(`  ${l[1]} ${l[2]},${l[3]} ±${l[4]} at ${l[0]}s${l[5] ? ': ' + l[5] : ''}`); }
         if (sel) { t = ''; for (const k in q.tally) if (q.tally[k]) t += ' ' + k + ' ' + q.tally[k]; lines.push('record' + (t || ' -')); } }
       if ((cfg.evid || sel) && (d.ld || d.inv || d.ec)) lines.push(`leads ${d.ld ? d.ld.length : 0}${d.inv ? '  investigate ' + d.inv.k + ' ±' + d.inv.u + ' (' + d.inv.age + 's)' : ''}${d.ec ? '  EYE CONTACT ' + d.ec.map(c => 'P' + c[0]).join(',') : ''}`);
       if (sel && d.tr) lines.push('traits ' + Object.entries(d.tr).map(([k, v]) => k + v).join(' '));

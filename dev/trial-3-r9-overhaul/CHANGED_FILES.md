@@ -22,3 +22,18 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `dev/trial-3-r9-overhaul/fixtures/mp.frame.f378049.js` | test fixture | R8's `mp.frame.js` byte for byte (git blob `d478c2b`, checked by V12) |
 | `dev/trial-3-r9-overhaul/tools/r9_browser.js`, `qa_server.js` | dev tools | the two-page `sight` scene (each page in its own browser), the test-only disguise placement |
 | `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md` | doc | R10-1 … R10-7 |
+
+## R11 — its mind: attention, events, opportunism, belief (server)
+| File | Kind | Change |
+|---|---|---|
+| `src/frameworks/nani/server/ai.skin.mind.js` | new part of `generated/server/ai.js` | `skExposedTo` / `skLegible` (could a person see it, by the client's sight-mask and legibility rules on the server's level), `skObsOf` (an observer as it knows them: seen, or a belief), the per-think events with their answers (`skMindTick`, `skMindKept`), the evidence log (`skMindLog`), `skMindDbg` |
+| `src/frameworks/nani/server/ai.skinstealer.js` | source | `e.mind` (made at spawn, cleared with it); the mind ticks first on each think; R11 constants (`watchHungry`, `gazeFar`, `ackEyes`, `ackCome`, `ackLook`, `ackOver`, `ackHead`); a hungry look is shorter; the lit-and-watched leave weight follows `hm`; first-sight acknowledgement (`skAttend`) and the salience gaze / look over the shoulder (`skGaze`); decisions that keep their plan answer their events; the hunt's evidence log; `mi` and `ht.log` in its debug |
+| `src/frameworks/overseer/client/ents.debug.js` | source (admin overlay, debug mode only) | the `MIND` lines: who could see it, its events and answers, (selected) its evidence |
+| `src/build-recipes.json` | build | the new part, before `ai.skinstealer.js` |
+| `generated/server/ai.js`, `public/ents.js`, `generated/BUILD_MANIFEST.json` | built | rebuilt from the above |
+| `docs/architecture/BUILD_PIPELINE.md`, `docs/architecture/FRAMEWORKS.md`, `src/frameworks/nani/README.md` | generated doc tables | `node dev/tools/docs/docs.js` (the new part listed) |
+| `dev/tests/s_skinmind.js` | new suite, in `run.js`'s default list | C01–C15 |
+| `dev/tests/run.js` | test list | `s_skinmind.js` added |
+| `dev/trial-3-r9-overhaul/tools/c15_hashes.js`, `fixtures/c15_r8.json` | dev tool, test fixture | C15: per-second snapshot hashes, no Skin-Stealer, three seeds; the fixture made on R8 `f378049` |
+| `dev/trial-3-r9-overhaul/tools/trace_r11.js` | dev tool | the state traces with reasons (`evidence/r11/trace_r11.txt`): plan, act, why, head, who could see it, events and their answers, evidence |
+| `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `evidence/r10/` (receipt, scans), `evidence/r11/` | docs, evidence | R11-1 … R11-7; R10's receipt |

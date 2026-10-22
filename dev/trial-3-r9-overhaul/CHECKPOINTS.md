@@ -8,4 +8,5 @@ and parent, every changed file's blob, the protected heads and every other remot
 | Checkpoint | Work | Commit | Receipt |
 |---|---|---|---|
 | R9 | audit of R8, the owner's exposed ambush reproduced (deterministic, real page), baseline tests / perf / audio / body; `R9_AUDIT.md`; no game change | `0c735ea` (tree `1a8c0d9`, parent `f378049`) | `evidence/r9/receipt_r9.json`: VERIFIED |
-| R10 | the Skin-Stealer's heartbeat and sting only while this page sees it (`skin.sight.js`); the Hound/Smiler dread untouched; V01–V12 | (this commit) | `evidence/r10/receipt_r10.json` (with R11) |
+| R10 | the Skin-Stealer's heartbeat and sting only while this page sees it (`skin.sight.js`); the Hound/Smiler dread untouched; V01–V12 | `d4a0edc` (tree `805039a`, parent `0c735ea`) | `evidence/r10/receipt_r10.json`: VERIFIED |
+| R11 | its mind (`ai.skin.mind.js`): who could see it by the screen's rules, events answered with their latency, always-attentive gaze and first-sight looks, hungry opportunism, the evidence log; C01–C15 | (this commit) | `evidence/r11/receipt_r11.json` (with R12) |
