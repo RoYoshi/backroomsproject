@@ -1,0 +1,622 @@
+{
+ "checkpoint": "R9",
+ "verifiedAt": "2026-10-22T07:42:23Z",
+ "branch": "trial-3-r9-cognitive-ambush-overhaul",
+ "local": {
+  "commit": "0c735eaaa63e0eba214fff681631296fa4680580",
+  "tree": "1a8c0d964f9bbbdeffaaf1342cf10f87c6ba9dbf",
+  "parent": "f378049a825e53eafc626a637b8c43397e4072f0"
+ },
+ "lsRemote": "0c735eaaa63e0eba214fff681631296fa4680580",
+ "githubApi": {
+  "commit": "0c735eaaa63e0eba214fff681631296fa4680580",
+  "tree": "1a8c0d964f9bbbdeffaaf1342cf10f87c6ba9dbf",
+  "parents": [
+   "f378049a825e53eafc626a637b8c43397e4072f0"
+  ],
+  "message": "Trial 3 R9: audit of R8 and the owner's exposed ambush reproduced",
+  "branchHead": "0c735eaaa63e0eba214fff681631296fa4680580",
+  "branchTree": "1a8c0d964f9bbbdeffaaf1342cf10f87c6ba9dbf"
+ },
+ "sinceBase": [
+  {
+   "commit": "0c735eaaa63e0eba214fff681631296fa4680580",
+   "tree": "1a8c0d964f9bbbdeffaaf1342cf10f87c6ba9dbf",
+   "subject": "Trial 3 R9: audit of R8 and the owner's exposed ambush reproduced"
+  }
+ ],
+ "merges": [],
+ "base": {
+  "commit": "f378049a825e53eafc626a637b8c43397e4072f0",
+  "tree": "a6d72690727a58dbab6e770dfda64a1d9dbf70f3",
+  "firstCommitsParent": "f378049a825e53eafc626a637b8c43397e4072f0"
+ },
+ "changedFiles": [
+  {
+   "path": "dev/tests/s_skinr9.js",
+   "status": "A",
+   "local": "d0176ba29d0d364001ade04e3cf03ec1faee6840",
+   "remote": "d0176ba29d0d364001ade04e3cf03ec1faee6840",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/CHECKPOINTS.md",
+   "status": "A",
+   "local": "94ec119a97538d4ea945011bf35b078d68906a37",
+   "remote": "94ec119a97538d4ea945011bf35b078d68906a37",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/R9_AUDIT.md",
+   "status": "A",
+   "local": "5294a32c8daf1ce503117e0889a793490b4bca72",
+   "remote": "5294a32c8daf1ce503117e0889a793490b4bca72",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/browser/audio_r8.json",
+   "status": "A",
+   "local": "c8743b16c989a49f5f2308e737aae4efe8dfa557",
+   "remote": "c8743b16c989a49f5f2308e737aae4efe8dfa557",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/browser/flankwatch_r8.json",
+   "status": "A",
+   "local": "33c1d5094c477f971950e099ec0c019ec8744bfd",
+   "remote": "33c1d5094c477f971950e099ec0c019ec8744bfd",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/browser/r8_flankwatch_try2.mp4",
+   "status": "A",
+   "local": "ec23d2942772646a211e3eeb9b603ca7020b0833",
+   "remote": "ec23d2942772646a211e3eeb9b603ca7020b0833",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/browser/r8_flankwatch_try2_sheet.png",
+   "status": "A",
+   "local": "8d296cdb3a4a1f96fff00b5705c61c26d87e4224",
+   "remote": "8d296cdb3a4a1f96fff00b5705c61c26d87e4224",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/buildcheck_r8.txt",
+   "status": "A",
+   "local": "9988aba6c18d7700d7d01d3d2813a79cb98778aa",
+   "remote": "9988aba6c18d7700d7d01d3d2813a79cb98778aa",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/diag_route_r8.json",
+   "status": "A",
+   "local": "4562ee5ed9f16bef028c8089fa467b2dfa6258a0",
+   "remote": "4562ee5ed9f16bef028c8089fa467b2dfa6258a0",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/diag_route_r8.txt",
+   "status": "A",
+   "local": "539357612ea3d9cb350e9141377a8db155898ae3",
+   "remote": "539357612ea3d9cb350e9141377a8db155898ae3",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/gallery/death_r8_B_spectator_1.5s.png",
+   "status": "A",
+   "local": "9f8255e53551dc123054f5745a4e4f7060752ba6",
+   "remote": "9f8255e53551dc123054f5745a4e4f7060752ba6",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/gallery/death_r8_B_victim_0.3s.png",
+   "status": "A",
+   "local": "d060a12fc0581c99f69eb7b01b55b934255a2b15",
+   "remote": "d060a12fc0581c99f69eb7b01b55b934255a2b15",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/gallery/gallery_r8.json",
+   "status": "A",
+   "local": "1e74021679a114e05a96ff20110d7186db22594f",
+   "remote": "1e74021679a114e05a96ff20110d7186db22594f",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/gallery/gallery_r8_creep.png",
+   "status": "A",
+   "local": "1ce71613f031c4d32093de9e605db3e3c43bab13",
+   "remote": "1ce71613f031c4d32093de9e605db3e3c43bab13",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/gallery/gallery_r8_pounce.png",
+   "status": "A",
+   "local": "9eee3a76354f71e91dd53c1674da0fe726cefe62",
+   "remote": "9eee3a76354f71e91dd53c1674da0fe726cefe62",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/gallery/gallery_r8_run_chase_.png",
+   "status": "A",
+   "local": "fbbd3efdc1bf28b5d60add2c190a43546c95a97c",
+   "remote": "fbbd3efdc1bf28b5d60add2c190a43546c95a97c",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/gallery/gallery_r8_stand.png",
+   "status": "A",
+   "local": "648a4133d2dfff097972399b77d5010377e24781",
+   "remote": "648a4133d2dfff097972399b77d5010377e24781",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/gallery/gallery_r8_wait_coiled_.png",
+   "status": "A",
+   "local": "49dfb58b77b341d5a2380b601bb266b0d8ce4b23",
+   "remote": "49dfb58b77b341d5a2380b601bb266b0d8ce4b23",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/gallery/gallery_r8_wind_up.png",
+   "status": "A",
+   "local": "2207c778f964ebb58eb9ecc2ebce9559500e2ea8",
+   "remote": "2207c778f964ebb58eb9ecc2ebce9559500e2ea8",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/gallery/r8_deaths_sheet.png",
+   "status": "A",
+   "local": "9b8b03b330c263619ec59a879c96d7ba9ddf773c",
+   "remote": "9b8b03b330c263619ec59a879c96d7ba9ddf773c",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/gallery/r8_gallery_sheet.png",
+   "status": "A",
+   "local": "773e9a2e3d284678414c7405d02b4003c0637fb9",
+   "remote": "773e9a2e3d284678414c7405d02b4003c0637fb9",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/humanqa_r8.txt",
+   "status": "A",
+   "local": "0424db641baaad843bb3e03980071974a49aedfc",
+   "remote": "0424db641baaad843bb3e03980071974a49aedfc",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/inherited_failures_r8.txt",
+   "status": "A",
+   "local": "ff8f294d1495e74a64f1afda40fd38b3e258fb72",
+   "remote": "ff8f294d1495e74a64f1afda40fd38b3e258fb72",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/npm_test_r8.txt",
+   "status": "A",
+   "local": "fdc52db16b7bfe17b64a34b27db867c5a43ef219",
+   "remote": "fdc52db16b7bfe17b64a34b27db867c5a43ef219",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/npm_test_r8_archive_export.txt",
+   "status": "A",
+   "local": "59cb4219f407cddea329807e0f4803f0affb55e6",
+   "remote": "59cb4219f407cddea329807e0f4803f0affb55e6",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/perf_aa_r8.json",
+   "status": "A",
+   "local": "ba92594813c2ca516f282cbe4ae2dabdb7d04c9b",
+   "remote": "ba92594813c2ca516f282cbe4ae2dabdb7d04c9b",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/perf_aa_r8.txt",
+   "status": "A",
+   "local": "6ab753d4e2c4044ab4439266f018e9fe8c82288e",
+   "remote": "6ab753d4e2c4044ab4439266f018e9fe8c82288e",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/r9_01_on_r8.txt",
+   "status": "A",
+   "local": "67f1f9d76dd71f1705673fe0723e35aec3271c2d",
+   "remote": "67f1f9d76dd71f1705673fe0723e35aec3271c2d",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/repro_r8.txt",
+   "status": "A",
+   "local": "25be12809f266be9ec7426bc540899d5ab987ec5",
+   "remote": "25be12809f266be9ec7426bc540899d5ab987ec5",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/repro_r8_traces.json.gz",
+   "status": "A",
+   "local": "433d0a50267724e3ca4afebb3b5613439617f308",
+   "remote": "433d0a50267724e3ca4afebb3b5613439617f308",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/s_skinbehave_r8.txt",
+   "status": "A",
+   "local": "5bedeca80e786c5da60d36c09c0122643a59a9e7",
+   "remote": "5bedeca80e786c5da60d36c09c0122643a59a9e7",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/s_skinpredator_r8.txt",
+   "status": "A",
+   "local": "71a0af464948cf459f5861b6c15f3e66447760aa",
+   "remote": "71a0af464948cf459f5861b6c15f3e66447760aa",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r9/s_skinstealer_r8.txt",
+   "status": "A",
+   "local": "b71299cc62f697083c1bbdaeef55ed614a07bbea",
+   "remote": "b71299cc62f697083c1bbdaeef55ed614a07bbea",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/inventory/remote_heads_before.json",
+   "status": "A",
+   "local": "578bdc1ed01e72b717508e0dfd55c1ffed99c2a2",
+   "remote": "578bdc1ed01e72b717508e0dfd55c1ffed99c2a2",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/tools/diag_route_r9.js",
+   "status": "A",
+   "local": "c59728c32fd0691b58241b6d3f8a9a7ed6207f46",
+   "remote": "c59728c32fd0691b58241b6d3f8a9a7ed6207f46",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/tools/qa_server.js",
+   "status": "A",
+   "local": "ce25d2aa1147fc265ed55d4119fd68e7f2626609",
+   "remote": "ce25d2aa1147fc265ed55d4119fd68e7f2626609",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/tools/qa_sight.js",
+   "status": "A",
+   "local": "5fb6c3a49c0ceb6fe7c9a296d73ab64d024736ea",
+   "remote": "5fb6c3a49c0ceb6fe7c9a296d73ab64d024736ea",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/tools/r9_browser.js",
+   "status": "A",
+   "local": "eae0a90e1b438e5f05a554b0d622e0d3003df012",
+   "remote": "eae0a90e1b438e5f05a554b0d622e0d3003df012",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/tools/repro_r9.js",
+   "status": "A",
+   "local": "2dff695b3d8367648d52b8cf00ef1c99177b7d8b",
+   "remote": "2dff695b3d8367648d52b8cf00ef1c99177b7d8b",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/tools/verify_remote_r9.py",
+   "status": "A",
+   "local": "0144a3e08762f63e8d971f1de2b8519545d83709",
+   "remote": "0144a3e08762f63e8d971f1de2b8519545d83709",
+   "ok": true
+  }
+ ],
+ "protected": {
+  "main": {
+   "expected": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "api": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "apiTree": "15eee7643ea69c8733e55dacc34981e7276c17e0",
+   "lsRemote": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "ok": true
+  },
+  "stage-3h-engine-modernization": {
+   "expected": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "api": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "apiTree": "677d4ebf95d960e51dc86792bbc0861e3e1eb4c9",
+   "lsRemote": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "ok": true
+  },
+  "stage-3h": {
+   "expected": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "api": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "apiTree": "d44c4bafa3c1a78e2d910187ecbe1cc2ec18f3c9",
+   "lsRemote": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "ok": true
+  },
+  "stage-3e-0-bplusplus": {
+   "expected": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "api": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "apiTree": "b25c26ec3eedab406a6b93f80a59ba6a1cb7c128",
+   "lsRemote": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "ok": true
+  },
+  "post-3h-trials-1-2-4": {
+   "expected": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "api": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "apiTree": "7f1ead5efe5a8c136134f1f1db19e8e087960cc2",
+   "lsRemote": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "ok": true
+  },
+  "trial-4-rgb-chat-accessibility": {
+   "expected": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "api": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "apiTree": "72e60eb7b68a8dc3d2f735599d8ab828fc21691e",
+   "lsRemote": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "ok": true
+  },
+  "post-trial4-review-polish": {
+   "expected": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "api": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "apiTree": "ddc6385c0f6d7112bfaf9dac3e40154acd4bbaed",
+   "lsRemote": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "ok": true
+  },
+  "post-trial4-chat-voice-polish": {
+   "expected": "63805e98867c3677261307b8cd597f63592b8c45",
+   "api": "63805e98867c3677261307b8cd597f63592b8c45",
+   "apiTree": "60e4452bb90c3a9650022dcdae9c2a225c356a8d",
+   "lsRemote": "63805e98867c3677261307b8cd597f63592b8c45",
+   "ok": true
+  },
+  "pre-trial3-final-polish": {
+   "expected": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "api": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "apiTree": "d6b71b88e2baaec0cce1eb8a222ccc66ad1a1aef",
+   "lsRemote": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "ok": true
+  },
+  "trial-3-skin-stealer": {
+   "expected": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "api": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "apiTree": "26234cdcd68b59727c68bbd21662b980d8d28bbe",
+   "lsRemote": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "ok": true
+  },
+  "trial-3-behavior-refinement": {
+   "expected": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "api": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "apiTree": "28815b06019ed38aff8c083e93b1ba7056da3d67",
+   "lsRemote": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "ok": true
+  },
+  "trial-3-predator-refinement": {
+   "expected": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "api": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "apiTree": "a6d72690727a58dbab6e770dfda64a1d9dbf70f3",
+   "lsRemote": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "ok": true
+  },
+  "trial-3-cognitive-predator-refinement": {
+   "expected": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "api": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "apiTree": "9dc97e2a848f130b4a9f21921b4e8d1bfb32eed5",
+   "lsRemote": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "ok": true
+  }
+ },
+ "otherBranchesUntouched": {
+  "br-role": {
+   "expected": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "remote": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "ok": true
+  },
+  "lighting-shadows-2d": {
+   "expected": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "remote": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "ok": true
+  },
+  "main": {
+   "expected": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "remote": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "ok": true
+  },
+  "part-3a": {
+   "expected": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "remote": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "ok": true
+  },
+  "part-3b": {
+   "expected": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "remote": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "ok": true
+  },
+  "post-3h-trials-1-2-4": {
+   "expected": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "remote": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "ok": true
+  },
+  "post-trial4-chat-voice-polish": {
+   "expected": "63805e98867c3677261307b8cd597f63592b8c45",
+   "remote": "63805e98867c3677261307b8cd597f63592b8c45",
+   "ok": true
+  },
+  "post-trial4-review-polish": {
+   "expected": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "remote": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "ok": true
+  },
+  "pre-trial3-final-polish": {
+   "expected": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "remote": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "ok": true
+  },
+  "stage-3b-l": {
+   "expected": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "remote": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "ok": true
+  },
+  "stage-3b-l-qa1": {
+   "expected": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "remote": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "ok": true
+  },
+  "stage-3b-l-qa2": {
+   "expected": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "remote": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "ok": true
+  },
+  "stage-3b-n": {
+   "expected": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "remote": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "ok": true
+  },
+  "stage-3b-n-camera": {
+   "expected": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "remote": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "ok": true
+  },
+  "stage-3b-pillar-los": {
+   "expected": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "remote": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "ok": true
+  },
+  "stage-3b-remaster": {
+   "expected": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "remote": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "ok": true
+  },
+  "stage-3c": {
+   "expected": "76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace",
+   "remote": "76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace",
+   "ok": true
+  },
+  "stage-3c-qa1": {
+   "expected": "5f30e28532200bca52b57a112c6691498a263e92",
+   "remote": "5f30e28532200bca52b57a112c6691498a263e92",
+   "ok": true
+  },
+  "stage-3c-qa2": {
+   "expected": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+   "remote": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+   "ok": true
+  },
+  "stage-3d": {
+   "expected": "ffe2b53c2e5c6aa76a8db8bd222fd1910c1b0e57",
+   "remote": "ffe2b53c2e5c6aa76a8db8bd222fd1910c1b0e57",
+   "ok": true
+  },
+  "stage-3d-hq1": {
+   "expected": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+   "remote": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+   "ok": true
+  },
+  "stage-3d-hq2": {
+   "expected": "f542b7cbd90f95148e644e6cba513cf55ddd52c9",
+   "remote": "f542b7cbd90f95148e644e6cba513cf55ddd52c9",
+   "ok": true
+  },
+  "stage-3d-hq3": {
+   "expected": "49343193e6948c8323f35a34539ac84db5a89835",
+   "remote": "49343193e6948c8323f35a34539ac84db5a89835",
+   "ok": true
+  },
+  "stage-3d-hq4": {
+   "expected": "79e146124a5941c6578ef84dc9ff13176cc7f1f0",
+   "remote": "79e146124a5941c6578ef84dc9ff13176cc7f1f0",
+   "ok": true
+  },
+  "stage-3d-hq5": {
+   "expected": "ad98475767bcae6794cd01af832de660355da7a2",
+   "remote": "ad98475767bcae6794cd01af832de660355da7a2",
+   "ok": true
+  },
+  "stage-3e-0": {
+   "expected": "1f2deba0fc4a1facd41366fb2da9b88af3bd5a52",
+   "remote": "1f2deba0fc4a1facd41366fb2da9b88af3bd5a52",
+   "ok": true
+  },
+  "stage-3e-0-bplusplus": {
+   "expected": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "remote": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "ok": true
+  },
+  "stage-3h": {
+   "expected": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "remote": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "ok": true
+  },
+  "stage-3h-engine-modernization": {
+   "expected": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "remote": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "ok": true
+  },
+  "stage-3h0": {
+   "expected": "06949a8a4204a1ce8144b87b2192251b259b21ec",
+   "remote": "06949a8a4204a1ce8144b87b2192251b259b21ec",
+   "ok": true
+  },
+  "stage-e": {
+   "expected": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "remote": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "ok": true
+  },
+  "stage-f": {
+   "expected": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "remote": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "ok": true
+  },
+  "stage-g": {
+   "expected": "7fb4dafef92040571209403358e536ccb1105509",
+   "remote": "7fb4dafef92040571209403358e536ccb1105509",
+   "ok": true
+  },
+  "stage-h": {
+   "expected": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "remote": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "ok": true
+  },
+  "stage-i": {
+   "expected": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "remote": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "ok": true
+  },
+  "trial-3-behavior-refinement": {
+   "expected": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "remote": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "ok": true
+  },
+  "trial-3-cognitive-predator-refinement": {
+   "expected": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "remote": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "ok": true
+  },
+  "trial-3-predator-refinement": {
+   "expected": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "remote": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "ok": true
+  },
+  "trial-3-skin-stealer": {
+   "expected": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "remote": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "ok": true
+  },
+  "trial-4-rgb-chat-accessibility": {
+   "expected": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "remote": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "ok": true
+  }
+ },
+ "newBranches": [],
+ "checks": {
+  "remote tip is local HEAD": true,
+  "tree and parent agree": true,
+  "one straight line from f378049": true,
+  "every changed file has the same blob on GitHub": true,
+  "protected branches unchanged": true,
+  "every other branch unchanged": true,
+  "no new branch besides this one": true
+ },
+ "ok": true
+}

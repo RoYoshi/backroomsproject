@@ -380,10 +380,58 @@ lend('audio', voice);
 K.deathSound = deathSound;
 K.deathEvent = deathEvent;
 }
+function skinSight({ head: { API, clamp, K }, mirror: { list } }) {
+const MASK = 700, SIDE = 18, BODY = 30, LEGIBLE = .25, CONFIRM = .12, ATTACK = 12, RELEASE = .5, FLOOR = .35, STING_GAP = 8, REARM = 2.5;
+const S = new Map();                                       // entity id -> { on: seconds seen without a break, off: seconds unseen, conf, armed }
+const log = [];
+let ks = 0, clock = 0, lastSting = -1e9;
+const note = (ev, id, d) => { log.push([+clock.toFixed(2), ev, id, Math.round(d || 0)]); if (log.length > 64) log.shift(); };
+/* how this page sees a body at (x, y): 0 (not at all) .. 1 (all three points in sight and readable) */
+function seen(A, H, o, ctx) {
+  const d = Math.hypot(o.x - H.x, o.y - H.y); if (d > MASK + SIDE) return { f: 0, d };
+  const sc = +ctx.sc || 1, W = +ctx.W || innerWidth, Hh = +ctx.H || innerHeight, c = ctx.cam;
+  if (c) { const sx = W / 2 + (o.x - c.x) * sc, sy = Hh / 2 + (o.y - c.y) * sc, m = BODY * sc; if (sx < -m || sy < -m || sx > W + m || sy > Hh + m) return { f: 0, d }; }
+  const ux = (o.x - H.x) / (d || 1), uy = (o.y - H.y) / (d || 1), lit = !!(A.lightOn && A.lightOn()); let n = 0;
+  for (const k of [0, -1, 1]) {
+    const qx = o.x - uy * SIDE * k, qy = o.y + ux * SIDE * k, dq = Math.hypot(qx - H.x, qy - H.y); if (dq > MASK) continue;
+    if (dq > 1 && A.Uc(H.x, H.y, Math.atan2(qy - H.y, qx - H.x), dq + 1) < dq - .5) continue;      // a wall or a pillar between: not in the mask
+    if (A.Ul(qx, qy, H, lit) >= LEGIBLE) n++;                                                      // dark there: the darkness hides it
+  }
+  return { f: n / 3, d };
+}
+/* once a frame (core's mp.frame.js): ctx { cam, sc, W, H, run }.  Returns { k: ks 0..1, sting: a confirmed new sighting this frame, n: how
+ * many are in sight }.  No Skin-Stealer, or not in a run: ks falls to 0 and nothing else happens */
+function sight(dt, ctx) {
+  dt = clamp(+dt || 0, 0, .25); clock += dt; ctx = ctx || {};
+  const A = API(), H = A && A.H, all = list();
+  let want = 0, sting = false, n = 0;
+  if (all.length || S.size) {
+    const live = new Set();
+    for (const o of all) {
+      live.add(o.id);
+      let s = S.get(o.id); if (!s) { s = { on: 0, off: 1e9, conf: false, armed: true }; S.set(o.id, s); }
+      const v = ctx.run && H && A.Uc && A.Ul && !o.dg ? seen(A, H, o, ctx) : { f: 0, d: 1e9 };   // (a borrowed skin: never a cue)
+      if (v.f > 0) { s.on += dt; s.off = 0; } else { if (s.conf) note('release', o.id, v.d); s.on = 0; s.off += dt; s.conf = false; if (!s.armed && s.off >= REARM) { s.armed = true; note('rearm', o.id, v.d); } }
+      if (v.f > 0 && !s.conf && s.on >= CONFIRM) {
+        s.conf = true; note('onset', o.id, v.d);
+        if (s.armed && clock - lastSting >= STING_GAP) { s.armed = false; lastSting = clock; sting = true; note('sting', o.id, v.d); }
+      }
+      if (s.conf) { n++; want = Math.max(want, FLOOR + (1 - FLOOR) * clamp(1 - v.d / MASK, 0, 1)); }
+    }
+    for (const id of [...S.keys()]) if (!live.has(id)) S.delete(id);
+  }
+  ks = want > ks ? Math.min(want, ks + (want - ks) * Math.min(1, dt * ATTACK) + dt * 2) : Math.max(want, ks - dt / RELEASE);
+  if (ks < 1e-3 && !want) ks = 0;
+  return { k: ks, sting, n };
+}
+K.sight = sight;
+K.sightLog = log;
+}
 /* (Trial 3) the modules, in the order of the parts */
 const head = skinHead();
 const mirror = skinMirror({ head });
 const body = skinBody({ head, mirror });
 skinKill({ head, body });
 skinAudio({ head });
+skinSight({ head, mirror });                                   // (R10: the dread only while this page sees it)
 })();

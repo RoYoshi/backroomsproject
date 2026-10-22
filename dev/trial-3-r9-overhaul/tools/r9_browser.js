@@ -26,6 +26,7 @@ const DIR = path.resolve(ARG.dir || path.join(__dirname, '..', '..', '..')), PAS
 const SHOTS = ARG.shots ? path.resolve(ARG.shots) : null; if (SHOTS) fs.mkdirSync(SHOTS, { recursive: true });
 const VIDEO = ARG.video ? path.resolve(ARG.video) : null; if (VIDEO) fs.mkdirSync(VIDEO, { recursive: true });
 const SECS = +ARG.secs, TRIES = +ARG.tries;
+const LAUNCH = ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows'];
 const freePort = () => new Promise(r => { const s = net.createServer(); s.listen(0, '127.0.0.1', () => { const p = s.address().port; s.close(() => r(p)); }); });
 const get = (port, p) => new Promise(r => http.get({ host: '127.0.0.1', port, path: p }, q => { q.resume(); q.on('end', () => r(q.statusCode)); }).on('error', () => r(0)));
 /* before the page's scripts: the game socket kept (the panel's commands), every snapshot's ss list noted, this frame's camera; the page's
@@ -228,15 +229,128 @@ async function gallery(b, port, R, qa) {
   }
   R.errors = { O: O.errs, S: Sp.errs };
 }
+/* sight (R10): the Skin-Stealer's heartbeat and sting on two real pages - V01-V05, V07, V09-V12 - observed on each page's AudioContext (the
+ * 70 Hz thumps it makes, the stings it plays and the master gain then), its #dread vignette and the Skin-Stealer script's own sightLog.
+ * The world is frozen: placed creatures stand still; each page keeps its own view. */
+async function sightScene(b, port, R, qa) {
+  const room = 'r9si' + (Date.now() % 1e6), VP = { width: 1024, height: 640 };
+  // (each page in its own browser: each is its browser's front page, so neither is ever throttled as a background tab)
+  const b2 = await pw.chromium.launch({ args: LAUNCH }); R.closers = [() => b2.close()];
+  const A = await runPage(b, port, room, VP, 'K3SeeA', VIDEO), B = await runPage(b2, port, room, VP, 'K3SeeB');
+  A.cmd({ c: 'freeze', on: true }); A.cmd({ c: 'hounds', mode: 'remove', n: 10 }); A.cmd({ c: 'smilers', mode: 'remove', n: 10 }); await sleep(400);
+  A.cmd({ c: 'hounds', mode: 'remove', n: 10 }); A.cmd({ c: 'smilers', mode: 'remove', n: 10 });
+  for (const pg of [A, B]) { await pg.P.keyboard.press('KeyW'); await until(pg.P, () => window.__k3.hookSfx(), null, 5000);
+    await pg.P.evaluate(() => { const K = window.__k3, X = window.__sfx; const f = X.play; X.play = function (n, o) { if (n === 'sting') { const z = __api.audio && __api.audio(); K.audio.push([+(performance.now() / 1000).toFixed(3), 'stinggain', z && z.gain ? +z.gain.gain.value.toFixed(3) : -1]); } return f.call(this, n, o); }; }); }
+  const at = { x: 5000, y: 3504 }; R.cases = [];
+  const place = async (pg, q) => { await pg.P.evaluate(s => __api.tp(s.x, s.y), q); await sleep(250); };
+  const torch = async (pg, on) => { if ((await pg.P.evaluate(() => __api.lightOn())) !== on) await pg.P.keyboard.press('KeyF'); };
+  const clear = async () => { A.cmd({ c: 'skinstealers', mode: 'remove', n: 4 }); A.cmd({ c: 'hounds', mode: 'remove', n: 10 }); A.cmd({ c: 'smilers', mode: 'remove', n: 10 }); await sleep(800); };
+  // one case: what each page plays over secs (thumps at 70 Hz, stings, the master gain at each sting, the vignette's top), its sightLog
+  // events, and each page's own view of every given point
+  const mark = () => Promise.all([A, B].map(pg => pg.P.evaluate(() => performance.now() / 1000)));
+  const listen = async (name, secs, pts, extra, from) => {
+    const t0 = from || await mark();
+    const vg = [[], []], tEnd = Date.now() + secs * 1000;
+    while (Date.now() < tEnd) { for (const [i, pg] of [A, B].entries()) vg[i].push(await pg.P.evaluate(() => +(document.getElementById('dread').style.opacity || 0))); await sleep(200); }
+    const C = { name, secs, pages: [] };
+    for (const [i, pg] of [A, B].entries()) {
+      const au = await pg.P.evaluate(t => window.__k3.audio.filter(a => a[0] >= t), t0[i]);
+      const lg = await pg.P.evaluate(t => (window.__skin.sightLog || []).slice(), 0);
+      const views = await pg.P.evaluate(ps => ps.map(q => window.__k3.view(q.x, q.y)), pts || []);
+      C.pages.push({ page: i ? 'B' : 'A', thumps: au.filter(a => a[1] === 'thump' && a[2] === 70).length, stings: au.filter(a => a[1] === 'sting').length, stingGain: au.filter(a => a[1] === 'stinggain').map(a => a[2]),
+        bursts: au.filter(a => a[1] === 'buffer').length, vignette: +Math.max(0, ...vg[i]).toFixed(3), log: lg.slice(-8), views });
+    }
+    Object.assign(C, extra || {}); R.cases.push(C); return C;
+  };
+  // A in the lit hall facing east; B somewhere 250-600 px from the creature's spot with a wall between (the page's own ray)
+  await place(A, at); await torch(A, true); await A.P.mouse.move(VP.width / 2 + 200, VP.height / 2);
+  const K = { x: at.x + 260, y: at.y };
+  const bSpot = await A.P.evaluate(k => { const X = __api; for (const r of [300, 360, 420, 480, 540, 600, 250]) for (let i = 0; i < 64; i++) { const a = i / 64 * Math.PI * 2, x = k.x + Math.cos(a) * r, y = k.y + Math.sin(a) * r;
+    if (!X.sl(x, y, 26)) continue; let hid = true; for (const s of [-18, 0, 18]) { const qx = k.x - Math.sin(a) * s, qy = k.y + Math.cos(a) * s, d = Math.hypot(qx - x, qy - y); if (X.Uc(x, y, Math.atan2(qy - y, qx - x), d + 1) >= d - 30) hid = false; }
+    if (hid) return { x: Math.round(x), y: Math.round(y) }; } return null; }, K);
+  R.bSpot = bSpot; if (bSpot) { await place(B, bSpot); await torch(B, true); }
+  await clear(); await listen('V12 none', 5, [K]);
+  // V02 / V07: one undisguised, lit, 260 px east of A: A hears it, B (a wall between) does not
+  let m0 = await mark(), k = await qa({ op: 'spawn', kind: 'skinstealer', x: K.x, y: K.y, hunger: .05, ang: Math.PI });
+  await listen('V02 V07 in A\'s sight, not in B\'s', 6, [K], { placed: k }, m0);
+  // V01: the same creature moved behind a wall right beside A (the page's own search: no ray reaches it)
+  await clear();
+  const W1 = await A.P.evaluate(h => { const X = __api; for (const r of [110, 140, 170, 200, 230, 260, 290, 320]) for (let i = 0; i < 48; i++) { const a = i / 48 * Math.PI * 2, x = h.x + Math.cos(a) * r, y = h.y + Math.sin(a) * r;
+    if (X.sl(x, y, 26) && window.__k3.view(x, y).mask === 0) return { x: Math.round(x), y: Math.round(y), d: r }; } return null; }, at);
+  if (W1) { m0 = await mark(); k = await qa({ op: 'spawn', kind: 'skinstealer', x: W1.x, y: W1.y, hunger: .05 }); await listen('V01 behind a wall beside A', 5, [W1], { placed: k, at: W1 }, m0); }
+  // V03 / V04: a dark spot in A's sight (no lamp there; A in the dark south-west): torch off - nothing; torch on and aimed - the cue;
+  // torch off - it fades
+  await clear(); const dark = { x: 1300, y: 5600 }; await place(A, dark);
+  const DK = await A.P.evaluate(h => { const X = __api; for (const r of [260, 300, 340, 220, 200, 380]) for (let i = 0; i < 48; i++) { const a = i / 48 * Math.PI * 2, x = h.x + Math.cos(a) * r, y = h.y + Math.sin(a) * r;
+    if (!X.sl(x, y, 26) || window.__k3.view(x, y).mask < 3) continue; if (X.Ul(x, y, X.H, false) < .1 && X.Ul(x, y, Object.assign({}, X.H, { angle: Math.atan2(y - X.H.y, x - X.H.x) }), true) >= .3) return { x: Math.round(x), y: Math.round(y) }; } return null; }, dark);
+  R.darkSpot = DK;
+  if (DK) {
+    await torch(A, false); m0 = await mark(); k = await qa({ op: 'spawn', kind: 'skinstealer', x: DK.x, y: DK.y, hunger: .05 });
+    await listen('V03 in sight, in the dark, torch off', 4, [DK], { placed: k }, m0);
+    const s = await A.P.evaluate(q => window.__k3.screen(q.x, q.y), DK); await A.P.mouse.move(s.x, s.y); m0 = await mark(); await torch(A, true);
+    await listen('V04 the torch on it', 4, [DK], {}, m0);
+    m0 = await mark(); await torch(A, false); await listen('V04 the torch off again', 3, [DK], {}, m0);
+  }
+  await torch(A, true); await place(A, at); await A.P.mouse.move(VP.width / 2 + 200, VP.height / 2);
+  // V05: lit, in the sight mask, but off A's screen (a narrow window: 640x360 shows 355 px either side at the game's zoom)
+  await clear(); await A.P.setViewportSize({ width: 640, height: 360 }); await sleep(600);
+  const OF = { x: at.x + 460, y: at.y }; m0 = await mark(); k = await qa({ op: 'spawn', kind: 'skinstealer', x: OF.x, y: OF.y, hunger: .05 });
+  await listen('V05 off screen (in the mask, lit)', 4, [OF], { placed: k }, m0);
+  m0 = await mark(); await A.P.setViewportSize(VP); await listen('V05 the window widened: on screen', 4, [OF], {}, m0);
+  // V09: in a borrowed skin, lit and in sight - nothing; the skin taken off - the cue
+  await clear(); m0 = await mark(); k = await qa({ op: 'spawn', kind: 'skinstealer', x: K.x, y: K.y, hunger: .05, ang: Math.PI }); const dz = await qa({ op: 'disguise', id: k.id });
+  await listen('V09 disguised in sight', 5, [K], { placed: k, disguise: dz, mirror: await A.P.evaluate(() => (window.__k3.ss || []).map(t => t.dg || '')) }, m0);
+  m0 = await mark(); const uz = await qa({ op: 'undress', id: k.id }); await listen('V09 the skin dropped', 4, [K], { undress: uz }, m0);
+  // V10: SOUND OFF (the page's own button): nothing is heard (after the stings' gap, so that a sting is due)
+  await clear(); await sleep(8500); await A.P.evaluate(() => { const b = document.getElementById('sound'); if (b && /ON/.test(b.textContent)) b.click(); });
+  R.soundText = await A.P.evaluate(() => (document.getElementById('sound') || {}).textContent || '');
+  m0 = await mark(); k = await qa({ op: 'spawn', kind: 'skinstealer', x: K.x, y: K.y, hunger: .05, ang: Math.PI });
+  await listen('V10 sound off, in sight', 5, [K], { placed: k, sound: R.soundText }, m0);
+  await A.P.evaluate(() => { const b = document.getElementById('sound'); if (b && /OFF/.test(b.textContent)) b.click(); });
+  // V11: three in sight
+  await clear(); await sleep(8500); m0 = await mark(); for (const dx of [220, 290, 360]) await qa({ op: 'spawn', kind: 'skinstealer', x: at.x + dx, y: at.y + (dx === 290 ? 40 : 0), hunger: .05, ang: Math.PI });
+  await listen('V11 three in sight', 6, [{ x: at.x + 220, y: at.y }], {}, m0);
+  // V12: the Hound alone (its proximity dread, as R8's)
+  await clear(); m0 = await mark(); k = await qa({ op: 'spawn', kind: 'hound', x: K.x, y: K.y });
+  await listen('V12 the Hound 260 px east', 6, [K], { placed: k }, m0);
+  await clear();
+  R.errors = { A: A.errs, B: B.errs }; await A.ctx.close(); await B.ctx.close();
+  if (VIDEO) { const v = A.P.video && A.P.video(); if (v) R.videoFile = path.basename(await v.path()); }
+  // the verdicts (R10): each from what the pages played
+  const c = n => R.cases.find(x => x.name.startsWith(n)), pg = (n, i) => (c(n) || { pages: [{}, {}] }).pages[i] || {};
+  const V = R.checks = [];
+  const chk = (id, ok, why) => V.push({ id, ok: !!ok, why });
+  chk('V12 no Skin-Stealer: silent', pg('V12 none', 0).thumps === 0 && pg('V12 none', 0).stings === 0 && pg('V12 none', 1).thumps === 0, `A ${pg('V12 none', 0).thumps}/${pg('V12 none', 0).stings}, B ${pg('V12 none', 1).thumps}/${pg('V12 none', 1).stings}`);
+  chk('V02 in sight: heartbeat and one sting', pg('V02', 0).thumps >= 5 && pg('V02', 0).stings === 1, `A thumps ${pg('V02', 0).thumps}, stings ${pg('V02', 0).stings}`);
+  chk('V07 the other page (a wall between): nothing', pg('V02', 1).thumps === 0 && pg('V02', 1).stings === 0, `B thumps ${pg('V02', 1).thumps}, stings ${pg('V02', 1).stings}`);
+  chk('V01 behind a wall beside the page: nothing', c('V01') && pg('V01', 0).thumps === 0 && pg('V01', 0).stings === 0, c('V01') ? `A thumps ${pg('V01', 0).thumps}, stings ${pg('V01', 0).stings} (B, which sees it: ${pg('V01', 1).thumps}/${pg('V01', 1).stings})` : 'no such spot found');
+  chk('V03 in sight in the dark: nothing', c('V03') && pg('V03', 0).thumps === 0 && pg('V03', 0).stings === 0, c('V03') ? `A ${pg('V03', 0).thumps}/${pg('V03', 0).stings}` : 'no dark spot found');
+  chk('V04 the torch reveals it, and its loss releases it', c('V04 the torch on') && pg('V04 the torch on', 0).thumps >= 3 && pg('V04 the torch off', 0).thumps <= 2, c('V04 the torch on') ? `on: ${pg('V04 the torch on', 0).thumps} thumps, ${pg('V04 the torch on', 0).stings} sting; off: ${pg('V04 the torch off', 0).thumps} thumps in 3 s` : 'no dark spot found');
+  chk('V05 off screen: nothing; on screen: the cue', pg('V05 off', 0).thumps === 0 && pg('V05 off', 0).stings === 0 && pg('V05 the window', 0).thumps >= 3, `off: ${pg('V05 off', 0).thumps}/${pg('V05 off', 0).stings}; widened: ${pg('V05 the window', 0).thumps} thumps`);
+  chk('V09 disguised: nothing; the skin dropped: the cue and a sting', pg('V09 disguised', 0).thumps === 0 && pg('V09 disguised', 0).stings === 0 && pg('V09 the skin', 0).thumps >= 3 && pg('V09 the skin', 0).stings === 1, `disguised ${pg('V09 disguised', 0).thumps}/${pg('V09 disguised', 0).stings}; dropped ${pg('V09 the skin', 0).thumps}/${pg('V09 the skin', 0).stings}`);
+  chk('V10 SOUND OFF: no thump, any sting at master gain 0', pg('V10', 0).thumps === 0 && (pg('V10', 0).stingGain || []).every(g => g === 0), `thumps ${pg('V10', 0).thumps}, sting gains ${JSON.stringify(pg('V10', 0).stingGain)} (button: ${R.soundText})`);
+  chk('V11 three in sight: one heartbeat, at most one sting', pg('V11', 0).thumps >= 4 && pg('V11', 0).thumps <= 14 && pg('V11', 0).stings <= 1, `thumps ${pg('V11', 0).thumps} in 6 s, stings ${pg('V11', 0).stings}`);
+  chk('V12 the Hound\'s dread as before', pg('V12 the Hound', 0).thumps >= 3 && pg('V12 the Hound', 0).vignette > .3, `thumps ${pg('V12 the Hound', 0).thumps}, vignette ${pg('V12 the Hound', 0).vignette}`);
+  chk('no page error', !A.errs.length && !B.errs.length, JSON.stringify(R.errors));
+}
+/* probe (development): one page, placed at --at x,y, evaluates --expr (a function of window) and prints it */
+async function probe(b, port, R) {
+  const P = await runPage(b, port, 'r9pr' + (Date.now() % 1e6), { width: 1024, height: 640 }, 'K3Probe');
+  P.cmd({ c: 'freeze', on: true }); const at = (ARG.at || '5000,3504').split(',').map(Number);
+  await P.P.evaluate(q => __api.tp(q[0], q[1]), at); await sleep(1500);
+  R.value = await P.P.evaluate(ARG.expr || '(() => null)()').catch(e => 'ERR ' + e.message); R.errors = P.errs; console.log(JSON.stringify(R.value).slice(0, 4000));
+}
 (async () => {
   const { p: srv, port, qa } = await serve();
-  const b = await pw.chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows'] });
+  const b = await pw.chromium.launch({ args: LAUNCH });
   const R = { tool: 'dev/trial-3-r9-overhaul/tools/r9_browser.js', scene: ARG.scene, chromium: b.version(), tree: path.basename(DIR) };
-  try { if (ARG.scene === 'flankwatch') await flankwatch(b, port, R, qa); else if (ARG.scene === 'audio') await audio(b, port, R, qa); else if (ARG.scene === 'gallery') await gallery(b, port, R, qa); else throw new Error('unknown scene ' + ARG.scene); }
+  try { if (ARG.scene === 'flankwatch') await flankwatch(b, port, R, qa); else if (ARG.scene === 'audio') await audio(b, port, R, qa); else if (ARG.scene === 'gallery') await gallery(b, port, R, qa); else if (ARG.scene === 'sight') await sightScene(b, port, R, qa); else if (ARG.scene === 'probe') await probe(b, port, R); else throw new Error('unknown scene ' + ARG.scene); }
   catch (e) { R.error = e && e.stack ? e.stack.split('\n').slice(0, 4).join(' | ').replace(/\/[^\s|:]*\//g, '') : String(e); }
-  finally { await b.close().catch(() => { }); try { process.kill(srv.pid); } catch (e) { } }
+  finally { for (const f of R.closers || []) await f().catch(() => { }); delete R.closers; await b.close().catch(() => { }); try { process.kill(srv.pid); } catch (e) { } }
   if (R.tries) for (const T of R.tries) console.log(`try ${T.tr}: ${T.skipped || `hunger ${T.hunger}, plans ${T.plans.join('>')}${T.killed ? ', killed' : ''}, ${T.samples} samples, ${T.fps} fps`}` +
     (T.transits || []).map(t => `\n   ${t.k} ${t.t0}-${t.t1}s: on the page's view ${t.visible}/${t.samples} samples (${Math.round(t.share * 100)} %), moved ${t.moved} px, ${t.visMoved} px of it in view | ${t.why}`).join(''));
+  if (R.checks) { for (const k of R.checks) console.log((k.ok ? 'PASS ' : 'FAIL ') + k.id + '  ' + k.why); console.log(`SIGHT: ${R.checks.every(k => k.ok) ? 'PASS' : 'FAIL'} - ${R.checks.filter(k => k.ok).length} of ${R.checks.length}`); }
+  if (R.scene === 'sight' && R.cases) for (const C of R.cases) console.log(`${C.name}: ` + C.pages.map(P => `${P.page} thumps ${P.thumps} stings ${P.stings}${P.stingGain.length ? ' (master gain ' + P.stingGain.join('/') + ')' : ''} vignette ${P.vignette} views ${JSON.stringify(P.views.map(v => [v.on, v.mask, v.leg, v.vis]))}`).join(' | '));
   if (R.scene === 'audio' && R.cases) for (const C of R.cases) console.log(`${C.name}: thumps ${C.thumps}, stings ${C.stings}, bursts ${C.bursts}, dread vignette max ${C.dreadMax}${C.view ? ', the page sees it ' + JSON.stringify(C.view) : ''}${C.sightLog ? ', sight log ' + JSON.stringify(C.sightLog).slice(0, 300) : ''}`);
   if (R.scene === 'gallery') { for (const G of R.gallery || []) console.log(`gallery ${G.label}: ${G.file} size ${JSON.stringify(G.size0)}`); for (const D of R.deaths || []) console.log(`death ${D.v}: ${JSON.stringify(D.res)} ${D.shots.length} shots`); }
   if (R.error) console.log('ERROR ' + R.error);

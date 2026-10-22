@@ -1,7 +1,7 @@
 {
  "note": "Written by dev/tools/build/build.js. Every built output, its parts in order and their SHA-256. Do not edit: run npm run build.",
  "recipes": "src/build-recipes.json",
- "recipesSha256": "97ccc59b9b878249aa1183b8b8995bc583d0ae1e55be64fbab4f0c9c43fea14d",
+ "recipesSha256": "bb313e306744363d348f4e431cdf4ddd8704ea80a3bf89f9fbacb06a48a183b6",
  "tool": "dev/tools/build/build.js",
  "toolSha256": "3d0d0f257f70756d5b910c060ce058f67669899e680216c176b40629eda2a8fd",
  "outputs": [
@@ -289,8 +289,8 @@
   },
   {
    "out": "public/assets/skinstealer.js",
-   "bytes": 30850,
-   "sha256": "c09059140357d1d72024ee35d315576beeacea930d4b77006e013dd51e200264",
+   "bytes": 34186,
+   "sha256": "648a00bf6867b47635bb6e9fd96a578b554d9bcab8f4405335f6a98c502ce0cf",
    "parts": [
     {
      "path": "src/frameworks/nani/client/skin.head.js",
@@ -318,9 +318,14 @@
      "headerBytes": 1476
     },
     {
+     "path": "src/frameworks/spacious-audio/client/skin.sight.js",
+     "sha256": "1558611c676b4892c5d7f49f65fb8b949ccf9f895fcc6e30d909eb351e56db57",
+     "headerBytes": 2547
+    },
+    {
      "path": "src/frameworks/br-r/client/skin.compose.js",
-     "sha256": "e43f6f0cfbb16158335bc05024e0d040717ed8d62f3533b641bfe3e27df8c44f",
-     "headerBytes": 450
+     "sha256": "6bcea93aec73c06f584991007653578e4ff7725f10b32aadab399e76b49a4852",
+     "headerBytes": 461
     }
    ]
   },
@@ -543,8 +548,8 @@
   },
   {
    "out": "public/mp.js",
-   "bytes": 105240,
-   "sha256": "27dd027f97035468978e729b14dde4ca5b33c207baaf67cdaee137d41760fd5b",
+   "bytes": 106043,
+   "sha256": "11e90af0e2b84833a14d8b956ad0ce6f76c48ae54f95b00def5c0fdbcfb026ed",
    "parts": [
     {
      "path": "src/core/client/mp.js",
@@ -598,8 +603,8 @@
     },
     {
      "path": "src/core/client/mp.frame.js",
-     "sha256": "bf35489c3e3b08fea6c8151b5ac6cc6c5966e08f760f9d07a02b0566d7863d3f",
-     "headerBytes": 1345
+     "sha256": "5599d730888b26cd1805e2cfd435032305e49b627adca4888a5e048b32c47485",
+     "headerBytes": 1898
     },
     {
      "path": "src/core/client/mp.compose.js",

@@ -8,6 +8,8 @@
  * nothing else is touched.  Commands arrive one JSON line at a time on stdin, answers leave one JSON line at a time on stdout:
  *   {op:'spawn', kind, x, y, hunger}   a creature put exactly there, with that spawn hunger (as a scenario test places one), in the newest room
  *   {op:'probe', id}                   where it is and what it is doing (reported only; the scene never steers it)
+ *   {op:'disguise', id, look} / {op:'undress', id}   (R10 V09) the borrowed look it would wear after feeding at a kill, set or taken off for
+ *                                      the scene (its body state, as a hunger is; the server sends it as it sends a real one)
  * The creature's AI is the tree's own: a scene only PLACES it, exactly as dev/tests do with eng.spawn. */
 'use strict';
 const path = require('path'), readline = require('readline');
@@ -23,13 +25,19 @@ readline.createInterface({ input: process.stdin }).on('line', line => {
   let m; try { m = JSON.parse(line); } catch (e) { return out({ ok: false, err: 'bad json' }); }
   const sim = sims[sims.length - 1], eng = sim && sim.engine;
   if (!eng) return out({ ok: false, err: 'no room yet', op: m.op });
+  const ent = id => eng.entities.find(o => o.id === +id);                      // (eng.byId holds the players)
   if (m.op === 'spawn') {
     const e = eng.spawn(m.kind === 'hound' ? 'hound' : m.kind === 'smiler' ? 'smiler' : 'skinstealer', +m.x, +m.y, Number.isFinite(+m.hunger) && m.hunger !== null ? { hunger: +m.hunger } : {});
     if (e && Number.isFinite(+m.ang)) e.ang = +m.ang;
     return out({ ok: !!e, op: 'spawn', id: e ? e.id : 0, x: e ? Math.round(e.x) : 0, y: e ? Math.round(e.y) : 0, hunger: e && e.hunger !== undefined ? +e.hunger.toFixed(3) : null });
   }
+  if (m.op === 'disguise' || m.op === 'undress') {                             // (R10 V09: the borrowed look a kill would give it, set for the scene)
+    const e = ent(m.id); if (!e) return out({ ok: false, op: m.op, err: 'no such entity' });
+    e.disguise = m.op === 'disguise' ? { look: String(m.look || 'cap|plain|#336699|#e6bb76'), from: 0, t0: eng.now, until: eng.now + 600 } : null;
+    return out({ ok: true, op: m.op, id: e.id });
+  }
   if (m.op === 'probe') {
-    const e = eng.byId.get(+m.id);
+    const e = ent(m.id);
     return out({ ok: !!e, op: 'probe', id: +m.id, x: e ? Math.round(e.x) : 0, y: e ? Math.round(e.y) : 0, plan: e && e.plan ? e.plan.k : '', hunger: e && e.hunger !== undefined ? +e.hunger.toFixed(3) : null });
   }
   out({ ok: false, err: 'unknown op', op: m.op });
