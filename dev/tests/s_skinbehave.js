@@ -58,12 +58,21 @@ function passer(w, e, p, side = 150) {
     },
     step() {
       if (!st) return;
+      st.t = (st.t || 0) + DT;
+      const away = () => { const ta = Math.atan2(e.y - p.y, e.x - p.x); let best = -1, dir = ta + Math.PI; for (let k = 0; k < 16; k++) { const a = k / 16 * Math.PI * 2; if (Math.cos(a - ta) > .2) continue; const r = w.eng.geo.ray(p.x, p.y, a, 400); if (r > best) { best = r; dir = a; } } return dir; };
+      // (R16e) a creature that walks on while they come level never lets them be level: after 2.5 s the pass is over and they go their way -
+      // the most open way that is not toward it - rather than keep making for a point beside it (which, as it walks, is following it)
+      if (!st.dir && st.t > 2.5) st.dir = away();
       if (!st.dir) {
         const a = Math.atan2(e.y - p.y, e.x - p.x), n = e.ang + Math.PI / 2 * st.sgn, tx = e.x + Math.cos(n) * side, ty = e.y + Math.sin(n) * side;
         const fx = Math.cos(a), fy = Math.sin(a);
         if ((e.x - p.x) * (p.vx || fx) + (e.y - p.y) * (p.vy || fy) < 0 && Math.hypot(p.vx, p.vy) > 40) st.dir = Math.atan2(p.vy, p.vx);   // level with it, or past: straight on
         else { p.mode = 'walk'; p.path = null; p.tx = { x: tx, y: ty }; return; }
       }
+      // (R16e) walked into a wall after passing: they go on their way - the most open way that is not back toward it - rather than standing
+      // where they were stopped (a person walking past once does not wait at a wall on its way out)
+      st.still = Math.hypot(p.vx, p.vy) < 20 ? (st.still || 0) + DT : 0;
+      if (st.still > .4) { st.dir = away(); st.still = 0; }
       p.mode = 'walk'; p.path = null; p.tx = { x: p.x + Math.cos(st.dir) * 200, y: p.y + Math.sin(st.dir) * 200 };
     },
   };

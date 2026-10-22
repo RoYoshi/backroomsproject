@@ -3,7 +3,7 @@
  * path interruption, interception), measured on a tree's real server simulation (development only; checkpoint evidence, not a gate step).
  * Trial 3 is not owner-approved.
  *
- *   node dev/trial-3-r9-overhaul/tools/repro_ap.js [--dir TREE] [--out FILE.json]
+ *   node dev/trial-3-r9-overhaul/tools/repro_ap.js [--dir TREE] [--out FILE.json] [--only A,B,...]
  *
  * TREE defaults to this repository (R8's tree for the before).  Nothing sets a decision of the creature: people are placed and moved as
  * players move (the game's own move.js through the harness); a creature is given a hunger, and in A, B and G a long route of its own
@@ -20,7 +20,11 @@
  *   G  roaming, nobody about - how often and how long it stands still
  *   H  an interception made obsolete: seen at the gap, the person goes one way, then turns back in its view - how soon it drops the
  *      interception
- *   V  how far it sees a person: lit or dark, standing, walking, running, crouched, in the open hall */
+ *   V  how far it sees a person: lit or dark, standing, walking, running, crouched, in the open hall
+ *   P  (R16e) its periphery, in a side corridor: roaming east down the long hall past the mouth of the corridor north at x 5600, a person
+ *      420 px up it, 75-85 degrees off its way, walks across the corridor (lit, unlit) or stands lit - whether and when it notices, when
+ *      its head turns, when it sees them.  (A's 85-degree row was meant to be this; there the person is stopped by a wall at once and
+ *      stands - kept as it was, for the comparison with R8) */
 'use strict';
 const fs = require('fs'), path = require('path');
 const ARG = {}; for (let i = 2; i < process.argv.length; i += 2) ARG[process.argv[i].replace(/^--/, '')] = process.argv[i + 1];
@@ -28,11 +32,12 @@ const ROOT = path.resolve(ARG.dir || path.join(__dirname, '..', '..', '..'));
 const { World, LONG, AI, bystander, floorNear } = require(path.join(ROOT, 'dev', 'tests', 'lib.js'));
 const ARENA = { x: 3960, y: 3384 };                                       // (an open hall: every wall at least 300 px off)
 const angDiff = (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b));
-const R = { tree: ARG.dir ? 'given' : 'this', A: [], B: [], C: [], E: [], F: [], G: [], H: [], V: [] };
+const R = { tree: ARG.dir ? 'given' : 'this', A: [], B: [], C: [], E: [], F: [], G: [], H: [], V: [], P: [] };
+const ONLY = ARG.only ? new Set(ARG.only.split(',')) : null, run = k => !ONLY || ONLY.has(k);   // (R16e: a subset of the probes)
 const route = (w, e, x, y) => { if (e.roam) { e.roam.goal = { x, y }; e.roam.until = w.eng.now + 60; e.roam.pause = 0; } };
 
 // A
-for (const [where, dx, dy, vx, vy, arena] of [['ahead 520', 520, 60, 0, -1], ['ahead 900', 900, 60, 0, -1], ['periphery 55deg 450 (open hall)', 258, 369, 1, 0, 1], ['periphery 85deg 420 (open hall)', 37, 418, 1, 0, 1]]) for (const h of [.3, .55, .75, .95]) for (const seed of [1, 2]) {
+if (run('A')) for (const [where, dx, dy, vx, vy, arena] of [['ahead 520', 520, 60, 0, -1], ['ahead 900', 900, 60, 0, -1], ['periphery 55deg 450 (open hall)', 258, 369, 1, 0, 1], ['periphery 85deg 420 (open hall)', 37, 418, 1, 0, 1]]) for (const h of [.3, .55, .75, .95]) for (const seed of [1, 2]) {
   const w = World(seed * 13 + Math.round(h * 100) + dx); bystander(w, 1300, 3300);
   const O = arena ? { x: ARENA.x - 250, y: ARENA.y - 120 } : { x: 3600, y: LONG.y };
   const e = w.eng.spawn('skinstealer', O.x, O.y, { hunger: h }); e.tier = 'near'; e.ang = 0; route(w, e, arena ? ARENA.x + 900 : 8400, O.y);
@@ -47,7 +52,7 @@ for (const [where, dx, dy, vx, vy, arena] of [['ahead 520', 520, 60, 0, -1], ['a
   R.A.push({ where, h, seed, seenAfter: seenAt < 0 ? null : +(seenAt - 2).toFixed(2), actAfterSight: actAt < 0 ? null : +(actAt - seenAt).toFixed(2), first, walkedOnAfterSight: Math.round(onRoute), endPlan: e.plan ? e.plan.k : '-' });
 }
 // B
-for (const h of [.3, .55, .8, .95]) for (const seed of [1, 2, 3]) {
+if (run('B')) for (const h of [.3, .55, .8, .95]) for (const seed of [1, 2, 3]) {
   const w = World(seed * 17 + Math.round(h * 100) + 500); bystander(w, 1300, 3300);
   const e = w.eng.spawn('skinstealer', 6000, LONG.y, { hunger: h }); e.tier = 'near'; e.ang = 0; route(w, e, 8400, LONG.y);
   const p = w.player(5650, LONG.y, { light: false, angle: 0 }); p.stop('stand');
@@ -65,7 +70,7 @@ for (const h of [.3, .55, .8, .95]) for (const seed of [1, 2, 3]) {
   R.B.push({ h, seed, heard: heardAt >= 0, headTurned: headAt < 0 ? null : +(headAt - heardAt).toFixed(2), bodyTurned: bodyAt < 0 ? null : +(bodyAt - heardAt).toFixed(2), sawAfter: sawAt < 0 ? null : +(sawAt - heardAt).toFixed(2), movedTowardBeforeSight: Math.round(toward), stillBeforeSight: +still.toFixed(1), endPlan: e.plan ? e.plan.k : '-' });
 }
 // C
-for (const h of [.75, .95]) for (const dir of [1, -1]) for (const seed of [1, 2]) {
+if (run('C')) for (const h of [.75, .95]) for (const dir of [1, -1]) for (const seed of [1, 2]) {
   const w = World(Math.round(h * 100) + (dir > 0 ? 700 : 800) + seed * 3); bystander(w, 1300, 3300);
   const cx = 5000, cy = LONG.y, e = w.eng.spawn('skinstealer', cx, cy, { hunger: h }); e.tier = 'near'; e.ang = 0;
   const p = w.player(cx + 240, cy, { light: true, angle: Math.PI }); p.stop('stand');   // (just out of its spring: 230 px round it)
@@ -80,7 +85,7 @@ for (const h of [.75, .95]) for (const dir of [1, -1]) for (const seed of [1, 2]
   R.C.push({ h, dir, seed, meanFacingErr: +(err / n).toFixed(2), sideTicks: side, backTicks: back, strikes, killedAt: killed < 0 ? null : +killed.toFixed(1) });
 }
 // E
-for (const h of [.45, .65, .75]) for (const seed of [1, 2, 3]) {
+if (run('E')) for (const h of [.45, .65, .75]) for (const seed of [1, 2, 3]) {
   const w = World(seed * 7 + Math.round(h * 100) + 900); bystander(w, 1300, 3300);
   const e = w.eng.spawn('skinstealer', 5000, LONG.y, { hunger: h }); e.tier = 'near'; e.ang = 0;
   const p = w.player(5600, LONG.y, { light: true, angle: Math.PI }); p.stop('stand'); p.look = Math.PI;
@@ -90,7 +95,7 @@ for (const h of [.45, .65, .75]) for (const seed of [1, 2, 3]) {
   R.E.push({ h, seed, secondsInSight: +inSight.toFixed(1), tookUpAt: took < 0 ? null : +took.toFixed(1), endPlan: e.plan ? e.plan.k : '-' });
 }
 // F
-for (const h of [.45, .55, .65]) for (const seed of [1, 2, 3]) {
+if (run('F')) for (const h of [.45, .55, .65]) for (const seed of [1, 2, 3]) {
   const w = World(seed * 11 + Math.round(h * 100) + 1200); bystander(w, 1300, 3300);
   const e = w.eng.spawn('skinstealer', 4200, LONG.y, { hunger: h }); e.tier = 'near'; e.ang = 0;
   const q = w.player(3900, LONG.y + 30, { light: true }); q.stop('stand'); w.run(.3);
@@ -101,7 +106,7 @@ for (const h of [.45, .55, .65]) for (const seed of [1, 2, 3]) {
   R.F.push({ h, seed, seen: seenAt >= 0, reconsideredAfter: reAt < 0 ? null : +(reAt - seenAt).toFixed(2), endPlan: e.plan ? e.plan.k : '-' });
 }
 // G
-for (const h of [.3, .7, .95]) for (const seed of [1, 2]) {
+if (run('G')) for (const h of [.3, .7, .95]) for (const seed of [1, 2]) {
   const w = World(seed + 1500 + Math.round(h * 100)); bystander(w, 1300, 3300);
   const e = w.eng.spawn('skinstealer', 5000, LONG.y, { hunger: h }); e.tier = 'near';
   let stops = 0, still = 0, moving = true;
@@ -110,7 +115,7 @@ for (const h of [.3, .7, .95]) for (const seed of [1, 2]) {
   R.G.push({ h, seed, stops, secondsStill: +still.toFixed(1) });
 }
 // H
-for (const seed of [1, 2, 3, 4, 5, 6]) {
+if (run('H')) for (const seed of [1, 2, 3, 4, 5, 6]) {
   const w = World(seed + 16000); bystander(w, 8400, 900);
   const p = w.player(1300, 5600, { light: true, angle: -Math.PI / 2 }); p.stop('stand');
   const e = w.eng.spawn('skinstealer', 2100, 5560, { hunger: .85 }); e.tier = 'near'; e.ang = Math.PI;
@@ -128,7 +133,7 @@ for (const seed of [1, 2, 3, 4, 5, 6]) {
   R.H.push({ seed, intercepted: icAt >= 0, seenOnItsWay: sightIc >= 0, droppedAfter: dropAt < 0 ? null : +(dropAt - sightIc).toFixed(2), endPlan: e.plan ? e.plan.k : '-' });
 }
 // V
-for (const [label, light, mode] of [['lit, standing', true, 'stand'], ['lit, walking', true, 'walk'], ['lit, running', true, 'run'], ['dark, standing', false, 'stand'], ['dark, walking', false, 'walk'], ['dark, crouched', false, 'crouch']]) {
+if (run('V')) for (const [label, light, mode] of [['lit, standing', true, 'stand'], ['lit, walking', true, 'walk'], ['lit, running', true, 'run'], ['dark, standing', false, 'stand'], ['dark, walking', false, 'walk'], ['dark, crouched', false, 'crouch']]) {
   let lo = 40, hi = 2000;
   for (let k = 0; k < 9; k++) {
     const d = (lo + hi) / 2, w = World(31 + k); const e = w.eng.spawn('skinstealer', 3700, LONG.y, { hunger: .5 }); e.tier = 'near'; e.ang = 0; e.plan = { k: 'watch', until: 1e9 };
@@ -138,7 +143,18 @@ for (const [label, light, mode] of [['lit, standing', true, 'stand'], ['lit, wal
   }
   R.V.push({ label, seesFrom: Math.round(lo) });
 }
+// P
+if (run('P')) for (const [label, light, walk] of [['lit, walking across', true, true], ['unlit, walking across', false, true], ['lit, standing', true, false]]) for (const h of [.3, .7]) for (const seed of [1, 2]) {
+  const w = World(seed * 19 + Math.round(h * 100) + (light ? 0 : 7) + (walk ? 0 : 3) + 2600); bystander(w, 1300, 3300);
+  const e = w.eng.spawn('skinstealer', 5250, LONG.y, { hunger: h }); e.tier = 'near'; e.ang = 0; route(w, e, 8400, LONG.y);
+  let p = null, at = -1, head = -1, seen = -1, a0 = 0;
+  w.run(8, (ww, t) => {
+    if (!p && e.x >= 5520) { at = t; a0 = e.ang + (e.head || 0); p = w.player(walk ? 5420 : 5600, LONG.y - 420, { light, angle: 0 }); if (walk) p.go(5800, LONG.y - 420, 'walk'); else p.stop('stand'); }
+    if (p) { const b = Math.atan2(p.y - e.y, p.x - e.x); if (head < 0 && Math.abs(angDiff(e.ang + (e.head || 0), b)) < Math.abs(angDiff(a0, b)) - .4) head = t; if (seen < 0 && e.seenNow.has(p.id)) seen = t; }
+    return seen < 0 || t - seen < .5; });
+  R.P.push({ label, h, seed, placed: at >= 0, offWay: p ? Math.round(Math.abs(angDiff(Math.atan2(LONG.y - 420 - LONG.y, (walk ? 5420 : 5600) - 5520), 0)) * 180 / Math.PI) : null, turnedAfter: head < 0 ? null : +(head - at).toFixed(2), seenAfter: seen < 0 ? null : +(seen - at).toFixed(2), noticed: e.tally.periph || 0, endPlan: e.plan ? e.plan.k : '-' });
+}
 const txt = [];
-for (const k of ['A', 'B', 'C', 'E', 'F', 'G', 'H', 'V']) for (const r of R[k]) txt.push(k + ' ' + JSON.stringify(r));
+for (const k of ['A', 'B', 'C', 'E', 'F', 'G', 'H', 'V', 'P']) for (const r of R[k]) txt.push(k + ' ' + JSON.stringify(r));
 console.log(txt.join('\n'));
 if (ARG.out) fs.writeFileSync(path.resolve(ARG.out), JSON.stringify(R, null, 1) + '\n');

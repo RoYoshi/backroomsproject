@@ -166,3 +166,21 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `dev/trial-3-r9-overhaul/evidence/r16d/` | evidence | `repro_ap.js` on R16d (the before is R16c's), the suites, `npm test`, Human QA |
 | `dev/trial-3-r9-overhaul/evidence/r16c/` | evidence | R16c's receipt and post-push scan |
 | `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md` | docs | R16d-1 … R16d-5; the R16c row; this table (R16c's had a blank last line) |
+
+## R16e — its eyes: head snaps, the edge of its view, where to look from (the owner's §3, §4, §6)
+
+| File | Kind | Change |
+|---|---|---|
+| `src/frameworks/nani/server/ai.skin.look.js` | new source part (of `generated/server/ai.js`) | its eyes: stimuli (a sound, movement at the edge of its view, somebody new in its sight), the head's snap (latency, rate, reach, hold, its quarry kept in view, a cap on every head movement), the body beyond the head's reach where it is free to turn, the periphery (`skPeriph`), where to look from (`skVantage`) |
+| `src/build-recipes.json` | build recipe | the new part, after `ai.skin.preempt.js` |
+| `src/frameworks/nani/server/ai.skinstealer.js` | source | its eyes wired in (`skLookThink` on a think, `skHeadStep` every tick, `e.look`, its own stream `e.lookRng`); a listen faces the sound at the body's rate after the head; a hungry one listens less long; movement it noticed and did not then see sends a hungry one to look; a search for a sound goes first to where it can see the place, looks, then goes closer, and a hungry one goes quicker (a hunt's search as before); a plan's own head movements ease (`skHeadTo`), the listen's end no longer zeroes the head; only prey at hunting hunger preempts a plan (R16d's policy, BR01) |
+| `src/frameworks/nani/server/ai.skin.preempt.js` | source | the comment on what is viable (the hunger gate is applied where it is called) |
+| `src/frameworks/br-r/client/skin.body.js` | source (the page's drawing) | a snap of the server's head is drawn as one: followed at 22/s and in full |
+| `generated/server/ai.js`, `generated/BUILD_MANIFEST.json`, `public/assets/skinstealer.js` | built | rebuilt from the above |
+| `dev/tests/s_skinap.js` | suite | P10–P14 |
+| `dev/tests/s_skinbehave.js` | suite (a scene's script) | BR01's passer: once 2.5 s have passed without coming level, or when a wall stops them after passing, they walk on the most open way that is not toward it (R16e-5) |
+| `dev/trial-3-r9-overhaul/tools/repro_ap.js` | dev tool | `--only`; the P probe (the side corridor's walker) |
+| `dev/trial-3-r9-overhaul/evidence/r16e/` | evidence | the probes before and after, the range evaluation, the suites, `npm test`, Human QA |
+| `dev/trial-3-r9-overhaul/evidence/r16d/` | evidence | R16d's receipt and post-push scan |
+| `dev/tools/gate/declared_changes.json`, generated doc blocks | the scope gate's list, docs | R16e's reason on `ai.js` and `skinstealer.js`; the new part listed |
+| `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md` | docs | R16e-1 … R16e-6; the R16d rows; this table |

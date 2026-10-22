@@ -1,0 +1,33 @@
+PASS C01 a hungry one acts on its first real sighting at once: watched or not, hungry (.6) or very hungry (.75), the first step of a hunt follows the think it first saw them (within 0.25 s), and the sighting is an event it answered  [1946ms]
+       first hunt step after first sight: 0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0 s; the sighting event answered in 0.12/0.12/0.12/0.11/0.12/0.12/0.12/0.11/0.12/0.12/0.12/0.11/0.12/0.12/0.12/0.11 s (h .6 / .75, watched / unaware x 4 seeds)
+PASS C02 a satiated one (.1) still acknowledges: turned 57 deg away from a person watching it from 450 px (at the edge of its sight), within 2 s it faces them or turns its head to them (at least .5 rad, its look at least .4 rad nearer them than its body), whatever it then decides - it does not hunt them; the same for a person who walks toward it from 520 px and stops at 300  [709ms]
+       watched from 450 px: turned to them after 0.03/0.03/0.03/0.03/0.03/0.03 s, hunted 0 | walked up to 300 px: 0.03/0.03/0.03/0.03 s, hunted 0
+PASS C03 starving (.95), watched in the narrow north corridor where there is no way round: it watches at most briefly and then takes a physically possible open action - it comes on (or gives chase), never stands there for good and never leaves  [397ms]
+       open approach at 0.1/0/0.1/0/0.1/0.1 s; longest watch 0/0/0/0/0/0 s; left 0/0/0/0/0/0; flanks tried 0/0/0/0/0/0; kills 1/1/1/1/1/1
+PASS C04 one glimpse can be enough: a lit person seen walking north past the gap, then gone (torch off, walking on east / north-east), hungry (.75): from that one glimpse it moves to cut them off or to look for them out of their sight (an interception, a flank, a lure or a search) in most runs  [658ms]
+       8/8 moved on the glimpse (e:intercept e:intercept e:intercept e:intercept n:intercept n:intercept n:intercept n:intercept); in its sight 5.5/5.6/4.5/2.2/6.7/7.1/1.5/1.5 s; kills 1/1/1/1/0/0/0/0
+PASS C05 nothing names a person it has not seen: footsteps behind a wall (it never sees them) - every sound event it logs is anonymous, it keeps no record, no observation, no plan or hunt about them  [459ms]
+       named before a sighting: 0/0/0/0/0/0; sound events 0/0/0/5/17/0 (anonymous 0/0/0/2/9/0); first seen at -1/-1/-1/2.3/7.3/-1 s (-1: never)
+PASS C06 another player's footsteps can mislead it: A is seen, then crouches torchless out of its sight; B, never seen, runs up and down a lane nearby - it takes B's running for A in some runs (its belief and guesses move toward B), and never names B  [776ms]
+       its belief nearer B than A for 0/5.7/0/0/2.6/5.7 s; sounds taken for A 2/11/0/0/10/14; B named without a sighting 0/0/0/0/0/0
+PASS C07 no sound, no sight: a person seen once who then crouches out of its sight and stays silent is given up - the hunt ends for a stated reason within its forgetting time, and does not come back without new evidence  [1230ms]
+       ended at 19.8 s ("no sign of P101 for 18 s: it gives up") | ended at 21.8 s ("no sign of P101 for 19 s: it gives up") | ended at 21.7 s ("no sign of P101 for 20 s: it gives up") | ended at 21.4 s ("no sign of P101 for 20 s: it gives up") | ended at 19.6 s ("no sign of P101 for 18 s: it gives up") | ended at 6.2 s ("it has P101") | ended at 19.1 s ("no sign of P101 for 18 s: it gives up") | ended at 21.3 s ("no sign of P101 for 20 s: it gives up")
+FAIL C08 two worlds the same to its senses give the same creature: a person seen once who then walks silently (crouched) one way or the other - its every decision, place and belief are identical until it next senses them  [624ms]
+       identical for 181 ticks (first difference -1) | identical for 960 ticks (first difference -1) | identical for 620 ticks (first difference -1) | identical for 181 ticks (first difference -1)
+PASS C09 no hidden truth leaks: while it cannot sense a person, nothing it keeps (belief, observation, events, debug) holds where they really are; the snapshot carries only its public fields  [519ms]
+       unsensed ticks 983/1109/1109/1109, holding their true place 0/0/0/0; snapshot fields a,ac,h,i,s,v,x,y
+PASS C10 confidence fades without evidence and a failed place is forgotten in time: after it loses a silent person its hunt confidence only falls (no evidence lifts it) and a place it found empty is no longer held after its memory time  [816ms]
+       confidence rises without evidence 0/0/0/0; most failed places held 2/2/1/1; an expired failure forgotten true
+PASS C11 seeing them again where it did not expect corrects it at once: while it waits at a wrong guess, the person shows up elsewhere in its sight - within 0.25 s it answers that sighting (a new plan about where they really are now)  [424ms]
+       answered the new sighting in 0/0.11/0.11/0.12 s (guess at 2.2/2.2/2.2/9.1 s)
+PASS C12 effort is never refilled by a change of plan: the seconds it has spent on one person only grow while its attention stays on them, through every plan it switches between  [553ms]
+       effort fell 0/0/0/0/0/0 times across 4/6/6/4/4/4 plans
+PASS C13 plans hold without flicker: watched by a person who strolls (X), no plan lasts under 0.3 s except where an event answered it (a sighting, a loss, being seen) - no stale plan kept after a contradicting event  [366ms]
+       plans under 0.3 s with no event behind them 0/0/0/0 (of 5/9/6/5 plan changes)
+PASS C14 it answers events fast and never idles while a hungry hunt is possible: across these scenes the median answer to a sighting or a loss is under 0.25 s (90 % under 0.7 s) - and so is the median of the answers that changed its plan (R16), at least a third of them; hungry (.75) with a lone person in view it never stands watching for more than 3 s at a stretch  [580ms]
+       answers to sight/loss events: 35 (changed 14, kept 18, strike 3), median 0 s, 90 % 0.7 s; the 14 that changed its plan: median 0.12 s, 90 % 0.7 s; longest watch while hungry with a lone person in view 0/0/0/0 s
+PASS C15 no Skin-Stealer, no difference: 30 s of the director's Hounds and Smilers with four players moving, three seeds - every snapshot of this tree is R8's, byte for byte (the per-second hashes stored from f378049)  [825ms]
+       runs seed11, seed12, seed13: identical (90 snapshot hashes; R8 fixture from f378049 (R8))
+
+14/15 passed
+FAILED: C08 two worlds the same to its senses give the same creature: a person seen once who then walks silently (crouched) one way or the other - its every decision, place and belief are identical until it next senses them

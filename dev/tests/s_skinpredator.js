@@ -326,13 +326,14 @@ add('PR13 a silent croucher in the dark beyond its sight escapes its guesses: tw
 
 add('PR14 a misleading sound: they run on east (it hears it), then crouch back west in silence - it follows what it heard and can be fooled; it does not always find the one who doubled back', () => {
   const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
-    const R = sw(seed, .9, 'feint', 'run', 60, { ways: Object.assign({ feint: [{ x: 1480, y: 5120 }] }, WAYS), then: p => { p.going = 4; p.route(WAYS.back, 'crouch'); }, on: (t, p) => { if (p.going === 4 && p.path && !p.path.length) { p.going = 5; p.stop('crouch'); } } });
+    let sawRun = 0;   // (R16e: its head snaps to them - some runs east it sees, not only hears)
+    const R = sw(seed, .9, 'feint', 'run', 60, { ways: Object.assign({ feint: [{ x: 1480, y: 5120 }] }, WAYS), then: p => { p.going = 4; p.route(WAYS.back, 'crouch'); }, on: (t, p, e) => { if (p.going === 2 && e.seenNow.has(p.id)) sawRun++; if (p.going === 4 && p.path && !p.path.length) { p.going = 5; p.stop('crouch'); } } });
     const fooled = !R.w.kills.length && R.end && /gives up/.test(R.end.why), east = R.guesses.filter(q => q.heard > 0 && q.x > 1350).length;
-    return { fooled, heard: R.tally.heardQ, east, killed: R.w.kills.length, end: R.end ? R.end.why : '-', at: R.end ? R.end.at : -1, g: R.guesses.map(q => q.k + '@' + q.x + ',' + q.y).join(' ') };
+    return { fooled, heard: R.tally.heardQ, saw: sawRun > 0, east, killed: R.w.kills.length, end: R.end ? R.end.why : '-', at: R.end ? R.end.at : -1, g: R.guesses.map(q => q.k + '@' + q.x + ',' + q.y).join(' ') };
   });
   const f = rs.filter(r => r.fooled).length, k = rs.filter(r => r.killed).length;
-  return { ok: rs.filter(r => r.heard > 0).length >= 5 && f >= 3 && k < 8,
-    note: `took the running for theirs in ${rs.filter(r => r.heard > 0).length}/8 (guessed east after hearing in ${rs.filter(r => r.east > 0).length}) | fooled (gave up, nobody caught) ${f}/8, found the one who doubled back ${k}/8 (${[...new Set(rs.map(r => '"' + r.end + '"'))].slice(0, 3).join(', ')})`, data: rs };
+  return { ok: rs.filter(r => r.heard > 0 || r.saw).length >= 5 && f >= 3 && k < 8,
+    note: `took the running for theirs in ${rs.filter(r => r.heard > 0).length}/8, saw them run east in ${rs.filter(r => r.saw).length}/8 - knew of the run east either way in ${rs.filter(r => r.heard > 0 || r.saw).length}/8 (guessed east after hearing in ${rs.filter(r => r.east > 0).length}) | fooled (gave up, nobody caught) ${f}/8, found the one who doubled back ${k}/8 (${[...new Set(rs.map(r => '"' + r.end + '"'))].slice(0, 3).join(', ')})`, data: rs };
 });
 
 add('PR15 a run of footsteps it hears out of sight keeps its belief near them (closer than with silence); with nothing heard its belief only carries on from the last sighting - silent steps and old sounds steer nothing', () => {

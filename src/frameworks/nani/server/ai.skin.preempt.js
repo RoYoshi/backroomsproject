@@ -14,7 +14,8 @@
  *             tactical - approach, flank, intercept, lure, ambush, chase, retreat, watch, a hunt's search or listen, a walk in a skin: kept
  *             while they still make sense (skDecide's own weighing, with its hysteresis SK.rethink), and given up when they no longer do.
  *   EVENTS    a VIABLE person newly seen (first seen, or seen again after SKP.regain seconds out of sight) - viable: one it may hunt now
- *             (skMayHunt, hunger-dependent below); and the quarry of a lure or an ambush seen going away from it, not coming, for
+ *             (skMayHunt, hunger-dependent below; R16e: and only from the hunger it hunts at, SK.band[1] - a sated departure is not cut by
+ *             a passer-by: s_skinbehave BR01); and the quarry of a lure or an ambush seen going away from it, not coming, for
  *             SKP.awayFor seconds (the wait has lost its point).
  *   ANSWER    a low-priority plan is ended on the think the event is perceived and the decision runs at once (no dwell, no once-a-second);
  *             a tactical plan that has lost its point is flagged for skDecide to weigh afresh (its hysteresis does not keep a plan that

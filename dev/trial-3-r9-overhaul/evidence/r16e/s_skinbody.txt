@@ -1,0 +1,24 @@
+PASS G01 eight headings, one body: every act at 0, 45 ... 315 deg draws the same body (its shapes in its own space identical, only turned to its heading); beside a wanderer it is a third again as wide at the shoulders and about 1.4 times as tall, its fingertips hanging to its knees  [1565ms]
+       18 acts x 8 headings: identical bodies, turned exactly; shoulders 47 px to a wanderer's 36 (x 1.30); its height 208 px to a wanderer's ~140 (x 1.49; watching, stooped, its crown at 167); hanging fingertips at 33, knees at 39 (its own units)
+PASS G02 no squatting frog, no raised hands: through a whole stride of every ordinary act its knees stay over its feet (never splayed out to the sides), its hands below its shoulders and its head; upright acts stand tall (hips at 85 %+ of its legs); crouched acts bend their knees forward  [61ms]
+       18 acts x 8 phases of the stride: knees within 15.5 of its centre line, hands under shoulders and head, upright acts tall
+PASS G03 its head turns as the server says, its body holds: listening with the server's head at +0.8 / -0.8 rad, the drawn skull turns to it (within 0.05) while the trunk, arms and legs are exactly where they are with the head straight  [52ms]
+       head 0.8: skull 0.800, trunk shapes unchanged in count; rig: yaw 0.800, body identical; head -0.8: skull -0.800, trunk shapes unchanged in count; rig: yaw -0.800, body identical
+PASS M01 its motion does not lie: its stride grows with its real speed (running at 255 at least twice its stalk at 90); walking backward its feet step backward, sidestepping they step sideways; standing still its feet do not move  [8ms]
+       stride (its own units, front to back): stalking 15.9, running 42.0 (x 2.64); sidestep 15.9 across / 0.0 along; still 0.00/0.00; a lifted foot moves forward walking, backward backing away
+PASS G04 hidden is hidden: in every still act (standing, watching, waiting coiled, at a lure, listening, resting, speaking) all it draws lies within 40 px of its centre (its body's radius is 24); its shadow stays within its body's reach plus 10 px, and is never pushed toward a wall that is near (a corner never shows a shadow its body does not)  [148ms]
+       drawn reach / shadow reach (px): stand 39/35, watch 38/35, wait 37/34, lure 36/34, listen 40/35, rest 39/35, mimic 37/35; the shadow's push with the floor open 9.1 px, with a wall 20 px away 0
+PASS G05 a borrowed skin: the page's own wanderer avatar (the look it was sent, at a wanderer's size - never the creature's scale), the body hidden once it has folded in; when the skin is dropped (its wind-up, a run) the body is out within about a tenth of a second and the avatar gone  [10ms]
+       in the skin: avatar made (scale 1, alpha 0.02), body VISIBLE; dropped: the body at 90 %+ after 67 ms, its scale back to 1.30, the avatar gone
+PASS G06 shaded by the light where it stands: in the dark (light total .05, nothing direct) it is nearly black and casts no shadow; under a lamp it is pale and its shadow is there  [28ms]
+       tint 37/255 in the dark, 232/255 under the lamp; shadow layers 0 in the dark, 3 lit
+PASS K01 a kill's attacker: its hands go to the victim's neck - as far ahead as the victim really is in the death's physics, as high as the neck then is (standing, then down: A at the snap, B at once, C as the legs go); never a NaN  [5ms]
+       A: hands 44 px ahead (victim 44); A grip height 52>86>86>24>13; B: hands 40 px ahead (victim 40); B grip height 58>17>14>14>13; C: hands 35 px ahead (victim 38); C grip height 59>74>73>59>12
+PASS D01 the same server data, the same body on two pages: a creature walking, stopping to listen, creeping, waiting and running, mirrored on two pages - every shape it draws identical, frame for frame (its tics and hair are seeded, never random)  [136ms]
+       600 frames, 0 differing
+PASS P01 its drawing cost: shapes a frame for one creature in each act (fills and strokes), and four creatures drawn for 10 s in Node (recorders, not the GPU: the real page is measured in the browser scene)  [428ms]
+       shapes a frame: 55-56 (R8's figure: about 55; at most 70); four creatures: 0.581 ms a frame here
+PASS S01 nothing the server decides changed: its body (radius 24, clearance 21), its grab reach (46), its pounce (55-185 px, 430 px/s for 0.36 s) and the one drawing scale (1.3) are R8's - the new body is drawing only  [13ms]
+       radius 24, clearance 21, grab 46, pounce 55-185 px at 430 for 0.36 s, BODY_SCALE 1.3
+
+11/11 passed

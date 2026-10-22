@@ -654,3 +654,97 @@ B (heard, not seen), A at 85 degrees (its periphery), C (circled) and V (its ran
 - What R16d leaves to R16e-R16g: the head does not yet snap to a sound or to movement at its edge under a plan, its periphery is still
   blind (A at 85 degrees), it goes to a sound rather than to where it could see (B), it cannot step sideways or back (C), and its range is
   R8's (V).
+
+## R16e — its eyes: head snaps, the edge of its view, where to look from (the owner's §3, §4, §6)
+
+**R16e-1 The head** (`src/frameworks/nani/server/ai.skin.look.js`). The owner: snap the head to stimuli, turn the body beyond the head's
+reach; head-turn initiation about 50-100 ms, the head on it in about 100-200 ms, the body turning within about 150-250 ms, the head
+faster than the body; the server's sight and the drawn head in step. `AP_AUDIT.md` (cause 4): under every plan but roaming its head was
+held straight; its head turned at dt x 5 (about 0.6 s to 95 %), at most 1 rad.
+- Stimuli: a sound it hears (anonymous, or of somebody it does not see now) - its head starts `SKL.latency` (0.05-0.09 s, its own seeded
+  stream) after the sound; movement at the edge of its view (R16e-2) - on its think; a person newly in its sight who is not its plan's
+  quarry - on its think. A stronger stimulus (sight > movement > sound) is not replaced by a weaker one while held; the same stimulus
+  (within 0.35 rad, under 0.4 s old) does not restart a snap.
+- The snap: up to 13 rad/s (`SKL.snap`), easing in over its last 0.2 rad, up to 1.25 rad either side of its body (`SKL.headMax`; R8: 1),
+  held 0.6-0.9 s; then the plan's own head (its gaze, its listening sway, its glance back on a covert way) takes over from where the head
+  is. Every head movement is capped in one place: 13 rad/s in a snap, 8 rad/s otherwise - no plan's head jumps (R8's listening sway and
+  glance were set directly; they now ease, `skHeadTo`).
+- Under any plan that is not committed the head snaps; under a plan whose quarry it sees, the head never turns so far that the quarry
+  leaves its view (`SKL.keep`). During a strike or a kill the head does not move (the strike returns before the head is stepped).
+- The body: beyond 85 % of the head's reach, 0.1 s after the head began (`SKL.bodyAfter`), the body turns at 5 rad/s (`SKL.bodyRate`)
+  where it is free to - roaming (it stops to look), a hunt's listening, a search's look round where it arrived; a listen after a sound
+  faces the sound at the same rate (R2's 2.2 rad/s), after the head has begun. On the move under a plan the head alone turns.
+- In step: the engine's sight is centred on `e.ang + e.head` (shared `visualObservation`, unchanged) and the snapshot carries `e.head`
+  (P10 checks every tick). The page draws a snap as one (`skin.body.js`: a jump in the server's head is followed at 22/s and in full,
+  where R14 eased every head at 4-5/s and drew 0.7 of it).
+
+**R16e-2 The edge of its view** (`skPeriph`; `AP_AUDIT.md` cause 6: its periphery was blind to movement - a person at 85 degrees was
+never noticed). A new sense, movement only: a person outside its field of view (±72 degrees about where its head points) but within
+0.9 rad of its edge (to ±124 degrees), moving at 70 px/s or more, whom its eyes turned there would make out within 0.75 of the distance it
+would make them out at (the shared sight's own light, posture, motion and wall tests - `visualObservation` asked with the eyes turned to
+them), and never beyond 600 px (`SKL.periphMax`). It gives an approximate place (20 px + 8 % of the distance, its own stream) and no
+identity: the snap must then see them; no record of the person is made until it does (P12). Standing still, crouched still or crawling
+(54 px/s) is not movement it notices (P12, P14); nothing is noticed without a clear line (P12 checks every notice). A hungry one (from
+0.4) that noticed movement and did not then see who goes to look, as after a strong sound.
+- Why 600 px: a lit walker is made out from about 1270 px in the hall, so 0.75 of it alone reached 950 px; at that range the probe for
+  PR13 (a croucher who escapes its guesses) noticed the person walking toward the gap from 765 px at its back, which R8's scene premise
+  (first seen at the gap) does not hold. The edge of an eye sees movement, not detail, and not far.
+
+**R16e-3 Where to look from** (`skVantage`; `AP_AUDIT.md` cause 5: after a sound it walked to the sound's own fuzzy place). After a sound
+it cannot see the source of, it goes to the nearest open floor from which it would make out somebody standing unlit at the place - and a
+little beyond it on the far side (0.6 of how roughly it placed the sound, up to 120 px) - by its own sight's rules there (the light, the
+distance, the walls: `visualObservation` asked of a person who is not there, from the candidate point). It looks at the place from there
+for 0.5-0.9 s (`SKL.lookFrom`); seeing nothing, it goes on to the place itself and looks round as before. A hungry one goes to look at
+up to 1.4 x its roam pace (under `SK.runFrom`: no stamina); a hunt's own search keeps R8's pace (with the faster pace PR13's croucher was
+found by coverage, not by evidence). A hungry one listens for less long first (R2's listen x 1 - 0.5 hm).
+
+**R16e-4 Its sight range: kept at 760** (the owner: audit the 760 px range, evaluate roughly 1100-1200 subject to fairness testing). The
+nominal range is multiplied by the shared sight's light, posture and motion factors (`AP_AUDIT.md` V). Measured in the long hall
+(`evidence/r16e/range/`; the V probe of `repro_ap.js`):
+
+| Nominal | lit, standing | lit, walking | lit, running | unlit, standing | unlit, walking | unlit, crouched |
+|---|---|---|---|---|---|---|
+| 760 (R8, kept) | 649 | 1269 | 1483 | 442 | 526 | 285 |
+| 950 | 878 | 1384 | 1747 (the engine's candidate radius) | 503 | 878 | 358 |
+| 1100 | 1054 | 1506 | 1747 | 526 | 932 | 388 |
+
+The Skin-Stealer suites at 950 and 1100 (on the R16e tree as it was then; BR01, PR13 and X01 failed at 760 too, then - R16e-5): at 950 P14 (a crouched, still, unlit person at its side is
+seen before it passes), PR09/PR10 and C20 (the inference scenes' premise: the person beyond its sight), P09 and SK24 fail; at 1100 also
+X05, C08, C21, PR14 and PR30. A player's own view reaches 700 px. Raising the nominal range would scale every case - the crouched person
+in the dark too - and break the stealth counterplay the locks keep. The owner's aim (to acquire people actively) is met instead by the
+head snaps, the edge of its view and where it looks from; the range stays R8's.
+
+**R16e-5 What the regression found, and what was done.** Each is a consequence of seeing more, traced to its cause:
+- **BR01** (a sated creature leaving; a person walks past it once): R16d's policy treated anybody it may hunt as viable whatever its
+  hunger. With its head now on the passer, a sated departure was cut and drawn again. The policy now acts only on prey at the hunger it
+  hunts at (`SK.band[1]`, 0.4). And the scene's script: R8's creature stopped to look at the passer's footsteps (it did not see them, so
+  they were anonymous - B1's look at a sound); R16e's sees them at its side (its head) and walks on, so the passer - who makes for a point
+  beside it until they are level - followed it, and was stopped by a wall on its way out. The passer now walks on, the most open way
+  that is not toward it, once 2.5 s have passed without coming level or when a wall stops them after passing. The invariant (at most a
+  glance, no strike, warning, chase or hunt, parted at the end) is unchanged; the changed script passes on R16d and R8 too.
+- **PR13** (a silent croucher escapes its guesses): the edge of its view noticed the person 765 px off, walking to the gap - the scene's
+  premise is that it first sees them at the gap. The periphery now stops at 600 px (`SKL.periphMax`). And a hunt's search keeps R8's
+  pace (the hungrier pace is for looking at a sound nobody was named for).
+- **X01** (no covert move in a still watcher's sight): 12 px in one run before the BR01 fix; 0 in all twelve since.
+- **PR14** (a misleading sound): its precondition counted the runs east it heard. With its head on them, in 2 of 8 seeds it saw them run
+  east (21 and 25 ticks; R16d 14 and 11), so their running was known by sight there, not taken from sound (4 of 8 heard, as against 6).
+  It now counts the run east known either way (6 of 8, as R16d and R8); the invariant - it can be fooled (5 of 8 gave up, nobody
+  caught), it does not always find them - is unchanged, and the changed test passes on R16d and R8 too.
+
+**R16e-6 Measured and checked** (`evidence/r16e/`; the probes against R16d's):
+
+| Probe | R16d | R16e |
+|---|---|---|
+| B. Heard, not seen: head / body turn after hearing | 0.08-0.45 s / 0.22-0.33 s; none when fed | 0.08-0.13 s / 0.20-0.32 s; fed too |
+| B. A hungry one sees the person (who ran on and stands unlit) | 4.3-5.3 s after hearing | 2.9-4.3 s |
+| P. A person walking across a side corridor 100 degrees off its way, 420 px | never noticed (0 of 8) | noticed and seen in 0.35-0.8 s (7 of 8; the eighth never reached the corridor's mouth) |
+| P. A lit person standing there | not noticed | not noticed (it needs movement) |
+| C. Circled at 230 px: mean facing error | 0.62-1.34 rad | 0.30-0.76 rad (its head; its body's footwork is R16f's) |
+| P10. Head start / on it / body start after a sound (12 runs) | - | 0.07-0.10 s / 0.10-0.18 s / 0.12-0.23 s; head 13 rad/s, body 5 |
+
+- `s_skinap.js` P10-P14 pass (with P01-P09). Every other Skin-Stealer suite passes: `s_skinstealer` 34/34, `s_skinbehave` 19/19,
+  `s_skinpredator` 30/30, `s_skinsight` 10/10, `s_skinmind` 15/15, `s_skinroute` 15/15, `s_skinr9` 1/1, `s_skinbody` 11/11, `s_skinrend` 8/8,
+  `s_skinadv` 9/9, `s_skinr16` 5/5. Changed tests: BR01's passer script and PR14's precondition (R16e-5).
+- `npm test` 320/333: the 14 P tests pass and the same 13 inherited failures as R10's record; Human QA hotfix 5/6 (X03 inherited); the
+  static checks, the docs, the scope gate (R16e's reason on `ai.js`) and `build:check` pass.
+- The drawn snap (`skin.body.js`) is checked on real pages in R16g's campaign.
