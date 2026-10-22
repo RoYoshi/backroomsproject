@@ -152,3 +152,17 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `dev/trial-3-r9-overhaul/evidence/r16c/` | evidence | the tool's output on R8 and R16b |
 | `dev/trial-3-r9-overhaul/CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `evidence/r16/` (R16b's receipt, scan) | docs, evidence | |
 
+## R16d — plan interruption and preemption, hunger-dependent aggression (the owner's §1, §2)
+
+| File | Kind | Change |
+|---|---|---|
+| `src/frameworks/nani/server/ai.skin.preempt.js` | new source part (of `generated/server/ai.js`) | the policy: plans classed (committed, low priority, tactical, feeding); a viable person newly seen, and a lure's or an ambush's quarry seen going away, are the events; a low-priority plan is cut on the think the event is perceived, a tactical one flagged for the decision to weigh afresh, a committed one never touched (and said so); each person forces at most one reassessment every `SKP.again` s; how long it leaves a person alone and when it may take them up again, by hunger (`skLeftFor`, `skRefractory`); every interruption logged (`e.dbg.preempt`, its mind's events) |
+| `src/build-recipes.json` | build recipe | the new part, before `ai.skinstealer.js` |
+| `src/frameworks/nani/server/ai.skinstealer.js` | source | `skPreempt` on every think after the hunt's own tick; `skMayHunt` takes a person it left back from hunger .4 (was .8) after its refractory, only on sight; `skLeave` leaves them `skLeftFor(hunger)` s from hunger .4 (fed as before); a lure or an ambush is not kept once its quarry has been seen going away; starving, it gives chase from farther (`SK.chaseFrom` x 1 + .4 hs; its speed unchanged); hungry, it prowls where it last perceived prey (`skPatrolGoal`, its own memory only, `SK.patrolFresh`) at up to 1.4 x its roam pace (under `SK.runFrom`: no stamina cost, never a run) and pauses less; a watch keeps watching through a glimpse lost for a moment (`SK.lostGrace`, as an approach and a chase did); the decision's record carries its time |
+| `generated/server/ai.js`, `generated/BUILD_MANIFEST.json` | built | rebuilt from the above |
+| `src/frameworks/nani/README.md`, `docs/architecture/BUILD_PIPELINE.md`, `docs/architecture/FRAMEWORKS.md` | generated doc blocks | the new part listed (`dev/tools/docs/docs.js`) |
+| `dev/tools/gate/declared_changes.json` | the scope gate's list | R16d's reason on `ai.js` |
+| `dev/tests/s_skinap.js` | new suite, in `run.js` | P01–P09 |
+| `dev/trial-3-r9-overhaul/evidence/r16d/` | evidence | `repro_ap.js` on R16d (the before is R16c's), the suites, `npm test`, Human QA |
+| `dev/trial-3-r9-overhaul/evidence/r16c/` | evidence | R16c's receipt and post-push scan |
+| `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md` | docs | R16d-1 … R16d-5; the R16c row; this table (R16c's had a blank last line) |

@@ -1,7 +1,7 @@
 {
  "note": "Written by dev/tools/build/build.js. Every built output, its parts in order and their SHA-256. Do not edit: run npm run build.",
  "recipes": "src/build-recipes.json",
- "recipesSha256": "5880094c2c8dafadf2cedb4f4ff51f450b971938f9799b1c345c4c5b59e89148",
+ "recipesSha256": "f572d2b64fc2d1affc1012f01dee0ce57339c102b9d3b7579b75d46ce5561c3e",
  "tool": "dev/tools/build/build.js",
  "toolSha256": "3d0d0f257f70756d5b910c060ce058f67669899e680216c176b40629eda2a8fd",
  "outputs": [
@@ -681,8 +681,8 @@
   },
   {
    "out": "generated/server/ai.js",
-   "bytes": 407028,
-   "sha256": "19898896c144a54f99be8bb2a14134b44021227e812884b08dd62d7ef693e2bf",
+   "bytes": 418518,
+   "sha256": "4949c304faae8d98b8b64512bf2e4943d609167c53d7852d8f19c7c5ffe2d46b",
    "parts": [
     {
      "path": "src/frameworks/nani/server/ai.head.js",
@@ -745,9 +745,14 @@
      "headerBytes": 335
     },
     {
+     "path": "src/frameworks/nani/server/ai.skin.preempt.js",
+     "sha256": "816b14aa99c05b9dfa179ac5515f5e19eb4f5b3f4d8e7dc8d0dd05e4bcc50500",
+     "headerBytes": 232
+    },
+    {
      "path": "src/frameworks/nani/server/ai.skinstealer.js",
-     "sha256": "7559d1bab14253897cafce2f91dcef5d8d984a99071aa2d46cd4cdc9fe192804",
-     "headerBytes": 674
+     "sha256": "ed3c4e753b3120cb8bb17a86d598596fb776b92ad355bcedaed77f001941dd74",
+     "headerBytes": 710
     },
     {
      "path": "src/frameworks/nani/server/ai.engine.js",

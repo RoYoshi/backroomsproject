@@ -1,0 +1,88 @@
+A {"where":"ahead 520","h":0.3,"seed":1,"seenAfter":0.67,"actAfterSight":0,"first":"leave","walkedOnAfterSight":0,"endPlan":"leave"}
+A {"where":"ahead 520","h":0.3,"seed":2,"seenAfter":0.65,"actAfterSight":0,"first":"leave","walkedOnAfterSight":0,"endPlan":"leave"}
+A {"where":"ahead 520","h":0.55,"seed":1,"seenAfter":0.62,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"feed"}
+A {"where":"ahead 520","h":0.55,"seed":2,"seenAfter":0.58,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"feed"}
+A {"where":"ahead 520","h":0.75,"seed":1,"seenAfter":0.6,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"feed"}
+A {"where":"ahead 520","h":0.75,"seed":2,"seenAfter":0.6,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"feed"}
+A {"where":"ahead 520","h":0.95,"seed":1,"seenAfter":0.25,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"feed"}
+A {"where":"ahead 520","h":0.95,"seed":2,"seenAfter":0.58,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"feed"}
+A {"where":"ahead 900","h":0.3,"seed":1,"seenAfter":0.67,"actAfterSight":0,"first":"leave","walkedOnAfterSight":0,"endPlan":"leave"}
+A {"where":"ahead 900","h":0.3,"seed":2,"seenAfter":0.6,"actAfterSight":0,"first":"leave","walkedOnAfterSight":0,"endPlan":"leave"}
+A {"where":"ahead 900","h":0.55,"seed":1,"seenAfter":0.3,"actAfterSight":0,"first":"watch","walkedOnAfterSight":0,"endPlan":"leave"}
+A {"where":"ahead 900","h":0.55,"seed":2,"seenAfter":0.25,"actAfterSight":0,"first":"watch","walkedOnAfterSight":0,"endPlan":"leave"}
+A {"where":"ahead 900","h":0.75,"seed":1,"seenAfter":0.62,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"-"}
+A {"where":"ahead 900","h":0.75,"seed":2,"seenAfter":0.63,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"-"}
+A {"where":"ahead 900","h":0.95,"seed":1,"seenAfter":0.67,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"intercept"}
+A {"where":"ahead 900","h":0.95,"seed":2,"seenAfter":0.27,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"-"}
+A {"where":"periphery 55deg 450 (open hall)","h":0.3,"seed":1,"seenAfter":0.3,"actAfterSight":0,"first":"leave","walkedOnAfterSight":0,"endPlan":"leave"}
+A {"where":"periphery 55deg 450 (open hall)","h":0.3,"seed":2,"seenAfter":0.6,"actAfterSight":0,"first":"leave","walkedOnAfterSight":0,"endPlan":"leave"}
+A {"where":"periphery 55deg 450 (open hall)","h":0.55,"seed":1,"seenAfter":0.67,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"feed"}
+A {"where":"periphery 55deg 450 (open hall)","h":0.55,"seed":2,"seenAfter":0.63,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"feed"}
+A {"where":"periphery 55deg 450 (open hall)","h":0.75,"seed":1,"seenAfter":0.3,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"feed"}
+A {"where":"periphery 55deg 450 (open hall)","h":0.75,"seed":2,"seenAfter":0.67,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"feed"}
+A {"where":"periphery 55deg 450 (open hall)","h":0.95,"seed":1,"seenAfter":0.6,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"feed"}
+A {"where":"periphery 55deg 450 (open hall)","h":0.95,"seed":2,"seenAfter":0.3,"actAfterSight":0,"first":"approach","walkedOnAfterSight":0,"endPlan":"feed"}
+A {"where":"periphery 85deg 420 (open hall)","h":0.3,"seed":1,"seenAfter":null,"actAfterSight":null,"first":"","walkedOnAfterSight":0,"endPlan":"-"}
+A {"where":"periphery 85deg 420 (open hall)","h":0.3,"seed":2,"seenAfter":null,"actAfterSight":null,"first":"","walkedOnAfterSight":0,"endPlan":"-"}
+A {"where":"periphery 85deg 420 (open hall)","h":0.55,"seed":1,"seenAfter":null,"actAfterSight":null,"first":"","walkedOnAfterSight":0,"endPlan":"-"}
+A {"where":"periphery 85deg 420 (open hall)","h":0.55,"seed":2,"seenAfter":null,"actAfterSight":null,"first":"","walkedOnAfterSight":0,"endPlan":"-"}
+A {"where":"periphery 85deg 420 (open hall)","h":0.75,"seed":1,"seenAfter":null,"actAfterSight":null,"first":"","walkedOnAfterSight":0,"endPlan":"-"}
+A {"where":"periphery 85deg 420 (open hall)","h":0.75,"seed":2,"seenAfter":null,"actAfterSight":null,"first":"","walkedOnAfterSight":0,"endPlan":"-"}
+A {"where":"periphery 85deg 420 (open hall)","h":0.95,"seed":1,"seenAfter":null,"actAfterSight":null,"first":"","walkedOnAfterSight":0,"endPlan":"-"}
+A {"where":"periphery 85deg 420 (open hall)","h":0.95,"seed":2,"seenAfter":null,"actAfterSight":null,"first":"","walkedOnAfterSight":0,"endPlan":"-"}
+B {"h":0.3,"seed":1,"heard":true,"headTurned":null,"bodyTurned":null,"sawAfter":null,"movedTowardBeforeSight":-1116,"stillBeforeSight":0,"endPlan":"-"}
+B {"h":0.3,"seed":2,"heard":true,"headTurned":null,"bodyTurned":null,"sawAfter":null,"movedTowardBeforeSight":-1116,"stillBeforeSight":0,"endPlan":"-"}
+B {"h":0.3,"seed":3,"heard":true,"headTurned":null,"bodyTurned":null,"sawAfter":null,"movedTowardBeforeSight":-1116,"stillBeforeSight":0,"endPlan":"-"}
+B {"h":0.55,"seed":1,"heard":true,"headTurned":0.17,"bodyTurned":0.33,"sawAfter":5.12,"movedTowardBeforeSight":267,"stillBeforeSight":1.7,"endPlan":"leave"}
+B {"h":0.55,"seed":2,"heard":true,"headTurned":0.2,"bodyTurned":0.25,"sawAfter":4.57,"movedTowardBeforeSight":237,"stillBeforeSight":1.7,"endPlan":"approach"}
+B {"h":0.55,"seed":3,"heard":true,"headTurned":0.15,"bodyTurned":0.32,"sawAfter":5.23,"movedTowardBeforeSight":264,"stillBeforeSight":1.9,"endPlan":"leave"}
+B {"h":0.8,"seed":1,"heard":true,"headTurned":0.45,"bodyTurned":0.32,"sawAfter":5.1,"movedTowardBeforeSight":266,"stillBeforeSight":1.7,"endPlan":"-"}
+B {"h":0.8,"seed":2,"heard":true,"headTurned":0.25,"bodyTurned":0.22,"sawAfter":4.32,"movedTowardBeforeSight":261,"stillBeforeSight":1.2,"endPlan":"-"}
+B {"h":0.8,"seed":3,"heard":true,"headTurned":0.28,"bodyTurned":0.33,"sawAfter":4.3,"movedTowardBeforeSight":247,"stillBeforeSight":1.1,"endPlan":"-"}
+B {"h":0.95,"seed":1,"heard":true,"headTurned":0.25,"bodyTurned":0.27,"sawAfter":4.95,"movedTowardBeforeSight":307,"stillBeforeSight":1.2,"endPlan":"-"}
+B {"h":0.95,"seed":2,"heard":true,"headTurned":0.2,"bodyTurned":0.3,"sawAfter":5.33,"movedTowardBeforeSight":291,"stillBeforeSight":1.7,"endPlan":"-"}
+B {"h":0.95,"seed":3,"heard":true,"headTurned":0.08,"bodyTurned":0.25,"sawAfter":4.68,"movedTowardBeforeSight":282,"stillBeforeSight":1.2,"endPlan":"-"}
+C {"h":0.75,"dir":1,"seed":1,"meanFacingErr":1.14,"sideTicks":0,"backTicks":0,"strikes":0,"killedAt":null}
+C {"h":0.75,"dir":1,"seed":2,"meanFacingErr":1.02,"sideTicks":0,"backTicks":0,"strikes":1,"killedAt":4.9}
+C {"h":0.75,"dir":-1,"seed":1,"meanFacingErr":0.68,"sideTicks":0,"backTicks":0,"strikes":0,"killedAt":null}
+C {"h":0.75,"dir":-1,"seed":2,"meanFacingErr":0.62,"sideTicks":0,"backTicks":0,"strikes":0,"killedAt":null}
+C {"h":0.95,"dir":1,"seed":1,"meanFacingErr":0.96,"sideTicks":0,"backTicks":0,"strikes":0,"killedAt":null}
+C {"h":0.95,"dir":1,"seed":2,"meanFacingErr":0.88,"sideTicks":0,"backTicks":0,"strikes":0,"killedAt":null}
+C {"h":0.95,"dir":-1,"seed":1,"meanFacingErr":1.21,"sideTicks":0,"backTicks":0,"strikes":0,"killedAt":null}
+C {"h":0.95,"dir":-1,"seed":2,"meanFacingErr":1.34,"sideTicks":0,"backTicks":0,"strikes":0,"killedAt":null}
+E {"h":0.45,"seed":1,"secondsInSight":11.4,"tookUpAt":10.2,"endPlan":"feed"}
+E {"h":0.45,"seed":2,"secondsInSight":4.6,"tookUpAt":null,"endPlan":"-"}
+E {"h":0.45,"seed":3,"secondsInSight":4,"tookUpAt":null,"endPlan":"-"}
+E {"h":0.65,"seed":1,"secondsInSight":0.5,"tookUpAt":null,"endPlan":"-"}
+E {"h":0.65,"seed":2,"secondsInSight":4.9,"tookUpAt":null,"endPlan":"feed"}
+E {"h":0.65,"seed":3,"secondsInSight":7.2,"tookUpAt":9,"endPlan":"feed"}
+E {"h":0.75,"seed":1,"secondsInSight":6.3,"tookUpAt":8.8,"endPlan":"approach"}
+E {"h":0.75,"seed":2,"secondsInSight":6.2,"tookUpAt":7.1,"endPlan":"feed"}
+E {"h":0.75,"seed":3,"secondsInSight":2.3,"tookUpAt":null,"endPlan":"-"}
+F {"h":0.45,"seed":1,"seen":true,"reconsideredAfter":0,"endPlan":"leave"}
+F {"h":0.45,"seed":2,"seen":true,"reconsideredAfter":0,"endPlan":"leave"}
+F {"h":0.45,"seed":3,"seen":true,"reconsideredAfter":0,"endPlan":"leave"}
+F {"h":0.55,"seed":1,"seen":true,"reconsideredAfter":0,"endPlan":"leave"}
+F {"h":0.55,"seed":2,"seen":true,"reconsideredAfter":0,"endPlan":"leave"}
+F {"h":0.55,"seed":3,"seen":true,"reconsideredAfter":0,"endPlan":"leave"}
+F {"h":0.65,"seed":1,"seen":true,"reconsideredAfter":0,"endPlan":"-"}
+F {"h":0.65,"seed":2,"seen":true,"reconsideredAfter":0,"endPlan":"leave"}
+F {"h":0.65,"seed":3,"seen":true,"reconsideredAfter":0,"endPlan":"leave"}
+G {"h":0.3,"seed":1,"stops":5,"secondsStill":10.7}
+G {"h":0.3,"seed":2,"stops":5,"secondsStill":11.1}
+G {"h":0.7,"seed":1,"stops":10,"secondsStill":3.7}
+G {"h":0.7,"seed":2,"stops":5,"secondsStill":2.9}
+G {"h":0.95,"seed":1,"stops":13,"secondsStill":4.7}
+G {"h":0.95,"seed":2,"stops":11,"secondsStill":3}
+H {"seed":1,"intercepted":false,"seenOnItsWay":false,"droppedAfter":null,"endPlan":"approach"}
+H {"seed":2,"intercepted":false,"seenOnItsWay":false,"droppedAfter":null,"endPlan":"feed"}
+H {"seed":3,"intercepted":true,"seenOnItsWay":false,"droppedAfter":null,"endPlan":"feed"}
+H {"seed":4,"intercepted":true,"seenOnItsWay":false,"droppedAfter":null,"endPlan":"-"}
+H {"seed":5,"intercepted":false,"seenOnItsWay":false,"droppedAfter":null,"endPlan":"-"}
+H {"seed":6,"intercepted":true,"seenOnItsWay":false,"droppedAfter":null,"endPlan":"feed"}
+V {"label":"lit, standing","seesFrom":649}
+V {"label":"lit, walking","seesFrom":1269}
+V {"label":"lit, running","seesFrom":1483}
+V {"label":"dark, standing","seesFrom":442}
+V {"label":"dark, walking","seesFrom":526}
+V {"label":"dark, crouched","seesFrom":285}

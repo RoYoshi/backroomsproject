@@ -575,3 +575,82 @@ P01: R16-4.
   (`skin_browser_r8_t7.txt`: the same wait for the fourth page, 25 minutes): an environment limit, not a regression.
 - The performance comparison against R8 and the full gate are run on the final R16 tree, after the owner's additional refinement
   (R16c on).
+
+## R16d — plan interruption and preemption, hunger-dependent aggression (the owner's October 22 refinement, §1 and §2)
+
+**R16d-1 The policy** (`src/frameworks/nani/server/ai.skin.preempt.js`, read on every think - 10 Hz near - whatever its route's progress).
+The owner: a Skin-Stealer that newly sees a viable player must not walk on along an unrelated route; it must reassess at once, without
+dropping a tactic that still makes sense and without replanning on every flicker. `AP_AUDIT.md` found the causes: a person it had left
+was invisible to its hunting for 30-60 s whatever its hunger (E), and a departure went on past new prey (F).
+- **Classes.**
+  - Committed: its wind-up, leap and recovery, a capture, a kill playing. Never cut - they are physics and fairness. (They also return
+    before the decision runs: P04.)
+  - Low priority: roaming and a roam's pause, a departure, a search or a listen about a sound nobody was named for. Cut by any
+    significant event.
+  - Tactical: approach, flank, intercept, lure, ambush, chase, retreat, watch, a hunt's search or listen, a walk in a skin. Kept while the
+    decision's own weighing (with its hysteresis, `SK.rethink`) says they still make sense; given up when they no longer do.
+  - A departure with a reason sight does not change - a fast one after a missed defence, one after a lost race, one while exhausted -
+    is kept, and the log says so.
+- **Events.** A viable person newly seen: first seen, or seen again after `SKP.regain` (1.2 s) out of sight. Viable means one it may hunt
+  now (`skMayHunt`, R16d-2). And the quarry of a lure or an ambush seen going away from it (over 60 px/s, as it perceives them) for
+  `SKP.awayFor` (1.5 s) of watching: only the time it watched them counts, not a spell out of its sight.
+- **Answers.** A low-priority plan is ended on the think the event is perceived, its route, pause and any look cleared, and the decision
+  runs on that same think. A tactical plan is flagged: the decision weighs the newcomer (it always weighs the nearest person it may hunt),
+  and a lure or ambush keep rule no longer holds once the wait has lost its point.
+- **No loops.** Each person forces at most one reassessment every `SKP.again` (0.6 s); a person flickering at the edge of its view is not
+  new again until 1.2 s out of sight. Nothing in the policy touches its memory, its hunt or its beliefs - only which plan runs.
+- **Evidence.** Every interruption is logged: `e.dbg.preempt` (when, the plan it cut or kept, its class, why - "P2 seen: its roaming gives
+  way", "P2 is going away from its ambush: the wait has lost its point", "P2 seen: its departure goes on (its defence missed)") and its
+  mind's events (`preempt`). The decision's own record now carries its time (`e.dbg.decide.at`).
+
+**R16d-2 Hunger** (the owner's §2: aggression that rises with hunger, never by impossible senses, speed, reach or stamina).
+
+| Hunger | Leaves a person it gave up on | May take them up again on fresh sight | Roaming | Pause at a roam goal (R8: 1.5-5 s) | Gives chase from |
+|---|---|---|---|---|---|
+| under .4 (fed) | 30-60 s (R8) | never (R8) | the dark (R8) | R8's under .3; x (1 - .8 hm) from .3 | no chase (R8) |
+| .4-.6 | 15 s | after 10 s | where it last perceived prey, else the dark | x (1 - .8 hm) | no chase (R8: from .6) |
+| .6-.8 | 8 s | after 6 s | the same | x 0.2 | 420 px x (1 + .4 hs) |
+| .8 and over | 4 s (R8: 12 s) | after 3 s | the same, up to 1.4 x its roam pace (147 px/s at most, under `SK.runFrom` 200: no stamina, never a run; a player walks at 172) | x 0.2 | up to 588 px |
+
+(hm and hs are R1's smooth hunger measures: hm 0 below .3 to 1 from .6; hs 0 below .55 to 1 from .95.)
+- Taking a person up again needs sight of them - never hunger alone - and effort left for them (`skMayHunt`: under 85 % of its budget).
+  Each new encounter spends that budget, so leave-and-return cannot cycle for long.
+- Prowling (`skPatrolGoal`) reads only its own memory: the last place it saw somebody it may hunt, or the place it heard them, or a sound
+  it holds, within `SK.patrolFresh` (90 s), not a place it has already prowled to; never anybody it has left or sees now (the decision
+  answers those). Never a person's real place (P07, P08).
+- What hunger does not change: its run speed (0.89 x a fresh sprint), its reach, its wind-ups, its stamina, its senses. A fresh runner
+  still wins the straight race, rested and starving alike (C26).
+
+**R16d-3 A watch keeps through a glimpse lost for a moment.** P09 (a person flickering in and out of its sight) found a watch that ended
+the moment the person left its view for a tick: it turned to an interception ("lost P101: it guesses their way"), was back to a watch on
+the next tick, and so on - three flips within a second. R8 shows the same pattern with a search. R4's `SK.lostGrace` (0.6 s: a glimpse
+lost for a moment is not yet lost) already held an approach and a chase; it now holds a watch too. After it: no flips in 9 runs.
+
+**R16d-4 Measured** (`tools/repro_ap.js`, the same probes as `AP_AUDIT.md`; `evidence/r16d/repro_r16d.*` against
+`evidence/r16c/repro_r16b.*`):
+
+| Probe | R16b (R8 the same) | R16d |
+|---|---|---|
+| F. A departure under way, a new person crosses 420 px in front | below .6, 5 of 6 never reconsider; at .65, 2.3-3.7 s later | 9 of 9 reconsider on the think they are first seen. It may still choose to go (8 of 9 were leaving at the probe's end: the decision's own weighing, mild hunger) |
+| E. Someone it left, seen again (the probe's own scene: the creature roams off, so sight is brief) | never taken up (0 of 9) | taken up in 4 of 9, at 7.1-10.2 s; the others had them in sight for under its refractory |
+| P01. The same, with the person kept in plain view 500 px ahead | - | fed: never (in sight 19.5 s); .45: at 10.0-10.1 s; .65 / .75: at 6.0-6.1 s; .95: at 3.0 s - each within 0.1 s of its refractory |
+| G. Roaming, nobody about, a minute | standing 8.7-13.2 s, starving included | fed (.3): 10.7-11.1 s (as R8); .7: 2.9-3.7 s; .95: 3.0-4.7 s |
+| P03. Roaming on a long route, a person appears ahead, in its periphery, or one it left 12 s before | (A: already at once on R8 for a person it may hunt) | weighed on the think it first sees them in 12 of 12, 0-22 px walked on |
+| P05. A lure or an ambush whose quarry walks away in its sight | kept until its own time ran out | reassessed after 1.4-1.5 s of watching them go; kept, and sprung, when they came toward it |
+
+B (heard, not seen), A at 85 degrees (its periphery), C (circled) and V (its range) are unchanged: they are R16e's and R16f's.
+
+**R16d-5 Tests and checks** (`evidence/r16d/`):
+- `s_skinap.js` (new, in `run.js`): P01-P09 pass. P04: a strike begun is carried through unchanged with a second person walking into view
+  during its wind-up (6 runs, 3 kills and 3 misses with their recovery; 0 cuts while it lasted). P06: the policy on its own records -
+  flickering every other think, 1 reassessment in 10 s; back after 1.3 s out of sight, one per reappearance, never two within 0.6 s.
+  P08: two worlds differing only in where an unsensed person crouches are the same to it, tick for tick, for 40 s of hungry prowling
+  (6 runs). P09: no plan flips back and forth within a second in 9 runs of a person flickering in and out of its sight.
+- Every other Skin-Stealer suite passes unchanged: `s_skinstealer` 34/34, `s_skinbehave` 19/19, `s_skinpredator` 30/30 (C26: the fair race
+  in `s_skinroute` 15/15), `s_skinsight` 10/10, `s_skinmind` 15/15, `s_skinr9` 1/1, `s_skinbody` 11/11, `s_skinrend` 8/8, `s_skinadv` 9/9,
+  `s_skinr16` 5/5. No existing test was changed.
+- `npm test`: 315/328 - the 9 new P tests pass and the same 13 inherited failures as R10's record (`evidence/r16d/r16d_fails.txt`); Human
+  QA hotfix 5/6 (X03 inherited); the static checks, the docs, the scope gate (R16d's reason declared on `ai.js`) and `build:check` pass.
+- What R16d leaves to R16e-R16g: the head does not yet snap to a sound or to movement at its edge under a plan, its periphery is still
+  blind (A at 85 degrees), it goes to a sound rather than to where it could see (B), it cannot step sideways or back (C), and its range is
+  R8's (V).

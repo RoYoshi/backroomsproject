@@ -2,8 +2,8 @@
  * provides: KACT, SK, SKIN
  * uses: S, SCODE, SKC, SKI, TAU, angDiff, approach, clamp, commitTick, deriveSeed, directOk, directTo, faceToward, facedBy, follow, goTo,
  *       hearEvent, lerp, mkRng, moveCollide, perc, plan, rand, randomFloor, setAct, setState, setTarget, skBodyInSight, skCaught, skCovertFollow,
- *       skCovertWay, skExposedNow, skHypAt, skHypDbg, skHypHeard, skHypOf, skHyps, skMindDbg, skMindKept, skMindLog, skMindNew, skMindTick,
- *       skSpotExposed, skWatchers, sm, stopMoving, tgtGone
+ *       skCovertWay, skExposedNow, skHypAt, skHypDbg, skHypHeard, skHypOf, skHyps, skLeftFor, skMindDbg, skMindKept, skMindLog, skMindNew,
+ *       skMindTick, skPreempt, skRefractory, skSpotExposed, skWatchers, sm, stopMoving, tgtGone
  * writes: -
  */
 
@@ -150,12 +150,13 @@ const SK = Object.freeze({
                                                  //  walk - shadowing somebody - is free; T3 had 150)
   regenWalk: 6, regenStill: 11,                  // stamina per second walking / standing
   roamLeg: [500, 1600], roamPause: [1.5, 5], roamGiveUp: [12, 30],
+  patrolFresh: 90,                               // (R16d) seconds a place it saw or heard somebody stays worth prowling to (hungry)
   watch: [2, 6],                                 // seconds it stands and looks (x .7 .. 1.3 with PATIENCE)
   near: 260,                                     // a person closer than this is too close to just watch
   exposed: .45,                                  // the light on its own body above which it counts itself exposed
   hide: [140, 520],                              // how far it backs off to be out of sight
   leave: [1200, 2200], leaveMax: 45,             // how far it goes when it leaves; the longest a departure lasts
-  cooldown: [30, 60], cooldownStarving: 12,      // seconds it then leaves that person alone
+  cooldown: [30, 60],                            // seconds it then leaves that person alone, fed (R16d: from hunger .4, skLeftFor - R8's starving 12 s is 4 s)
   budgetEnc: [30, 90],                           // seconds with one person: 30 + 90 x hunger (R1; Trial 3 had 25 + 45 x hunger)
   rethink: 1.3,                                  // a new plan must score this much better than the one it has (no dithering)
   retreatHold: 1,                                // seconds out of sight before it decides what next (lure, or go about its business)
@@ -232,7 +233,7 @@ const SK = Object.freeze({
   freezeCone: 1.1, freezeMax: [3, 1.2],          // stalking: it freezes when an unaware person's facing comes within this of it (rad), for at most
                                                  //  this long (hungry .. starving) before it goes on
   noFlank: 10,                                   // seconds it remembers that a place has no way round a watcher (or until they move 200 px)
-  lostGrace: .6,                                 // (R4) seconds out of sight before an approach or a chase counts them lost (no flicker at a sight edge)
+  lostGrace: .6,                                 // (R4) seconds out of sight before an approach, a chase (R16d: or a watch) counts them lost (no flicker at a sight edge)
   flankSettle: .6,                               // (R4) seconds it settles, crouched, at its flank spot before it comes on
   curious: [.8, 1.8], curiousStrong: .45,        // roaming: seconds it stops and listens after a sound; a first sound this strong is looked at alone
                                                  //  (x 1 .. .4 from mildly hungry to hungry)
@@ -400,7 +401,10 @@ function skLeave(eng, e, r, why) {
   const best = skLeaveGoal(eng, e);
   const P = skBegin(eng, e, 'leave', null, why, { until: eng.now + SK.leaveMax, goal: best });
   if (best) plan(eng, e, best.x, best.y, { why: 'leave' });
-  if (r) { e.left.set(r.id, eng.now + (e.hunger >= SK.band[3] ? SK.cooldownStarving : rand(e, SK.cooldown[0], SK.cooldown[1]))); (e.leftAt || (e.leftAt = new Map())).set(r.id, eng.now); }
+  if (r) {                                                                          // (R16d) how long it leaves them alone: the hungrier, the shorter (skLeftFor); fed or mildly hungry as before
+    const c = e.hunger >= SK.band[3] ? 0 : rand(e, SK.cooldown[0], SK.cooldown[1]);
+    e.left.set(r.id, eng.now + (e.hunger < SK.band[1] ? c : skLeftFor(e.hunger))); (e.leftAt || (e.leftAt = new Map())).set(r.id, eng.now);
+  }
   skKeepSpent(eng, e); skHuntEnd(eng, e, why);
   e.target = null; e.enc = null;
   return P;
@@ -497,9 +501,9 @@ function skBelief(eng, e, H) {
 /* a person it may hunt now: not on its cooldown list - or, starving, one it left a while ago and now sees again, with effort left for them */
 function skMayHunt(eng, e, r) {
   if (!e.left.has(r.id)) return true;
-  if (e.hunger < SK.band[3] || !r.seen) return false;
+  if (e.hunger < SK.band[1] || !r.seen) return false;                              // (R16d: from mild hunger up - R8 only starving - and only on sight)
   const at = e.leftAt && e.leftAt.get(r.id);
-  return at !== undefined && eng.now - at >= SK.leftFresh && skCarried(eng, e, r.id) < skBudget(e) * .85;
+  return at !== undefined && eng.now - at >= skRefractory(e.hunger) && skCarried(eng, e, r.id) < skBudget(e) * .85;   // (R16d: the hungrier, the sooner - skRefractory)
 }
 /* a spot at their side that they cannot see (from where it perceives them): no farther from them than it is now, reachable, dark rather
  * than lit; a few candidates by straight line, then (R13) the best SKC.tries asked for a COVERT WAY (ai.skin.cover.js: out of every view it
@@ -1188,7 +1192,7 @@ function skDecide(eng, e) {
   if (waiting && cur !== 'search' && !seenMe && !lit && away < -30 && d > SK.approachStop && crowd === 1) { e.dbg.why = `P${r.id} is coming its way, unaware: it holds still`; skMindKept(e, now, SK_SEEN); return; }
   // (R13) lying in wait (round its corner, or in ambush) out of their view: seeing them from there does not draw it out - the point is that
   // they come (its spring takes them when they do); seen there, or when its wait ends, it decides afresh
-  if ((cur === 'lure' || cur === 'ambush') && !seenMe && crowd === 1 && d > SK.pounceRange[1] && !fleeing) { skMindKept(e, now, SK_SEEN); return; }
+  if ((cur === 'lure' || cur === 'ambush') && !seenMe && crowd === 1 && d > SK.pounceRange[1] && !fleeing && !(e.pre && e.pre.force)) { skMindKept(e, now, SK_SEEN); return; }   // (R16d: not when they are going away from it - skPreempt)
   // what each option is worth now (seeded draws break near-ties: two Skin-Stealers in the same spot do not act alike).  (R1) Smooth in
   // hunger: hm (0 below .3 .. 1 from .6) is how hungry it is for a hunt, hs (0 below .55 .. 1 from .95) how near starving.  Eye contact
   // still sends a mildly hungry one away; a hungry one flanks; a starving one comes on openly or flanks, and rarely backs off.
@@ -1208,7 +1212,7 @@ function skDecide(eng, e) {
       ((watched ? .15 + 1.1 * hs + (spentTactics ? .45 * hm : 0) : fleeing && !(cur === 'approach' && e.plan.shadow) ? .3 : inView ? .55 + .6 * hs : 1) * (h * 1.6 - T.CAUTION * .25 + (lit ? -.1 : .25) + (watched ? 0 : .3 * hm * (1 - hs)))
         + (inView && !watched && !fleeing && cur !== 'chase' && !e.disguise && crowd === 1 && h >= SK.band[1] && d < SK.pounceRange[1] + 60 ? 1.5 : 0)) * (crowd > 1 ? .35 : 1),   // (R1: hungry, it goes for an unaware person even in light; watched, it comes on openly when starving, or very hungry once its flanks and its bait have failed; still a lone ambusher; after a lost race it keeps to the runner's trail)
     chase: cur === 'chase' ? (e.plan.lost ? 0 : 2) :                                       // a chase runs until its own rules end it (skAct)
-      h < SK.band[2] || e.exh || restRace || e.stam < SK.stamLow + 15 || d > SK.chaseFrom || crowd > 1 || !(fleeing || winded) ? 0 : .55 + h * .9 + (winded ? .5 : 0) - T.CAUTION * .3,
+      h < SK.band[2] || e.exh || restRace || e.stam < SK.stamLow + 15 || d > SK.chaseFrom * (1 + .4 * hs) || crowd > 1 || !(fleeing || winded) ? 0 : .55 + h * .9 + (winded ? .5 : 0) - T.CAUTION * .3,   // (R16d: starving, it gives chase from farther - at the same speed)
   };
   if (cur === 'retreat' && e.plan.arrived && !watched) W.retreat = 0;                       // out of sight now: decide afresh
   for (const k in W) W[k] = Math.max(0, W[k] * (.92 + .16 * e.rng()));
@@ -1230,7 +1234,7 @@ function skDecide(eng, e) {
     if (!ap && !na) e.noAmbush = { x: p.x, y: p.y, t: now };
     if (!ap && !(h >= SK.band[2] || fleeing || winded)) { W.approach = 0; best = pick(); if (best === 'flank' && !kept('flank')) { fs = skFlankSpot(eng, e, p, d, r.id); if (!fs) { e.noFlank = { x: p.x, y: p.y, t: now }; e.tally.noFlank++; if (Hn) Hn.noFlank = now; W.flank = 0; best = pick(); } } }
   }
-  e.dbg.decide = { pid: r.id, d: Math.round(d), watched: !!watched, seen: seenMe ? 1 : 0, lit, crowd, h: +h.toFixed(2), spent: +spent.toFixed(2), away: Math.round(away), W: Object.fromEntries(Object.entries(W).map(([k, v]) => [k, +v.toFixed(2)])), best };
+  e.dbg.decide = { at: +now.toFixed(2), pid: r.id, d: Math.round(d), watched: !!watched, seen: seenMe ? 1 : 0, lit, crowd, h: +h.toFixed(2), spent: +spent.toFixed(2), away: Math.round(away), W: Object.fromEntries(Object.entries(W).map(([k, v]) => [k, +v.toFixed(2)])), best };
   if (P && P.k === 'leave' && e.plan === P) {                                        // (B2) a very hungry departure, thought over: kept unless clearly worse
     if (best === 'leave' || W[best] < W.leave * SK.rethink) { e.dbg.lv = `very hungry, it saw P${r.id}: it keeps going`; e.dbg.lvAt = now; skMindKept(e, now, SK_SEEN); return; }
     e.tally.reconsider++; e.dbg.lv = `very hungry, it saw P${r.id}: it gives up its departure`; e.dbg.lvAt = now;
@@ -1275,7 +1279,7 @@ function skUnseen(eng, e) {
     if (L.k === 'approach' && L.rush && eng.now - L.t0 < SKC.rushFor) { skMindKept(e, eng.now, SK_LOST); return; }   // (R13) a rush from cover is carried through to where they were
     if (L.k === 'approach' && L.mode === 'covert' && L.way && !(L.tp && L.tp.v > 40)) { skMindKept(e, eng.now, SK_LOST); return; }   // (R13) a covert way to somebody standing still goes on unseen: that is its point (one who was moving is lost: skLost)     // (R1) from a flank it comes on toward where it believes them, unseen
     if (L.k === 'flank' && (!L.arrived ? eng.now < L.until : eng.now - L.arrived < SK.flankSettle)) { skMindKept(e, eng.now, SK_LOST); return; }   // (R3) a flank goes on to its spot though it has turned its back on them; (R4) there it settles, crouched, a moment
-    if ((L.k === 'approach' || L.k === 'chase') && eng.now - r.seenAt < SK.lostGrace) return;   // (R4) a glimpse lost for a moment is not yet lost: it keeps on
+    if ((L.k === 'approach' || L.k === 'chase' || L.k === 'watch') && eng.now - r.seenAt < SK.lostGrace) return;   // (R4) a glimpse lost for a moment is not yet lost: it keeps on (R16d: a watch too - no watch/intercept flicker at a sight edge)
     skLost(eng, e, L, r); return;
   }
   if (L && (L.k === 'search' || L.k === 'listen')) return;                         // looking at a sound nobody has been named for
@@ -1557,16 +1561,37 @@ function skDarkFloor(eng, e) {
   return best;
 }
 function skRoam(eng, e, dt, thinkNow) {
-  const R = e.roam;
+  const R = e.roam, hm = sm(.3, .6, e.hunger), hs = sm(.55, .95, e.hunger);
   if (e.state !== S.ROAMING) setState(e, S.ROAMING, '');
   if (R.pause > 0) { R.pause -= dt; stopMoving(eng, e, dt); if (e.act !== 'listen') setAct(e, 'listen'); return; }
   if (e.act) setAct(e, '');
-  if (!R.goal && thinkNow) { const g = skDarkFloor(eng, e); if (g) { R.goal = g; plan(eng, e, g.x, g.y, { why: 'roam' }); R.until = eng.now + rand(e, SK.roamGiveUp[0], SK.roamGiveUp[1]); e.dbg.why = 'roaming the dark'; } }
+  if (!R.goal && thinkNow) {
+    // (R16d) hungry, it goes where its prey has been - the freshest place it saw or heard somebody it may hunt, not yet looked at; else the dark
+    const ev = e.hunger >= SK.band[1] ? skPatrolGoal(eng, e) : null, g = ev || skDarkFloor(eng, e);
+    if (g) { R.goal = g; plan(eng, e, g.x, g.y, { why: 'roam' }); R.until = eng.now + rand(e, SK.roamGiveUp[0], SK.roamGiveUp[1]); e.dbg.why = ev ? `prowling where it ${ev.k} somebody ${Math.round(eng.now - ev.t)} s ago` : 'roaming the dark'; }
+  }
   if (!R.goal) { stopMoving(eng, e, dt); return; }
   if (thinkNow && !e.path.length && e.pathAge > 2) goTo(eng, e, R.goal.x, R.goal.y);
-  follow(eng, e, dt, skSpeed(e, 'roam'), { arrive: 40 });
-  if (Math.hypot(R.goal.x - e.x, R.goal.y - e.y) < 60) { R.goal = null; R.pause = rand(e, SK.roamPause[0], SK.roamPause[1]); }
+  follow(eng, e, dt, Math.min(skSpeed(e, 'roam') * (1 + .4 * hs), SK.runFrom - 10), { arrive: 40 });   // (R16d: starving, it prowls - under the pace that costs it stamina)
+  if (Math.hypot(R.goal.x - e.x, R.goal.y - e.y) < 60) { if (R.goal.ev) (R.seen || (R.seen = [])).push({ x: R.goal.x, y: R.goal.y, t: eng.now }); R.goal = null; R.pause = rand(e, SK.roamPause[0], SK.roamPause[1]) * (1 - .8 * hm); }   // (R16d: the hungrier, the shorter its pause)
   else if (eng.now > R.until) R.goal = null;
+}
+/* (R16d) where a hungry one prowls: the freshest place it saw or heard somebody it may hunt (its own memory: the last place it knew them,
+ * the sounds it holds), within the last SK.patrolFresh seconds, that it has not walked to since; a floor point near it.  Never anybody's
+ * real place: only what it perceived */
+function skPatrolGoal(eng, e) {
+  const now = eng.now, R = e.roam, done = (R.seen || (R.seen = [])).filter(q => now - q.t < SK.patrolFresh); R.seen = done;
+  const near = (x, y) => done.some(q => Math.hypot(q.x - x, q.y - y) < 260);
+  let best = null;
+  for (const r of e.mem.p.values()) {
+    if (tgtGone(eng, e, r) || e.left.has(r.id) || e.seenNow.has(r.id)) continue;   // (one it left it leaves; one it sees now its decision answers)
+    const t = Math.max(r.seenAt, r.heardAt), heard = r.heardAt > r.seenAt && r.hx !== undefined, x = heard ? r.hx : r.lkx, y = heard ? r.hy : r.lky;
+    if (!(now - t < SK.patrolFresh) || !Number.isFinite(x) || near(x, y)) continue;
+    if (!best || t > best.t) best = { x, y, t, k: heard ? 'heard' : 'saw' };
+  }
+  for (const q of e.mem.sounds) { if (q.src === -1 || now - q.t >= SK.patrolFresh || near(q.x, q.y)) continue; if (!best || q.t > best.t) best = { x: q.x, y: q.y, t: q.t, k: 'heard' }; }
+  if (!best || Math.hypot(best.x - e.x, best.y - e.y) < 120) return null;
+  const f = skFloorNear(eng, e, best.x, best.y); return f ? { x: f.x, y: f.y, ev: 1, t: best.t, k: best.k } : null;
 }
 function skinTick(eng, e, dt, thinkNow) {
   skBody(eng, e, dt); e.still = false;
@@ -1578,6 +1603,7 @@ function skinTick(eng, e, dt, thinkNow) {
     skMindTick(eng, e);                                                            // (R11) who could see it now, what changed since its last think
     skAware(eng, e);
     skHuntTick(eng, e, Math.min(.5, eng.now - (e.huntAt ?? eng.now))); e.huntAt = eng.now;   // (R1) what it knows of its quarry
+    skPreempt(eng, e, r => skMayHunt(eng, e, r));                                   // (R16d) did anything happen that cuts or questions its plan (ai.skin.preempt.js)
     const df = skDefend(eng, e);                                                   // (B3) a warned, still provoked creature may defend itself, or withdraw
     if (df === 'strike') return skStrikeStep(eng, e, dt);
     if (!df) skDecide(eng, e);
