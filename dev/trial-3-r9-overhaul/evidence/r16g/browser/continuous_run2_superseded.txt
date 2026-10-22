@@ -1,0 +1,12 @@
+Continuous campaign, run 2 (R16f's behaviour with the debug field renamed and the overlay's new lines, before the review's fixes; the raw record kept for the trace in R16g-6).
+Superseded: check c's measure was misaligned (R16g-6); kept as it was printed.
+
+PASS a. it never walks on along its route after newly seeing somebody it may hunt (an answer within 0.5 s)  every new sighting at hunting hunger while it roamed was answered within 0.5 s
+PASS b. its head turns (snaps seen in the debug, and drawn: the page's head angle)  snaps: {"sound":1,"motion":1,"sight":4}, the largest head angle the pages drew from 1.25 rad
+FAIL c. it never sees through a wall (whenever it sees a person within 650 px, that person's own page has a clear line to it)  16 of 332 sightings with no ray from the person's page (a corner's edge: the two lines are drawn from slightly different points)
+PASS d. never faster than its run (the pages' record of its speed, the strike's lunge excepted)  0 samples over 255 px/s
+PASS e. never stuck (8 s still in a plan that moves it)  none
+PASS f. no plan flips back and forth within a second  0 flips
+PASS g. no page error  {"A":[],"B":[]}
+events: {"preempt":5,"kept":0,"snaps":{"sound":1,"motion":1,"sight":4},"fight":5,"strikes":3,"kills":20}; deaths {"A":12,"B":8}; 741 s; samples [12909,12994]; frames a second [2.9,3.2]
+CONTINUOUS: FAIL

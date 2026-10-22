@@ -531,7 +531,7 @@ async function probe(b, port, R) {
   await P.P.evaluate(q => __api.tp(q[0], q[1]), at); await sleep(1500);
   R.value = await P.P.evaluate(ARG.expr || '(() => null)()').catch(e => 'ERR ' + e.message); R.errors = P.errs; console.log(JSON.stringify(R.value).slice(0, 4000));
 }
-(async () => {
+if (require.main === module) (async () => {
   const { p: srv, port, qa } = await serve();
   const b = await pw.chromium.launch({ args: LAUNCH });
   const R = { tool: 'dev/trial-3-r9-overhaul/tools/r9_browser.js', scene: ARG.scene, chromium: b.version(), tree: path.basename(DIR) };
@@ -549,3 +549,5 @@ async function probe(b, port, R) {
   if (R.error) console.log('ERROR ' + R.error);
   if (ARG.out) fs.writeFileSync(path.resolve(ARG.out), JSON.stringify(R, null, 1) + '\n');
 })();
+/* (R16g) its page and server helpers, for the campaign (r16g_campaign.js) */
+module.exports = { serve, runPage, prepPage, until, aimAt, alive, LAUNCH, pw, PASS, sleep, DIR, SHOTS, VIDEO };

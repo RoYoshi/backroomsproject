@@ -185,7 +185,7 @@ add('P06 no replanning in a loop (R16d; the owner: no oscillation): the policy a
   const per = id => { const ts = two.filter(x => x[1].startsWith('P' + id + ' ')).map(x => x[0]); return Math.min(...ts.slice(1).map((t, j) => t - ts[j])); };
   out.twoGap = Math.min(per(1), per(2));
   const c = mk(); c.pounce = { t: .05, wind: .22 }; c.plan = { k: 'approach', pid: 9 }; const cp = c.plan; out.committed = run(c, 3, k => k % 14 === 0).length; out.committedKept = c.plan === cp && c.pounce !== null && !!(c.dbg.preempt && c.dbg.preempt.kept);
-  const tt = mk(); tt.plan = { k: 'approach', pid: 9 }; const tp = tt.plan; const tr = run(tt, 1, () => true); out.tactical = tr.length === 1 && tt.plan === tp && tt.pre.force === '' && /weighs them against its approach/.test(tr[0][1]);
+  const tt = mk(); tt.plan = { k: 'approach', pid: 9 }; const tp = tt.plan; const tr = run(tt, 1, () => true); out.tactical = tr.length === 1 && tt.plan === tp && tt.pre.force === '' && /its approach about P9 goes on while it still makes sense/.test(tr[0][1]);
   const lo = mk(); lo.plan = { k: 'search', pid: 0 }; const lr = run(lo, .1, () => true); out.low = lr.length === 1 && lo.plan === null && lo.roam.pause === 0 && lo.rx === null && lo.path.length === 0;
   const ok = out.flicker === 1 && out.reappear === 8 && out.minGap >= INNER.SKP.again && out.two === 15 && out.twoGap >= INNER.SKP.again && out.committed === 0 && out.committedKept && out.tactical && out.low;
   return { ok, note: `flickering every other think for 10 s: ${out.flicker} forced | back after 1.3 s out of sight, 8 times: ${out.reappear} forced, ${out.minGap.toFixed(1)} s apart at least | two such people: ${out.two}, per person ${out.twoGap.toFixed(1)} s apart at least | committed: ${out.committed} cut, ${out.committedKept ? 'kept and said so' : 'NOT KEPT'} | tactical: ${out.tactical ? 'flagged, kept' : 'WRONG'} | low: ${out.low ? 'cut' : 'NOT CUT'}` };
@@ -419,7 +419,7 @@ function circled(h, dir, seed, T = 8, flip = 0) {
   w.run(T, (ww, t) => {
     if (flip && t >= flip && R.flipAt < 0) { R.flipAt = t; dir = -dir; }
     const a = Math.atan2(p.y - e.y, p.x - e.x); p.go(e.x + Math.cos(a + dir * .5) * 230, e.y + Math.sin(a + dir * .5) * 230, 'run'); p.look = Math.atan2(e.y - p.y, e.x - p.x);
-    const fighting = !!(e.fight && w.eng.now - e.fight.at < .15) && !e.pounce && !e.recover;
+    const fighting = !!(e.fight && !e.fight.blocked && w.eng.now - e.fight.at < .15) && !e.pounce && !e.recover;   // (R16g: a fight with no clear way to them is no footwork)
     const mvx = (e.x - px) / DT, mvy = (e.y - py) / DT, f = mvx * Math.cos(e.ang) + mvy * Math.sin(e.ang), l = -mvx * Math.sin(e.ang) + mvy * Math.cos(e.ang); px = e.x; py = e.y;
     const v = Math.hypot(mvx, mvy); if (!e.pounce && !e.recover) { R.vmax = Math.max(R.vmax, v); R.cmax = Math.max(R.cmax || 0, e.speed); if (e.speed > AI.SKIN.speeds.run + .5 || v > AI.SKIN.speeds.run * 1.02) R.over++; }   // (its own speed; and what it covered, a wall's slide allowed 2 %)
     if (fighting) { R.fightT += DT; R.errSum += Math.abs(Math.atan2(Math.sin(e.ang - a), Math.cos(e.ang - a))); R.n++; if (Math.abs(l) > 40 && Math.abs(l) > Math.abs(f)) R.side += DT; if (f < -30) R.back += DT; }
@@ -429,11 +429,14 @@ function circled(h, dir, seed, T = 8, flip = 0) {
     return R.kill < 0; });
   R.meanErr = R.n ? +(R.errSum / R.n).toFixed(2) : null; return R;
 }
-add('P15 circled just out of its spring (R16f; AP_AUDIT C: its facing 0.6-1.3 rad behind them, no step sideways or back): a person runs round it at 230 px, either way, hunger .85 / .95 - fighting for its place it faces them (mean error under 0.35 rad), steps sideways after them, and is never faster than its run', () => {
+add('P15 circled just out of its spring (R16f; AP_AUDIT C: its facing 0.6-1.3 rad behind them, no step sideways or back): a person runs round it at 230 px, either way, hunger .85 / .95 - fighting for its place it faces them (mean error under 0.5 rad; R8 lagged 0.6-1.3), steps sideways after them, and is never faster than its run', () => {
   const rs = [];
   for (const h of [.85, .95]) for (const dir of [1, -1]) for (const seed of [1, 2, 3]) rs.push(...over([seed], sd => Object.assign({ h, dir, seed: sd }, circled(h, dir, sd))));
   const F = rs.filter(r => !r.err && r.fightT > 1);
-  const ok = rs.every(r => !r.err && r.over === 0) && F.length >= 8 && F.every(r => r.meanErr <= .35) && F.filter(r => r.side > .2).length >= Math.ceil(F.length * .6);
+  // (R16g, the independent review: R16f turned its facing at 7 rad/s, twice the species' TURNING_ABILITY (3.6), against the owner's turning
+  // limits; at the species' own rate it lags more (0.1-0.43 rad, against 0.08-0.16) and steps sideways less - the bars were R16f's own
+  // figures, 0.35 rad and 60 %; they are now 0.5 rad (R8 and R16e lagged 0.6-1.3 and 0.3-0.76) and half the scenes)
+  const ok = rs.every(r => !r.err && r.over === 0) && F.length >= 8 && F.every(r => r.meanErr <= .5) && F.filter(r => r.side > .2).length >= Math.ceil(F.length * .5);
   return { ok, note: rs.map(r => r.err ? 'ERR ' + r.err : `${r.h} ${r.dir > 0 ? 'ccw' : 'cw'} #${r.seed}: fought ${r.fightT.toFixed(1)} s, facing off by ${r.meanErr} rad, sideways ${r.side.toFixed(1)} s, back ${r.back.toFixed(1)} s, strikes ${r.strikes}${r.kill >= 0 ? ', a kill at ' + r.kill.toFixed(1) + ' s' : ''}, fastest ${Math.round(r.vmax)} px/s`).join(' | ') };
 });
 add('P16 somebody slipping past it out of a dead end (R16f; the owner: cut off escape routes, contest a doorway sideways): a lit person in a dead end, the creature 420 px out on the way out (hunger .9); the person runs out past it, 0.7 rad to one side or the other - it takes its place by their way out: no more than 5 of 16 get past it (R16e: 8 of 16), and in all but two scenes it fought for its place or struck', () => {
@@ -453,7 +456,7 @@ add('P16 somebody slipping past it out of a dead end (R16f; the owner: cut off e
     let struck = -1, escaped = -1, killed = -1, fought = 0;
     w.run(5, (ww, t) => {
       if (t > .4 && !p.going) { p.going = 1; const a = E.ex + side * .7; p.go(E.x + Math.cos(a) * 700, E.y + Math.sin(a) * 700, 'run'); }
-      if (e.fight && w.eng.now - e.fight.at < .15) fought += DT;
+      if (e.fight && !e.fight.blocked && w.eng.now - e.fight.at < .15) fought += DT;
       if (struck < 0 && e.pounce) struck = t;
       const along = (p.x - e.x) * Math.cos(E.ex) + (p.y - e.y) * Math.sin(E.ex);
       if (escaped < 0 && along > 150 && Math.hypot(p.x - e.x, p.y - e.y) > 300) escaped = t;
@@ -474,7 +477,7 @@ add('P17 a feint (R16f; the owner: no perfect mirroring - a feint can cause mist
   const ok = rs.every(r => !r.err) && Fj.length >= 4 && Fj.filter(r => r.j.old > 0).length >= Math.ceil(Fj.length * .6) && Fj.every(r => r.j.turned !== null && r.j.turned <= 1);
   return { ok, note: J.map(r => r.err ? 'ERR ' + r.err : !r.j ? `${r.h} ${r.dir > 0 ? 'ccw' : 'cw'} #${r.seed}: not fighting at the reversal${r.kill >= 0 ? ' (a kill at ' + r.kill.toFixed(1) + ' s)' : ''}` : `${r.h} ${r.dir > 0 ? 'ccw' : 'cw'} #${r.seed}: the old way still ${r.j.old} ticks after the reversal, the new way from ${r.j.turned === null ? 'NEVER' : r.j.turned + ' s'}`).join(' | ') };
 });
-add('P18 the fair race and its stamina (R16f; the locks: no speed above its own, finite stamina): through every circling and slipping scene its every step is at or under its run (255 px/s; a fresh sprint is 285); running fast it spends stamina as before', () => {
+add('P18 the fair race and its stamina (R16f; the locks: no speed above its own, finite stamina): circled either way at hunger .85 and .95 (the slipping scenes check their own speed in P16) its every step is at or under its run (255 px/s; a fresh sprint is 285); running fast it spends stamina as before', () => {
   const rs = [];
   for (const h of [.85, .95]) for (const dir of [1, -1]) rs.push(...over([1], sd => { const R = circled(h, dir, sd, 8); return { h, dir, vmax: Math.round(R.vmax), cmax: Math.round(R.cmax), over: R.over, fast: +R.fast.toFixed(1), spent: Math.round(R.stam0 - R.stamMin) }; }));
   const ok = rs.every(r => !r.err && r.over === 0) && rs.filter(r => r.fast > 1).every(r => r.spent > 0);

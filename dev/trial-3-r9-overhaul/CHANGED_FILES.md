@@ -198,3 +198,22 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `dev/tests/s_skinap.js` | suite | P15–P18; P08's prowl a minute long (R16f-4) |
 | `dev/trial-3-r9-overhaul/evidence/r16f/`, `evidence/r16e/` (R16e's receipt, scan) | evidence | the probes, the slip-past scenes (P16's) on R16e and R16f, `npm test`, Human QA |
 | `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md` | docs | R16f-1 … R16f-4; the R16e rows; this table |
+
+## R16g — the real-page campaign, the overlay's new lines, the independent review's findings (the owner's §7, §9)
+
+| File | Kind | Change |
+|---|---|---|
+| `src/frameworks/nani/server/ai.skinstealer.js` | source | an open approach runs only under the chase's own conditions (`skMayRun`), else at the approach's pace; a hungry watch's footwork keeps a watch's distance; the footwork's velocity carried into the shared steering only along its facing; its body's turn to a stimulus at the species' turning (`skTurnRate`); an exhausted prowl at its exhausted pace; no prowl to footsteps of somebody it left; a prowl given up is not chosen again; at a sound's own place it looks the way it faces; the head's last value, its eyes' and its interruption memory cleared in `onFar`/`onClear`; the debug's list of whom it sees named `sw` (R16f's `sn` hid T6's skin note); `skReactEnd` provided for the interruption |
+| `src/frameworks/nani/server/ai.skin.preempt.js` | source part | a reaction cut by an interruption ended by `skReactEnd`; a gap in its thinking (a strike, a capture, a kill) is not a time out of its sight; the logs say what happens |
+| `src/frameworks/nani/server/ai.skin.look.js` | source part | `skTurnRate` (the species' own turning, as the shared steering's formula); the body's turn to a stimulus at it (R16e: 5 rad/s) |
+| `src/frameworks/nani/server/ai.skin.move.js` | source part | its facing at the species' `TURNING_ABILITY` (R16f: 7 rad/s); its velocity carried over only from the tick before; a band of distance per caller (a watch's own); a blocked line remembered until its next think |
+| `src/frameworks/br-r/client/skin.body.js` | source | the drawn snap: a head moving over 0.5 rad between two snapshots (R16e: 0.12) |
+| `src/frameworks/overseer/client/ents.debug.js` | source | the admin overlay's `EYES`, `FOOTWORK` and `CUT` / `KEPT` lines (admin debug only) |
+| `generated/server/ai.js`, `public/ents.js`, `public/assets/skinstealer.js`, `generated/BUILD_MANIFEST.json` | built | rebuilt from the above |
+| `dev/tools/gate/declared_changes.json` | the scope gate's list | R16g's reasons on `ai.js` and `ents.js` (with the R11–R13 overlay lines, which had not been listed) |
+| `dev/tests/s_skinap.js` | suite | P06's log text; P15's bars at the species' turning (R16g-5); P16/P15 count no blocked fight as footwork; P18's title |
+| `dev/tests/s_skinpredator.js` | suite | PR14: R8's thresholds over eight seeds that hold its premise (R16g-5) |
+| `dev/trial-3-r9-overhaul/tools/r16g_campaign.js` | new dev tool | the real-page campaign: focused scenes F1–F7, a continuous 12-minute campaign and its hard-failure checks, `--part judge` on a saved record |
+| `dev/trial-3-r9-overhaul/tools/r9_browser.js`, `tools/qa_server.js` | dev tools | the page helpers exported (main guarded); a spawn may carry a roam goal |
+| `dev/trial-3-r9-overhaul/evidence/r16g/`, `evidence/r16f/` (R16f's receipt, scan) | evidence | the campaign's records, screenshots, video, sheets; the suites, `npm test`, Human QA; the probes |
+| `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `HUMAN_QA.md`, `README.md` | docs | R16g-1 … R16g-7; the R16f rows; this table; the owner's play-test; an index of the documents |

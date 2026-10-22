@@ -1,0 +1,16 @@
+try 1: hunger 0.6, plans roam>flank>approach, 60 samples, 5.5 fps
+   flank:covert:withdrawal 0.88-2.46s: on the page's view 4/5 samples (80 %), moved 144 px, 111 px of it in view | seen by P1: it backs out of their sight and goes round them under cover (1704 px)
+   flank:covert 2.79-10.31s: on the page's view 0/26 samples (0 %), moved 1421 px, 0 px of it in view | seen by P1: it backs out of their sight and goes round them under cover (1704 px)
+   approach:open 11.45-12.4s: on the page's view 3/4 samples (75 %), moved 207 px, 207 px of it in view | at P1's side, out of their sight: no cover nearer - it breaks cover and rushes where P1 wa
+try 2: hunger 0.75, plans roam>flank>approach, 64 samples, 5.7 fps
+   flank:covert:withdrawal 1.08-2.96s: on the page's view 5/6 samples (83 %), moved 155 px, 122 px of it in view | seen by P1: it backs out of their sight and goes round them under cover (1707 px)
+   flank:covert 3.11-10.65s: on the page's view 0/28 samples (0 %), moved 1402 px, 0 px of it in view | seen by P1: it backs out of their sight and goes round them under cover (1707 px)
+   approach:open 11.53-12.7s: on the page's view 3/5 samples (60 %), moved 230 px, 189 px of it in view | at P1's side, out of their sight: no cover nearer - it breaks cover and rushes where P1 wa
+try 3: hunger 0.85, plans roam>flank>approach, 61 samples, 5.7 fps
+   flank:covert:withdrawal 0.79-2.49s: on the page's view 5/6 samples (83 %), moved 151 px, 125 px of it in view | seen by P1: it backs out of their sight and goes round them under cover (1723 px)
+   flank:covert 2.81-10.58s: on the page's view 0/28 samples (0 %), moved 1443 px, 0 px of it in view | seen by P1: it backs out of their sight and goes round them under cover (1723 px)
+   approach:open 11.67-12.37s: on the page's view 1/3 samples (33 %), moved 140 px, 39 px of it in view | at P1's side, out of their sight: no cover nearer - it breaks cover and rushes where P1 wa
+try 4: hunger 0.75, plans roam>flank>approach, 64 samples, 6 fps
+   flank:covert:withdrawal 0.62-2.55s: on the page's view 6/7 samples (86 %), moved 158 px, 125 px of it in view | seen by P1: it backs out of their sight and goes round them under cover (1719 px)
+   flank:covert 2.91-10.42s: on the page's view 0/28 samples (0 %), moved 1429 px, 0 px of it in view | seen by P1: it backs out of their sight and goes round them under cover (1719 px)
+   approach:open 11.26-12.46s: on the page's view 5/6 samples (83 %), moved 276 px, 276 px of it in view | at P1's side, out of their sight: no cover nearer - it breaks cover and rushes where P1 wa

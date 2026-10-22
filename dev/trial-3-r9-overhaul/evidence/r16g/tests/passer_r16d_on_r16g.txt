@@ -1,0 +1,12 @@
+R16d's dev/tests/s_skinbehave.js (ec0d8e0: the passer as it was before R16e) run on the R16g tree, BR01, BR04 and BR11 only (R16g-5, item 4).
+Compare tests/s_skinbehave.txt (R16e's passer, the same tree): BR04 and BR11 give the same numbers; BR01 fails with the old passer (R16e-5).
+
+FAIL BR01 passing is safe: at hunger 0, a person who walks past once, close, gets at most a glance - no strike, no warning, no chase, no turn toward hunting  [1375ms]
+       8/8 passed within 200 px (closest 118/118/99/38/118/117/118/38 px; seen close 10/12/13/108/11/11/11/91 samples): looks at them 0/0/0/2/0/0/0/1 (and at their footsteps after 0/0/1/0/0/0/0/0), strikes 0, kills 0, hunting plans 0; 2693/3061/1925/181/2697/2088/2683/248 px apart at the end
+PASS BR04 a departure stays a choice: somebody in view far off changes nothing; one close pass costs at most one look; no flip-flopping of plans  [1170ms]
+       far (seen 18/8/8/8/19/8 samples, never closer than 512/517/517/517/512/517 px): looks 0/0/0/0/0/0, departures 1/1/1/1/1/1 | one pass (closest 110/118/118/49/113/100 px): looks at them 0/0/0/1/0/0 (at their footsteps 0/0/0/1/0/1), departures 1/1/1/1/1/1, plan changes 0/0/0/0/0/0
+PASS BR11 a brief accidental bump: somebody who walks straight into a satiated one once and on - no attack of any kind; at most unease (a look, a warning)  [750ms]
+       8/8 bumped into it (closest 23/23/23/24/24/23/23/25 px): strikes 0, kills 0; peak pressure 0.18/0.18/0.18/0.28/0.25/0.18/0.18/0.41 (it may defend only from 0.8); looks 1/1/1/1/1/1/1/1, warnings 0/0/0/0/0/0/0/0
+
+2/3 passed
+FAILED: BR01 passing is safe: at hunger 0, a person who walks past once, close, gets at most a glance - no strike, no warning, no chase, no turn toward hunting

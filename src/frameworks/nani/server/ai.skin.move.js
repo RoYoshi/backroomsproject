@@ -11,9 +11,15 @@
  * never stepped sideways or back.
  *   THE MOVER (skStrafe): a velocity of its own (e.mv), steered toward the one it wants at its own acceleration (e.caps.ACCELERATION);
  *             forward up to the pace it is given, sideways up to SKF.side of it, backward up to SKF.back of it; its facing turned
- *             separately at SKF.face rad/s; every step through the shared moveCollide (walls, the swept test).  Never faster than its run
+ *             separately at the species' own turning ability (TURNING_ABILITY, 3.6 rad/s - R16g, the review: R16f turned it at 7).  Not
+ *             the shared steering's slower turn at speed: that is a turn of the way it runs, and here the way it goes is its own velocity,
+ *             which its acceleration alone may change (momentum); its facing is its body turned over its feet.  Every step through the
+ *             shared moveCollide (walls, the swept test).  Never faster than its run
  *             (0.89 x a fresh sprint): a rested runner still wins a straight race; its stamina is spent by the shared rule (skBody).
- *   THE FIGHT (skFight): within SKF.near of a person it sees, on open floor, in an open move (an open approach, a chase, a hungry watch),
+ *             Its velocity carries over only from the tick before; when the footwork stops, the shared steering goes on with what of it
+ *             lies along its facing (R16g: never a sideways step turned forward in one tick).
+ *   THE FIGHT (skFight): within SKF.near of a person it sees, on open floor, in an open move (an open approach at the approach's own
+ *             pace, a chase at its run, a hungry watch at the watch's own distance - R16g),
  *             it faces them and places itself at SKF.band from where it reckons they will be in SKF.lead seconds - toward their way out:
  *             the open floor round them, the way they are moving, away from it (SKF.cut of the way between straight at them and squarely
  *             in their path).  Closer than the band it backs off, farther it closes in; across, it sidesteps.  What it reckons from is its
@@ -27,7 +33,6 @@ const SKF = Object.freeze({
   near: 340,                                     // px: within this of a person it sees (and a clear way to them) it moves as a fighter
   band: [115, 170],                              // px: the distance it keeps from where it reckons they will be (its spring: 55-185)
   side: .75, back: .55,                          // the share of its pace it can move sideways and backward
-  face: 7,                                       // rad/s its body turns to face them while it moves (its head is still its own)
   gain: 3.2,                                     // 1/s: how hard it steers toward where it wants to be
   tau: [.32, .18],                               // s its read of their motion lags (dull .. sharp): a reversal fools it for about that long
   lead: [.25, .45],                              // s ahead it reckons where they will be (dull .. sharp)
@@ -36,8 +41,8 @@ const SKF = Object.freeze({
 });
 /* move toward (gx, gy) at up to vmax (forward; SKF.side sideways, SKF.back backward), facing (fx, fy); its own velocity and acceleration */
 function skStrafe(eng, e, gx, gy, fx, fy, vmax, dt, gain = SKF.gain) {
-  const now = eng.now, M = e.mv && now - e.mv.at < .25 ? e.mv : (e.mv = { x: Math.cos(e.ang) * e.speed, y: Math.sin(e.ang) * e.speed, at: now });
-  turnTo(e, Math.atan2(fy - e.y, fx - e.x), SKF.face, dt);
+  const now = eng.now, M = e.mv && now - e.mv.at <= dt * 1.5 + 1e-6 ? e.mv : (e.mv = { x: Math.cos(e.ang) * e.speed, y: Math.sin(e.ang) * e.speed, at: now });   // (only the tick before's: R16g)
+  turnTo(e, Math.atan2(fy - e.y, fx - e.x), e.caps.TURNING_ABILITY, dt);   // (R16g: the species' own turning ability - see the header)
   const hx = Math.cos(e.ang), hy = Math.sin(e.ang);
   let vx = (gx - e.x) * gain, vy = (gy - e.y) * gain;
   let f = vx * hx + vy * hy, l = -vx * hy + vy * hx;                                              // (forward and sideways, as it faces)
@@ -52,14 +57,16 @@ function skStrafe(eng, e, gx, gy, fx, fy, vmax, dt, gain = SKF.gain) {
   e.speed = Math.hypot(M.x, M.y);
   return { f: M.x * hx + M.y * hy, l: -M.x * hy + M.y * hx };
 }
-/* within SKF.near of r (seen, a clear way to them): face them and take its place by their way out.  Returns true when it moved so */
-function skFight(eng, e, r, p, d, dt, thinkNow, vmax) {
+/* within SKF.near of r (seen, a clear way to them): face them and take its place by their way out.  Returns true when it moved so.
+ * band: the distance it keeps (SKF.band; a watch its own) */
+function skFight(eng, e, r, p, d, dt, thinkNow, vmax, band = SKF.band) {
   if (!r.seen || d > SKF.near || e.disguise || e.exh) return false;
   const geo = eng.geo, now = eng.now;
   const fresh = e.fight && e.fight.pid === r.id && now - e.fight.at < .5;
+  if (fresh && e.fight.blocked && !thinkNow) return false;                                       // (R16g: no clear way to them - tested again on its next think, not every tick)
   if (thinkNow || !fresh) {
-    if (!geo.lineClear(e.x, e.y, p.x, p.y, e.rc * .6, 'walk')) { e.fight = null; return false; }
-    const F = fresh ? e.fight : (e.fight = { pid: r.id, vx: p.vx, vy: p.vy, esc: null, t0: now });
+    if (!geo.lineClear(e.x, e.y, p.x, p.y, e.rc * .6, 'walk')) { e.fight = { pid: r.id, at: now, blocked: 1 }; return false; }
+    const F = fresh && !e.fight.blocked ? e.fight : (e.fight = { pid: r.id, vx: p.vx, vy: p.vy, esc: null, t0: now });
     // their way out: of twelve directions from them, the one with open floor, the way they move, and away from it (a doorway, a corridor)
     const sp = Math.hypot(F.vx, F.vy), mv = Math.atan2(F.vy, F.vx), away = Math.atan2(p.y - e.y, p.x - e.x); let best = -1e9;
     for (let k = 0; k < 12; k++) {
@@ -78,7 +85,7 @@ function skFight(eng, e, r, p, d, dt, thinkNow, vmax) {
   if (Math.abs(dA) > 2.6) { const lean = ux * F.vy - uy * F.vx; dA = (lean >= 0 ? -1 : 1) * 2.6; }    // (straight away from it: round the way they are moving)
   const g = u0 + clamp(dA * SKF.cut, -SKF.swing, SKF.swing);
   const closing = ((e.x - p.x) * p.vx + (e.y - p.y) * p.vy) / Math.max(1, d) > 40;                  // (they come at it: it gives ground)
-  const D = closing ? SKF.band[1] : clamp(L, SKF.band[0], SKF.band[1]);
+  const D = closing ? band[1] : clamp(L, band[0], band[1]);
   const m = skStrafe(eng, e, qx + Math.cos(g) * D, qy + Math.sin(g) * D, p.x, p.y, vmax, dt);
   setAct(e, m.f < -30 ? 'back' : e.speed > 150 ? 'chase' : 'pace');
   F.side = (F.side || 0) + (Math.abs(m.l) > 40 && Math.abs(m.l) > Math.abs(m.f) ? dt : 0); F.backT = (F.backT || 0) + (m.f < -30 ? dt : 0);

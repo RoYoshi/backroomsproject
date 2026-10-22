@@ -1,5 +1,5 @@
 /** @part generated/server/ai.js - N.A.N.I.: the Skin-Stealer's eyes (Trial 3 R16e): its head snaps to what it perceives, movement at the edge of its view, where to look from
- * provides: SKL, skHeadStep, skLookThink, skVantage
+ * provides: SKL, skHeadStep, skLookThink, skVantage, skTurnRate
  * uses: angDiff, clamp, setAct, TAU, turnTo, visualObservation
  * writes: -
  */
@@ -18,7 +18,8 @@
  *             holds it SKL.hold seconds; then the plan's own head (its gaze, its listening sway) takes over from where it is.  Under a
  *             plan whose quarry it sees, the head never turns so far that the quarry leaves its view.  Never during a strike or a kill.
  *             The engine's sight is centred on e.ang + e.head, the snapshot carries e.head: what the players see is what it sees.
- *   THE BODY  beyond the head's reach, SKL.bodyAfter seconds after the head began, the body turns at SKL.bodyRate where it is free to:
+ *   THE BODY  beyond the head's reach, SKL.bodyAfter seconds after the head began, the body turns where it is free to, at the species'
+ *             own turning (skTurnRate: TURNING_ABILITY, 3.6 rad/s standing, less the faster it moves - R16g, the review: R16e used 5):
  *             roaming (it stops), a hunt's listening, a search's look round where it arrived; on a listen after a sound it faces the sound at
  *             the same rate.  On the move under a plan the head alone turns: the plan steers the body.
  *   WHERE TO LOOK FROM  after a sound it cannot see the source of, it goes to the nearest point on open floor from which it would make
@@ -32,7 +33,7 @@ const SKL = Object.freeze({
   free: 8,                                       // rad/s the head turns at most otherwise (its plan's gaze, sway, glance)
   easeIn: .2,
   latency: [.05, .09],                           // seconds from hearing a sound to its head starting to turn (on a think: the think's own phase)
-  bodyAfter: .1, bodyRate: 5,                    // seconds after the head starts before the body follows (beyond the head's reach); its turn on the spot
+  bodyAfter: .1,                                 // seconds after the head starts before the body follows (beyond the head's reach)
   reach: .85,                                    // the body follows once the stimulus is beyond this share of the head's reach
   hold: { sight: .6, motion: .9, sound: .9 },    // seconds the head holds a stimulus
   prio: { sight: 3, motion: 2, sound: 1 },
@@ -44,6 +45,8 @@ const SKL = Object.freeze({
   keep: .12,                                     // rad inside its view's edge its plan's quarry is kept
   lookFrom: [.5, .9],                            // seconds it looks at the place from its point to look from, before it goes closer
 });
+/* (R16g) its body's turn: the species' own turning ability, as the shared steering turns it (TURNING_ABILITY, less the faster it moves) */
+function skTurnRate(e, v = e.speed) { return e.caps.TURNING_ABILITY * (1 - (e.sp.turnPenalty || .55) * clamp((v || 0) / (e.sp.vTop || 300), 0, 1)); }
 /* a stimulus: where, when the head starts, how long it holds, why */
 function skStim(eng, e, k, x, y, go, why) {
   const L = e.look, now = eng.now, b = Math.atan2(y - e.y, x - e.x);
@@ -127,9 +130,10 @@ function skSnap(eng, e, dt) {
   const free = !e.rx && !e.disguise && (!P || (P.k === 'listen' && !P.curious) || (P.k === 'search' && P.looked));
   if (free && Math.abs(angDiff(b, e.ang)) > SKL.headMax * SKL.reach && now - L.go >= SKL.bodyAfter) {
     if (L.body < 0) { L.body = now; e.dbg.look.body = +now.toFixed(2); }
-    if (!P) { if (e.roam && e.roam.goal) { e.roam.pause = Math.max(e.roam.pause, L.until - now); setAct(e, 'watch'); } turnTo(e, b, SKL.bodyRate, dt); }
-    else if (P.k === 'search') P.look0 = (P.look0 + clamp(angDiff(b, P.look0), -SKL.bodyRate * dt, SKL.bodyRate * dt) + TAU) % TAU;
-    else turnTo(e, b, SKL.bodyRate, dt);
+    const tr = skTurnRate(e);
+    if (!P) { if (e.roam && e.roam.goal) { e.roam.pause = Math.max(e.roam.pause, L.until - now); setAct(e, 'watch'); } turnTo(e, b, tr, dt); }
+    else if (P.k === 'search') P.look0 = (P.look0 + clamp(angDiff(b, P.look0), -tr * dt, tr * dt) + TAU) % TAU;
+    else turnTo(e, b, tr, dt);
   }
   // the head: toward it, within its reach - and, under a plan whose quarry it sees, never so far that the quarry leaves its view
   const rel = angDiff(b, e.ang); let lo = -SKL.headMax, hi = SKL.headMax;

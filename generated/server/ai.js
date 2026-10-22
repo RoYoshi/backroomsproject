@@ -2731,16 +2731,19 @@ function skPreempt(eng, e, mayHunt) {
   const now = eng.now, P = e.plan, cls = skPlanClass(e), M = e.pre || (e.pre = { seen: new Map(), forced: new Map(), force: '', n: 0 });
   M.force = '';
   // who it sees now, and who is new to its eyes (first seen, or seen again after a while out of sight)
-  let fresh = null;
+  // (R16g, the review: a person it saw at its last think before a gap in its thinking - a strike, a capture, a kill playing - is not new
+  // for that gap alone)
+  let fresh = null; const gap = M.at !== undefined && now - M.at > SKP.regain; M.atPrev = M.at; M.at = now;
   for (const id of e.seenNow) {
     const r = e.mem.p.get(id), last = M.seen.get(id); M.seen.set(id, now);
     if (!r || !r.visual || r.visual.caught || !r.visual.alive) continue;
-    const isNew = last === undefined || now - last > SKP.regain;
+    const isNew = last === undefined || (now - last > SKP.regain && !(gap && last >= M.atPrev - 1e-6));
     if (isNew && mayHunt(r) && (!fresh || r.dist < fresh.dist)) fresh = r;
   }
   for (const [id, t] of M.seen) if (now - t > 30 || !eng.byId.has(id)) M.seen.delete(id);
   const may = !!fresh && now - (M.forced.get(fresh.id) ?? -99) >= SKP.again;
-  // kept, and said so: a committed action (physics and fairness), and a departure with a reason sight does not change
+  // kept, and said so: a committed action (physics and fairness - a guard only: skinTick does not think during one, P04), and a departure
+  // with a reason sight does not change
   if (cls === 'committed' || (P && P.k === 'leave' && cls === 'tactical')) {
     if (may) {
       M.forced.set(fresh.id, now); M.kept = (M.kept || 0) + 1;
@@ -2752,7 +2755,7 @@ function skPreempt(eng, e, mayHunt) {
   let why = '';
   if (may) {
     if (cls === 'low') why = `P${fresh.id} seen: ${P ? 'its ' + P.k : 'its roaming'} gives way`;
-    else if (P && P.pid !== fresh.id) why = `P${fresh.id} seen: it weighs them against its ${P.k} about ${P.pid ? 'P' + P.pid : 'nobody'}`;
+    else if (P && P.pid !== fresh.id) why = `P${fresh.id} seen: its ${P.k} about ${P.pid ? 'P' + P.pid : 'nobody'} goes on while it still makes sense (weighed against them on this think)`;
     if (why) M.forced.set(fresh.id, now);
   }
   // a lure's or an ambush's quarry, seen going away from it (not coming) for a while: the wait has lost its point
@@ -2771,7 +2774,7 @@ function skPreempt(eng, e, mayHunt) {
   if (e.mind) { e.mind.ev.push({ t: +now.toFixed(2), k: 'preempt', pid: fresh ? fresh.id : P ? P.pid : 0, x: why.slice(0, 60), resp: -1, how: '', plan: P ? P.k : '' }); while (e.mind.ev.length > 24) e.mind.ev.shift(); e.mind.evN.preempt = (e.mind.evN.preempt || 0) + 1; }
   if (cls === 'low') {                                                              // cut now: the decision runs on this think with nothing to keep
     if (P) { if (P.k === 'leave') e.tally.reconsider++; e.plan = null; e.path = []; }
-    e.roam.pause = 0; e.rx = null;
+    e.roam.pause = 0; if (e.rx) skReactEnd(eng, e, false);                          // (R16g, the review: a reaction is ended as its own end does - state and warning kept right)
   }
   return why;
 }
@@ -2790,7 +2793,8 @@ function skPreempt(eng, e, mayHunt) {
  *             holds it SKL.hold seconds; then the plan's own head (its gaze, its listening sway) takes over from where it is.  Under a
  *             plan whose quarry it sees, the head never turns so far that the quarry leaves its view.  Never during a strike or a kill.
  *             The engine's sight is centred on e.ang + e.head, the snapshot carries e.head: what the players see is what it sees.
- *   THE BODY  beyond the head's reach, SKL.bodyAfter seconds after the head began, the body turns at SKL.bodyRate where it is free to:
+ *   THE BODY  beyond the head's reach, SKL.bodyAfter seconds after the head began, the body turns where it is free to, at the species'
+ *             own turning (skTurnRate: TURNING_ABILITY, 3.6 rad/s standing, less the faster it moves - R16g, the review: R16e used 5):
  *             roaming (it stops), a hunt's listening, a search's look round where it arrived; on a listen after a sound it faces the sound at
  *             the same rate.  On the move under a plan the head alone turns: the plan steers the body.
  *   WHERE TO LOOK FROM  after a sound it cannot see the source of, it goes to the nearest point on open floor from which it would make
@@ -2804,7 +2808,7 @@ const SKL = Object.freeze({
   free: 8,                                       // rad/s the head turns at most otherwise (its plan's gaze, sway, glance)
   easeIn: .2,
   latency: [.05, .09],                           // seconds from hearing a sound to its head starting to turn (on a think: the think's own phase)
-  bodyAfter: .1, bodyRate: 5,                    // seconds after the head starts before the body follows (beyond the head's reach); its turn on the spot
+  bodyAfter: .1,                                 // seconds after the head starts before the body follows (beyond the head's reach)
   reach: .85,                                    // the body follows once the stimulus is beyond this share of the head's reach
   hold: { sight: .6, motion: .9, sound: .9 },    // seconds the head holds a stimulus
   prio: { sight: 3, motion: 2, sound: 1 },
@@ -2816,6 +2820,8 @@ const SKL = Object.freeze({
   keep: .12,                                     // rad inside its view's edge its plan's quarry is kept
   lookFrom: [.5, .9],                            // seconds it looks at the place from its point to look from, before it goes closer
 });
+/* (R16g) its body's turn: the species' own turning ability, as the shared steering turns it (TURNING_ABILITY, less the faster it moves) */
+function skTurnRate(e, v = e.speed) { return e.caps.TURNING_ABILITY * (1 - (e.sp.turnPenalty || .55) * clamp((v || 0) / (e.sp.vTop || 300), 0, 1)); }
 /* a stimulus: where, when the head starts, how long it holds, why */
 function skStim(eng, e, k, x, y, go, why) {
   const L = e.look, now = eng.now, b = Math.atan2(y - e.y, x - e.x);
@@ -2899,9 +2905,10 @@ function skSnap(eng, e, dt) {
   const free = !e.rx && !e.disguise && (!P || (P.k === 'listen' && !P.curious) || (P.k === 'search' && P.looked));
   if (free && Math.abs(angDiff(b, e.ang)) > SKL.headMax * SKL.reach && now - L.go >= SKL.bodyAfter) {
     if (L.body < 0) { L.body = now; e.dbg.look.body = +now.toFixed(2); }
-    if (!P) { if (e.roam && e.roam.goal) { e.roam.pause = Math.max(e.roam.pause, L.until - now); setAct(e, 'watch'); } turnTo(e, b, SKL.bodyRate, dt); }
-    else if (P.k === 'search') P.look0 = (P.look0 + clamp(angDiff(b, P.look0), -SKL.bodyRate * dt, SKL.bodyRate * dt) + TAU) % TAU;
-    else turnTo(e, b, SKL.bodyRate, dt);
+    const tr = skTurnRate(e);
+    if (!P) { if (e.roam && e.roam.goal) { e.roam.pause = Math.max(e.roam.pause, L.until - now); setAct(e, 'watch'); } turnTo(e, b, tr, dt); }
+    else if (P.k === 'search') P.look0 = (P.look0 + clamp(angDiff(b, P.look0), -tr * dt, tr * dt) + TAU) % TAU;
+    else turnTo(e, b, tr, dt);
   }
   // the head: toward it, within its reach - and, under a plan whose quarry it sees, never so far that the quarry leaves its view
   const rel = angDiff(b, e.ang); let lo = -SKL.headMax, hi = SKL.headMax;
@@ -2920,9 +2927,15 @@ function skSnap(eng, e, dt) {
  * never stepped sideways or back.
  *   THE MOVER (skStrafe): a velocity of its own (e.mv), steered toward the one it wants at its own acceleration (e.caps.ACCELERATION);
  *             forward up to the pace it is given, sideways up to SKF.side of it, backward up to SKF.back of it; its facing turned
- *             separately at SKF.face rad/s; every step through the shared moveCollide (walls, the swept test).  Never faster than its run
+ *             separately at the species' own turning ability (TURNING_ABILITY, 3.6 rad/s - R16g, the review: R16f turned it at 7).  Not
+ *             the shared steering's slower turn at speed: that is a turn of the way it runs, and here the way it goes is its own velocity,
+ *             which its acceleration alone may change (momentum); its facing is its body turned over its feet.  Every step through the
+ *             shared moveCollide (walls, the swept test).  Never faster than its run
  *             (0.89 x a fresh sprint): a rested runner still wins a straight race; its stamina is spent by the shared rule (skBody).
- *   THE FIGHT (skFight): within SKF.near of a person it sees, on open floor, in an open move (an open approach, a chase, a hungry watch),
+ *             Its velocity carries over only from the tick before; when the footwork stops, the shared steering goes on with what of it
+ *             lies along its facing (R16g: never a sideways step turned forward in one tick).
+ *   THE FIGHT (skFight): within SKF.near of a person it sees, on open floor, in an open move (an open approach at the approach's own
+ *             pace, a chase at its run, a hungry watch at the watch's own distance - R16g),
  *             it faces them and places itself at SKF.band from where it reckons they will be in SKF.lead seconds - toward their way out:
  *             the open floor round them, the way they are moving, away from it (SKF.cut of the way between straight at them and squarely
  *             in their path).  Closer than the band it backs off, farther it closes in; across, it sidesteps.  What it reckons from is its
@@ -2936,7 +2949,6 @@ const SKF = Object.freeze({
   near: 340,                                     // px: within this of a person it sees (and a clear way to them) it moves as a fighter
   band: [115, 170],                              // px: the distance it keeps from where it reckons they will be (its spring: 55-185)
   side: .75, back: .55,                          // the share of its pace it can move sideways and backward
-  face: 7,                                       // rad/s its body turns to face them while it moves (its head is still its own)
   gain: 3.2,                                     // 1/s: how hard it steers toward where it wants to be
   tau: [.32, .18],                               // s its read of their motion lags (dull .. sharp): a reversal fools it for about that long
   lead: [.25, .45],                              // s ahead it reckons where they will be (dull .. sharp)
@@ -2945,8 +2957,8 @@ const SKF = Object.freeze({
 });
 /* move toward (gx, gy) at up to vmax (forward; SKF.side sideways, SKF.back backward), facing (fx, fy); its own velocity and acceleration */
 function skStrafe(eng, e, gx, gy, fx, fy, vmax, dt, gain = SKF.gain) {
-  const now = eng.now, M = e.mv && now - e.mv.at < .25 ? e.mv : (e.mv = { x: Math.cos(e.ang) * e.speed, y: Math.sin(e.ang) * e.speed, at: now });
-  turnTo(e, Math.atan2(fy - e.y, fx - e.x), SKF.face, dt);
+  const now = eng.now, M = e.mv && now - e.mv.at <= dt * 1.5 + 1e-6 ? e.mv : (e.mv = { x: Math.cos(e.ang) * e.speed, y: Math.sin(e.ang) * e.speed, at: now });   // (only the tick before's: R16g)
+  turnTo(e, Math.atan2(fy - e.y, fx - e.x), e.caps.TURNING_ABILITY, dt);   // (R16g: the species' own turning ability - see the header)
   const hx = Math.cos(e.ang), hy = Math.sin(e.ang);
   let vx = (gx - e.x) * gain, vy = (gy - e.y) * gain;
   let f = vx * hx + vy * hy, l = -vx * hy + vy * hx;                                              // (forward and sideways, as it faces)
@@ -2961,14 +2973,16 @@ function skStrafe(eng, e, gx, gy, fx, fy, vmax, dt, gain = SKF.gain) {
   e.speed = Math.hypot(M.x, M.y);
   return { f: M.x * hx + M.y * hy, l: -M.x * hy + M.y * hx };
 }
-/* within SKF.near of r (seen, a clear way to them): face them and take its place by their way out.  Returns true when it moved so */
-function skFight(eng, e, r, p, d, dt, thinkNow, vmax) {
+/* within SKF.near of r (seen, a clear way to them): face them and take its place by their way out.  Returns true when it moved so.
+ * band: the distance it keeps (SKF.band; a watch its own) */
+function skFight(eng, e, r, p, d, dt, thinkNow, vmax, band = SKF.band) {
   if (!r.seen || d > SKF.near || e.disguise || e.exh) return false;
   const geo = eng.geo, now = eng.now;
   const fresh = e.fight && e.fight.pid === r.id && now - e.fight.at < .5;
+  if (fresh && e.fight.blocked && !thinkNow) return false;                                       // (R16g: no clear way to them - tested again on its next think, not every tick)
   if (thinkNow || !fresh) {
-    if (!geo.lineClear(e.x, e.y, p.x, p.y, e.rc * .6, 'walk')) { e.fight = null; return false; }
-    const F = fresh ? e.fight : (e.fight = { pid: r.id, vx: p.vx, vy: p.vy, esc: null, t0: now });
+    if (!geo.lineClear(e.x, e.y, p.x, p.y, e.rc * .6, 'walk')) { e.fight = { pid: r.id, at: now, blocked: 1 }; return false; }
+    const F = fresh && !e.fight.blocked ? e.fight : (e.fight = { pid: r.id, vx: p.vx, vy: p.vy, esc: null, t0: now });
     // their way out: of twelve directions from them, the one with open floor, the way they move, and away from it (a doorway, a corridor)
     const sp = Math.hypot(F.vx, F.vy), mv = Math.atan2(F.vy, F.vx), away = Math.atan2(p.y - e.y, p.x - e.x); let best = -1e9;
     for (let k = 0; k < 12; k++) {
@@ -2987,7 +3001,7 @@ function skFight(eng, e, r, p, d, dt, thinkNow, vmax) {
   if (Math.abs(dA) > 2.6) { const lean = ux * F.vy - uy * F.vx; dA = (lean >= 0 ? -1 : 1) * 2.6; }    // (straight away from it: round the way they are moving)
   const g = u0 + clamp(dA * SKF.cut, -SKF.swing, SKF.swing);
   const closing = ((e.x - p.x) * p.vx + (e.y - p.y) * p.vy) / Math.max(1, d) > 40;                  // (they come at it: it gives ground)
-  const D = closing ? SKF.band[1] : clamp(L, SKF.band[0], SKF.band[1]);
+  const D = closing ? band[1] : clamp(L, band[0], band[1]);
   const m = skStrafe(eng, e, qx + Math.cos(g) * D, qy + Math.sin(g) * D, p.x, p.y, vmax, dt);
   setAct(e, m.f < -30 ? 'back' : e.speed > 150 ? 'chase' : 'pace');
   F.side = (F.side || 0) + (Math.abs(m.l) > 40 && Math.abs(m.l) > Math.abs(m.f) ? dt : 0); F.backT = (F.backT || 0) + (m.f < -30 ? dt : 0);
@@ -3294,7 +3308,7 @@ const SKIN = {
   },
   /* the engine's hooks (ai.engine.js): it never borrows a Hound's or a Smiler's own functions */
   onFar(eng, e) {
-    e.pounce = null; e.recover = 0; e.rx = null; e.head = 0; e.look.k = ''; e.look.h = null; e.fight = null; e.mv = null; e.ackHead = null; e.defLeave = 0; skHuntEnd(eng, e, 'nobody within reach'); e.noFlank = null; e.noAmbush = null; if (e.plan && e.plan.k === 'feed') return;   // feeding at its kill it carries on, alone
+    e.pounce = null; e.recover = 0; e.rx = null; e.head = 0; e.look.k = ''; e.look.h = null; e.look.prev = 0; e.look.seen = null; e.look.m = null; e.pre = null; e.fight = null; e.mv = null; e.ackHead = null; e.defLeave = 0; skHuntEnd(eng, e, 'nobody within reach'); e.noFlank = null; e.noAmbush = null; if (e.plan && e.plan.k === 'feed') return;   // feeding at its kill it carries on, alone
     e.plan = null; e.roam.goal = null; e.roam.pause = 0; setState(e, S.ROAMING, ''); e.dbg.why = 'nobody within reach: it waits where it is';
   },
   farTick(eng, e, dt) {                                           // far from everyone it stands still, and is still hungry (or still feeding)
@@ -3303,7 +3317,7 @@ const SKIN = {
   },
   still(e) { return e.still; },                                  // (the engine's stuck watchdog: it held still this tick on purpose)
   onStuck(eng, e) { if (e.plan && e.plan.k !== 'lure' && e.plan.k !== 'ambush') e.plan.stuck = (e.plan.stuck || 0) + 1; e.roam.goal = null; e.dbg.why = 'stuck: the watchdog cleared its route'; },
-  onClear(eng, e) { e.noAmbush = null; e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.aw.clear(); e.rx = null; e.head = 0; e.look.k = ''; e.look.h = null; e.fight = null; e.mv = null; e.ackHead = null; e.defLeave = 0; e.dbg.lv = ''; e.hunt = null; e.spent.clear(); e.noFlank = null; e.mind = skMindNew(); setState(e, S.ROAMING, ''); },
+  onClear(eng, e) { e.noAmbush = null; e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.aw.clear(); e.rx = null; e.head = 0; e.look.k = ''; e.look.h = null; e.look.prev = 0; e.look.seen = null; e.look.m = null; e.pre = null; e.roam.seen = null; e.fight = null; e.mv = null; e.ackHead = null; e.defLeave = 0; e.dbg.lv = ''; e.hunt = null; e.spent.clear(); e.noFlank = null; e.mind = skMindNew(); setState(e, S.ROAMING, ''); },
   debugHunt(eng, e, r) { e.left.delete(r.id); setTarget(e, r.id, eng.now); skBegin(eng, e, 'watch', r, 'admin: it was given a record of you'); return 'WATCHING YOU (real AI)'; },
   /* its own target scoring and commitment (ai.intelligence.js's debug asks for them; never the Smiler's sScore) */
   targetScore(eng, e, r) { const age = eng.now - Math.max(r.seenAt, r.heardAt); return r.aw * .8 + r.conf * .7 - Math.min(1, age / 30) * .3 + (r.seen ? .5 : 0) + (r.id === e.target ? .4 : 0); },
@@ -3325,6 +3339,9 @@ function skBody(eng, e, dt) {
   if (e.disguise && eng.now > e.disguise.until) skUndress(eng, e, 'its borrowed skin wore out');   // (T6)
 }
 /* it holds still on purpose: no route left behind (the engine's stuck watchdog would take a deliberate stop for being stuck) */
+/* (R16g) may it run at r: the chase's own conditions on it (skDecide's chase) - hungry enough, not exhausted, its breath, no race lost to
+ * them lately */
+function skMayRun(eng, e, r) { const H = e.hunt && e.hunt.pid === r.id ? e.hunt : null; return e.hunger >= SK.band[2] && !e.exh && e.stam >= SK.stamLow + 15 && !(H && eng.now - H.raceAt < SK.chaseRest); }
 /* (R16f) close enough, and in the open, to fight for its place: somebody it sees within SKF.near who is moving, or looking at it */
 function skFightable(eng, e, r, p, d) { return !!r.seen && d < SKF.near && !e.disguise && !e.exh && (Math.hypot(p.vx, p.vy) > 60 || skWatched(eng, e, r)); }
 /* (R16e) a plan's own head movement (a listening sway, a glance back): eased from where the head is, so that it never jumps after a snap */
@@ -4297,7 +4314,9 @@ function skAct(eng, e, dt, thinkNow) {
   const r = P.pid ? e.mem.p.get(P.pid) : null;
   switch (P.k) {
     case 'watch': {
-      if (r && e.hunger >= SK.band[2] && !e.disguise) { const p = perc(eng, e, r), d = Math.hypot(p.x - e.x, p.y - e.y); if (skFightable(eng, e, r, p, d) && skFight(eng, e, r, p, d, dt, thinkNow, Math.min(skSpeed(e, 'flank'), skCap(e)))) return; }   // (R16f) a hungry standoff is held on its feet
+      // (R16f) a hungry standoff is held on its feet - (R16g, the review) at a watch's own distance, beyond SK.near (a watch never springs:
+      // its footwork never carries it into its spring)
+      if (r && e.hunger >= SK.band[2] && !e.disguise) { const p = perc(eng, e, r), d = Math.hypot(p.x - e.x, p.y - e.y); if (skFightable(eng, e, r, p, d) && skFight(eng, e, r, p, d, dt, thinkNow, Math.min(skSpeed(e, 'flank'), skCap(e)), [SK.near + 10, SKF.near - 10])) return; }
       skHold(eng, e, dt);
       if (r) { const p = perc(eng, e, r); faceToward(e, p.x, p.y, dt, 2.2); }
       if (e.act !== 'watch') setAct(e, 'watch');
@@ -4322,8 +4341,11 @@ function skAct(eng, e, dt, thinkNow) {
         return;
       }
       const p = perc(eng, e, r), d = Math.hypot(p.x - e.x, p.y - e.y);
-      // (R16f) an open approach close to somebody moving or looking at it: it fights for its place - facing them, by their way out
-      if (P.mode === 'open' && !P.shadow && !P.rush && skFightable(eng, e, r, p, d) && skFight(eng, e, r, p, d, dt, thinkNow, Math.min(skSpeed(e, 'run'), skCap(e)))) return;
+      // (R16f) an open approach close to somebody moving or looking at it: it fights for its place - facing them, by their way out.  (R16g,
+      // the review) it runs only where it may give chase - the chase's own conditions on it (its hunger, its breath, no race lost to them
+      // lately: skMayRun); else at the approach's own pace - their speed and a little more, at least its stalk, never over the pace that
+      // costs it stamina
+      if (P.mode === 'open' && !P.shadow && !P.rush && skFightable(eng, e, r, p, d) && skFight(eng, e, r, p, d, dt, thinkNow, skMayRun(eng, e, r) ? Math.min(skSpeed(e, 'run'), skCap(e)) : Math.min(Math.max(Math.hypot(p.vx, p.vy) + 30, skSpeed(e, 'stalk')), SK.runFrom, skCap(e)))) return;
       // (R3) somebody unaware turning its way, before they meet its eyes: it freezes, crouched, until they look away or its patience runs out
       // (R13: not in an open approach - it is in their view whichever way they face)
       const v = r.seen ? r.visual : null;
@@ -4488,12 +4510,12 @@ function skAct(eng, e, dt, thinkNow) {
         follow(eng, e, dt, P.pid ? skSpeed(e, 'stalk') : Math.min(lerp(skSpeed(e, 'stalk'), Math.min(skSpeed(e, 'roam') * 1.4, SK.runFrom - 10), sm(.3, .6, e.hunger)), skCap(e)), { arrive: 40 });   // (R16e: to look at a sound nobody was named for, the hungrier the quicker - under the pace that costs it stamina; a hunt's search as before)
         if (Math.hypot(P.goal.x - e.x, P.goal.y - e.y) < 70 || (P.stuck || 0) > 2 || now > P.until) {
           const from = P.at && !P.closer && Math.hypot(P.at.x - e.x, P.at.y - e.y) > 120;           // (R16e) at a point to look from: a short look at the place
-          P.looked = now; P.lookFor = from ? rand(e, SKL.lookFrom[0], SKL.lookFrom[1]) : rand(e, SK.searchLook[0], SK.searchLook[1]); P.look0 = P.at ? Math.atan2(P.at.y - e.y, P.at.x - e.x) : e.ang; P.lookC = e.ang;
+          P.looked = now; P.lookFor = from ? rand(e, SKL.lookFrom[0], SKL.lookFrom[1]) : rand(e, SK.searchLook[0], SK.searchLook[1]); P.look0 = P.at && Math.hypot(P.at.x - e.x, P.at.y - e.y) > 70 ? Math.atan2(P.at.y - e.y, P.at.x - e.x) : e.ang; P.lookC = e.ang;   // (R16g: at the place itself, the way it faces)
           e.dbg.why = from ? 'it looks at the place from where it can see it' : 'it stands and listens';
         }
         return;
       }
-      P.lookC = ((P.lookC ?? P.look0) + clamp(angDiff(P.look0, P.lookC ?? P.look0), -SKL.bodyRate * dt, SKL.bodyRate * dt) + TAU) % TAU;   // (R16e: it turns to the place it came to see, at its body's rate)
+      P.lookC = ((P.lookC ?? P.look0) + clamp(angDiff(P.look0, P.lookC ?? P.look0), -skTurnRate(e) * dt, skTurnRate(e) * dt) + TAU) % TAU;   // (R16e: it turns to the place it came to see, at its body's rate - R16g: the species' own)
       skHold(eng, e, dt); e.ang = ((P.lookC + Math.sin((now - P.looked) * 1.3) * .9) % TAU + TAU) % TAU;   // it looks one way, then the other
       if (e.act !== 'listen') setAct(e, 'listen');
       if (thinkNow && now - P.looked > P.lookFor && P.at && !P.closer && Math.hypot(P.at.x - e.x, P.at.y - e.y) > 120) {   // (R16e) nothing to be seen from there: it goes closer, to the place itself
@@ -4545,7 +4567,7 @@ function skAct(eng, e, dt, thinkNow) {
     case 'listen': {                                                                   // (R1) it stands still and listens, its head turning
       skHold(eng, e, dt);
       const C = P.curious;                                                             // (R2) roaming: turned toward the sound it heard
-      if (C && now - P.t0 >= SKL.bodyAfter) faceToward(e, C.x, C.y, dt, SKL.bodyRate);   // (R16e: at its body's turn, 5 rad/s - R2's 2.2 - after its head has begun: skHeadStep)
+      if (C && now - P.t0 >= SKL.bodyAfter) faceToward(e, C.x, C.y, dt, skTurnRate(e));   // (R16e: at its body's turn - R2's 2.2 - after its head has begun: skHeadStep; R16g: the species' own turning, 3.6 rad/s standing)
       skHeadTo(e, Math.sin((now - P.t0) * 1.7 + e.id) * (C ? .35 : .8), dt);
       if (e.act !== 'listen') setAct(e, 'listen');
       if (thinkNow && now > P.until) {
@@ -4586,9 +4608,9 @@ function skRoam(eng, e, dt, thinkNow) {
   }
   if (!R.goal) { stopMoving(eng, e, dt); return; }
   if (thinkNow && !e.path.length && e.pathAge > 2) goTo(eng, e, R.goal.x, R.goal.y);
-  follow(eng, e, dt, Math.min(skSpeed(e, 'roam') * (1 + .4 * hs), SK.runFrom - 10), { arrive: 40 });   // (R16d: starving, it prowls - under the pace that costs it stamina)
+  follow(eng, e, dt, Math.min(skSpeed(e, 'roam') * (1 + .4 * hs), SK.runFrom - 10, skCap(e)), { arrive: 40 });   // (R16d: starving, it prowls - under the pace that costs it stamina; R16g: exhausted, it walks)
   if (Math.hypot(R.goal.x - e.x, R.goal.y - e.y) < 60) { if (R.goal.ev) (R.seen || (R.seen = [])).push({ x: R.goal.x, y: R.goal.y, t: eng.now }); R.goal = null; R.pause = rand(e, SK.roamPause[0], SK.roamPause[1]) * (1 - .8 * hm); }   // (R16d: the hungrier, the shorter its pause)
-  else if (eng.now > R.until) R.goal = null;
+  else if (eng.now > R.until) { if (R.goal.ev) (R.seen || (R.seen = [])).push({ x: R.goal.x, y: R.goal.y, t: eng.now }); R.goal = null; }   // (R16g, the review: a prowl it could not finish is not chosen again)
 }
 /* (R16d) where a hungry one prowls: the freshest place it saw or heard somebody it may hunt (its own memory: the last place it knew them,
  * the sounds it holds), within the last SK.patrolFresh seconds, that it has not walked to since; a floor point near it.  Never anybody's
@@ -4603,7 +4625,8 @@ function skPatrolGoal(eng, e) {
     if (!(now - t < SK.patrolFresh) || !Number.isFinite(x) || near(x, y)) continue;
     if (!best || t > best.t) best = { x, y, t, k: heard ? 'heard' : 'saw' };
   }
-  for (const q of e.mem.sounds) { if (q.src === -1 || now - q.t >= SK.patrolFresh || near(q.x, q.y)) continue; if (!best || q.t > best.t) best = { x: q.x, y: q.y, t: q.t, k: 'heard' }; }
+  // (R16g, the review: footsteps it took for somebody it left, or sees now, are passed over as that person is)
+  for (const q of e.mem.sounds) { if (q.src === -1 || now - q.t >= SK.patrolFresh || near(q.x, q.y) || (q.pid && (e.left.has(q.pid) || e.seenNow.has(q.pid)))) continue; if (!best || q.t > best.t) best = { x: q.x, y: q.y, t: q.t, k: 'heard' }; }
   if (!best || Math.hypot(best.x - e.x, best.y - e.y) < 120) return null;
   const f = skFloorNear(eng, e, best.x, best.y); return f ? { x: f.x, y: f.y, ev: 1, t: best.t, k: best.k } : null;
 }
@@ -4624,6 +4647,9 @@ function skinTick(eng, e, dt, thinkNow) {
     if (!df) skDecide(eng, e);
     skAttend(eng, e);
   }
+  // (R16g, the review) its footwork's velocity, from the tick before, goes on into the shared steering only as far as it lies along its facing
+  // (the shared steering moves it along its facing): a sideways step is never turned forward in one tick
+  if (e.mv && eng.now - e.mv.at <= dt * 1.5 + 1e-6) e.speed = Math.max(0, e.mv.x * Math.cos(e.ang) + e.mv.y * Math.sin(e.ang));
   skAct(eng, e, dt, thinkNow);
   skHeadStep(eng, e, dt);                                                          // (R16e) a sound just heard; the head's snap; the body where it is free to turn
   return null;
@@ -4647,8 +4673,8 @@ function skDebug(eng, e) {
     // (R16d-f) its last interruption (what it perceived, the plan it cut or kept, why), its eyes' stimulus, its footwork
     pe: e.dbg.preempt && eng.now - e.dbg.preempt.at < 10 ? { ago: +(eng.now - e.dbg.preempt.at).toFixed(1), from: e.dbg.preempt.from, cls: e.dbg.preempt.cls, kept: e.dbg.preempt.kept ? 1 : 0, why: e.dbg.preempt.why } : null,
     lk: e.look && e.look.k && eng.now < e.look.until ? { k: e.look.k, why: e.dbg.look ? e.dbg.look.why : '', body: e.dbg.look && e.dbg.look.body ? 1 : 0 } : null,
-    ft: e.fight && eng.now - e.fight.at < .3 ? { pid: e.fight.pid, side: +(e.fight.side || 0).toFixed(1), back: +(e.fight.backT || 0).toFixed(1) } : null,
-    sn: [...e.seenNow],                                                                   // (who it sees now: the admin's overlay and the browser campaign's checks)
+    ft: e.fight && !e.fight.blocked && eng.now - e.fight.at < .3 ? { pid: e.fight.pid, side: +(e.fight.side || 0).toFixed(1), back: +(e.fight.backT || 0).toFixed(1) } : null,
+    sw: [...e.seenNow],                                                                   // (R16g: whom it sees now - the admin's overlay and the real-page campaign; `sn` is T6's skin note above)
     cv: P && P.mode ? { mode: P.mode, phase: P.phase || '', way: P.way ? P.way.len : 0, exit: P.way ? P.way.exit : 0, why: e.dbg.cover && eng.now - e.dbg.cover.at < 10 ? e.dbg.cover.why : '' } : null };   // (R13) its move's mode (covert, open, feint), a covert move's phase and way                // (R11) whether the people it sees could see it; its last events and how fast it answered
 }
 function skHuntDbg(eng, e) {

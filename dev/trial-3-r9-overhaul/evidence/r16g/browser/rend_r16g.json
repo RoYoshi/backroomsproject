@@ -1,0 +1,347 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r9_browser.js",
+ "scene": "rend",
+ "chromium": "141.0.7390.37",
+ "tree": "r9-overhaul",
+ "cases": [
+  {
+   "name": "D",
+   "v": "D",
+   "shots": [],
+   "own": [
+    [
+     0.3,
+     null
+    ],
+    [
+     0.9,
+     {
+      "v": "D",
+      "alpha": 1,
+      "rent": false
+     }
+    ],
+    [
+     1.25,
+     {
+      "v": "D",
+      "alpha": 1,
+      "rent": false
+     }
+    ],
+    [
+     1.6,
+     {
+      "v": "D",
+      "alpha": 1,
+      "rent": false
+     }
+    ],
+    [
+     2.4,
+     {
+      "v": "D",
+      "alpha": 1,
+      "rent": false
+     }
+    ],
+    [
+     4.2,
+     {
+      "v": "D",
+      "alpha": 0,
+      "rent": true
+     }
+    ]
+   ],
+   "fx": {
+    "frames": 12,
+    "seconds": 3.5,
+    "halvesFrom": 1.2,
+    "halves": 8,
+    "wholeAfterHalves": 0,
+    "mostSkinsDrawn": 1
+   },
+   "tones": {
+    "spectator": 1,
+    "victim": 1
+   },
+   "body": {
+    "spectator": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 0
+    },
+    "victim": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 0
+    },
+    "late": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 7.2
+    }
+   },
+   "ownCorpse": {
+    "c": "SkinStealer",
+    "gs": 1115022608,
+    "gb": [
+     [
+      6224,
+      3433,
+      2.454
+     ],
+     [
+      6323,
+      3430,
+      4.32
+     ]
+    ],
+    "gh": [
+     6317,
+     3450,
+     6217,
+     3445
+    ]
+   },
+   "fresh": true,
+   "same": true,
+   "ownSame": true
+  },
+  {
+   "name": "A (control)",
+   "v": "A",
+   "shots": [],
+   "own": [
+    [
+     0.3,
+     null
+    ],
+    [
+     0.9,
+     {
+      "v": "A",
+      "alpha": 1,
+      "rent": false
+     }
+    ],
+    [
+     1.25,
+     {
+      "v": "A",
+      "alpha": 1,
+      "rent": false
+     }
+    ],
+    [
+     1.6,
+     {
+      "v": "A",
+      "alpha": 1,
+      "rent": false
+     }
+    ],
+    [
+     2.4,
+     {
+      "v": "A",
+      "alpha": 1,
+      "rent": false
+     }
+    ],
+    [
+     4.2,
+     {
+      "v": "A",
+      "alpha": 1,
+      "rent": false
+     }
+    ]
+   ],
+   "fx": {
+    "frames": 11,
+    "seconds": 2.96,
+    "halvesFrom": null,
+    "halves": 0,
+    "wholeAfterHalves": 0,
+    "mostSkinsDrawn": 1
+   },
+   "tones": {
+    "spectator": 0,
+    "victim": 0
+   },
+   "body": {
+    "spectator": {
+     "c": "SkinStealer",
+     "x": 6281,
+     "y": 3418,
+     "ag": 0
+    },
+    "victim": {
+     "c": "SkinStealer",
+     "x": 6281,
+     "y": 3418,
+     "ag": 0
+    },
+    "late": {
+     "c": "SkinStealer",
+     "x": 6281,
+     "y": 3418,
+     "ag": 6.6
+    }
+   },
+   "ownCorpse": {
+    "c": "SkinStealer"
+   },
+   "fresh": true,
+   "same": true,
+   "ownSame": true
+  },
+  {
+   "name": "D, the victim gone half a second in (the server's fallback)",
+   "v": "D",
+   "shots": [],
+   "own": [
+    [
+     0.3,
+     null
+    ]
+   ],
+   "closedAt": 0.5,
+   "fx": {
+    "frames": 20,
+    "seconds": 3.46,
+    "halvesFrom": 1.03,
+    "halves": 15,
+    "wholeAfterHalves": 0,
+    "mostSkinsDrawn": 1
+   },
+   "tones": {
+    "spectator": 1,
+    "victim": null
+   },
+   "body": {
+    "spectator": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 0
+    },
+    "victim": null,
+    "late": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 5.1
+    }
+   },
+   "ownCorpse": null,
+   "fresh": true,
+   "same": true,
+   "ownSame": null
+  }
+ ],
+ "errors": {
+  "O": [],
+  "S": []
+ }
+}

@@ -1,6 +1,6 @@
 /** @part generated/server/ai.js - N.A.N.I.: the Skin-Stealer's plan interruption and preemption (Trial 3 R16d): which plans new evidence may cut, and when
  * provides: skLeftFor, skPreempt, skRefractory
- * uses: -
+ * uses: skReactEnd
  * writes: -
  */
 /* ---------------------------------------------------------------- PLAN INTERRUPTION AND PREEMPTION (Trial 3 R16d; dev/trial-3-r9-overhaul/)
@@ -53,16 +53,19 @@ function skPreempt(eng, e, mayHunt) {
   const now = eng.now, P = e.plan, cls = skPlanClass(e), M = e.pre || (e.pre = { seen: new Map(), forced: new Map(), force: '', n: 0 });
   M.force = '';
   // who it sees now, and who is new to its eyes (first seen, or seen again after a while out of sight)
-  let fresh = null;
+  // (R16g, the review: a person it saw at its last think before a gap in its thinking - a strike, a capture, a kill playing - is not new
+  // for that gap alone)
+  let fresh = null; const gap = M.at !== undefined && now - M.at > SKP.regain; M.atPrev = M.at; M.at = now;
   for (const id of e.seenNow) {
     const r = e.mem.p.get(id), last = M.seen.get(id); M.seen.set(id, now);
     if (!r || !r.visual || r.visual.caught || !r.visual.alive) continue;
-    const isNew = last === undefined || now - last > SKP.regain;
+    const isNew = last === undefined || (now - last > SKP.regain && !(gap && last >= M.atPrev - 1e-6));
     if (isNew && mayHunt(r) && (!fresh || r.dist < fresh.dist)) fresh = r;
   }
   for (const [id, t] of M.seen) if (now - t > 30 || !eng.byId.has(id)) M.seen.delete(id);
   const may = !!fresh && now - (M.forced.get(fresh.id) ?? -99) >= SKP.again;
-  // kept, and said so: a committed action (physics and fairness), and a departure with a reason sight does not change
+  // kept, and said so: a committed action (physics and fairness - a guard only: skinTick does not think during one, P04), and a departure
+  // with a reason sight does not change
   if (cls === 'committed' || (P && P.k === 'leave' && cls === 'tactical')) {
     if (may) {
       M.forced.set(fresh.id, now); M.kept = (M.kept || 0) + 1;
@@ -74,7 +77,7 @@ function skPreempt(eng, e, mayHunt) {
   let why = '';
   if (may) {
     if (cls === 'low') why = `P${fresh.id} seen: ${P ? 'its ' + P.k : 'its roaming'} gives way`;
-    else if (P && P.pid !== fresh.id) why = `P${fresh.id} seen: it weighs them against its ${P.k} about ${P.pid ? 'P' + P.pid : 'nobody'}`;
+    else if (P && P.pid !== fresh.id) why = `P${fresh.id} seen: its ${P.k} about ${P.pid ? 'P' + P.pid : 'nobody'} goes on while it still makes sense (weighed against them on this think)`;
     if (why) M.forced.set(fresh.id, now);
   }
   // a lure's or an ambush's quarry, seen going away from it (not coming) for a while: the wait has lost its point
@@ -93,7 +96,7 @@ function skPreempt(eng, e, mayHunt) {
   if (e.mind) { e.mind.ev.push({ t: +now.toFixed(2), k: 'preempt', pid: fresh ? fresh.id : P ? P.pid : 0, x: why.slice(0, 60), resp: -1, how: '', plan: P ? P.k : '' }); while (e.mind.ev.length > 24) e.mind.ev.shift(); e.mind.evN.preempt = (e.mind.evN.preempt || 0) + 1; }
   if (cls === 'low') {                                                              // cut now: the decision runs on this think with nothing to keep
     if (P) { if (P.k === 'leave') e.tally.reconsider++; e.plan = null; e.path = []; }
-    e.roam.pause = 0; e.rx = null;
+    e.roam.pause = 0; if (e.rx) skReactEnd(eng, e, false);                          // (R16g, the review: a reaction is ended as its own end does - state and warning kept right)
   }
   return why;
 }

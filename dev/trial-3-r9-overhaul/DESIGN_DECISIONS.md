@@ -795,3 +795,146 @@ footwork in an approach).
 - The admin debug block now also carries its last interruption (`pe`), its eyes' stimulus (`lk`), its footwork (`ft`) and whom it sees
   (`sn`): the admin's overlay, and R16g's real-page campaign, read them (admin-only, as every other field of the block). (`sn` was added
   after the `npm test` run above; `s_admin` 5/5 and P01-P04, P10, P15 were run again after it.)
+
+## R16g — the real-page campaign (the owner's §7), the overlay's new lines, the final regression
+
+**R16g-1 What a real-page scenario is here** (`tools/r16g_campaign.js`). The owner: a scenario passes only if the observed browser
+behaviour demonstrates it - what it perceived, the plan it cut or kept, why, and what it visibly did. Every person is a real page
+(headless Chromium, SwiftShader) moved by its own keys and its own mouse; the admin page's own commands set the scene (freeze, the
+Hounds and Smilers taken off, the debug data on with the overlay itself off); a creature is placed by the test-only `qa_server.js`
+where a scene says (R16g gives it a roam goal, as `dev/tests` and `repro_ap.js` give one a route). Each page records, at every
+snapshot it receives (20 a second), its own wanderer, every creature as the snapshot draws it (place, facing, head, act, speed) and how
+many of the page's own three rays reach each creature's body; the admin page also keeps the last debug block the server sent it (6-7 a
+second: plan, why, its last interruption, its eyes' stimulus, its footwork, whom it sees). The debug is read only to report and to
+judge; nothing in the scene is steered by it. Under SwiftShader a page's own frames come seldom and its messages in bursts, so timings
+inside a scene are read in the order of the snapshots (50 ms apart on the server), not on the page's clock.
+
+**R16g-2 Scenes whose premise did not hold are set again, not counted.** A scene is void (and set again, up to three times) when the
+creature had the person in sight before the stimulus, when the person was caught before the thing to be judged happened (a circling
+page caught before ten snapshots of footwork; a feint's page caught before its reversal could be answered), or when the walk-on scene's
+creature had not come past the room. A void scene is never a pass: before R16g-2, F5 and F6 counted a page caught early as a pass.
+
+**R16g-3 Staging found while building the scenes** (each a fact about the game, not a change to it):
+- A creature more than 1900 px from every living player sleeps where it stands (`ai.entity.js` `tierOf`: the shared level of detail;
+  `onFar` clears its route). F2's first version parked the page 4,000 px away until the creature passed the room: it never moved. The
+  page now waits near it, out of its sight.
+- A teleport (`__api.tp`) is itself a jump the creature can notice - in two of three tries the first stimulus was the page appearing,
+  as a movement or a sound. F2 now moves nothing by hand: the page waits crouched in the dark in the room off the hall (made out from
+  285 px so: `repro_ap.js` V) and, once the creature is past it, stands and walks (footsteps carry 240 px: not to it).
+- F4's starving creature can answer with a flank (round by the room) rather than an approach: 4 s did not bring a flank closer than the
+  fed one's departure; the window is 8 s.
+- F6's reversal is read from the page's own way round the creature as the snapshots show it (only the samples where the page's position
+  moved), not from when its keys changed: under SwiftShader the page's movement reaches the server 0-400 ms after its keys.
+
+**R16g-4 The overlay shows what the campaign reads.** R16f-4 said the admin's overlay read the new debug fields; it did not. The overlay
+(admin-only, debug mode only: `ents.debug.js`) now shows `EYES SOUND | MOTION | SIGHT (its body turned): <what>` and `FOOTWORK P<n>
+sideways <s> backing <s>`, and `CUT | KEPT <plan> (<class>) <s>s ago: <why>` - the owner's Human QA reads them (`HUMAN_QA.md`). R16f's
+`sn` (whom it sees) shared its key with T6's `sn` (its skin's note) in the same object, so the note was no longer sent; it is now `sw`.
+Nothing a player's page receives changed.
+
+**R16g-5 The independent review of R16d-R16f** (a separate agent, read-only, given the diff from R16c and the locks, not this record).
+It found no read of a person's hidden place, no sight through a wall and no step over its run. Its findings, most severe first, and what
+was done:
+1. **An open approach's footwork ran** (medium): R16f gave it the run (255 px/s) within 340 px of anybody moving, from hunger 0.35 - a run
+   with none of the chase's conditions (hunger 0.6, its breath, a lost race). It now runs only where it may give chase - the chase's own
+   conditions on it (`skMayRun`: hunger 0.6 or more, not exhausted, its breath, no race lost to them lately); otherwise it moves at the
+   approach's own pace: their speed and a little more, at least its stalk, never over `SK.runFrom` (200 px/s, the pace that costs
+   stamina).
+2. **A hungry watch's footwork carried it into its spring** (medium-low): a watch never springs, and is weighed by its distance (beyond
+   `SK.near`); the footwork's band (115-170 px) undid that. A watch's footwork keeps a watch's distance (270-330 px).
+3. **PR14 had been loosened** (medium): R16e counted a run east it saw as known. The test is about a misleading sound; a seed in which it
+   sees the run is not this test's scene. Such seeds are now set aside (counted and reported) and seeds go on until eight hold the
+   premise; R8's thresholds apply to those eight (it took the running for theirs in at least 5, was fooled in at least 3).
+4. **The passer's change reaches BR04 and BR11 as well as BR01** (medium-low): disclosed here and in `REGRESSION.md`. Run on this tree
+   with R16d's passer (`evidence/r16g/tests/passer_r16d_on_r16g.txt`) BR04 and BR11 give the same numbers to the pixel as with R16e's
+   (BR04's pass 49-118 px close, one look; BR11 8 of 8 bumped at 23-25 px, no strike): their scenes never reach the passer's new turns.
+   BR01 fails with R16d's passer, as R16e-5 found.
+5. **Momentum across the footwork's edge** (low-medium): its velocity was kept 0.25 s between ticks of footwork, and the shared
+   steering then carried its whole speed along its facing - a sideways step turned forward in a tick. Now the velocity carries over only
+   from the tick before, and into the shared steering only what lies along its facing.
+6. **Its turns were faster than the species turns** (low-medium): the footwork faced at 7 rad/s and the body turned to a stimulus at 5;
+   the species' `TURNING_ABILITY` is 3.6. The body's turn to a stimulus now uses the shared steering's own formula (`skTurnRate`: 3.6
+   standing, less moving); the footwork's facing turns at 3.6 - not the shared steering's slower turn at speed, which is a turn of the way
+   it runs, while in its footwork the way it goes is its own velocity, changed only by its acceleration. Circled, it now lags them 0.1-0.43
+   rad (R16f 0.08-0.16; R8 0.62-1.34) and steps sideways less: P15's bars, R16f's own figures (0.35 rad, sideways in 60 % of the scenes),
+   are now 0.5 rad and half (`REGRESSION.md`).
+7. **Exhausted, its prowl was faster than its exhausted pace** (low): capped by `skCap`.
+8. **It prowled to footsteps it had taken for somebody it left** (low): passed over, as that person is.
+9. **A prowl it could not finish could be chosen again** (low): it is remembered as walked.
+10. **Resets** (low): `onFar` and `onClear` now also clear the head's last value (it no longer comes back for 0.15 s), its eyes' memory
+    and its interruption memory; a person seen at its last think before a gap in its thinking (a strike, a capture, a kill) is not new for
+    the gap alone.
+11. **A reaction cut by an interruption** (low): ended as its own end ends it (`skReactEnd`: the state and the warning's record).
+12. **A blocked line re-tested every tick** (low, cost): remembered until its next think.
+13. **Logs** (low): the committed branch is a guard only (no think runs during one); a tactical plan's log now says it goes on while it
+    still makes sense (the decision weighs the newcomer on every think) rather than claiming a reassessment of its own.
+14. **At the sound's own place it faced a near-random way** (low): it looks the way it faces.
+15. **The drawn snap took every brisk turn for one** (low): a snap is now a head moving over 0.5 rad between two snapshots (a snap moves
+    up to 0.65, the plan's own turns at most 0.4).
+16. **P18's title said "every circling and slipping scene"** (low): it circles only; corrected.
+The caveat it left: `skWatched` reads the facing of a person it sees, live between thinks (R8's helper); the footwork calls it only for
+somebody it sees.
+
+**R16g-6 The continuous campaign's own measure, corrected before it was believed.** Its first two runs (on R16f with the overlay's
+fields) reported "seen through a wall" in 11 of 501 and 16 of 332 sightings, and the first "faster than its run" in 12 samples. Traced on
+the second run's whole record (`--raw`, kept out of the repository) against the shared geometry, they were the measure's own
+misalignment: the debug list of whom it sees was the one the page had last processed, which under SwiftShader's bursts was several
+snapshots older than the places it was compared with (at those sightings the server's own line had been clear in the samples just
+before); and B's sightings were matched to B's page by the two pages' own clocks, which differ. Matched by tick on the same record, 1 of
+100 sightings remained without a ray in its window - inside the same burst. The recorder now reads the debug from the
+snapshot message that carries it (the same server tick as the places), B's page is matched to that tick by the snapshot itself (every
+page's copy of one tick has the creatures' places identical), and a sighting - its sight of its last think, at most 0.1 s before the
+tick - is held against the person's page over that tick and the two before it. The over-speed samples did not recur in the second run
+(0); the check keeps each sample's act and plan if any do.
+
+**R16g-7 Measured and checked, on the final tree** (`evidence/r16g/`):
+- Real pages, focused (`browser/focused_r16g.*`, the video `r16g_focused_pageA.mp4` and its sheet): **7 of 7, each on its first try**.
+  - F1, a sound behind it: its head on the sound 50 ms after it began to turn, its body 100 ms after the head (snapshot order).
+  - F2, movement at the edge of its view: the page stood and walked 2.04 rad off its head (its view: 1.25 either side); its eyes took
+    the movement first, and it saw the page on that think.
+  - F3, seen while roaming: its route given up on the think it saw them (a retreat, then a flank).
+  - F4, hunger: fed (0.25) it left, 495 px at its closest; starving (0.95) it approached and killed.
+  - F5, circled: in its footwork it faced the page within 0.31 rad on average, stepped sideways, never over 255 px/s.
+  - F6, a feint: its sideways step kept the old way and turned 300 ms after the page's reversal reached the server.
+  - F7, two people: B, crouched behind it, stood and ran while it dealt with A - B's own page drew its head turned to B 0.56 s after B
+    ran; on the think it saw B its decision weighed B against its retreat from A, and with two people about it left.
+- Real pages, continuous (`browser/continuous_r16g.*`, `continuous_r16g_events.txt` - every change of plan, eyes, interruption or whom it
+  sees, with why; the video and the sheets): 12 minutes, two pages played by their own keys and mouse (exploring, hiding, peeking,
+  circling, feinting, fleeing; a second, starving Skin-Stealer from the half-way mark): **every hard-failure check passes** - no walk-on
+  after a new sighting at hunting hunger, its head turning (25 snaps), no sighting without a line from the person's own page (0 of
+  159), never over its run, never stuck 8 s, no plan flipping back within a second, no page error. 12 deaths, 7 interruptions logged.
+  The two superseded runs are kept (`continuous_run1_superseded.txt`, `_run2_`).
+- Suites: every Skin-Stealer suite passes (`tests/`): `s_skinap` 18/18, `s_skinstealer` 34/34, `s_skinbehave` 19/19,
+  `s_skinpredator` 30/30, `s_skinsight` 10/10, `s_skinmind` 15/15, `s_skinroute` 15/15, `s_skinr9` 1/1, `s_skinbody` 11/11,
+  `s_skinrend` 8/8, `s_skinadv` 9/9, `s_skinr16` 5/5. `npm test` 324/337 with the same 13 inherited failures; Human QA hotfix 5/6 (X03
+  inherited); the static checks, the docs, the scope gate and `build:check` pass. Changed tests: P06's log text, P15's bars, P15/P16's
+  count of footwork, P18's title, PR14 (R16g-5).
+- The earlier real-page scenes on the final tree (`browser/`): the sight-only warning (`--scene sight`) 12/12 in three runs - its
+  first two runs, straight after the 12-minute campaign, failed 6 of 12, all on page A, whose camera never came to where it stood (no
+  thump, sting or Hound vignette on A at all; B as expected); the same runtime files on a separate tree, and R16e's and R16f's trees,
+  passed, and so did the next three runs here (`sight_r16g_try1` ... `try5`, all kept). The owner's watched hall (`--scene
+  flankwatch`, four tries): every covert transit 0 px in the page's view (its withdrawal out of sight seen, by design); the Rend (`--scene
+  rend`): the victim's own drawn corpse the server's two halves, the same on every page, the tear heard by spectator and victim;
+  `predator_browser.js` 7/7.
+- The October 22 probes (`tools/repro_ap.js`, `repro_r16g.*`) against R8's and R16b's (`evidence/r16c/`). (AP_AUDIT.md said R16b
+  and R8 agree; they do in every probe but C, where R8's facing error is the larger - both are shown. P is R16e's probe: on R16d, R8's
+  periphery, 0 of 8, `evidence/r16e/repro_r16d_P.txt`.)
+
+| Probe | R8 (`f378049`) | R16b (`b58db41`) | R16g |
+|---|---|---|---|
+| E taken up | 0 of 9 (at - s) | 0 of 9 (at - s) | 5 of 9 (at 6-10.1 s) |
+| F reconsidered (below .6 / all) | 1 of 6 / 4 of 9 | 1 of 6 / 4 of 9 | 6 of 6 / 9 of 9 |
+| G standing s/min | 8.7-13.2 (fed .3: 10.7-11.1) | 8.7-13.2 (fed .3: 10.7-11.1) | 2.9-11.1 (fed .3: 10.7-11.1) |
+| B head / body s | 0.08-0.45 / 0.22-0.33 | 0.08-0.45 / 0.22-0.33 | 0.08-0.13 / 0.25-0.35 |
+| B sees them after s (hungry) | 3.83-5.23 | 3.83-5.23 | 2.93-4.3 |
+| A walked on after sight px | 0 | 0 | 0 |
+| A 85deg seen | 0 of 8 | 0 of 8 | 2 of 8 |
+| P walking across noticed | not measured | not measured | 7 of 7 |
+| C facing err rad | 0.92-2.03 | 0.62-1.34 | 0.2-0.58 |
+| C sideways in | 0 of 8 | 0 of 8 | 5 of 8 |
+
+E: somebody it gave up on, seen again plainly while hungry - taken up again. F: a departure under way, a new person crossing 420 px in
+front - reconsidered. G: roaming with nobody about - seconds a minute standing (fed, it still pauses as before; hungry and starving it
+prowls). B: a sprint 350 px behind it - its head and its body turning after the sound; then, hungry, how long until it sees them standing
+unlit. A: a lit person ahead or at the side - px it walked on after seeing them; seen at 85 degrees off its way. P: a person walking
+across a room 100 degrees off its way, 420 px - noticed. C: circled at 230 px - its mean facing error; scenes with sideways steps.

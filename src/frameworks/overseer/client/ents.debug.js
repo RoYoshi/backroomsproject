@@ -126,6 +126,10 @@ function drawEntities(cx, view, list, cfg, stale) {
           lines.push(`MIND ${m.obs.length ? m.obs.map(o => 'P' + o.pid + (o.view ? ' COULD SEE IT' : ' could not see it') + (!o.view && o.saw < 8 ? ' (could ' + o.saw + 's ago)' : '') + (o.eyes < 4 ? ' eyes ' + o.eyes + 's ago' : '')).join(', ') : 'sees nobody'}`,
             'events ' + (m.ev.map(v => v[1] + (v[2] ? ' P' + v[2] : '') + ' ' + (v[3] >= 0 ? v[4] + ' ' + v[3] + 's' : 'open')).join('  ') || '-'));
           if (sel && q.ht && q.ht.log) for (const l of q.ht.log) lines.push(`  ${l[1]} ${l[2]},${l[3]} ±${l[4]} at ${l[0]}s${l[5] ? ': ' + l[5] : ''}`); }
+        // (Trial 3 R16g) its eyes (what turned its head, and whether its body followed), its footwork, and its last interruption - the plan it
+        // cut or kept on what it perceived, and why (dev/trial-3-r9-overhaul/, not owner-approved)
+        if (q.lk || q.ft) lines.push(`${q.lk ? 'EYES ' + q.lk.k.toUpperCase() + (q.lk.body ? ' (its body turned)' : '') + (q.lk.why ? ': ' + q.lk.why : '') : 'EYES -'}${q.ft ? '  FOOTWORK P' + q.ft.pid + ' sideways ' + q.ft.side + 's backing ' + q.ft.back + 's' : ''}`);
+        if (q.pe) lines.push(`${q.pe.kept ? 'KEPT' : 'CUT'} ${q.pe.from} (${q.pe.cls}) ${q.pe.ago}s ago: ${q.pe.why}`);
         if (q.cv) lines.push(`MOVE ${q.cv.mode.toUpperCase()}${q.cv.phase ? ' ' + q.cv.phase : ''}${q.cv.way ? '  way ' + q.cv.way + ' px (withdrawal ' + q.cv.exit + ')' : ''}${q.cv.why ? '  cover: ' + q.cv.why : ''}`);   // (R13) covert, open or feint - never one shown as the other
         if (q.ht && q.ht.hy && (cfg.evid || sel)) { const Y = q.ht.hy;                 // (R12) the ways it holds: kind, likelihood, the one its guess lies on, what ruled one out
           lines.push(`WAYS from ${Y.from} (${Y.builds} listed)${Y.heard ? '  last sound fit ' + Y.heard.fit + '/' + Y.heard.of : ''}: ` + Y.ways.map(w => `${w[0]} ${w[1]} ${w[3]}${w[0] === Y.bet ? ' GUESS' : ''}${w[4] ? ' x' : ''}`).join('  '));

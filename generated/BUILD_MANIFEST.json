@@ -289,8 +289,8 @@
   },
   {
    "out": "public/assets/skinstealer.js",
-   "bytes": 53588,
-   "sha256": "918d61f57d7954607a3f63989f646779ec1f03decd541b27b1e7eae88c517404",
+   "bytes": 53833,
+   "sha256": "851dd70904387fc072cf52599d021ebf1e34dd615d51b8561fcd47c9f22738a4",
    "parts": [
     {
      "path": "src/frameworks/nani/client/skin.head.js",
@@ -304,7 +304,7 @@
     },
     {
      "path": "src/frameworks/br-r/client/skin.body.js",
-     "sha256": "cf779d2830d0eee10b16f0b78885816f68837fb7ce08617624cf4802f209d3bd",
+     "sha256": "853711d773669d2d5b65df56519382fe853871220490ebf7ddc782635c7d7ed1",
      "headerBytes": 1927
     },
     {
@@ -404,8 +404,8 @@
   },
   {
    "out": "public/ents.js",
-   "bytes": 84948,
-   "sha256": "df142f31f7cc241898a71fb18a37296ed05e850ad6e03c18eab0cf4a0ade0600",
+   "bytes": 85583,
+   "sha256": "efb147cc8f4eda7c9954e65411ee27d67e85fabaddb445f92293136b857f712a",
    "parts": [
     {
      "path": "src/frameworks/br-r/client/ents.head.js",
@@ -434,7 +434,7 @@
     },
     {
      "path": "src/frameworks/overseer/client/ents.debug.js",
-     "sha256": "721a2457e57c1b20fb6f9086cf5c54465cb3bee147a3894bb181c989baeff440",
+     "sha256": "71bc8007732310e5ccf3f6106ad3ada41561b4d3c9e3a58d5c83c9ca7084ba57",
      "headerBytes": 473
     },
     {
@@ -681,8 +681,8 @@
   },
   {
    "out": "generated/server/ai.js",
-   "bytes": 444074,
-   "sha256": "ef4af49f848c4074f304413a466c1e0a894b9d3f8e317857a55a44d32e28ce64",
+   "bytes": 448075,
+   "sha256": "acf8eb1181edea3fd9a365a8eee0055828aab7f51357f986f0fad0c54ebc0911",
    "parts": [
     {
      "path": "src/frameworks/nani/server/ai.head.js",
@@ -746,23 +746,23 @@
     },
     {
      "path": "src/frameworks/nani/server/ai.skin.preempt.js",
-     "sha256": "43018e672123d6b9c858f94295c0b70194bb88d224b06be6a451647740d4975d",
-     "headerBytes": 232
+     "sha256": "cd31eabe174ffcba18f6b698da7ea21b2632ae4ff5e25aa5423f574c9e6fcb91",
+     "headerBytes": 241
     },
     {
      "path": "src/frameworks/nani/server/ai.skin.look.js",
-     "sha256": "fa0976ab31a02a6a8947fdd5c1ee4cd0306002cbce0ca087a5f09f559accb4b1",
-     "headerBytes": 309
+     "sha256": "f6e0e4c0145a3d7e661d935703692809df9fe293ec8d4df971c46b7f1d806042",
+     "headerBytes": 321
     },
     {
      "path": "src/frameworks/nani/server/ai.skin.move.js",
-     "sha256": "dfb717924d7a31656f553a13bab468983d2dd9f7b321c3c5aa90624c60feafc1",
+     "sha256": "80890d0615b0712f990bcaf8968d9df738fe820b49d01affd4fd76fa92924f5c",
      "headerBytes": 311
     },
     {
      "path": "src/frameworks/nani/server/ai.skinstealer.js",
-     "sha256": "8a41db820016481794fedc7fbf7fd6a0eba27bcb915efbb7fd76603ff634006a",
-     "headerBytes": 774
+     "sha256": "b6704e34cc7aaf665392ffef5e3fb570147b6db09fbbad414628e3ef243fd025",
+     "headerBytes": 798
     },
     {
      "path": "src/frameworks/nani/server/ai.engine.js",

@@ -6,7 +6,8 @@
  *
  * Before DIR's server.js is loaded, the sim factory it requires (src/core/server/sim.js) is wrapped so that every room's sim is kept here;
  * nothing else is touched.  Commands arrive one JSON line at a time on stdin, answers leave one JSON line at a time on stdout:
- *   {op:'spawn', kind, x, y, hunger}   a creature put exactly there, with that spawn hunger (as a scenario test places one), in the newest room
+ *   {op:'spawn', kind, x, y, hunger}   a creature put exactly there, with that spawn hunger (as a scenario test places one), in the newest room;
+ *                                      (R16g) goal {x, y}: a Skin-Stealer's roam begun toward it, as dev/tests and repro_ap.js give one a route
  *   {op:'probe', id}                   where it is and what it is doing (reported only; the scene never steers it)
  *   {op:'disguise', id, look} / {op:'undress', id}   (R10 V09) the borrowed look it would wear after feeding at a kill, set or taken off for
  *                                      the scene (its body state, as a hunger is; the server sends it as it sends a real one)
@@ -29,6 +30,7 @@ readline.createInterface({ input: process.stdin }).on('line', line => {
   if (m.op === 'spawn') {
     const e = eng.spawn(m.kind === 'hound' ? 'hound' : m.kind === 'smiler' ? 'smiler' : 'skinstealer', +m.x, +m.y, Number.isFinite(+m.hunger) && m.hunger !== null ? { hunger: +m.hunger } : {});
     if (e && Number.isFinite(+m.ang)) e.ang = +m.ang;
+    if (e && e.roam && m.goal && Number.isFinite(+m.goal.x) && Number.isFinite(+m.goal.y)) { e.roam.goal = { x: +m.goal.x, y: +m.goal.y }; e.roam.until = eng.now + 60; e.roam.pause = 0; }
     return out({ ok: !!e, op: 'spawn', id: e ? e.id : 0, x: e ? Math.round(e.x) : 0, y: e ? Math.round(e.y) : 0, hunger: e && e.hunger !== undefined ? +e.hunger.toFixed(3) : null });
   }
   if (m.op === 'disguise' || m.op === 'undress') {                             // (R10 V09: the borrowed look a kill would give it, set for the scene)
