@@ -1,5 +1,5 @@
 /** @part generated/server/ai.js - N.A.N.I.: the Skin-Stealer's mind (Trial 3 R11): who could see it, what changed since its last think, what it knows of its quarry
- * provides: skMindDbg, skMindKept, skMindLog, skMindNew, skMindTick
+ * provides: skExposedTo, skLegible, skMindDbg, skMindKept, skMindLog, skMindNew, skMindTick, skObsOf
  * uses: angDiff, sm
  * writes: -
  */
@@ -69,8 +69,8 @@ function skMindNew() { return { obs: new Map(), seen: new Set(), ev: [], evN: {}
 const skSawMe = (eng, e, pid) => { const o = e.mind && e.mind.obs.get(pid); return o && eng.now - o.sawAt <= SKM.sawTtl ? o : null; };
 function skEvent(e, now, k, pid, x) { const M = e.mind; M.ev.push({ t: +now.toFixed(2), k, pid: pid || 0, x: x || '', resp: -1, how: '', plan: e.plan ? e.plan.k : '' }); while (M.ev.length > SKM.evMax) M.ev.shift(); M.evN[k] = (M.evN[k] || 0) + 1; }
 /* the decision weighed its unanswered events of these kinds and KEPT its plan (a plan that goes on without a sighting, a plan clearly still
- * the best): that is its answer too, at this time */
-function skMindKept(e, now, kinds) { const M = e.mind; if (!M) return; for (const v of M.ev) if (v.resp < 0 && kinds.includes(v.k)) { v.resp = +(now - v.t).toFixed(2); v.how = 'kept'; } }
+ * the best) - or (R13) answered them with a strike: that is its answer too, at this time */
+function skMindKept(e, now, kinds, how) { const M = e.mind; if (!M) return; for (const v of M.ev) if (v.resp < 0 && kinds.includes(v.k)) { v.resp = +(now - v.t).toFixed(2); v.how = how || 'kept'; } }
 /* a line of its hunt's evidence: seen | heard | inferred | disproved, where and how sure */
 function skMindLog(e, H, now, k, x, y, u, note) { if (!H) return; const L = H.log || (H.log = []); L.push([+now.toFixed(1), k, Math.round(x), Math.round(y), Math.round(u || 0), String(note || '').slice(0, 40)]); while (L.length > SKM.logMax) L.shift(); }
 /* on its think, before deciding: the people it sees now, whether they could see it, what changed */

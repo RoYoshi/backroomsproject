@@ -1,0 +1,68 @@
+== runs east after the glimpse (it hears them): the sound re-weighs its ways
+  0.62s  plan approach: P101 cannot see it: it creeps nearer under cover (765 px) (person 1300,5590)
+  2.13s  WAYS listed from its seen evidence at 1300,5451 heading -90 deg (person 1300,5331)
+          way 1 turn first turn 3.53 (68 deg off the heading)  p 0.39  ends 1123,4034
+          way 2 turn first turn 5.89 (68 deg off the heading)  p 0.39  ends 2065,5002
+          way 3 back first turn 2.36 (135 deg off the heading)  p 0.13  ends 1301,5977
+          way 4 stop first turn - (0 deg off the heading)  p 0.08  ends 1300,5451
+  2.13s  plan intercept on way 2: lost P101: it guesses their way (2 turns) and goes round to meet them 672 px ahead (person 1300,5331)
+  3.88s  HEARD a sound at 1520,5071 ±203: it fits 4 of 4 ways; now 1 0.37, 2 0.48, 3 0.13, 4 0.02 (person 1476,5060)
+  4.23s  HEARD a sound at 1483,4893 ±177: it fits 3 of 4 ways; now 1 0.24, 2 0.67, 3 0.08, 4 0.00 (person 1560,5005)
+  4.23s  RULED OUT way 4 (stop): a sound at 1483,4893 does not fit it
+  4.47s  plan approach: P101 cannot see it yet, but there is no cover nearer: it comes on openly (person 1615,4969)
+  5.52s  WAYS listed from its seen evidence at 1698,4914 heading -33 deg (person 1722,4899)
+          way 5 turn first turn 6.09 (22 deg off the heading)  p 0.63  ends 2039,4915
+          way 6 turn first turn 1.38 (112 deg off the heading)  p 0.17  ends 1656,6009
+          way 7 back first turn 3.35 (135 deg off the heading)  p 0.12  ends 1166,4922
+          way 8 stop first turn - (0 deg off the heading)  p 0.08  ends 1698,4914
+  5.52s  GUESS - (of -); rejected: intercept late_to_intercept
+  5.52s  plan listen: it lost sight of P101: it stops and listens (person 1722,4899)
+  6.22s  GUESS route on way 5 (of route/belief/alt/last/way/way); rejected: intercept late_to_intercept, belief#5 less_likely, alt#5 less_likely, last less_likely, way#6 less_likely, way#7 less_likely
+  6.22s  plan search: it goes the way it thinks P101 went (seen 1 s ago) (person 1722,4899)
+  7.25s  plan -: it has P101 (person 1722,4899)
+ 12.52s  plan feed: it feeds at its kill (person 1722,4899)
+
+== runs north-west after the glimpse (it hears them): the sound re-weighs its ways
+  0.62s  plan approach: P101 cannot see it: it creeps nearer under cover (765 px) (person 1300,5590)
+  2.13s  WAYS listed from its seen evidence at 1300,5451 heading -90 deg (person 1300,5331)
+          way 1 turn first turn 3.53 (68 deg off the heading)  p 0.39  ends 1123,4034
+          way 2 turn first turn 5.89 (68 deg off the heading)  p 0.39  ends 2065,5002
+          way 3 back first turn 2.36 (135 deg off the heading)  p 0.13  ends 1301,5977
+          way 4 stop first turn - (0 deg off the heading)  p 0.08  ends 1300,5451
+  2.13s  plan intercept on way 2: lost P101: it guesses their way (2 turns) and goes round to meet them 672 px ahead (person 1300,5331)
+  6.68s  HEARD a sound at 1283,5090 ±129: it fits 3 of 4 ways; now 1 0.42, 2 0.42, 3 0.14, 4 0.01 (person 1250,5086)
+  6.68s  RULED OUT way 4 (stop): a sound at 1283,5090 does not fit it
+  7.03s  HEARD a sound at 1214,4998 ±122: it fits 3 of 3 ways; now 1 0.50, 2 0.36, 3 0.12, 4 0.01 (person 1250,5086)
+  7.27s  HEARD a sound at 1308,5020 ±106: it fits 3 of 3 ways; now 1 0.50, 2 0.37, 3 0.12, 4 0.01 (person 1250,5086)
+  7.62s  HEARD a sound at 1240,5033 ±92: it fits 3 of 3 ways; now 1 0.55, 2 0.33, 3 0.11, 4 0.01 (person 1250,5086)
+  7.85s  HEARD a sound at 1216,5059 ±78: it fits 3 of 3 ways; now 1 0.61, 2 0.29, 3 0.09, 4 0.01 (person 1250,5086)
+  7.97s  plan approach: P101 is right there, unaware: it comes on (person 1250,5086)
+  8.90s  plan -: it has P101 (person 1250,5086)
+
+== doubles back crouching (unheard): its bet is wrong, the way is ruled out, the next guess goes elsewhere, it gives up
+  0.65s  plan approach: P101 cannot see it: it creeps nearer under cover (680 px) (person 1300,5585)
+  2.17s  WAYS listed from its seen evidence at 1300,5445 heading -90 deg (person 1300,5325)
+          way 1 turn first turn 3.53 (68 deg off the heading)  p 0.39  ends 1123,4028
+          way 2 turn first turn 5.89 (68 deg off the heading)  p 0.39  ends 2065,4996
+          way 3 back first turn 2.36 (135 deg off the heading)  p 0.13  ends 1301,5971
+          way 4 stop first turn - (0 deg off the heading)  p 0.08  ends 1300,5445
+  2.17s  plan intercept on way 2: lost P101: it guesses their way (2 turns) and goes round to meet them 720 px ahead (person 1300,5325)
+ 12.90s  plan listen: it guessed wrong (nobody came): it has lost P101: it stands still and listens (person 713,5332)
+ 14.30s  RULED OUT way 2 (turn): found empty at 1699,4992 (intercept)
+ 14.30s  GUESS route on way 1 (of route/last/way); rejected: intercept evidence_stale, belief#2 disproved, way#2 disproved, last less_likely, way#3 less_likely
+ 14.30s  plan search: it goes the way it thinks P101 went (seen 13 s ago) (person 713,5332)
+ 19.78s  plan leave: no sign of P101 for 18 s: it gives up (person 713,5332)
+
+== crouches north-west and stays silent: nothing it senses changes its ways
+  0.55s  plan approach: P101 cannot see it: it creeps nearer under cover (723 px) (person 1300,5598)
+  2.18s  WAYS listed from its seen evidence at 1300,5442 heading -90 deg (person 1300,5322)
+          way 1 turn first turn 3.53 (68 deg off the heading)  p 0.39  ends 1123,4025
+          way 2 turn first turn 5.89 (68 deg off the heading)  p 0.39  ends 2065,4994
+          way 3 back first turn 2.36 (135 deg off the heading)  p 0.13  ends 1301,5969
+          way 4 stop first turn - (0 deg off the heading)  p 0.08  ends 1300,5442
+  2.18s  plan intercept on way 1: lost P101: it guesses their way (2 turns) and goes round to meet them 1488 px ahead (person 1300,5322)
+ 16.18s  plan listen: it guessed wrong (nobody came): it has lost P101: it stands still and listens (person 493,4870)
+ 17.35s  RULED OUT way 1 (turn): found empty at 1123,4073 (intercept)
+ 17.35s  GUESS belief on way 2 (of belief/route/last/way); rejected: intercept evidence_stale, way#1 disproved, route#2 less_likely, last less_likely, way#3 less_likely
+ 17.35s  plan search: it goes to where it believes P101 is (seen 16 s ago) (person 493,4870)
+ 19.22s  plan leave: no sign of P101 for 18 s: it gives up (person 493,4870)

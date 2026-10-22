@@ -51,3 +51,22 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `dev/tests/run.js` | test list | `s_skinroute.js` added |
 | `dev/trial-3-r9-overhaul/tools/trace_r12.js` | dev tool | the inference traces (`evidence/r12/trace_r12.txt`) |
 | `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `evidence/r11/` (receipt, scan), `evidence/r12/` | docs, evidence | R12-1 … R12-7; R11's receipt |
+
+## R13 — its cover: covert ways, the withdrawal and the hidden run, caught on the way, honest open moves (server)
+| File | Kind | Change |
+|---|---|---|
+| `src/frameworks/nani/server/ai.skin.cover.js` | new part of `generated/server/ai.js` | `skWatchers` (the views it knows of: seen, seen a moment ago, heard since, unnamed footsteps; its quarry's from belief), `skExposedNow` / `skCaught`, `skCovertWay` (the withdrawal; A* with views impassable; the point-by-point audit and its reasons), `skCovertFollow` (its own steering along a covert way), `SKC`; (R13-13) a search never visits a cell no acceptable way could pass through, shares its cost memo with the other searches of the same decision, and tests the line of sight first |
+| `src/frameworks/nani/server/ai.skinstealer.js` | source | "seen" = eye contact or in their view; flank spots near enough to spring from, out of view (behind something or unmade-out in the dark), each asked for a covert way (`skFlankSpot`, its own stream for R13's searches); covert moves (`skCovertStep`: phases, speeds, glance back, stuck); caught on the way (`skCompromised`: duck once, open and committed, stand off, go; the place remembered); from cover (`skFromCover`: nearer, rush, ambush, then hunt on); the ambush plan; covert or open approaches and interceptions (`skInterceptWay`; the waiting spot hidden from four points of their way); decision weights (open approach, opportunity within a leap, no flank round a runner, waits not drawn out); a strike answers events; arrivals into reach count as having come; the hunger band in the open-approach reason; `cv` in its debug |
+| `src/frameworks/nani/server/ai.skin.mind.js` | source | `skMindKept` takes how it answered (a strike); its header lists what the cover part uses |
+| `src/frameworks/nani/server/ai.skin.infer.js` | source | a sound's check records where it was (`heard.x/y`, for the overlay and C22) |
+| `src/frameworks/overseer/client/ents.debug.js` | source (admin overlay, debug mode only) | the `MOVE` line: covert / open / feint / withdraw, a covert move's phase and way, the last cover reason |
+| `src/build-recipes.json` | build | the new part, after `ai.skin.infer.js` |
+| `generated/server/ai.js`, `public/ents.js`, `generated/BUILD_MANIFEST.json` | built | rebuilt from the above |
+| `docs/architecture/BUILD_PIPELINE.md`, `docs/architecture/FRAMEWORKS.md`, `src/frameworks/nani/README.md` | generated doc tables | `node dev/tools/docs/docs.js` |
+| `dev/tests/s_skinroute.js` | suite | C16–C19, C24–C27, R13-A added; C22 widened (R13-11) |
+| `dev/tests/s_skinr9.js` | suite | its header: R9-01 now passes |
+| `dev/tests/run.js` | test list | `s_skinr9.js` added (R9-01, the owner's exposed ambush) |
+| `dev/tests/s_skinpredator.js` | suite | PR07, PR17 adapted (R13-11) |
+| `dev/tests/s_skinstealer.js` | suite | SK21, SK41: the bait scene starts the creature where the person sees it (R13-11) |
+| `dev/trial-3-r9-overhaul/tools/r9_browser.js` | dev tool | flankwatch reads the server's move modes and phases (covert, its withdrawal, open, feint) |
+| `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `evidence/r12/` (receipt, scan), `evidence/r13/` | docs, evidence | R13-1 … R13-14 (R13-13: the covert search's cost, measured and fixed); R12's receipt; the real-page flankwatch after (`evidence/r13/browser/`) |

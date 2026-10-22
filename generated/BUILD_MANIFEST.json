@@ -1,7 +1,7 @@
 {
  "note": "Written by dev/tools/build/build.js. Every built output, its parts in order and their SHA-256. Do not edit: run npm run build.",
  "recipes": "src/build-recipes.json",
- "recipesSha256": "cf4b65034c6ed0c7c53e941849ed529a1eaa7fb9651fd5e95c3cc8b02d609eb2",
+ "recipesSha256": "5880094c2c8dafadf2cedb4f4ff51f450b971938f9799b1c345c4c5b59e89148",
  "tool": "dev/tools/build/build.js",
  "toolSha256": "3d0d0f257f70756d5b910c060ce058f67669899e680216c176b40629eda2a8fd",
  "outputs": [
@@ -404,8 +404,8 @@
   },
   {
    "out": "public/ents.js",
-   "bytes": 84664,
-   "sha256": "6a814b892464f3261530993167d5a2eaf7260e2825113ea833b37a3b1725e337",
+   "bytes": 84948,
+   "sha256": "df142f31f7cc241898a71fb18a37296ed05e850ad6e03c18eab0cf4a0ade0600",
    "parts": [
     {
      "path": "src/frameworks/br-r/client/ents.head.js",
@@ -434,7 +434,7 @@
     },
     {
      "path": "src/frameworks/overseer/client/ents.debug.js",
-     "sha256": "0c413d5444df38b673f3ca919d528355fce022d34678701188f29e005b4694f6",
+     "sha256": "721a2457e57c1b20fb6f9086cf5c54465cb3bee147a3894bb181c989baeff440",
      "headerBytes": 473
     },
     {
@@ -681,8 +681,8 @@
   },
   {
    "out": "generated/server/ai.js",
-   "bytes": 371864,
-   "sha256": "d5150aee9629579be0caf1d4662ca136734cb8537b1054e2570ebd68dd1cdfb4",
+   "bytes": 402311,
+   "sha256": "d805f644ee6fb1794a8a8326671e54b3b4f92935d1f0b71b98ac26174b5974a9",
    "parts": [
     {
      "path": "src/frameworks/nani/server/ai.head.js",
@@ -731,18 +731,23 @@
     },
     {
      "path": "src/frameworks/nani/server/ai.skin.mind.js",
-     "sha256": "6fd0f3617668f6d0edf6d3f344cdfddeac89503d09229b8f0826e10cde6014ab",
-     "headerBytes": 272
+     "sha256": "c522e0bd6edc927d9535a4f7faee7f9a5adb19b7ffee4057ae873a771a37254f",
+     "headerBytes": 305
     },
     {
      "path": "src/frameworks/nani/server/ai.skin.infer.js",
-     "sha256": "2f06e16a4f6db3e228560f0525bfefbd8a70a54223cd172481a10c01053ca2a9",
+     "sha256": "82dc26d2cb63bed5e35b38d72b145dfc28291b105bcf4a7098dc332cedd6ac67",
      "headerBytes": 279
     },
     {
+     "path": "src/frameworks/nani/server/ai.skin.cover.js",
+     "sha256": "8accaec18034650c8d9470aa23ef2615273bfc834c86df73f39360cb746c916e",
+     "headerBytes": 335
+    },
+    {
      "path": "src/frameworks/nani/server/ai.skinstealer.js",
-     "sha256": "e49e2439f72b0236cd46c1a000028e90b95d8d6770c229f9f0f18fcafd69fc3f",
-     "headerBytes": 565
+     "sha256": "2576da1e3dd78e3a8d834fad67d20503abaa3dda6c6c329de42155cba022048d",
+     "headerBytes": 657
     },
     {
      "path": "src/frameworks/nani/server/ai.engine.js",

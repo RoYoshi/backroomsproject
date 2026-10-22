@@ -1,0 +1,17 @@
+try 1: hunger 0.6, plans roam>flank>approach>retreat>lure, 55 samples, 5.3 fps
+   flank:covert:withdrawal 1-2.69s: on the page's view 4/5 samples (80 %), moved 145 px, 105 px of it in view | seen by P1: it backs out of their sight and goes round them under cover (1751 px)
+   flank:covert 2.94-10.66s: on the page's view 0/23 samples (0 %), moved 1423 px, 0 px of it in view | seen by P1: it backs out of their sight and goes round them under cover (1751 px)
+   approach:open 11.58-12.59s: on the page's view 2/4 samples (50 %), moved 143 px, 130 px of it in view | at P1's side, out of their sight: no cover nearer - it breaks cover and rushes where P1 wa
+   bait:feint 12.76-16.16s: on the page's view 6/10 samples (60 %), moved 173 px, 108 px of it in view | seen by P1: it backs away slowly, round a corner (inviting them to follow)
+try 2: hunger 0.75, plans roam>retreat>lure>listen>search>approach, 60 samples, 5.7 fps
+   bait:feint 0.68-3.1s: on the page's view 4/8 samples (50 %), moved 124 px, 99 px of it in view | seen by P1: it backs away slowly, round a corner (inviting them to follow)
+   approach:covert 16.65-16.97s: on the page's view 0/2 samples (0 %), moved 66 px, 0 px of it in view | P1 cannot see it: it creeps nearer under cover (333 px)
+   approach:open 17.26-19.73s: on the page's view 8/8 samples (100 %), moved 231 px, 231 px of it in view | P1 saw it on its way: its surprise is spoiled - it comes on openly
+try 3: hunger 0.85, plans roam>flank>approach, 57 samples, 5.1 fps
+   flank:covert:withdrawal 0.83-2.52s: on the page's view 4/5 samples (80 %), moved 152 px, 112 px of it in view | seen by P1: it backs out of their sight and goes round them under cover (1728 px)
+   flank:covert 2.86-10.29s: on the page's view 0/25 samples (0 %), moved 1427 px, 0 px of it in view | seen by P1: it backs out of their sight and goes round them under cover (1728 px)
+   approach:open 11.28-12.38s: on the page's view 3/4 samples (75 %), moved 235 px, 235 px of it in view | at P1's side, out of their sight: no cover nearer - it breaks cover and rushes where P1 wa
+try 4: hunger 0.75, plans roam>flank>approach, 61 samples, 5.5 fps
+   flank:covert:withdrawal 0.59-2.57s: on the page's view 5/6 samples (83 %), moved 153 px, 116 px of it in view | seen by P1: it backs out of their sight and goes round them under cover (1727 px)
+   flank:covert 2.86-10.36s: on the page's view 0/25 samples (0 %), moved 1423 px, 0 px of it in view | seen by P1: it backs out of their sight and goes round them under cover (1727 px)
+   approach:open 11.29-12.57s: on the page's view 4/5 samples (80 %), moved 278 px, 278 px of it in view | at P1's side, out of their sight: no cover nearer - it breaks cover and rushes where P1 wa

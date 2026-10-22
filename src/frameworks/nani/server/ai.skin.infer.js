@@ -111,12 +111,12 @@ function skHypHeard(eng, e, H, q) {
     let d = 1e9; for (const p of h.pts) if (p.s >= lo && p.s <= hi) d = Math.min(d, Math.hypot(p.x - q.x, p.y - q.y));
     const l = d >= 1e9 ? 0 : Math.exp(-Math.pow(Math.max(0, d - q.u * .5), 2) / (2 * sg * sg)); L.set(h, l); if (l > mx) mx = l;
   }
-  if (!(mx > 0)) { Y.heard = { t: +q.t.toFixed(2), fit: 0, of: live.length, shift: 0 }; return; }   // (none explains it: skFits let it through on the belief's ring alone)
+  if (!(mx > 0)) { Y.heard = { t: +q.t.toFixed(2), fit: 0, of: live.length, shift: 0, x: Math.round(q.x), y: Math.round(q.y) }; return; }   // (none explains it: skFits let it through on the belief's ring alone)
   const p0 = new Map(Y.list.map(h => [h, h.p])); let fit = 0;
   for (const h of live) { const rel = L.get(h) / mx; if (rel < SKI.reject) { h.f = SKI.disproved; h.why = `a sound at ${Math.round(q.x)},${Math.round(q.y)} does not fit it`; } else { fit++; h.lk = Math.max(.05, h.lk * rel); } }
   let S = 0; for (const h of Y.list) S += h.w * h.f * h.lk; for (const h of Y.list) h.p = S > 0 ? h.w * h.f * h.lk / S : 0;
   let shift = 0; for (const h of Y.list) shift = Math.max(shift, h.p - p0.get(h));
-  Y.heard = { t: +q.t.toFixed(2), fit, of: live.length, shift: +shift.toFixed(2) };
+  Y.heard = { t: +q.t.toFixed(2), fit, of: live.length, shift: +shift.toFixed(2), x: Math.round(q.x), y: Math.round(q.y) };
   skMindLog(e, H, q.t, 'heard', q.x, q.y, q.u, `fits ${fit} of ${live.length} ways`);
 }
 /* which of its ways a place lies on: the way whose own stretch (beyond its fork; the stop: where it last had them) passes nearest, within

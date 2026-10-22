@@ -200,3 +200,133 @@ rounds R8 → R12 then read −3.7 % (one), −5.3 % (four), +10.3 % (four press
 eight players, present at R11 already: the mind's per-think exposure test for every person in sight (a CPU profile of that run: the
 mind 1.1 % of all samples, inside the Skin-Stealer's 16.5 %). Every run stays far inside the 60 Hz budget (means ≤ 0.27 ms, p99 ≤ 3.8 ms)
 with no invariant violation. R16 measures again with more rounds.
+
+## R13 — a covert way that is one: the withdrawal, the hidden run, caught on the way, and honest open moves
+
+**Requirement** (pack `03`, the owner's report; checkpoint R13: C16–C27, browser scenes reproducing and correcting the complaint). R9 found
+the causes (R9_AUDIT H1–H4, H7): an exposed transit to a hidden endpoint, no re-check on the way, "unwatched" meaning only eye contact, no
+hidden sprint, the observer frozen at plan time.
+
+**R13-1 Seen means their screen.** In the decision a person "sees it" when they meet its eyes (R8's eye contact) *or* it is in their view by
+the rules of their own screen (R11's mind: sight mask, clear line, readable light — whichever way they face). Every tactic that hides from
+them now hides from their view: the flank is chosen when it is seen either way; an approach it is not seen making must be covert or is
+open. Eye contact keeps its own meaning where it had one: B1–B3's looks, warnings and defence, the bait (an answer to a look), and a
+not-yet-hungry one sent away by a look in the light.
+
+**R13-2 The covert way** (new part `src/frameworks/nani/server/ai.skin.cover.js`; see its head). The views it knows of are the people it sees,
+saw within 1.5 s, or heard since from a place (their light able to point anywhere), and footsteps it cannot name heard within 1 s; for its
+quarry with none of these, a view from its belief (a suspicion). From a start in somebody's view it first makes a WITHDRAWAL: straight
+away from them (bearing within 0.4 rad, farther from them all the way, never toward or across anybody), at most 240 px, to the first
+point none of them can see. From there an A* on the level's own grid treats every cell anybody it is sure of could see — its body with
+34 px to spare across their line of sight — as impassable; a cell only suspected costs 260 more. The way found is walked every 24 px and
+tested again with the true body rule; it is COVERT only if after the withdrawal no point is in a view it is sure of, at most 144 px lie in
+a view it only suspects, it has no vault, and it is at most 2,200 px; otherwise it is refused with the reason (`no_exit`, `no_cover`,
+`route_exposed`, `route_suspected`, `too_long`). The cost is never lowered until an exposed way wins. It follows the way with its own
+steering (a 40 px look-ahead: no corner cut into a view; no re-planning with a softer cost — stuck, it asks for a new covert way or ends
+the move). C17: in R9-01's scene its flanks take covert ways of 1,706–1,750 px for spots 411–458 px away (3.8–3.9 × their distance; R8
+refused anything over 2.6 ×); 0 ticks in view after the withdrawal.
+
+**R13-3 Out of view first, then the run.** The withdrawal is made at its walk (`stalk`, 90 px/s, act `back`); hidden, it runs at its run
+(255 px/s, under the rested player's 285, stamina spent by the established rule; act `intercept`) — at once if it started hidden, after
+96 px otherwise — and slows to a walk (`creep`) for the last 220 px to arrive quietly. While hidden it looks back over its shoulder every
+1.4 s (0.4 s, up to 1.3 rad): its sight follows its head, so it can see somebody stepping in behind it. C19: six of six watched-hall
+flanks withdrew first (2.2 s; nearer them 0 ticks, faster than a walk 0), then ran hidden 4.5–4.6 s — at a run in their view 0 ticks.
+
+**R13-4 Caught on the way (SURPRISE COMPROMISED).** Every think of a covert move asks whether anybody it knows of can see it now (seen, a
+moment ago, or heard from a place that could). If so it never goes on as if unseen: once per move it may duck back out of their view along
+a new covert way to the same place (a withdrawal first); otherwise, very hungry and near, it comes on openly (committed: carried through
+until they flee); hungry, it stands off where they can see it; less, it goes. The place is remembered as having no way round for 10 s.
+C18: the watcher runs to where they can see its covert way — in eight of eight runs it knew 0.33 s after they moved (it heard them), and
+was afterwards on a covert way in their view 0 or 8 px (one think).
+
+**R13-5 Modes are never mislabeled.** Every move carries its mode, in the debug, the overlay (`MOVE`) and the page's act: COVERT (a flank;
+an approach along a covert way to an ambush point; an interception whose way and waiting spot are covert), OPEN (an approach in somebody's
+view — upright, `pace`; a rush from cover — `chase`; an interception that cannot be hidden; keeping to a runner's trail), FEINT (the bait,
+meant to be seen), WITHDRAW. An open approach not yet in anybody's view stalks crouched; the moment somebody it knows of could see it, it
+walks upright. R9-01 (now in `run.js`): 12 runs, 10 with a covert way, 0 px in the person's sight on a covert way; withdrawals seen
+132–138 px, none nearer them or across their front.
+
+**R13-6 The decision, re-weighed.** The flank is not chosen round somebody running off (a chase is). An approach in their view but not
+met by their eyes weighs `.55 + .6 × hs` (R8's unaware 1.0, watched `.15 + 1.1 × hs`) — so a covert way round is preferred where there is
+one; an open approach under way is carried (weight 2) until they meet its eyes (unless it committed after being caught) or flee; within a
+leap (≤ 245 px) of a lone person who is not looking at it, a hungry one takes the chance (+1.5; never during a chase or a flight). An
+approach it is not seen making goes along a covert way to an ambush point within its spring (out of their view — behind something, or
+in the dark where it can watch them unseen, preferred); with none, it comes on openly only very hungry (or at a runner or a winded one),
+else it flanks from where it is or holds. If they move 150 px from where its ambush point was chosen it follows them openly instead.
+
+**R13-7 From cover.** At its flank spot or ambush point: a nearer covert spot within its spring if there is one; else, very hungry and
+within 360 px of where it believes them (seen, or its hunt still ≥ .3 sure), it BREAKS COVER AND RUSHES — open, at its run, carried 2.2 s
+toward where they were; else it waits in AMBUSH (a new plan kind, not the bait's lure: still, facing where they would come, springing
+when they do; very hungry, 3–6 s), and after a second such wait it hunts on (its guesses) or goes. A wait out of their view is not drawn
+out by merely seeing them from it. In R9-01's scene (W .75) this now reads: withdrawal → hidden run round the hall → at their side →
+rush → spring (with its wind-up) at 11.8 s.
+
+**R13-8 Interceptions.** The waiting spot must be hidden from four points of the way they would come (R8: one); the way to it is a covert
+way against everybody it knows of and the quarry's view from its belief; with both, the interception is COVERT and followed as such;
+otherwise it is OPEN (R8's route off their trail, so labelled). C24: tired (stamina 20: its tired run 180), it aims farther ahead
+(720→1,056 px, 1,488 px → none) or not at all; every interception it makes it expects to reach first by its own route (slack 0.17–0.52 s).
+C25: in nine decisions where the interception was reckoned too late or too old it went to its route, its belief, or nothing — never the
+interception.
+
+**R13-9 Bookkeeping, not tactics.** A strike answers the events it was waiting on (its think stops while a strike is carried through: R11's
+latency would otherwise count the leap as silence); somebody who comes into its reach while it waits counts as having come (the bait and
+the ambush both). R13's new searches for spots draw from their own stream (`skinstealer-cover`): R8's draws, and so R8's statistical
+scenes, do not move.
+
+**R13-10 What the suites now say.** All of `s_skinstealer` 34/34, `s_skinbehave` 19/19, `s_skinpredator` 30/30, `s_skinsight` 9/9,
+`s_skinmind` 15/15, `s_skinroute` 15/15 (C16–C27 added), `s_skinr9` 1/1. C16: watched where every way to a hidden spot crosses their view
+(the hall at x 3,500), it never begins a covert move, records `no_cover` / `no_spot`, and answers with the bait, an open approach or a
+standoff. C26: rested (.75) and starving (.95), a fresh runner on the open hall is never neared closer than 351 px, its top speed 255,
+900+ px apart after 12 s. C27: 19,200 ticks of these moves, never inside a wall; 12 springs, every one with its whole wind-up; 11 kills,
+body to body, nothing solid between. R13-A: covert-way searches average 0.03 a creature-second (at most 3 in any second).
+
+**R13-11 Tests changed, and why** (each assertion's invariant kept; listed in `REGRESSION.md` at R17):
+- `s_skinpredator.js` PR07 — its claim "no way round the watcher" is about the narrow corridor; after the watcher breaks away and runs
+  out into the hall, R13 may find a genuine covert way round there (R8's 2.6 × limit refused it). Flank ticks are now counted while the
+  watcher is in the corridor. Everything else unchanged.
+- PR17 — "approaching" now accepts R13's honest acts: hidden `approach`/`creep`, a covert way's `back` and `intercept`, open `pace` and
+  `chase`; listening is still judged exactly as before; 12 seeds instead of 8 (its first approach now often goes on a covert way, so
+  fewer runs pause to listen), five with both phases still required.
+- `s_skinstealer.js` SK21, SK41 — the bait must be judged where the bait is the answer to being seen. At 600 px in that dark gap the
+  person cannot make it out (legibility .23 even at 300 px in their beam) and R13 goes round under cover to an ambush point instead of
+  creeping into their beam until it met their eyes (as R8 did). Both scenes now start it 265 px away, in the beam, met by their eyes and
+  beyond `SK.near` — every T3/T6 rule they check is unchanged.
+- `s_skinroute.js` C22 (R12's own) — 20 runs instead of 12 (more of them now end in a kill before a second guess), and "the side it
+  heard" includes a look at the very place it heard them.
+
+**R13-12 The real page after** (`evidence/r13/browser/`: `r9_browser.js --scene flankwatch`, four tries, the page's own view measured on
+the page). The owner's scene (R9-01: a lit person in the long hall, a Skin-Stealer 450 px east): in three tries it backs straight out of
+their sight (105–116 px of that withdrawal seen, by design: it was seen, and backing away is what it does about it), then goes round
+under cover — 1,423–1,427 px of covert way with **0 of 23–25 samples in the page's view** — and breaks cover at their side, labelled
+`approach:open` ("no cover nearer - it breaks cover and rushes"). In the fourth (hunger .75) it answers with the bait — `bait:feint`, a
+move meant to be seen — creeps 66 px under cover unseen (0/2), is caught, and comes on openly ("its surprise is spoiled"). R8 in the same
+scene crossed the person's view on its "flank" (R9: 71–100 % of its transit samples in view). The video (try 3) and its contact sheet
+show the withdrawal and then an empty, watched hall.
+
+**R13-13 Cost — and a fix found by measuring it.** The first R13 measurement (`evidence/r13/perf/*_before_search_fix.txt`) passed the
+perf tool's criteria (mean and p99 within the 60 Hz budget) but its **worst** steps were 30–105 ms against R8's 10–17: a covert-way
+search that finds nothing (watched from all round) spent its whole A* budget (3,500 nodes, ~30 ms) and a flank asked for up to three.
+Profiled (a copy of the built `ai.js` with timing wrappers; not committed): the time was the A* itself and its view tests, not the rest of
+the think. Three changes, none of which changes a covert way it takes:
+- a cell no way short enough could pass through (straight distance from the search's start plus to its goal over the longest way it would
+  accept — `SKC.coverMax`, or a flank's own limit, now passed in) is never searched: an accepted way is found exactly as before; a search
+  for a way it could not have taken ends early. (A way whose cheapest route was too long, where a shorter acceptable one existed, is now
+  found — before, it was refused as `too_long`.)
+- one cost memo for every search to the same views (a flank's three tries share it): a cell's cost depends only on the views;
+- the line of sight is tested before legibility (most cells it tests are behind a wall).
+Counted on the suites' 986 covert searches, every one that found a way expanded ≤ 390 nodes; on the real level (perf scenes) successful
+searches touch up to ~2,900 cells, which is why the node budget itself was **not** cut (cutting it to 800 would have lost 7 of 10 real
+covert ways). After the fix, the same perf matrix, five rounds, both orders (`evidence/r13/perf/`): worst steps of the R13 tree 14–36 ms
+in one order and 10–23 ms in the other (R8 9–25); means: no Skin-Stealer the same cost (+10.5 % / −9.8 %, within tolerance); one +/−5.5 %;
+four +10.7 % / +13.9 %; four starving +19.4 % / +14.1 %; four with every player pressing one +32.8 % / +30.3 % (0.30 ms against 0.23: 1.8 %
+of a 60 Hz step). p99 in that pressing scene 3.7–4.4 ms against R8's 2.3–6.1 — at the tool's own 25 % line in one order (4.27 ms), under it
+in the other; seeded runs of the same scene with the AI instrumented put R13's p99 above R8's in one seed and below in two (4.81/4.42,
+3.78/4.08, 4.41/4.52): within the scene's spread, not a measured regression. The tool's verdict: PASS in both orders. All suites were
+re-run after the fix (the counts in R13-10 are the fixed tree's) and the real page (R13-12) is the fixed tree's.
+
+**R13-14 Known limits** (to `DEFERRED.md` at R17): an approach across a low wall it cannot pass can still stand off at the wall (R12's
+latent R8 deadlock: no grab across it, no spring under 55 px; replans are now rate-limited, the standing is not solved); exposure to a
+person it only believes is there is a soft cost, not a wall — a covert way may cross where it believes they could see, within
+`SKC.suspectMax` (144 px); it cannot see behind itself except in its glances back on a covert way; a covert way is planned on the 48 px
+grid and only then audited point by point — a way the audit refuses is not repaired, it is dropped (an open move or another choice
+follows, labelled).

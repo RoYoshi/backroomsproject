@@ -126,6 +126,7 @@ function drawEntities(cx, view, list, cfg, stale) {
           lines.push(`MIND ${m.obs.length ? m.obs.map(o => 'P' + o.pid + (o.view ? ' COULD SEE IT' : ' could not see it') + (!o.view && o.saw < 8 ? ' (could ' + o.saw + 's ago)' : '') + (o.eyes < 4 ? ' eyes ' + o.eyes + 's ago' : '')).join(', ') : 'sees nobody'}`,
             'events ' + (m.ev.map(v => v[1] + (v[2] ? ' P' + v[2] : '') + ' ' + (v[3] >= 0 ? v[4] + ' ' + v[3] + 's' : 'open')).join('  ') || '-'));
           if (sel && q.ht && q.ht.log) for (const l of q.ht.log) lines.push(`  ${l[1]} ${l[2]},${l[3]} ±${l[4]} at ${l[0]}s${l[5] ? ': ' + l[5] : ''}`); }
+        if (q.cv) lines.push(`MOVE ${q.cv.mode.toUpperCase()}${q.cv.phase ? ' ' + q.cv.phase : ''}${q.cv.way ? '  way ' + q.cv.way + ' px (withdrawal ' + q.cv.exit + ')' : ''}${q.cv.why ? '  cover: ' + q.cv.why : ''}`);   // (R13) covert, open or feint - never one shown as the other
         if (q.ht && q.ht.hy && (cfg.evid || sel)) { const Y = q.ht.hy;                 // (R12) the ways it holds: kind, likelihood, the one its guess lies on, what ruled one out
           lines.push(`WAYS from ${Y.from} (${Y.builds} listed)${Y.heard ? '  last sound fit ' + Y.heard.fit + '/' + Y.heard.of : ''}: ` + Y.ways.map(w => `${w[0]} ${w[1]} ${w[3]}${w[0] === Y.bet ? ' GUESS' : ''}${w[4] ? ' x' : ''}`).join('  '));
           if (sel) { for (const w of Y.ways) if (w[4]) lines.push(`  way ${w[0]} ruled out: ${w[4]}`); if (q.ht.rj && q.ht.rj.length) lines.push('rejected ' + q.ht.rj.map(x => x[0] + (x[1] ? '#' + x[1] : '') + ' ' + x[2]).join(', ')); } }

@@ -257,10 +257,15 @@ add('SK20 route prediction is its own guess from a record: the real person (unse
 });
 
 /* the bait: a person with a torch sees it 600 px off through wall A's gap; it backs away round a corner and waits */
+/* (R13) where the bait is judged it must be the answer to being SEEN: from 600 px in this dark gap the person cannot make it out (the
+ * client's rule: legibility .23 at 300 px even in their torch beam), and since R13 it goes round under cover to an ambush point instead of
+ * creeping into their beam as R8 did until it met their eyes; so it starts 265 px from them, in their beam, met by their eyes (R8's eye
+ * contact) - and beyond SK.near, where a very hungry one's answer to being seen may be the bait (closer, it would only back out of sight) */
+const SW_K = { x: SW.gapP.x + 265, y: SW.gapK.y };
 function baitRun(seed, follow) {
   const w = World(seed + 400), g = w.eng.geo;
   const p = w.player(SW.gapP.x, SW.gapP.y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
-  const e = w.eng.spawn('skinstealer', SW.gapK.x, SW.gapK.y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI;
+  const e = w.eng.spawn('skinstealer', SW_K.x, SW_K.y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI;
   const R = { lureAt: -1, moved: 0, lureD: 1e9, d0: 0, endAt: -1, why: '', after: '' }; let LP = null;
   w.run(40, () => {
     const k = planOf(e);
@@ -588,8 +593,8 @@ add('SK41 its lines from hiding: lying in wait, hungry and unseen, it calls out 
   const run = (seed, heard) => {
     const w = World(seed + 400), g = w.eng.geo, lines = [];
     const p = w.player(SW.gapP.x, SW.gapP.y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
-    const o = w.player(SW.gapK.x - 450, SW.gapP.y + 40, { light: false }); o.stop('crouch');   // (in the dark, crouched, 450 px from it: it hears them, does not see them)
-    const e = w.eng.spawn('skinstealer', SW.gapK.x, SW.gapK.y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI;
+    const o = w.player(SW_K.x - 450, SW.gapP.y + 40, { light: false }); o.stop('crouch');   // (in the dark, crouched, 450 px from it: it hears them, does not see them)
+    const e = w.eng.spawn('skinstealer', SW_K.x, SW_K.y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI;   // (R13: as SK21, it starts met by their eyes)
     w.eng.voiceOut = L => lines.push(Object.assign({ at: w.t, plan: planOf(e), seenNow: g.los(p.x, p.y, e.x, e.y) && e.seenNow.has(p.id) }, L));
     w.run(.3); if (heard) w.eng.hearSpeech({ id: o.id, x: o.x, y: o.y, text: 'Is Anybody Over There? I lost my light near the stairs' });
     w.run(40);

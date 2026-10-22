@@ -3,7 +3,7 @@
  * No scenario sets a decision of the creature: they place people, give it a hunger (its spawn option), move people as players would, and
  * read what it did.  What a PERSON can see is the TEST-ONLY oracle dev/trial-3-r9-overhaul/tools/qa_sight.js (the client's own sight mask
  * and darkness, on the server's level): it reads where both really are - the creature never does.
- * R9: R9-01, the minimal reproducer of the owner's complaint (it FAILS on R8 by design; R13 must make it pass). */
+ * R9: R9-01, the minimal reproducer of the owner's complaint (it FAILS on R8 by design; it passes from R13 and is in run.js's default list). */
 'use strict';
 const { World, LONG, over, bystander } = require('./lib.js');
 const { sees } = require('../trial-3-r9-overhaul/tools/qa_sight.js');

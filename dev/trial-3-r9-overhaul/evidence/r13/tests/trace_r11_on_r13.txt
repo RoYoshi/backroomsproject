@@ -1,0 +1,59 @@
+== hungry (.75), watched in the lit hall (C01 / C14)
+  0.00s  roam      act -        head  0.00  [nobody in sight]  why: roaming
+  0.05s  flank     act back     head  0.00  [P101 could see it]  why: seen by P101: it backs out of their sight and goes round them under cover (1732 px)
+  0.17s  flank     act back     head  0.00  [P101 could see it]  why: seen by P101: it backs out of their sight and goes round them under cover (1732 px)
+          event sight P101 at 60.05 s answered (changed) in 0.12 s
+          event exposed P101 at 60.05 s answered (changed) in 0.12 s
+          event turned P101 at 60.05 s answered (changed) in 0.12 s
+          evidence seen 5000,3504 ±20 at 60.2 s
+  0.28s  flank     act back     head  0.00  [P101 could not see it]  why: seen by P101: it backs out of their sight and goes round them under cover (1732 px)
+          event lost P101 at 60.28 s answered (kept) in 0 s
+  2.18s  flank     act back     head  0.00  [nobody in sight]  why: seen by P101: it backs out of their sight and goes round them under cover (1732 px)
+   record: hunt 1, flank 1, coverQ 1
+
+== satiated (.1), watched from 450 px, turned 57 deg away (C02)
+  0.00s  roam      act -        head  0.00  [nobody in sight]  why: roaming
+  0.10s  leave     act leave    head  0.08  [P101 could see it]  why: not hungry: it leaves P101 alone
+  0.22s  leave     act leave    head  0.38  [P101 could see it]  why: not hungry: it leaves P101 alone
+          event sight P101 at 60.1 s answered (changed) in 0.12 s
+          event exposed P101 at 60.1 s answered (changed) in 0.12 s
+          event turned P101 at 60.1 s answered (changed) in 0.12 s
+  1.38s  leave     act leave    head -1.34  [P101 could not see it]  why: not hungry: it leaves P101 alone
+          event lost P101 at 61.38 s answered (kept) in 0 s
+  3.28s  leave     act leave    head  0.00  [nobody in sight]  why: not hungry: it leaves P101 alone
+   record: ack 1
+
+== one glimpse, then gone east, hungry (.75) (C04)
+  0.00s  roam      act -        head  0.00  [nobody in sight]  why: roaming
+  0.05s  roam      act -        head  0.00  [nobody in sight]  why: roaming the dark
+  0.63s  approach  act intercept head  0.00  [P101 could not see it]  why: P101 cannot see it: it creeps nearer under cover (761 px)
+  0.75s  approach  act intercept head -1.03  [P101 could not see it]  why: P101 cannot see it: it creeps nearer under cover (761 px)
+          event sight P101 at 60.63 s answered (changed) in 0.12 s
+          evidence seen 1300,5568 ±20 at 60.7 s
+  1.57s  approach  act intercept head  0.00  [P101 could not see it]  why: P101 cannot see it: it creeps nearer under cover (761 px)
+  2.15s  intercept act intercept head  0.83  [P101 could not see it]  why: lost P101: it guesses their way (2 turns) and goes round to meet them 1488 px ahead
+  2.27s  intercept act intercept head  0.40  [P101 could not see it]  why: lost P101: it guesses their way (2 turns) and goes round to meet them 1488 px ahead
+          event lost P101 at 61.57 s answered (changed) in 0.7 s
+  3.47s  intercept act intercept head  0.00  [nobody in sight]  why: lost P101: it guesses their way (2 turns) and goes round to meet them 1488 px ahead
+ 10.48s  intercept act intercept head  0.00  [nobody in sight]  why: in place: it waits for P101 beside the way it guessed
+   record: intercept 1, hunt 1, coverQ 1, hypBuild 1, predQ 1, pathQ 2
+
+== starving (.95), watched in the north corridor (C03)
+  0.00s  roam      act -        head  0.00  [nobody in sight]  why: roaming
+  0.07s  approach  act intercept head  0.00  [P101 could not see it]  why: P101 cannot see it: it creeps nearer under cover (366 px)
+  0.18s  approach  act intercept head -1.03  [P101 could not see it]  why: P101 cannot see it: it creeps nearer under cover (366 px)
+          event sight P101 at 60.07 s answered (changed) in 0.11 s
+          event turned P101 at 60.07 s answered (changed) in 0.11 s
+          event lost P101 at 60.18 s answered (kept) in 0 s
+  0.53s  approach  act intercept head  0.00  [P101 could not see it]  why: P101 cannot see it: it creeps nearer under cover (366 px)
+          event sight P101 at 60.53 s answered (kept) in 0 s
+          evidence seen 1170,4400 ±20 at 60.5 s
+  0.88s  approach  act approach head  0.00  [P101 could see it]  why: P101 saw it on its way: its surprise is spoiled - it comes on openly
+          event exposed P101 at 60.88 s answered (kept) in 0 s
+          evidence disproved 1067,4668 ±0 at 60.9 s: surprise compromised by P101
+  2.63s  approach  act creep    head  0.00  [P101 could see it]  why: P101 saw it on its way: its surprise is spoiled - it comes on openly
+          evidence seen 1170,4400 ±20 at 62.6 s
+  2.98s  approach  act wind     head  0.00  [P101 could see it]  why: it springs at P101 (171 px)
+  3.55s  roam      act feed     head  0.00  [P101 could see it]  why: it has P101
+  4.88s  roam      act feed     head  0.00  [nobody in sight]  why: it has P101
+   record: pounce 1, hit 1, hunt 1, coverQ 2, compromised 1

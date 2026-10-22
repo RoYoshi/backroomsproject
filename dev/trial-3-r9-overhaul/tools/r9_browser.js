@@ -90,8 +90,11 @@ async function alive(pg, admin, id) { if (await pg.P.evaluate(() => !!(__api.dea
 /* the stealth transits in a run's samples: a flank on its way (before 'at P..'s side'), the bait's back-off, an approach from a flank */
 function transitsOf(rec) {
   const out = []; let T = null;
-  const kindOf = r => r.pl === 'flank' && !/^at P\d+'s side/.test(r.why) ? 'flank' : r.pl === 'retreat' && /round a corner/.test(r.why) && !/^round the corner/.test(r.why) ? 'bait'
-    : r.pl === 'approach' && /at their side: it comes at them/.test(r.why) ? 'side-approach' : r.mode === 'covert' ? r.pl + ':covert' : '';
+  // (R13: the server says a move's mode - covert, open, feint - and a covert move's phase: its withdrawal out of their view ('exit', meant
+  // to be seen, straight away from them) and its hidden way; R8 had no modes, so its kinds are read from its reasons)
+  const kindOf = r => r.mode === 'covert' ? r.pl + ':covert' + (r.phase === 'exit' ? ':withdrawal' : '') : r.mode === 'open' ? r.pl + ':open' : r.mode === 'feint' ? 'bait:feint'
+    : r.pl === 'flank' && !/^at P\d+'s side/.test(r.why) ? 'flank' : r.pl === 'retreat' && /round a corner/.test(r.why) && !/^round the corner/.test(r.why) ? 'bait'
+    : r.pl === 'approach' && /at their side: it comes at them/.test(r.why) ? 'side-approach' : '';
   for (const r of rec) {
     const k = kindOf(r);
     if (T && k !== T.k) { out.push(T); T = null; }
@@ -126,7 +129,7 @@ async function flankwatch(b, port, R, qa) {
     // is drawn, the page's own view of it; and the page's mouse (a pointer move, as the game reads it) on where it last saw it
     await W.P.evaluate(k0 => { const K = window.__k3; K.rec = []; K.last = { x: k0.x, y: k0.y }; const t0 = performance.now(); K.frames = 0; const fr = () => { K.frames++; K.raf = requestAnimationFrame(fr); }; fr();
       K.watchT = setInterval(() => { const k = (K.ss || [])[0], H = __api.H; if (!k) return; const d = (window.__ents.dbg || []).find(x => x.i === k.i), q = d && d.sk, v = K.view(k.x, k.y);
-        K.rec.push({ t: +((performance.now() - t0) / 1000).toFixed(2), K: [k.x, k.y, +(+k.a).toFixed(2), k.ac], pl: q ? q.pl : '?', why: q ? q.why : '', mode: q && q.cv ? q.cv.mode : '', hu: q ? q.hu : -1, v, H: [Math.round(H.x), Math.round(H.y), +H.angle.toFixed(2)], dead: !!H.dead });
+        K.rec.push({ t: +((performance.now() - t0) / 1000).toFixed(2), K: [k.x, k.y, +(+k.a).toFixed(2), k.ac], pl: q ? q.pl : '?', why: q ? q.why : '', mode: q && q.cv ? q.cv.mode : '', phase: q && q.cv ? q.cv.phase : '', hu: q ? q.hu : -1, v, H: [Math.round(H.x), Math.round(H.y), +H.angle.toFixed(2)], dead: !!H.dead });
         if (v.vis) K.last = { x: k.x, y: k.y };
         const s = K.screen(K.last.x, K.last.y); if (s) window.dispatchEvent(new PointerEvent('pointermove', { pointerType: 'mouse', clientX: s.x, clientY: s.y, bubbles: true })); }, 100); }, K0);
     let shots = 0;
