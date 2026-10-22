@@ -184,3 +184,17 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `dev/trial-3-r9-overhaul/evidence/r16d/` | evidence | R16d's receipt and post-push scan |
 | `dev/tools/gate/declared_changes.json`, generated doc blocks | the scope gate's list, docs | R16e's reason on `ai.js` and `skinstealer.js`; the new part listed |
 | `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md` | docs | R16e-1 … R16e-6; the R16d rows; this table |
+
+## R16f — its footwork: facing, sidesteps, giving ground, the way out (the owner's §5)
+
+| File | Kind | Change |
+|---|---|---|
+| `src/frameworks/nani/server/ai.skin.move.js` | new source part (of `generated/server/ai.js`) | the mover (`skStrafe`: a velocity of its own at its acceleration; forward, sideways at 0.75, backward at 0.55 of the pace it is given, the whole never over it; its facing turned separately; every step through the shared `moveCollide`) and the fight (`skFight`: its place by their way out from its own lagging read of their motion) |
+| `src/build-recipes.json` | build recipe | the new part, after `ai.skin.look.js` |
+| `src/frameworks/nani/server/ai.skinstealer.js` | source | the fight in an open approach, a chase and a hungry standoff (watch) close to somebody moving or looking at it (`skFightable`); its state cleared with the rest; the admin debug block carries its last interruption (`pe`), its eyes' stimulus (`lk`) and its footwork (`ft`) |
+| `generated/server/ai.js`, `generated/BUILD_MANIFEST.json` | built | rebuilt from the above |
+| `src/frameworks/nani/README.md`, `docs/architecture/BUILD_PIPELINE.md`, `docs/architecture/FRAMEWORKS.md` | generated doc blocks | the new part listed |
+| `dev/tools/gate/declared_changes.json` | the scope gate's list | R16f's reason on `ai.js` |
+| `dev/tests/s_skinap.js` | suite | P15–P18; P08's prowl a minute long (R16f-4) |
+| `dev/trial-3-r9-overhaul/evidence/r16f/`, `evidence/r16e/` (R16e's receipt, scan) | evidence | the probes, the slip-past scenes (P16's) on R16e and R16f, `npm test`, Human QA |
+| `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md` | docs | R16f-1 … R16f-4; the R16e rows; this table |

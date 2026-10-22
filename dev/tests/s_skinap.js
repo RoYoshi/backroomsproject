@@ -17,6 +17,11 @@
  *   P12 movement at the edge of its view is noticed, then seen; standing still is not; behind a wall nothing is; it gives no identity
  *   P13 after a sound it goes to where it could see the place from, then closer - and a hungry one finds the person sooner than R16d
  *   P14 the stealth that still works: crouched and still at its side, unlit, it does not notice them
+ * R16f: its footwork (ai.skin.move.js).
+ *   P15 circled just out of its spring, it faces them, sidesteps after them and keeps its distance - never faster than its run
+ *   P16 somebody trying to slip past it out of a dead end: it takes its place by their way out more often than it did
+ *   P17 a feint: a sudden reversal takes it a moment to answer (it does not mirror them), and it answers within a second
+ *   P18 the fair race and its stamina: every step at or under its run, the fast ones paid for in stamina
  * The server's own functions are reached through a test-only copy of the built ai.js whose return also names them (the module itself is
  * unchanged; the copy is compiled in memory, never written). */
 'use strict';
@@ -28,7 +33,7 @@ const INNER = (() => {
   const file = path.join(ROOT, 'generated', 'server', 'ai.js'), src = fs.readFileSync(file, 'utf8'), ret = 'return { create, S, SNAMES,';
   if (src.split(ret).length !== 2) throw new Error('ai.js: its return is not where this test expects it');
   const m = new Module(file + '#ap', module); m.filename = file; m.paths = Module._nodeModulePaths(path.dirname(file));
-  m._compile(src.replace(ret, 'return { skPreempt, skPlanClass, skLeftFor, skRefractory, skPatrolGoal, SKP, skVantage, skPeriph, SKL, visualObservation, create, S, SNAMES,'), file);
+  m._compile(src.replace(ret, 'return { skPreempt, skPlanClass, skLeftFor, skRefractory, skPatrolGoal, SKP, skVantage, skPeriph, SKL, visualObservation, SKF, skFight, create, S, SNAMES,'), file);
   return m.exports;
 })();
 const ARENA = { x: 3960, y: 3384 };
@@ -217,7 +222,7 @@ add('P07 hungry, it prowls (R16d; AP_AUDIT G: 9-13 s of every minute standing, s
 const seenAs = (e, p) => { const r = e.seenNow.has(p.id) && e.mem.p.get(p.id); return r ? '1@' + Math.round(r.lkx) + ',' + Math.round(r.lky) : '0'; };
 const line = (e, p) => [Math.round(e.x * 10), Math.round(e.y * 10), seenAs(e, p), e.mem.sounds.map(q => q.id + ':' + Math.round(q.x) + ':' + Math.round(q.y)).join(';'),
   e.plan ? e.plan.k + (e.plan.mode || '') : '-', e.roam.goal ? Math.round(e.roam.goal.x) + ',' + Math.round(e.roam.goal.y) : '-', e.pre ? e.pre.n : 0, e.tier].join('|');
-add('P08 its prowling reads no hidden truth (R16d; the locks: no hidden player truth): a hungry creature (.7 / .95) sees a person cross its view and go, then prowls for 40 s; a second person, never sensed, crouches unlit at one of two far places - its every move and decision is the same in both worlds until it senses that second person', () => {
+add('P08 its prowling reads no hidden truth (R16d; the locks: no hidden player truth): a hungry creature (.7 / .95) sees a person cross its view and go, then prowls for a minute (R16f: 40 s left too little prowling once its footwork had followed them); a second person, never sensed, crouches unlit at one of two far places - its every move and decision is the same in both worlds until it senses that second person', () => {
   const rs = [];
   for (const h of [.7, .95]) rs.push(...over([1, 2, 3], seed => {
     const T = where => {
@@ -225,7 +230,7 @@ add('P08 its prowling reads no hidden truth (R16d; the locks: no hidden player t
       const e = w.eng.spawn('skinstealer', 4600, LONG.y, { hunger: h }); e.tier = 'near'; e.ang = 0;
       const a = w.player(5300, LONG.y - 200, { light: true, angle: Math.PI / 2 }); a.go(5300, LONG.y + 1400, 'walk');
       const q = w.player(where.x, where.y, { light: false }); q.stop('crouch');
-      const tr = []; w.run(40, () => { e.tier = 'near'; e.tierT = 99; if (a.y > LONG.y + 300 && a.light) a.light = false; tr.push(line(e, q)); return true; });
+      const tr = []; w.run(60, () => { e.tier = 'near'; e.tierT = 99; if (a.y > LONG.y + 300 && a.light) a.light = false; tr.push(line(e, q)); return true; });
       return tr;
     };
     const G = require('./lib.js').geo(), far = G.dark.filter(d => Math.hypot(d.x - 4600, d.y - LONG.y) > 2600 && G.w.ad.clear(d.x, d.y, 24, 'walk'));
@@ -403,6 +408,77 @@ add('P14 the stealth that still works (R16e; the owner: legitimate stealth count
   }));
   const ok = rs.every(r => !r.err && r.fired === 0) && rs.filter(r => r.side > .5).length >= 8;
   return { ok, note: rs.map(r => r.err ? 'ERR ' + r.err : `${r.how} ${r.h}/${r.seed}: ${r.side} s at its side, its periphery fired ${r.fired} times`).join(' | ') };
+});
+
+/* circled just out of its spring (AP_AUDIT C): a person runs round it at 230 px (their script keeps them there, wherever it goes) */
+function circled(h, dir, seed, T = 8, flip = 0) {
+  const w = World(Math.round(h * 100) + (dir > 0 ? 700 : 800) + seed * 3); bystander(w, 1300, 3300);
+  const cx = 5000, cy = LONG.y, e = w.eng.spawn('skinstealer', cx, cy, { hunger: h }); e.tier = 'near'; e.ang = 0;
+  const p = w.player(cx + 240, cy, { light: true, angle: Math.PI }); p.stop('stand');
+  const R = { errSum: 0, n: 0, side: 0, back: 0, fightT: 0, strikes: 0, kill: -1, vmax: 0, over: 0, flipAt: -1, latAfter: [], stam0: e.stam, stamMin: e.stam, fast: 0 }; let px = e.x, py = e.y, pp = false, d0 = dir;
+  w.run(T, (ww, t) => {
+    if (flip && t >= flip && R.flipAt < 0) { R.flipAt = t; dir = -dir; }
+    const a = Math.atan2(p.y - e.y, p.x - e.x); p.go(e.x + Math.cos(a + dir * .5) * 230, e.y + Math.sin(a + dir * .5) * 230, 'run'); p.look = Math.atan2(e.y - p.y, e.x - p.x);
+    const fighting = !!(e.fight && w.eng.now - e.fight.at < .15) && !e.pounce && !e.recover;
+    const mvx = (e.x - px) / DT, mvy = (e.y - py) / DT, f = mvx * Math.cos(e.ang) + mvy * Math.sin(e.ang), l = -mvx * Math.sin(e.ang) + mvy * Math.cos(e.ang); px = e.x; py = e.y;
+    const v = Math.hypot(mvx, mvy); if (!e.pounce && !e.recover) { R.vmax = Math.max(R.vmax, v); R.cmax = Math.max(R.cmax || 0, e.speed); if (e.speed > AI.SKIN.speeds.run + .5 || v > AI.SKIN.speeds.run * 1.02) R.over++; }   // (its own speed; and what it covered, a wall's slide allowed 2 %)
+    if (fighting) { R.fightT += DT; R.errSum += Math.abs(Math.atan2(Math.sin(e.ang - a), Math.cos(e.ang - a))); R.n++; if (Math.abs(l) > 40 && Math.abs(l) > Math.abs(f)) R.side += DT; if (f < -30) R.back += DT; }
+    if (R.flipAt >= 0 && t - R.flipAt < 1.2 && fighting) R.latAfter.push([+(t - R.flipAt).toFixed(3), Math.sign(l) * d0]);   // (its sideways step, in the old direction's sense)
+    if (v > 200 && !e.pounce) R.fast += DT; R.stamMin = Math.min(R.stamMin, e.stam);
+    if (e.pounce && !pp) R.strikes++; pp = !!e.pounce; if (R.kill < 0 && w.kills.length) R.kill = t;
+    return R.kill < 0; });
+  R.meanErr = R.n ? +(R.errSum / R.n).toFixed(2) : null; return R;
+}
+add('P15 circled just out of its spring (R16f; AP_AUDIT C: its facing 0.6-1.3 rad behind them, no step sideways or back): a person runs round it at 230 px, either way, hunger .85 / .95 - fighting for its place it faces them (mean error under 0.35 rad), steps sideways after them, and is never faster than its run', () => {
+  const rs = [];
+  for (const h of [.85, .95]) for (const dir of [1, -1]) for (const seed of [1, 2, 3]) rs.push(...over([seed], sd => Object.assign({ h, dir, seed: sd }, circled(h, dir, sd))));
+  const F = rs.filter(r => !r.err && r.fightT > 1);
+  const ok = rs.every(r => !r.err && r.over === 0) && F.length >= 8 && F.every(r => r.meanErr <= .35) && F.filter(r => r.side > .2).length >= Math.ceil(F.length * .6);
+  return { ok, note: rs.map(r => r.err ? 'ERR ' + r.err : `${r.h} ${r.dir > 0 ? 'ccw' : 'cw'} #${r.seed}: fought ${r.fightT.toFixed(1)} s, facing off by ${r.meanErr} rad, sideways ${r.side.toFixed(1)} s, back ${r.back.toFixed(1)} s, strikes ${r.strikes}${r.kill >= 0 ? ', a kill at ' + r.kill.toFixed(1) + ' s' : ''}, fastest ${Math.round(r.vmax)} px/s`).join(' | ') };
+});
+add('P16 somebody slipping past it out of a dead end (R16f; the owner: cut off escape routes, contest a doorway sideways): a lit person in a dead end, the creature 420 px out on the way out (hunger .9); the person runs out past it, 0.7 rad to one side or the other - it takes its place by their way out: no more than 5 of 16 get past it (R16e: 8 of 16), and in all but two scenes it fought for its place or struck', () => {
+  const G = require('./lib.js').geo(), g = G.g, ends = [];
+  for (const de of G.deadEnds) {
+    let best = -1, ex = 0; for (let k = 0; k < 24; k++) { const a = k / 24 * Math.PI * 2, r = g.ray(de.x, de.y, a, 900); if (r > best) { best = r; ex = a; } }
+    if (best < 700) continue;
+    const cx = de.x + Math.cos(ex) * 420, cy = de.y + Math.sin(ex) * 420;
+    if (!G.w.ad.clear(cx, cy, 26, 'walk') || ends.some(q => Math.hypot(q.x - de.x, q.y - de.y) < 600)) continue;
+    ends.push({ x: de.x, y: de.y, ex, cx, cy }); if (ends.length >= 8) break;
+  }
+  const rs = [];
+  for (const [i, E] of ends.entries()) for (const side of [1, -1]) rs.push(...over([i], () => {
+    const w = World(19000 + i * 7 + (side > 0 ? 0 : 3)); bystander(w, 1300, 3300);
+    const e = w.eng.spawn('skinstealer', E.cx, E.cy, { hunger: .9 }); e.tier = 'near'; e.ang = E.ex + Math.PI;
+    const p = w.player(E.x, E.y, { light: true, angle: E.ex }); p.stop('stand'); p.look = () => Math.atan2(e.y - p.y, e.x - p.x);
+    let struck = -1, escaped = -1, killed = -1, fought = 0;
+    w.run(5, (ww, t) => {
+      if (t > .4 && !p.going) { p.going = 1; const a = E.ex + side * .7; p.go(E.x + Math.cos(a) * 700, E.y + Math.sin(a) * 700, 'run'); }
+      if (e.fight && w.eng.now - e.fight.at < .15) fought += DT;
+      if (struck < 0 && e.pounce) struck = t;
+      const along = (p.x - e.x) * Math.cos(E.ex) + (p.y - e.y) * Math.sin(E.ex);
+      if (escaped < 0 && along > 150 && Math.hypot(p.x - e.x, p.y - e.y) > 300) escaped = t;
+      if (killed < 0 && w.kills.length) killed = t;
+      return killed < 0 && escaped < 0; });
+    return { i, side, struck: struck >= 0, escaped: escaped >= 0, killed: killed >= 0, fought: +fought.toFixed(1) };
+  }));
+  const esc = rs.filter(r => r.escaped).length;
+  const ok = ends.length >= 6 && rs.every(r => !r.err) && rs.filter(r => r.fought > 0 || r.struck).length >= rs.length - 2 && esc <= 5;
+  return { ok, note: `${ends.length} dead ends, ${rs.length} scenes: got past it ${esc}, struck at ${rs.filter(r => r.struck).length}, killed ${rs.filter(r => r.killed).length} | ` + rs.map(r => r.err ? 'ERR ' + r.err : `#${r.i}${r.side > 0 ? '+' : '-'}: ${r.escaped ? 'got past' : r.killed ? 'caught' : r.struck ? 'struck at' : 'held'} (fought ${r.fought} s)`).join(' | ') };
+});
+
+add('P17 a feint (R16f; the owner: no perfect mirroring - a feint can cause mistakes): circling it one way, the person abruptly reverses - for a moment it still steps the old way (its read of their motion lags), and within a second it steps the new way', () => {
+  const rs = [];
+  for (const h of [.85, .95]) for (const dir of [1, -1]) for (const seed of [1, 2]) rs.push(...over([seed], sd => { const R = circled(h, dir, sd, 6, 3); return { h, dir, seed: sd, flipAt: R.flipAt, lat: R.latAfter, kill: R.kill }; }));
+  const judge = r => { const L = r.lat; if (!L.length) return null; const old = L.filter(x => x[0] <= .12 && x[1] > 0).length, turned = L.find(x => x[0] >= .1 && x[1] < 0); return { old, turned: turned ? turned[0] : null }; };
+  const J = rs.map(r => Object.assign(r, { j: judge(r) })), Fj = J.filter(r => r.j && (r.kill < 0 || r.kill > r.flipAt + 1.2));
+  const ok = rs.every(r => !r.err) && Fj.length >= 4 && Fj.filter(r => r.j.old > 0).length >= Math.ceil(Fj.length * .6) && Fj.every(r => r.j.turned !== null && r.j.turned <= 1);
+  return { ok, note: J.map(r => r.err ? 'ERR ' + r.err : !r.j ? `${r.h} ${r.dir > 0 ? 'ccw' : 'cw'} #${r.seed}: not fighting at the reversal${r.kill >= 0 ? ' (a kill at ' + r.kill.toFixed(1) + ' s)' : ''}` : `${r.h} ${r.dir > 0 ? 'ccw' : 'cw'} #${r.seed}: the old way still ${r.j.old} ticks after the reversal, the new way from ${r.j.turned === null ? 'NEVER' : r.j.turned + ' s'}`).join(' | ') };
+});
+add('P18 the fair race and its stamina (R16f; the locks: no speed above its own, finite stamina): through every circling and slipping scene its every step is at or under its run (255 px/s; a fresh sprint is 285); running fast it spends stamina as before', () => {
+  const rs = [];
+  for (const h of [.85, .95]) for (const dir of [1, -1]) rs.push(...over([1], sd => { const R = circled(h, dir, sd, 8); return { h, dir, vmax: Math.round(R.vmax), cmax: Math.round(R.cmax), over: R.over, fast: +R.fast.toFixed(1), spent: Math.round(R.stam0 - R.stamMin) }; }));
+  const ok = rs.every(r => !r.err && r.over === 0) && rs.filter(r => r.fast > 1).every(r => r.spent > 0);
+  return { ok, note: rs.map(r => r.err ? 'ERR ' + r.err : `${r.h} ${r.dir > 0 ? 'ccw' : 'cw'}: fastest ${r.cmax} px/s its own, ${r.vmax} covered (its run ${AI.SKIN.speeds.run}), over it ${r.over} ticks; ${r.fast} s over 200 px/s, stamina spent ${r.spent}`).join(' | ') };
 });
 
 module.exports = S;

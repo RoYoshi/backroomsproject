@@ -2912,6 +2912,87 @@ function skSnap(eng, e, dt) {
   L.h += Math.abs(err) > SKL.easeIn ? clamp(err, -SKL.snap * dt, SKL.snap * dt) : err * (1 - Math.exp(-SKL.ease * dt));
   e.head = L.h;
 }
+/* ---------------------------------------------------------------- ITS FOOTWORK (Trial 3 R16f; dev/trial-3-r9-overhaul/)
+ * The owner (October 22, section 5): sidestep, backpedal, contest a doorway sideways, cut off an escape route, correct when the player
+ * changes direction, feign a retreat - without mirroring the player's input perfectly: acceleration, turning limits, momentum,
+ * collisions, stamina and a fallible prediction stay, and a feint can fool it.  AP_AUDIT.md (C): every move it made went along its facing
+ * (the shared steerTo / follow), so circled at 230 px it turned on the spot, nose first, its facing 0.6-1.3 rad behind the person, and
+ * never stepped sideways or back.
+ *   THE MOVER (skStrafe): a velocity of its own (e.mv), steered toward the one it wants at its own acceleration (e.caps.ACCELERATION);
+ *             forward up to the pace it is given, sideways up to SKF.side of it, backward up to SKF.back of it; its facing turned
+ *             separately at SKF.face rad/s; every step through the shared moveCollide (walls, the swept test).  Never faster than its run
+ *             (0.89 x a fresh sprint): a rested runner still wins a straight race; its stamina is spent by the shared rule (skBody).
+ *   THE FIGHT (skFight): within SKF.near of a person it sees, on open floor, in an open move (an open approach, a chase, a hungry watch),
+ *             it faces them and places itself at SKF.band from where it reckons they will be in SKF.lead seconds - toward their way out:
+ *             the open floor round them, the way they are moving, away from it (SKF.cut of the way between straight at them and squarely
+ *             in their path).  Closer than the band it backs off, farther it closes in; across, it sidesteps.  What it reckons from is its
+ *             own read of their motion, lagging SKF.tau behind it (smarter: less): a sudden reversal takes it a moment to answer - a feint
+ *             works.  Its spring (T4: the wind-up, the reach) is unchanged and decides as before when it strikes.
+ *   A FEIGNED RETREAT: somebody coming at it is given ground - it backs off facing them to the far edge of its band, its spring ready
+ *             (T4 decides as before); R13's bait round a corner is its own plan and unchanged (backing to its spot facing them changed where it
+ *             lay in wait, and with it SK21's scene - tried, and left as R13 made it).
+ * Cost: per tick a few multiplications; on a think, 12 rays from the person for their way out. */
+const SKF = Object.freeze({
+  near: 340,                                     // px: within this of a person it sees (and a clear way to them) it moves as a fighter
+  band: [115, 170],                              // px: the distance it keeps from where it reckons they will be (its spring: 55-185)
+  side: .75, back: .55,                          // the share of its pace it can move sideways and backward
+  face: 7,                                       // rad/s its body turns to face them while it moves (its head is still its own)
+  gain: 3.2,                                     // 1/s: how hard it steers toward where it wants to be
+  tau: [.32, .18],                               // s its read of their motion lags (dull .. sharp): a reversal fools it for about that long
+  lead: [.25, .45],                              // s ahead it reckons where they will be (dull .. sharp)
+  cut: .55,                                      // how far toward their way out it places itself (0: straight at them; 1: squarely in their path)
+  swing: .9,                                     // rad: the most it swings its place about them at a time
+});
+/* move toward (gx, gy) at up to vmax (forward; SKF.side sideways, SKF.back backward), facing (fx, fy); its own velocity and acceleration */
+function skStrafe(eng, e, gx, gy, fx, fy, vmax, dt, gain = SKF.gain) {
+  const now = eng.now, M = e.mv && now - e.mv.at < .25 ? e.mv : (e.mv = { x: Math.cos(e.ang) * e.speed, y: Math.sin(e.ang) * e.speed, at: now });
+  turnTo(e, Math.atan2(fy - e.y, fx - e.x), SKF.face, dt);
+  const hx = Math.cos(e.ang), hy = Math.sin(e.ang);
+  let vx = (gx - e.x) * gain, vy = (gy - e.y) * gain;
+  let f = vx * hx + vy * hy, l = -vx * hy + vy * hx;                                              // (forward and sideways, as it faces)
+  f = clamp(f, -vmax * SKF.back, vmax); l = clamp(l, -vmax * SKF.side, vmax * SKF.side);
+  const sp = Math.hypot(f, l); if (sp > vmax) { f *= vmax / sp; l *= vmax / sp; }                // (never faster than the pace it is given, whichever way)
+  vx = f * hx - l * hy; vy = f * hy + l * hx;
+  const ax = vx - M.x, ay = vy - M.y, a = Math.hypot(ax, ay), amax = (e.caps.ACCELERATION || 500) * dt;
+  if (a > amax) { M.x += ax / a * amax; M.y += ay / a * amax; } else { M.x = vx; M.y = vy; }
+  M.at = now;
+  e.moved = moveCollide(eng, e, M.x * dt, M.y * dt);
+  if (e.moved < Math.hypot(M.x, M.y) * dt * .5) { M.x *= .5; M.y *= .5; }                         // (a wall takes its momentum)
+  e.speed = Math.hypot(M.x, M.y);
+  return { f: M.x * hx + M.y * hy, l: -M.x * hy + M.y * hx };
+}
+/* within SKF.near of r (seen, a clear way to them): face them and take its place by their way out.  Returns true when it moved so */
+function skFight(eng, e, r, p, d, dt, thinkNow, vmax) {
+  if (!r.seen || d > SKF.near || e.disguise || e.exh) return false;
+  const geo = eng.geo, now = eng.now;
+  const fresh = e.fight && e.fight.pid === r.id && now - e.fight.at < .5;
+  if (thinkNow || !fresh) {
+    if (!geo.lineClear(e.x, e.y, p.x, p.y, e.rc * .6, 'walk')) { e.fight = null; return false; }
+    const F = fresh ? e.fight : (e.fight = { pid: r.id, vx: p.vx, vy: p.vy, esc: null, t0: now });
+    // their way out: of twelve directions from them, the one with open floor, the way they move, and away from it (a doorway, a corridor)
+    const sp = Math.hypot(F.vx, F.vy), mv = Math.atan2(F.vy, F.vx), away = Math.atan2(p.y - e.y, p.x - e.x); let best = -1e9;
+    for (let k = 0; k < 12; k++) {
+      const a = k / 12 * TAU, s = geo.ray(p.x, p.y, a, 420) / 420 + (sp > 60 ? .9 * Math.cos(angDiff(a, mv)) : 0) + .7 * Math.cos(angDiff(a, away));
+      if (s > best) { best = s; F.esc = a; }
+    }
+    F.at = now;
+  }
+  const F = e.fight, T = e.tr.INTELLIGENCE, tau = lerp(SKF.tau[0], SKF.tau[1], T), lead = lerp(SKF.lead[0], SKF.lead[1], T);
+  const k = 1 - Math.exp(-dt / tau); F.vx += (p.vx - F.vx) * k; F.vy += (p.vy - F.vy) * k;          // (its read of their motion: it lags)
+  const qx = p.x + F.vx * lead, qy = p.y + F.vy * lead;
+  // where it wants to be: SKF.band from where it reckons they will be, round them toward their way out - it swings its place about them
+  // (at most SKF.swing at a time), so that it steps into their path the way they lean, never through them
+  const ux = e.x - qx, uy = e.y - qy, L = Math.hypot(ux, uy) || 1, u0 = Math.atan2(uy, ux);
+  let dA = angDiff(F.esc, u0);
+  if (Math.abs(dA) > 2.6) { const lean = ux * F.vy - uy * F.vx; dA = (lean >= 0 ? -1 : 1) * 2.6; }    // (straight away from it: round the way they are moving)
+  const g = u0 + clamp(dA * SKF.cut, -SKF.swing, SKF.swing);
+  const closing = ((e.x - p.x) * p.vx + (e.y - p.y) * p.vy) / Math.max(1, d) > 40;                  // (they come at it: it gives ground)
+  const D = closing ? SKF.band[1] : clamp(L, SKF.band[0], SKF.band[1]);
+  const m = skStrafe(eng, e, qx + Math.cos(g) * D, qy + Math.sin(g) * D, p.x, p.y, vmax, dt);
+  setAct(e, m.f < -30 ? 'back' : e.speed > 150 ? 'chase' : 'pace');
+  F.side = (F.side || 0) + (Math.abs(m.l) > 40 && Math.abs(m.l) > Math.abs(m.f) ? dt : 0); F.backT = (F.backT || 0) + (m.f < -30 ? dt : 0);
+  return true;
+}
 
 /* ---------------------------------------------------------------- SKIN-STEALER (Trial 3)
  * The third species: not a Hound with other numbers, not a Smiler.  An intelligent deceiver - cautious, patient, often choosing NOT to
@@ -3213,7 +3294,7 @@ const SKIN = {
   },
   /* the engine's hooks (ai.engine.js): it never borrows a Hound's or a Smiler's own functions */
   onFar(eng, e) {
-    e.pounce = null; e.recover = 0; e.rx = null; e.head = 0; e.look.k = ''; e.look.h = null; e.ackHead = null; e.defLeave = 0; skHuntEnd(eng, e, 'nobody within reach'); e.noFlank = null; e.noAmbush = null; if (e.plan && e.plan.k === 'feed') return;   // feeding at its kill it carries on, alone
+    e.pounce = null; e.recover = 0; e.rx = null; e.head = 0; e.look.k = ''; e.look.h = null; e.fight = null; e.mv = null; e.ackHead = null; e.defLeave = 0; skHuntEnd(eng, e, 'nobody within reach'); e.noFlank = null; e.noAmbush = null; if (e.plan && e.plan.k === 'feed') return;   // feeding at its kill it carries on, alone
     e.plan = null; e.roam.goal = null; e.roam.pause = 0; setState(e, S.ROAMING, ''); e.dbg.why = 'nobody within reach: it waits where it is';
   },
   farTick(eng, e, dt) {                                           // far from everyone it stands still, and is still hungry (or still feeding)
@@ -3222,7 +3303,7 @@ const SKIN = {
   },
   still(e) { return e.still; },                                  // (the engine's stuck watchdog: it held still this tick on purpose)
   onStuck(eng, e) { if (e.plan && e.plan.k !== 'lure' && e.plan.k !== 'ambush') e.plan.stuck = (e.plan.stuck || 0) + 1; e.roam.goal = null; e.dbg.why = 'stuck: the watchdog cleared its route'; },
-  onClear(eng, e) { e.noAmbush = null; e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.aw.clear(); e.rx = null; e.head = 0; e.look.k = ''; e.look.h = null; e.ackHead = null; e.defLeave = 0; e.dbg.lv = ''; e.hunt = null; e.spent.clear(); e.noFlank = null; e.mind = skMindNew(); setState(e, S.ROAMING, ''); },
+  onClear(eng, e) { e.noAmbush = null; e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.aw.clear(); e.rx = null; e.head = 0; e.look.k = ''; e.look.h = null; e.fight = null; e.mv = null; e.ackHead = null; e.defLeave = 0; e.dbg.lv = ''; e.hunt = null; e.spent.clear(); e.noFlank = null; e.mind = skMindNew(); setState(e, S.ROAMING, ''); },
   debugHunt(eng, e, r) { e.left.delete(r.id); setTarget(e, r.id, eng.now); skBegin(eng, e, 'watch', r, 'admin: it was given a record of you'); return 'WATCHING YOU (real AI)'; },
   /* its own target scoring and commitment (ai.intelligence.js's debug asks for them; never the Smiler's sScore) */
   targetScore(eng, e, r) { const age = eng.now - Math.max(r.seenAt, r.heardAt); return r.aw * .8 + r.conf * .7 - Math.min(1, age / 30) * .3 + (r.seen ? .5 : 0) + (r.id === e.target ? .4 : 0); },
@@ -3244,6 +3325,8 @@ function skBody(eng, e, dt) {
   if (e.disguise && eng.now > e.disguise.until) skUndress(eng, e, 'its borrowed skin wore out');   // (T6)
 }
 /* it holds still on purpose: no route left behind (the engine's stuck watchdog would take a deliberate stop for being stuck) */
+/* (R16f) close enough, and in the open, to fight for its place: somebody it sees within SKF.near who is moving, or looking at it */
+function skFightable(eng, e, r, p, d) { return !!r.seen && d < SKF.near && !e.disguise && !e.exh && (Math.hypot(p.vx, p.vy) > 60 || skWatched(eng, e, r)); }
 /* (R16e) a plan's own head movement (a listening sway, a glance back): eased from where the head is, so that it never jumps after a snap */
 function skHeadTo(e, v, dt) { const h = e.head || 0; e.head = h + clamp((v - h) * Math.min(1, dt * 12), -8 * dt, 8 * dt); }
 function skHold(eng, e, dt) { if (e.path.length) e.path = []; stopMoving(eng, e, dt); e.still = true; }
@@ -4214,6 +4297,7 @@ function skAct(eng, e, dt, thinkNow) {
   const r = P.pid ? e.mem.p.get(P.pid) : null;
   switch (P.k) {
     case 'watch': {
+      if (r && e.hunger >= SK.band[2] && !e.disguise) { const p = perc(eng, e, r), d = Math.hypot(p.x - e.x, p.y - e.y); if (skFightable(eng, e, r, p, d) && skFight(eng, e, r, p, d, dt, thinkNow, Math.min(skSpeed(e, 'flank'), skCap(e)))) return; }   // (R16f) a hungry standoff is held on its feet
       skHold(eng, e, dt);
       if (r) { const p = perc(eng, e, r); faceToward(e, p.x, p.y, dt, 2.2); }
       if (e.act !== 'watch') setAct(e, 'watch');
@@ -4238,6 +4322,8 @@ function skAct(eng, e, dt, thinkNow) {
         return;
       }
       const p = perc(eng, e, r), d = Math.hypot(p.x - e.x, p.y - e.y);
+      // (R16f) an open approach close to somebody moving or looking at it: it fights for its place - facing them, by their way out
+      if (P.mode === 'open' && !P.shadow && !P.rush && skFightable(eng, e, r, p, d) && skFight(eng, e, r, p, d, dt, thinkNow, Math.min(skSpeed(e, 'run'), skCap(e)))) return;
       // (R3) somebody unaware turning its way, before they meet its eyes: it freezes, crouched, until they look away or its patience runs out
       // (R13: not in an open approach - it is in their view whichever way they face)
       const v = r.seen ? r.visual : null;
@@ -4285,6 +4371,7 @@ function skAct(eng, e, dt, thinkNow) {
         }
         if (now - (P.planT || -9) > .5 || !e.path.length) { P.planT = now; if (directOk(eng, e, p.x, p.y, 640)) directTo(eng, e, p.x, p.y); else plan(eng, e, p.x, p.y, { why: 'chase', maxNodes: 3000 }); }
       }
+      if (skFightable(eng, e, r, p, d) && skFight(eng, e, r, p, d, dt, thinkNow, skSpeed(e, 'run'))) return;   // (R16f) close: it cuts off their way out, facing them
       setAct(e, 'chase');
       follow(eng, e, dt, skSpeed(e, 'run'), { arrive: 30 });                              // it runs on to them (the strike decides when it springs)
       return;
@@ -4557,6 +4644,11 @@ function skDebug(eng, e) {
     df: e.dbg.def ? { pid: e.dbg.def.pid, k: e.dbg.def.k, odds: e.dbg.def.odds, cornered: e.dbg.def.cornered ? 1 : 0, ago: +(eng.now - e.dbg.def.at).toFixed(1) } : null,
     // (R1) its hunt: the quarry, how sure it is and how it knows, how long since that evidence, its effort and budget, flanks, searches
     ht: skHuntDbg(eng, e), mi: skMindDbg(eng, e),
+    // (R16d-f) its last interruption (what it perceived, the plan it cut or kept, why), its eyes' stimulus, its footwork
+    pe: e.dbg.preempt && eng.now - e.dbg.preempt.at < 10 ? { ago: +(eng.now - e.dbg.preempt.at).toFixed(1), from: e.dbg.preempt.from, cls: e.dbg.preempt.cls, kept: e.dbg.preempt.kept ? 1 : 0, why: e.dbg.preempt.why } : null,
+    lk: e.look && e.look.k && eng.now < e.look.until ? { k: e.look.k, why: e.dbg.look ? e.dbg.look.why : '', body: e.dbg.look && e.dbg.look.body ? 1 : 0 } : null,
+    ft: e.fight && eng.now - e.fight.at < .3 ? { pid: e.fight.pid, side: +(e.fight.side || 0).toFixed(1), back: +(e.fight.backT || 0).toFixed(1) } : null,
+    sn: [...e.seenNow],                                                                   // (who it sees now: the admin's overlay and the browser campaign's checks)
     cv: P && P.mode ? { mode: P.mode, phase: P.phase || '', way: P.way ? P.way.len : 0, exit: P.way ? P.way.exit : 0, why: e.dbg.cover && eng.now - e.dbg.cover.at < 10 ? e.dbg.cover.why : '' } : null };   // (R13) its move's mode (covert, open, feint), a covert move's phase and way                // (R11) whether the people it sees could see it; its last events and how fast it answered
 }
 function skHuntDbg(eng, e) {

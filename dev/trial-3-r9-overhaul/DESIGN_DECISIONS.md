@@ -748,3 +748,50 @@ head snaps, the edge of its view and where it looks from; the range stays R8's.
 - `npm test` 320/333: the 14 P tests pass and the same 13 inherited failures as R10's record; Human QA hotfix 5/6 (X03 inherited); the
   static checks, the docs, the scope gate (R16e's reason on `ai.js`) and `build:check` pass.
 - The drawn snap (`skin.body.js`) is checked on real pages in R16g's campaign.
+
+## R16f — its footwork: facing, sidesteps, giving ground, the way out (the owner's §5)
+
+**R16f-1 The mover** (`src/frameworks/nani/server/ai.skin.move.js`, `skStrafe`). `AP_AUDIT.md` cause 7: every Skin-Stealer move went along
+its facing (the shared `steerTo` / `follow`), so circled at 230 px it turned on the spot, nose first, its facing 0.6-1.3 rad behind them,
+and never stepped sideways or back. The mover is the Skin-Stealer's own (the shared movement is untouched): a velocity of its own (`e.mv`)
+steered toward the one it wants at its own acceleration (`e.caps.ACCELERATION`, 760 px/s²); forward up to the pace it is given,
+sideways up to 0.75 of it, backward up to 0.55 of it, and the whole never over it; its facing turned separately (7 rad/s); every step
+through the shared `moveCollide` (walls, the swept test), a wall taking half its momentum. Its stamina is spent by the shared rule
+(`skBody`: over `SK.runFrom` it pays).
+
+**R16f-2 The fight** (`skFight`). Within 340 px of a person it sees with a clear way to them, who is moving or looking at it, in an open
+approach, a chase or a hungry standoff (a watch from hunger .6), it faces them and takes a place 115-170 px from where it reckons they
+will be (inside its spring, 55-185 px), swung round them toward their way out:
+- their way out: of twelve directions from them, the one with open floor (a doorway, a corridor), the way they are moving, and away from
+  it - worked out on a think (12 rays);
+- where they will be: its own read of their motion, lagging 0.18-0.32 s behind it (sharper: less), carried 0.25-0.45 s ahead;
+- its place: swung about them from where it is toward their way out, by 0.55 of the angle and at most 0.9 rad at a time - it steps into
+  their path the way they lean, never through them;
+- somebody coming at it is given ground (the band's far edge, facing them: a feigned retreat, its spring ready).
+Its spring (T4: the wind-up, the reach, the leap's own reckoning) is unchanged and decides as before when it strikes. Covert moves, a
+walk in a skin, the exhausted, and a person standing still and unaware (R8's creep and hold) are not the fight's.
+
+**R16f-3 Tried and left out.** R13's bait (a retreat round a corner) is meant to back off "still facing them", but goes there with
+`follow`, turning its back. Backing it to its spot facing them, with the mover, changed where it lay in wait - and SK21 (somebody who
+follows comes round that corner close to it) fell from 6 of 7 to 5 of 7, then (its follower sent after it to where they last saw it,
+which R16e and R8 both pass 7 of 7) to 4 of 7. The bait is left as R13 made it, and no test was changed for it.
+
+**R16f-4 Measured and checked** (`evidence/r16f/`):
+
+| Probe | R16e | R16f |
+|---|---|---|
+| C. Circled at 230 px (their script keeps them there, wherever it goes): facing error | 0.30-0.76 rad, no step sideways | 0.15-0.58 rad; sideways in 6 of 8 (up to 108 ticks); strikes in 6 of 8 |
+| P15. The same in its footwork | - | facing within 0.08-0.16 rad on average, sideways 0.5-1.8 s, never faster than 255 px/s |
+| P16 / the slip-past probe. A lit person runs out of a dead end past it (420 px out, 0.7 rad to a side; 16 scenes) | 8 got past, struck at 10 | 4 got past, struck at 14 |
+| P17. A feint (they reverse while circling) | - | it still steps the old way for 0-8 ticks, the new way from 0.1-0.13 s |
+| P18. Its top speed and stamina | - | 255 px/s (its run; a fresh sprint is 285), 33-76 stamina spent in 8 s |
+
+B, G, P (and the heard, roaming and periphery probes) are as R16e's; A, E and F differ only in what happens after it has seen them (its
+footwork in an approach).
+- `s_skinap.js` P15-P18 pass; P08's prowl is a minute long (40 s left one or two goals in every run once its footwork had followed the first
+  person; its invariant - the same until it senses the second person - holds through the minute in all six runs).
+- `npm test` 324/337: the 18 P tests pass and the same 13 inherited failures; Human QA hotfix 5/6 (X03 inherited); the static checks, the
+  docs, the scope gate (R16f's reason on `ai.js`) and `build:check` pass. Every Skin-Stealer suite passes, C26 (the fair race) included.
+- The admin debug block now also carries its last interruption (`pe`), its eyes' stimulus (`lk`), its footwork (`ft`) and whom it sees
+  (`sn`): the admin's overlay, and R16g's real-page campaign, read them (admin-only, as every other field of the block). (`sn` was added
+  after the `npm test` run above; `s_admin` 5/5 and P01-P04, P10, P15 were run again after it.)

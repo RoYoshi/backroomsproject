@@ -38,6 +38,7 @@ AI perception is server-side and limited to evidence.
 | [`server/ai.skin.infer.js`](server/ai.skin.infer.js) | N.A.N.I.: the Skin-Stealer's inference (Trial 3 R12): the ways its quarry could have gone, how likely each, what ruled one out | `generated/server/ai.js` (a part) |
 | [`server/ai.skin.look.js`](server/ai.skin.look.js) | N.A.N.I.: the Skin-Stealer's eyes (Trial 3 R16e): its head snaps to what it perceives, movement at the edge of its view, where to look from | `generated/server/ai.js` (a part) |
 | [`server/ai.skin.mind.js`](server/ai.skin.mind.js) | N.A.N.I.: the Skin-Stealer's mind (Trial 3 R11): who could see it, what changed since its last think, what it knows of its quarry | `generated/server/ai.js` (a part) |
+| [`server/ai.skin.move.js`](server/ai.skin.move.js) | N.A.N.I.: the Skin-Stealer's footwork (Trial 3 R16f): close to a person it sees, it moves like a fighter - facing them, sidestepping, backing, cutting off their way out | `generated/server/ai.js` (a part) |
 | [`server/ai.skin.preempt.js`](server/ai.skin.preempt.js) | N.A.N.I.: the Skin-Stealer's plan interruption and preemption (Trial 3 R16d): which plans new evidence may cut, and when | `generated/server/ai.js` (a part) |
 | [`server/ai.skinstealer.js`](server/ai.skinstealer.js) | N.A.N.I.: the Skin-Stealer (Trial 3): a patient, deceptive predator with hunger, stamina and its own plans | `generated/server/ai.js` (a part) |
 | [`server/ai.smiler.js`](server/ai.smiler.js) | N.A.N.I.: the canon Smiler (Part 2, stage 2D) | `generated/server/ai.js` (a part) |
