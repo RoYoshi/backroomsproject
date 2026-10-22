@@ -73,7 +73,7 @@ function startFx(m) {
  * over the blast so the corpse that takes over looks the same */
 function gibFrame(f, jl) {
   const S = jl.ph, G = window.__gore; if (!S || !S.gib || !G) return;
-  const shapes = f.gibShapes || (f.gibShapes = window.__dphys.gibShapes(S.ctx.seed)), dead = sm(.5, 2.6, jl.elapsed);
+  const shapes = f.gibShapes || (f.gibShapes = S.rendShapes || window.__dphys.gibShapes(S.ctx.seed)), dead = sm(.5, 2.6, jl.elapsed);   // (R15: a rend's own two halves)
   const key = (S.state === 'SLEEPING' ? 'rest' : S.stepN) + ':' + Math.round(dead * 20); if (f.gibKey === key) return; f.gibKey = key;
   f.gib.clear();
   G.gibs(f.gib, S.gib.map((g, i) => ({ x: g.x, y: g.y, rot: g.rot, z: g.z, poly: shapes[i].poly, core: shapes[i].core })), S.h.map(h => ({ x: h.x, y: h.y, rot: h.rot, z: h.z })), f.look, { dead, eqKind: f.gear && f.gear.kind });
@@ -91,6 +91,7 @@ function updateFx(now) {
       continue;
     }
     const jl = f.jl, done = jl.frame(now), b = jl.body;
+    if (!f.gib && jl.ph && jl.ph.rent && window.__gore && window.__gore.gibs && f.av && f.av.parent) { f.gib = new (jl.foreground.constructor)(); f.av.parent.addChildAt(f.gib, f.av.parent.getChildIndex(f.av)); }   // R15: the Rend - from its moment, two halves where the body was
     if (f.gib) { f.av.visible = false; gibFrame(f, jl); }                          // Stage 3D HQ3: a gibbed NEW RUN: no whole body from the first frame on
     else {
     f.av.update(now, false, false, f.src);

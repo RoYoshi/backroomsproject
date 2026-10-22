@@ -85,3 +85,25 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `dev/trial-3-r9-overhaul/tools/art_lab.js` | new dev tool | the page's own script drawn to an SVG/PNG lineup: acts × eight headings beside a Wanderer |
 | `dev/trial-3-r9-overhaul/R14_TOPDOWN_ART_REPORT.md` | report | anatomy, pose map, images, collision / sorting audit, cost, limitations — **visual approval pending** |
 | `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `evidence/r13/` (receipt, scan), `evidence/r14/` | docs, evidence | R14-1 … R14-8; R13's receipt |
+
+## R15 — Execution D, the Rend (shared G.I.B. physics, the wire, the clients, the server's choice)
+
+| File | Kind | Change |
+|---|---|---|
+| `src/frameworks/gib/shared/dphys.js` | source (G.I.B.'s shared physics: `public/dphys.js`, `generated/server/dphys.js`) | `CFG.SkinStealer.D`, `DURS.SkinStealer.D`, `PLAN('SkinStealer','D')`; `prepare()` takes it; `rendShapes`, `rendSeed`, `shapesOf`, `rend`, `stepRent`; a rent body hidden in `frame`, its headlamp on the bigger half, its halves in `gibRecord` and `remains` — every other death step for step R8's (G12) |
+| `src/frameworks/nani/server/ai.skinstealer.js` | source | `capture.variants` + D (`skRendW`: a grab, hungry, room either side; else nothing); `commitDur.D` |
+| `src/frameworks/nani/server/ai.capture.js` | source (shared capture) | one line: `previewKill` no longer refuses the Skin-Stealer's D (S15) |
+| `src/frameworks/overseer/server/admin.js`, `src/frameworks/overseer/client/mp.admin.js` | source (OVERSEER) | the same `preview` command with A–D for the Skin-Stealer; the DEATHS tab's D button |
+| `src/frameworks/bpp/client/net-wire.js` | source (B++ wire) | a Skin-Stealer corpse's two pieces kept (exactly two); a NEW RUN's as before |
+| `src/frameworks/gib/client/gore.js`, `src/frameworks/gib/client/mp.deaths.js` | source (G.I.B. client) | a record's pieces from `shapesOf(cause, gs)`; a replay adds the halves at the rend |
+| `src/frameworks/br-r/client/skin.kill.js`, `skin.body.js` | source | D's posture (planted, hands at the sides; each hand with its half at the rend); our own death's halves drawn in our look; the rend heard once |
+| `src/frameworks/nani/client/skin.head.js`, `src/frameworks/spacious-audio/client/skin.audio.js` | source | the `rend` hook; the tear's sound; D known by its blows |
+| `generated/…`, `public/…` | built | rebuilt from the above |
+| `dev/tests/s_skinrend.js` | new suite, in `run.js` | G08–G13, S15 |
+| `dev/trial-3-r9-overhaul/fixtures/dphys.f378049.js` | fixture | R8's `dphys.js` (git blob `22a6fc6…`, checked by G12) |
+| `dev/tests/s_skinpredator.js` PR25, `dev/tests/s_skinstealer.js` SK33 | suites | adapted, each to the invariant it stood for (R15-9) |
+| `dev/tests/run.js` | test list | `s_skinrend.js` added |
+| `dev/tools/gate/declared_changes.json` | the scope gate's list of runtime changes | `assets/net-wire.js` declared; the R15 reasons added to `dphys.js`, `gore.js`, `mp.js`, `ai.js` and the admin module |
+| `docs/architecture/CONTRACTS.md` | generated block (`docs.js`) | `window.__gore`'s readers now include `assets/skinstealer.js` |
+| `dev/trial-3-r9-overhaul/tools/r9_browser.js` | dev tool | `--scene rend` (the victim, a spectator, a late joiner, the server's fallback; how many Skin-Stealers a spectator's page draws); INIT notes corpses and the rend's tone; the gallery's spectator aims at the victim |
+| `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `evidence/r14/` (receipt, scan), `evidence/r15/` | docs, evidence | R15-1 … R15-10; R14's receipt |

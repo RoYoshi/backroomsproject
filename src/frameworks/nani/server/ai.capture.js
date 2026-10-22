@@ -117,7 +117,7 @@ function commitEnd(eng, pid, x, y, a) {                                      // 
  * variant honest (for the hound's C: a real wall behind the victim), then the ordinary quick capture runs - so the kill record, the events, what the entity does
  * afterwards and everything the clients replay are exactly what a natural death produces. */
 function previewKill(eng, e, variant, pv) {
-  const geo = eng.geo, V = /^[ABCD]$/.test(variant) && !(e.kind === 'skinstealer' && variant === 'D') ? variant : 'A', hound = e.kind === 'hound';   // (Trial 3: the Skin-Stealer has A-C)
+  const geo = eng.geo, V = /^[ABCD]$/.test(variant) ? variant : 'A', hound = e.kind === 'hound';   // (Trial 3 R15: the Skin-Stealer's D too)
   if (!pv || !pv.alive || pv.caught || e.cap) return { ok: false, why: 'busy: already caught or dead' };
   const fwd = pv.angle, wantC = hound && V === 'C';
   const base = hound ? { A: fwd, B: fwd + Math.PI - .7, C: fwd, D: fwd + Math.PI }[V] : fwd;     // where the attacker stands, as an angle seen from the victim

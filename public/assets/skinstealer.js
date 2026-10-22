@@ -16,7 +16,7 @@ const BODY_SCALE = 1.3;
  * body: draw, clear; kill: the attacker in a death; audio: a death's sounds) */
 const K = window.__skin = {};
 /* what a later module lends an earlier one, inside the script only (never on the page): kill's test of a creature whose kill is playing */
-const hooks = { hidden: null, frame: null, audio: null };
+const hooks = { hidden: null, frame: null, audio: null, rend: null };
 const lend = (name, fn) => { if (name in hooks) hooks[name] = fn; };
 /* the codes as the server sends them: the shared states (ai.head.js S, numbered SCODE) and the Skin-Stealer's acts (ai.skinstealer.js
  * KACT); dev/tools/checks/facts.json holds every copy of each to the same list */
@@ -166,7 +166,8 @@ function rig(S, R) {
     t = mix(t, [sj[0] + s * 8, sj[1] + L * .6, sj[2] - L * .5], S.back);         // the wind-up: drawn back along its flanks, low
     // reaching: straight ahead at its shoulders' height; in a kill, to the victim's neck (S.gripD from its centre, S.gripZ high: skin.kill.js)
     const gy = S.gripD != null ? cy - S.gripD : sj[1] - L * .72, gz = S.gripZ != null ? S.gripZ : sj[2] - 22;
-    t = mix(t, [s * (S.gripW != null ? S.gripW : 5), gy, gz], S.reach);
+    const g2 = S.grip2 ? S.grip2[s > 0 ? 1 : 0] : null;                          // (R15: the Rend - each hand on its own half, from the body's centre)
+    t = mix(t, g2 ? [g2[0], g2[1] + cy, g2[2]] : [s * (S.gripW != null ? S.gripW : 5), gy, gz], S.reach);
     t[2] = Math.max(1.5, t[2]);
     const J = ik3(sj, t, AN.upper, AN.fore, [s * (.45 - .25 * run + .3 * S.reach), .7 + .3 * run, .1 - .3 * run]);   // (elbows back and a little out; out to the sides only to grip)
     const fx = J.t[0] - J.e[0], fy = J.t[1] - J.e[1], fz = J.t[2] - J.e[2], fn = Math.hypot(fx, fy, fz) || 1, low = sm(6, 2, J.t[2]);
@@ -348,7 +349,7 @@ K.clear = reset;
 K.anatomy = { AN, POSE, rig, settle };
 return { classes, newView, paint, shadeView };
 }
-function skinKill({ head: { API, BODY_SCALE, clamp, K, lend, lerp, sm }, body: { classes, newView, paint, shadeView } }) {
+function skinKill({ head: { API, BODY_SCALE, clamp, hooks, K, lend, lerp, sm }, body: { classes, newView, paint, shadeView } }) {
 const CFG = () => (window.__dphys && window.__dphys.CFG && window.__dphys.CFG.SkinStealer) || {};
 /* the pose at time t of a death: its variant, and its physics (the snap, the blows' impact) */
 function killPose(S, jl, t) {
@@ -357,6 +358,8 @@ function killPose(S, jl, t) {
   let crouch, reach, lean, tilt = 0;
   if (v === 'B') {                                    // the leap carries it in, it pins them down, then the neck
     const land = sm(.05, .3, t); crouch = lerp(.15, .9, land); reach = 1; lean = lerp(1, .8, land);
+  } else if (v === 'D') {                             // R15: the Rend - planted, both hands on them; then the pull
+    crouch = lerp(.35, .55, sm(.05, .5, t)); reach = sm(0, .16, t); lean = lerp(.35, .55, sm(.05, .5, t));
   } else if (v === 'C') {                             // held from close, bent to the neck; the head jerks at each bite
     crouch = lerp(.5, .95, sm(.1, .5, t)); reach = lerp(.6, .85, sm(0, .3, t)); lean = .9 - imp * .15; tilt = imp * .5;
   } else {                                            // A: a grip from close by, then the neck
@@ -372,25 +375,54 @@ function killPose(S, jl, t) {
   const col = c.collapse || [.95, .8], down = v === 'B' ? sm(.05, .35, t) : v === 'C' ? sm(col[0], col[0] + col[1], t) : sm(snap, snap + .6, t);
   S.gripD = gd; S.gripZ = lerp(v === 'B' ? 58 : 86, 14, down); S.gripW = v === 'C' ? 8 : 5;
   S.headDown = v === 'C' ? .9 : lerp(.1, .7, Math.max(down, done)); S.air = v === 'B' ? 1 - sm(0, .1, t) : 0;
-  S.floor = 0; S.coil = 0; S.brake = 0; S.bite = v === 'C' ? clamp(imp, 0, 1) : 0;
+  S.floor = 0; S.coil = 0; S.brake = 0; S.bite = v === 'C' ? clamp(imp, 0, 1) : 0; S.grip2 = null;
+  if (v === 'D') {                                    // R15: its hands at the victim's two sides, at their chest; at the rend each goes with its half for a moment
+    S.gripW = 13; S.gripZ = lerp(80, 60, sm(.3, 1, t)); S.headDown = .2;
+    const P = jl.ph, rot = at ? at.angle + Math.PI / 2 : 0, c = Math.cos(rot), s = Math.sin(rot);
+    if (P && P.rent && P.gib && at) {
+      const k = 1 - sm(P.cfg.rend + .25, P.cfg.rend + .7, t), loc = g => [((g.x - at.x) * c + (g.y - at.y) * s) / BODY_SCALE, (-(g.x - at.x) * s + (g.y - at.y) * c) / BODY_SCALE, 14 + (g.z || 0) * .5];
+      const q = P.gib.map(loc).sort((a, b) => a[0] - b[0]);                          // (left hand: the half on its left)
+      S.grip2 = q.length === 2 ? q : null; S.reach = lerp(.3, 1, k); S.back = .4 * (1 - k); S.headDown = 0;
+    }
+  }
+}
+/* R15: the Rend heard once per death, where the physics tore the body (the audio module's own sound, placed for this listener) - on the first
+ * frame that finds the body rent, unless that frame is more than a second after the tear (a page that arrives late hears nothing old; one
+ * that only hitched still hears it) */
+function rendHeard(v, jl) {
+  const P = jl && jl.ph; if (!P || !P.rent) { if (v.__rd && v.__rd !== P) v.__rd = null; return; }
+  if (v.__rd === P) return; v.__rd = P;
+  const e = (P.ev || []).find(q => q.k === 'rend'); if (e && hooks.rend && (+jl.elapsed || 0) - e.t < 1) hooks.rend(e.x, e.y);
 }
 /* our own death's attacker (the bundle gives the Hound's view: it is hidden; this one is drawn in the same creatures layer) */
-let own = null;
+let own = null, ownGib = null;
 function attack(view, t, dt, death) {
   if (view) view.alpha = 0;
   const A = API(); if (!A || !death || !death.attacker || !classes()) return;
   if (!own || own.destroyed) own = newView('skinstealer-kill');
   const layer = A.layer(); if (layer && own.parent !== layer) layer.addChild(own);
+  ownHalves(A, layer, death);
   own.visible = true; own.alpha = 1; own.position.set(death.attacker.x, death.attacker.y); own.rotation = death.attacker.angle + Math.PI / 2;
-  killPose(own.__s, death, +death.elapsed || 0);
+  killPose(own.__s, death, +death.elapsed || 0); rendHeard(own, death);
   shadeView(own, death.attacker.x, death.attacker.y, !!(A.lightOn && A.lightOn()), clamp(+dt || .016, .001, .1)); paint(own, null, t);
+}
+/* R15: our own Rend - the halves in our own look, from the death's physics (as mp.deaths.js draws a spectator's) */
+function ownHalves(A, layer, death) {
+  const P = death.ph, G = window.__gore;
+  if (!P || !P.rent || !P.gib || !G || !G.gibs || !death.foreground) { if (ownGib) ownGib.visible = false; return; }
+  if (!ownGib || ownGib.destroyed) ownGib = new (death.foreground.constructor)();
+  if (ownGib.parent !== layer) layer.addChildAt(ownGib, Math.max(0, layer.getChildIndex(own)));
+  const sh = P.rendShapes, key = (P.state === 'SLEEPING' ? 'rest' : P.stepN) + ':' + Math.round(sm(.5, 2.6, +death.elapsed || 0) * 20);
+  ownGib.visible = true; if (ownGib.__key === key) return; ownGib.__key = key; ownGib.clear();
+  const eqk = A.H && A.H.equipment && A.H.equipment.kind;
+  G.gibs(ownGib, P.gib.map((g, i) => ({ x: g.x, y: g.y, rot: g.rot, z: g.z, poly: sh[i].poly, core: sh[i].core })), P.h.map(h => ({ x: h.x, y: h.y, rot: h.rot, z: h.z })), A.look, { dead: sm(.5, 2.6, +death.elapsed || 0), eqKind: eqk });
 }
 /* a replay's attacker: G.I.B.'s module adds it to the layer, places it and calls attackPose every frame */
 function attacker() {
   const A = API(), v = classes() ? newView('skinstealer-replay') : new (A.layer().constructor)();
   v.attackPose = (grip, impact, variant, jl) => {
     if (!v.__s) return;
-    killPose(v.__s, jl, +jl.elapsed || 0);
+    killPose(v.__s, jl, +jl.elapsed || 0); rendHeard(v, jl);
     shadeView(v, jl.attacker.x, jl.attacker.y, !!(API() && API().lightOn && API().lightOn()), 1 / 60); paint(v, null, performance.now() / 1000);
   };
   return v;
@@ -404,7 +436,7 @@ lend('hidden', o => {
   return false;
 });
 /* our own death over (or not a Skin-Stealer's): its attacker is put away */
-lend('frame', () => { if (!own) return; const A = API(), D = A && A.death && A.death(); if (!(D && D.active && D.kind === 'SkinStealer')) own.visible = false; });
+lend('frame', () => { if (!own) return; const A = API(), D = A && A.death && A.death(); if (!(D && D.active && D.kind === 'SkinStealer')) { own.visible = false; if (ownGib) ownGib.visible = false; } });
 K.attack = attack;
 K.attacker = attacker;
 }
@@ -436,12 +468,12 @@ function tone(dst, at, dur, type, f0, f1, vol, atk) {
   g.gain.setValueAtTime(.0001, t0); g.gain.linearRampToValueAtTime(vol, t0 + (atk || .004)); g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
   o.connect(g); g.connect(dst); o.start(t0); o.stop(t0 + dur + .05);
 }
-/* which of its deaths: ours from the death itself; a spectator's from its blows' times (dphys.js PLAN) */
+/* which of its deaths: ours from the death itself; a spectator's from its blows' times (dphys.js PLAN; R15: D's own, never taken for A's) */
 function variantOf(O) {
   const A = API(), D = A && A.death && A.death();
   if (!O && D && D.active && D.kind === 'SkinStealer') return D.variant || 'A';
   const P = window.__dphys && window.__dphys.PLAN, h = O && O.hits;
-  if (P && Array.isArray(h)) for (const v of ['A', 'B', 'C']) { const q = P('SkinStealer', v, 40).hits; if (q && q.length === h.length && q.every((x, i) => Math.abs(x - h[i]) < 1e-6)) return v; }
+  if (P && Array.isArray(h)) for (const v of ['A', 'B', 'C', 'D']) { const q = P('SkinStealer', v, 40).hits; if (q && q.length === h.length && q.every((x, i) => Math.abs(x - h[i]) < 1e-6)) return v; }
   return 'A';
 }
 function deathSound(O) {
@@ -511,6 +543,16 @@ function cue(x, y, k) {
   else if (k === 'feed') { const b = bus(p.g * .4, p.pan, p.lp, .4); noise(b, 0, .16, 'bandpass', 650, 300, 1.8, .45, .01); noise(b, .05, .06, 'highpass', 2400, 0, .9, .1, .003); }
   else if (k === 'breath') { const b = bus(p.g * .35, p.pan, p.lp, 1.6); noise(b, 0, .7, 'bandpass', 500, 350, 1.1, .2, .3); noise(b, .8, .8, 'bandpass', 420, 300, 1.1, .16, .35); }
 }
+/* R15: the Rend - a wet tearing pull, a heavy split and the halves landing, where the physics tore the body (ents.js's place rules) */
+function rend(x, y) {
+  if (!soundOn() || !Z()) return;
+  const p = place(x, y, 140, 1400); if (p.g < .02) return;
+  const b = bus(p.g, p.pan, p.lp, 1.2);
+  noise(b, 0, .3, 'bandpass', 500, 1500, 1.2, .55, .03); noise(b, .05, .22, 'bandpass', 1800, 900, 1.6, .3, .02);   // the tearing pull
+  tone(b, .16, .18, 'sine', 90, 42, .6, .004); noise(b, .16, .14, 'lowpass', 700, 200, .8, .55, .003);               // the split
+  noise(b, .42, .12, 'lowpass', 600, 180, .7, .35, .004); noise(b, .55, .12, 'lowpass', 520, 160, .7, .3, .004);    // the halves come down
+}
+lend('rend', rend);
 lend('audio', voice);
 K.deathSound = deathSound;
 K.deathEvent = deathEvent;

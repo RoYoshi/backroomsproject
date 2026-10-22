@@ -1,0 +1,731 @@
+{
+ "checkpoint": "R14",
+ "verifiedAt": "2026-10-22T12:22:20Z",
+ "branch": "trial-3-r9-cognitive-ambush-overhaul",
+ "local": {
+  "commit": "a6b82ba9c2a69ec925c621cd0317bbfc3824f968",
+  "tree": "752a380d5fdb3cffef520c0a81d0f75881612528",
+  "parent": "14203ac075f4e04ab649d415915dc37c1ec3bc52"
+ },
+ "lsRemote": "a6b82ba9c2a69ec925c621cd0317bbfc3824f968",
+ "githubApi": {
+  "commit": "a6b82ba9c2a69ec925c621cd0317bbfc3824f968",
+  "tree": "752a380d5fdb3cffef520c0a81d0f75881612528",
+  "parents": [
+   "14203ac075f4e04ab649d415915dc37c1ec3bc52"
+  ],
+  "message": "Trial 3 R14: the Skin-Stealer's body drawn for the top-down camera - a skeleton seen from above, posed only by what the server says (not owner-approved; visual approval pending)",
+  "branchHead": "a6b82ba9c2a69ec925c621cd0317bbfc3824f968",
+  "branchTree": "752a380d5fdb3cffef520c0a81d0f75881612528"
+ },
+ "sinceBase": [
+  {
+   "commit": "0c735eaaa63e0eba214fff681631296fa4680580",
+   "tree": "1a8c0d964f9bbbdeffaaf1342cf10f87c6ba9dbf",
+   "subject": "Trial 3 R9: audit of R8 and the owner's exposed ambush reproduced"
+  },
+  {
+   "commit": "d4a0edc65d3b99d96f2a3836d9cb94b0b75c8350",
+   "tree": "805039ae5ff785bf8fea0866277dd44b3ceb66d6",
+   "subject": "Trial 3 R10: the Skin-Stealer's heartbeat and sting only while it is seen"
+  },
+  {
+   "commit": "a002a2d02378d006ee47cdf4c7629e58e53e954d",
+   "tree": "bcf215c87616a99ff6069bd943cf0310601ab425",
+   "subject": "Trial 3 R11: the Skin-Stealer's mind - attention, events, opportunism, belief (not owner-approved)"
+  },
+  {
+   "commit": "61f4128c0db969b2fd9367a922d00c79bc3ecc31",
+   "tree": "f0890e03a22b2023e12eeb4aaa5eec9b9d31e417",
+   "subject": "Trial 3 R12: the Skin-Stealer's inference - the ways a quarry could have gone (not owner-approved)"
+  },
+  {
+   "commit": "14203ac075f4e04ab649d415915dc37c1ec3bc52",
+   "tree": "6da6cd33e469916e6f78b223d923c65502141df6",
+   "subject": "Trial 3 R13: the Skin-Stealer's cover - covert ways audited against every view it knows of, the withdrawal then the hidden run, caught on the way, honest open moves (not owner-approved)"
+  },
+  {
+   "commit": "a6b82ba9c2a69ec925c621cd0317bbfc3824f968",
+   "tree": "752a380d5fdb3cffef520c0a81d0f75881612528",
+   "subject": "Trial 3 R14: the Skin-Stealer's body drawn for the top-down camera - a skeleton seen from above, posed only by what the server says (not owner-approved; visual approval pending)"
+  }
+ ],
+ "merges": [],
+ "base": {
+  "commit": "f378049a825e53eafc626a637b8c43397e4072f0",
+  "tree": "a6d72690727a58dbab6e770dfda64a1d9dbf70f3",
+  "firstCommitsParent": "f378049a825e53eafc626a637b8c43397e4072f0"
+ },
+ "changedFiles": [
+  {
+   "path": "dev/tests/run.js",
+   "status": "M",
+   "local": "079fe3c8ae07e4d72534276c54e5bf34dccf9f77",
+   "remote": "079fe3c8ae07e4d72534276c54e5bf34dccf9f77",
+   "ok": true
+  },
+  {
+   "path": "dev/tests/s_skinbody.js",
+   "status": "A",
+   "local": "7e6675a3eaa81518919b619ba1ee54543d53c239",
+   "remote": "7e6675a3eaa81518919b619ba1ee54543d53c239",
+   "ok": true
+  },
+  {
+   "path": "dev/tests/s_skinpredator.js",
+   "status": "M",
+   "local": "ece0e208d51503fa4cdc2f2f023bd393ecf8a167",
+   "remote": "ece0e208d51503fa4cdc2f2f023bd393ecf8a167",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/CHANGED_FILES.md",
+   "status": "M",
+   "local": "ff4bf174118e004a85aa110a95981a15d7ba99bd",
+   "remote": "ff4bf174118e004a85aa110a95981a15d7ba99bd",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/CHECKPOINTS.md",
+   "status": "M",
+   "local": "b2cd365cb3573f12fc38ded3de86901255d140bb",
+   "remote": "b2cd365cb3573f12fc38ded3de86901255d140bb",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md",
+   "status": "M",
+   "local": "2a12a0f6722d2f22c43e7d5df5afc61e6f878984",
+   "remote": "2a12a0f6722d2f22c43e7d5df5afc61e6f878984",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/R14_TOPDOWN_ART_REPORT.md",
+   "status": "A",
+   "local": "575467b7b28b87d7f0a54d8b0b853ab1f1323539",
+   "remote": "575467b7b28b87d7f0a54d8b0b853ab1f1323539",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/REMOTE_RECEIPTS.md",
+   "status": "M",
+   "local": "c106cf449505a6cebf3849d3d0c539187fe09342",
+   "remote": "c106cf449505a6cebf3849d3d0c539187fe09342",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r13/receipt_r13.json",
+   "status": "A",
+   "local": "f55c6a5a4163eacf0fa5b5b3ef2dbdac38b6798d",
+   "remote": "f55c6a5a4163eacf0fa5b5b3ef2dbdac38b6798d",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r13/secret_scan_r13_post.txt",
+   "status": "A",
+   "local": "aced96e9cc7be1512655672f2fb3cc9c2cbce907",
+   "remote": "aced96e9cc7be1512655672f2fb3cc9c2cbce907",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/deaths_r14_A.jpg",
+   "status": "A",
+   "local": "755d6042270226366b30a640abfb19923cb264b3",
+   "remote": "755d6042270226366b30a640abfb19923cb264b3",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/deaths_r14_B.jpg",
+   "status": "A",
+   "local": "9e8548f241b93d1ea56762e75fe13032d86c72c4",
+   "remote": "9e8548f241b93d1ea56762e75fe13032d86c72c4",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/deaths_r14_C.jpg",
+   "status": "A",
+   "local": "ef244e40401cdce79e7777f78340acfe818bd0ab",
+   "remote": "ef244e40401cdce79e7777f78340acfe818bd0ab",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/draw_cost_r14.txt",
+   "status": "A",
+   "local": "ec07885d50634ef0c93a8b71257eb7c4722aa523",
+   "remote": "ec07885d50634ef0c93a8b71257eb7c4722aa523",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/edge_r14.png",
+   "status": "A",
+   "local": "93716040be18028a88bcb57e6a28738ff79fde51",
+   "remote": "93716040be18028a88bcb57e6a28738ff79fde51",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/edge_r8.png",
+   "status": "A",
+   "local": "8d6dc44da04505a5cd2048217fbc96cebe3e071a",
+   "remote": "8d6dc44da04505a5cd2048217fbc96cebe3e071a",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/gallery/gallery_r14.json",
+   "status": "A",
+   "local": "5d67adfb3014c0da2ed36025c07f8497b36ac9eb",
+   "remote": "5d67adfb3014c0da2ed36025c07f8497b36ac9eb",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/gallery/gallery_r14.txt",
+   "status": "A",
+   "local": "0b580b8cc8859699f212565da860ae7c41444684",
+   "remote": "0b580b8cc8859699f212565da860ae7c41444684",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/gallery/gallery_r14_approach.jpg",
+   "status": "A",
+   "local": "4b261aa1469162c56c34dab8bb3c4d5038fdd23c",
+   "remote": "4b261aa1469162c56c34dab8bb3c4d5038fdd23c",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/gallery/gallery_r14_creep.jpg",
+   "status": "A",
+   "local": "7bfafae6f388900920969aa5f826b2ae835d6ba0",
+   "remote": "7bfafae6f388900920969aa5f826b2ae835d6ba0",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/gallery/gallery_r14_feed.jpg",
+   "status": "A",
+   "local": "6128840deb570d6a9fae21fee0ac71bc7f1e1b57",
+   "remote": "6128840deb570d6a9fae21fee0ac71bc7f1e1b57",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/gallery/gallery_r14_listen_head.jpg",
+   "status": "A",
+   "local": "520065aff8460215e4f00e21f0d3acd2c021e3c4",
+   "remote": "520065aff8460215e4f00e21f0d3acd2c021e3c4",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/gallery/gallery_r14_pounce.jpg",
+   "status": "A",
+   "local": "636ef477b003e4c5dd7dbf2919ddba233eaa6201",
+   "remote": "636ef477b003e4c5dd7dbf2919ddba233eaa6201",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/gallery/gallery_r14_recover.jpg",
+   "status": "A",
+   "local": "d3a18aa53e23bcc7736beb597c7c9c504bed748c",
+   "remote": "d3a18aa53e23bcc7736beb597c7c9c504bed748c",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/gallery/gallery_r14_run_intercept_.jpg",
+   "status": "A",
+   "local": "c677e978dca808f48dabf56990c0962f19c481da",
+   "remote": "c677e978dca808f48dabf56990c0962f19c481da",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/gallery/gallery_r14_stand.jpg",
+   "status": "A",
+   "local": "713d6762ffd69fc2a485965a7ab1237a82791f12",
+   "remote": "713d6762ffd69fc2a485965a7ab1237a82791f12",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/gallery/gallery_r14_wait_coiled_.jpg",
+   "status": "A",
+   "local": "009c5eebcd485991e4b651f7be3b4243805f48d5",
+   "remote": "009c5eebcd485991e4b651f7be3b4243805f48d5",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/gallery/gallery_r14_watch.jpg",
+   "status": "A",
+   "local": "2ff5b3a441f15761a11de0007fb24d03ba58bada",
+   "remote": "2ff5b3a441f15761a11de0007fb24d03ba58bada",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/gallery/gallery_r14_wind_up.jpg",
+   "status": "A",
+   "local": "d8ea45b3fcd2ef34c015f9d6be2520f795bd11f3",
+   "remote": "d8ea45b3fcd2ef34c015f9d6be2520f795bd11f3",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/lineup_r14.jpg",
+   "status": "A",
+   "local": "c53d0c66b006894d57965734c0bc9537491b08d8",
+   "remote": "c53d0c66b006894d57965734c0bc9537491b08d8",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/places_r14.jpg",
+   "status": "A",
+   "local": "0178a77248aca2ad43e793c7b8607614d11e1eea",
+   "remote": "0178a77248aca2ad43e793c7b8607614d11e1eea",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/places_r8.jpg",
+   "status": "A",
+   "local": "1913f58dd9c7675227e00db0f9a7a70d739eeb44",
+   "remote": "1913f58dd9c7675227e00db0f9a7a70d739eeb44",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/r8_vs_r14_approach.jpg",
+   "status": "A",
+   "local": "d4a0a22ed97ec69effeacf1d9eb25b6c785bb64f",
+   "remote": "d4a0a22ed97ec69effeacf1d9eb25b6c785bb64f",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/r8_vs_r14_sheet.jpg",
+   "status": "A",
+   "local": "fbb0f58a0c4e83211309b2a44351b06f41a9d5ef",
+   "remote": "fbb0f58a0c4e83211309b2a44351b06f41a9d5ef",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/secret_scan_r14_pre.txt",
+   "status": "A",
+   "local": "1e54739531cc9dbbb8cc19708367cb3c97d21305",
+   "remote": "1e54739531cc9dbbb8cc19708367cb3c97d21305",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/tests/fails.txt",
+   "status": "A",
+   "local": "0747e2eff0e1e07b07f779c2c0951a0bd840bab0",
+   "remote": "0747e2eff0e1e07b07f779c2c0951a0bd840bab0",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/tests/humanqa.txt",
+   "status": "A",
+   "local": "6816339eeb42c309867f1bceeca77591c871f7eb",
+   "remote": "6816339eeb42c309867f1bceeca77591c871f7eb",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/tests/npm_test.txt",
+   "status": "A",
+   "local": "cbc99ed1cd25d1b5454883e26c1c6b5d6475b283",
+   "remote": "cbc99ed1cd25d1b5454883e26c1c6b5d6475b283",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/tests/s_skinbehave.js.txt",
+   "status": "A",
+   "local": "43709d151b1d950312a57a22460ff5379cbf0ef3",
+   "remote": "43709d151b1d950312a57a22460ff5379cbf0ef3",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/tests/s_skinbody.js.txt",
+   "status": "A",
+   "local": "d9c29037b3a486073343fa491c2f87a88b4f3157",
+   "remote": "d9c29037b3a486073343fa491c2f87a88b4f3157",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/tests/s_skinmind.js.txt",
+   "status": "A",
+   "local": "80c79821d5546c3bb274a28da157c8ac40cacf53",
+   "remote": "80c79821d5546c3bb274a28da157c8ac40cacf53",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/tests/s_skinpredator.js.txt",
+   "status": "A",
+   "local": "c9a530f6bc83a1dde299f7e667e2d373744bb553",
+   "remote": "c9a530f6bc83a1dde299f7e667e2d373744bb553",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/tests/s_skinr9.js.txt",
+   "status": "A",
+   "local": "94bb698dee311bf0ef7f62cd920b0613bdf0bd39",
+   "remote": "94bb698dee311bf0ef7f62cd920b0613bdf0bd39",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/tests/s_skinroute.js.txt",
+   "status": "A",
+   "local": "ddb8bc62dcd0504a43c932b0538702896ae12325",
+   "remote": "ddb8bc62dcd0504a43c932b0538702896ae12325",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/tests/s_skinsight.js.txt",
+   "status": "A",
+   "local": "70e8808b920342e8b4d5cd0c0cbcde02f8e60cdc",
+   "remote": "70e8808b920342e8b4d5cd0c0cbcde02f8e60cdc",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r14/tests/s_skinstealer.js.txt",
+   "status": "A",
+   "local": "410018798d02d70c98ae334ff5ba5fbb406b743d",
+   "remote": "410018798d02d70c98ae334ff5ba5fbb406b743d",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/tools/art_lab.js",
+   "status": "A",
+   "local": "3143b9b6bd6d0198fb29e9a9e736453433997ba5",
+   "remote": "3143b9b6bd6d0198fb29e9a9e736453433997ba5",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/tools/r9_browser.js",
+   "status": "M",
+   "local": "76ddd4ee22732ccb4501deaccbb04cc832a24719",
+   "remote": "76ddd4ee22732ccb4501deaccbb04cc832a24719",
+   "ok": true
+  },
+  {
+   "path": "generated/BUILD_MANIFEST.json",
+   "status": "M",
+   "local": "f8a0976c5124fceb8c3d944b6187c240305dca97",
+   "remote": "f8a0976c5124fceb8c3d944b6187c240305dca97",
+   "ok": true
+  },
+  {
+   "path": "public/assets/skinstealer.js",
+   "status": "M",
+   "local": "7fca768769702ec7ab52b2f868c986bca16a3c5d",
+   "remote": "7fca768769702ec7ab52b2f868c986bca16a3c5d",
+   "ok": true
+  },
+  {
+   "path": "src/frameworks/br-r/client/skin.body.js",
+   "status": "M",
+   "local": "64784a5cfe46785e937439034882b36f9e91f011",
+   "remote": "64784a5cfe46785e937439034882b36f9e91f011",
+   "ok": true
+  },
+  {
+   "path": "src/frameworks/br-r/client/skin.kill.js",
+   "status": "M",
+   "local": "f35d32ed8c9f329bbfd334495a38b8ad8782b618",
+   "remote": "f35d32ed8c9f329bbfd334495a38b8ad8782b618",
+   "ok": true
+  }
+ ],
+ "protected": {
+  "main": {
+   "expected": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "api": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "apiTree": "15eee7643ea69c8733e55dacc34981e7276c17e0",
+   "lsRemote": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "ok": true
+  },
+  "stage-3h-engine-modernization": {
+   "expected": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "api": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "apiTree": "677d4ebf95d960e51dc86792bbc0861e3e1eb4c9",
+   "lsRemote": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "ok": true
+  },
+  "stage-3h": {
+   "expected": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "api": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "apiTree": "d44c4bafa3c1a78e2d910187ecbe1cc2ec18f3c9",
+   "lsRemote": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "ok": true
+  },
+  "stage-3e-0-bplusplus": {
+   "expected": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "api": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "apiTree": "b25c26ec3eedab406a6b93f80a59ba6a1cb7c128",
+   "lsRemote": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "ok": true
+  },
+  "post-3h-trials-1-2-4": {
+   "expected": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "api": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "apiTree": "7f1ead5efe5a8c136134f1f1db19e8e087960cc2",
+   "lsRemote": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "ok": true
+  },
+  "trial-4-rgb-chat-accessibility": {
+   "expected": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "api": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "apiTree": "72e60eb7b68a8dc3d2f735599d8ab828fc21691e",
+   "lsRemote": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "ok": true
+  },
+  "post-trial4-review-polish": {
+   "expected": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "api": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "apiTree": "ddc6385c0f6d7112bfaf9dac3e40154acd4bbaed",
+   "lsRemote": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "ok": true
+  },
+  "post-trial4-chat-voice-polish": {
+   "expected": "63805e98867c3677261307b8cd597f63592b8c45",
+   "api": "63805e98867c3677261307b8cd597f63592b8c45",
+   "apiTree": "60e4452bb90c3a9650022dcdae9c2a225c356a8d",
+   "lsRemote": "63805e98867c3677261307b8cd597f63592b8c45",
+   "ok": true
+  },
+  "pre-trial3-final-polish": {
+   "expected": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "api": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "apiTree": "d6b71b88e2baaec0cce1eb8a222ccc66ad1a1aef",
+   "lsRemote": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "ok": true
+  },
+  "trial-3-skin-stealer": {
+   "expected": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "api": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "apiTree": "26234cdcd68b59727c68bbd21662b980d8d28bbe",
+   "lsRemote": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "ok": true
+  },
+  "trial-3-behavior-refinement": {
+   "expected": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "api": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "apiTree": "28815b06019ed38aff8c083e93b1ba7056da3d67",
+   "lsRemote": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "ok": true
+  },
+  "trial-3-predator-refinement": {
+   "expected": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "api": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "apiTree": "a6d72690727a58dbab6e770dfda64a1d9dbf70f3",
+   "lsRemote": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "ok": true
+  },
+  "trial-3-cognitive-predator-refinement": {
+   "expected": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "api": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "apiTree": "9dc97e2a848f130b4a9f21921b4e8d1bfb32eed5",
+   "lsRemote": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "ok": true
+  }
+ },
+ "otherBranchesUntouched": {
+  "br-role": {
+   "expected": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "remote": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "ok": true
+  },
+  "lighting-shadows-2d": {
+   "expected": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "remote": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "ok": true
+  },
+  "main": {
+   "expected": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "remote": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "ok": true
+  },
+  "part-3a": {
+   "expected": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "remote": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "ok": true
+  },
+  "part-3b": {
+   "expected": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "remote": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "ok": true
+  },
+  "post-3h-trials-1-2-4": {
+   "expected": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "remote": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "ok": true
+  },
+  "post-trial4-chat-voice-polish": {
+   "expected": "63805e98867c3677261307b8cd597f63592b8c45",
+   "remote": "63805e98867c3677261307b8cd597f63592b8c45",
+   "ok": true
+  },
+  "post-trial4-review-polish": {
+   "expected": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "remote": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "ok": true
+  },
+  "pre-trial3-final-polish": {
+   "expected": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "remote": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "ok": true
+  },
+  "stage-3b-l": {
+   "expected": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "remote": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "ok": true
+  },
+  "stage-3b-l-qa1": {
+   "expected": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "remote": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "ok": true
+  },
+  "stage-3b-l-qa2": {
+   "expected": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "remote": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "ok": true
+  },
+  "stage-3b-n": {
+   "expected": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "remote": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "ok": true
+  },
+  "stage-3b-n-camera": {
+   "expected": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "remote": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "ok": true
+  },
+  "stage-3b-pillar-los": {
+   "expected": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "remote": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "ok": true
+  },
+  "stage-3b-remaster": {
+   "expected": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "remote": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "ok": true
+  },
+  "stage-3c": {
+   "expected": "76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace",
+   "remote": "76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace",
+   "ok": true
+  },
+  "stage-3c-qa1": {
+   "expected": "5f30e28532200bca52b57a112c6691498a263e92",
+   "remote": "5f30e28532200bca52b57a112c6691498a263e92",
+   "ok": true
+  },
+  "stage-3c-qa2": {
+   "expected": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+   "remote": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+   "ok": true
+  },
+  "stage-3d": {
+   "expected": "ffe2b53c2e5c6aa76a8db8bd222fd1910c1b0e57",
+   "remote": "ffe2b53c2e5c6aa76a8db8bd222fd1910c1b0e57",
+   "ok": true
+  },
+  "stage-3d-hq1": {
+   "expected": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+   "remote": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+   "ok": true
+  },
+  "stage-3d-hq2": {
+   "expected": "f542b7cbd90f95148e644e6cba513cf55ddd52c9",
+   "remote": "f542b7cbd90f95148e644e6cba513cf55ddd52c9",
+   "ok": true
+  },
+  "stage-3d-hq3": {
+   "expected": "49343193e6948c8323f35a34539ac84db5a89835",
+   "remote": "49343193e6948c8323f35a34539ac84db5a89835",
+   "ok": true
+  },
+  "stage-3d-hq4": {
+   "expected": "79e146124a5941c6578ef84dc9ff13176cc7f1f0",
+   "remote": "79e146124a5941c6578ef84dc9ff13176cc7f1f0",
+   "ok": true
+  },
+  "stage-3d-hq5": {
+   "expected": "ad98475767bcae6794cd01af832de660355da7a2",
+   "remote": "ad98475767bcae6794cd01af832de660355da7a2",
+   "ok": true
+  },
+  "stage-3e-0": {
+   "expected": "1f2deba0fc4a1facd41366fb2da9b88af3bd5a52",
+   "remote": "1f2deba0fc4a1facd41366fb2da9b88af3bd5a52",
+   "ok": true
+  },
+  "stage-3e-0-bplusplus": {
+   "expected": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "remote": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "ok": true
+  },
+  "stage-3h": {
+   "expected": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "remote": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "ok": true
+  },
+  "stage-3h-engine-modernization": {
+   "expected": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "remote": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "ok": true
+  },
+  "stage-3h0": {
+   "expected": "06949a8a4204a1ce8144b87b2192251b259b21ec",
+   "remote": "06949a8a4204a1ce8144b87b2192251b259b21ec",
+   "ok": true
+  },
+  "stage-e": {
+   "expected": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "remote": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "ok": true
+  },
+  "stage-f": {
+   "expected": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "remote": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "ok": true
+  },
+  "stage-g": {
+   "expected": "7fb4dafef92040571209403358e536ccb1105509",
+   "remote": "7fb4dafef92040571209403358e536ccb1105509",
+   "ok": true
+  },
+  "stage-h": {
+   "expected": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "remote": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "ok": true
+  },
+  "stage-i": {
+   "expected": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "remote": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "ok": true
+  },
+  "trial-3-behavior-refinement": {
+   "expected": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "remote": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "ok": true
+  },
+  "trial-3-cognitive-predator-refinement": {
+   "expected": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "remote": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "ok": true
+  },
+  "trial-3-predator-refinement": {
+   "expected": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "remote": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "ok": true
+  },
+  "trial-3-skin-stealer": {
+   "expected": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "remote": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "ok": true
+  },
+  "trial-4-rgb-chat-accessibility": {
+   "expected": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "remote": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "ok": true
+  }
+ },
+ "newBranches": [],
+ "checks": {
+  "remote tip is local HEAD": true,
+  "tree and parent agree": true,
+  "one straight line from f378049": true,
+  "every changed file has the same blob on GitHub": true,
+  "protected branches unchanged": true,
+  "every other branch unchanged": true,
+  "no new branch besides this one": true
+ },
+ "ok": true
+}

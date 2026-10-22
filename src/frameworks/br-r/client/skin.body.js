@@ -132,7 +132,8 @@ function rig(S, R) {
     t = mix(t, [sj[0] + s * 8, sj[1] + L * .6, sj[2] - L * .5], S.back);         // the wind-up: drawn back along its flanks, low
     // reaching: straight ahead at its shoulders' height; in a kill, to the victim's neck (S.gripD from its centre, S.gripZ high: skin.kill.js)
     const gy = S.gripD != null ? cy - S.gripD : sj[1] - L * .72, gz = S.gripZ != null ? S.gripZ : sj[2] - 22;
-    t = mix(t, [s * (S.gripW != null ? S.gripW : 5), gy, gz], S.reach);
+    const g2 = S.grip2 ? S.grip2[s > 0 ? 1 : 0] : null;                          // (R15: the Rend - each hand on its own half, from the body's centre)
+    t = mix(t, g2 ? [g2[0], g2[1] + cy, g2[2]] : [s * (S.gripW != null ? S.gripW : 5), gy, gz], S.reach);
     t[2] = Math.max(1.5, t[2]);
     const J = ik3(sj, t, AN.upper, AN.fore, [s * (.45 - .25 * run + .3 * S.reach), .7 + .3 * run, .1 - .3 * run]);   // (elbows back and a little out; out to the sides only to grip)
     const fx = J.t[0] - J.e[0], fy = J.t[1] - J.e[1], fz = J.t[2] - J.e[2], fn = Math.hypot(fx, fy, fz) || 1, low = sm(6, 2, J.t[2]);

@@ -1,0 +1,93 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r9_browser.js",
+ "scene": "gallery",
+ "chromium": "141.0.7390.37",
+ "tree": "r9-overhaul",
+ "gallery": [],
+ "deaths": [
+  {
+   "v": "A",
+   "shots": [
+    "death_r15_A_victim_0.3s.png",
+    "death_r15_A_spectator_0.3s.png",
+    "death_r15_A_victim_0.8s.png",
+    "death_r15_A_spectator_0.8s.png",
+    "death_r15_A_victim_1.5s.png",
+    "death_r15_A_spectator_1.5s.png",
+    "death_r15_A_victim_2.6s.png",
+    "death_r15_A_spectator_2.6s.png",
+    "death_r15_A_victim_4.5s.png",
+    "death_r15_A_spectator_4.5s.png"
+   ],
+   "res": {
+    "active": true,
+    "kind": "SkinStealer",
+    "variant": "A"
+   }
+  },
+  {
+   "v": "B",
+   "shots": [
+    "death_r15_B_victim_0.3s.png",
+    "death_r15_B_spectator_0.3s.png",
+    "death_r15_B_victim_0.8s.png",
+    "death_r15_B_spectator_0.8s.png",
+    "death_r15_B_victim_1.5s.png",
+    "death_r15_B_spectator_1.5s.png",
+    "death_r15_B_victim_2.6s.png",
+    "death_r15_B_spectator_2.6s.png",
+    "death_r15_B_victim_4.5s.png",
+    "death_r15_B_spectator_4.5s.png"
+   ],
+   "res": {
+    "active": true,
+    "kind": "SkinStealer",
+    "variant": "B"
+   }
+  },
+  {
+   "v": "C",
+   "shots": [
+    "death_r15_C_victim_0.3s.png",
+    "death_r15_C_spectator_0.3s.png",
+    "death_r15_C_victim_0.8s.png",
+    "death_r15_C_spectator_0.8s.png",
+    "death_r15_C_victim_1.5s.png",
+    "death_r15_C_spectator_1.5s.png",
+    "death_r15_C_victim_2.6s.png",
+    "death_r15_C_spectator_2.6s.png",
+    "death_r15_C_victim_4.5s.png",
+    "death_r15_C_spectator_4.5s.png"
+   ],
+   "res": {
+    "active": true,
+    "kind": "SkinStealer",
+    "variant": "C"
+   }
+  },
+  {
+   "v": "D",
+   "shots": [
+    "death_r15_D_victim_0.3s.png",
+    "death_r15_D_spectator_0.3s.png",
+    "death_r15_D_victim_0.8s.png",
+    "death_r15_D_spectator_0.8s.png",
+    "death_r15_D_victim_1.5s.png",
+    "death_r15_D_spectator_1.5s.png",
+    "death_r15_D_victim_2.6s.png",
+    "death_r15_D_spectator_2.6s.png",
+    "death_r15_D_victim_4.5s.png",
+    "death_r15_D_spectator_4.5s.png"
+   ],
+   "res": {
+    "active": true,
+    "kind": "SkinStealer",
+    "variant": "D"
+   }
+  }
+ ],
+ "errors": {
+  "O": [],
+  "S": []
+ }
+}

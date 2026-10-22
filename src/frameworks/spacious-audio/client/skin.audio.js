@@ -43,12 +43,12 @@ function tone(dst, at, dur, type, f0, f1, vol, atk) {
   g.gain.setValueAtTime(.0001, t0); g.gain.linearRampToValueAtTime(vol, t0 + (atk || .004)); g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
   o.connect(g); g.connect(dst); o.start(t0); o.stop(t0 + dur + .05);
 }
-/* which of its deaths: ours from the death itself; a spectator's from its blows' times (dphys.js PLAN) */
+/* which of its deaths: ours from the death itself; a spectator's from its blows' times (dphys.js PLAN; R15: D's own, never taken for A's) */
 function variantOf(O) {
   const A = API(), D = A && A.death && A.death();
   if (!O && D && D.active && D.kind === 'SkinStealer') return D.variant || 'A';
   const P = window.__dphys && window.__dphys.PLAN, h = O && O.hits;
-  if (P && Array.isArray(h)) for (const v of ['A', 'B', 'C']) { const q = P('SkinStealer', v, 40).hits; if (q && q.length === h.length && q.every((x, i) => Math.abs(x - h[i]) < 1e-6)) return v; }
+  if (P && Array.isArray(h)) for (const v of ['A', 'B', 'C', 'D']) { const q = P('SkinStealer', v, 40).hits; if (q && q.length === h.length && q.every((x, i) => Math.abs(x - h[i]) < 1e-6)) return v; }
   return 'A';
 }
 function deathSound(O) {
@@ -118,6 +118,16 @@ function cue(x, y, k) {
   else if (k === 'feed') { const b = bus(p.g * .4, p.pan, p.lp, .4); noise(b, 0, .16, 'bandpass', 650, 300, 1.8, .45, .01); noise(b, .05, .06, 'highpass', 2400, 0, .9, .1, .003); }
   else if (k === 'breath') { const b = bus(p.g * .35, p.pan, p.lp, 1.6); noise(b, 0, .7, 'bandpass', 500, 350, 1.1, .2, .3); noise(b, .8, .8, 'bandpass', 420, 300, 1.1, .16, .35); }
 }
+/* R15: the Rend - a wet tearing pull, a heavy split and the halves landing, where the physics tore the body (ents.js's place rules) */
+function rend(x, y) {
+  if (!soundOn() || !Z()) return;
+  const p = place(x, y, 140, 1400); if (p.g < .02) return;
+  const b = bus(p.g, p.pan, p.lp, 1.2);
+  noise(b, 0, .3, 'bandpass', 500, 1500, 1.2, .55, .03); noise(b, .05, .22, 'bandpass', 1800, 900, 1.6, .3, .02);   // the tearing pull
+  tone(b, .16, .18, 'sine', 90, 42, .6, .004); noise(b, .16, .14, 'lowpass', 700, 200, .8, .55, .003);               // the split
+  noise(b, .42, .12, 'lowpass', 600, 180, .7, .35, .004); noise(b, .55, .12, 'lowpass', 520, 160, .7, .3, .004);    // the halves come down
+}
+lend('rend', rend);
 lend('audio', voice);
 K.deathSound = deathSound;
 K.deathEvent = deathEvent;

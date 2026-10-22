@@ -1058,7 +1058,7 @@ function commitEnd(eng, pid, x, y, a) {                                      // 
  * variant honest (for the hound's C: a real wall behind the victim), then the ordinary quick capture runs - so the kill record, the events, what the entity does
  * afterwards and everything the clients replay are exactly what a natural death produces. */
 function previewKill(eng, e, variant, pv) {
-  const geo = eng.geo, V = /^[ABCD]$/.test(variant) && !(e.kind === 'skinstealer' && variant === 'D') ? variant : 'A', hound = e.kind === 'hound';   // (Trial 3: the Skin-Stealer has A-C)
+  const geo = eng.geo, V = /^[ABCD]$/.test(variant) ? variant : 'A', hound = e.kind === 'hound';   // (Trial 3 R15: the Skin-Stealer's D too)
   if (!pv || !pv.alive || pv.caught || e.cap) return { ok: false, why: 'busy: already caught or dead' };
   const fwd = pv.angle, wantC = hound && V === 'C';
   const base = hound ? { A: fwd, B: fwd + Math.PI - .7, C: fwd, D: fwd + Math.PI }[V] : fwd;     // where the attacker stands, as an angle seen from the victim
@@ -2886,6 +2886,13 @@ const SK = Object.freeze({
   ackLook: [.35, .55],                           // how long that first look lasts: a turn of the head and shoulders toward them, a beat, then on
   ackOver: 1.4, ackHead: 1.5,                    // satiated and leaving: instead, its head turns back to them (up to ackHead rad) for ackOver s as it goes
 });
+/* (R15) the Rend's weight among its kills: a grab (not a leap's landing), hungry (SK.band[2]; more when starving), with room for the two
+ * halves either side of the line of the pull (rays from the victim, 72 px clear each way); 0 otherwise.  Its own geometry only: no draw */
+function skRendW(eng, e, pv, pounce) {
+  if (pounce || !(e.hunger >= SK.band[2])) return 0;
+  const a = Math.atan2(pv.y - e.y, pv.x - e.x), room = s => eng.geo.ray(pv.x, pv.y, a + s * Math.PI / 2, 80) >= 72;
+  return room(1) && room(-1) ? (e.hunger >= SK.band[3] ? .5 : .3) : 0;
+}
 /* (T6) the generic calls, used only when it has heard nothing it may repeat: none of them claims to know anything about anybody */
 const SK_BAIT = Object.freeze(['hello?', 'is someone there?', 'over here', 'wait for me', 'can you help me?', "i'm lost", 'this way']);
 const SKIN = {
@@ -2900,9 +2907,10 @@ const SKIN = {
   // run: 0.89 x a fresh sprint (285 px/s) - it loses a straight race to a rested runner and gains on a winded one (<= 219 px/s)
   speeds: { roam: 105, creep: 62, stalk: 90, disguise: 150, run: 255, fatigued: 180, follow: 105, flank: 170 },   // (R1: flank - a quick move to cover, under a person's walk and under the pace that costs it stamina)
   evidence: { sight: 3, sound: 1.5, light: 1.6 },               // (ai.intelligence.js evidenceWeights: its own, never the Smiler's)
-  /* its kills (ai.capture.js): always quick, committed for its own death lengths (dphys.js DURS.SkinStealer), one of three */
+  /* its kills (ai.capture.js): always quick, committed for its own death lengths (dphys.js DURS.SkinStealer), one of three - (R15) or,
+   * rarely, the fourth: D, the Rend */
   capture: {
-    noPlay: true, commit: true, commitDur: { A: 3.2, B: 3.4, C: 3.5 },
+    noPlay: true, commit: true, commitDur: { A: 3.2, B: 3.4, C: 3.5, D: 3.6 },
     quick: () => 1,
     variants(eng, e, pv, ctx, attack) {
       const pounce = attack && attack.style === 'pounce' && (attack.speed || 0) > 250, winded = pv.ex || (pv.stamina != null && pv.stamina < 22);
@@ -2910,6 +2918,10 @@ const SKIN = {
         { k: 'A', w: pounce ? .5 : 1.6 },                                                     // a grip from close by, the neck broken
         { k: 'B', w: pounce ? 2.6 : .15 },                                                    // the leap carries them down, then the neck
         { k: 'C', w: .35 + (winded ? 1.9 : 0) + (ctx.deadEnd ? 1.4 : 0) + (e.hunger >= SK.band[3] ? 1.4 : 0) },   // held, a bite at the neck: a winded or cornered victim, a starving one
+        // (R15) D, the Rend: only a grab from close by (never at the end of a leap), only hungry, and only with room to either side of the
+        // victim for the two halves (the line of the pull, a clear 72 px each way) - else its weight is nothing and the draw is A-C's own,
+        // exactly as before.  Rare where it fits; the recent-kills rule (pickVariant) keeps it from repeating
+        { k: 'D', w: skRendW(eng, e, pv, pounce) },
       ];
     },
     afterKill(eng, e, ctx, pv) { skFeedBegin(eng, e, pv); },

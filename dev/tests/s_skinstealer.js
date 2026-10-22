@@ -465,7 +465,7 @@ add('SK32 lethal only on contact: every kill it makes has its body against the v
   return { ok: rate(through) === 1 && allOk && allK.length >= 5, note: `behind wall A: ${through.map(r => `${r.kills} kill(s) after ${r.springs} spring(s), contact ${r.contact}`).join(' / ')} | ${allK.length} kills elsewhere, every one at contact with a clear line: ${allOk}` };
 });
 
-add('SK33 its three deaths: it weighs a landed pounce toward B (carried down, the neck), a grab toward A (the neck), a winded, cornered or starving kill toward C (held, bitten); every real kill is one of A-C; an admin "play" setting never makes it play with its prey', () => {
+add('SK33 its three deaths: it weighs a landed pounce toward B (carried down, the neck), a grab toward A (the neck), a winded, cornered or starving kill toward C (held, bitten); every real kill is one of A-C (R15: or D, the Rend, and that only from a grab); an admin "play" setting never makes it play with its prey', () => {
   const V = AI.SKIN.capture.variants, w0 = World(1099), e0 = w0.eng.spawn('skinstealer', 5000, LONG.y, { hunger: .6 });
   const top = items => items.slice().sort((a, b) => b.w - a.w)[0].k, ctx = { deadEnd: false }, pv = { ex: 0, stamina: 100 };
   const weights = {
@@ -476,7 +476,7 @@ add('SK33 its three deaths: it weighs a landed pounce toward B (carried down, th
   e0.hunger = .85; weights.starving = top(V(w0.eng, e0, { ex: 1, stamina: 5 }, ctx, { style: 'pounce', speed: 400 }));
   const real = {}, bad = [];
   for (let seed = 1; seed <= 6; seed++) for (const R of [strike(seed + 1000, { px: 5160 }), strike(seed + 1020, { px: 5040 }), strike(seed + 1040, { px: 5250, winded: true, drive: (w, p) => { if (!p.go2) { p.go2 = 1; p.go(8000, LONG.y, 'run'); } } })])
-    for (const k of R.kills) { real[k.variant] = (real[k.variant] || 0) + 1; if (!/^[ABC]$/.test(k.variant)) bad.push(k.variant); }
+    for (const k of R.kills) { real[k.variant] = (real[k.variant] || 0) + 1; if (!/^[ABCD]$/.test(k.variant) || (k.variant === 'D' && Math.hypot(k.geo.ax - k.victim.x, k.geo.ay - k.victim.y) > AI.SK.grabReach + 6)) bad.push(k.variant); }   // (R15: D, the Rend, from a grab only - s_skinrend G08)
   // the admin's "every catch is played with" (DEATHS tab): the Skin-Stealer still kills at once
   const w = World(1100); bystander(w); w.sim.admin.captureMode('play');
   const p = w.player(5160, LONG.y, { light: true, angle: 0 }); p.look = 0; p.stop('stand');

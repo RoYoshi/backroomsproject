@@ -378,3 +378,101 @@ check in it is unchanged. New: `s_skinbody.js` (G01–G06, M01, K01, D01, P01, S
 **R14-9 What the suites say.** `s_skinbody` 11/11 (new), every other Skin-Stealer suite as at R13, Human QA hotfix 5/6 (X03 inherited),
 `npm test` 283/296 with the same 13 inherited failures. The real page: the gallery (12 acts × 8 headings), places, the view's edge and
 the deaths A–C, beside R8's (`evidence/r14/`); the measured edge leak and the drawing cost are in the report (§6, §7).
+
+## R15 — Execution D, the Rend, through G.I.B.
+
+**Requirement** (pack `06`, a co-developer's idea the owner put in scope): a fourth, optional kill — the creature tears its victim in
+two — only after a capture that was already lethal, never a new way to catch anybody; rare and only where it fits; two persistent major
+segments in G.I.B.'s own shared physics, the same on the victim's screen, every spectator's, a late joiner's and in the server's fallback;
+its own sound and posture; Hound A–D, Smiler A–D, NEW RUN's blast and the Skin-Stealer's A–C unchanged; no protocol rewrite; a full shared
+regression. Or `R15 BLOCKED` with a plan. It was not blocked: G.I.B. already had everything a two-piece body needs (Stage 3D HQ3's gibs: a
+seeded breakup, loose pieces with their own physics, a corpse record naming them, the corpse drawn from the record alone).
+
+**R15-1 The Rend is a variant of the same kill, never a new attack.** Nothing about catching anybody changed: the same contact (`killNow`
+after the capture), the same commit, the same reach, the same wind-up. D is one more item in the Skin-Stealer's own `capture.variants`:
+weight 0.3 (0.5 starving) only for a **grab** (never the end of a leap), only **hungry** (`SK.band[2]`), only with **room for the two
+halves** (rays from the victim, 72 px clear either side of the line of the pull); anywhere else its weight is nothing, the item is
+filtered out, and the draw is exactly A–C's own (G08: 400/400 identical picks). The recent-kills rule (`pickVariant`) keeps it from
+repeating. Its death lasts 3.6 s (`commitDur.D`, `DURS.SkinStealer.D`). How rare: in the most favourable case there is (a starving
+creature, a standing victim in the open hall, a grab) 6 of 30 real kills were D, the rest A–C; a leap, a wall at the victim's side or
+hunger under `band[2]` make it impossible. (A first draft weighed it 0.45 / 0.7: 8 of 30 in that case — too common for "rare"; lowered.)
+Its tell (G08's "clear tell"): from the grip it plants itself with both hands on the victim's sides at their chest — a posture no other
+kill has — for most of a second before the pull.
+
+**R15-2 One physics, two halves.** `dphys.js` (G.I.B.'s shared 240 Hz physics, the single truth for every screen and the server): D holds
+the victim as A does (the grip, the pin); at 1.05 s `rend()` turns the body into two halves — `rendShapes(gs)`: the Wanderer's round body
+cut along a ragged line at the angle the pull came from, in gibShapes' own form — each thrown to its own side of the line of the pull with
+the hand on that side, the light and the hat thrown, blood where it tore; from then on the halves and the hands are loose bodies stepped by
+the same `gibBody` as a NEW RUN's pieces, and the attacker eases off as in A–C. The whole body is hidden from that moment (`jl.body.alpha` 0:
+the bundle's own death and every replay read it).
+
+**R15-3 The record: no new field.** The corpse carries `gs`, `gb`, `gh` exactly as a NEW RUN's does; `gs` is the breakup's seed with the
+cut's angle in its low 6 bits (64 steps), so the seed alone rebuilds the two outlines (`shapesOf(cause, gs)`). The server's corpse
+(`death_srv.corpse`) already copied `remains().gibs`; `remains()` and the light's carrier now count a rend's halves as they count a NEW
+RUN's pieces.
+
+**R15-4 The wire: one condition widened, backward compatible.** `net-wire.js` kept pieces only for a NEW RUN (`c === 'Boom'`, 1–8); it now
+also keeps them for a Skin-Stealer's corpse with **exactly two** (G13). An older page given such a record drops the pieces and draws a
+whole corpse; nothing else changes shape or size (two more short arrays on that one corpse).
+
+**R15-5 Every screen draws the halves from the same physics.** A spectator's replay (`mp.deaths.js`) adds the halves the moment the
+physics rends; the victim's own screen draws them in the Skin-Stealer's kill module (`skin.kill.js`, the page's own `gore.gibs` in the
+victim's look) while the bundle hides the whole body; a corpse anywhere (a late joiner, a reload) draws them from its record
+(`gore.js`, `shapesOf`). The attacker: planted, both hands on the victim's sides at their chest; at the rend each hand goes with its half
+for a moment, then lets go.
+
+**R15-6 Its sound.** At the rend, once per death and where it happened (the audio module's own `rend()`, placed by distance and walls as
+the others): a wet tearing pull, a heavy split, the halves landing. A spectator's death sound knows D by its own blow times (never taken
+for A).
+
+**R15-7 The shared changes, each the smallest that works** (and the regression that proves the rest unchanged):
+- `dphys.js` (G.I.B.): `CFG.SkinStealer.D`, `DURS.SkinStealer.D`, `PLAN('SkinStealer', 'D')`, `prepare()` no longer refusing it,
+  `rendShapes` / `rendSeed` / `shapesOf` / `rend` / `stepRent`, and the rent case beside the blast's in `frame` (alpha, the headlamp),
+  `gibRecord` and `remains`. G12: R8's `dphys.js` (fixture, its git blob checked) and this one give **the same every 1/60 s of all
+  Hound A–D and Smiler A–D deaths and the Skin-Stealer's A–C (22 deaths), open and by a wall, and the same corpse**; a NEW RUN's blast and
+  breakup identical; `SK34` (144 Hound/Smiler deaths bit for bit P9's) unchanged.
+- `ai.capture.js` (shared capture): the one clause that refused the Skin-Stealer's D in `previewKill` is gone (S15: 4518f93's file with
+  that one line is this one). PR25 checks exactly that, and that every other shared file is byte for byte 4518f93's (R15-9).
+- `admin.js` (OVERSEER): the same `preview` command, A–D now allowed for the Skin-Stealer (no new command, no new auth); its DEATHS tab
+  gains the D button.
+- `net-wire.js` (B++): R15-4. `gore.js`, `mp.deaths.js` (G.I.B. client): R15-5.
+- `declared_changes.json` (the scope gate's list of runtime changes since B++): `assets/net-wire.js` declared; the R15 reasons added to
+  `dphys.js`, `gore.js`, `mp.js`, `ai.js` and the admin module's entries.
+
+**R15-8 On real pages** (`tools/r9_browser.js --scene rend`, `evidence/r15/`): two runs (one with screenshots and the victim's video, one
+without), each playing D, then A as the control, then D with the victim's page closed half a second in — each through the admin's DEATHS
+preview, the real capture and kill path, whose kill record says `D` and `SkinStealer` on every page. Every time: the victim's own
+screen hides the whole body from the rend on (the bundle's body alpha 0, the physics rent) and draws the two halves; a spectator's replay
+draws the halves from about a second after its first frame (the physics rends at 1.05 s), never the whole body after them (0 frames), and
+never more than one Skin-Stealer on the page (the replay's attacker; the live one hidden while its kill plays — G13's half on the page); the rend's tone once on
+each page that saw it, none for A; the corpse the spectator, the victim and a late joiner hold is one record (cause, seed, both halves'
+places and turns, both hands) and this death's (its age); with the victim gone, the server's fallback made the corpse — number for number
+the first D's at the same place (the same inputs, the same physics). The deaths A–D side by side on a spectator's page
+(`deaths_r15_A_to_D_spectator.jpg`): A–C as at R14, D's halves to either side. No page errors. The first run found the tear's sound
+missing on a page drawing only a few frames a second (SwiftShader, screenshots): it played only on a frame within 0.4 s of the tear; it
+now plays on the first frame that finds the body rent within a second of it (a page that hitched still hears it; one arriving later does
+not).
+
+**R15-9 Tests changed, and why** (each to the invariant it stood for; listed in `REGRESSION.md` at R17):
+- `s_skinpredator.js` PR25 required eight shared files byte for byte 4518f93's. Its invariant is that the Hound's and the Smiler's code and
+  the shared engine are theirs. `ai.capture.js` now differs by the one line R15-7 names, whose removed clause
+  (`!(e.kind === 'skinstealer' && variant === 'D')`) was true for every other creature — the expression is the same for them. PR25 now
+  accepts 4518f93's file with exactly that line replaced and nothing else; the other seven files are still compared byte for byte. The
+  independent reason: pack `06` requires the Skin-Stealer's D preview in `previewKill` once every path exists.
+- `s_skinstealer.js` SK33 said "every real kill is one of A-C" — the guard against a variant the Skin-Stealer had no death for. It now
+  accepts D only from a grab (the attacker within grab reach + 6 px of the victim at the kill). Its 18 kills: R14 `{B 7, A 2, C 9}`, R15
+  `{B 7, A 2, C 8, D 1}` — still 18 kills, B and A as before, one that was C now a D where D fitted. Its other checks are unchanged.
+- New: `s_skinrend.js` (G08–G13, S15) in `run.js`.
+
+**R15-10 Limits.** The halves are drawn by G.I.B.'s own piece renderer (`gore.gibs`: the body's colour from the look, its round edge, the raw cut) — the
+same look as a NEW RUN's pieces, not a new effects engine; at the camera's height they read as the two halves of the round body, not as an
+anatomical cross-section. The admin's D preview places the creature as the other previews do and does not apply the room rule (a
+natural D does): beside a wall the physics keeps the halves, the hands, the light and the hat out of it (G11). A page older than R15 drops
+the halves of such a record and draws a whole corpse. Browser numbers are SwiftShader's.
+
+**R15-11 What the suites say.** `s_skinrend` 7/7 (new); every other Skin-Stealer suite passes (`s_skinstealer` 34/34 with SK33 adapted,
+`s_skinpredator` 30/30 with PR25 adapted, `s_skinbody` 11/11 and the rest as at R14); Human QA hotfix 5/6 (X03 inherited); `npm test`
+290/303 with the same 13 inherited failures (the 7 more are `s_skinrend`'s). `parts`, `modules`, `facts`, `window_contract`, the docs
+(`CONTRACTS.md`'s `window.__gore` row regenerated: `assets/skinstealer.js` now reads it), the scope gate and `build:check` pass. The
+cost of the server's choice is two rays when a grab kills; the client draws the halves only while a Rend plays. The full gate, the shared
+performance and an independent review are R16's.

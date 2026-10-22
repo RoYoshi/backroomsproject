@@ -36,7 +36,8 @@ const INIT = `(() => {
   window.WebSocket = function (u, p) { const ws = new S(u, p);
     if (/\\/ws(\\?|$)/.test(u)) { window.__k3.game = ws; ws.addEventListener('message', e => { try { const m = JSON.parse(e.data);
       if (m.t === 'admin' && m.ok) window.__k3.unlocked = true;
-      if (m.t === 's' && m.e) window.__k3.ss = m.e.ss || null; } catch (x) { } }); }
+      if (m.t === 's' && m.e) window.__k3.ss = m.e.ss || null;
+      if (m.t === 'bodies') window.__k3.bodies = m.b || []; } catch (x) { } }); }
     return ws; };
   window.WebSocket.prototype = S.prototype; Object.assign(window.WebSocket, { OPEN: 1, CLOSED: 3, CONNECTING: 0, CLOSING: 2 });
   let mp = null; Object.defineProperty(window, '__mp', { configurable: true, get: () => mp ? (a => { window.__k3.cam = { x: a.cam.x, y: a.cam.y, sc: a.sc }; return mp(a); }) : mp, set: f => { mp = f; } });
@@ -49,7 +50,7 @@ const INIT = `(() => {
   { const AC = window.AudioContext || window.webkitAudioContext;
     if (AC) { const oc = AC.prototype.createOscillator, cb = AC.prototype.createBuffer;
       AC.prototype.createOscillator = function () { const o = oc.call(this), f = o.frequency, sv = f.setValueAtTime;
-        f.setValueAtTime = function (v, t) { if (v === 70 || v === 58) window.__k3.audio.push([+(performance.now() / 1000).toFixed(3), 'thump', v]); return sv.call(this, v, t); }; return o; };
+        f.setValueAtTime = function (v, t) { if (v === 70 || v === 58) window.__k3.audio.push([+(performance.now() / 1000).toFixed(3), 'thump', v]); if (v === 90) window.__k3.audio.push([+(performance.now() / 1000).toFixed(3), 'rendtone', v]); return sv.call(this, v, t); }; return o; };
       AC.prototype.createBuffer = function (ch, len, rate) { const L = len / rate; if (L > .2 && L < 1.5) window.__k3.audio.push([+(performance.now() / 1000).toFixed(3), 'buffer', +L.toFixed(2)]); return cb.call(this, ch, len, rate); }; } }
   window.__k3.hookSfx = () => { const X = window.__sfx; if (!X || X.__k3) return !!X; const f = X.play; X.play = function (n, o) { if (n === 'sting') window.__k3.audio.push([+(performance.now() / 1000).toFixed(3), 'sting', o && o.vol]); return f.call(this, n, o); }; X.__k3 = 1; return true; };
   /* the page's own view of a body at (x, y): {on: on screen, mask: in the sight mask (of 3 rays), leg: readability, vis} */
@@ -203,7 +204,7 @@ async function gallery(b, port, R, qa) {
   const SETS = [['stand', '', 0, 'ROAMING'], ['watch', 'watch', 0, 'WATCHING'], ['listen-head', 'listen', 0, 'ALERT', .8], ['creep', 'creep', 62, 'STALKING'], ['approach', 'approach', 90, 'STALKING'],
     ['run (chase)', 'chase', 255, 'HUNTING'], ['run (intercept)', 'intercept', 230, 'STALKING'], ['wind-up', 'wind', 0, 'ATTACKING'], ['pounce', 'pounce', 380, 'ATTACKING'], ['recover', 'recover', 0, 'ATTACKING'], ['wait (coiled)', 'wait', 0, 'STALKING'], ['feed', 'feed', 0, 'FEEDING']];
   R.gallery = [];
-  for (const [label, act, v, st, head] of ARG.only === 'places' ? [] : SETS) {
+  for (const [label, act, v, st, head] of ARG.only === 'places' || ARG.only === 'deaths' ? [] : SETS) {   // (R15: --only deaths, the deaths alone)
     const F = []; for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4, x = C.x + ((i % 4) - 1.5) * 110, y = C.y - 70 + Math.floor(i / 4) * 150; F.push({ i: 900 + i, x, y, a, s: SCODE[st] | 0, ac: KACT[act] | 0, v, h: head || 0, x0: x, y0: y }); }
     await O.P.evaluate(`(${FAKE})(${JSON.stringify(F)})`);
     // moving acts move, along their heading, at their pace (every frame), back to the start every 3 s (a jump the body's pose resets on)
@@ -216,11 +217,12 @@ async function gallery(b, port, R, qa) {
     R.gallery.push({ label, act, v, file: SHOTS ? file : '', size0: sz });
   }
   await O.P.evaluate(() => { const K = window.__k3; if (K.galT) cancelAnimationFrame(K.galT); K.fake = []; });
-  if (ARG.places !== '0') { await places(O, R, VP, tag, KACT, SCODE, C); await drawCost(O, R, KACT, SCODE, C); }
+  if (ARG.places !== '0' && ARG.only !== 'deaths') { await places(O, R, VP, tag, KACT, SCODE, C); await drawCost(O, R, KACT, SCODE, C); }
   // the deaths: the admin's DEATHS preview on this page (the victim), a second page beside it (a spectator)
   const Sp = await runPage(b, port, room, VP, 'K3Witness'); const oid = await O.P.evaluate(() => __api.H.id);
   O.cmd({ c: 'skinstealers', mode: 'remove', n: 4 }); await sleep(400);
   await Sp.P.evaluate(q => __api.tp(q.x + 200, q.y), OB); if (!(await Sp.P.evaluate(() => __api.lightOn()))) await Sp.P.keyboard.press('KeyF');
+  await Sp.P.mouse.move(VP.width / 2 - 200, VP.height / 2);                      // (R15: its torch on the victim)
   R.deaths = [];
   for (const v of ARG.only === 'places' ? [] : (ARG.vars || 'A,B,C').split(',')) {
     await alive(O, O, oid); await O.P.evaluate(q => __api.tp(q.x, q.y), OB); await sleep(500);
@@ -340,6 +342,62 @@ async function drawCost(O, R, KACT, SCODE, C) {
   }
   await P.evaluate(() => { window.__k3.fake = []; });
 }
+/* rend (R15): the Skin-Stealer's D on real pages - the admin's DEATHS preview (the real capture and kill path) played on the victim's page,
+ * a spectator beside it (its torch on the victim), a late joiner who arrives after it; then the same D with the victim's page closed half a
+ * second in (the server's fallback makes the corpse); A as the control.  Measured on each page: the whole body hidden from the rend on (the
+ * victim's own death: the bundle's body alpha; a spectator: the replay's two halves), the halves drawn, the 'rend' tone on its AudioContext,
+ * and the corpse each page holds when it is over (the server's record: its cause, the halves' seed and places, the hands) - the same on
+ * every page, a late joiner's included. */
+async function rendScene(b, port, R, qa) {
+  const room = 'r9rd' + (Date.now() % 1e6), VP = { width: 1024, height: 640 }, tag = ARG.tag || 'r15';
+  const b2 = await pw.chromium.launch({ args: LAUNCH }); R.closers = [() => b2.close()];
+  let O = await runPage(b, port, room, VP, 'K3Victim', VIDEO), Sp = await runPage(b2, port, room, VP, 'K3Witness');
+  O.cmd({ c: 'freeze', on: true }); O.cmd({ c: 'hounds', mode: 'remove', n: 10 }); O.cmd({ c: 'smilers', mode: 'remove', n: 10 }); await sleep(400);
+  O.cmd({ c: 'hounds', mode: 'remove', n: 10 }); O.cmd({ c: 'smilers', mode: 'remove', n: 10 }); O.cmd({ c: 'skinstealers', mode: 'remove', n: 4 });
+  const C = { x: 6700, y: 3440 }, OB = { x: C.x - 420, y: C.y };
+  const torch = async (pg, on) => { if ((await pg.P.evaluate(() => __api.lightOn())) !== on) await pg.P.keyboard.press('KeyF'); };
+  const place = async () => { await O.P.evaluate(q => __api.tp(q.x, q.y), OB); await Sp.P.evaluate(q => __api.tp(q.x + 200, q.y + 60), OB); await sleep(600);
+    await torch(O, true); await torch(Sp, true); await Sp.P.mouse.move(VP.width / 2 - 200, VP.height / 2 - 60); };
+  const bodyOf = async (pg, id) => pg.P.evaluate(id => { const L = window.__k3.bodies || []; const q = L.find(x => x && x.k === id); return q ? { c: q.c, gs: q.gs, gb: q.gb, gh: q.gh, x: q.x, y: q.y, ag: q.ag } : null; }, id);   // (one body per player: ag, its age, shows it is this death's)
+  const mark = pg => pg.P.evaluate(() => performance.now() / 1000);
+  const tones = (pg, t0) => pg.P.evaluate(t => window.__k3.audio.filter(a => a[0] >= t && a[1] === 'rendtone').length, t0);
+  R.cases = [];
+  await place();
+  // (each frame of a Skin-Stealer replay: the halves there or not, the whole replayed body visible or not, and how many Skin-Stealers are drawn
+  //  on the page at all - the replay's attacker and any live one not hidden: G13, never two)
+  await Sp.P.evaluate(() => { window.__k3.fxSeen = [];
+    const skins = () => { let L = __api.layer(); while (L.parent) L = L.parent; let n = 0; const walk = (o, vis) => { vis = vis && o.visible !== false && o.alpha !== 0; if (o.__skin && vis) n++; for (const c of o.children || []) walk(c, vis); }; walk(L, true); return n; };
+    const f = () => { for (const x of window.__fxs || []) if (x.cause === 'SkinStealer' && !x.gone) window.__k3.fxSeen.push([+(performance.now() / 1000).toFixed(2), x.gib ? 1 : 0, x.av ? +x.av.visible : -1, skins()]); requestAnimationFrame(f); }; f(); });
+  for (const [name, v, cut] of [['D', 'D', 0], ['A (control)', 'A', 0], ['D, the victim gone half a second in (the server\'s fallback)', 'D', .5]]) {
+    const oid = await O.P.evaluate(() => __api.H.id);
+    await alive(O, O, oid); await place();
+    const t0 = await Promise.all([O, Sp].map(mark)); await Sp.P.evaluate(() => { window.__k3.fxSeen = []; });
+    O.cmd({ c: 'preview', k: 'skinstealer', var: v }); const tStart = Date.now(), Cs = { name, v, shots: [], own: [] };
+    for (const at of [.3, .9, 1.25, 1.6, 2.4, 4.2]) {
+      const wait = tStart + at * 1000 - Date.now(); if (wait > 0) await sleep(wait);
+      if (cut && at > cut && O) { await O.ctx.close(); O = null; Cs.closedAt = cut; }
+      if (O) Cs.own.push([at, await O.P.evaluate(() => { const d = __api.death(); return d && d.active ? { v: d.variant, alpha: d.body.alpha, rent: !!(d.ph && d.ph.rent) } : null; })]);
+      if (SHOTS) { const f2 = `rend_${tag}_${v}${cut ? '_fallback' : ''}_spectator_${at}s.png`; await Sp.P.screenshot({ path: path.join(SHOTS, f2) }).catch(() => { }); Cs.shots.push(f2);
+        if (O && at <= .9) { const f1 = `rend_${tag}_${v}_victim_${at}s.png`; await O.P.screenshot({ path: path.join(SHOTS, f1) }).catch(() => { }); Cs.shots.push(f1); } }
+    }
+    await sleep(3500);                                                             // (the death is over: the server's corpse is out)
+    Cs.fx = await Sp.P.evaluate(() => { const s = window.__k3.fxSeen; let first = -1; for (let i = 0; i < s.length; i++) if (s[i][1]) { first = i; break; }
+      return { frames: s.length, seconds: s.length ? +(s[s.length - 1][0] - s[0][0]).toFixed(2) : 0, halvesFrom: first < 0 ? null : +(s[first][0] - s[0][0]).toFixed(2), halves: s.filter(q => q[1]).length,
+        wholeAfterHalves: first < 0 ? 0 : s.slice(first).filter(q => q[2] === 1).length, mostSkinsDrawn: s.reduce((m, q) => Math.max(m, q[3]), 0) }; });
+    Cs.tones = { spectator: await tones(Sp, t0[1]), victim: O ? await tones(O, t0[0]) : null };
+    Cs.body = { spectator: await bodyOf(Sp, oid), victim: O ? await bodyOf(O, oid) : null };
+    // a late joiner, now: the corpse it is given
+    const L = await runPage(b, port, room, VP, 'K3Late'); await sleep(1500); Cs.body.late = await bodyOf(L, oid); L.errs.length && (Cs.lateErrors = L.errs.slice()); await L.ctx.close();
+    if (SHOTS) { await Sp.P.evaluate(q => __api.tp(q.x + 120, q.y + 40), OB); await Sp.P.mouse.move(VP.width / 2 - 120, VP.height / 2 - 40); await sleep(900);
+      const f3 = `rend_${tag}_${v}${cut ? '_fallback' : ''}_corpse.png`; await Sp.P.screenshot({ path: path.join(SHOTS, f3) }).catch(() => { }); Cs.shots.push(f3); }
+    const k = q => q ? JSON.stringify([q.c, q.gs, q.gb, q.gh, q.x, q.y]) : null;
+    Cs.fresh = !!(Cs.body.spectator && Cs.body.spectator.ag != null && Cs.body.spectator.ag < 12);   // (made in this case, not an earlier one's)
+    Cs.same = k(Cs.body.spectator) !== null && k(Cs.body.spectator) === k(Cs.body.late) && (!Cs.body.victim || k(Cs.body.victim) === k(Cs.body.spectator));
+    R.cases.push(Cs);
+    if (!O) { O = await runPage(b, port, room, VP, 'K3Victim'); }                // (back for the next case)
+  }
+  R.errors = { O: O ? O.errs : [], S: Sp.errs };
+}
 /* sight (R10): the Skin-Stealer's heartbeat and sting on two real pages - V01-V05, V07, V09-V12 - observed on each page's AudioContext (the
  * 70 Hz thumps it makes, the stings it plays and the master gain then), its #dread vignette and the Skin-Stealer script's own sightLog.
  * The world is frozen: placed creatures stand still; each page keeps its own view. */
@@ -455,7 +513,7 @@ async function probe(b, port, R) {
   const { p: srv, port, qa } = await serve();
   const b = await pw.chromium.launch({ args: LAUNCH });
   const R = { tool: 'dev/trial-3-r9-overhaul/tools/r9_browser.js', scene: ARG.scene, chromium: b.version(), tree: path.basename(DIR) };
-  try { if (ARG.scene === 'flankwatch') await flankwatch(b, port, R, qa); else if (ARG.scene === 'audio') await audio(b, port, R, qa); else if (ARG.scene === 'gallery') await gallery(b, port, R, qa); else if (ARG.scene === 'sight') await sightScene(b, port, R, qa); else if (ARG.scene === 'probe') await probe(b, port, R); else throw new Error('unknown scene ' + ARG.scene); }
+  try { if (ARG.scene === 'flankwatch') await flankwatch(b, port, R, qa); else if (ARG.scene === 'audio') await audio(b, port, R, qa); else if (ARG.scene === 'gallery') await gallery(b, port, R, qa); else if (ARG.scene === 'rend') await rendScene(b, port, R, qa); else if (ARG.scene === 'sight') await sightScene(b, port, R, qa); else if (ARG.scene === 'probe') await probe(b, port, R); else throw new Error('unknown scene ' + ARG.scene); }
   catch (e) { R.error = e && e.stack ? e.stack.split('\n').slice(0, 4).join(' | ').replace(/\/[^\s|:]*\//g, '') : String(e); }
   finally { for (const f of R.closers || []) await f().catch(() => { }); delete R.closers; await b.close().catch(() => { }); try { process.kill(srv.pid); } catch (e) { } }
   if (R.tries) for (const T of R.tries) console.log(`try ${T.tr}: ${T.skipped || `hunger ${T.hunger}, plans ${T.plans.join('>')}${T.killed ? ', killed' : ''}, ${T.samples} samples, ${T.fps} fps`}` +
@@ -463,6 +521,7 @@ async function probe(b, port, R) {
   if (R.checks) { for (const k of R.checks) console.log((k.ok ? 'PASS ' : 'FAIL ') + k.id + '  ' + k.why); console.log(`SIGHT: ${R.checks.every(k => k.ok) ? 'PASS' : 'FAIL'} - ${R.checks.filter(k => k.ok).length} of ${R.checks.length}`); }
   if (R.scene === 'sight' && R.cases) for (const C of R.cases) console.log(`${C.name}: ` + C.pages.map(P => `${P.page} thumps ${P.thumps} stings ${P.stings}${P.stingGain.length ? ' (master gain ' + P.stingGain.join('/') + ')' : ''} vignette ${P.vignette} views ${JSON.stringify(P.views.map(v => [v.on, v.mask, v.leg, v.vis]))}`).join(' | '));
   if (R.scene === 'audio' && R.cases) for (const C of R.cases) console.log(`${C.name}: thumps ${C.thumps}, stings ${C.stings}, bursts ${C.bursts}, dread vignette max ${C.dreadMax}${C.view ? ', the page sees it ' + JSON.stringify(C.view) : ''}${C.sightLog ? ', sight log ' + JSON.stringify(C.sightLog).slice(0, 300) : ''}`);
+  if (R.scene === 'rend' && R.cases) for (const C of R.cases) console.log(`${C.name}: own ${JSON.stringify(C.own)} | spectator replay ${JSON.stringify(C.fx)} | rend tones ${JSON.stringify(C.tones)} | corpse ${JSON.stringify(C.body)} | this death's ${C.fresh} | same on every page ${C.same}`);
   if (R.scene === 'gallery') { for (const G of R.gallery || []) console.log(`gallery ${G.label}: ${G.file} size ${JSON.stringify(G.size0)}`); for (const Q of R.places || []) console.log(`place ${Q.name}: ${Q.file} views ${JSON.stringify(Q.views)}`); if (R.edge) console.log(`edge ${JSON.stringify(R.edge)}`); if (R.drawCost) console.log(`draw cost ${JSON.stringify(R.drawCost)}`); for (const D of R.deaths || []) console.log(`death ${D.v}: ${JSON.stringify(D.res)} ${D.shots.length} shots`); }
   if (R.error) console.log('ERROR ' + R.error);
   if (ARG.out) fs.writeFileSync(path.resolve(ARG.out), JSON.stringify(R, null, 1) + '\n');

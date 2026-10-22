@@ -174,7 +174,8 @@ function bodySkin(d) {
     (ks.length ? ks.map(e => `<div class="adm-ent"><span class="k k">K#${e[0]}</span><span class="st">${live('k' + e[0], e[2] + ' · ' + ({ n: 'near', m: 'mid', f: 'far' }[e[5]] || e[5]) + (e[6] ? ' · HOLDING SOMEONE' : ''))}</span>` + btn('GO TO', `data-c="entgoto" data-eid="${e[0]}"`) + btn('REMOVE', `data-c="entdel" data-eid="${e[0]}"`) + '</div>').join('') : '<p class="adm-help">None in the halls. The world never makes one: only this tab does.</p>') +
     sec('ITS DEATHS · PLAYED ON YOU') + rowW('<button class="adm adm-pv" data-c="preview" data-k="skinstealer" data-var="A"><b>A</b>NECK BREAK<small>a grip from close by</small></button>' +
       '<button class="adm adm-pv" data-c="preview" data-k="skinstealer" data-var="B"><b>B</b>POUNCE<small>carried down, then the neck</small></button>' +
-      '<button class="adm adm-pv" data-c="preview" data-k="skinstealer" data-var="C"><b>C</b>NECK BITE<small>held, bitten</small></button>') +
+      '<button class="adm adm-pv" data-c="preview" data-k="skinstealer" data-var="C"><b>C</b>NECK BITE<small>held, bitten</small></button>' +
+      '<button class="adm adm-pv" data-c="preview" data-k="skinstealer" data-var="D"><b>D</b>THE REND<small>torn in two</small></button>') +
     '<p class="adm-help">Each plays that death on you through the real kill path (a Skin-Stealer is set down a step in front of you, or the nearest side with room): the server records it as the killer, every screen replays it, the server makes the corpse, and it then stays on its kill and feeds. Revive yourself from PLAYERS. The DEATHS tab\'s death lab (slow, pause, x-ray) works for these too.</p>' +
     '<p class="adm-help">A patient, deceptive predator (Trial 3, admin QA only). + SKIN-STEALER puts one far from everyone, in the dark; + NEAR ME a few hundred px away, out of sight if possible. Its state, hunger, stamina and plan are on the DEBUG overlay (AI ENTITIES).</p>';
 }

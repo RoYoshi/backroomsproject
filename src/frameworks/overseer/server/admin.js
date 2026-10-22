@@ -61,7 +61,7 @@ function adminCommand(room, me, m) {
     case 'near': { const k = m.k === 'smiler' ? 'smiler' : m.k === 'skinstealer' ? 'skinstealer' : 'hound', ok = A.addNear(k, me.player.x, me.player.y); log(`spawn ${k} near`); res(ok, ok ? (k === 'skinstealer' ? 'SKIN-STEALER' : k.toUpperCase()) + ' PLACED NEAR YOU' : 'LIMIT REACHED OR NO SPOT NEARBY'); break; }
     case 'summon': { const ok = A.summon(me.player.x, me.player.y, me.player.id); log('summon nearest hound'); res(ok, ok ? 'A HOUND IS COMING FOR YOU' : 'NO FREE HOUND TO SUMMON'); break; }
     case 'preview': {                                                             // DEATHS tab: one chosen death on the admin, through the real kill path
-      const k = m.k === 'smiler' ? 'smiler' : m.k === 'skinstealer' ? 'skinstealer' : 'hound', v = (k === 'skinstealer' ? /^[ABC]$/ : /^[ABCD]$/).test(m.var) ? m.var : 'A', r = A.previewKill(me.player, k, v);   // (Trial 3: the Skin-Stealer's deaths are A-C)
+      const k = m.k === 'smiler' ? 'smiler' : m.k === 'skinstealer' ? 'skinstealer' : 'hound', v = /^[ABCD]$/.test(m.var) ? m.var : 'A', r = A.previewKill(me.player, k, v);   // (Trial 3 R15: the Skin-Stealer's D, the Rend, too)
       log(`preview death ${k} ${v}: ${r.ok ? 'ok' : r.why}`); res(r.ok, r.ok ? `PLAYING ${k.toUpperCase()} ${v}` : String(r.why).toUpperCase()); break;
     }
     case 'capmode': { const cm = A.captureMode(m.mode); log(`capture style ${cm}`); res(true, 'CAPTURE STYLE: ' + (cm === 'quick' ? 'ALWAYS QUICK KILLS' : cm === 'play' ? 'ALWAYS PLAY WITH THE VICTIM' : 'AUTO (THE ENTITY DECIDES)')); break; }

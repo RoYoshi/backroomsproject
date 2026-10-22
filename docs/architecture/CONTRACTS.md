@@ -57,7 +57,7 @@ renaming one breaks the others silently.
 | `window.__glitchFrame` | `glitch.js` | `mp.js` |
 | `window.__glitchSolo` | `mp.js` | - |
 | `window.__glitchSound` | `glitch.js` | `mp.js` |
-| `window.__gore` | `gore.js` | `assets/index-DKbV5Nv9.js`, `ents.js`, `mp.js` |
+| `window.__gore` | `gore.js` | `assets/index-DKbV5Nv9.js`, `assets/skinstealer.js`, `ents.js`, `mp.js` |
 | `window.__goreCache` | - | `gore.js` |
 | `window.__goreNow` | - | `gore.js` |
 | `window.__hideBodies` | `mp.js` | `assets/index-DKbV5Nv9.js` |

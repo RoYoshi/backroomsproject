@@ -265,12 +265,12 @@
   },
   {
    "out": "public/assets/net-wire.js",
-   "bytes": 3717,
-   "sha256": "fa4603f5f9cc3ad74b59f5b44f71c996c90284175de383be55a39fc99f668415",
+   "bytes": 3788,
+   "sha256": "047996fc7c42a1f5d97f8050e328aba4ab9c293d26c65ad93ba99e83c1cdd248",
    "parts": [
     {
      "path": "src/frameworks/bpp/client/net-wire.js",
-     "sha256": "fa4603f5f9cc3ad74b59f5b44f71c996c90284175de383be55a39fc99f668415",
+     "sha256": "047996fc7c42a1f5d97f8050e328aba4ab9c293d26c65ad93ba99e83c1cdd248",
      "headerBytes": 0
     }
    ]
@@ -289,12 +289,12 @@
   },
   {
    "out": "public/assets/skinstealer.js",
-   "bytes": 48606,
-   "sha256": "cb6b08e332957746a52ce3e84bc9dbe5fd2be6a1d0af72612cdf532006644fd8",
+   "bytes": 52388,
+   "sha256": "3a1e8f9513f221212c6b41cc4f3d6c832a33f9580ae363fd6ac8a8049f8ad1d7",
    "parts": [
     {
      "path": "src/frameworks/nani/client/skin.head.js",
-     "sha256": "9747ca3d593d15e8ffe65ef45fe918561c4a136ecc39d1af105dcceeb6d32228",
+     "sha256": "4269010e318d0e01b676f20558c2d6efc8580022c9fecbc49abaca10d3eba999",
      "headerBytes": 951
     },
     {
@@ -304,17 +304,17 @@
     },
     {
      "path": "src/frameworks/br-r/client/skin.body.js",
-     "sha256": "774a8fd629a81ef187a84399209c0788233d236de796711cfb139745dc8326e8",
+     "sha256": "3b04a4d059d9699234f3ddabbd717490ac597f7eeb964f5ca4082c222587939c",
      "headerBytes": 1927
     },
     {
      "path": "src/frameworks/br-r/client/skin.kill.js",
-     "sha256": "2150fd948816bb6b2175d759935ed0668884011228a3c0d8f7739ad24274c8f6",
-     "headerBytes": 1494
+     "sha256": "5d00935e4394d3598e5e23ec599695d073383fc21954dbbca7e16248bc8d539a",
+     "headerBytes": 1500
     },
     {
      "path": "src/frameworks/spacious-audio/client/skin.audio.js",
-     "sha256": "2d328c9ed9af41b2a5344fc77649316cea68419656082ec9406073f65ff22345",
+     "sha256": "726c82b6f34d34c058384c8ead729cf871207166fb9a8890d959825d53f5f20e",
      "headerBytes": 1476
     },
     {
@@ -392,12 +392,12 @@
   },
   {
    "out": "public/dphys.js",
-   "bytes": 69056,
-   "sha256": "97de5ec292cddb2ace88949aac7351a537a11ccebfbc3dbb48da4050520d4e44",
+   "bytes": 77020,
+   "sha256": "645915e5af247e70f568c8e31f55c701fe599d9603229bb2e67333caa62c9418",
    "parts": [
     {
      "path": "src/frameworks/gib/shared/dphys.js",
-     "sha256": "97de5ec292cddb2ace88949aac7351a537a11ccebfbc3dbb48da4050520d4e44",
+     "sha256": "645915e5af247e70f568c8e31f55c701fe599d9603229bb2e67333caa62c9418",
      "headerBytes": 0
     }
    ]
@@ -473,12 +473,12 @@
   },
   {
    "out": "public/gore.js",
-   "bytes": 40535,
-   "sha256": "1247c79bfba18c8b2478fba4e8af4f3ff6dfc8a0d606aea76c69008e4e458800",
+   "bytes": 40635,
+   "sha256": "5577e2ea7bda32e64a00459ef437e14685a85ab8847a7b9bb8805377ae18a999",
    "parts": [
     {
      "path": "src/frameworks/gib/client/gore.js",
-     "sha256": "1247c79bfba18c8b2478fba4e8af4f3ff6dfc8a0d606aea76c69008e4e458800",
+     "sha256": "5577e2ea7bda32e64a00459ef437e14685a85ab8847a7b9bb8805377ae18a999",
      "headerBytes": 0
     }
    ]
@@ -548,8 +548,8 @@
   },
   {
    "out": "public/mp.js",
-   "bytes": 106043,
-   "sha256": "11e90af0e2b84833a14d8b956ad0ce6f76c48ae54f95b00def5c0fdbcfb026ed",
+   "bytes": 106515,
+   "sha256": "6146e921f81546deda4eb0e21737a0bea320eb987f5e186febd0296c1b44ab20",
    "parts": [
     {
      "path": "src/core/client/mp.js",
@@ -593,12 +593,12 @@
     },
     {
      "path": "src/frameworks/gib/client/mp.deaths.js",
-     "sha256": "c9654351d8d95e1e0b6e30ac0aaab51473c3b9653278b0be08c2d10cabcf350a",
+     "sha256": "ba1a1b154afca4dfa1b596ae2b621307e23d34bc552c1a7607422cdf19b43af0",
      "headerBytes": 1565
     },
     {
      "path": "src/frameworks/overseer/client/mp.admin.js",
-     "sha256": "a8e277470b770dd9ec3ee20f9edafea16084fdba33976eb7109559a5f4b2b940",
+     "sha256": "595803141701c27c35ebd6b7a7e81e704a51c28d8137d948461f55ffd7092a31",
      "headerBytes": 1341
     },
     {
@@ -681,8 +681,8 @@
   },
   {
    "out": "generated/server/ai.js",
-   "bytes": 402311,
-   "sha256": "d805f644ee6fb1794a8a8326671e54b3b4f92935d1f0b71b98ac26174b5974a9",
+   "bytes": 403324,
+   "sha256": "1aad2d4f0c7f124f506b94f55eb8a9dab13b4c8c1c8ca0f922a559d49ed7f907",
    "parts": [
     {
      "path": "src/frameworks/nani/server/ai.head.js",
@@ -716,7 +716,7 @@
     },
     {
      "path": "src/frameworks/nani/server/ai.capture.js",
-     "sha256": "5ad03f831bb03607eddd05bbf05c1ab3a48db883efb20bb0494a3034a6ed1638",
+     "sha256": "9f7507062b2760eeb7e6a8ae1b625751db99dfe8ca7ea78e4850a4b97b4692f7",
      "headerBytes": 266
     },
     {
@@ -746,7 +746,7 @@
     },
     {
      "path": "src/frameworks/nani/server/ai.skinstealer.js",
-     "sha256": "2576da1e3dd78e3a8d834fad67d20503abaa3dda6c6c329de42155cba022048d",
+     "sha256": "18b570837ad0f5e793a4a21072e0e7bd75579af164c034ba5465faf5111262ce",
      "headerBytes": 657
     },
     {
@@ -758,12 +758,12 @@
   },
   {
    "out": "generated/server/dphys.js",
-   "bytes": 69056,
-   "sha256": "97de5ec292cddb2ace88949aac7351a537a11ccebfbc3dbb48da4050520d4e44",
+   "bytes": 77020,
+   "sha256": "645915e5af247e70f568c8e31f55c701fe599d9603229bb2e67333caa62c9418",
    "parts": [
     {
      "path": "src/frameworks/gib/shared/dphys.js",
-     "sha256": "97de5ec292cddb2ace88949aac7351a537a11ccebfbc3dbb48da4050520d4e44",
+     "sha256": "645915e5af247e70f568c8e31f55c701fe599d9603229bb2e67333caa62c9418",
      "headerBytes": 0
     }
    ]

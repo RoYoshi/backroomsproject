@@ -1,0 +1,347 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r9_browser.js",
+ "scene": "rend",
+ "chromium": "141.0.7390.37",
+ "tree": "r9-overhaul",
+ "cases": [
+  {
+   "name": "D",
+   "v": "D",
+   "shots": [
+    "rend_r15_D_spectator_0.3s.png",
+    "rend_r15_D_victim_0.3s.png",
+    "rend_r15_D_spectator_0.9s.png",
+    "rend_r15_D_victim_0.9s.png",
+    "rend_r15_D_spectator_1.25s.png",
+    "rend_r15_D_spectator_1.6s.png",
+    "rend_r15_D_spectator_2.4s.png",
+    "rend_r15_D_spectator_4.2s.png",
+    "rend_r15_D_corpse.png"
+   ],
+   "own": [
+    [
+     0.3,
+     null
+    ],
+    [
+     0.9,
+     {
+      "v": "D",
+      "alpha": 0,
+      "rent": true
+     }
+    ],
+    [
+     1.25,
+     {
+      "v": "D",
+      "alpha": 0,
+      "rent": true
+     }
+    ],
+    [
+     1.6,
+     {
+      "v": "D",
+      "alpha": 0,
+      "rent": true
+     }
+    ],
+    [
+     2.4,
+     {
+      "v": "D",
+      "alpha": 0,
+      "rent": true
+     }
+    ],
+    [
+     4.2,
+     {
+      "v": "D",
+      "alpha": 0,
+      "rent": true
+     }
+    ]
+   ],
+   "fx": {
+    "frames": 9,
+    "seconds": 3.34,
+    "halvesFrom": 1.04,
+    "halves": 6,
+    "wholeAfterHalves": 0,
+    "mostSkinsDrawn": 1
+   },
+   "tones": {
+    "spectator": 1,
+    "victim": 1
+   },
+   "body": {
+    "spectator": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 0
+    },
+    "victim": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 0
+    },
+    "late": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 20
+    }
+   },
+   "fresh": true,
+   "same": true
+  },
+  {
+   "name": "A (control)",
+   "v": "A",
+   "shots": [
+    "rend_r15_A_spectator_0.3s.png",
+    "rend_r15_A_victim_0.3s.png",
+    "rend_r15_A_spectator_0.9s.png",
+    "rend_r15_A_victim_0.9s.png",
+    "rend_r15_A_spectator_1.25s.png",
+    "rend_r15_A_spectator_1.6s.png",
+    "rend_r15_A_spectator_2.4s.png",
+    "rend_r15_A_spectator_4.2s.png",
+    "rend_r15_A_corpse.png"
+   ],
+   "own": [
+    [
+     0.3,
+     null
+    ],
+    [
+     0.9,
+     {
+      "v": "A",
+      "alpha": 1,
+      "rent": false
+     }
+    ],
+    [
+     1.25,
+     {
+      "v": "A",
+      "alpha": 1,
+      "rent": false
+     }
+    ],
+    [
+     1.6,
+     {
+      "v": "A",
+      "alpha": 1,
+      "rent": false
+     }
+    ],
+    [
+     2.4,
+     {
+      "v": "A",
+      "alpha": 1,
+      "rent": false
+     }
+    ],
+    [
+     4.2,
+     {
+      "v": "A",
+      "alpha": 1,
+      "rent": false
+     }
+    ]
+   ],
+   "fx": {
+    "frames": 8,
+    "seconds": 3.05,
+    "halvesFrom": null,
+    "halves": 0,
+    "wholeAfterHalves": 0,
+    "mostSkinsDrawn": 1
+   },
+   "tones": {
+    "spectator": 0,
+    "victim": 0
+   },
+   "body": {
+    "spectator": {
+     "c": "SkinStealer",
+     "x": 6281,
+     "y": 3418,
+     "ag": 0
+    },
+    "victim": {
+     "c": "SkinStealer",
+     "x": 6281,
+     "y": 3418,
+     "ag": 0
+    },
+    "late": {
+     "c": "SkinStealer",
+     "x": 6281,
+     "y": 3418,
+     "ag": 21.6
+    }
+   },
+   "fresh": true,
+   "same": true
+  },
+  {
+   "name": "D, the victim gone half a second in (the server's fallback)",
+   "v": "D",
+   "shots": [
+    "rend_r15_D_fallback_spectator_0.3s.png",
+    "rend_r15_D_victim_0.3s.png",
+    "rend_r15_D_fallback_spectator_0.9s.png",
+    "rend_r15_D_fallback_spectator_1.25s.png",
+    "rend_r15_D_fallback_spectator_1.6s.png",
+    "rend_r15_D_fallback_spectator_2.4s.png",
+    "rend_r15_D_fallback_spectator_4.2s.png",
+    "rend_r15_D_fallback_corpse.png"
+   ],
+   "own": [
+    [
+     0.3,
+     null
+    ]
+   ],
+   "closedAt": 0.5,
+   "fx": {
+    "frames": 9,
+    "seconds": 3.22,
+    "halvesFrom": 1.35,
+    "halves": 6,
+    "wholeAfterHalves": 0,
+    "mostSkinsDrawn": 1
+   },
+   "tones": {
+    "spectator": 1,
+    "victim": null
+   },
+   "body": {
+    "spectator": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 0
+    },
+    "victim": null,
+    "late": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 12.8
+    }
+   },
+   "fresh": true,
+   "same": true
+  }
+ ],
+ "errors": {
+  "O": [],
+  "S": []
+ }
+}

@@ -257,7 +257,7 @@
   /* a corpse record's gibs: the outlines from the breakup's seed, the resting places from the record (on the floor: z 0) */
   function gibsOfRecord(g, rec) {
     const D = window.__dphys; if (!D || !D.gibShapes || !rec.gb) return;
-    const sh = rec.__gibShapes || (rec.__gibShapes = D.gibShapes(rec.gs));
+    const sh = rec.__gibShapes || (rec.__gibShapes = D.shapesOf ? D.shapesOf(rec.cause, rec.gs) : D.gibShapes(rec.gs));   // (R15: the Rend's two halves for a Skin-Stealer's)
     const pieces = rec.gb.map((q, i) => sh[i] ? { x: q[0], y: q[1], rot: q[2], z: 0, poly: sh[i].poly, core: sh[i].core } : null).filter(Boolean);
     const hands = rec.gh && rec.gh.length === 4 ? [{ x: rec.gh[0], y: rec.gh[1], rot: 0 }, { x: rec.gh[2], y: rec.gh[3], rot: Math.PI }] : [];
     gibs(g, pieces, hands, rec.appearance, { dead: 1, eqKind: rec.equipment && rec.equipment.kind });

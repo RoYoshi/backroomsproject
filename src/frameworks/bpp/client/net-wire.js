@@ -22,7 +22,7 @@ function toRec(b) {
     ...(Number.isFinite(b.de) ? { de: b.de } : {}),                                   // Stage 3D HQ1: the death it came from (its wall stains; its light's timeline)
     ...(Array.isArray(b.lf) && b.lf.length === 4 && b.lf.every(Number.isFinite) ? { lf: b.lf.slice() } : {}),   // Stage 3D HQ1: how its light fails [hold, fade, seed, release - death length]
     ...(b.ph && Array.isArray(b.hd) && b.hd.length === 4 ? { hands: [[b.hd[0], b.hd[1]], [b.hd[2], b.hd[3]]], hatOn: b.ho ? 1 : 0, trail: Array.isArray(b.tr) ? b.tr : [], ph: 1 } : {}),
-    ...(b.c === 'Boom' && Number.isFinite(b.gs) && Array.isArray(b.gb) && b.gb.length >= 1 && b.gb.length <= 8 && b.gb.every(q => Array.isArray(q) && q.length === 3 && q.every(Number.isFinite))
+    ...((b.c === 'Boom' && Array.isArray(b.gb) && b.gb.length >= 1 && b.gb.length <= 8 || b.c === 'SkinStealer' && Array.isArray(b.gb) && b.gb.length === 2) && Number.isFinite(b.gs) && b.gb.every(q => Array.isArray(q) && q.length === 3 && q.every(Number.isFinite))
         && Array.isArray(b.gh) && b.gh.length === 4 && b.gh.every(Number.isFinite) ? { gs: b.gs >>> 0, gb: b.gb.map(q => q.slice()), gh: b.gh.slice() } : {}) };   // Stage 3D HQ3: a NEW RUN's gibs (the breakup's seed, every piece and both hands at rest)
 
 }

@@ -74,6 +74,9 @@
       A: { va: 250, e: .1, grip: .12, pin: [.3, 4.5], res: [.1, .42, .9], snap: .58, twist: 7.5, eq: 'snap', hat: 'snap', back: [1.55, 2.35, 8], tw: 1.9 },
       B: { va: 430, e: .16, grip: .2, pin: [.22, 6], res: [.1, .5, 1], snap: .9, twist: 6.5, eq: 'hit1', hat: 'snap', back: [1.8, 2.6, 10], tw: 2.2 },
       C: { va: 280, e: .1, grip: .14, pin: [.35, 5], res: [.15, .62, 1], collapse: [.95, .8], eq: 'early', hat: 'none', back: [2.05, 2.9, 8], tw: 2.5 },
+      /* R15: D, the Rend - it holds them from close by as in A (the grip, the pin), plants itself, and at rend pulls: the body comes apart in
+       * two along the line of the pull (rendShapes), each half thrown to its side at pull px/s (they come to rest about a body apart) with its hand; the light and the hat go */
+      D: { va: 250, e: .1, grip: .12, pin: [.3, 4.5], res: [.1, .4, .9], rend: 1.05, pull: [120, 170], hop: [40, 80], spin: [2, 4], back: [1.9, 2.8, 12], tw: 1.6 },
     },
     /* Stage 3D HQ2: NEW RUN's self-destruction - one blast at t = 0 (createBoom / stepBoom): the body's speed (px/s), its spin (rad/s), the
      * hands', the light's and the hat's kicks, how many blood bursts and how far from the body they land */
@@ -160,6 +163,8 @@
 
   function stepOnce(S) {
     if (S.boom) return stepBoom(S);                                                   // Stage 3D HQ2: NEW RUN's blast has its own step (below)
+    if (S.sk && S.cfg.rend != null && !S.rent && S.t >= S.cfg.rend) rend(S);          // R15: the Rend, at its moment
+    if (S.rent) return stepRent(S);
     if (S.state === 'SLEEPING' && S.frozen) { stepAttacker(S); S.t += DT; S.stepN++; return; }          // Stage 3D: at rest is at rest
     const t = S.t, dt = DT, cfg = S.cfg, b = S.b, at = S.at, hound = S.hound, ux = S.ux, uy = S.uy, W = S.walls, ctx = S.ctx;
     const res = S.res = resist(S, t);
@@ -500,6 +505,76 @@
     out.push(piece(n, cuts.map((c, j) => inner(c, j)), true));                         // the lump from the middle
     return out.sort((p, q) => q.area - p.area || p.i - q.i);
   }
+  /* R15: the Skin-Stealer's D, the Rend.  Its two halves: the Wanderer's round body (radius RB at (0, 1) in its own frame) torn in two
+   * along a ragged line through it.  The cut runs at the angle the pull came from (in the body's frame), carried in the seed's low 6 bits
+   * (64 steps round); the jags come from the rest of the seed - so a corpse record's seed alone (gs) rebuilds the same two outlines on every
+   * screen and on the server.  Each half in gibShapes' own form (its centroid in the body's frame, its outline about it - the round edge
+   * poly[2 .. length-3], the raw cut the rest - core 0, a collision radius, its area): gore.js draws, and gibBody moves, them as it does a
+   * NEW RUN's pieces.  The bigger half comes first. */
+  const REND_STEPS = 64;
+  const rendSeed = (seed, cut) => (((((seed >>> 0) & ~63) >>> 0) | ((((Math.round(cut / TAU * REND_STEPS) % REND_STEPS) + REND_STEPS) % REND_STEPS))) >>> 0) || 64;
+  function rendShapes(gs) {
+    const a = ((gs >>> 0) & 63) / REND_STEPS * TAU, r = rng(((((gs >>> 0) >>> 6) ^ 0x3c6ef372) >>> 0) || 1);
+    const ux = Math.cos(a), uy = Math.sin(a), nx = -uy, ny = ux, E1 = [ux * RB, 1 + uy * RB], E2 = [-ux * RB, 1 - uy * RB];
+    const J = [.2, .4, .6, .8].map(f => { const o = (r() - .5) * 5, f2 = f + (r() - .5) * .06; return [E2[0] + (E1[0] - E2[0]) * f2 + nx * o, E2[1] + (E1[1] - E2[1]) * f2 + ny * o]; });   // E2 -> E1
+    const arc = (a0, a1) => { const k = Math.max(4, Math.round(Math.abs(a1 - a0) / .3)), out = []; for (let s = 0; s <= k; s++) { const aa = a0 + (a1 - a0) * s / k, rr = RB - (s > 0 && s < k ? r() * .8 : 0); out.push([Math.cos(aa) * rr, 1 + Math.sin(aa) * rr]); } return out; };
+    const piece = (i, pts) => {
+      let A = 0, cx = 0, cy = 0;
+      for (let j = 0; j < pts.length; j++) { const p0 = pts[j], p1 = pts[(j + 1) % pts.length], cr = p0[0] * p1[1] - p1[0] * p0[1]; A += cr; cx += (p0[0] + p1[0]) * cr; cy += (p0[1] + p1[1]) * cr; }
+      A /= 2; cx /= 6 * A; cy /= 6 * A;
+      const poly = pts.map(q => [+(q[0] - cx).toFixed(2), +(q[1] - cy).toFixed(2)]), far = Math.max(...poly.map(q => hyp(q[0], q[1])));
+      return { i, cx, cy, poly, core: 0, area: Math.abs(A), r: clamp(far * .7, 4, 11) };
+    };
+    const h0 = piece(0, [J[2], J[3], ...arc(a, a + PI), J[0], J[1]]);              // the +n side: its rim from E1 round to E2; raw E2 -> J0..J3 -> E1
+    const h1 = piece(1, [J[1], J[0], ...arc(a + PI, a + TAU), J[3], J[2]]);        // the -n side: its rim from E2 round to E1; raw E1 -> J3..J0 -> E2
+    return [h0, h1].sort((p, q) => q.area - p.area || p.i - q.i);
+  }
+  /* the outlines a gibbed death or record uses: a rend's (the Skin-Stealer's D) or a NEW RUN's */
+  const shapesOf = (kind, gs) => kind === 'SkinStealer' ? rendShapes(gs) : gibShapes(gs);
+  /* the moment of the rend: where the body is, at the angle of the pull (the attacker to the victim), two halves; each is thrown away from
+   * the line of the pull, to its own side, a little back toward the attacker, up off the floor and spinning; each hand goes with the half
+   * on its side; the light and the hat are thrown; blood where it tore and to either side.  From here the halves and the hands are loose
+   * bodies (gibBody); the attacker eases off (stepAttacker) */
+  function rend(S) {
+    const t = S.t, b = S.b, at = S.at, cfg = S.cfg, r = S.rr, pick = q => q[0] + r() * (q[1] - q[0]);
+    const dx = b.x - at.x, dy = b.y - at.y, d = hyp(dx, dy) || 1, ax = dx / d, ay = dy / d, nx = -ay, ny = ax, th = b.th, c0 = Math.cos(th), s0 = Math.sin(th);
+    S.gibSeed = rendSeed(S.ctx.seed, wrap(Math.atan2(ay, ax) - th)); S.rent = true; S.snapped = t; S.phase = 'rend'; S.splat = false; S.gibWalls = 0;
+    const shapes = S.rendShapes = rendShapes(S.gibSeed);
+    S.gib = shapes.map(g => {
+      const ox = g.cx * c0 - g.cy * s0, oy = g.cx * s0 + g.cy * c0, side = ox * nx + oy * ny >= 0 ? 1 : -1, v = pick(cfg.pull);
+      return { x: b.x + ox, y: b.y + oy, ox, oy, side, vx: b.vx * .5 + nx * side * v - ax * 25, vy: b.vy * .5 + ny * side * v - ay * 25, z: 0, vz: pick(cfg.hop), rot: th, w: side * pick(cfg.spin), r: g.r, st: 'ACTIVE', still: 0 };
+    });
+    for (const h of S.h) {
+      const side = (h.x - b.x) * nx + (h.y - b.y) * ny >= 0 ? 1 : -1, g = S.gib.find(q => q.side === side) || S.gib[0];
+      Object.assign(h, { vx: g.vx + (r() - .5) * 40, vy: g.vy + (r() - .5) * 40, r: 5, z: 0, vz: pick(cfg.hop) * .8, rot: th, w: (r() - .5) * 10, st: 'ACTIVE', still: 0, brace: null });
+    }
+    release(S, 'eq', t, { x: nx * (r() < .5 ? -1 : 1) * 120 - ax * 40, y: ny * (r() < .5 ? -1 : 1) * 120 - ay * 40 });
+    release(S, 'hat', t, { x: -ax * 80 + nx * (r() - .5) * 120, y: -ay * 80 + ny * (r() - .5) * 120 });
+    const solid = (x, y) => S.walls(x, y).some(q => x > q.x - 3 && x < q.x + q.w + 3 && y > q.y - 3 && y < q.y + q.h + 3);   // (blood lands on the floor: never inside a wall)
+    for (const [i, k] of [[1, 0], [2, 1], [3, -1]]) { let f = 1; while (f > 0 && solid(b.x + nx * k * 16 * f, b.y + ny * k * 16 * f)) f -= .25; f = Math.max(0, f); S.ev.push({ t, k: 'hit', i, x: b.x + nx * k * 16 * f, y: b.y + ny * k * 16 * f }); }
+    S.ev.push({ t, k: 'rend', x: b.x, y: b.y, nx: +nx.toFixed(3), ny: +ny.toFixed(3) });
+    at.bite = 1; shock(S, nx, ny, 22); S.calm = 0;
+  }
+  function stepRent(S) {
+    if (S.state === 'SLEEPING' && S.frozen) { stepAttacker(S); S.t += DT; S.stepN++; return; }
+    for (const g of S.gib) gibBody(S, g, DT, true);
+    for (const h of S.h) gibBody(S, h, DT, false);
+    const eq = S.eq, ha = S.hat;
+    if (eq.has && !eq.held) freeBody(S, eq, 7, .38, 250, 2.3, DT, 'eq');
+    if (ha.has && !ha.on) freeBody(S, ha, 11, .3, 200, 2.6, DT, 'hat');
+    stepAttacker(S);                                                                   // (its own easing off: cfg.back, as A-C; the camera's spring)
+    S.t += DT; S.stepN++;
+    const g0 = S.gib[0];
+    if ((S.stepN & 7) === 0) {
+      const tr = S.trace; if (tr.b.length < 700) { tr.b.push([g0.x, g0.y]); tr.h0.push([S.h[0].x, S.h[0].y]); tr.h1.push([S.h[1].x, S.h[1].y]); if (eq.has) tr.eq.push([eq.x, eq.y]); }
+      const last = S.trail[S.trail.length - 1];                                         // the bigger half's skid leaves the smear
+      if (!(g0.z > 0) && hyp(g0.vx, g0.vy) > 22 && (!last || hyp(last[0] - g0.x, last[1] - g0.y) > 9)) { S.trail.push([g0.x, g0.y]); if (S.trail.length > 60) S.trail.shift(); }
+    }
+    const moving = S.gib.some(g => g.st !== 'SLEEPING') || S.h.some(h => h.st !== 'SLEEPING') || (eq.has && eq.st !== 'SLEEPING') || (ha.has && ha.st !== 'SLEEPING');
+    if (moving) S.calm = 0; else S.calm += DT;
+    S.state = S.calm > .5 && S.t > S.cfg.rend + 1 ? 'SLEEPING' : S.calm > .12 ? 'SETTLING' : 'ACTIVE';
+    if (S.state === 'SLEEPING') { S.frozen = true; S.sleepAt = S.t; for (const o of [S.b, ...S.h, ...S.gib, eq, ha]) { o.vx = 0; o.vy = 0; } S.b.om = 0; S.b.sqv = 0; S.ev.push({ t: S.t, k: 'sleep' }); }
+  }
   function stepBoom(S) {
     if (S.state === 'SLEEPING' && S.frozen) { S.t += DT; S.stepN++; return; }
     const t = S.t, dt = DT, cfg = S.cfg, gc = cfg.gib, b = S.b, W = S.walls, ux = S.ux, uy = S.uy, r = S.rr, pick = q => q[0] + r() * (q[1] - q[0]);
@@ -586,7 +661,7 @@
 
   /* ---------- the death class (in the bundle) hands its frames to this ---------- */
   const hsh = (x, y, c) => { let h = 2166136261; for (const v of [Math.round(x), Math.round(y), c.charCodeAt(0)]) { h ^= v & 0xffff; h = Math.imul(h, 16777619); } return h >>> 0; };
-  const DURS = { Hound: { A: 4.5, B: 4.7, C: 4.3, D: 4.5 }, Smiler: { A: 3.95, B: 3.85, C: 3.95, D: 3.95 }, Boom: { A: 3.2 }, SkinStealer: { A: 3.2, B: 3.4, C: 3.5 } };   // (Trial 3: the Skin-Stealer's fast finishers)   // (Boom: Stage 3D HQ2; 400 blasts all over Level 0 sleep by 2.87 s at the latest: dev/stage-3d-hq2/boom_geo.js)
+  const DURS = { Hound: { A: 4.5, B: 4.7, C: 4.3, D: 4.5 }, Smiler: { A: 3.95, B: 3.85, C: 3.95, D: 3.95 }, Boom: { A: 3.2 }, SkinStealer: { A: 3.2, B: 3.4, C: 3.5, D: 3.6 } };   // (Trial 3: the Skin-Stealer's fast finishers)   // (Boom: Stage 3D HQ2; 400 blasts all over Level 0 sleep by 2.87 s at the latest: dev/stage-3d-hq2/boom_geo.js)
   /* called from Jl.start: builds the simulation for this death (or returns null and the old scripted death plays) */
   function begin(jl, plan, opt) {
     if (jl.kind === 'Boom') return beginBoom(jl, plan, opt);                          // Stage 3D HQ2
@@ -633,6 +708,7 @@
       P.dr = 0; P.dw = [9, 9];
       if (v === 'B') { P.kn = 64; P.hits = [.14, .9]; P.kt = [.03, .26]; P.spin = 1.1; }
       else if (v === 'C') { P.kn = 14; P.hits = [.45, .95]; P.spin = .5; P.squish = 1.4; }
+      else if (v === 'D') { P.kn = 8; P.hits = [.5]; P.spin = .5; }                // (R15: the grip's wrench; the rend itself is the physics' own event)
       else { P.kn = 10; P.hits = [.58]; P.spin = .8; }
     } else {
       if (v === 'B') { P.kn = 0; P.dr = 0; P.hits = [.7, 1.2, 1.7]; P.spin = 1.4; }
@@ -650,7 +726,7 @@
         seed: (o.seed >>> 0) || 1, eqKind: o.eqKind || 'flashlight', hat: o.hat || 'none', walls: o.walls, dur: DURS.Boom.A });
       return { S, kind: 'Boom', v: 'A', angle: o.dir, dur: DURS.Boom.A };
     }
-    const kind = o.kind === 'Smiler' || o.kind === 'SkinStealer' ? o.kind : 'Hound', v = /^[ABCD]$/.test(o.v) && !(kind === 'SkinStealer' && o.v === 'D') ? o.v : 'A', vic = o.victim, src = o.src;   // (Trial 3)
+    const kind = o.kind === 'Smiler' || o.kind === 'SkinStealer' ? o.kind : 'Hound', v = /^[ABCD]$/.test(o.v) ? o.v : 'A', vic = o.victim, src = o.src;   // (Trial 3; R15: the Skin-Stealer's D too)
     const wall = o.w && o.w.length === 3 ? { x: o.w[0], y: o.w[1], ang: o.w[2] } : null;
     const P = PLAN(kind, v, wall ? hyp(wall.x - vic.x, wall.y - vic.y) : 40), ang = Math.atan2(vic.y - src.y, vic.x - src.x);
     const safe = (p, a, n) => { let r = 0; for (let i = 4; i <= n && o.clear(p.x + Math.cos(a) * i, p.y + Math.sin(a) * i, 22); i += 4) r = i; return r; };
@@ -685,10 +761,10 @@
     if (S.wallHit && t >= S.wallHit.t) im += clamp(S.wallHit.sp / 300, .3, 1.1) * Math.exp(-(t - S.wallHit.t) * 15);
     jl.impact = Math.min(2, im); jl.injury = sm(.2, 1.82, t); jl.grip = sm(.15, .4, t); jl.shake = 0;
     jl.body.x = b.x; jl.body.y = b.y; jl.body.angle = b.th; jl.body.scaleX = pz.sx; jl.body.scaleY = pz.sy;
-    jl.body.alpha = jl.kind === 'Smiler' ? 1 - .65 * sm(cfg.draw ? cfg.draw[0] + .1 : 1.8, cfg.draw ? cfg.draw[1] - .3 : 2.35, t) * (1 - sm(cfg.draw ? cfg.draw[1] + .4 : 2.6, cfg.draw ? cfg.draw[1] + .9 : 3.1, t)) : 1;
+    jl.body.alpha = jl.kind === 'Smiler' ? 1 - .65 * sm(cfg.draw ? cfg.draw[0] + .1 : 1.8, cfg.draw ? cfg.draw[1] - .3 : 2.35, t) * (1 - sm(cfg.draw ? cfg.draw[1] + .4 : 2.6, cfg.draw ? cfg.draw[1] + .9 : 3.1, t)) : S.rent ? 0 : 1;   // (R15: torn in two: no whole body)
     jl.attacker.x = S.at.x; jl.attacker.y = S.at.y; jl.attacker.angle = S.at.a; jl.hands = pz.hands;
     const e = S.eq, hd = S.hat, hl = S.ctx.eqKind === 'headlamp';
-    if (hl) { const o = S.boom && S.gib ? S.gib[0] : b, th = S.boom && S.gib ? o.rot : b.th; jl.torch.x = o.x; jl.torch.y = o.y; jl.torch.angle = th - PI / 2; }   // (Stage 3D HQ3: a gibbed headlamp rides the biggest piece)
+    if (hl) { const o = (S.boom || S.rent) && S.gib ? S.gib[0] : b, th = (S.boom || S.rent) && S.gib ? o.rot : b.th; jl.torch.x = o.x; jl.torch.y = o.y; jl.torch.angle = th - PI / 2; }   // (R15: a rent headlamp rides the bigger half)   // (Stage 3D HQ3: a gibbed headlamp rides the biggest piece)
     else { const bang = e.rot - PI / 2; jl.torch.x = e.x + Math.cos(bang) * e.len; jl.torch.y = e.y + Math.sin(bang) * e.len; jl.torch.angle = bang; }
     if (jl.dEq) { jl.dEq.visible = e.has && !e.held; jl.dEq.position.set(e.x, e.y); jl.dEq.rotation = e.rot; }
     if (jl.dHat) { jl.dHat.visible = hd.has && !hd.on; jl.dHat.position.set(hd.x, hd.y); jl.dHat.rotation = hd.rot; }
@@ -710,7 +786,7 @@
    * piece's resting place and turn (gb: [x, y, angle], biggest first), the two hands' resting places (gh: [x0, y0, x1, y1]) */
   function gibRecord(S) {
     const f = v => +(+v).toFixed(3);
-    return { gs: (S.ctx.seed >>> 0) || 1, gb: S.gib.map(g => [Math.round(g.x), Math.round(g.y), f(g.rot)]), gh: [S.h[0].x, S.h[0].y, S.h[1].x, S.h[1].y].map(v => Math.round(v)) };
+    return { gs: S.rent ? S.gibSeed : (S.ctx.seed >>> 0) || 1, gb: S.gib.map(g => [Math.round(g.x), Math.round(g.y), f(g.rot)]), gh: [S.h[0].x, S.h[0].y, S.h[1].x, S.h[1].y].map(v => Math.round(v)) };   // (R15: a rend's seed carries its cut)
   }
   function marks(S) {
     const out = []; if (!S || !S.ev) return out;
@@ -782,7 +858,7 @@
   function remains(jl) {
     const S = jl.ph; if (!S) return null; const pz = pose(S), e = S.eq, hd = S.hat;
     const blood = (jl.bursts || []).slice(0, 5).map(q => ({ x: q.x, y: q.y, seed: q.seed | 0 })).concat(marks(S).map(m => ({ x: m.x, y: m.y, seed: markSeed(m.nx, m.ny) })));
-    const g0 = S.boom && S.gib ? S.gib[0] : null;                                       // Stage 3D HQ3: a gibbed headlamp rides the biggest piece
+    const g0 = (S.boom || S.rent) && S.gib ? S.gib[0] : null;                          // Stage 3D HQ3: a gibbed headlamp rides the biggest piece (R15: a rent one the bigger half)
     return { blood, hands: pz.hands.map(h => [+h.x.toFixed(1), +h.y.toFixed(1)]), dropped: { x: e.has ? e.x : g0 ? g0.x : S.b.x, y: e.has ? e.y : g0 ? g0.y : S.b.y, angle: e.has ? e.rot : g0 ? g0.rot : S.b.th },
       hat: { x: hd.x, y: hd.y, angle: hd.rot }, hatOn: hd.on ? 1 : 0, trail: S.trail.slice(-24).map(p => [Math.round(p[0]), Math.round(p[1])]), held: e.held ? 1 : 0,
       ...(g0 ? { gibs: gibRecord(S) } : {}) };
@@ -797,5 +873,5 @@
     for (const v of [world | 0, de | 0, 0xb00b]) { h = Math.imul(h ^ (v & 0xffff), 0x01000193) >>> 0; h = Math.imul(h ^ (v >>> 16), 0x01000193) >>> 0; h = (h ^ (h >>> 13)) >>> 0; h = Math.imul(h, 0x5bd1e995) >>> 0; h = (h ^ (h >>> 15)) >>> 0; }
     return { s: h || 1, d: +(((h >>> 7) % 3600) / 3600 * TAU - PI).toFixed(4) };
   }
-  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, prepare, finish, DURS, marks, markSeed, MARK, LEN, lightProfile, lightPower, releaseOf, boomPlan, gibShapes, gibRecord };
+  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, prepare, finish, DURS, marks, markSeed, MARK, LEN, lightProfile, lightPower, releaseOf, boomPlan, gibShapes, gibRecord, rendShapes, shapesOf };
 })();
