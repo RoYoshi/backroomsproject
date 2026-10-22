@@ -1,0 +1,87 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r9_browser.js",
+ "scene": "audio",
+ "chromium": "141.0.7390.37",
+ "tree": "basewt",
+ "sfxHooked": true,
+ "cases": [
+  {
+   "name": "none",
+   "secs": 5,
+   "thumps": 0,
+   "stings": 0,
+   "bursts": 0,
+   "dreadMax": 0,
+   "sightLog": null
+  },
+  {
+   "name": "skin-visible",
+   "secs": 6,
+   "thumps": 0,
+   "stings": 0,
+   "bursts": 0,
+   "dreadMax": 0,
+   "sightLog": null,
+   "placed": {
+    "ok": true,
+    "op": "spawn",
+    "id": 7,
+    "x": 5260,
+    "y": 3504,
+    "hunger": 0.05
+   },
+   "view": {
+    "on": 1,
+    "mask": 3,
+    "leg": 0.598,
+    "vis": 1
+   }
+  },
+  {
+   "name": "skin-behind-wall",
+   "secs": 6,
+   "thumps": 0,
+   "stings": 0,
+   "bursts": 0,
+   "dreadMax": 0,
+   "sightLog": null,
+   "placed": {
+    "ok": true,
+    "op": "spawn",
+    "id": 8,
+    "x": 4889,
+    "y": 3236,
+    "hunger": 0.05
+   },
+   "at": {
+    "x": 4889,
+    "y": 3236,
+    "d": 290
+   },
+   "view": {
+    "on": 1,
+    "mask": 0,
+    "leg": 0,
+    "vis": 0
+   }
+  },
+  {
+   "name": "hound-visible",
+   "secs": 6,
+   "thumps": 9,
+   "stings": 0,
+   "bursts": 0,
+   "dreadMax": 0.659,
+   "sightLog": null,
+   "placed": {
+    "ok": true,
+    "op": "spawn",
+    "id": 9,
+    "x": 5260,
+    "y": 3504,
+    "hunger": null
+   }
+  }
+ ],
+ "errors": []
+}

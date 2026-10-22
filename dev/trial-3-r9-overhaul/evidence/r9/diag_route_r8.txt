@@ -1,0 +1,10 @@
+R9 flank route diagnosis (basewt), hunger .75
+seed | spot (out of their sight) | R8 route: length, in sight, cells seen/cells, skCover price | covered alternative: exit leg (in sight), hidden leg (in sight) | total vs R8
+1 | 5089,3155 hidden | 530 px, 259 px in sight, 8/15 cells, price 1149 | exit 144 px (96 in sight) + hidden 1281 px (0 in sight) = 1425 px (2.69x)
+2 | 5108,3147 hidden | 529 px, 271 px in sight, 8/14 cells, price 1089 | exit 144 px (96 in sight) + hidden 1261 px (0 in sight) = 1405 px (2.66x)
+3 | 5133,3112 hidden | 602 px, 271 px in sight, 8/15 cells, price 1140 | exit 144 px (96 in sight) + hidden 1234 px (0 in sight) = 1378 px (2.29x)
+4 | 5096,3127 hidden | 552 px, 271 px in sight, 8/14 cells, price 1089 | exit 144 px (96 in sight) + hidden 1280 px (0 in sight) = 1424 px (2.58x)
+5 | 5155,3169 hidden | 506 px, 294 px in sight, 8/13 cells, price 1030 | exit 144 px (96 in sight) + hidden 1347 px (0 in sight) = 1491 px (2.95x)
+6 | 5140,3178 hidden | 489 px, 279 px in sight, 8/13 cells, price 1030 | exit 144 px (96 in sight) + hidden 1348 px (0 in sight) = 1492 px (3.05x)
+7 | no flank in 8 s (plan lure)
+8 | 5098,3103 hidden | 573 px, 270 px in sight, 8/16 cells, price 1200 | exit 144 px (96 in sight) + hidden 1223 px (0 in sight) = 1367 px (2.39x)

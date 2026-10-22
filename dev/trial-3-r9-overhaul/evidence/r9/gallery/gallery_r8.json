@@ -1,0 +1,206 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r9_browser.js",
+ "scene": "gallery",
+ "chromium": "141.0.7390.37",
+ "tree": "basewt",
+ "gallery": [
+  {
+   "label": "stand",
+   "act": "",
+   "v": 0,
+   "file": "gallery_r8_stand.png",
+   "size0": {
+    "w": 54.9,
+    "h": 77.5,
+    "scale": 1.3
+   }
+  },
+  {
+   "label": "watch",
+   "act": "watch",
+   "v": 0,
+   "file": "gallery_r8_watch.png",
+   "size0": {
+    "w": 52.5,
+    "h": 75.5,
+    "scale": 1.3
+   }
+  },
+  {
+   "label": "listen-head",
+   "act": "listen",
+   "v": 0,
+   "file": "gallery_r8_listen_head.png",
+   "size0": {
+    "w": 50.3,
+    "h": 73.9,
+    "scale": 1.3
+   }
+  },
+  {
+   "label": "creep",
+   "act": "creep",
+   "v": 62,
+   "file": "gallery_r8_creep.png",
+   "size0": {
+    "w": 60.7,
+    "h": 87.7,
+    "scale": 1.3
+   }
+  },
+  {
+   "label": "approach",
+   "act": "approach",
+   "v": 90,
+   "file": "gallery_r8_approach.png",
+   "size0": {
+    "w": 62.5,
+    "h": 81,
+    "scale": 1.3
+   }
+  },
+  {
+   "label": "run (chase)",
+   "act": "chase",
+   "v": 255,
+   "file": "gallery_r8_run_chase_.png",
+   "size0": {
+    "w": 69.1,
+    "h": 92.7,
+    "scale": 1.3
+   }
+  },
+  {
+   "label": "run (intercept)",
+   "act": "intercept",
+   "v": 230,
+   "file": "gallery_r8_run_intercept_.png",
+   "size0": {
+    "w": 56.8,
+    "h": 91.9,
+    "scale": 1.3
+   }
+  },
+  {
+   "label": "wind-up",
+   "act": "wind",
+   "v": 0,
+   "file": "gallery_r8_wind_up.png",
+   "size0": {
+    "w": 70.3,
+    "h": 70.1,
+    "scale": 1.3
+   }
+  },
+  {
+   "label": "pounce",
+   "act": "pounce",
+   "v": 380,
+   "file": "gallery_r8_pounce.png",
+   "size0": {
+    "w": 45.5,
+    "h": 132.8,
+    "scale": 1.3
+   }
+  },
+  {
+   "label": "recover",
+   "act": "recover",
+   "v": 0,
+   "file": "gallery_r8_recover.png",
+   "size0": {
+    "w": 70.5,
+    "h": 77.5,
+    "scale": 1.3
+   }
+  },
+  {
+   "label": "wait (coiled)",
+   "act": "wait",
+   "v": 0,
+   "file": "gallery_r8_wait_coiled_.png",
+   "size0": {
+    "w": 47.3,
+    "h": 70.6,
+    "scale": 1.3
+   }
+  },
+  {
+   "label": "feed",
+   "act": "feed",
+   "v": 0,
+   "file": "gallery_r8_feed.png",
+   "size0": {
+    "w": 73,
+    "h": 86.4,
+    "scale": 1.3
+   }
+  }
+ ],
+ "deaths": [
+  {
+   "v": "A",
+   "shots": [
+    "death_r8_A_victim_0.3s.png",
+    "death_r8_A_spectator_0.3s.png",
+    "death_r8_A_victim_0.8s.png",
+    "death_r8_A_spectator_0.8s.png",
+    "death_r8_A_victim_1.5s.png",
+    "death_r8_A_spectator_1.5s.png",
+    "death_r8_A_victim_2.6s.png",
+    "death_r8_A_spectator_2.6s.png",
+    "death_r8_A_victim_4.5s.png",
+    "death_r8_A_spectator_4.5s.png"
+   ],
+   "res": {
+    "active": true,
+    "kind": "SkinStealer",
+    "variant": "A"
+   }
+  },
+  {
+   "v": "B",
+   "shots": [
+    "death_r8_B_victim_0.3s.png",
+    "death_r8_B_spectator_0.3s.png",
+    "death_r8_B_victim_0.8s.png",
+    "death_r8_B_spectator_0.8s.png",
+    "death_r8_B_victim_1.5s.png",
+    "death_r8_B_spectator_1.5s.png",
+    "death_r8_B_victim_2.6s.png",
+    "death_r8_B_spectator_2.6s.png",
+    "death_r8_B_victim_4.5s.png",
+    "death_r8_B_spectator_4.5s.png"
+   ],
+   "res": {
+    "active": true,
+    "kind": "SkinStealer",
+    "variant": "B"
+   }
+  },
+  {
+   "v": "C",
+   "shots": [
+    "death_r8_C_victim_0.3s.png",
+    "death_r8_C_spectator_0.3s.png",
+    "death_r8_C_victim_0.8s.png",
+    "death_r8_C_spectator_0.8s.png",
+    "death_r8_C_victim_1.5s.png",
+    "death_r8_C_spectator_1.5s.png",
+    "death_r8_C_victim_2.6s.png",
+    "death_r8_C_spectator_2.6s.png",
+    "death_r8_C_victim_4.5s.png",
+    "death_r8_C_spectator_4.5s.png"
+   ],
+   "res": {
+    "active": true,
+    "kind": "SkinStealer",
+    "variant": "C"
+   }
+  }
+ ],
+ "errors": {
+  "O": [],
+  "S": []
+ }
+}
