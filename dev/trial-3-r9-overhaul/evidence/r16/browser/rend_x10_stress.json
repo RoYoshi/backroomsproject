@@ -1,0 +1,308 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r9_browser.js",
+ "scene": "rend",
+ "chromium": "141.0.7390.37",
+ "tree": "r9-overhaul",
+ "cases": [
+  {
+   "name": "D (stressed spectator; a page joins at 0.7 s)",
+   "v": "D",
+   "shots": [],
+   "own": [
+    [
+     0.3,
+     {
+      "v": "D",
+      "alpha": 1,
+      "rent": false
+     }
+    ],
+    [
+     0.9,
+     {
+      "v": "D",
+      "alpha": 0,
+      "rent": true
+     }
+    ],
+    [
+     1.25,
+     {
+      "v": "D",
+      "alpha": 0,
+      "rent": true
+     }
+    ],
+    [
+     1.6,
+     {
+      "v": "D",
+      "alpha": 0,
+      "rent": true
+     }
+    ],
+    [
+     2.4,
+     {
+      "v": "D",
+      "alpha": 0,
+      "rent": true
+     }
+    ],
+    [
+     4.2,
+     {
+      "v": "D",
+      "alpha": 0,
+      "rent": true
+     }
+    ]
+   ],
+   "joinedAt": 0.7,
+   "fx": {
+    "frames": 4,
+    "seconds": 2.4,
+    "halvesFrom": 1.39,
+    "halves": 2,
+    "wholeAfterHalves": 0,
+    "mostSkinsDrawn": 1
+   },
+   "joinerFx": {
+    "frames": 9,
+    "seconds": 4.31,
+    "halvesFrom": 1.2,
+    "halves": 5,
+    "wholeAfterHalves": 0,
+    "mostSkinsDrawn": 1
+   },
+   "joinerBody": {
+    "c": "SkinStealer",
+    "gs": 1115022608,
+    "gb": [
+     [
+      6224,
+      3433,
+      2.454
+     ],
+     [
+      6323,
+      3430,
+      4.32
+     ]
+    ],
+    "gh": [
+     6317,
+     3450,
+     6217,
+     3445
+    ],
+    "x": 6280,
+    "y": 3426,
+    "ag": 0.1
+   },
+   "joinerErrors": [],
+   "tones": {
+    "spectator": 1,
+    "victim": 1
+   },
+   "body": {
+    "spectator": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 0.1
+    },
+    "victim": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 0.1
+    },
+    "late": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 17.3
+    }
+   },
+   "fresh": true,
+   "same": true
+  },
+  {
+   "name": "D, the victim gone half a second in, a page joining at 0.9 s (stressed spectator)",
+   "v": "D",
+   "shots": [],
+   "own": [
+    [
+     0.3,
+     null
+    ]
+   ],
+   "joinedAt": 0.97,
+   "closedAt": 0.5,
+   "fx": {
+    "frames": 8,
+    "seconds": 3.28,
+    "halvesFrom": 0.96,
+    "halves": 6,
+    "wholeAfterHalves": 0,
+    "mostSkinsDrawn": 1
+   },
+   "joinerFx": {
+    "frames": 8,
+    "seconds": 3.34,
+    "halvesFrom": 1.06,
+    "halves": 6,
+    "wholeAfterHalves": 0,
+    "mostSkinsDrawn": 1
+   },
+   "joinerBody": {
+    "c": "SkinStealer",
+    "gs": 1115022608,
+    "gb": [
+     [
+      6224,
+      3433,
+      2.454
+     ],
+     [
+      6323,
+      3430,
+      4.32
+     ]
+    ],
+    "gh": [
+     6317,
+     3450,
+     6217,
+     3445
+    ],
+    "x": 6280,
+    "y": 3426,
+    "ag": 0
+   },
+   "joinerErrors": [],
+   "tones": {
+    "spectator": 1,
+    "victim": null
+   },
+   "body": {
+    "spectator": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 0
+    },
+    "victim": null,
+    "late": {
+     "c": "SkinStealer",
+     "gs": 1115022608,
+     "gb": [
+      [
+       6224,
+       3433,
+       2.454
+      ],
+      [
+       6323,
+       3430,
+       4.32
+      ]
+     ],
+     "gh": [
+      6317,
+      3450,
+      6217,
+      3445
+     ],
+     "x": 6280,
+     "y": 3426,
+     "ag": 8.9
+    }
+   },
+   "fresh": true,
+   "same": true
+  }
+ ],
+ "stressFps": 1.4,
+ "errors": {
+  "O": [],
+  "S": []
+ }
+}

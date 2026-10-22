@@ -107,3 +107,15 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `docs/architecture/CONTRACTS.md` | generated block (`docs.js`) | `window.__gore`'s readers now include `assets/skinstealer.js` |
 | `dev/trial-3-r9-overhaul/tools/r9_browser.js` | dev tool | `--scene rend` (the victim, a spectator, a late joiner, the server's fallback; how many Skin-Stealers a spectator's page draws); INIT notes corpses and the rend's tone; the gallery's spectator aims at the victim |
 | `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `evidence/r14/` (receipt, scan), `evidence/r15/` | docs, evidence | R15-1 … R15-10; R14's receipt |
+
+## R16a — the adversarial QA and what it found
+
+| File | Kind | Change |
+|---|---|---|
+| `dev/tests/s_skinadv.js` | new suite, in `run.js` | X01–X09 (the pack's adversarial QA) on the server simulation |
+| `dev/tests/run.js` | test list | `s_skinadv.js` added |
+| `src/frameworks/br-r/client/skin.kill.js` | source | the tear's sound plays on the first frame that finds the body rent if this page was watching the death before the tear (however slowly its frames come), else within a second of it (R16-2) |
+| `public/assets/skinstealer.js`, `generated/BUILD_MANIFEST.json` | built | rebuilt from the above |
+| `dev/trial-3-r9-overhaul/tools/r9_browser.js` | dev tool | `--scene rend --stress 1` (X10); `prepPage` / `enterPage` (a page entering at a chosen moment); `--scene gallery --only deaths` |
+| `dev/trial-3-r9-overhaul/tools/perf_r16.js` | new dev tool | the Skin-Stealer's own think time, route searches and their cost, lines of sight, garbage collection, heap growth - R8 against this tree |
+| `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `evidence/r15/` (receipt, scan), `evidence/r16/` | docs, evidence | R16-1 … R16-3; R15's receipt |

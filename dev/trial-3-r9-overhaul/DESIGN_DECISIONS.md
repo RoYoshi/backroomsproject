@@ -476,3 +476,41 @@ the halves of such a record and draws a whole corpse. Browser numbers are SwiftS
 (`CONTRACTS.md`'s `window.__gore` row regenerated: `assets/skinstealer.js` now reads it), the scope gate and `build:check` pass. The
 cost of the server's choice is two rays when a grab kills; the client draws the halves only while a Rend plays. The full gate, the shared
 performance and an independent review are R16's.
+
+## R16 — regression, adversarial QA, stress, review
+
+**R16-1 The adversarial QA (pack `07`, X01–X10).** `s_skinadv.js` runs X01–X09 on the real server simulation; nothing sets a decision of
+the creature, people are moved and turned as players would - abruptly and against what it expects. What a person can see is the test-only
+oracle (`qa_sight.js`); where a check reads where a person really is, that is the test's own script.
+- X01 the still watcher (a lit person standing, gazing down the hall, the creature 450 / 620 px off, hunger .55 / .8 / .95; 12 runs): it
+  never moved in their sight on a covert way (0 px in all 12), a hungry one never stood in their light longer than 0.2 s doing nothing.
+- X02 one glimpse, then the silent opposite fork; X04 the course changed while it is behind a wall; X06 the person crouches into the dark
+  and stays still, here or 250 px on: in each, two worlds the same to its senses give the same creature - its place, plan, ways, bets and
+  guesses - tick for tick until it senses a difference (what it sees of them, or a sound). The comparison also stops where the shared
+  engine's level of detail differs (an entity more than 1900 px from every player thinks every .35 s instead of every .1 s,
+  `ai.entity.js` `tierOf`, decided by distances): that changes WHEN it thinks, never what it knows; it is the shared engine's, the
+  Hound's and the Smiler's too, and left as it is (PR25). X06: it never came within 60 px of the hidden person without having sensed them,
+  and gave the hunt up (or found them by sensing) in time.
+- X03 the person doubles back: the same until it senses the turn; then its belief is within 350 px of them (or it sees them) within 0.1 s.
+- X05 two people in different corridors: the one it never saw is never named, its hunt never passes to them on footsteps, one switch at
+  most. X07 the person turns round every four seconds to catch it crossing cover: 0 px of covert movement in their sight (8 runs).
+- X08 every interception it began (16) is to a spot on its own floor its own route reaches, with time in hand (slack 0.02–0.35 s).
+- X09 four of them (hungers .3 / .6 / .8 / .95) and three people whose input changes every 1.5 s: no NaN, never in a wall, never over its
+  speed, every kill after its wind-up (the strike's own clock), plans begun at most 0.35 / s by any one of them, memory bounded (sounds 8,
+  mind events 24 at most), the cap of four kept.
+- On R8 the same suite (`evidence/r16/tests/s_skinadv_on_r8.txt`): X01 and X07 fail as the owner reported (259–611 px of a covert move in
+  the person's sight); X05, X06, X08, X09 cannot run there (R8 has no mind, no interception slack); X02–X04 pass on R8 too.
+- X10 on real pages (`r9_browser.js --scene rend --stress 1`, `evidence/r16/browser/`): the spectator's page slowed four times (CPU) with
+  200 ms added to its network (1.4–2.2 frames a second under SwiftShader), and a page that enters while the Rend plays (0.7 s and 0.97 s
+  in), once with the victim's page closed half a second in: every page drew the two halves and never the whole body after them, never
+  more than one Skin-Stealer, and holds the same corpse; the joiner's replay picked the death up where it was.
+
+**R16-2 Found: the tear's sound on a slow page.** At under two frames a second the spectator's first frame after the tear came more than a
+second after it, and R15's rule (a frame within a second of the tear) let it pass in silence. The sound now plays on the first frame that
+finds the body rent if this page was watching the death before the tear, however slowly its frames come; a page that arrives later hears
+it only within a second of the tear (`skin.kill.js`). X10 then heard it once on every page that watched.
+
+**R16-3 What the extra performance counts are.** `perf_pr.js` times the 60 Hz step; `perf_r16.js` adds what the pack asks for besides: the
+Skin-Stealer's own think time, its route searches (and those over 1 ms) and lines of sight per second, garbage collections and their
+pauses, the heap's growth, the entity part of the snapshot. (There are no retransmissions in the sim to count: the wire is a WebSocket
+over TCP.) The numbers are R16's final measurement, with the independent review's fixes in.

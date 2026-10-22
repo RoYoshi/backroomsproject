@@ -72,7 +72,9 @@ async function serve() {
   try { process.kill(p.pid); } catch (e) { } throw new Error('no server');
 }
 async function until(P, fn, arg, ms = 8000, every = 50) { const t0 = Date.now(); for (;;) { const v = await P.evaluate(fn, arg).catch(() => null); if (v) return v; if (Date.now() - t0 > ms) return null; await sleep(every); } }
-async function runPage(b, port, room, VP, name, video) {
+async function runPage(b, port, room, VP, name, video) { const G = await prepPage(b, port, room, VP, name, video); return G.enter(); }
+/* (R16) a page brought as far as the name field, entering the game only when enter() is called (a player joining at a chosen moment) */
+async function prepPage(b, port, room, VP, name, video) {
   const ctx = await b.newContext(Object.assign({ viewport: VP }, video ? { recordVideo: { dir: video, size: { width: VP.width / 2, height: VP.height / 2 } } } : {}));
   await ctx.addInitScript(INIT);
   const t0 = Date.now(), P = await ctx.newPage(), errs = []; P.on('pageerror', e => errs.push(String(e).slice(0, 240)));
@@ -80,6 +82,9 @@ async function runPage(b, port, room, VP, name, video) {
   for (let i = 0; i < 900; i++) { const st = await P.evaluate(() => window.__boot ? __boot.state() : null).catch(() => null); if (st === 'ready') await P.keyboard.press('Space'); if (st === 'menu') break; await sleep(100); }
   await P.waitForFunction(() => window.__api && window.__ui, null, { timeout: 60000 });
   await P.evaluate(() => window.__ui.go('play')); await P.waitForSelector('#name', { state: 'visible' }); await P.fill('#name', name);
+  return { ctx, P, errs, t0, enter: () => enterPage(ctx, P, errs, t0) };
+}
+async function enterPage(ctx, P, errs, t0) {
   await P.bringToFront(); await P.click('#enter');
   await until(P, () => !!(window.__net && __net.on && window.__k3.game && window.__api.started()), null, 30000);
   await sleep(2500);
@@ -365,14 +370,28 @@ async function rendScene(b, port, R, qa) {
   await place();
   // (each frame of a Skin-Stealer replay: the halves there or not, the whole replayed body visible or not, and how many Skin-Stealers are drawn
   //  on the page at all - the replay's attacker and any live one not hidden: G13, never two)
-  await Sp.P.evaluate(() => { window.__k3.fxSeen = [];
+  const SAMPLER = () => { window.__k3.fxSeen = [];
     const skins = () => { let L = __api.layer(); while (L.parent) L = L.parent; let n = 0; const walk = (o, vis) => { vis = vis && o.visible !== false && o.alpha !== 0; if (o.__skin && vis) n++; for (const c of o.children || []) walk(c, vis); }; walk(L, true); return n; };
-    const f = () => { for (const x of window.__fxs || []) if (x.cause === 'SkinStealer' && !x.gone) window.__k3.fxSeen.push([+(performance.now() / 1000).toFixed(2), x.gib ? 1 : 0, x.av ? +x.av.visible : -1, skins()]); requestAnimationFrame(f); }; f(); });
-  for (const [name, v, cut] of [['D', 'D', 0], ['A (control)', 'A', 0], ['D, the victim gone half a second in (the server\'s fallback)', 'D', .5]]) {
+    const f = () => { for (const x of window.__fxs || []) if (x.cause === 'SkinStealer' && !x.gone) window.__k3.fxSeen.push([+(performance.now() / 1000).toFixed(2), x.gib ? 1 : 0, x.av ? +x.av.visible : -1, skins()]); requestAnimationFrame(f); }; f(); };
+  await Sp.P.evaluate(SAMPLER);
+  const fxOf = pg => pg.P.evaluate(() => { const s = window.__k3.fxSeen || []; let first = -1; for (let i = 0; i < s.length; i++) if (s[i][1]) { first = i; break; }
+    return { frames: s.length, seconds: s.length ? +(s[s.length - 1][0] - s[0][0]).toFixed(2) : 0, halvesFrom: first < 0 ? null : +(s[first][0] - s[0][0]).toFixed(2), halves: s.filter(q => q[1]).length,
+      wholeAfterHalves: first < 0 ? 0 : s.slice(first).filter(q => q[2] === 1).length, mostSkinsDrawn: s.reduce((m, q) => Math.max(m, q[3]), 0) }; });
+  /* (R16, X10) --stress 1: the spectator's page slowed four times (CPU) with 200 ms added to its network, its frame rate measured; and a
+   * page that joins while the Rend is playing (prepared beforehand, entering at its moment) - its replay from where the death is, the
+   * corpse it is given */
+  const STRESS = ARG.stress === '1';
+  if (STRESS) { const cdp = await Sp.ctx.newCDPSession(Sp.P); await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 }); await cdp.send('Network.enable'); await cdp.send('Network.emulateNetworkConditions', { offline: false, latency: 200, downloadThroughput: -1, uploadThroughput: -1 });
+    R.stressFps = await Sp.P.evaluate(() => new Promise(res => { let n = 0; const t0 = performance.now(); const f = () => { n++; if (performance.now() - t0 < 3000) requestAnimationFrame(f); else res(+(n * 1000 / (performance.now() - t0)).toFixed(1)); }; requestAnimationFrame(f); })); }
+  const CASES = STRESS ? [['D (stressed spectator; a page joins at 0.7 s)', 'D', 0, .7], ['D, the victim gone half a second in, a page joining at 0.9 s (stressed spectator)', 'D', .5, .9]]
+    : [['D', 'D', 0], ['A (control)', 'A', 0], ['D, the victim gone half a second in (the server\'s fallback)', 'D', .5]];
+  for (const [name, v, cut, joinAt] of CASES) {
+    const J = joinAt ? await prepPage(b2, port, room, VP, 'K3Joiner') : null; let JP = null; if (J) await J.P.evaluate(SAMPLER);   // (sampling from before it enters)
     const oid = await O.P.evaluate(() => __api.H.id);
     await alive(O, O, oid); await place();
     const t0 = await Promise.all([O, Sp].map(mark)); await Sp.P.evaluate(() => { window.__k3.fxSeen = []; });
     O.cmd({ c: 'preview', k: 'skinstealer', var: v }); const tStart = Date.now(), Cs = { name, v, shots: [], own: [] };
+    const joined = J ? new Promise(res => setTimeout(() => { Cs.joinedAt = +((Date.now() - tStart) / 1000).toFixed(2); J.enter().then(res, () => res(null)); }, joinAt * 1000)) : null;   // (it enters at its moment, whatever else is waiting)
     for (const at of [.3, .9, 1.25, 1.6, 2.4, 4.2]) {
       const wait = tStart + at * 1000 - Date.now(); if (wait > 0) await sleep(wait);
       if (cut && at > cut && O) { await O.ctx.close(); O = null; Cs.closedAt = cut; }
@@ -381,9 +400,9 @@ async function rendScene(b, port, R, qa) {
         if (O && at <= .9) { const f1 = `rend_${tag}_${v}_victim_${at}s.png`; await O.P.screenshot({ path: path.join(SHOTS, f1) }).catch(() => { }); Cs.shots.push(f1); } }
     }
     await sleep(3500);                                                             // (the death is over: the server's corpse is out)
-    Cs.fx = await Sp.P.evaluate(() => { const s = window.__k3.fxSeen; let first = -1; for (let i = 0; i < s.length; i++) if (s[i][1]) { first = i; break; }
-      return { frames: s.length, seconds: s.length ? +(s[s.length - 1][0] - s[0][0]).toFixed(2) : 0, halvesFrom: first < 0 ? null : +(s[first][0] - s[0][0]).toFixed(2), halves: s.filter(q => q[1]).length,
-        wholeAfterHalves: first < 0 ? 0 : s.slice(first).filter(q => q[2] === 1).length, mostSkinsDrawn: s.reduce((m, q) => Math.max(m, q[3]), 0) }; });
+    if (joined) JP = await joined;
+    Cs.fx = await fxOf(Sp);
+    if (JP) { Cs.joinerFx = await fxOf(JP); Cs.joinerBody = await bodyOf(JP, oid); Cs.joinerErrors = JP.errs.slice(); await JP.ctx.close(); } else if (J) await J.ctx.close();
     Cs.tones = { spectator: await tones(Sp, t0[1]), victim: O ? await tones(O, t0[0]) : null };
     Cs.body = { spectator: await bodyOf(Sp, oid), victim: O ? await bodyOf(O, oid) : null };
     // a late joiner, now: the corpse it is given
@@ -392,7 +411,7 @@ async function rendScene(b, port, R, qa) {
       const f3 = `rend_${tag}_${v}${cut ? '_fallback' : ''}_corpse.png`; await Sp.P.screenshot({ path: path.join(SHOTS, f3) }).catch(() => { }); Cs.shots.push(f3); }
     const k = q => q ? JSON.stringify([q.c, q.gs, q.gb, q.gh, q.x, q.y]) : null;
     Cs.fresh = !!(Cs.body.spectator && Cs.body.spectator.ag != null && Cs.body.spectator.ag < 12);   // (made in this case, not an earlier one's)
-    Cs.same = k(Cs.body.spectator) !== null && k(Cs.body.spectator) === k(Cs.body.late) && (!Cs.body.victim || k(Cs.body.victim) === k(Cs.body.spectator));
+    Cs.same = k(Cs.body.spectator) !== null && k(Cs.body.spectator) === k(Cs.body.late) && (!Cs.body.victim || k(Cs.body.victim) === k(Cs.body.spectator)) && (!JP || k(Cs.joinerBody) === k(Cs.body.spectator));
     R.cases.push(Cs);
     if (!O) { O = await runPage(b, port, room, VP, 'K3Victim'); }                // (back for the next case)
   }
@@ -521,7 +540,8 @@ async function probe(b, port, R) {
   if (R.checks) { for (const k of R.checks) console.log((k.ok ? 'PASS ' : 'FAIL ') + k.id + '  ' + k.why); console.log(`SIGHT: ${R.checks.every(k => k.ok) ? 'PASS' : 'FAIL'} - ${R.checks.filter(k => k.ok).length} of ${R.checks.length}`); }
   if (R.scene === 'sight' && R.cases) for (const C of R.cases) console.log(`${C.name}: ` + C.pages.map(P => `${P.page} thumps ${P.thumps} stings ${P.stings}${P.stingGain.length ? ' (master gain ' + P.stingGain.join('/') + ')' : ''} vignette ${P.vignette} views ${JSON.stringify(P.views.map(v => [v.on, v.mask, v.leg, v.vis]))}`).join(' | '));
   if (R.scene === 'audio' && R.cases) for (const C of R.cases) console.log(`${C.name}: thumps ${C.thumps}, stings ${C.stings}, bursts ${C.bursts}, dread vignette max ${C.dreadMax}${C.view ? ', the page sees it ' + JSON.stringify(C.view) : ''}${C.sightLog ? ', sight log ' + JSON.stringify(C.sightLog).slice(0, 300) : ''}`);
-  if (R.scene === 'rend' && R.cases) for (const C of R.cases) console.log(`${C.name}: own ${JSON.stringify(C.own)} | spectator replay ${JSON.stringify(C.fx)} | rend tones ${JSON.stringify(C.tones)} | corpse ${JSON.stringify(C.body)} | this death's ${C.fresh} | same on every page ${C.same}`);
+  if (R.scene === 'rend' && R.cases) { if (R.stressFps != null) console.log(`stressed spectator: ${R.stressFps} frames a second (CPU x4, +200 ms network)`);
+    for (const C of R.cases) console.log(`${C.name}: own ${JSON.stringify(C.own)} | spectator replay ${JSON.stringify(C.fx)}${C.joinerFx ? ` | the joiner (entered at ${C.joinedAt} s) replay ${JSON.stringify(C.joinerFx)} errors ${(C.joinerErrors || []).length}` : ''} | rend tones ${JSON.stringify(C.tones)} | corpse ${JSON.stringify(C.body)}${C.joinerBody !== undefined ? ' joiner ' + JSON.stringify(C.joinerBody) : ''} | this death's ${C.fresh} | same on every page ${C.same}`); }
   if (R.scene === 'gallery') { for (const G of R.gallery || []) console.log(`gallery ${G.label}: ${G.file} size ${JSON.stringify(G.size0)}`); for (const Q of R.places || []) console.log(`place ${Q.name}: ${Q.file} views ${JSON.stringify(Q.views)}`); if (R.edge) console.log(`edge ${JSON.stringify(R.edge)}`); if (R.drawCost) console.log(`draw cost ${JSON.stringify(R.drawCost)}`); for (const D of R.deaths || []) console.log(`death ${D.v}: ${JSON.stringify(D.res)} ${D.shots.length} shots`); }
   if (R.error) console.log('ERROR ' + R.error);
   if (ARG.out) fs.writeFileSync(path.resolve(ARG.out), JSON.stringify(R, null, 1) + '\n');

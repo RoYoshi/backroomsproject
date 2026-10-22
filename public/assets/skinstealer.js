@@ -387,12 +387,14 @@ function killPose(S, jl, t) {
   }
 }
 /* R15: the Rend heard once per death, where the physics tore the body (the audio module's own sound, placed for this listener) - on the first
- * frame that finds the body rent, unless that frame is more than a second after the tear (a page that arrives late hears nothing old; one
- * that only hitched still hears it) */
+ * frame that finds the body rent, if this page was watching the death before the tear (however slowly its frames come: R16, X10) or
+ * that frame is within a second of it; a page that arrives later hears nothing old */
 function rendHeard(v, jl) {
-  const P = jl && jl.ph; if (!P || !P.rent) { if (v.__rd && v.__rd !== P) v.__rd = null; return; }
-  if (v.__rd === P) return; v.__rd = P;
-  const e = (P.ev || []).find(q => q.k === 'rend'); if (e && hooks.rend && (+jl.elapsed || 0) - e.t < 1) hooks.rend(e.x, e.y);
+  const P = jl && jl.ph; if (!P) return;
+  if (v.__rp !== P) { v.__rp = P; v.__r0 = +jl.elapsed || 0; }                  // (this page's first frame of this death)
+  if (!P.rent || v.__rd === P) return; v.__rd = P;
+  const e = (P.ev || []).find(q => q.k === 'rend'), el = +jl.elapsed || 0;
+  if (e && hooks.rend && (e.t >= v.__r0 - 1e-6 || el - e.t < 1)) hooks.rend(e.x, e.y);
 }
 /* our own death's attacker (the bundle gives the Hound's view: it is hidden; this one is drawn in the same creatures layer) */
 let own = null, ownGib = null;
