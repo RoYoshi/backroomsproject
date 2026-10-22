@@ -1,0 +1,779 @@
+{
+ "tree": "given",
+ "A": [
+  {
+   "where": "ahead 520",
+   "h": 0.3,
+   "seed": 1,
+   "seenAfter": 0.67,
+   "actAfterSight": 0,
+   "first": "leave",
+   "walkedOnAfterSight": 0,
+   "endPlan": "leave"
+  },
+  {
+   "where": "ahead 520",
+   "h": 0.3,
+   "seed": 2,
+   "seenAfter": 0.65,
+   "actAfterSight": 0,
+   "first": "leave",
+   "walkedOnAfterSight": 0,
+   "endPlan": "leave"
+  },
+  {
+   "where": "ahead 520",
+   "h": 0.55,
+   "seed": 1,
+   "seenAfter": 0.62,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "ahead 520",
+   "h": 0.55,
+   "seed": 2,
+   "seenAfter": 0.58,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "ahead 520",
+   "h": 0.75,
+   "seed": 1,
+   "seenAfter": 0.6,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "ahead 520",
+   "h": 0.75,
+   "seed": 2,
+   "seenAfter": 0.6,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "ahead 520",
+   "h": 0.95,
+   "seed": 1,
+   "seenAfter": 0.25,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "ahead 520",
+   "h": 0.95,
+   "seed": 2,
+   "seenAfter": 0.58,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "ahead 900",
+   "h": 0.3,
+   "seed": 1,
+   "seenAfter": 0.67,
+   "actAfterSight": 0,
+   "first": "leave",
+   "walkedOnAfterSight": 0,
+   "endPlan": "leave"
+  },
+  {
+   "where": "ahead 900",
+   "h": 0.3,
+   "seed": 2,
+   "seenAfter": 0.6,
+   "actAfterSight": 0,
+   "first": "leave",
+   "walkedOnAfterSight": 0,
+   "endPlan": "leave"
+  },
+  {
+   "where": "ahead 900",
+   "h": 0.55,
+   "seed": 1,
+   "seenAfter": 0.3,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "ahead 900",
+   "h": 0.55,
+   "seed": 2,
+   "seenAfter": 0.25,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "ahead 900",
+   "h": 0.75,
+   "seed": 1,
+   "seenAfter": 0.62,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "ahead 900",
+   "h": 0.75,
+   "seed": 2,
+   "seenAfter": 0.63,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "ahead 900",
+   "h": 0.95,
+   "seed": 1,
+   "seenAfter": 0.67,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "ahead 900",
+   "h": 0.95,
+   "seed": 2,
+   "seenAfter": 0.27,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "periphery 55deg 450 (open hall)",
+   "h": 0.3,
+   "seed": 1,
+   "seenAfter": 0.3,
+   "actAfterSight": 0,
+   "first": "leave",
+   "walkedOnAfterSight": 0,
+   "endPlan": "leave"
+  },
+  {
+   "where": "periphery 55deg 450 (open hall)",
+   "h": 0.3,
+   "seed": 2,
+   "seenAfter": 0.6,
+   "actAfterSight": 0,
+   "first": "leave",
+   "walkedOnAfterSight": 0,
+   "endPlan": "leave"
+  },
+  {
+   "where": "periphery 55deg 450 (open hall)",
+   "h": 0.55,
+   "seed": 1,
+   "seenAfter": 0.67,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "periphery 55deg 450 (open hall)",
+   "h": 0.55,
+   "seed": 2,
+   "seenAfter": 0.63,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "periphery 55deg 450 (open hall)",
+   "h": 0.75,
+   "seed": 1,
+   "seenAfter": 0.3,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "periphery 55deg 450 (open hall)",
+   "h": 0.75,
+   "seed": 2,
+   "seenAfter": 0.67,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "periphery 55deg 450 (open hall)",
+   "h": 0.95,
+   "seed": 1,
+   "seenAfter": 0.6,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "periphery 55deg 450 (open hall)",
+   "h": 0.95,
+   "seed": 2,
+   "seenAfter": 0.3,
+   "actAfterSight": 0,
+   "first": "approach",
+   "walkedOnAfterSight": 0,
+   "endPlan": "feed"
+  },
+  {
+   "where": "periphery 85deg 420 (open hall)",
+   "h": 0.3,
+   "seed": 1,
+   "seenAfter": null,
+   "actAfterSight": null,
+   "first": "",
+   "walkedOnAfterSight": 0,
+   "endPlan": "-"
+  },
+  {
+   "where": "periphery 85deg 420 (open hall)",
+   "h": 0.3,
+   "seed": 2,
+   "seenAfter": null,
+   "actAfterSight": null,
+   "first": "",
+   "walkedOnAfterSight": 0,
+   "endPlan": "-"
+  },
+  {
+   "where": "periphery 85deg 420 (open hall)",
+   "h": 0.55,
+   "seed": 1,
+   "seenAfter": null,
+   "actAfterSight": null,
+   "first": "",
+   "walkedOnAfterSight": 0,
+   "endPlan": "-"
+  },
+  {
+   "where": "periphery 85deg 420 (open hall)",
+   "h": 0.55,
+   "seed": 2,
+   "seenAfter": null,
+   "actAfterSight": null,
+   "first": "",
+   "walkedOnAfterSight": 0,
+   "endPlan": "-"
+  },
+  {
+   "where": "periphery 85deg 420 (open hall)",
+   "h": 0.75,
+   "seed": 1,
+   "seenAfter": null,
+   "actAfterSight": null,
+   "first": "",
+   "walkedOnAfterSight": 0,
+   "endPlan": "-"
+  },
+  {
+   "where": "periphery 85deg 420 (open hall)",
+   "h": 0.75,
+   "seed": 2,
+   "seenAfter": null,
+   "actAfterSight": null,
+   "first": "",
+   "walkedOnAfterSight": 0,
+   "endPlan": "-"
+  },
+  {
+   "where": "periphery 85deg 420 (open hall)",
+   "h": 0.95,
+   "seed": 1,
+   "seenAfter": null,
+   "actAfterSight": null,
+   "first": "",
+   "walkedOnAfterSight": 0,
+   "endPlan": "-"
+  },
+  {
+   "where": "periphery 85deg 420 (open hall)",
+   "h": 0.95,
+   "seed": 2,
+   "seenAfter": null,
+   "actAfterSight": null,
+   "first": "",
+   "walkedOnAfterSight": 0,
+   "endPlan": "-"
+  }
+ ],
+ "B": [
+  {
+   "h": 0.3,
+   "seed": 1,
+   "heard": true,
+   "headTurned": null,
+   "bodyTurned": null,
+   "sawAfter": null,
+   "movedTowardBeforeSight": -1116,
+   "stillBeforeSight": 0,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.3,
+   "seed": 2,
+   "heard": true,
+   "headTurned": null,
+   "bodyTurned": null,
+   "sawAfter": null,
+   "movedTowardBeforeSight": -1116,
+   "stillBeforeSight": 0,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.3,
+   "seed": 3,
+   "heard": true,
+   "headTurned": null,
+   "bodyTurned": null,
+   "sawAfter": null,
+   "movedTowardBeforeSight": -1116,
+   "stillBeforeSight": 0,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.55,
+   "seed": 1,
+   "heard": true,
+   "headTurned": 0.17,
+   "bodyTurned": 0.33,
+   "sawAfter": 5.12,
+   "movedTowardBeforeSight": 267,
+   "stillBeforeSight": 1.7,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.55,
+   "seed": 2,
+   "heard": true,
+   "headTurned": 0.2,
+   "bodyTurned": 0.25,
+   "sawAfter": 4.57,
+   "movedTowardBeforeSight": 237,
+   "stillBeforeSight": 1.7,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.55,
+   "seed": 3,
+   "heard": true,
+   "headTurned": 0.15,
+   "bodyTurned": 0.32,
+   "sawAfter": 5.23,
+   "movedTowardBeforeSight": 264,
+   "stillBeforeSight": 1.9,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.8,
+   "seed": 1,
+   "heard": true,
+   "headTurned": 0.45,
+   "bodyTurned": 0.32,
+   "sawAfter": 4.63,
+   "movedTowardBeforeSight": 230,
+   "stillBeforeSight": 1.7,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.8,
+   "seed": 2,
+   "heard": true,
+   "headTurned": 0.25,
+   "bodyTurned": 0.22,
+   "sawAfter": 3.85,
+   "movedTowardBeforeSight": 222,
+   "stillBeforeSight": 1.3,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.8,
+   "seed": 3,
+   "heard": true,
+   "headTurned": 0.28,
+   "bodyTurned": 0.33,
+   "sawAfter": 3.83,
+   "movedTowardBeforeSight": 210,
+   "stillBeforeSight": 1.1,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.95,
+   "seed": 1,
+   "heard": true,
+   "headTurned": 0.25,
+   "bodyTurned": 0.27,
+   "sawAfter": 4.37,
+   "movedTowardBeforeSight": 259,
+   "stillBeforeSight": 1.3,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.95,
+   "seed": 2,
+   "heard": true,
+   "headTurned": 0.2,
+   "bodyTurned": 0.3,
+   "sawAfter": 4.63,
+   "movedTowardBeforeSight": 234,
+   "stillBeforeSight": 1.7,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.95,
+   "seed": 3,
+   "heard": true,
+   "headTurned": 0.08,
+   "bodyTurned": 0.25,
+   "sawAfter": 4.1,
+   "movedTowardBeforeSight": 234,
+   "stillBeforeSight": 1.3,
+   "endPlan": "-"
+  }
+ ],
+ "C": [
+  {
+   "h": 0.75,
+   "dir": 1,
+   "seed": 1,
+   "meanFacingErr": 1.21,
+   "sideTicks": 0,
+   "backTicks": 0,
+   "strikes": 1,
+   "killedAt": null
+  },
+  {
+   "h": 0.75,
+   "dir": 1,
+   "seed": 2,
+   "meanFacingErr": 2.03,
+   "sideTicks": 0,
+   "backTicks": 0,
+   "strikes": 0,
+   "killedAt": null
+  },
+  {
+   "h": 0.75,
+   "dir": -1,
+   "seed": 1,
+   "meanFacingErr": 1.2,
+   "sideTicks": 0,
+   "backTicks": 0,
+   "strikes": 0,
+   "killedAt": null
+  },
+  {
+   "h": 0.75,
+   "dir": -1,
+   "seed": 2,
+   "meanFacingErr": 1.04,
+   "sideTicks": 0,
+   "backTicks": 0,
+   "strikes": 0,
+   "killedAt": null
+  },
+  {
+   "h": 0.95,
+   "dir": 1,
+   "seed": 1,
+   "meanFacingErr": 0.97,
+   "sideTicks": 0,
+   "backTicks": 0,
+   "strikes": 0,
+   "killedAt": null
+  },
+  {
+   "h": 0.95,
+   "dir": 1,
+   "seed": 2,
+   "meanFacingErr": 0.92,
+   "sideTicks": 0,
+   "backTicks": 0,
+   "strikes": 0,
+   "killedAt": null
+  },
+  {
+   "h": 0.95,
+   "dir": -1,
+   "seed": 1,
+   "meanFacingErr": 1.56,
+   "sideTicks": 0,
+   "backTicks": 0,
+   "strikes": 0,
+   "killedAt": null
+  },
+  {
+   "h": 0.95,
+   "dir": -1,
+   "seed": 2,
+   "meanFacingErr": 1.67,
+   "sideTicks": 0,
+   "backTicks": 0,
+   "strikes": 0,
+   "killedAt": null
+  }
+ ],
+ "E": [
+  {
+   "h": 0.45,
+   "seed": 1,
+   "secondsInSight": 12.4,
+   "tookUpAt": null,
+   "endPlan": "feed"
+  },
+  {
+   "h": 0.45,
+   "seed": 2,
+   "secondsInSight": 2.4,
+   "tookUpAt": null,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.45,
+   "seed": 3,
+   "secondsInSight": 1.6,
+   "tookUpAt": null,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.65,
+   "seed": 1,
+   "secondsInSight": 0.3,
+   "tookUpAt": null,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.65,
+   "seed": 2,
+   "secondsInSight": 0.4,
+   "tookUpAt": null,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.65,
+   "seed": 3,
+   "secondsInSight": 0.3,
+   "tookUpAt": null,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.75,
+   "seed": 1,
+   "secondsInSight": 5.4,
+   "tookUpAt": null,
+   "endPlan": "-"
+  },
+  {
+   "h": 0.75,
+   "seed": 2,
+   "secondsInSight": 8.3,
+   "tookUpAt": null,
+   "endPlan": "feed"
+  },
+  {
+   "h": 0.75,
+   "seed": 3,
+   "secondsInSight": 1.2,
+   "tookUpAt": null,
+   "endPlan": "-"
+  }
+ ],
+ "F": [
+  {
+   "h": 0.45,
+   "seed": 1,
+   "seen": true,
+   "reconsideredAfter": null,
+   "endPlan": "leave"
+  },
+  {
+   "h": 0.45,
+   "seed": 2,
+   "seen": true,
+   "reconsideredAfter": null,
+   "endPlan": "leave"
+  },
+  {
+   "h": 0.45,
+   "seed": 3,
+   "seen": true,
+   "reconsideredAfter": 2.1,
+   "endPlan": "leave"
+  },
+  {
+   "h": 0.55,
+   "seed": 1,
+   "seen": true,
+   "reconsideredAfter": null,
+   "endPlan": "leave"
+  },
+  {
+   "h": 0.55,
+   "seed": 2,
+   "seen": true,
+   "reconsideredAfter": null,
+   "endPlan": "leave"
+  },
+  {
+   "h": 0.55,
+   "seed": 3,
+   "seen": true,
+   "reconsideredAfter": null,
+   "endPlan": "leave"
+  },
+  {
+   "h": 0.65,
+   "seed": 1,
+   "seen": true,
+   "reconsideredAfter": 3.73,
+   "endPlan": "feed"
+  },
+  {
+   "h": 0.65,
+   "seed": 2,
+   "seen": true,
+   "reconsideredAfter": 2.92,
+   "endPlan": "feed"
+  },
+  {
+   "h": 0.65,
+   "seed": 3,
+   "seen": true,
+   "reconsideredAfter": 1.98,
+   "endPlan": "leave"
+  }
+ ],
+ "G": [
+  {
+   "h": 0.3,
+   "seed": 1,
+   "stops": 5,
+   "secondsStill": 10.7
+  },
+  {
+   "h": 0.3,
+   "seed": 2,
+   "stops": 5,
+   "secondsStill": 11.1
+  },
+  {
+   "h": 0.7,
+   "seed": 1,
+   "stops": 5,
+   "secondsStill": 13.2
+  },
+  {
+   "h": 0.7,
+   "seed": 2,
+   "stops": 3,
+   "secondsStill": 9.2
+  },
+  {
+   "h": 0.95,
+   "seed": 1,
+   "stops": 10,
+   "secondsStill": 12.6
+  },
+  {
+   "h": 0.95,
+   "seed": 2,
+   "stops": 6,
+   "secondsStill": 8.7
+  }
+ ],
+ "H": [
+  {
+   "seed": 1,
+   "intercepted": true,
+   "seenOnItsWay": false,
+   "droppedAfter": null,
+   "endPlan": "intercept"
+  },
+  {
+   "seed": 2,
+   "intercepted": false,
+   "seenOnItsWay": false,
+   "droppedAfter": null,
+   "endPlan": "feed"
+  },
+  {
+   "seed": 3,
+   "intercepted": false,
+   "seenOnItsWay": false,
+   "droppedAfter": null,
+   "endPlan": "approach"
+  },
+  {
+   "seed": 4,
+   "intercepted": true,
+   "seenOnItsWay": false,
+   "droppedAfter": null,
+   "endPlan": "-"
+  },
+  {
+   "seed": 5,
+   "intercepted": false,
+   "seenOnItsWay": false,
+   "droppedAfter": null,
+   "endPlan": "-"
+  },
+  {
+   "seed": 6,
+   "intercepted": true,
+   "seenOnItsWay": false,
+   "droppedAfter": null,
+   "endPlan": "feed"
+  }
+ ],
+ "V": [
+  {
+   "label": "lit, standing",
+   "seesFrom": 649
+  },
+  {
+   "label": "lit, walking",
+   "seesFrom": 1269
+  },
+  {
+   "label": "lit, running",
+   "seesFrom": 1483
+  },
+  {
+   "label": "dark, standing",
+   "seesFrom": 442
+  },
+  {
+   "label": "dark, walking",
+   "seesFrom": 526
+  },
+  {
+   "label": "dark, crouched",
+   "seesFrom": 285
+  }
+ ]
+}

@@ -142,3 +142,13 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `dev/trial-3-r9-overhaul/evidence/r16/review/` | evidence | the reviewer's report and its repro scripts |
 | `dev/trial-3-skin-stealer/tools/skin_browser.js` | dev tool (Trial 3's) | two pins brought up to date: the script's API (R10's `sight`, `sightLog`; R14's `anatomy`) and the SKIN tab's previews (R15's D) |
 | `dev/trial-3-r9-overhaul/evidence/r16/` | evidence | R16b's suites, `npm test`, Human QA, the real pages, the reviewer's report |
+
+## R16c — the owner's additional refinement, audited (no behaviour change)
+
+| File | Kind | Change |
+|---|---|---|
+| `dev/trial-3-r9-overhaul/tools/repro_ap.js` | new dev tool | the owner's observations measured on any tree (A seen while roaming, B heard not seen, C circled, E someone it gave up on, F a departure, G roaming, H an interception made obsolete, V how far it sees) |
+| `dev/trial-3-r9-overhaul/AP_AUDIT.md` | new doc | what was measured on R8 and R16b, the causes in the code, the plan for R16d-R16g |
+| `dev/trial-3-r9-overhaul/evidence/r16c/` | evidence | the tool's output on R8 and R16b |
+| `dev/trial-3-r9-overhaul/CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `evidence/r16/` (R16b's receipt, scan) | docs, evidence | |
+
