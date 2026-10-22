@@ -142,4 +142,14 @@ add('V12 no Skin-Stealer in sight, every output of the dread hook is R8\'s: 40 s
   return { ok, note: `R8 vs this tree, no Skin-Stealer: ${A === B ? 'identical' : 'DIFFERENT'} (${JSON.parse(A).length} records: ${kinds(JSON.parse(A), 'thump')} thumps, ${kinds(JSON.parse(A), 'sfx')} stings); one behind a wall: ${A === C ? 'identical' : 'DIFFERENT'}; one far out of sight: ${A === D ? 'identical' : 'DIFFERENT'}; one in sight 260 px: thumps ${kinds(ra, 'thump')} -> ${kinds(vis, 'thump')}, stings ${kinds(ra, 'sfx')} -> ${kinds(vis, 'sfx')}, drone ${drone(vis) === drone(ra) ? 'unchanged' : 'CHANGED'}, vignette and shake ${outs(vis) === outs(ra) ? 'unchanged' : 'CHANGED'}` };
 });
 
+add('V13 one sting, not two, either way round (R16, the independent review): the Hound\'s sting falls due just after a Skin-Stealer\'s - only one plays (R10 already kept a Skin-Stealer\'s sting from doubling the Hound\'s); with no Skin-Stealer every output is R8\'s (V12)', () => {
+  const now = fs.readFileSync(path.join(ROOT, 'src', 'core', 'client', 'mp.frame.js'), 'utf8');
+  const at = rec => { const out = []; let f = 0; for (const r of rec) { if (r[0] === 'out') f++; else if (r[0] === 'sfx') out.push(+(f / 60).toFixed(2)); } return out; };
+  const base = at(hook(now, true, () => [])), tk = base[0];                       // (when the Hound's first sting plays, with no Skin-Stealer)
+  if (!(tk > 1)) return { ok: false, note: 'no Hound sting to time against: ' + JSON.stringify(base) };
+  const t0 = tk - .4, rec = at(hook(now, true, t => t >= t0 ? [{ i: 7, x: 260, y: 0, a: 0, s: 1, ac: 0, v: 0, h: 0 }] : []));
+  const near = rec.filter(t => t >= t0 && t <= tk + 1.2);
+  return { ok: near.length === 1 && near[0] < tk, note: `the Hound's sting alone at ${base.slice(0, 3).join('/')} s; a Skin-Stealer in sight from ${t0.toFixed(2)} s: stings at ${rec.slice(0, 4).join('/')} s - ${near.length} between ${t0.toFixed(2)} and ${(tk + 1.2).toFixed(2)} s (the Skin-Stealer's)` };
+});
+
 module.exports = S;

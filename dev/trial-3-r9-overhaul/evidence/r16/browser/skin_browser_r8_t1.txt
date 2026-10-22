@@ -1,0 +1,11 @@
+ok   t1_script_loaded - {"skin":"object","fns":"attack,attacker,clear,deathEvent,deathSound,draw,mirror,where"}
+ok   t1_p9_keys_without_one - st,h,m,b,p,gw,it,lf,sn
+ok   t1_admin_tabs - players,monsters,deaths,world,debug -> K -> players,monsters,deaths,world,debug,skin
+ok   t1_admin_skin_tab - {"before":{"text":"SKIN-STEALER · 0 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SKIN-STEALER+ NEAR ME− SKIN-STEALERNone in the halls. The worl","buttons":["+ SKIN-STEALER","+ NEAR ME","− SKIN-STEALER","ANECK BREAKa grip from close by","BPOUNCEcarried down, then the neck","CNECK BITEheld, bitten"]},"after":{"text":"SKIN-STEALER · 1 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SKIN-STEALER+ NEAR ME− SKIN-STEALERK#11ROAMING · nearGO TOREMOVEITS DEATHS · PLAYED ON YOUANECK BREAKa","status":"SKIN-STEALER PLACED NEAR YOU"}}
+ok   t1_in_snapshot - [{"i":11,"x":456,"y":1752,"a":5.908,"s":1,"ac":0,"v":0,"h":0}]
+ok   t1_one_view_in_creatures_layer - [{"id":11,"x":456,"y":1752,"vis":true,"tint":10132122,"inLayer":true,"masked":true}]
+ok   t1_shaded_by_light - in the dark 9a9a9a, lit e8e8e8 (light true)
+ok   t1_remove_takes_view - 0 views; keys st,h,m,b,p,gw,it,lf,sn
+ok   t1_world_reset_clears - 1 -> 0
+ok   t1_no_page_errors - []
+SKIN BROWSER: PASS - 10 of 10 cases

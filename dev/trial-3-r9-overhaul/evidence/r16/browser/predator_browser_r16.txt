@@ -1,0 +1,15 @@
+PASS pr_heard_not_named
+       {"listened":true,"looked":true,"unearnedNames":0,"firstUnearned":null,"firstNameSample":{"t":31.69,"att":2,"pl":"approach","pid":1,"ht":1,"hu":0.48,"ac":12,"why":"P1 is right there, unaware: it comes on","lkSeen":1,"sees":[1],"dec":1,"hr":[0.3,0.7,"run"],"heardQ":0,"curious":1,"H":[7718,5887],"K":[7674,5983.8]},"quietNamed":0,"quietSeen":0,"attempts":2}
+PASS pr_listened_then_looked
+       it stopped and listened to the footsteps (an anonymous sound) and went to look: [null,["roam","listen","search","approach","flank","feed"]]
+PASS pr_quiet_never_named
+       plans or hunts about the quiet page without a sighting before: 0 (samples in which it saw the quiet page: 0)
+PASS pr_hunt_on_sight
+       {"t":31.69,"att":2,"pl":"approach","pid":1,"ht":1,"hu":0.48,"ac":12,"why":"P1 is right there, unaware: it comes on","lkSeen":1,"sees":[1],"dec":1,"hr":[0.3,0.7,"run"],"heardQ":0,"curious":1,"H":[7718,5887],"K":[7674,5983.8]}
+PASS pr_overlay_hunt_line
+       ["HUNT P1 sure 1 (seen 0.1s ago, ±88px)  effort 0/73s  flanks 0  guesses 0  failed 0  heard 0  revised 0","HUNT P1 sure 1 (seen 0.2s ago, ±101px)  effort 0/73s  flanks 0  guesses 0  failed 0  heard 0  revised 0","HUNT P1 sure 1 (seen 0.4s ago, ±116px)  effort 0/73s  flanks 0  guesses 0  failed 0  heard 0  revised 0"]
+PASS pr_snapshot_public_fields_only
+       ["i","x","y","a","s","ac","v","h"]
+PASS pr_no_page_errors
+       {"noise":[],"quiet":[]}
+PREDATOR BROWSER: PASS - 7 of 7 cases

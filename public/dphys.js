@@ -861,8 +861,8 @@
     const g0 = (S.boom || S.rent) && S.gib ? S.gib[0] : null;                          // Stage 3D HQ3: a gibbed headlamp rides the biggest piece (R15: a rent one the bigger half)
     return { blood, hands: pz.hands.map(h => [+h.x.toFixed(1), +h.y.toFixed(1)]), dropped: { x: e.has ? e.x : g0 ? g0.x : S.b.x, y: e.has ? e.y : g0 ? g0.y : S.b.y, angle: e.has ? e.rot : g0 ? g0.rot : S.b.th },
       hat: { x: hd.x, y: hd.y, angle: hd.rot }, hatOn: hd.on ? 1 : 0, trail: S.trail.slice(-24).map(p => [Math.round(p[0]), Math.round(p[1])]), held: e.held ? 1 : 0,
-      ...(g0 ? { gibs: gibRecord(S) } : {}) };
-  }
+      ...(g0 ? { gibs: gibRecord(S) } : {}), ...(S.rent ? gibRecord(S) : {}) };      // (R16: a rend's halves also at the top, named as a corpse record names
+  }                                                                                      //  them - the victim's own corpse is made from this, render.ts completeDeath)
 
   /* Stage 3D: with reduced motion (the settings' 'rm' class) the death's camera shake is a quarter as strong; the zoom is unchanged */
   window.__dcamK = () => (typeof document !== 'undefined' && document.documentElement.classList.contains('rm') ? .25 : 1);

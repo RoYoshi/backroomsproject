@@ -1,9 +1,9 @@
 /** @part generated/server/ai.js - N.A.N.I.: the Skin-Stealer (Trial 3): a patient, deceptive predator with hunger, stamina and its own plans
  * provides: KACT, SK, SKIN
  * uses: S, SCODE, SKC, SKI, TAU, angDiff, approach, clamp, commitTick, deriveSeed, directOk, directTo, faceToward, facedBy, follow, goTo,
- *       hearEvent, lerp, mkRng, moveCollide, perc, plan, rand, randomFloor, setAct, setState, setTarget, skCaught, skCovertFollow, skCovertWay,
- *       skExposedNow, skExposedTo, skHypAt, skHypDbg, skHypHeard, skHypOf, skHyps, skMindDbg, skMindKept, skMindLog, skMindNew, skMindTick,
- *       skWatchers, sm, stopMoving, tgtGone
+ *       hearEvent, lerp, mkRng, moveCollide, perc, plan, rand, randomFloor, setAct, setState, setTarget, skBodyInSight, skCaught, skCovertFollow,
+ *       skCovertWay, skExposedNow, skHypAt, skHypDbg, skHypHeard, skHypOf, skHyps, skMindDbg, skMindKept, skMindLog, skMindNew, skMindTick,
+ *       skSpotExposed, skWatchers, sm, stopMoving, tgtGone
  * writes: -
  */
 
@@ -305,7 +305,7 @@ const SKIN = {
   },
   /* the engine's hooks (ai.engine.js): it never borrows a Hound's or a Smiler's own functions */
   onFar(eng, e) {
-    e.pounce = null; e.recover = 0; e.rx = null; e.head = 0; e.ackHead = null; e.defLeave = 0; skHuntEnd(eng, e, 'nobody within reach'); e.noFlank = null; if (e.plan && e.plan.k === 'feed') return;   // feeding at its kill it carries on, alone
+    e.pounce = null; e.recover = 0; e.rx = null; e.head = 0; e.ackHead = null; e.defLeave = 0; skHuntEnd(eng, e, 'nobody within reach'); e.noFlank = null; e.noAmbush = null; if (e.plan && e.plan.k === 'feed') return;   // feeding at its kill it carries on, alone
     e.plan = null; e.roam.goal = null; e.roam.pause = 0; setState(e, S.ROAMING, ''); e.dbg.why = 'nobody within reach: it waits where it is';
   },
   farTick(eng, e, dt) {                                           // far from everyone it stands still, and is still hungry (or still feeding)
@@ -314,7 +314,7 @@ const SKIN = {
   },
   still(e) { return e.still; },                                  // (the engine's stuck watchdog: it held still this tick on purpose)
   onStuck(eng, e) { if (e.plan && e.plan.k !== 'lure' && e.plan.k !== 'ambush') e.plan.stuck = (e.plan.stuck || 0) + 1; e.roam.goal = null; e.dbg.why = 'stuck: the watchdog cleared its route'; },
-  onClear(eng, e) { e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.aw.clear(); e.rx = null; e.head = 0; e.ackHead = null; e.defLeave = 0; e.dbg.lv = ''; e.hunt = null; e.spent.clear(); e.noFlank = null; e.mind = skMindNew(); setState(e, S.ROAMING, ''); },
+  onClear(eng, e) { e.noAmbush = null; e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.aw.clear(); e.rx = null; e.head = 0; e.ackHead = null; e.defLeave = 0; e.dbg.lv = ''; e.hunt = null; e.spent.clear(); e.noFlank = null; e.mind = skMindNew(); setState(e, S.ROAMING, ''); },
   debugHunt(eng, e, r) { e.left.delete(r.id); setTarget(e, r.id, eng.now); skBegin(eng, e, 'watch', r, 'admin: it was given a record of you'); return 'WATCHING YOU (real AI)'; },
   /* its own target scoring and commitment (ai.intelligence.js's debug asks for them; never the Smiler's sScore) */
   targetScore(eng, e, r) { const age = eng.now - Math.max(r.seenAt, r.heardAt); return r.aw * .8 + r.conf * .7 - Math.min(1, age / 30) * .3 + (r.seen ? .5 : 0) + (r.id === e.target ? .4 : 0); },
@@ -416,7 +416,7 @@ function skHideSpot(eng, e, from, bait) {
     const d = Math.min(want, geo.ray(e.x, e.y, a, want + 30) - 30); if (d < 60) continue;
     const x = e.x + Math.cos(a) * d, y = e.y + Math.sin(a) * d;
     if (!geo.clear(x, y, e.rc + 2, 'walk')) continue;
-    const unseen = line.filter(q => !geo.los(q.x, q.y, x, y)).length, hidden = !geo.los(from.x, from.y, x, y), far = Math.hypot(x - from.x, y - from.y);
+    const unseen = line.filter(q => !geo.los(q.x, q.y, x, y)).length, hidden = !skBodyInSight(geo, from.x, from.y, x, y), far = Math.hypot(x - from.x, y - from.y);   // (R16: all of it hidden)
     const s = (hidden ? 1000 : 0) + (bait ? unseen * 300 - d * .8 : Math.min(far, 900) * .4) - (geo.lamp[geo.cellAt(x, y)] || 0) * 300;
     if (s > bs) { bs = s; best = { x, y, hidden, corner: bait && unseen === line.length }; }
   }
@@ -515,7 +515,7 @@ function skFlankSpot(eng, e, p, d, pid, R, rng) {
     const side = i % 2 ? 1 : -1, off = side * lerp(.75, 1.9, ((i >> 1) + rnd() * .6) / 7), Rr = clamp(lerp(rmin, rmax, .55 + .4 * rnd()), rmin, Math.max(rmin, rmax));
     const a = a0 + off, x = p.x + Math.cos(a) * Rr, y = p.y + Math.sin(a) * Rr;
     if (!geo.clear(x, y, e.rc + 2, 'walk')) continue;
-    const los = geo.los(p.x, p.y, x, y); if (los && (!po || skExposedTo(eng, po, x, y))) continue;   // it must be out of their view
+    const los = skBodyInSight(geo, p.x, p.y, x, y); if (los && (!po || skSpotExposed(eng, po, x, y))) continue;   // it must be out of their view (R16: all of it, as drawn waiting)
     const lamp = geo.lamp[geo.cellAt(x, y)] || 0, way = Math.hypot(x - e.x, y - e.y);
     cands.push({ x, y, R: Rr, s: -way * .6 - lamp * 300 - Math.abs(Math.abs(off) - 1.2) * 120 + (los ? 150 : 0) + rnd() * 60 });
   }
@@ -659,7 +659,7 @@ function skPredict(eng, e, r) {
   for (let k = 0; k < 16; k++) {                                                 // a spot beside that point, out of sight of the way they come
     const a = e.streams.search() * TAU, d = 40 + e.streams.search() * 140, sx = q.x + Math.cos(a) * d, sy = q.y + Math.sin(a) * d;
     if (!geo.clear(sx, sy, e.rc + 2, 'walk') || !geo.lineClear(q.x, q.y, sx, sy, e.rc, 'walk')) continue;
-    const hidden = comes.every(c => !geo.los(c.x, c.y, sx, sy)), sc = (hidden ? 500 : 0) - d * .6 - (geo.lamp[geo.cellAt(sx, sy)] || 0) * 250;
+    const hidden = comes.every(c => !skBodyInSight(geo, c.x, c.y, sx, sy)), sc = (hidden ? 500 : 0) - d * .6 - (geo.lamp[geo.cellAt(sx, sy)] || 0) * 250;   // (R16: all of it)
     if (sc > bs) { bs = sc; S0 = { x: sx, y: sy, hidden }; }
   }
   if (!S0) { if (!geo.clear(q.x, q.y, e.rc + 2, 'walk')) return null; S0 = { x: q.x, y: q.y, hidden: false }; }
@@ -767,6 +767,7 @@ function skInterceptWay(eng, e, P, r, g) {
   P.lx = undefined; P.way = null;
   if (W.ok) { P.mode = 'covert'; P.way = W; P.cover = ''; e.path = W.pts.slice(); e.goal = { x: g.x, y: g.y }; e.goalKey = 'covert'; e.pathAge = 0; return; }
   P.mode = 'open'; P.cover = W.why; e.dbg.cover = { at: +eng.now.toFixed(1), k: 'intercept', why: W.why };
+  if (e.plan === P && !P.arrived) setAct(e, 'chase');                                 // (R16: open from its first tick - the open run's act)
   plan(eng, e, g.x, g.y, { why: 'intercept', cost: skAround(eng, g.from, { x: g.qx, y: g.qy }), maxNodes: 4000 });
 }
 function skSearch(eng, e, r, why, goal, extra) {
@@ -1221,10 +1222,13 @@ function skDecide(eng, e) {
   // (R13) an approach it is not seen making: covert only along a covert way to a spot within its spring that they cannot see (an
   // ambush point); with none, it comes on openly only very hungry (labelled: they can see it if they look) - else it looks for a hidden spot
   // at their side (a flank from where it is), or holds where it is, unseen
+  // (R16) with no ambush point near them here a moment ago, it does not search again on every think (as with no way round them: SK.noFlank)
   let ap = null;
   if (best === 'approach' && cur !== 'approach' && !seenMe && !kept('approach') && !e.disguise) {
-    ap = d > SK.pounceRange[1] ? skFlankSpot(eng, e, p, d, r.id, [SK.pounceRange[0] + 45, Math.max(SK.pounceRange[0] + 45, Math.min(SK.pounceRange[1] - 15, d - 60))], e.coverRng) : { near: 1 };
-    if (!ap && !(h >= SK.band[2] || fleeing || winded)) { W.approach = 0; best = pick(); if (best === 'flank' && !kept('flank')) { fs = skFlankSpot(eng, e, p, d, r.id); if (!fs) { W.flank = 0; best = pick(); } } }
+    const na = e.noAmbush && now - e.noAmbush.t < SK.noFlank && Math.hypot(p.x - e.noAmbush.x, p.y - e.noAmbush.y) < 200;
+    ap = d <= SK.pounceRange[1] ? { near: 1 } : na ? null : skFlankSpot(eng, e, p, d, r.id, [SK.pounceRange[0] + 45, Math.max(SK.pounceRange[0] + 45, Math.min(SK.pounceRange[1] - 15, d - 60))], e.coverRng);
+    if (!ap && !na) e.noAmbush = { x: p.x, y: p.y, t: now };
+    if (!ap && !(h >= SK.band[2] || fleeing || winded)) { W.approach = 0; best = pick(); if (best === 'flank' && !kept('flank')) { fs = skFlankSpot(eng, e, p, d, r.id); if (!fs) { e.noFlank = { x: p.x, y: p.y, t: now }; e.tally.noFlank++; if (Hn) Hn.noFlank = now; W.flank = 0; best = pick(); } } }
   }
   e.dbg.decide = { pid: r.id, d: Math.round(d), watched: !!watched, seen: seenMe ? 1 : 0, lit, crowd, h: +h.toFixed(2), spent: +spent.toFixed(2), away: Math.round(away), W: Object.fromEntries(Object.entries(W).map(([k, v]) => [k, +v.toFixed(2)])), best };
   if (P && P.k === 'leave' && e.plan === P) {                                        // (B2) a very hungry departure, thought over: kept unless clearly worse
@@ -1423,7 +1427,7 @@ function skAct(eng, e, dt, thinkNow) {
         // a race to be there first: it runs (its stamina allowing), slowing for the last stretch to arrive quietly
         const last = Math.hypot(P.g.x - e.x, P.g.y - e.y) < 160 && e.path.length <= 1;
         if (thinkNow && !e.path.length && e.pathAge > 1.5) { P.stuck = (P.stuck || 0) + 1; plan(eng, e, P.g.x, P.g.y, { why: 'intercept' }); }
-        setAct(e, 'intercept');
+        setAct(e, P.mode === 'open' ? 'chase' : 'intercept');                          // (R16, pack 03: an OPEN interception runs as an open run - upright, the chase's act - never as the hidden run)
         follow(eng, e, dt, skSpeed(e, last ? 'stalk' : 'run'), { arrive: 30 });
         if (Math.hypot(P.g.x - e.x, P.g.y - e.y) < 44 || (P.stuck || 0) > 2 || now > P.until) {
           P.arrived = now; P.until = Math.min(P.until + 4, now + rand(e, SK.interceptWait[0], SK.interceptWait[1]) * (.7 + .6 * e.tr.PATIENCE));

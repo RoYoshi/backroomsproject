@@ -514,3 +514,64 @@ it only within a second of the tear (`skin.kill.js`). X10 then heard it once on 
 Skin-Stealer's own think time, its route searches (and those over 1 ms) and lines of sight per second, garbage collections and their
 pauses, the heap's growth, the entity part of the snapshot. (There are no retransmissions in the sim to count: the wire is a WebSocket
 over TCP.) The numbers are R16's final measurement, with the independent review's fixes in.
+
+**R16-4 The independent review** (a separate agent given the code from R8 to R15 and the pack, not this record; read-only, its own copy
+for running anything; `evidence/r16/review/REVIEW_FINDINGS.md`). Its findings, most severe first, and what was done:
+1. **The Rend's victim saw a whole body on their own screen** (high): the victim's own corpse is made from `dphys.remains()` (the bundle's
+   `completeDeath`), which named the halves only inside `.gibs`, so `gore.js` drew it whole; everyone else (the server's record) saw two
+   halves. Fixed in the shared physics, for a rend only: `remains()` also names `gs`, `gb`, `gh` at the top (every other death's remains
+   unchanged - G12). New G14; the real-page Rend scene now also reads the corpse the victim's page itself draws (`__api.bodyList()`).
+2. **Other people's lights** (medium): the warning and the creature's model of who can see it counted only that person's own light and the
+   lamps, while the screen draws every wanderer's torch. The page's warning now also counts another wanderer's light on the creature
+   (BR-RoLE's `__light.sample` peers, through exposureAt's own range fade and scale); the creature's model of a watcher's view counts the
+   torches of the people it sees now (`skWatchers` gives them to each view; never the light of anybody it does not see); the QA oracle
+   counts every other living player's light. New F01. Not done: the camcorder's night vision and infrared stay outside the creature's
+   model by Part 2C's design (the AI is structurally blind to IR) - a camcorder user may make it out where it believes itself unseen
+   (`DEFERRED.md`).
+3. **A failed search for an ambush point was not remembered** (medium-low, cost): at hunger .4-.6 the covert search could run on most
+   thinks (26 searches in 10 s in one scene). It is remembered as a failed flank is (`SK.noFlank`, 10 s or until they move 200 px); the
+   nested flank search remembers too. New F03 (at most 1 search in 10 s across 48 scenes).
+4. **Tests** (medium): PR17 kept "at least 5" when R13 went from 8 seeds to 12 - now 7 of 12 (R8's share); C14 counted a kept plan as an
+   answer - the answers that changed its plan are now held to the same latency bars on their own (13 of 26, median 0.12 s); G08's name said
+   "never two in a row", which the recent-kills rule does not promise - it now says what it does (a second D in a row is made rarer, x .35);
+   S15 needed git history - it falls back to the blob recorded at R15; P01's bar was 140 shapes (the measured figure is 55-56) - now 70. PR07,
+   SK21, SK41 (changed at R13 with their reasons) and R9-01's 48 px tolerance are as they were; their reasons are in `REGRESSION.md`.
+5. **Low**: a Hound/Smiler sting just after a Skin-Stealer's played twice - now one (new V13; with no Skin-Stealer every output is R8's,
+   V12); at a few frames a second one frame's glimpse confirmed a sighting - a sighting now needs two frames as well as 0.12 s (new F04);
+   a waiting spot was hidden at its centre and 18 px - the still body as drawn reaches 18-30 px out (R14-4), so a waiting spot now hides
+   its centre and 30 px either side (`skBodyInSight`, `skSpotExposed`; moving, the body is audited as before; new F02); an open
+   interception ran with the hidden run's act - it now runs with the open run's (chase), from its first tick (pack 03: the act marks an
+   open commitment; new F05); the light's kind of somebody seen a moment ago was read live - it is now kept from when it saw them.
+   Not changed: an older cached page draws a Rend's corpse whole (graceful, R15-4).
+
+**R16-5 Tests changed in R16, and why** (`REGRESSION.md`): R9-01's exposure measure (and the same measure in `s_skinadv.js`) allows the
+braking of a withdrawal begun while moving their way: within its first 0.3 s, up to 10 px closer in all (its acceleration, 760 px/s², stops
+its 90 px/s pace in about 5 px; the sample that holds the switch also holds the last of the move before it). The invariant - never a covert
+way in their sight but a withdrawal straight out of it - is unchanged, and so is the bearing test. The independent reason: R16's waiting
+spots changed one run's sequence so that it was seen mid-search and backed out (traced: -4.7 px in the sample of the switch, -0.3 px
+braking, then away). On R8, R9-01 still fails (230-478 px of covert movement in sight) and so do X01 and X07. PR17, C14, G08's name, S15,
+P01: R16-4.
+
+**R16-6 The checks again, on R16b** (`evidence/r16/tests/r16b_*`, `evidence/r16/browser/`):
+- Suites: every Skin-Stealer suite passes - `s_skinstealer` 34/34, `s_skinbehave` 19/19, `s_skinpredator` 30/30, `s_skinsight` 10/10,
+  `s_skinmind` 15/15, `s_skinroute` 15/15, `s_skinr9` 1/1, `s_skinbody` 11/11, `s_skinrend` 8/8, `s_skinadv` 9/9, `s_skinr16` 5/5.
+  `npm test` 306/319 with the same 13 inherited failures; Human QA hotfix 5/6 (X03 inherited); the static checks, the docs, the scope
+  gate and `build:check` pass.
+- Real pages:
+  - sight-only warning (`--scene sight`): 12/12;
+  - the owner's watched hall (`--scene flankwatch`, four tries): every covert transit 0 px in the page's view;
+  - the Rend (`--scene rend`): the victim's own drawn corpse is the server's two halves; the page joining while the Rend plays, and the
+    stressed spectator (X10), still pass;
+  - the deaths A-D side by side;
+  - `predator_browser.js` 7/7.
+- `skin_browser.js` (Trial 3's own tool, not run at R10-R15) found two of its own pins out of date:
+  - the script's API (R10 added `sight` / `sightLog`, R14 `anatomy`);
+  - the SKIN tab's preview buttons (R15 added D, as pack `06` asks).
+
+  Both pins are updated (`REGRESSION.md`). With them its sections t1-t6 pass, t4 on its second try: one run's admin unlock was blocked by
+  the game's own "caught" overlay, a Hound catching the page during its setup. Its t7 (four real pages at once, one a phone) did not
+  finish here: three pages render, the fourth never boots within 100 minutes on two CPUs with SwiftShader. The tool writes nothing until
+  it ends, so that run's t1-t6 results were lost and were run again on their own. R8's t7 does not finish here either
+  (`skin_browser_r8_t7.txt`: the same wait for the fourth page, 25 minutes): an environment limit, not a regression.
+- The performance comparison against R8 and the full gate are run on the final R16 tree, after the owner's additional refinement
+  (R16c on).

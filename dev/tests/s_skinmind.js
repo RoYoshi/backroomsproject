@@ -202,17 +202,19 @@ add('C13 plans hold without flicker: watched by a person who strolls (X), no pla
   });
   return { ok: rs.every(r => r.short <= 1), note: `plans under 0.3 s with no event behind them ${rs.map(r => r.short).join('/')} (of ${rs.map(r => r.n).join('/')} plan changes)` };
 });
-add('C14 it answers events fast and never idles while a hungry hunt is possible: across these scenes the median answer to a sighting or a loss is under 0.25 s (90 % under 0.7 s); hungry (.75) with a lone person in view it never stands watching for more than 3 s at a stretch', () => {
-  const lat = [], idle = [], how = {};
+add('C14 it answers events fast and never idles while a hungry hunt is possible: across these scenes the median answer to a sighting or a loss is under 0.25 s (90 % under 0.7 s) - and so is the median of the answers that changed its plan (R16), at least a third of them; hungry (.75) with a lone person in view it never stands watching for more than 3 s at a stretch', () => {
+  const lat = [], idle = [], how = {}, latC = [];
   for (const seed of [1, 2, 3, 4]) {
     const { w, p, e } = hall(seed + 8000, { hunger: .75, watch: seed % 2 === 0, pa: seed % 2 ? Math.PI : 0 }); let run = 0, mx = 0;
     w.run(15, () => { if (planOf(e) === 'watch') { run += DT; mx = Math.max(mx, run); } else run = 0; return true; });
-    idle.push(+mx.toFixed(1)); for (const v of e.mind.ev) if ((v.k === 'sight' || v.k === 'lost') && v.resp >= 0) lat.push(v.resp), how[v.how] = (how[v.how] || 0) + 1;
-    const g = glimpse(seed + 800, .75, 'east', 'walk', 14); for (const v of g.e.mind.ev) if ((v.k === 'sight' || v.k === 'lost') && v.resp >= 0) lat.push(v.resp), how[v.how] = (how[v.how] || 0) + 1;
+    idle.push(+mx.toFixed(1)); for (const v of e.mind.ev) if ((v.k === 'sight' || v.k === 'lost') && v.resp >= 0) { lat.push(v.resp), how[v.how] = (how[v.how] || 0) + 1; if (v.how === 'changed') latC.push(v.resp); }
+    const g = glimpse(seed + 800, .75, 'east', 'walk', 14); for (const v of g.e.mind.ev) if ((v.k === 'sight' || v.k === 'lost') && v.resp >= 0) { lat.push(v.resp), how[v.how] = (how[v.how] || 0) + 1; if (v.how === 'changed') latC.push(v.resp); }
   }
   // (an answer is a decision that weighed the event: a change of plan, or the plan kept because it goes on without a sighting / is still clearly
   // the best - ai.skin.mind.js skMindKept; how many of each is reported)
-  return { ok: lat.length >= 8 && med(lat) <= .25 && q90(lat) <= .7 && idle.every(x => x <= 3), note: `answers to sight/loss events: ${lat.length} (${Object.entries(how).map(([k, n]) => k + ' ' + n).join(', ')}), median ${med(lat)} s, 90 % ${q90(lat)} s; longest watch while hungry with a lone person in view ${idle.join('/')} s` };
+  // (R16, the independent review: a 'kept' answer comes on its next think by construction - so the answers that CHANGED its plan are held to the
+  // same bars on their own, and must be at least a third of all)
+  return { ok: lat.length >= 8 && med(lat) <= .25 && q90(lat) <= .7 && latC.length >= Math.max(4, lat.length / 3) && med(latC) <= .25 && q90(latC) <= .7 && idle.every(x => x <= 3), note: `answers to sight/loss events: ${lat.length} (${Object.entries(how).map(([k, n]) => k + ' ' + n).join(', ')}), median ${med(lat)} s, 90 % ${q90(lat)} s; the ${latC.length} that changed its plan: median ${latC.length ? med(latC) : '-'} s, 90 % ${latC.length ? q90(latC) : '-'} s; longest watch while hungry with a lone person in view ${idle.join('/')} s` };
 });
 /* C15: with no Skin-Stealer in the world, the Hounds, the Smilers and everything else run exactly as on R8: the per-second snapshot hashes
  * of this tree against R8's own (fixtures/c15_r8.json, made by dev/trial-3-r9-overhaul/tools/c15_hashes.js on R8 f378049) */

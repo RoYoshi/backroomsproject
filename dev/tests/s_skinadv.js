@@ -30,13 +30,13 @@ function exposureWatch(w, p, e) {
     if (Math.round(t * 60) % 6) return;
     const P = e.plan, m = modeOf(e), V = sees(w, p, e.x, e.y), step = Math.hypot(e.x - lx, e.y - ly), d = Math.hypot(e.x - p.x, e.y - p.y);
     if (P !== lastP) { if (P) R.plans.push(P.k + (m ? ':' + m : '')); lastP = P; run = 0; b0 = null; }
+    if (P && P.phase === 'exit') { if (R.exitAt === undefined) { R.exitAt = t; R.braked = 0; } } else R.exitAt = undefined;   // (R16: when the withdrawal began, seen or not)
     if (/COMPROMISED/i.test(e.dbg.why || '')) R.compromised++;
     if (m === 'covert') {
       R.covert += step;
       if (V.vis) {
         const bear = Math.atan2(e.y - p.y, e.x - p.x); if (b0 === null) b0 = bear;
-        if (P.phase === 'exit' && R.exitAt === undefined) R.exitAt = t; if (P.phase !== 'exit') R.exitAt = undefined;
-        const brake = P.phase === 'exit' && t - R.exitAt < .3;                        // (it was moving when it was seen: a tenth or three to brake)
+        const brake = P.phase === 'exit' && t - R.exitAt < .3 && R.braked + Math.max(0, ld - d) <= 10; if (brake) R.braked += Math.max(0, ld - d);   // (s_skinr9.js: its braking, 10 px at most)
         const away = (d >= ld - 1 || brake) && Math.abs(angDiff(bear, b0)) < .45;
         if (P.phase === 'exit' && away) R.exitSeen += step; else { R.exposed += step; run += step; R.worst = Math.max(R.worst, run); }
         if (P.phase === 'exit' && !away) R.badExit++;

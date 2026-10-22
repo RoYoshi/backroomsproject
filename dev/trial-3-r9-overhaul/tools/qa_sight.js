@@ -7,6 +7,8 @@
  *     before a wall or a pillar (the server adapter's ray, the same DDA + pillar test as the client's rayDistance), within 700 px;
  *   - the darkness: exposureAt(x, y, player, flash) = rangeFade(d) x min(1, .04 + max(near aura, carried light, lamp) x 2.08) - the same
  *     terms (the near aura (1 - smooth(28,100,d)) x .5, the carried light qc() with the LOS test, the static lamp field; no flicker);
+ *     (R16, the independent review) and every OTHER living player's light with its own LOS test, as BR-RoLE draws every wanderer's light
+ *     (__light.sample's peers) - the creature's own model knows only the lights of the people it sees;
  *   - the screen is not modelled (window sizes differ): a body inside the mask and readable counts as visible.
  * A body is sampled at its centre and 18 px to either side across the line of sight (the drawn body is about 42 px wide at R8's 1.3 scale).
  * LEGIBLE (.25): the threshold this pack's R10 also uses on the page (documented in DESIGN_DECISIONS.md). */
@@ -17,6 +19,7 @@ function legibility(w, p, x, y) {
   const geo = w.eng.geo, d = Math.hypot(x - p.x, y - p.y);
   let s = (1 - sm(28, 100, d)) * .5;
   if (p.light && w.ad.qc) { const q = w.ad.qc(p, { x, y }, true); if (q > s && geo.los(p.x, p.y, x, y)) s = q; }
+  if (w.ad.qc) for (const o of w.players || []) { if (o === p || !o.active || o.dead || !o.light) continue; const q = w.ad.qc(o, { x, y }, true); if (q > s && geo.los(o.x, o.y, x, y)) s = q; }   // (R16)
   const blackout = geo.a.blackout ? geo.a.blackout() : false, i = geo.cellAt(x, y);
   if (!blackout && i >= 0) s = Math.max(s, geo.lamp[i] || 0);
   return (1 - sm(420, 670, d)) * Math.min(1, .04 + s * 2.08);

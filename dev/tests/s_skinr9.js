@@ -39,11 +39,16 @@ function covertExposure(w, p, e, secs) {
     if (Math.round(t * 60) % 6) return true;
     const P = e.plan, m = modeOf(e), V = sees(w, p, e.x, e.y), step = Math.hypot(e.x - lx, e.y - ly), d = Math.hypot(e.x - p.x, e.y - p.y);
     if (P !== lastP) { if (P) R.plans.push([+t.toFixed(1), P.k, m]); lastP = P; run = 0; b0 = null; }
+    if (P && P.phase === 'exit') { if (R.exitAt === undefined) { R.exitAt = t; R.braked = 0; } } else R.exitAt = undefined;   // (R16: when the withdrawal began, seen or not)
     if (m === 'covert') {
       R.covert += step;
       if (V.vis) {
         const bear = Math.atan2(e.y - p.y, e.x - p.x); if (b0 === null) b0 = bear;
-        const away = d >= ld - 1 && Math.abs(angDiff(bear, b0)) < .45;               // a withdrawal: not closer, not swinging across their front
+        // a withdrawal: not closer, not swinging across their front - (R16) but for its braking: seen while it was moving their way (a search,
+        // an approach), it needs a moment to stop (ACCELERATION 760 px/s2 from its 90 px/s pace: about 5 px); within the first .3 s of the
+        // withdrawal up to 10 px closer in all is that, not a sneak (the sample that holds the switch also holds the last of the move before)
+        const brake = P.phase === 'exit' && t - R.exitAt < .3 && R.braked + Math.max(0, ld - d) <= 10; if (brake) R.braked += Math.max(0, ld - d);
+        const away = (d >= ld - 1 || brake) && Math.abs(angDiff(bear, b0)) < .45;
         if (P.phase === 'exit' && away) R.exitSeen += step;
         else { R.exposed += step; run += step; if (!R.worst || run > R.worst.px) R.worst = { px: Math.round(run), t: +t.toFixed(1), k: P.k, why: (e.dbg.why || '').slice(0, 90) }; }
         if (P.phase === 'exit' && !away) R.badExit++;

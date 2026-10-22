@@ -119,3 +119,26 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `dev/trial-3-r9-overhaul/tools/r9_browser.js` | dev tool | `--scene rend --stress 1` (X10); `prepPage` / `enterPage` (a page entering at a chosen moment); `--scene gallery --only deaths` |
 | `dev/trial-3-r9-overhaul/tools/perf_r16.js` | new dev tool | the Skin-Stealer's own think time, route searches and their cost, lines of sight, garbage collection, heap growth - R8 against this tree |
 | `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `evidence/r15/` (receipt, scan), `evidence/r16/` | docs, evidence | R16-1 … R16-3; R15's receipt |
+
+## R16b — the independent review's findings, fixed narrowly
+
+| File | Kind | Change |
+|---|---|---|
+| `src/frameworks/gib/shared/dphys.js` | source (G.I.B.'s shared physics) | `remains()` of a rend also names `gs`, `gb`, `gh` at the top: the victim's own corpse is the same two halves (every other death's remains unchanged) |
+| `src/frameworks/nani/server/ai.skin.mind.js` | source | `skLegible` counts the torches a watcher's view is given (`ob.lights`); `skBodyInSight`, `skSpotExposed` (a waiting spot hides the whole still body: centre and 30 px either side, `SKM.edge`); a light's kind kept from when it saw them |
+| `src/frameworks/nani/server/ai.skin.cover.js` | source | `skWatchers` gives each view the torches of the people it sees now |
+| `src/frameworks/nani/server/ai.skinstealer.js` | source | waiting spots (`skHideSpot`, `skFlankSpot`, an interception's spot) hide the whole body; a failed ambush search remembered (`e.noAmbush`, `SK.noFlank`), and the nested flank search's failure; an open interception runs with the open run's act (chase) from its first tick |
+| `src/frameworks/spacious-audio/client/skin.sight.js` | source | another wanderer's light on it counts (BR-RoLE's peers, through exposureAt's range fade and scale); a sighting needs two frames as well as 0.12 s |
+| `src/core/client/mp.frame.js` | source (core's dread hook) | the Hound/Smiler sting is not played within 1.2 s after a Skin-Stealer's (with no Skin-Stealer every output is R8's: V12) |
+| `generated/…`, `public/…` | built | rebuilt from the above |
+| `dev/tools/gate/declared_changes.json` | the scope gate's list | R16's reasons on `dphys.js`, `mp.js`, `ai.js` |
+| `dev/tests/s_skinr16.js` | new suite, in `run.js` | F01–F05 |
+| `dev/tests/s_skinrend.js` | suite | G14 (new); S15 without git history; G08's name |
+| `dev/tests/s_skinsight.js` | suite | V13 (new) |
+| `dev/tests/s_skinr9.js`, `dev/tests/s_skinadv.js` | suites | the exposure measure allows a withdrawal's braking (R16-5) |
+| `dev/tests/s_skinpredator.js`, `dev/tests/s_skinmind.js`, `dev/tests/s_skinbody.js` | suites | PR17 7 of 12; C14 holds the plan changes to the bars; P01 at most 70 shapes (R16-4) |
+| `dev/trial-3-r9-overhaul/tools/qa_sight.js` | test-only oracle | every other living player's light counts |
+| `dev/trial-3-r9-overhaul/tools/r9_browser.js` | dev tool | the Rend scene reads the corpse the victim's page itself draws |
+| `dev/trial-3-r9-overhaul/evidence/r16/review/` | evidence | the reviewer's report and its repro scripts |
+| `dev/trial-3-skin-stealer/tools/skin_browser.js` | dev tool (Trial 3's) | two pins brought up to date: the script's API (R10's `sight`, `sightLog`; R14's `anatomy`) and the SKIN tab's previews (R15's D) |
+| `dev/trial-3-r9-overhaul/evidence/r16/` | evidence | R16b's suites, `npm test`, Human QA, the real pages, the reviewer's report |

@@ -405,6 +405,8 @@ async function rendScene(b, port, R, qa) {
     if (JP) { Cs.joinerFx = await fxOf(JP); Cs.joinerBody = await bodyOf(JP, oid); Cs.joinerErrors = JP.errs.slice(); await JP.ctx.close(); } else if (J) await J.ctx.close();
     Cs.tones = { spectator: await tones(Sp, t0[1]), victim: O ? await tones(O, t0[0]) : null };
     Cs.body = { spectator: await bodyOf(Sp, oid), victim: O ? await bodyOf(O, oid) : null };
+    // (R16) the corpse the victim's page itself draws (its own record, made when its death ended - not the server's list): the same halves
+    Cs.ownCorpse = O ? await O.P.evaluate(() => { const c = (__api.bodyList() || []).find(b => b && !b.remote && String(b.ownerId) === String(__api.H.id)); return c ? { c: c.cause, gs: c.gs, gb: c.gb, gh: c.gh } : null; }) : null;
     // a late joiner, now: the corpse it is given
     const L = await runPage(b, port, room, VP, 'K3Late'); await sleep(1500); Cs.body.late = await bodyOf(L, oid); L.errs.length && (Cs.lateErrors = L.errs.slice()); await L.ctx.close();
     if (SHOTS) { await Sp.P.evaluate(q => __api.tp(q.x + 120, q.y + 40), OB); await Sp.P.mouse.move(VP.width / 2 - 120, VP.height / 2 - 40); await sleep(900);
@@ -412,6 +414,7 @@ async function rendScene(b, port, R, qa) {
     const k = q => q ? JSON.stringify([q.c, q.gs, q.gb, q.gh, q.x, q.y]) : null;
     Cs.fresh = !!(Cs.body.spectator && Cs.body.spectator.ag != null && Cs.body.spectator.ag < 12);   // (made in this case, not an earlier one's)
     Cs.same = k(Cs.body.spectator) !== null && k(Cs.body.spectator) === k(Cs.body.late) && (!Cs.body.victim || k(Cs.body.victim) === k(Cs.body.spectator)) && (!JP || k(Cs.joinerBody) === k(Cs.body.spectator));
+    Cs.ownSame = Cs.ownCorpse ? JSON.stringify([Cs.ownCorpse.gs, Cs.ownCorpse.gb, Cs.ownCorpse.gh]) === JSON.stringify([Cs.body.spectator && Cs.body.spectator.gs, Cs.body.spectator && Cs.body.spectator.gb, Cs.body.spectator && Cs.body.spectator.gh]) : null;
     R.cases.push(Cs);
     if (!O) { O = await runPage(b, port, room, VP, 'K3Victim'); }                // (back for the next case)
   }
@@ -541,7 +544,7 @@ async function probe(b, port, R) {
   if (R.scene === 'sight' && R.cases) for (const C of R.cases) console.log(`${C.name}: ` + C.pages.map(P => `${P.page} thumps ${P.thumps} stings ${P.stings}${P.stingGain.length ? ' (master gain ' + P.stingGain.join('/') + ')' : ''} vignette ${P.vignette} views ${JSON.stringify(P.views.map(v => [v.on, v.mask, v.leg, v.vis]))}`).join(' | '));
   if (R.scene === 'audio' && R.cases) for (const C of R.cases) console.log(`${C.name}: thumps ${C.thumps}, stings ${C.stings}, bursts ${C.bursts}, dread vignette max ${C.dreadMax}${C.view ? ', the page sees it ' + JSON.stringify(C.view) : ''}${C.sightLog ? ', sight log ' + JSON.stringify(C.sightLog).slice(0, 300) : ''}`);
   if (R.scene === 'rend' && R.cases) { if (R.stressFps != null) console.log(`stressed spectator: ${R.stressFps} frames a second (CPU x4, +200 ms network)`);
-    for (const C of R.cases) console.log(`${C.name}: own ${JSON.stringify(C.own)} | spectator replay ${JSON.stringify(C.fx)}${C.joinerFx ? ` | the joiner (entered at ${C.joinedAt} s) replay ${JSON.stringify(C.joinerFx)} errors ${(C.joinerErrors || []).length}` : ''} | rend tones ${JSON.stringify(C.tones)} | corpse ${JSON.stringify(C.body)}${C.joinerBody !== undefined ? ' joiner ' + JSON.stringify(C.joinerBody) : ''} | this death's ${C.fresh} | same on every page ${C.same}`); }
+    for (const C of R.cases) console.log(`${C.name}: own ${JSON.stringify(C.own)} | spectator replay ${JSON.stringify(C.fx)}${C.joinerFx ? ` | the joiner (entered at ${C.joinedAt} s) replay ${JSON.stringify(C.joinerFx)} errors ${(C.joinerErrors || []).length}` : ''} | rend tones ${JSON.stringify(C.tones)} | corpse ${JSON.stringify(C.body)}${C.joinerBody !== undefined ? ' joiner ' + JSON.stringify(C.joinerBody) : ''} | the victim's own drawn corpse ${JSON.stringify(C.ownCorpse)} (its halves the server's: ${C.ownSame}) | this death's ${C.fresh} | same on every page ${C.same}`); }
   if (R.scene === 'gallery') { for (const G of R.gallery || []) console.log(`gallery ${G.label}: ${G.file} size ${JSON.stringify(G.size0)}`); for (const Q of R.places || []) console.log(`place ${Q.name}: ${Q.file} views ${JSON.stringify(Q.views)}`); if (R.edge) console.log(`edge ${JSON.stringify(R.edge)}`); if (R.drawCost) console.log(`draw cost ${JSON.stringify(R.drawCost)}`); for (const D of R.deaths || []) console.log(`death ${D.v}: ${JSON.stringify(D.res)} ${D.shots.length} shots`); }
   if (R.error) console.log('ERROR ' + R.error);
   if (ARG.out) fs.writeFileSync(path.resolve(ARG.out), JSON.stringify(R, null, 1) + '\n');

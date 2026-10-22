@@ -70,6 +70,9 @@ function skWatchers(eng, e, pid, at) {
     const place = at || (H && now - H.bt < SKC.suspectTtl ? { x: H.x, y: H.y } : r && now - Math.max(r.seenAt, r.heardAt) < SKC.suspectTtl ? { x: r.lkx, y: r.lky } : null);
     if (place) { const ob = skObsOf(eng, e, r, place); ob.pid = pid; ob.seen = false; out.push(ob); }
   }
+  // (R16) every watcher's view is lit by the torches of the people it sees now as well as their own (the screen draws every wanderer's light)
+  const lights = out.filter(o => o.pid && o.light && e.seenNow.has(o.pid));
+  if (lights.length) for (const o of out) { const others = lights.filter(L => L !== o); if (others.length) o.lights = others; }
   return out;
 }
 /* the people it is sure of who could see it where it stands now (by their screen's rules) */

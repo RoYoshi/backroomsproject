@@ -1,0 +1,34 @@
+ok   t1_script_loaded - {"skin":"object","fns":"anatomy,attack,attacker,clear,deathEvent,deathSound,draw,mirror,sight,sightLog,where"}
+ok   t1_p9_keys_without_one - st,h,m,b,p,gw,it,lf,sn
+ok   t1_admin_tabs - players,monsters,deaths,world,debug -> K -> players,monsters,deaths,world,debug,skin
+ok   t1_admin_skin_tab - {"before":{"text":"SKIN-STEALER · 0 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SKIN-STEALER+ NEAR ME− SKIN-STEALERNone in the halls. The worl","buttons":["+ SKIN-STEALER","+ NEAR ME","− SKIN-STEALER","ANECK BREAKa grip from close by","BPOUNCEcarried down, then the neck","CNECK BITEheld, bitten","DTHE RENDtorn in two"]},"after":{"text":"SKIN-STEALER · 1 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SKIN-STEALER+ NEAR ME− SKIN-STEALERK#9ROAMING · nearGO TOREMOVEITS DEATHS · PLAYED ON YOUANECK BREAKa ","status":"SKIN-STEALER PLACED NEAR YOU"}}
+ok   t1_in_snapshot - [{"i":9,"x":1320,"y":5736,"a":5.954,"s":1,"ac":0,"v":0,"h":0}]
+ok   t1_one_view_in_creatures_layer - [{"id":9,"x":1320,"y":5736,"vis":true,"tint":10066329,"inLayer":true,"masked":true}]
+ok   t1_shaded_by_light - in the dark 999999, lit e8e8e8 (light true)
+ok   t1_remove_takes_view - 0 views; keys st,h,m,b,p,gw,it,lf,sn
+ok   t1_world_reset_clears - 1 -> 0
+ok   t1_no_page_errors - []
+FAIL t4_preview_buttons - skinstealer:A,skinstealer:B,skinstealer:C,skinstealer:D
+ok   t4_own_death_names_it - {"kind":"SkinStealer","v":"B","dur":3.4}
+ok   t4_own_attacker_drawn - {"killView":true,"visible":true,"at":[980,3273],"attacker":[980,3273],"mirroredShown":0,"el":0.87}
+ok   t4_spectator_replay - {"replay":true,"att":"skinstealer-replay","attVisible":true,"posed":true,"mirroredShown":0,"mirrored":1}
+ok   t4_victim_frame_is_the_corpse - {"lastFrame":{"x":983,"y":3324.5,"a":-1.252,"el":4.2},"corpse":{"cause":"SkinStealer","x":983,"y":3325}}
+ok   t4_corpse_everywhere - {"v":[{"cause":"SkinStealer","x":983,"y":3325}],"s":[{"cause":"SkinStealer","x":983,"y":3325}]}
+ok   t4_creature_back_after - {"placed":[11],"after":{"shown":1,"ss":[{"i":11,"x":1048.5,"y":2875.9,"a":4.909,"s":18,"ac":3,"v":105,"h":0}]}} (ac 15 feeding; 3 leaving - disturbed at its kill by the spectator two body lengths away)
+ok   t4_sounds_through_this_script - {"victim":{"death":1,"snap":0},"spectator":{"death":1,"snap":0}} snap path wired: 1
+ok   t4_disconnect_one_corpse - {"second":{"kind":"SkinStealer","v":"A"},"after":[{"cause":"SkinStealer","x":979,"y":3299}],"first":[{"cause":"SkinStealer","x":983,"y":3325}]}
+ok   t4_no_page_errors - {"victim":[],"spectator":[]}
+ok   t5_debug_block - ["WHY waiting in the dark","HUNGER 0.646 very hungry  STAMINA 100  PLAN roam","WHY roaming"]
+ok   t5_living_sounds - {"still":0,"walk":16,"walked":491,"spring":5} (noise sources started: all standing still, one walking 3 s at 150 px/s, its wind-up and leap; two per footfall)
+ok   t5_gallery_drawn - 11 Skin-Stealer views on screen (8 acts, 3 kill attackers)
+ok   t5_brrole_actor - BR-RoLE actor jobs of kind skin: 11
+ok   t5_no_page_errors - []
+ok   t5_own_death_view - {"hound":{"own":{"kind":"Hound","v":"B","dur":4.7},"at":[{"at":0.5,"el":0.5,"dark":0.82,"black":0,"shade":0,"light":1},{"at":1,"el":1.02,"dark":0.81,"black":0,"shade":0,"light":1},{"at":2,"el":2.45,"dark":0.823,"black":0,"shade":0,"light":1},{"at":3,"el":3.37,"dark":0.836,"black":0,"shade":0,"light":0}]},"skinstealer":{"own":{"kind":"SkinStealer","v":"B","dur":3.4},"at":[{"at":0.5,"el":0.5,"dark":0.823,"black":0,"shade":0,"light":1},{"at":1,"el":1.22,"dark":0.817,"black":0,"shade":0,"light":1},{"at":2,"el":2.45,"dark":0.818,"black":0,"shade":0,"light":1},{"at":3,"el":3.38,"dark":1,"black":0,"s
+ok   t5d_no_page_errors - {"victim":[],"spectator":[]}
+ok   t6_skin_earned - {"kill":{"kind":"SkinStealer","v":"B"},"dg":"none|plain|#e6bb76|#ffcc77"}
+ok   t6_heard_counts_only - {"sAt":{"x":824,"y":3647,"r":420},"lAt":{"x":824,"y":3737},"lHeard":true,"dbg":{"hd":[0],"dg":{"from":7,"left":306},"words":false}}
+ok   t6_entity_line - {"eheard":{"id":"e13","mode":"","of":20},"live":["K3Speaker nearby says: The Exit Is This Way","A voice nearby says: the exit is this way"],"voice":{"ctx":"running","level":0.63,"speaking":[],"scheduled":8,"late":18,"stopped":0,"cut":0,"said":2,"capped":0,"previews":0}}
+ok   t6_disguise_drawn - {"avatar":true,"avVisible":true,"gear":false,"hands":[[-16,-2],[16,-2]],"creatureVisible":false,"peers":"K3Prey,K3Speaker"}
+ok   t6_mutes - {"speakerButton":true,"echoOfMutedSilent":true,"genericShown":true,"entityLabel":"An unknown voice: heard","entityMuteSilent":true}
+ok   t6_no_page_errors - {"victim":[],"speaker":[],"listener":[]}
+SKIN BROWSER: FAIL - 32 of 33 cases

@@ -1,0 +1,1355 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r9_browser.js",
+ "scene": "sight",
+ "chromium": "141.0.7390.37",
+ "tree": "r9-overhaul",
+ "cases": [
+  {
+   "name": "V12 none",
+   "secs": 5,
+   "pages": [
+    {
+     "page": "A",
+     "thumps": 0,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [],
+     "views": [
+      {
+       "on": 1,
+       "mask": 3,
+       "leg": 0.598,
+       "vis": 1
+      }
+     ]
+    },
+    {
+     "page": "B",
+     "thumps": 0,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [],
+     "views": [
+      {
+       "on": 1,
+       "mask": 0,
+       "leg": 0,
+       "vis": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "V02 V07 in A's sight, not in B's",
+   "secs": 6,
+   "pages": [
+    {
+     "page": "A",
+     "thumps": 7,
+     "stings": 1,
+     "stingGain": [
+      0.14
+     ],
+     "bursts": 1,
+     "vignette": 0,
+     "log": [
+      [
+       29.92,
+       "onset",
+       11,
+       260
+      ],
+      [
+       29.92,
+       "sting",
+       11,
+       260
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 3,
+       "leg": 0.598,
+       "vis": 1
+      }
+     ]
+    },
+    {
+     "page": "B",
+     "thumps": 0,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 1,
+     "vignette": 0,
+     "log": [],
+     "views": [
+      {
+       "on": 1,
+       "mask": 0,
+       "leg": 0,
+       "vis": 0
+      }
+     ]
+    }
+   ],
+   "placed": {
+    "ok": true,
+    "op": "spawn",
+    "id": 11,
+    "x": 5260,
+    "y": 3504,
+    "hunger": 0.05
+   }
+  },
+  {
+   "name": "V01 behind a wall beside A",
+   "secs": 5,
+   "pages": [
+    {
+     "page": "A",
+     "thumps": 0,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       29.92,
+       "onset",
+       11,
+       260
+      ],
+      [
+       29.92,
+       "sting",
+       11,
+       260
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 0,
+       "leg": 0,
+       "vis": 0
+      }
+     ]
+    },
+    {
+     "page": "B",
+     "thumps": 10,
+     "stings": 1,
+     "stingGain": [
+      0.14
+     ],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       25.25,
+       "onset",
+       12,
+       230
+      ],
+      [
+       25.25,
+       "sting",
+       12,
+       230
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 3,
+       "leg": 0.344,
+       "vis": 1
+      }
+     ]
+    }
+   ],
+   "placed": {
+    "ok": true,
+    "op": "spawn",
+    "id": 12,
+    "x": 4889,
+    "y": 3236,
+    "hunger": 0.05
+   },
+   "at": {
+    "x": 4889,
+    "y": 3236,
+    "d": 290
+   }
+  },
+  {
+   "name": "V03 in sight, in the dark, torch off",
+   "secs": 4,
+   "pages": [
+    {
+     "page": "A",
+     "thumps": 0,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       29.92,
+       "onset",
+       11,
+       260
+      ],
+      [
+       29.92,
+       "sting",
+       11,
+       260
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 3,
+       "leg": 0.04,
+       "vis": 0
+      }
+     ]
+    },
+    {
+     "page": "B",
+     "thumps": 0,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       25.25,
+       "onset",
+       12,
+       230
+      ],
+      [
+       25.25,
+       "sting",
+       12,
+       230
+      ]
+     ],
+     "views": [
+      {
+       "on": 0,
+       "mask": 0,
+       "leg": 0,
+       "vis": 0
+      }
+     ]
+    }
+   ],
+   "placed": {
+    "ok": true,
+    "op": "spawn",
+    "id": 13,
+    "x": 1560,
+    "y": 5600,
+    "hunger": 0.05
+   }
+  },
+  {
+   "name": "V04 the torch on it",
+   "secs": 4,
+   "pages": [
+    {
+     "page": "A",
+     "thumps": 6,
+     "stings": 1,
+     "stingGain": [
+      0.14
+     ],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       29.92,
+       "onset",
+       11,
+       260
+      ],
+      [
+       29.92,
+       "sting",
+       11,
+       260
+      ],
+      [
+       49.75,
+       "onset",
+       13,
+       260
+      ],
+      [
+       49.75,
+       "sting",
+       13,
+       260
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 3,
+       "leg": 0.388,
+       "vis": 1
+      }
+     ]
+    },
+    {
+     "page": "B",
+     "thumps": 0,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       25.25,
+       "onset",
+       12,
+       230
+      ],
+      [
+       25.25,
+       "sting",
+       12,
+       230
+      ]
+     ],
+     "views": [
+      {
+       "on": 0,
+       "mask": 0,
+       "leg": 0,
+       "vis": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "V04 the torch off again",
+   "secs": 3,
+   "pages": [
+    {
+     "page": "A",
+     "thumps": 2,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       29.92,
+       "onset",
+       11,
+       260
+      ],
+      [
+       29.92,
+       "sting",
+       11,
+       260
+      ],
+      [
+       49.75,
+       "onset",
+       13,
+       260
+      ],
+      [
+       49.75,
+       "sting",
+       13,
+       260
+      ],
+      [
+       55.12,
+       "release",
+       13,
+       260
+      ],
+      [
+       57.37,
+       "rearm",
+       13,
+       260
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 3,
+       "leg": 0.04,
+       "vis": 0
+      }
+     ]
+    },
+    {
+     "page": "B",
+     "thumps": 0,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       25.25,
+       "onset",
+       12,
+       230
+      ],
+      [
+       25.25,
+       "sting",
+       12,
+       230
+      ]
+     ],
+     "views": [
+      {
+       "on": 0,
+       "mask": 0,
+       "leg": 0,
+       "vis": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "V05 off screen (in the mask, lit)",
+   "secs": 4,
+   "pages": [
+    {
+     "page": "A",
+     "thumps": 0,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       29.92,
+       "onset",
+       11,
+       260
+      ],
+      [
+       29.92,
+       "sting",
+       11,
+       260
+      ],
+      [
+       49.75,
+       "onset",
+       13,
+       260
+      ],
+      [
+       49.75,
+       "sting",
+       13,
+       260
+      ],
+      [
+       55.12,
+       "release",
+       13,
+       260
+      ],
+      [
+       57.37,
+       "rearm",
+       13,
+       260
+      ]
+     ],
+     "views": [
+      {
+       "on": 0,
+       "mask": 3,
+       "leg": 0.828,
+       "vis": 0
+      }
+     ]
+    },
+    {
+     "page": "B",
+     "thumps": 4,
+     "stings": 1,
+     "stingGain": [
+      0.14
+     ],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       25.25,
+       "onset",
+       12,
+       230
+      ],
+      [
+       25.25,
+       "sting",
+       12,
+       230
+      ],
+      [
+       55.42,
+       "onset",
+       14,
+       432
+      ],
+      [
+       55.42,
+       "sting",
+       14,
+       432
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 1,
+       "leg": 0.867,
+       "vis": 1
+      }
+     ]
+    }
+   ],
+   "placed": {
+    "ok": true,
+    "op": "spawn",
+    "id": 14,
+    "x": 5460,
+    "y": 3504,
+    "hunger": 0.05
+   }
+  },
+  {
+   "name": "V05 the window widened: on screen",
+   "secs": 4,
+   "pages": [
+    {
+     "page": "A",
+     "thumps": 4,
+     "stings": 1,
+     "stingGain": [
+      0.14
+     ],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       29.92,
+       "onset",
+       11,
+       260
+      ],
+      [
+       29.92,
+       "sting",
+       11,
+       260
+      ],
+      [
+       49.75,
+       "onset",
+       13,
+       260
+      ],
+      [
+       49.75,
+       "sting",
+       13,
+       260
+      ],
+      [
+       55.12,
+       "release",
+       13,
+       260
+      ],
+      [
+       57.37,
+       "rearm",
+       13,
+       260
+      ],
+      [
+       67.2,
+       "onset",
+       14,
+       460
+      ],
+      [
+       67.2,
+       "sting",
+       14,
+       460
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 3,
+       "leg": 0.828,
+       "vis": 1
+      }
+     ]
+    },
+    {
+     "page": "B",
+     "thumps": 7,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       25.25,
+       "onset",
+       12,
+       230
+      ],
+      [
+       25.25,
+       "sting",
+       12,
+       230
+      ],
+      [
+       55.42,
+       "onset",
+       14,
+       432
+      ],
+      [
+       55.42,
+       "sting",
+       14,
+       432
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 1,
+       "leg": 0.867,
+       "vis": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "V09 disguised in sight",
+   "secs": 5,
+   "pages": [
+    {
+     "page": "A",
+     "thumps": 0,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       29.92,
+       "onset",
+       11,
+       260
+      ],
+      [
+       29.92,
+       "sting",
+       11,
+       260
+      ],
+      [
+       49.75,
+       "onset",
+       13,
+       260
+      ],
+      [
+       49.75,
+       "sting",
+       13,
+       260
+      ],
+      [
+       55.12,
+       "release",
+       13,
+       260
+      ],
+      [
+       57.37,
+       "rearm",
+       13,
+       260
+      ],
+      [
+       67.2,
+       "onset",
+       14,
+       460
+      ],
+      [
+       67.2,
+       "sting",
+       14,
+       460
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 3,
+       "leg": 0.598,
+       "vis": 1
+      }
+     ]
+    },
+    {
+     "page": "B",
+     "thumps": 0,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       25.25,
+       "onset",
+       12,
+       230
+      ],
+      [
+       25.25,
+       "sting",
+       12,
+       230
+      ],
+      [
+       55.42,
+       "onset",
+       14,
+       432
+      ],
+      [
+       55.42,
+       "sting",
+       14,
+       432
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 0,
+       "leg": 0,
+       "vis": 0
+      }
+     ]
+    }
+   ],
+   "placed": {
+    "ok": true,
+    "op": "spawn",
+    "id": 15,
+    "x": 5260,
+    "y": 3504,
+    "hunger": 0.05
+   },
+   "disguise": {
+    "ok": true,
+    "op": "disguise",
+    "id": 15
+   },
+   "mirror": []
+  },
+  {
+   "name": "V09 the skin dropped",
+   "secs": 4,
+   "pages": [
+    {
+     "page": "A",
+     "thumps": 5,
+     "stings": 1,
+     "stingGain": [
+      0.14
+     ],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       49.75,
+       "onset",
+       13,
+       260
+      ],
+      [
+       49.75,
+       "sting",
+       13,
+       260
+      ],
+      [
+       55.12,
+       "release",
+       13,
+       260
+      ],
+      [
+       57.37,
+       "rearm",
+       13,
+       260
+      ],
+      [
+       67.2,
+       "onset",
+       14,
+       460
+      ],
+      [
+       67.2,
+       "sting",
+       14,
+       460
+      ],
+      [
+       77.38,
+       "onset",
+       15,
+       260
+      ],
+      [
+       77.38,
+       "sting",
+       15,
+       260
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 3,
+       "leg": 0.598,
+       "vis": 1
+      }
+     ]
+    },
+    {
+     "page": "B",
+     "thumps": 0,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       25.25,
+       "onset",
+       12,
+       230
+      ],
+      [
+       25.25,
+       "sting",
+       12,
+       230
+      ],
+      [
+       55.42,
+       "onset",
+       14,
+       432
+      ],
+      [
+       55.42,
+       "sting",
+       14,
+       432
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 0,
+       "leg": 0,
+       "vis": 0
+      }
+     ]
+    }
+   ],
+   "undress": {
+    "ok": true,
+    "op": "undress",
+    "id": 15
+   }
+  },
+  {
+   "name": "V10 sound off, in sight",
+   "secs": 5,
+   "pages": [
+    {
+     "page": "A",
+     "thumps": 0,
+     "stings": 1,
+     "stingGain": [
+      0
+     ],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       55.12,
+       "release",
+       13,
+       260
+      ],
+      [
+       57.37,
+       "rearm",
+       13,
+       260
+      ],
+      [
+       67.2,
+       "onset",
+       14,
+       460
+      ],
+      [
+       67.2,
+       "sting",
+       14,
+       460
+      ],
+      [
+       77.38,
+       "onset",
+       15,
+       260
+      ],
+      [
+       77.38,
+       "sting",
+       15,
+       260
+      ],
+      [
+       89.57,
+       "onset",
+       16,
+       260
+      ],
+      [
+       89.57,
+       "sting",
+       16,
+       260
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 3,
+       "leg": 0.598,
+       "vis": 1
+      }
+     ]
+    },
+    {
+     "page": "B",
+     "thumps": 0,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       25.25,
+       "onset",
+       12,
+       230
+      ],
+      [
+       25.25,
+       "sting",
+       12,
+       230
+      ],
+      [
+       55.42,
+       "onset",
+       14,
+       432
+      ],
+      [
+       55.42,
+       "sting",
+       14,
+       432
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 0,
+       "leg": 0,
+       "vis": 0
+      }
+     ]
+    }
+   ],
+   "placed": {
+    "ok": true,
+    "op": "spawn",
+    "id": 16,
+    "x": 5260,
+    "y": 3504,
+    "hunger": 0.05
+   },
+   "sound": "SOUND OFF"
+  },
+  {
+   "name": "V11 three in sight",
+   "secs": 6,
+   "pages": [
+    {
+     "page": "A",
+     "thumps": 7,
+     "stings": 1,
+     "stingGain": [
+      0.14
+     ],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       77.38,
+       "onset",
+       15,
+       260
+      ],
+      [
+       77.38,
+       "sting",
+       15,
+       260
+      ],
+      [
+       89.57,
+       "onset",
+       16,
+       260
+      ],
+      [
+       89.57,
+       "sting",
+       16,
+       260
+      ],
+      [
+       101.28,
+       "onset",
+       17,
+       220
+      ],
+      [
+       101.28,
+       "sting",
+       17,
+       220
+      ],
+      [
+       101.28,
+       "onset",
+       18,
+       293
+      ],
+      [
+       101.28,
+       "onset",
+       19,
+       360
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 3,
+       "leg": 0.579,
+       "vis": 1
+      }
+     ]
+    },
+    {
+     "page": "B",
+     "thumps": 0,
+     "stings": 0,
+     "stingGain": [],
+     "bursts": 0,
+     "vignette": 0,
+     "log": [
+      [
+       25.25,
+       "onset",
+       12,
+       230
+      ],
+      [
+       25.25,
+       "sting",
+       12,
+       230
+      ],
+      [
+       55.42,
+       "onset",
+       14,
+       432
+      ],
+      [
+       55.42,
+       "sting",
+       14,
+       432
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 0,
+       "leg": 0,
+       "vis": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "V12 the Hound 260 px east",
+   "secs": 6,
+   "pages": [
+    {
+     "page": "A",
+     "thumps": 6,
+     "stings": 1,
+     "stingGain": [
+      0.14
+     ],
+     "bursts": 0,
+     "vignette": 0.666,
+     "log": [
+      [
+       77.38,
+       "onset",
+       15,
+       260
+      ],
+      [
+       77.38,
+       "sting",
+       15,
+       260
+      ],
+      [
+       89.57,
+       "onset",
+       16,
+       260
+      ],
+      [
+       89.57,
+       "sting",
+       16,
+       260
+      ],
+      [
+       101.28,
+       "onset",
+       17,
+       220
+      ],
+      [
+       101.28,
+       "sting",
+       17,
+       220
+      ],
+      [
+       101.28,
+       "onset",
+       18,
+       293
+      ],
+      [
+       101.28,
+       "onset",
+       19,
+       360
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 3,
+       "leg": 0.598,
+       "vis": 1
+      }
+     ]
+    },
+    {
+     "page": "B",
+     "thumps": 7,
+     "stings": 1,
+     "stingGain": [
+      0.14
+     ],
+     "bursts": 0,
+     "vignette": 0.593,
+     "log": [
+      [
+       25.25,
+       "onset",
+       12,
+       230
+      ],
+      [
+       25.25,
+       "sting",
+       12,
+       230
+      ],
+      [
+       55.42,
+       "onset",
+       14,
+       432
+      ],
+      [
+       55.42,
+       "sting",
+       14,
+       432
+      ]
+     ],
+     "views": [
+      {
+       "on": 1,
+       "mask": 0,
+       "leg": 0,
+       "vis": 0
+      }
+     ]
+    }
+   ],
+   "placed": {
+    "ok": true,
+    "op": "spawn",
+    "id": 20,
+    "x": 5260,
+    "y": 3504,
+    "hunger": null
+   }
+  }
+ ],
+ "bSpot": {
+  "x": 5119,
+  "y": 3239
+ },
+ "darkSpot": {
+  "x": 1560,
+  "y": 5600
+ },
+ "soundText": "SOUND OFF",
+ "errors": {
+  "A": [],
+  "B": []
+ },
+ "checks": [
+  {
+   "id": "V12 no Skin-Stealer: silent",
+   "ok": true,
+   "why": "A 0/0, B 0/0"
+  },
+  {
+   "id": "V02 in sight: heartbeat and one sting",
+   "ok": true,
+   "why": "A thumps 7, stings 1"
+  },
+  {
+   "id": "V07 the other page (a wall between): nothing",
+   "ok": true,
+   "why": "B thumps 0, stings 0"
+  },
+  {
+   "id": "V01 behind a wall beside the page: nothing",
+   "ok": true,
+   "why": "A thumps 0, stings 0 (B, which sees it: 10/1)"
+  },
+  {
+   "id": "V03 in sight in the dark: nothing",
+   "ok": true,
+   "why": "A 0/0"
+  },
+  {
+   "id": "V04 the torch reveals it, and its loss releases it",
+   "ok": true,
+   "why": "on: 6 thumps, 1 sting; off: 2 thumps in 3 s"
+  },
+  {
+   "id": "V05 off screen: nothing; on screen: the cue",
+   "ok": true,
+   "why": "off: 0/0; widened: 4 thumps"
+  },
+  {
+   "id": "V09 disguised: nothing; the skin dropped: the cue and a sting",
+   "ok": true,
+   "why": "disguised 0/0; dropped 5/1"
+  },
+  {
+   "id": "V10 SOUND OFF: no thump, any sting at master gain 0",
+   "ok": true,
+   "why": "thumps 0, sting gains [0] (button: SOUND OFF)"
+  },
+  {
+   "id": "V11 three in sight: one heartbeat, at most one sting",
+   "ok": true,
+   "why": "thumps 7 in 6 s, stings 1"
+  },
+  {
+   "id": "V12 the Hound's dread as before",
+   "ok": true,
+   "why": "thumps 6, vignette 0.666"
+  },
+  {
+   "id": "no page error",
+   "ok": true,
+   "why": "{\"A\":[],\"B\":[]}"
+  }
+ ]
+}

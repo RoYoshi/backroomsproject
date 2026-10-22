@@ -10,6 +10,7 @@
  *   G11 the light, the hat, the blood and the walls: thrown, landed on the floor, never inside a wall
  *   G12 every other death is R8's: Hound A-D, Smiler A-D, NEW RUN's blast and the Skin-Stealer's A-C - the same physics, step for step
  *   G13 one corpse, one attacker: the server makes one body; its two halves only on it; the wire keeps a NEW RUN's pieces as they were
+ *   G14 (R16) the victim's own corpse names the same two halves as the server's (it was a whole body: the independent review)
  *   S15 the shared capture's only change is the one line that refused the Skin-Stealer's D; the admin command is the same command */
 'use strict';
 const vm = require('vm'), fs = require('fs'), path = require('path'), crypto = require('crypto');
@@ -98,12 +99,30 @@ add('G13 one corpse, its halves only on it: the wire keeps a Skin-Stealer\'s cor
   const ok = res.every(r => r[2]) && !has(plain);
   return { ok, note: res.map(([c, n, g]) => `${c} ${n}: ${g ? 'as wanted' : 'WRONG'}`).join(', ') + `; a plain one ${has(plain) ? 'HAS PIECES' : 'whole'}` };
 });
+add('G14 the victim\'s own corpse is the same two halves (R16, found by the independent review): the record the victim\'s screen makes when its death ends (render.ts completeDeath: the death\'s fields spread with dphys.remains) names the halves exactly as the server\'s record does - so gore.js draws two halves there too, never a whole body; no other death\'s remains gains them', () => {
+  const D = require(path.join(ROOT, 'src', 'frameworks', 'gib', 'server', 'death_srv.js')), simOf = { blockersAt: () => [], clearAt: () => true };
+  const info = { name: 'k', look: 'cap|plain|#c99a76|#4a6b8a', ek: 'flashlight', ec: '#ffe7b2', ep: '', vx: 0, vy: 0, light: true };
+  const out = [];
+  for (const [x, y, a, d] of [[500, 500, .3, 0], [700, 520, 2.1, .9], [640, 410, -1.2, 2.6]]) {
+    const ax = x - Math.cos(d) * 44, ay = y - Math.sin(d) * 44;
+    const R = DP.simulate({ kind: 'SkinStealer', v: 'D', victim: { x, y, angle: a }, src: { x: ax, y: ay }, eqKind: 'flashlight', hat: 'cap', walls: () => [], clear: () => true });
+    const local = JSON.parse(JSON.stringify(Object.assign({ x: R.body.x, y: R.body.y, cause: 'SkinStealer' }, R.remains)));   // (what addCorpse is given)
+    const srv = D.bodyFor(1, { k: 'SkinStealer', v: 'D', x, y, a, ax, ay }, info, simOf).body;
+    out.push({ has: Array.isArray(local.gb) && local.gb.length === 2, same: JSON.stringify([local.gs, local.gb, local.gh]) === JSON.stringify([srv.gs, srv.gb, srv.gh]) });
+  }
+  const others = [];
+  for (const [kind, vs] of [['Hound', 'ABCD'], ['Smiler', 'ABCD'], ['SkinStealer', 'ABC']]) for (const v of vs) {
+    const R = DP.simulate({ kind, v, victim: { x: 500, y: 500, angle: .3 }, src: { x: 456, y: 500 }, eqKind: 'flashlight', hat: 'cap', walls: () => [], clear: () => true });
+    if ('gb' in R.remains || 'gs' in R.remains || 'gh' in R.remains) others.push(kind + ' ' + v);
+  }
+  return { ok: out.every(q => q.has && q.same) && !others.length, note: `three Rends: the victim's own record names two halves ${out.map(q => q.has ? 'yes' : 'NO').join('/')}, the server's same two ${out.map(q => q.same ? 'yes' : 'NO').join('/')}; other deaths with pieces at the top: ${others.length ? others.join(', ') : 'none'}` };
+});
 module.exports = S;
 /* ---- G08 and S15 (server; appended) ---- */
 const S2 = module.exports;
 const { bystander, LONG } = require('./lib.js');
 const ARENA = { x: 3960, y: 3384 };                                                // (an open hall, every wall at least 300 px off)
-S2.unshift({ name: 'G08 D only after a real lethal contact, only where it fits: its weight is nothing at the end of a leap, under hunger .6, or with a wall within 72 px of either side of the victim across the line of the pull - and then the draw is A-C\'s own, exactly; in the open, a hungry grab is sometimes D, mostly A-C; every D a body-to-body kill, never two in a row', fn: () => {
+S2.unshift({ name: 'G08 D only after a real lethal contact, only where it fits: its weight is nothing at the end of a leap, under hunger .6, or with a wall within 72 px of either side of the victim across the line of the pull - and then the draw is A-C\'s own, exactly; in the open, a hungry grab is sometimes D, mostly A-C; every D a body-to-body kill (a second D in a row is made rarer by the recent-kills rule, x .35 - not forbidden)', fn: () => {
   const V = AI.SKIN.capture.variants, w0 = World(1501), e0 = w0.eng.spawn('skinstealer', ARENA.x, ARENA.y, { hunger: .85 });
   const pv = { x: ARENA.x + 40, y: ARENA.y, ex: 0, stamina: 100 }, ctx = { deadEnd: false }, Dw = (e, p, a) => V(w0.eng, e, p, ctx, a).find(i => i.k === 'D').w;
   const grab = { style: 'grab', speed: 190 }, leap = { style: 'pounce', speed: 400 };
@@ -135,10 +154,13 @@ S2.unshift({ name: 'G08 D only after a real lethal contact, only where it fits: 
 } });
 S2.push({ name: 'S15 the shared capture changes by one line - the refusal of the Skin-Stealer\'s D in previewKill - and nothing else since 4518f93 (the Hound\'s and the Smiler\'s code is theirs, byte for byte); the admin\'s preview is the same command, D now allowed for the Skin-Stealer', fn: () => {
   const { execFileSync } = require('child_process'), f = 'src/frameworks/nani/server/ai.capture.js';
-  const base = execFileSync('git', ['show', '4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a:' + f], { cwd: ROOT, maxBuffer: 1 << 26 }).toString(), now = fs.readFileSync(path.join(ROOT, f), 'utf8');
+  // (R16, the independent review: a checkout without git history - an exported copy - has no 4518f93 to show; then the file is checked against
+  // the blob of 4518f93's file with that one line, recorded at R15)
+  const EXPECT = '4fcefdce2c9b88bb414b02fbf89b43b4741ea8d5', now = fs.readFileSync(path.join(ROOT, f), 'utf8');
+  let base = null; try { base = execFileSync('git', ['show', '4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a:' + f], { cwd: ROOT, maxBuffer: 1 << 26, stdio: ['ignore', 'pipe', 'ignore'] }).toString(); } catch (x) { }
   const OLD = "  const geo = eng.geo, V = /^[ABCD]$/.test(variant) && !(e.kind === 'skinstealer' && variant === 'D') ? variant : 'A', hound = e.kind === 'hound';   // (Trial 3: the Skin-Stealer has A-C)";
   const NEW = "  const geo = eng.geo, V = /^[ABCD]$/.test(variant) ? variant : 'A', hound = e.kind === 'hound';   // (Trial 3 R15: the Skin-Stealer's D too)";
-  const one = base.split(OLD).length === 2 && base.replace(OLD, NEW) === now;
+  const one = base !== null ? base.split(OLD).length === 2 && base.replace(OLD, () => NEW) === now && blob(now) === EXPECT : blob(now) === EXPECT;
   const adm = fs.readFileSync(path.join(ROOT, 'src', 'frameworks', 'overseer', 'server', 'admin.js'), 'utf8'), cmd = /case 'preview': \{/.test(adm) && /v = \/\^\[ABCD\]\$\/\.test\(m\.var\)/.test(adm);
-  return { ok: one && cmd, note: `ai.capture.js = 4518f93's with that one line: ${one}; admin 'preview': the same command, A-D for every killer ${cmd}` };
+  return { ok: one && cmd, note: `ai.capture.js = 4518f93's with that one line: ${one}${base === null ? ' (no git history here: by its recorded blob)' : ''}; admin 'preview': the same command, A-D for every killer ${cmd}` };
 } });

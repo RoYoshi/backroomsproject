@@ -1,5 +1,5 @@
 /** @part generated/server/ai.js - N.A.N.I.: the Skin-Stealer's mind (Trial 3 R11): who could see it, what changed since its last think, what it knows of its quarry
- * provides: skExposedTo, skLegible, skMindDbg, skMindKept, skMindLog, skMindNew, skMindTick, skObsOf
+ * provides: skBodyInSight, skExposedTo, skLegible, skMindDbg, skMindKept, skMindLog, skMindNew, skMindTick, skObsOf, skSpotExposed
  * uses: angDiff, sm
  * writes: -
  */
@@ -25,6 +25,7 @@
  * sense.  No record of a person it has not seen is ever made here; no player's real place is read for anybody not in e.seenNow. */
 const SKM = Object.freeze({
   mask: 700, side: 18, legible: .25,             // a person's sight mask (px); the body's half width across the line of sight; readable from (the client's rule)
+  edge: 30,                                      // (R16) a still body as drawn: its hands and head reach 18-30 px out (R14-4) - a WAITING spot hides all of it
   sawTtl: 8,                                     // seconds 'they saw me' is kept after they last could see it
   eyesTtl: 4,                                    // seconds 'they met my eyes' is kept
   turnIn: .6, turnOut: .9,                       // a seen person TURNS to face it: their facing comes within turnIn rad of it from beyond turnOut
@@ -39,6 +40,12 @@ function skLegible(eng, ob, x, y) {
   if (ob.light && geo.a.qc) {
     const src = { x: ob.x, y: ob.y, angle: ob.angle === null || ob.angle === undefined ? Math.atan2(y - ob.y, x - ob.x) : ob.angle, equipment: { kind: ob.kind || 'flashlight' } };
     const q = geo.a.qc(src, { x, y }, true); if (q > s && geo.los(ob.x, ob.y, x, y)) s = q;
+  }
+  // (R16) another person's torch lights it for this one too (the screen draws every wanderer's light): the lights it knows of - the people
+  // it sees now, their torches as it sees them (skWatchers gives them as ob.lights); never anybody's it does not see
+  if (ob.lights && geo.a.qc) for (const L of ob.lights) {
+    const src = { x: L.x, y: L.y, angle: L.angle === null || L.angle === undefined ? Math.atan2(y - L.y, x - L.x) : L.angle, equipment: { kind: L.kind || 'flashlight' } };
+    const q = geo.a.qc(src, { x, y }, true); if (q > s && geo.los(L.x, L.y, x, y)) s = q;
   }
   const i = geo.cellAt(x, y);
   if (i >= 0 && !(geo.a.blackout && geo.a.blackout())) { let l = geo.lamp[i] || 0; for (const f of geo.fails) if (f.until > eng.now && Math.hypot(x - f.x, y - f.y) < f.r) l *= .06; if (l > s) s = l; }
@@ -56,10 +63,33 @@ function skExposedTo(eng, ob, x, y) {
   }
   return false;
 }
+/* (R16) could someone at (ox, oy) see any part of a still body at (x, y) - its centre, or a point SKM.edge to either side across the line of
+ * sight (the drawn figure keeps within 40 px of its centre; its hands and head reach 18-30 px out, R14-4)?  For choosing where to WAIT:
+ * the spot must hide all of it, as the screen would show it; moving, the body is audited as before (SKM.side, the covert way's margin) */
+function skBodyInSight(geo, ox, oy, x, y) {
+  if (geo.los(ox, oy, x, y)) return true;
+  const d = Math.hypot(x - ox, y - oy) || 1, ux = (x - ox) / d, uy = (y - oy) / d;
+  return geo.los(ox, oy, x - uy * SKM.edge, y + ux * SKM.edge) || geo.los(ox, oy, x + uy * SKM.edge, y - ux * SKM.edge);
+}
+/* (R16) could ob make out any part of a still body waiting at (x, y)?  skExposedTo, and its edges SKM.edge out */
+function skSpotExposed(eng, ob, x, y) {
+  if (skExposedTo(eng, ob, x, y)) return true;
+  const d = Math.hypot(x - ob.x, y - ob.y); if (d > SKM.mask + SKM.edge) return false;
+  const ux = (x - ob.x) / (d || 1), uy = (y - ob.y) / (d || 1), geo = eng.geo;
+  for (const k of [-1, 1]) {
+    const qx = x - uy * SKM.edge * k, qy = y + ux * SKM.edge * k;
+    if (Math.hypot(qx - ob.x, qy - ob.y) > SKM.mask || !geo.los(ob.x, ob.y, qx, qy)) continue;
+    if (skLegible(eng, ob, qx, qy) >= SKM.legible) return true;
+  }
+  return false;
+}
 /* an observer as the creature knows them: a person it sees now (their place, facing and light, as it sees them), or - from a belief - a
  * place with an unknown facing (null) and the light it last saw them with */
 function skObsOf(eng, e, r, at) {
-  if (r && r.seen && r.visual) { const L = r.light ? (eng.lights || []).find(l => l.id === r.id) : null; return { x: r.visual.x, y: r.visual.y, angle: r.visual.angle, light: !!r.light, kind: L ? L.kind : 'flashlight', seen: true }; }
+  if (r && r.seen && r.visual) {                                                   // (R16: their light's kind as it last saw it - read live only while it sees them)
+    const mo = e.mind && e.mind.obs.get(r.id), L = r.light && e.seenNow.has(r.id) ? (eng.lights || []).find(l => l.id === r.id) : null;
+    return { x: r.visual.x, y: r.visual.y, angle: r.visual.angle, light: !!r.light, kind: L ? L.kind : mo && mo.kind ? mo.kind : 'flashlight', seen: true };
+  }
   if (at) return { x: at.x, y: at.y, angle: null, light: !!(r && r.light), kind: 'flashlight', seen: false };
   return null;
 }
@@ -84,7 +114,7 @@ function skMindTick(eng, e) {
     let o = M.obs.get(id);
     if (!o) { o = { pid: id, firstAt: now, seenAt: now, inView: false, sawAt: -99, eyesAt: -99, off: Math.PI, winded: false, near: false }; M.obs.set(id, o); }
     if (!M.seen.has(id)) skEvent(e, now, 'sight', id);
-    o.seenAt = now;
+    o.seenAt = now; if (r.light) { const L = (eng.lights || []).find(l => l.id === id); if (L) o.kind = L.kind; }   // (R16: the light it sees them carry, kept)
     const ob = skObsOf(eng, e, r), view = skExposedTo(eng, ob, e.x, e.y), off = Math.abs(angDiff(Math.atan2(e.y - ob.y, e.x - ob.x), ob.angle || 0));
     if (view && !o.inView) skEvent(e, now, 'exposed', id); else if (!view && o.inView) skEvent(e, now, 'hidden', id);
     o.inView = view; if (view) o.sawAt = now;

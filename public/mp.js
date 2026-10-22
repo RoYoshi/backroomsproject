@@ -1038,7 +1038,7 @@ function mpFrame({ core: { cv, cx, dread, EN, game, humUpdate, light }, session:
 /* ---------- per-frame hook (called by the game every frame) ---------- */
 let k = 0, stingCd = 6;
 let beatT = 0;                                      // (C3c) the heartbeat's timer (Spacious Audio's part declared it at M8; only this hook uses it)
-let kStingAt = -1e9;                                // (R10) when the k sting last played (performance.now(), ms): the Skin-Stealer's does not double it
+let kStingAt = -1e9, sStingAt = -1e9;              // (R10) when the k sting last played (performance.now(), ms): the Skin-Stealer's does not double it; (R16) and the other way round
 const STING_MIX = 1200;
 window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   const dpr = devicePixelRatio || 1, W = innerWidth, H = innerHeight;
@@ -1079,8 +1079,8 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   game.style.transform = k > .55 ? `translate(${(Math.random() - .5) * k * 5}px,${(Math.random() - .5) * k * 5}px)` : '';
   light.style.opacity = k > .35 && Math.random() < k * .09 ? .35 + Math.random() * .4 : 1;
   stingCd -= t;
-  if (k > .45 && stingCd <= 0) { stingCd = 9 + Math.random() * 10; kStingAt = now; if (!(window.__sfx && window.__sfx.play('sting', { vol: Math.min(1, .5 + k) }))) burst(.35, .12 * k); }
-  if (SK && SK.sting && now - kStingAt > STING_MIX) { if (!(window.__sfx && window.__sfx.play('sting', { vol: Math.min(1, .5 + ks) }))) burst(.35, .12 * ks); }   // (R10) a new sighting of a Skin-Stealer
+  if (k > .45 && stingCd <= 0) { stingCd = 9 + Math.random() * 10; kStingAt = now; if (now - sStingAt > STING_MIX && !(window.__sfx && window.__sfx.play('sting', { vol: Math.min(1, .5 + k) }))) burst(.35, .12 * k); }
+  if (SK && SK.sting && now - kStingAt > STING_MIX) { sStingAt = now; if (!(window.__sfx && window.__sfx.play('sting', { vol: Math.min(1, .5 + ks) }))) burst(.35, .12 * ks); }   // (R10) a new sighting of a Skin-Stealer
 };
 }
 /* (C3c) the modules */

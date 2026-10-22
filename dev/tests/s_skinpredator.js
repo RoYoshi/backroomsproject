@@ -421,7 +421,7 @@ add('PR07 the narrow north corridor, no way round the watcher: a very hungry one
 });
 
 add('PR17 one person with a torch, seen, then out of sight: the phases show - listening (still, its head turning) is not approaching (moving: crouched while hidden, R13 upright in their view) - and what the page is sent (state, act, head) is what it is doing, without flicker', () => {
-  // (R13: twelve seeds - its first approach now often goes on a covert way, so fewer runs reach a pause to listen; five with both phases still required)
+  // (R13: twelve seeds - its first approach now often goes on a covert way, so fewer runs reach a pause to listen; R16: seven with both phases)
   const rs = over([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], seed => {
     const R = { listen: 0, listenOk: 0, appr: 0, apprOk: 0, mism: 0, flick: 0, head: 0, moveInListen: 0 }; let lastAc = -1, lastT = 0;
     sw(seed, .8, 'back', 'crouch', 24, { on: (t, p, e) => {
@@ -436,7 +436,8 @@ add('PR17 one person with a torch, seen, then out of sight: the phases show - li
     return R;
   });
   const both = rs.filter(r => r.listen > 10 && r.appr > 10);
-  return { ok: both.length >= 5 && rs.every(r => r.mism === 0 && r.listenOk === r.listen && r.apprOk === r.appr && r.moveInListen === 0 && r.flick <= 2) && both.every(r => r.head > r.listen * .5),
+  // (R16, the independent review: R13 went from 8 seeds to 12 and kept 'at least 5' - a lower share than R8's 5 of 8; it is 7 of 12 now)
+  return { ok: both.length >= 7 && rs.every(r => r.mism === 0 && r.listenOk === r.listen && r.apprOk === r.appr && r.moveInListen === 0 && r.flick <= 2) && both.every(r => r.head > r.listen * .5),
     note: `both phases in ${both.length}/12: listening ${rs.map(r => r.listen).join('/')} ticks (act listen ${rs.every(r => r.listenOk === r.listen)}, still ${rs.every(r => r.moveInListen === 0)}, head turned ${both.map(r => Math.round(100 * r.head / r.listen) + '%').join('/')}), approaching ${rs.map(r => r.appr).join('/')} ticks (act approach or creep ${rs.every(r => r.apprOk === r.appr)}) | the page's state / act / head equal to what it does: mismatches ${rs.reduce((a, r) => a + r.mism, 0)}; an act shown under 0.1 s ${rs.map(r => r.flick).join('/')}`, data: rs };
 });
 

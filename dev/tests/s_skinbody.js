@@ -198,7 +198,8 @@ add('P01 its drawing cost: shapes a frame for one creature in each act (fills an
   const Q = page(), four = t => [0, 1, 2, 3].map(k => ({ i: 10 + k, x: 200 * k + 90 * t, y: 0, a: 0, s: 1, ac: KACT.indexOf(['chase', 'creep', 'watch', 'wait'][k]), v: 90, h: 0 }));
   const t0 = process.hrtime.bigint(); run(Q, 10, four); const ms = Number(process.hrtime.bigint() - t0) / 1e6 / 600;
   const mx = Math.max(...per);
-  return { ok: mx <= 140, note: `shapes a frame: ${Math.min(...per)}-${mx} (R8's figure: about 55); four creatures: ${ms.toFixed(3)} ms a frame here` };
+  // (R16, the independent review read the bar - 140 - as the cost: the measured figure is 55-56, R8's; the bar is now R8's figure + 25 %)
+  return { ok: mx <= 70, note: `shapes a frame: ${Math.min(...per)}-${mx} (R8's figure: about 55; at most 70); four creatures: ${ms.toFixed(3)} ms a frame here` };
 });
 
 add('S01 nothing the server decides changed: its body (radius 24, clearance 21), its grab reach (46), its pounce (55-185 px, 430 px/s for 0.36 s) and the one drawing scale (1.3) are R8\'s - the new body is drawing only', () => {

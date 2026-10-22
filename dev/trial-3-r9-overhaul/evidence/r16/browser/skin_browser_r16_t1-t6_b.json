@@ -1,0 +1,794 @@
+{
+ "tool": "dev/trial-3-skin-stealer/tools/skin_browser.js",
+ "dir": "<repo>",
+ "chromium": "141.0.7390.37",
+ "sections": {
+  "t1": {
+   "script": {
+    "skin": "object",
+    "fns": "anatomy,attack,attacker,clear,deathEvent,deathSound,draw,mirror,sight,sightLog,where"
+   },
+   "keysBefore": "st,h,m,b,p,gw,it,lf,sn",
+   "tabsBefore": "players,monsters,deaths,world,debug",
+   "tabsK": "players,monsters,deaths,world,debug,skin",
+   "tab": {
+    "text": "SKIN-STEALER · 0 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SKIN-STEALER+ NEAR ME− SKIN-STEALERNone in the halls. The worl",
+    "buttons": [
+     "+ SKIN-STEALER",
+     "+ NEAR ME",
+     "− SKIN-STEALER",
+     "ANECK BREAKa grip from close by",
+     "BPOUNCEcarried down, then the neck",
+     "CNECK BITEheld, bitten",
+     "DTHE RENDtorn in two"
+    ]
+   },
+   "tabAfter": {
+    "text": "SKIN-STEALER · 1 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SKIN-STEALER+ NEAR ME− SKIN-STEALERK#9ROAMING · nearGO TOREMOVEITS DEATHS · PLAYED ON YOUANECK BREAKa ",
+    "status": "SKIN-STEALER PLACED NEAR YOU"
+   },
+   "ss": [
+    {
+     "i": 9,
+     "x": 1320,
+     "y": 5736,
+     "a": 5.954,
+     "s": 1,
+     "ac": 0,
+     "v": 0,
+     "h": 0
+    }
+   ],
+   "views": [
+    {
+     "id": 9,
+     "x": 1320,
+     "y": 5736,
+     "vis": true,
+     "tint": 10066329,
+     "inLayer": true,
+     "masked": true
+    }
+   ],
+   "stand": {
+    "x": 1450,
+    "y": 5736,
+    "r": 130
+   },
+   "lit": [
+    {
+     "id": 9,
+     "x": 1320,
+     "y": 5736,
+     "vis": true,
+     "tint": 15263976,
+     "inLayer": true,
+     "masked": true
+    }
+   ],
+   "light": true,
+   "after": [],
+   "keysAfter": "st,h,m,b,p,gw,it,lf,sn",
+   "beforeReset": 1,
+   "afterReset": 0,
+   "errors": []
+  },
+  "t4": {
+   "sstand": {
+    "x": 1194,
+    "y": 3264
+   },
+   "placed": [
+    11
+   ],
+   "previews": "skinstealer:A,skinstealer:B,skinstealer:C,skinstealer:D",
+   "own": {
+    "kind": "SkinStealer",
+    "v": "B",
+    "dur": 3.4
+   },
+   "vMid": {
+    "killView": true,
+    "visible": true,
+    "at": [
+     980,
+     3273
+    ],
+    "attacker": [
+     980,
+     3273
+    ],
+    "mirroredShown": 0,
+    "el": 0.87
+   },
+   "sMid": {
+    "replay": true,
+    "att": "skinstealer-replay",
+    "attVisible": true,
+    "posed": true,
+    "mirroredShown": 0,
+    "mirrored": 1
+   },
+   "vEnd": {
+    "x": 983,
+    "y": 3324.5,
+    "a": -1.252,
+    "el": 4.2
+   },
+   "timeline": [
+    {
+     "t": 0,
+     "v": {
+      "snaps": 1076,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 864,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 0.5,
+     "v": {
+      "snaps": 1096,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 885,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 1,
+     "v": {
+      "snaps": 1111,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 897,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 1.5,
+     "v": {
+      "snaps": 1129,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 917,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 2,
+     "v": {
+      "snaps": 1145,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 932,
+      "ss": [
+       15
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 2.5,
+     "v": {
+      "snaps": 1163,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 950,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 3,
+     "v": {
+      "snaps": 1179,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 966,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 3.5,
+     "v": {
+      "snaps": 1195,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 982,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    },
+    {
+     "t": 4,
+     "v": {
+      "snaps": 1212,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     },
+     "s": {
+      "snaps": 999,
+      "ss": [
+       3
+      ],
+      "bodies": 1,
+      "vis": "visible",
+      "d": null
+     }
+    }
+   ],
+   "vCorpse": [
+    {
+     "cause": "SkinStealer",
+     "x": 983,
+     "y": 3325
+    }
+   ],
+   "sCorpse": [
+    {
+     "cause": "SkinStealer",
+     "x": 983,
+     "y": 3325
+    }
+   ],
+   "sAfter": {
+    "shown": 1,
+    "ss": [
+     {
+      "i": 11,
+      "x": 1048.5,
+      "y": 2875.9,
+      "a": 4.909,
+      "s": 18,
+      "ac": 3,
+      "v": 105,
+      "h": 0
+     }
+    ]
+   },
+   "snd": {
+    "victim": {
+     "death": 1,
+     "snap": 0
+    },
+    "spectator": {
+     "death": 1,
+     "snap": 0
+    }
+   },
+   "snapWired": 1,
+   "second": {
+    "kind": "SkinStealer",
+    "v": "A"
+   },
+   "sCorpse2": [
+    {
+     "cause": "SkinStealer",
+     "x": 979,
+     "y": 3299
+    }
+   ],
+   "errors": {
+    "victim": [],
+    "spectator": []
+   }
+  },
+  "t5": {
+   "spot": {
+    "x": 3312,
+    "y": 1704
+   },
+   "views": 11,
+   "actors": 11,
+   "sound": {
+    "still": 0,
+    "walk": 16,
+    "walked": 491,
+    "spring": 5
+   },
+   "debug": [
+    "WHY waiting in the dark",
+    "HUNGER 0.646 very hungry  STAMINA 100  PLAN roam",
+    "WHY roaming"
+   ],
+   "shots": [
+    "t5_gallery_low_1280.png",
+    "t5_gallery_medium_1280.png",
+    "t5_gallery_high_1280.png",
+    "t5_gallery_medium_1920.png",
+    "t5_gallery_medium_phone.png",
+    "t5_debug_overlay_1280.png"
+   ],
+   "errors": []
+  },
+  "t5d": {
+   "spot": {
+    "x": 4080,
+    "y": 5448
+   },
+   "hound": {
+    "own": {
+     "kind": "Hound",
+     "v": "B",
+     "dur": 4.7
+    },
+    "at": [
+     {
+      "at": 0.5,
+      "el": 0.5,
+      "dark": 0.82,
+      "black": 0,
+      "shade": 0,
+      "light": 1
+     },
+     {
+      "at": 1,
+      "el": 1.02,
+      "dark": 0.81,
+      "black": 0,
+      "shade": 0,
+      "light": 1
+     },
+     {
+      "at": 2,
+      "el": 2.45,
+      "dark": 0.823,
+      "black": 0,
+      "shade": 0,
+      "light": 1
+     },
+     {
+      "at": 3,
+      "el": 3.37,
+      "dark": 0.836,
+      "black": 0,
+      "shade": 0,
+      "light": 0
+     }
+    ]
+   },
+   "skinstealer": {
+    "own": {
+     "kind": "SkinStealer",
+     "v": "B",
+     "dur": 3.4
+    },
+    "at": [
+     {
+      "at": 0.5,
+      "el": 0.5,
+      "dark": 0.823,
+      "black": 0,
+      "shade": 0,
+      "light": 1
+     },
+     {
+      "at": 1,
+      "el": 1.22,
+      "dark": 0.817,
+      "black": 0,
+      "shade": 0,
+      "light": 1
+     },
+     {
+      "at": 2,
+      "el": 2.45,
+      "dark": 0.818,
+      "black": 0,
+      "shade": 0,
+      "light": 1
+     },
+     {
+      "at": 3,
+      "el": 3.38,
+      "dark": 1,
+      "black": 0,
+      "shade": 0.998,
+      "light": 1
+     }
+    ]
+   },
+   "errors": {
+    "victim": [],
+    "spectator": []
+   }
+  },
+  "t6": {
+   "alive": true,
+   "away": [
+    {
+     "x": 3362,
+     "y": 4259
+    },
+    {
+     "x": 3547,
+     "y": 3519
+    }
+   ],
+   "eid": 13,
+   "kill": {
+    "kind": "SkinStealer",
+    "v": "B"
+   },
+   "dg": "none|plain|#e6bb76|#ffcc77",
+   "k0": {
+    "x": 985,
+    "y": 3259,
+    "a": 4.489
+   },
+   "sAt": {
+    "x": 824,
+    "y": 3647,
+    "r": 420
+   },
+   "lAt": {
+    "x": 824,
+    "y": 3737
+   },
+   "sState": {
+    "started": true,
+    "paused": false,
+    "caught": false,
+    "on": true,
+    "dlg": [],
+    "sheets": [],
+    "open": true
+   },
+   "lHeardSpeaker": true,
+   "dbg": {
+    "hd": [
+     0
+    ],
+    "dg": {
+     "from": 7,
+     "left": 306
+    },
+    "words": false
+   },
+   "lAt2": {
+    "x": 1000,
+    "y": 2879,
+    "r": 380,
+    "off": 0.26
+   },
+   "trace": [
+    null,
+    [
+     201,
+     "pace",
+     "mingle",
+     "in P7's skin it walks up to P9",
+     null,
+     0.02
+    ],
+    [
+     163,
+     "watch",
+     "mingle",
+     "it stands and stares at P9",
+     null,
+     0.021
+    ],
+    [
+     163,
+     "mimic",
+     "mingle",
+     "it stands and stares at P9",
+     {
+      "ago": 1.1,
+      "src": "heard",
+      "why": "staring"
+     },
+     0.023
+    ]
+   ],
+   "eheard": {
+    "id": "e13",
+    "mode": "",
+    "of": 20
+   },
+   "drawn": {
+    "avatar": true,
+    "avVisible": true,
+    "gear": false,
+    "hands": [
+     [
+      -16,
+      -2
+     ],
+     [
+      16,
+      -2
+     ]
+    ],
+    "creatureVisible": false,
+    "peers": "K3Prey,K3Speaker"
+   },
+   "live": [
+    "K3Speaker nearby says: The Exit Is This Way",
+    "A voice nearby says: the exit is this way"
+   ],
+   "voice": {
+    "ctx": "running",
+    "level": 0.63,
+    "speaking": [],
+    "scheduled": 8,
+    "late": 18,
+    "stopped": 0,
+    "cut": 0,
+    "said": 2,
+    "capped": 0,
+    "previews": 0
+   },
+   "mute": {
+    "speakerButton": true,
+    "echoOfMutedSilent": true,
+    "genericShown": true,
+    "entityLabel": "An unknown voice: heard",
+    "entityMuteSilent": true
+   },
+   "errors": {
+    "victim": [],
+    "speaker": [],
+    "listener": []
+   }
+  }
+ },
+ "cases": [
+  {
+   "name": "t1_script_loaded",
+   "ok": true,
+   "detail": "{\"skin\":\"object\",\"fns\":\"anatomy,attack,attacker,clear,deathEvent,deathSound,draw,mirror,sight,sightLog,where\"}"
+  },
+  {
+   "name": "t1_p9_keys_without_one",
+   "ok": true,
+   "detail": "st,h,m,b,p,gw,it,lf,sn"
+  },
+  {
+   "name": "t1_admin_tabs",
+   "ok": true,
+   "detail": "players,monsters,deaths,world,debug -> K -> players,monsters,deaths,world,debug,skin"
+  },
+  {
+   "name": "t1_admin_skin_tab",
+   "ok": true,
+   "detail": "{\"before\":{\"text\":\"SKIN-STEALER · 0 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SKIN-STEALER+ NEAR ME− SKIN-STEALERNone in the halls. The worl\",\"buttons\":[\"+ SKIN-STEALER\",\"+ NEAR ME\",\"− SKIN-STEALER\",\"ANECK BREAKa grip from close by\",\"BPOUNCEcarried down, then the neck\",\"CNECK BITEheld, bitten\",\"DTHE RENDtorn in two\"]},\"after\":{\"text\":\"SKIN-STEALER · 1 IN THE HALLS (ADMIN MAX 4) · ADMIN ONLY+ SKIN-STEALER+ NEAR ME− SKIN-STEALERK#9ROAMING · nearGO TOREMOVEITS DEATHS · PLAYED ON YOUANECK BREAKa \",\"status\":\"SKIN-STEALER PLACED NEAR YOU\"}}"
+  },
+  {
+   "name": "t1_in_snapshot",
+   "ok": true,
+   "detail": "[{\"i\":9,\"x\":1320,\"y\":5736,\"a\":5.954,\"s\":1,\"ac\":0,\"v\":0,\"h\":0}]"
+  },
+  {
+   "name": "t1_one_view_in_creatures_layer",
+   "ok": true,
+   "detail": "[{\"id\":9,\"x\":1320,\"y\":5736,\"vis\":true,\"tint\":10066329,\"inLayer\":true,\"masked\":true}]"
+  },
+  {
+   "name": "t1_shaded_by_light",
+   "ok": true,
+   "detail": "in the dark 999999, lit e8e8e8 (light true)"
+  },
+  {
+   "name": "t1_remove_takes_view",
+   "ok": true,
+   "detail": "0 views; keys st,h,m,b,p,gw,it,lf,sn"
+  },
+  {
+   "name": "t1_world_reset_clears",
+   "ok": true,
+   "detail": "1 -> 0"
+  },
+  {
+   "name": "t1_no_page_errors",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "name": "t4_preview_buttons",
+   "ok": false,
+   "detail": "skinstealer:A,skinstealer:B,skinstealer:C,skinstealer:D"
+  },
+  {
+   "name": "t4_own_death_names_it",
+   "ok": true,
+   "detail": "{\"kind\":\"SkinStealer\",\"v\":\"B\",\"dur\":3.4}"
+  },
+  {
+   "name": "t4_own_attacker_drawn",
+   "ok": true,
+   "detail": "{\"killView\":true,\"visible\":true,\"at\":[980,3273],\"attacker\":[980,3273],\"mirroredShown\":0,\"el\":0.87}"
+  },
+  {
+   "name": "t4_spectator_replay",
+   "ok": true,
+   "detail": "{\"replay\":true,\"att\":\"skinstealer-replay\",\"attVisible\":true,\"posed\":true,\"mirroredShown\":0,\"mirrored\":1}"
+  },
+  {
+   "name": "t4_victim_frame_is_the_corpse",
+   "ok": true,
+   "detail": "{\"lastFrame\":{\"x\":983,\"y\":3324.5,\"a\":-1.252,\"el\":4.2},\"corpse\":{\"cause\":\"SkinStealer\",\"x\":983,\"y\":3325}}"
+  },
+  {
+   "name": "t4_corpse_everywhere",
+   "ok": true,
+   "detail": "{\"v\":[{\"cause\":\"SkinStealer\",\"x\":983,\"y\":3325}],\"s\":[{\"cause\":\"SkinStealer\",\"x\":983,\"y\":3325}]}"
+  },
+  {
+   "name": "t4_creature_back_after",
+   "ok": true,
+   "detail": "{\"placed\":[11],\"after\":{\"shown\":1,\"ss\":[{\"i\":11,\"x\":1048.5,\"y\":2875.9,\"a\":4.909,\"s\":18,\"ac\":3,\"v\":105,\"h\":0}]}} (ac 15 feeding; 3 leaving - disturbed at its kill by the spectator two body lengths away)"
+  },
+  {
+   "name": "t4_sounds_through_this_script",
+   "ok": true,
+   "detail": "{\"victim\":{\"death\":1,\"snap\":0},\"spectator\":{\"death\":1,\"snap\":0}} snap path wired: 1"
+  },
+  {
+   "name": "t4_disconnect_one_corpse",
+   "ok": true,
+   "detail": "{\"second\":{\"kind\":\"SkinStealer\",\"v\":\"A\"},\"after\":[{\"cause\":\"SkinStealer\",\"x\":979,\"y\":3299}],\"first\":[{\"cause\":\"SkinStealer\",\"x\":983,\"y\":3325}]}"
+  },
+  {
+   "name": "t4_no_page_errors",
+   "ok": true,
+   "detail": "{\"victim\":[],\"spectator\":[]}"
+  },
+  {
+   "name": "t5_debug_block",
+   "ok": true,
+   "detail": "[\"WHY waiting in the dark\",\"HUNGER 0.646 very hungry  STAMINA 100  PLAN roam\",\"WHY roaming\"]"
+  },
+  {
+   "name": "t5_living_sounds",
+   "ok": true,
+   "detail": "{\"still\":0,\"walk\":16,\"walked\":491,\"spring\":5} (noise sources started: all standing still, one walking 3 s at 150 px/s, its wind-up and leap; two per footfall)"
+  },
+  {
+   "name": "t5_gallery_drawn",
+   "ok": true,
+   "detail": "11 Skin-Stealer views on screen (8 acts, 3 kill attackers)"
+  },
+  {
+   "name": "t5_brrole_actor",
+   "ok": true,
+   "detail": "BR-RoLE actor jobs of kind skin: 11"
+  },
+  {
+   "name": "t5_no_page_errors",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "name": "t5_own_death_view",
+   "ok": true,
+   "detail": "{\"hound\":{\"own\":{\"kind\":\"Hound\",\"v\":\"B\",\"dur\":4.7},\"at\":[{\"at\":0.5,\"el\":0.5,\"dark\":0.82,\"black\":0,\"shade\":0,\"light\":1},{\"at\":1,\"el\":1.02,\"dark\":0.81,\"black\":0,\"shade\":0,\"light\":1},{\"at\":2,\"el\":2.45,\"dark\":0.823,\"black\":0,\"shade\":0,\"light\":1},{\"at\":3,\"el\":3.37,\"dark\":0.836,\"black\":0,\"shade\":0,\"light\":0}]},\"skinstealer\":{\"own\":{\"kind\":\"SkinStealer\",\"v\":\"B\",\"dur\":3.4},\"at\":[{\"at\":0.5,\"el\":0.5,\"dark\":0.823,\"black\":0,\"shade\":0,\"light\":1},{\"at\":1,\"el\":1.22,\"dark\":0.817,\"black\":0,\"shade\":0,\"light\":1},{\"at\":2,\"el\":2.45,\"dark\":0.818,\"black\":0,\"shade\":0,\"light\":1},{\"at\":3,\"el\":3.38,\"dark\":1,\"black\":0,\"s"
+  },
+  {
+   "name": "t5d_no_page_errors",
+   "ok": true,
+   "detail": "{\"victim\":[],\"spectator\":[]}"
+  },
+  {
+   "name": "t6_skin_earned",
+   "ok": true,
+   "detail": "{\"kill\":{\"kind\":\"SkinStealer\",\"v\":\"B\"},\"dg\":\"none|plain|#e6bb76|#ffcc77\"}"
+  },
+  {
+   "name": "t6_heard_counts_only",
+   "ok": true,
+   "detail": "{\"sAt\":{\"x\":824,\"y\":3647,\"r\":420},\"lAt\":{\"x\":824,\"y\":3737},\"lHeard\":true,\"dbg\":{\"hd\":[0],\"dg\":{\"from\":7,\"left\":306},\"words\":false}}"
+  },
+  {
+   "name": "t6_entity_line",
+   "ok": true,
+   "detail": "{\"eheard\":{\"id\":\"e13\",\"mode\":\"\",\"of\":20},\"live\":[\"K3Speaker nearby says: The Exit Is This Way\",\"A voice nearby says: the exit is this way\"],\"voice\":{\"ctx\":\"running\",\"level\":0.63,\"speaking\":[],\"scheduled\":8,\"late\":18,\"stopped\":0,\"cut\":0,\"said\":2,\"capped\":0,\"previews\":0}}"
+  },
+  {
+   "name": "t6_disguise_drawn",
+   "ok": true,
+   "detail": "{\"avatar\":true,\"avVisible\":true,\"gear\":false,\"hands\":[[-16,-2],[16,-2]],\"creatureVisible\":false,\"peers\":\"K3Prey,K3Speaker\"}"
+  },
+  {
+   "name": "t6_mutes",
+   "ok": true,
+   "detail": "{\"speakerButton\":true,\"echoOfMutedSilent\":true,\"genericShown\":true,\"entityLabel\":\"An unknown voice: heard\",\"entityMuteSilent\":true}"
+  },
+  {
+   "name": "t6_no_page_errors",
+   "ok": true,
+   "detail": "{\"victim\":[],\"speaker\":[],\"listener\":[]}"
+  }
+ ],
+ "ok": false
+}

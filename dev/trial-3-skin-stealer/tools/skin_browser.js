@@ -145,7 +145,9 @@ const VIEWS = `() => { const A = window.__api, L = A.layer(); return L.children.
       cmd({ c: 'world' }); await until(P, () => !window.__k3.ss, null, 8000); await sleep(1200);
       T.afterReset = (await P.evaluate(`(${VIEWS})()`)).length;
       T.errors = errs;
-      check('t1_script_loaded', T.script.skin === 'object' && T.script.fns === 'attack,attacker,clear,deathEvent,deathSound,draw,mirror,where', JSON.stringify(T.script));
+      // (Trial 3 R16: the script's own API grew - R10's sight / sightLog, which core's dread hook calls, and R14's anatomy, for its report
+      // and its tests - dev/trial-3-r9-overhaul/REGRESSION.md)
+      check('t1_script_loaded', T.script.skin === 'object' && T.script.fns === 'anatomy,attack,attacker,clear,deathEvent,deathSound,draw,mirror,sight,sightLog,where', JSON.stringify(T.script));
       check('t1_p9_keys_without_one', T.keysBefore === 'st,h,m,b,p,gw,it,lf,sn', T.keysBefore);
       check('t1_admin_tabs', T.tabsBefore === 'players,monsters,deaths,world,debug' && T.tabsK === 'players,monsters,deaths,world,debug,skin', `${T.tabsBefore} -> K -> ${T.tabsK}`);
       check('t1_admin_skin_tab', /SKIN-STEALER · 0 IN THE HALLS \(ADMIN MAX 4\)/.test(T.tab.text) && T.tab.buttons.slice(0, 3).join('|') === '+ SKIN-STEALER|+ NEAR ME|− SKIN-STEALER' && /SKIN-STEALER · 1 IN THE HALLS/.test(T.tabAfter.text) && /K#\d+/.test(T.tabAfter.text) && /SKIN-STEALER PLACED NEAR YOU/.test(T.tabAfter.status), JSON.stringify({ before: T.tab, after: T.tabAfter }));
@@ -214,7 +216,7 @@ const VIEWS = `() => { const A = window.__api, L = A.layer(); return L.children.
       await sleep(5200);
       T.sCorpse2 = await corpse(S.P);
       T.errors = { victim: V.errs, spectator: S.errs };
-      check('t4_preview_buttons', T.previews === 'skinstealer:A,skinstealer:B,skinstealer:C', T.previews);
+      check('t4_preview_buttons', T.previews === 'skinstealer:A,skinstealer:B,skinstealer:C,skinstealer:D', T.previews);   // (Trial 3 R15: D, the Rend - pack 06 asks for its preview)
       check('t4_own_death_names_it', own && own.kind === 'SkinStealer' && own.v === 'B' && Math.abs(own.dur - 3.4) < .01, JSON.stringify(own));
       check('t4_own_attacker_drawn', T.vMid.killView && T.vMid.visible && T.vMid.attacker && Math.hypot(T.vMid.at[0] - T.vMid.attacker[0], T.vMid.at[1] - T.vMid.attacker[1]) < 2 && T.vMid.mirroredShown === 0, JSON.stringify(T.vMid));
       check('t4_spectator_replay', T.sMid.replay && T.sMid.att === 'skinstealer-replay' && T.sMid.attVisible && T.sMid.posed && T.sMid.mirroredShown === 0 && T.sMid.mirrored >= 1, JSON.stringify(T.sMid));

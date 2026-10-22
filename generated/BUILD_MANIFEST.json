@@ -289,8 +289,8 @@
   },
   {
    "out": "public/assets/skinstealer.js",
-   "bytes": 52540,
-   "sha256": "93609e2cf1e5157306429dd669ea63cc6dfd7496c1bc32ffa3b6c4b11f3b5b5a",
+   "bytes": 53280,
+   "sha256": "d8d2e83ee269adbf80bacb79ed9be457234b1a541753414cd63b7cbde4ed4187",
    "parts": [
     {
      "path": "src/frameworks/nani/client/skin.head.js",
@@ -319,8 +319,8 @@
     },
     {
      "path": "src/frameworks/spacious-audio/client/skin.sight.js",
-     "sha256": "1558611c676b4892c5d7f49f65fb8b949ccf9f895fcc6e30d909eb351e56db57",
-     "headerBytes": 2547
+     "sha256": "fc649628e4676a70bba53bb3771df75f9291bad7122f5dbbecd8c42a7ae9504a",
+     "headerBytes": 2894
     },
     {
      "path": "src/frameworks/br-r/client/skin.compose.js",
@@ -392,12 +392,12 @@
   },
   {
    "out": "public/dphys.js",
-   "bytes": 77020,
-   "sha256": "645915e5af247e70f568c8e31f55c701fe599d9603229bb2e67333caa62c9418",
+   "bytes": 77295,
+   "sha256": "b2da28ce10a1a4e4f842015722567bab44ac9b31abc377a2cd286dfbffc76f61",
    "parts": [
     {
      "path": "src/frameworks/gib/shared/dphys.js",
-     "sha256": "645915e5af247e70f568c8e31f55c701fe599d9603229bb2e67333caa62c9418",
+     "sha256": "b2da28ce10a1a4e4f842015722567bab44ac9b31abc377a2cd286dfbffc76f61",
      "headerBytes": 0
     }
    ]
@@ -548,8 +548,8 @@
   },
   {
    "out": "public/mp.js",
-   "bytes": 106515,
-   "sha256": "6146e921f81546deda4eb0e21737a0bea320eb987f5e186febd0296c1b44ab20",
+   "bytes": 106591,
+   "sha256": "167f47917e9f713e0338ec24743414a1cd49bde5bdefa239959fe30cb00f8394",
    "parts": [
     {
      "path": "src/core/client/mp.js",
@@ -603,8 +603,8 @@
     },
     {
      "path": "src/core/client/mp.frame.js",
-     "sha256": "5599d730888b26cd1805e2cfd435032305e49b627adca4888a5e048b32c47485",
-     "headerBytes": 1898
+     "sha256": "6cbf047472d8a3f5cadec65d98325860be388e18f450405c18c9ed4715818fad",
+     "headerBytes": 1995
     },
     {
      "path": "src/core/client/mp.compose.js",
@@ -681,8 +681,8 @@
   },
   {
    "out": "generated/server/ai.js",
-   "bytes": 403324,
-   "sha256": "1aad2d4f0c7f124f506b94f55eb8a9dab13b4c8c1c8ca0f922a559d49ed7f907",
+   "bytes": 407028,
+   "sha256": "19898896c144a54f99be8bb2a14134b44021227e812884b08dd62d7ef693e2bf",
    "parts": [
     {
      "path": "src/frameworks/nani/server/ai.head.js",
@@ -731,8 +731,8 @@
     },
     {
      "path": "src/frameworks/nani/server/ai.skin.mind.js",
-     "sha256": "c522e0bd6edc927d9535a4f7faee7f9a5adb19b7ffee4057ae873a771a37254f",
-     "headerBytes": 305
+     "sha256": "984852c42d9b8d09d6abac94a7c9d81bef5dbb71778c5a00a693b7be88638d55",
+     "headerBytes": 335
     },
     {
      "path": "src/frameworks/nani/server/ai.skin.infer.js",
@@ -741,13 +741,13 @@
     },
     {
      "path": "src/frameworks/nani/server/ai.skin.cover.js",
-     "sha256": "8accaec18034650c8d9470aa23ef2615273bfc834c86df73f39360cb746c916e",
+     "sha256": "9121b0a9af56d1a7a72c157fbb288de962ee8e6c89c1aea378c0f576b23d9360",
      "headerBytes": 335
     },
     {
      "path": "src/frameworks/nani/server/ai.skinstealer.js",
-     "sha256": "18b570837ad0f5e793a4a21072e0e7bd75579af164c034ba5465faf5111262ce",
-     "headerBytes": 657
+     "sha256": "7559d1bab14253897cafce2f91dcef5d8d984a99071aa2d46cd4cdc9fe192804",
+     "headerBytes": 674
     },
     {
      "path": "src/frameworks/nani/server/ai.engine.js",
@@ -758,12 +758,12 @@
   },
   {
    "out": "generated/server/dphys.js",
-   "bytes": 77020,
-   "sha256": "645915e5af247e70f568c8e31f55c701fe599d9603229bb2e67333caa62c9418",
+   "bytes": 77295,
+   "sha256": "b2da28ce10a1a4e4f842015722567bab44ac9b31abc377a2cd286dfbffc76f61",
    "parts": [
     {
      "path": "src/frameworks/gib/shared/dphys.js",
-     "sha256": "645915e5af247e70f568c8e31f55c701fe599d9603229bb2e67333caa62c9418",
+     "sha256": "b2da28ce10a1a4e4f842015722567bab44ac9b31abc377a2cd286dfbffc76f61",
      "headerBytes": 0
     }
    ]
