@@ -20,7 +20,7 @@ filled in by the next checkpoint.
 | C7a the independent review and its fixes | `91de3eb153807c66f6a2bf3e71876669e7f4f346` | `64afa401f5c9b899981912fd4194c2dd711cdb19` | `d708f42` | read back from GitHub (`evidence/remote/c7a.json`: ok); scans before and after clean |
 | C7b the fixed build, re-run in full | `9a8373abe0143685687e73f78f83434e7c532ab1` | `34107a0372b144e5fa7b71c3ab32e2dd4f802871` | `91de3eb` | read back from GitHub (`evidence/remote/c7b.json`: ok); scans before and after clean |
 | C7c the review's re-check, and its fix | `626972cc71aea0c9084a11d2c83edc5727bb05ad` | `470d548b231a383915c6760f8bd624e8b19b61b2` | `9a8373a` | read back from GitHub (`evidence/remote/c7c.json`: ok); scans before and after clean |
-| C8 final documents and the last regression | (this commit: `evidence/remote/c8.json` arrives with the receipt commit) | | `626972c` | |
+| C8 final documents and the last regression | `53385f30a7491471a8171a1d513d415f145148ea` | `d84254d45f51ea646eeb7230dc489c869dd97cbf` | `626972c` | read back from GitHub (`evidence/remote/c8.json`: ok); scans before and after clean |
 
 ## C0 — diagnosis first (no game change)
 
