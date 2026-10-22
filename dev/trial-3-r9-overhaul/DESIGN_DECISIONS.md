@@ -330,3 +330,51 @@ person it only believes is there is a soft cost, not a wall — a covert way may
 `SKC.suspectMax` (144 px); it cannot see behind itself except in its glances back on a covert way; a covert way is planned on the 48 px
 grid and only then audited point by point — a way the audit refuses is not repaired, it is dropped (an open move or another choice
 follows, labelled).
+
+## R14 — its body drawn for the camera the game has (client drawing only)
+
+**Requirement** (pack `05`, owner): a body redesigned for the actual top-down view, not a frontal figure flattened onto the floor;
+imposing beside Wanderers; readable heading, head focus, stalking, sprinting and grappling from every heading; no squatting frog, no raised
+hands; collider, reach and disguise size unchanged; lighting, darkness, occlusion, culling and replay consistency kept; a report with
+**visual approval pending**. The report is `R14_TOPDOWN_ART_REPORT.md`; the decisions:
+
+**R14-1 A skeleton seen from above, not a sprite turned.** `skin.body.js` poses a three-dimensional skeleton (`rig()`: hips, a spine that
+leans, shoulders, a long neck, the skull; two-bone IK for arms and legs with poles that bend knees forward and elbows back) and projects it
+straight down. Standing, it is a wide bony shoulder line and a small skull; the more it leans the more of its long back the camera sees.
+Every number is a proportion of one anatomy (`AN`), not a per-pose drawing.
+
+**R14-2 Its size stays the owner's choice.** `BODY_SCALE` is still 1.3 (R5's, unapproved). The anatomy itself makes it read bigger
+(shoulders 1.3× a Wanderer's body, 2.6 m straightened; stooped as it stands, its crown at 166 px), as do its reach and stride. Height is
+never drawn as a perspective trick (pack 05 §7).
+
+**R14-3 The pose says only what the server says.** The act picks a posture (`POSE`: crouch, lean, hands to the floor, coiled, drawn back,
+reaching, off the ground, head down); the real velocity (in its own frame) drives the stride, its direction and the lean; a sharp stop
+brakes; the server's head turns the skull on the neck. Nothing is random: tics and hair are seeded by the entity's id (two pages draw the
+same body; D01).
+
+**R14-4 Still and hidden means compact, and centred.** The figure is centred on its server position (between the front of its skull and
+the back of its hips), still postures keep within 40 px of the centre (coiled: hands tucked under the shoulders, the head drawn in), and
+the shadow never leaves its own reach by more than 10 px nor moves toward a near wall. The real page's edge test still finds a coiled
+figure 18–30 px behind a view's edge showing a hand or its head (as R8's did, at 12–36 px): the server counts a body hidden when its centre
+and 18 px either side are out of view — that margin, not the drawing, is the lever (R16).
+
+**R14-5 Kills grip where the victim is.** `skin.kill.js` gives the attacker the living body's skeleton and sets its grip from the death's
+own physics: as far ahead as the victim's body really is and as high as their neck at that moment (A: until the snap; B: down at once;
+C: as the legs go), the jaw open at C's bites. The death's timing is G.I.B.'s (`dphys.js` CFG), unchanged.
+
+**R14-6 The skin's fold.** Putting the skin on, the body fades and shrinks into the page's own Wanderer avatar over about a quarter of a
+second; dropping it (to strike, to run), the body is back within about a tenth of a second (G05: 67 ms to 90 %) — the wind-up's tell is
+never hidden by the transition. The avatar is never scaled.
+
+**R14-7 Cost no higher in shapes.** 55–56 fills and strokes a frame per creature (R8's figure: about 55): strokes of one style share a path,
+the trunk is one outline drawn three times (outline, flank, lit back). A still figure is not redrawn while what it would draw is unchanged
+(a key of its joints to a quarter of a unit); only its head's turn, a property, moves.
+
+**R14-8 Tests changed, and why** (listed in `REGRESSION.md` at R17): `s_skinpredator.js` PR23 counted the mentions of `BODY_SCALE` as its
+proxy for "one source of the drawing scale"; R14 uses the constant in more places (the stride in floor px, the shadow's reach, a kill's
+grip, the skin's fold). PR23 now checks the invariant itself — one definition, and no view scaled by a number of its own; every other
+check in it is unchanged. New: `s_skinbody.js` (G01–G06, M01, K01, D01, P01, S01) in `run.js`.
+
+**R14-9 What the suites say.** `s_skinbody` 11/11 (new), every other Skin-Stealer suite as at R13, Human QA hotfix 5/6 (X03 inherited),
+`npm test` 283/296 with the same 13 inherited failures. The real page: the gallery (12 acts × 8 headings), places, the view's edge and
+the deaths A–C, beside R8's (`evidence/r14/`); the measured edge leak and the drawing cost are in the report (§6, §7).

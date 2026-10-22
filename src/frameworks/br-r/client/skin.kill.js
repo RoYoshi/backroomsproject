@@ -5,13 +5,15 @@
  * asks attacker() for its view and poses it every frame through attackPose (the Hound's view has the same method), so that loop is as it
  * was.  The real Skin-Stealer stays committed on its kill on the server until the death is over; its mirrored view is hidden while a death
  * it is making plays here (the death's source within 260 px of it), so one creature is never drawn twice.  Nothing here decides anything.
- * imports: head { API clamp K lend lerp sm }, body { classes newView paint shadeView }
+ * (R14) The attacker's body is the living one's (skin.body.js's skeleton): its hands go where the victim's neck is - ahead of it by the
+ * bodies' real distance in the death's physics, at the height the victim's neck is at that moment, standing, falling, on the floor.
+ * imports: head { API BODY_SCALE clamp K lend lerp sm }, body { classes newView paint shadeView }
  * exports: -
  * provides: skinKill
  * uses: -
  * writes: -
  */
-function skinKill({ head: { API, clamp, K, lend, lerp, sm }, body: { classes, newView, paint, shadeView } }) {
+function skinKill({ head: { API, BODY_SCALE, clamp, K, lend, lerp, sm }, body: { classes, newView, paint, shadeView } }) {
 const CFG = () => (window.__dphys && window.__dphys.CFG && window.__dphys.CFG.SkinStealer) || {};
 /* the pose at time t of a death: its variant, and its physics (the snap, the blows' impact) */
 function killPose(S, jl, t) {
@@ -28,6 +30,14 @@ function killPose(S, jl, t) {
   if (t >= snap) { const k = Math.exp(-(t - snap) * 7); tilt += (S.seed % 2 < 1 ? 1 : -1) * .7 * k; S.twitch = Math.max(S.twitch, k); }   // the twist
   S.crouch = lerp(crouch, .85, done); S.reach = lerp(reach, .45, done); S.lean = lerp(lean, .75, done);   // done: it eases off, bent over the body
   S.back = 0; S.tilt = tilt; S.spd = 0; S.twitch = Math.max(0, S.twitch - .03);
+  // (R14) where its hands are: at the victim's neck - ahead of it as far as the victim's body really is (the death's physics: body and
+  // attacker), as high as the neck is now (standing, then going down: B knocks them down at once, A drops them at the snap, C's legs go)
+  const at = jl.attacker, b = jl.body;
+  let gd = 30; if (at && b && Number.isFinite(b.x) && Number.isFinite(at.x)) gd = clamp(((b.x - at.x) * Math.cos(at.angle) + (b.y - at.y) * Math.sin(at.angle)) / BODY_SCALE, 12, 58);
+  const col = c.collapse || [.95, .8], down = v === 'B' ? sm(.05, .35, t) : v === 'C' ? sm(col[0], col[0] + col[1], t) : sm(snap, snap + .6, t);
+  S.gripD = gd; S.gripZ = lerp(v === 'B' ? 58 : 86, 14, down); S.gripW = v === 'C' ? 8 : 5;
+  S.headDown = v === 'C' ? .9 : lerp(.1, .7, Math.max(down, done)); S.air = v === 'B' ? 1 - sm(0, .1, t) : 0;
+  S.floor = 0; S.coil = 0; S.brake = 0; S.bite = v === 'C' ? clamp(imp, 0, 1) : 0;
 }
 /* our own death's attacker (the bundle gives the Hound's view: it is hidden; this one is drawn in the same creatures layer) */
 let own = null;

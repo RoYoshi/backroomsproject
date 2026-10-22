@@ -203,7 +203,7 @@ async function gallery(b, port, R, qa) {
   const SETS = [['stand', '', 0, 'ROAMING'], ['watch', 'watch', 0, 'WATCHING'], ['listen-head', 'listen', 0, 'ALERT', .8], ['creep', 'creep', 62, 'STALKING'], ['approach', 'approach', 90, 'STALKING'],
     ['run (chase)', 'chase', 255, 'HUNTING'], ['run (intercept)', 'intercept', 230, 'STALKING'], ['wind-up', 'wind', 0, 'ATTACKING'], ['pounce', 'pounce', 380, 'ATTACKING'], ['recover', 'recover', 0, 'ATTACKING'], ['wait (coiled)', 'wait', 0, 'STALKING'], ['feed', 'feed', 0, 'FEEDING']];
   R.gallery = [];
-  for (const [label, act, v, st, head] of SETS) {
+  for (const [label, act, v, st, head] of ARG.only === 'places' ? [] : SETS) {
     const F = []; for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4, x = C.x + ((i % 4) - 1.5) * 110, y = C.y - 70 + Math.floor(i / 4) * 150; F.push({ i: 900 + i, x, y, a, s: SCODE[st] | 0, ac: KACT[act] | 0, v, h: head || 0, x0: x, y0: y }); }
     await O.P.evaluate(`(${FAKE})(${JSON.stringify(F)})`);
     // moving acts move, along their heading, at their pace (every frame), back to the start every 3 s (a jump the body's pose resets on)
@@ -216,12 +216,13 @@ async function gallery(b, port, R, qa) {
     R.gallery.push({ label, act, v, file: SHOTS ? file : '', size0: sz });
   }
   await O.P.evaluate(() => { const K = window.__k3; if (K.galT) cancelAnimationFrame(K.galT); K.fake = []; });
+  if (ARG.places !== '0') { await places(O, R, VP, tag, KACT, SCODE, C); await drawCost(O, R, KACT, SCODE, C); }
   // the deaths: the admin's DEATHS preview on this page (the victim), a second page beside it (a spectator)
   const Sp = await runPage(b, port, room, VP, 'K3Witness'); const oid = await O.P.evaluate(() => __api.H.id);
   O.cmd({ c: 'skinstealers', mode: 'remove', n: 4 }); await sleep(400);
   await Sp.P.evaluate(q => __api.tp(q.x + 200, q.y), OB); if (!(await Sp.P.evaluate(() => __api.lightOn()))) await Sp.P.keyboard.press('KeyF');
   R.deaths = [];
-  for (const v of (ARG.vars || 'A,B,C').split(',')) {
+  for (const v of ARG.only === 'places' ? [] : (ARG.vars || 'A,B,C').split(',')) {
     await alive(O, O, oid); await O.P.evaluate(q => __api.tp(q.x, q.y), OB); await sleep(500);
     O.cmd({ c: 'preview', k: 'skinstealer', var: v }); const t0 = Date.now(), D = { v, shots: [] };
     for (const at of [.3, .8, 1.5, 2.6, 4.5]) { const wait = t0 + at * 1000 - Date.now(); if (wait > 0) await sleep(wait);
@@ -231,6 +232,113 @@ async function gallery(b, port, R, qa) {
     R.deaths.push(D); await sleep(2500);
   }
   R.errors = { O: O.errs, S: Sp.errs };
+}
+/* (R14) places: the body where the level puts it, each found on THIS page with BR-RoLE's own ray and light sample - against a wall (and
+ * just behind one: nothing of it may show), in a narrow passage, in the dark with the torch off then on it, at a lamp's edge, in a borrowed
+ * skin beside the undisguised body; the page's view of each figure (on screen / in the sight mask / readable) is recorded with its shot */
+async function places(O, R, VP, tag, KACT, SCODE, C) {
+  const P = O.P; R.places = [];
+  const shot = async (name, at) => { await P.evaluate(q => __api.tp(q.x, q.y), at); await sleep(900);
+    const file = `place_${tag}_${name}.png`; if (SHOTS) await P.screenshot({ path: path.join(SHOTS, file) }).catch(() => { }); return file; };
+  const put = F => P.evaluate(`(${FAKE})(${JSON.stringify(F)})`);
+  const ent = (i, x, y, a, act, st, o = {}) => Object.assign({ i, x, y, a, s: SCODE[st] | 0, ac: KACT[act] | 0, v: 0, h: 0 }, o);
+  const views = ids => P.evaluate(ids => ids.map(i => { const o = (window.__k3.fake || []).find(f => f.i === i); return o ? Object.assign({ i }, window.__k3.view(o.x, o.y)) : null; }), ids);
+  const torch = async on => { if ((await P.evaluate(() => __api.lightOn())) !== on) await P.keyboard.press('KeyF'); };
+  // a wall: the nearest of four rays from the hall's centre
+  const W = await P.evaluate(c => { let best = null; for (let k = 0; k < 4; k++) { const a = k * Math.PI / 2, d = __light.ray(c.x, c.y, a, 600); if (d < 590 && (!best || d < best.d)) best = { a, d }; } return best; }, C);
+  if (W) {
+    const ux = Math.cos(W.a), uy = Math.sin(W.a), px = -uy, py = ux, f = { x: C.x + ux * (W.d - 30), y: C.y + uy * (W.d - 30) };
+    // beyond it: the first open floor past the wall's far face
+    const far = await P.evaluate(q => { for (let t = q.d + 8; t < q.d + 400; t += 8) { const x = q.x + Math.cos(q.a) * t, y = q.y + Math.sin(q.a) * t; if (__light.ray(x, y, q.a + Math.PI, 60) > 30 && __light.ray(x, y, q.a + Math.PI, t) < t - q.d + 4) return t; } return null; }, { x: C.x, y: C.y, a: W.a, d: W.d });
+    const F = [ent(950, f.x, f.y, W.a, 'watch', 'WATCHING'), ent(951, f.x + px * 110, f.y + py * 110, W.a + Math.PI / 2, 'creep', 'STALKING'), ent(952, f.x - px * 110, f.y - py * 110, W.a, 'wind', 'ATTACKING')];
+    if (far) F.push(ent(953, C.x + ux * (far + 30), C.y + uy * (far + 30), W.a + Math.PI, 'pounce', 'ATTACKING'), ent(954, C.x + ux * (far + 30) + px * 90, C.y + uy * (far + 30) + py * 90, W.a + Math.PI, 'wait', 'STALKING'));
+    await put(F); await torch(true); const at = { x: C.x - ux * 120, y: C.y - uy * 120 }; await P.mouse.move(VP.width / 2 + ux * 250, VP.height / 2 + uy * 250);
+    const file = await shot('wall', at); R.places.push({ name: 'wall (and behind it)', file, wall: Math.round(W.d), behind: far ? Math.round(far + 30) : null, views: await views(F.map(e => e.i)) });
+  }
+  // a narrow passage: walls within 70 px either side, open 200 px along it, lit enough to see
+  const D = await P.evaluate(c => { for (let r = 200; r < 1600; r += 48) for (let k = 0; k < 24; k++) { const a = k / 24 * Math.PI * 2, x = c.x + Math.cos(a) * r, y = c.y + Math.sin(a) * r;
+    for (const ax of [0, Math.PI / 2]) { const s1 = __light.ray(x, y, ax + Math.PI / 2, 200), s2 = __light.ray(x, y, ax - Math.PI / 2, 200), f1 = __light.ray(x, y, ax, 300), f2 = __light.ray(x, y, ax + Math.PI, 300);
+      if (s1 > 22 && s2 > 22 && s1 + s2 < 140 && f1 > 220 && f2 > 220) return { x, y, ax, w: Math.round(s1 + s2) }; } } return null; }, C);
+  if (D) {
+    const ux = Math.cos(D.ax), uy = Math.sin(D.ax);
+    await put([ent(960, D.x, D.y, D.ax + Math.PI, 'creep', 'STALKING', { v: 0 }), ent(961, D.x + ux * 120, D.y + uy * 120, D.ax + Math.PI, 'wait', 'STALKING')]);
+    const at = { x: D.x - ux * 200, y: D.y - uy * 200 }; await P.mouse.move(VP.width / 2 + ux * 250, VP.height / 2 + uy * 250); await torch(true);
+    const file = await shot('passage', at); R.places.push({ name: `a passage ${D.w} px wide`, file, views: await views([960, 961]) });
+  }
+  // the dark: open floor where nothing lights it, the torch off and then on it
+  const K = await P.evaluate(c => { for (let r = 300; r < 2400; r += 64) for (let k = 0; k < 24; k++) { const a = k / 24 * Math.PI * 2, x = c.x + Math.cos(a) * r, y = c.y + Math.sin(a) * r;
+    let open = true; for (let j = 0; j < 8; j++) if (__light.ray(x, y, j * Math.PI / 4, 70) < 66) open = false; if (!open) continue;
+    const s = __light.sample(x, y, false); if (s.total > .1) continue;
+    for (let j = 0; j < 8; j++) { const b = j * Math.PI / 4, ox = x + Math.cos(b) * 220, oy = y + Math.sin(b) * 220; if (__light.ray(ox, oy, b + Math.PI, 230) > 218) return { x, y, ox, oy, b, total: +s.total.toFixed(3) }; } } return null; }, C);
+  if (K) {
+    await put([ent(970, K.x, K.y, K.b, 'watch', 'WATCHING'), ent(971, K.x + Math.cos(K.b + Math.PI / 2) * 70, K.y + Math.sin(K.b + Math.PI / 2) * 70, K.b, 'creep', 'STALKING')]);
+    const ux = -Math.cos(K.b), uy = -Math.sin(K.b); await P.mouse.move(VP.width / 2 + ux * 220, VP.height / 2 + uy * 220);
+    await torch(false); const f1 = await shot('dark_torch_off', { x: K.ox, y: K.oy }); const v1 = await views([970, 971]);
+    await torch(true); await sleep(400); const f2 = await shot('dark_torch_on', { x: K.ox, y: K.oy }); const v2 = await views([970, 971]);
+    R.places.push({ name: `the dark (light ${K.total})`, file: f1, views: v1 }, { name: 'the dark, the torch on it', file: f2, views: v2 });
+  }
+  // a lamp's edge: the light falling off across a few figures
+  const E = await P.evaluate(c => { for (let r = 0; r < 1400; r += 32) for (let k = 0; k < 16; k++) { const a = k / 16 * Math.PI * 2, x = c.x + Math.cos(a) * r, y = c.y + Math.sin(a) * r;
+    const s0 = __light.sample(x, y, false).total, s1 = __light.sample(x + 120, y, false).total; if (s0 > .55 && s1 < .2 && __light.ray(x, y, 0, 180) > 170) return { x, y, s0: +s0.toFixed(2), s1: +s1.toFixed(2) }; } return null; }, C);
+  if (E) {
+    await put([0, 1, 2, 3].map(k => ent(980 + k, E.x + k * 40, E.y + (k % 2) * 30, -Math.PI / 2, 'watch', 'WATCHING')));
+    await torch(false); await P.mouse.move(VP.width / 2, VP.height / 2 - 200); const file = await shot('lamp_edge', { x: E.x + 60, y: E.y + 190 });
+    R.places.push({ name: `a lamp's edge (light ${E.s0} to ${E.s1})`, file, views: await views([980, 981, 982, 983]) }); await torch(true);
+  }
+  // the edge of the view: a corner of the page's sight mask found by its own rays (a near wall in one direction, open floor a little to the
+  // side); a figure waiting coiled, facing the open side, its centre 12 / 24 / 36 / 48 px behind the edge - each shot twice, with it and
+  // without it (the same clip; the difference is counted afterwards: dev/trial-3-r9-overhaul R14 report), and the page's own view of it
+  {
+    let G = null, Q = null;
+    for (const [dx, dy] of [[0, 0], [300, 0], [-300, 0], [0, 300], [0, -300], [600, 0], [-600, 0]]) {
+      Q = { x: C.x + dx, y: C.y + dy }; if (!(await P.evaluate(q => __light.ray(q.x, q.y, 0, 30) > 25 && __light.ray(q.x, q.y, Math.PI, 30) > 25, Q))) continue;
+      await P.evaluate(q => __api.tp(q.x, q.y), Q); await sleep(700);
+      G = await P.evaluate(q => { const N = 720; let prev = __light.ray(q.x, q.y, 0, 700);
+        for (let k = 1; k <= N; k++) { const a = k / N * Math.PI * 2, d = __light.ray(q.x, q.y, a, 700), a0 = (k - 1) / N * Math.PI * 2;
+          if (prev < 450 && prev > 100 && d > prev + 120) {                      // a corner: the ray at a0 hits a wall, the next one passes it
+            const u = { x: Math.cos(a), y: Math.sin(a) }, n = { x: Math.cos(a0) - u.x, y: Math.sin(a0) - u.y }, nn = Math.hypot(n.x, n.y); n.x /= nn; n.y /= nn;
+            const pts = [12, 24, 36, 48].map(dl => ({ dl, x: q.x + u.x * (prev + 60) + n.x * dl, y: q.y + u.y * (prev + 60) + n.y * dl }));
+            const ok = pts.every(t => { for (let j = 0; j < 8; j++) if (__light.ray(t.x, t.y, j * Math.PI / 4, 28) < 25) return false; return true; });
+            if (ok) return { a, face: Math.atan2(-n.y, -n.x), pts, edge: Math.round(prev) }; }
+          prev = d; } return null; }, Q);
+      if (G) break;
+    }
+    if (G) {
+      await P.mouse.move(VP.width / 2 + Math.cos(G.a) * 200, VP.height / 2 + Math.sin(G.a) * 200); await torch(true); await sleep(300);
+      const sc = await P.evaluate(t => window.__k3.screen(t.x, t.y), G.pts[1]), clip = sc ? { x: Math.max(0, Math.round(sc.x - 90)), y: Math.max(0, Math.round(sc.y - 90)), width: 180, height: 180 } : null;
+      R.edge = { edge: G.edge, clip, cases: [] };
+      for (const t of G.pts) {
+        const c = { dl: t.dl, files: [] };
+        for (const [k, with1] of [['without', 0], ['with', 1], ['without2', 0]]) {
+          await put(with1 ? [ent(995, t.x, t.y, G.face, 'wait', 'STALKING')] : []); await sleep(700);
+          if (with1) c.view = (await views([995]))[0];
+          const file = `edge_${tag}_${t.dl}_${k}.png`; if (SHOTS && clip) await P.screenshot({ path: path.join(SHOTS, file), clip }).catch(() => { }); c.files.push(file);
+        }
+        R.edge.cases.push(c);
+      }
+    }
+  }
+  // a borrowed skin: the page's own wanderer, beside the undisguised body and the page's player
+  await put([ent(990, C.x + 90, C.y, Math.PI, 'watch', 'WATCHING', { dg: 'beanie|stripes|#d2a37c|#6b8f5e' }), ent(991, C.x + 90, C.y + 110, Math.PI, 'watch', 'WATCHING')]);
+  await P.mouse.move(VP.width / 2 + 300, VP.height / 2); const file = await shot('skin', { x: C.x, y: C.y + 40 });
+  R.places.push({ name: 'in a borrowed skin (top) and not (below)', file, views: await views([990, 991]) });
+  await P.evaluate(() => { window.__k3.fake = []; });
+}
+/* (R14) the body's cost on this page: four figures moving and posing for 6 s - the time skinstealer.js's own draw() takes a frame (the page's
+ * clock), and the page's frames a second (SwiftShader: a CPU renderer, so the absolute numbers are the slow case) */
+async function drawCost(O, R, KACT, SCODE, C) {
+  const P = O.P, F = [['chase', 255], ['creep', 62], ['watch', 0], ['wait', 0]].map(([act, v], k) => ({ i: 940 + k, x: C.x + 60 + k * 70, y: C.y - 80, a: Math.PI / 2, s: SCODE[act === 'chase' ? 'HUNTING' : 'STALKING'] | 0, ac: KACT[act] | 0, v, h: 0, x0: C.x + 60 + k * 70, y0: C.y - 80 }));
+  await P.evaluate(q => __api.tp(q.x, q.y), { x: C.x, y: C.y }); await sleep(600);
+  await P.evaluate(`(${FAKE})(${JSON.stringify(F)})`);
+  R.drawCost = {};
+  for (const n of [0, 4]) {
+    R.drawCost[n] = await P.evaluate(async n => { const K = window.__k3, S = window.__skin, all = K.fake.slice(); K.fake = all.slice(0, n);
+      const d0 = S.draw; let t = 0, calls = 0; S.draw = dt => { const a = performance.now(); d0(dt); t += performance.now() - a; calls++; };
+      let frames = 0; const t0 = performance.now(), T1 = t0 + 6000; await new Promise(r => { const f = () => { frames++; const now = performance.now();
+        for (const o of K.fake) if (o.v) { const s = ((now - t0) / 1000) % 1.5; o.y = o.y0 + o.v * s * .5; } if (now < T1) requestAnimationFrame(f); else r(); }; requestAnimationFrame(f); });
+      S.draw = d0; K.fake = all; return { figures: n, drawMs: +(t / Math.max(1, calls)).toFixed(3), fps: +(frames / 6).toFixed(1) }; }, n);
+  }
+  await P.evaluate(() => { window.__k3.fake = []; });
 }
 /* sight (R10): the Skin-Stealer's heartbeat and sting on two real pages - V01-V05, V07, V09-V12 - observed on each page's AudioContext (the
  * 70 Hz thumps it makes, the stings it plays and the master gain then), its #dread vignette and the Skin-Stealer script's own sightLog.
@@ -355,7 +463,7 @@ async function probe(b, port, R) {
   if (R.checks) { for (const k of R.checks) console.log((k.ok ? 'PASS ' : 'FAIL ') + k.id + '  ' + k.why); console.log(`SIGHT: ${R.checks.every(k => k.ok) ? 'PASS' : 'FAIL'} - ${R.checks.filter(k => k.ok).length} of ${R.checks.length}`); }
   if (R.scene === 'sight' && R.cases) for (const C of R.cases) console.log(`${C.name}: ` + C.pages.map(P => `${P.page} thumps ${P.thumps} stings ${P.stings}${P.stingGain.length ? ' (master gain ' + P.stingGain.join('/') + ')' : ''} vignette ${P.vignette} views ${JSON.stringify(P.views.map(v => [v.on, v.mask, v.leg, v.vis]))}`).join(' | '));
   if (R.scene === 'audio' && R.cases) for (const C of R.cases) console.log(`${C.name}: thumps ${C.thumps}, stings ${C.stings}, bursts ${C.bursts}, dread vignette max ${C.dreadMax}${C.view ? ', the page sees it ' + JSON.stringify(C.view) : ''}${C.sightLog ? ', sight log ' + JSON.stringify(C.sightLog).slice(0, 300) : ''}`);
-  if (R.scene === 'gallery') { for (const G of R.gallery || []) console.log(`gallery ${G.label}: ${G.file} size ${JSON.stringify(G.size0)}`); for (const D of R.deaths || []) console.log(`death ${D.v}: ${JSON.stringify(D.res)} ${D.shots.length} shots`); }
+  if (R.scene === 'gallery') { for (const G of R.gallery || []) console.log(`gallery ${G.label}: ${G.file} size ${JSON.stringify(G.size0)}`); for (const Q of R.places || []) console.log(`place ${Q.name}: ${Q.file} views ${JSON.stringify(Q.views)}`); if (R.edge) console.log(`edge ${JSON.stringify(R.edge)}`); if (R.drawCost) console.log(`draw cost ${JSON.stringify(R.drawCost)}`); for (const D of R.deaths || []) console.log(`death ${D.v}: ${JSON.stringify(D.res)} ${D.shots.length} shots`); }
   if (R.error) console.log('ERROR ' + R.error);
   if (ARG.out) fs.writeFileSync(path.resolve(ARG.out), JSON.stringify(R, null, 1) + '\n');
 })();

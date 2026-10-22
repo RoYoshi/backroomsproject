@@ -70,3 +70,18 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `dev/tests/s_skinstealer.js` | suite | SK21, SK41: the bait scene starts the creature where the person sees it (R13-11) |
 | `dev/trial-3-r9-overhaul/tools/r9_browser.js` | dev tool | flankwatch reads the server's move modes and phases (covert, its withdrawal, open, feint) |
 | `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `evidence/r12/` (receipt, scan), `evidence/r13/` | docs, evidence | R13-1 … R13-14 (R13-13: the covert search's cost, measured and fixed); R12's receipt; the real-page flankwatch after (`evidence/r13/browser/`) |
+
+## R14 — its body drawn top-down (client drawing only)
+
+| File | Kind | Change |
+|---|---|---|
+| `src/frameworks/br-r/client/skin.body.js` | source (part of `public/assets/skinstealer.js`) | the body as a 3-D skeleton seen from above (`AN`, `SEC`, `POSE`, `rig`, IK), posed from the server's act, speed and head; centred on its position; a short shadow clamped at walls; the skin's fold; seeded tics and hair; redraw keys for still figures; `window.__skin.anatomy` (`AN`, `POSE`, `rig`, `settle`) for the report and its tests |
+| `src/frameworks/br-r/client/skin.kill.js` | source | the attacker's grip from the death's physics (distance to the victim, the neck's height over time), C's jaw; imports `BODY_SCALE` |
+| `public/assets/skinstealer.js`, `generated/BUILD_MANIFEST.json` | built | rebuilt from the above |
+| `dev/tests/s_skinbody.js` | new suite, in `run.js`'s default list | G01–G06, M01, K01, D01, P01, S01 |
+| `dev/tests/s_skinpredator.js` | suite | PR23: "one source of the scale" checked as itself (R14-8) |
+| `dev/tests/run.js` | test list | `s_skinbody.js` added |
+| `dev/trial-3-r9-overhaul/tools/r9_browser.js` | dev tool | gallery: `--only places`; places on the real page (a wall, a passage, the dark torch off / on, a lamp's edge, a skin), the view's edge (with / without, counted), the page's own draw time with four figures |
+| `dev/trial-3-r9-overhaul/tools/art_lab.js` | new dev tool | the page's own script drawn to an SVG/PNG lineup: acts × eight headings beside a Wanderer |
+| `dev/trial-3-r9-overhaul/R14_TOPDOWN_ART_REPORT.md` | report | anatomy, pose map, images, collision / sorting audit, cost, limitations — **visual approval pending** |
+| `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `evidence/r13/` (receipt, scan), `evidence/r14/` | docs, evidence | R14-1 … R14-8; R13's receipt |

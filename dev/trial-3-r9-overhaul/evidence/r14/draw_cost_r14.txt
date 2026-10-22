@@ -1,0 +1,13 @@
+# R14 drawing cost: R8 (f378049) vs R14, four Skin-Stealers (chase, creep, watch, wait) - development measurements, not a gate
+
+## Real page (r9_browser.js --scene gallery --only places; SwiftShader CPU renderer; draw(): skinstealer.js's own time a frame over 6 s; runs alternated R8, R14, R8, R14)
+r8 1 draw cost {"0":{"figures":0,"drawMs":0.011,"fps":4.7},"4":{"figures":4,"drawMs":0.882,"fps":4.7}}
+r14 1 draw cost {"0":{"figures":0,"drawMs":0.009,"fps":5.3},"4":{"figures":4,"drawMs":0.954,"fps":4.3}}
+r8 2 draw cost {"0":{"figures":0,"drawMs":0.007,"fps":5},"4":{"figures":4,"drawMs":0.814,"fps":4.7}}
+r14 2 draw cost {"0":{"figures":0,"drawMs":0.013,"fps":5},"4":{"figures":4,"drawMs":1.163,"fps":4.5}}
+full gallery runs: R8 "4":{"figures":4,"drawMs":0.761,"fps":5.2}, R14 "4":{"figures":4,"drawMs":0.922,"fps":4.5}
+(the second R14 run overlapped a Node measurement for about 15 s)
+
+## Node (the built page script in a VM, recording stand-ins for Pixi; 600 frames; six rounds alternating)
+r8 ms a frame (4 creatures, Node recorder): 0.179 0.193 0.215 0.242 0.251 0.258 median 0.242 | shapes in the last frame (all 4): 228
+r14 ms a frame (4 creatures, Node recorder): 0.611 0.71 0.753 0.822 0.831 0.956 median 0.822 | shapes in the last frame (all 4): 220

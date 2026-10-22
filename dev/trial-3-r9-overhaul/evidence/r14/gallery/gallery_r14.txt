@@ -1,0 +1,23 @@
+gallery stand: gallery_r14_stand.png size {"w":69.6,"h":76.4,"scale":1.3}
+gallery watch: gallery_r14_watch.png size {"w":69.6,"h":78.1,"scale":1.3}
+gallery listen-head: gallery_r14_listen_head.png size {"w":69.1,"h":78.2,"scale":1.3}
+gallery creep: gallery_r14_creep.png size {"w":67.5,"h":76,"scale":1.3}
+gallery approach: gallery_r14_approach.png size {"w":71,"h":95.5,"scale":1.3}
+gallery run (chase): gallery_r14_run_chase_.png size {"w":70.8,"h":120.3,"scale":1.3}
+gallery run (intercept): gallery_r14_run_intercept_.png size {"w":70.2,"h":114.2,"scale":1.3}
+gallery wind-up: gallery_r14_wind_up.png size {"w":93.8,"h":95,"scale":1.3}
+gallery pounce: gallery_r14_pounce.png size {"w":66.5,"h":178.7,"scale":1.3}
+gallery recover: gallery_r14_recover.png size {"w":76.9,"h":83.5,"scale":1.3}
+gallery wait (coiled): gallery_r14_wait_coiled_.png size {"w":65.8,"h":71.7,"scale":1.3}
+gallery feed: gallery_r14_feed.png size {"w":69.7,"h":112.9,"scale":1.3}
+place wall (and behind it): place_r14_wall.png views [{"i":950,"on":1,"mask":3,"leg":0.584,"vis":1},{"i":951,"on":1,"mask":3,"leg":0.827,"vis":1},{"i":952,"on":1,"mask":3,"leg":0.514,"vis":1}]
+place a passage 96 px wide: place_r14_passage.png views [{"i":960,"on":1,"mask":3,"leg":0.678,"vis":1},{"i":961,"on":1,"mask":3,"leg":0.156,"vis":0}]
+place the dark (light 0.079): place_r14_dark_torch_off.png views [{"i":970,"on":1,"mask":3,"leg":0.094,"vis":0},{"i":971,"on":1,"mask":3,"leg":0.174,"vis":0}]
+place the dark, the torch on it: place_r14_dark_torch_on.png views [{"i":970,"on":1,"mask":3,"leg":0.579,"vis":1},{"i":971,"on":1,"mask":3,"leg":0.38,"vis":1}]
+place a lamp's edge (light 0.69 to 0.05): place_r14_lamp_edge.png views [{"i":980,"on":1,"mask":3,"leg":0.905,"vis":1},{"i":981,"on":1,"mask":3,"leg":0.866,"vis":1},{"i":982,"on":1,"mask":1,"leg":0.724,"vis":1},{"i":983,"on":1,"mask":0,"leg":0,"vis":0}]
+place in a borrowed skin (top) and not (below): place_r14_skin.png views [{"i":990,"on":1,"mask":3,"leg":0.899,"vis":1},{"i":991,"on":1,"mask":3,"leg":0.74,"vis":1}]
+edge {"edge":352,"clip":{"x":839,"y":84,"width":180,"height":180},"cases":[{"dl":12,"files":["edge_r14_12_without.png","edge_r14_12_with.png","edge_r14_12_without2.png"],"view":{"i":995,"on":1,"mask":1,"leg":0.532,"vis":1}},{"dl":24,"files":["edge_r14_24_without.png","edge_r14_24_with.png","edge_r14_24_without2.png"],"view":{"i":995,"on":1,"mask":0,"leg":0,"vis":0}},{"dl":36,"files":["edge_r14_36_without.png","edge_r14_36_with.png","edge_r14_36_without2.png"],"view":{"i":995,"on":1,"mask":0,"leg":0,"vis":0}},{"dl":48,"files":["edge_r14_48_without.png","edge_r14_48_with.png","edge_r14_48_without2.png"],"view":{"i":995,"on":1,"mask":0,"leg":0,"vis":0}}]}
+draw cost {"0":{"figures":0,"drawMs":0.031,"fps":4.3},"4":{"figures":4,"drawMs":0.922,"fps":4.5}}
+death A: {"active":true,"kind":"SkinStealer","variant":"A"} 10 shots
+death B: {"active":true,"kind":"SkinStealer","variant":"B"} 10 shots
+death C: {"active":true,"kind":"SkinStealer","variant":"C"} 10 shots

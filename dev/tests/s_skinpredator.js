@@ -469,12 +469,14 @@ add('PR23 its size: the undisguised body is drawn at one scale in the pack\'s 1.
   const nv = js.slice(js.indexOf('function newView('), js.indexOf('function make('));
   const sv = js.slice(js.indexOf('function skinView('), js.indexOf('function dropSkin('));
   const kill = js.slice(js.indexOf('function attack('), js.indexOf('K.attack = attack;'));
-  const one = (js.match(/BODY_SCALE/g) || []).length;                                   // its definition, the head's export, the body's import and use
+  // (R14: the body uses its one scale in more places - its stride in floor px, its shadow's reach, a kill's grip, the skin's fold - so the
+  // invariant "one source" is checked as itself: one definition, and no view scaled by a number of its own)
+  const one = (js.match(/const BODY_SCALE = /g) || []).length === 1 && !/\.scale\.set\(\s*[\d.]+\s*\)/.test(js.slice(js.indexOf('function skinBody('), js.indexOf('function skinAudio(')));
   const viewsScaled = /v\.scale\.set\(BODY_SCALE\)/.test(nv) && /newView\('skinstealer-kill'\)/.test(kill) && /newView\('skinstealer-replay'\)/.test(kill) && !/\.scale\./.test(kill);
   const skinPlain = !/BODY_SCALE|\.scale\./.test(sv);
   const S = AI.SKIN, K = AI.SK, server = S.radius === 24 && S.clearance === 21 && K.grabReach === 46 && K.pounceRange[0] === 55 && K.pounceRange[1] === 185 && K.pounceSpeed === 430 && K.pounceDur === .36;
-  return { ok: scale >= 1.2 && scale <= 1.35 && viewsScaled && skinPlain && server && one <= 6,
-    note: `BODY_SCALE ${scale} (the one source: ${one} mentions in the page script); every undisguised view made by newView at that scale (living, our own death's attacker, a replay's) ${viewsScaled}; the borrowed skin (the page's Wanderer avatar) never scaled ${skinPlain}; the server's body radius ${S.radius}, clearance ${S.clearance}, grab reach ${K.grabReach}, pounce ${K.pounceRange.join('-')} px at ${K.pounceSpeed} px/s for ${K.pounceDur} s - unchanged ${server}.  Its size on the page against a Wanderer and a Hound: tools/scale_lineup.js (evidence/r5_lineup_*)` };
+  return { ok: scale >= 1.2 && scale <= 1.35 && viewsScaled && skinPlain && server && one,
+    note: `BODY_SCALE ${scale} (the one source: one definition, no view scaled by a number of its own: ${one}); every undisguised view made by newView at that scale (living, our own death's attacker, a replay's) ${viewsScaled}; the borrowed skin (the page's Wanderer avatar) never scaled ${skinPlain}; the server's body radius ${S.radius}, clearance ${S.clearance}, grab reach ${K.grabReach}, pounce ${K.pounceRange.join('-')} px at ${K.pounceSpeed} px/s for ${K.pounceDur} s - unchanged ${server}.  Its size on the page against a Wanderer and a Hound: tools/scale_lineup.js (evidence/r5_lineup_*)` };
 });
 
 /* ---------------------------------------------------------------- R6: deaths, many of them, the other species, nothing left behind */
