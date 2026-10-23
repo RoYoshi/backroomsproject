@@ -1,0 +1,8 @@
+start 19:56:01 head a70137e steps cli_mutants,live_wire,bpp_checks,browsers,workflow
+PASS cli_mutants: 57 compared; 3 in assets/net-newrun.js, 11 in assets/mp-hum.js; mp.js's module seams: 35 of 35 caught (16 s)
+PASS live_wire: 65 compared; structurally identical, ui {"menuAfterFirst":true,"refusedLabel":"Spontaneously Combust? · WAIT N S","menuAfterRefused":false,"menuAfterAdmin":true} (297 s)
+PASS bpp_checks: 36 compared; proto_check as on B++ (8), place_replay as on B++ (22), place_guard as on B++ (6) (147 s)
+PASS browsers: 172 compared; two_browser ok (157), col_head ok (5), col_aside ok (5), gameplay_smoke ok (5) (174 s)
+PASS workflow: 30 compared; dev workflow 22 of 22 steps (the compiled client: checked); browser contracts PASS: 8 checks on B++ and this tree (the 52-member facade, unauthorized access refused, a phone), the two sides agree on 3 of 3 (158 s)
+MODERNIZATION GATE (full: cli_mutants,live_wire,bpp_checks,browsers,workflow): PASS  - report <tmp>
+exit 0 793s

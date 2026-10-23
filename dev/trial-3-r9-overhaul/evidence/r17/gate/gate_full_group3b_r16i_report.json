@@ -1,0 +1,31 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "a70137e7038187ffbbf28502e596634159457509",
+ "startedAt": "2026-10-23T02:03:56.158Z",
+ "out": "<tmp>",
+ "steps": {
+  "rgb": {
+   "ok": true,
+   "cases": 27,
+   "note": "Trial 4's RGB sliders in Chromium: 16 of 16 checks (mounted once, the saved colours at load, Body, Beam, HUD with its Default and reset, drawn to fit; at 1280x720 and a phone; P4: typed numbers, a typed colour replicated); its mutants 11 of 11 caught",
+   "exit": 0,
+   "seconds": 992
+  },
+  "contact_lab": {
+   "ok": true,
+   "cases": 23,
+   "note": "23 images byte-identical in pixels",
+   "exit": null,
+   "seconds": 363
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-23T02:26:30.923Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate"
+ ]
+}

@@ -1,0 +1,706 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r16g_campaign.js",
+ "part": "continuous",
+ "chromium": "141.0.7390.37",
+ "tree": "wt16e",
+ "ids": {
+  "A": 1,
+  "B": 2
+ },
+ "K": [
+  {
+   "ok": true,
+   "op": "spawn",
+   "id": 10,
+   "x": 7600,
+   "y": 3504,
+   "hunger": 0.6
+  },
+  {
+   "ok": true,
+   "op": "spawn",
+   "id": 12,
+   "x": 3300,
+   "y": 2904,
+   "hunger": 0.9
+  }
+ ],
+ "log": [
+  [
+   3.7,
+   "A: flee"
+  ],
+  [
+   3.7,
+   "B: peek"
+  ],
+  [
+   29.3,
+   "B: feint"
+  ],
+  [
+   32.8,
+   "A: explore"
+  ],
+  [
+   56,
+   "A: circle"
+  ],
+  [
+   56,
+   "B died"
+  ],
+  [
+   63.9,
+   "B: explore"
+  ],
+  [
+   91.2,
+   "A: hide"
+  ],
+  [
+   97.5,
+   "B: explore"
+  ],
+  [
+   121.5,
+   "B: explore"
+  ],
+  [
+   125.8,
+   "A: circle"
+  ],
+  [
+   150.5,
+   "A: feint"
+  ],
+  [
+   156.2,
+   "B: explore"
+  ],
+  [
+   171.5,
+   "A: peek"
+  ],
+  [
+   179.1,
+   "B: explore"
+  ],
+  [
+   196.9,
+   "A: feint"
+  ],
+  [
+   216.5,
+   "B: flee"
+  ],
+  [
+   229.5,
+   "A: peek"
+  ],
+  [
+   234.8,
+   "B: peek"
+  ],
+  [
+   251.6,
+   "B: explore"
+  ],
+  [
+   254.2,
+   "A: circle"
+  ],
+  [
+   276.7,
+   "A: explore"
+  ],
+  [
+   276.7,
+   "B: peek"
+  ],
+  [
+   302.2,
+   "A: circle"
+  ],
+  [
+   302.2,
+   "B: circle"
+  ],
+  [
+   336.1,
+   "A: peek"
+  ],
+  [
+   336.1,
+   "B died"
+  ],
+  [
+   343.7,
+   "B: explore"
+  ],
+  [
+   358.4,
+   "B died"
+  ],
+  [
+   365.2,
+   "a second Skin-Stealer, hunger .9"
+  ],
+  [
+   365.2,
+   "A: explore"
+  ],
+  [
+   365.2,
+   "B: explore"
+  ],
+  [
+   392.1,
+   "A: explore"
+  ],
+  [
+   401.5,
+   "B: peek"
+  ],
+  [
+   416,
+   "A: explore"
+  ],
+  [
+   435.6,
+   "B: hide"
+  ],
+  [
+   438.8,
+   "A: explore"
+  ],
+  [
+   463.5,
+   "B: circle"
+  ],
+  [
+   473.1,
+   "A: explore"
+  ],
+  [
+   494.5,
+   "B: flee"
+  ],
+  [
+   497.4,
+   "A: peek"
+  ],
+  [
+   510.5,
+   "A died"
+  ],
+  [
+   510.5,
+   "B: explore"
+  ],
+  [
+   521.8,
+   "A: peek"
+  ],
+  [
+   535,
+   "B: peek"
+  ],
+  [
+   547.3,
+   "A: explore"
+  ],
+  [
+   565.9,
+   "A: feint"
+  ],
+  [
+   565.9,
+   "B: flee"
+  ],
+  [
+   569.7,
+   "A died"
+  ],
+  [
+   576.9,
+   "A: circle"
+  ],
+  [
+   589.5,
+   "B: explore"
+  ],
+  [
+   603.8,
+   "A died"
+  ],
+  [
+   611.6,
+   "A: explore"
+  ],
+  [
+   618,
+   "B: feint"
+  ],
+  [
+   635.7,
+   "B: feint"
+  ],
+  [
+   642.3,
+   "A: hide"
+  ],
+  [
+   660.4,
+   "B: peek"
+  ],
+  [
+   666.5,
+   "A: flee"
+  ],
+  [
+   688.6,
+   "B: circle"
+  ],
+  [
+   691.6,
+   "A: hide"
+  ]
+ ],
+ "shots": [
+  "C_A_33s.png",
+  "C_B_33s.png",
+  "C_A_91s.png",
+  "C_B_91s.png",
+  "C_A_151s.png",
+  "C_B_151s.png",
+  "C_A_212s.png",
+  "C_B_212s.png",
+  "C_A_272s.png",
+  "C_B_272s.png",
+  "C_A_331s.png",
+  "C_B_331s.png",
+  "C_A_392s.png",
+  "C_B_392s.png",
+  "C_A_450s.png",
+  "C_B_450s.png",
+  "C_A_511s.png",
+  "C_B_511s.png",
+  "C_A_577s.png",
+  "C_B_577s.png",
+  "C_A_631s.png",
+  "C_B_631s.png",
+  "C_A_692s.png",
+  "C_B_692s.png"
+ ],
+ "deaths": {
+  "A": 3,
+  "B": 3
+ },
+ "secs": 732,
+ "samples": [
+  13362,
+  13445
+ ],
+ "fps": [
+  4.6,
+  4.4
+ ],
+ "errors": {
+  "A": [],
+  "B": []
+ },
+ "checks": [
+  {
+   "id": "a. it never walks on along its route after newly seeing somebody it may hunt (an answer within 0.5 s)",
+   "ok": false,
+   "why": "at 55.5 s"
+  },
+  {
+   "id": "b. its head turns (snaps seen in the debug, and drawn: the page's head angle)",
+   "ok": true,
+   "why": "snaps: {\"sound\":20,\"motion\":12,\"sight\":14}, the largest head angle the pages drew from 1.25 rad"
+  },
+  {
+   "id": "c. it never sees through a wall (whenever it sees a person within 650 px, that person's own page has a clear line to it at that tick or the two before)",
+   "ok": true,
+   "why": "5 of 500 sightings with no ray from the person's page in 0.1 s (the server's own line clear in 5 of them); 0 of B's not matched to a tick of B's page"
+  },
+  {
+   "id": "d. never faster than its run (the pages' record of its speed, the strike's lunge excepted)",
+   "ok": false,
+   "why": "28 samples over 255 px/s"
+  },
+  {
+   "id": "e. never stuck (8 s still in a plan that moves it)",
+   "ok": true,
+   "why": "none"
+  },
+  {
+   "id": "f. no plan flips back and forth within a second",
+   "ok": true,
+   "why": "0 flips"
+  },
+  {
+   "id": "g. no page error",
+   "ok": true,
+   "why": "{\"A\":[],\"B\":[]}"
+  }
+ ],
+ "events": {
+  "preempt": 4,
+  "kept": 0,
+  "snaps": {
+   "sound": 20,
+   "motion": 12,
+   "sight": 14
+  },
+  "fight": 6,
+  "strikes": 6,
+  "kills": 6
+ },
+ "blindAt": [
+  {
+   "t": 305.6,
+   "id": 10,
+   "who": 2,
+   "k": [
+    5896,
+    4573
+   ],
+   "p": [
+    5394,
+    4224
+   ],
+   "srv": [
+    5394,
+    4163
+   ],
+   "serverLos": true,
+   "d": 611,
+   "plan": "leave"
+  },
+  {
+   "t": 597.99,
+   "id": 12,
+   "who": 1,
+   "k": [
+    5515,
+    2997
+   ],
+   "p": [
+    5967,
+    3311
+   ],
+   "srv": [
+    5967,
+    3373
+   ],
+   "serverLos": true,
+   "d": 550,
+   "plan": "feed"
+  },
+  {
+   "t": 598.28,
+   "id": 12,
+   "who": 1,
+   "k": [
+    5515,
+    2997
+   ],
+   "p": [
+    5967,
+    3251
+   ],
+   "srv": [
+    5967,
+    3373
+   ],
+   "serverLos": true,
+   "d": 518,
+   "plan": "feed"
+  },
+  {
+   "t": 599.86,
+   "id": 12,
+   "who": 1,
+   "k": [
+    5518,
+    3003
+   ],
+   "p": [
+    5967,
+    2967
+   ],
+   "srv": [
+    5967,
+    3005
+   ],
+   "serverLos": true,
+   "d": 450,
+   "plan": "leave"
+  },
+  {
+   "t": 599.86,
+   "id": 12,
+   "who": 1,
+   "k": [
+    5518,
+    3016
+   ],
+   "p": [
+    5967,
+    2967
+   ],
+   "srv": [
+    5967,
+    3005
+   ],
+   "serverLos": true,
+   "d": 452,
+   "plan": "leave"
+  }
+ ],
+ "overAt": [
+  {
+   "t": 25.65,
+   "id": 10,
+   "v": 335,
+   "ac": 3,
+   "at": [
+    7571,
+    3995
+   ],
+   "prev": [
+    7551,
+    3993,
+    206,
+    3
+   ],
+   "plan": "leave"
+  },
+  {
+   "t": 25.65,
+   "id": 10,
+   "v": 399,
+   "ac": 3,
+   "at": [
+    7589,
+    3997
+   ],
+   "prev": [
+    7571,
+    3995,
+    335,
+    3
+   ],
+   "plan": "leave"
+  },
+  {
+   "t": 25.65,
+   "id": 10,
+   "v": 434,
+   "ac": 3,
+   "at": [
+    7611,
+    3999
+   ],
+   "prev": [
+    7589,
+    3997,
+    399,
+    3
+   ],
+   "plan": "leave"
+  },
+  {
+   "t": 25.65,
+   "id": 10,
+   "v": 440,
+   "ac": 3,
+   "at": [
+    7632,
+    4001
+   ],
+   "prev": [
+    7611,
+    3999,
+    434,
+    3
+   ],
+   "plan": "leave"
+  },
+  {
+   "t": 25.86,
+   "id": 10,
+   "v": 418,
+   "ac": 3,
+   "at": [
+    7654,
+    4003
+   ],
+   "prev": [
+    7632,
+    4001,
+    440,
+    3
+   ],
+   "plan": "leave"
+  },
+  {
+   "t": 25.86,
+   "id": 10,
+   "v": 367,
+   "ac": 3,
+   "at": [
+    7673,
+    4005
+   ],
+   "prev": [
+    7654,
+    4003,
+    418,
+    3
+   ],
+   "plan": "leave"
+  },
+  {
+   "t": 25.86,
+   "id": 10,
+   "v": 288,
+   "ac": 3,
+   "at": [
+    7689,
+    4007
+   ],
+   "prev": [
+    7673,
+    4005,
+    367,
+    3
+   ],
+   "plan": "leave"
+  },
+  {
+   "t": 122.95,
+   "id": 10,
+   "v": 312,
+   "ac": 0,
+   "at": [
+    7701,
+    3995
+   ],
+   "prev": [
+    7715,
+    3994,
+    209,
+    0
+   ],
+   "plan": "roam"
+  },
+  {
+   "t": 122.95,
+   "id": 10,
+   "v": 404,
+   "ac": 0,
+   "at": [
+    7676,
+    3997
+   ],
+   "prev": [
+    7701,
+    3995,
+    312,
+    0
+   ],
+   "plan": "roam"
+  },
+  {
+   "t": 122.95,
+   "id": 10,
+   "v": 440,
+   "ac": 0,
+   "at": [
+    7655,
+    3999
+   ],
+   "prev": [
+    7676,
+    3997,
+    404,
+    0
+   ],
+   "plan": "roam"
+  },
+  {
+   "t": 123.26,
+   "id": 10,
+   "v": 446,
+   "ac": 0,
+   "at": [
+    7633,
+    4001
+   ],
+   "prev": [
+    7655,
+    3999,
+    440,
+    0
+   ],
+   "plan": "roam"
+  },
+  {
+   "t": 123.26,
+   "id": 10,
+   "v": 424,
+   "ac": 0,
+   "at": [
+    7611,
+    4003
+   ],
+   "prev": [
+    7633,
+    4001,
+    446,
+    0
+   ],
+   "plan": "roam"
+  },
+  {
+   "t": 123.26,
+   "id": 10,
+   "v": 372,
+   "ac": 0,
+   "at": [
+    7592,
+    4005
+   ],
+   "prev": [
+    7611,
+    4003,
+    424,
+    0
+   ],
+   "plan": "roam"
+  },
+  {
+   "t": 123.26,
+   "id": 10,
+   "v": 291,
+   "ac": 0,
+   "at": [
+    7576,
+    4007
+   ],
+   "prev": [
+    7592,
+    4005,
+    372,
+    0
+   ],
+   "plan": "roam"
+  }
+ ],
+ "blindChecked": 500,
+ "pass": false
+}

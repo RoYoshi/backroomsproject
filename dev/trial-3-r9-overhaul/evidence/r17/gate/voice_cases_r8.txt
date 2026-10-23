@@ -1,0 +1,15 @@
+ok   voice_customize_section - {"chips":["classic","soft","deep","electronic","static","hollow","chime"],"checked":["classic"],"group":true,"pitch":"Voice pitch","speed":"Voice speed","preview":true,"reset":true}
+ok   voice_preview - {"chirps":40,"ctx":"running","steps":10,"full":"Hello? Is anyone else down here..."}
+ok   voice_customize_saves - {"saved":{"v":1,"preset":"deep","pitch":-5,"speed":70,"on":true,"vol":70},"kept":{"p":"deep","h":-5,"s":70},"back":{"p":{"preset":"classic","pitch":0,"speed":100,"on":true,"vol":70},"checked":"classic","dis":true}}
+ok   voice_customize_phone_fits - {"left":18,"right":372,"W":390,"out":0,"chip":40,"scroll":true}
+ok   voice_synthesis_offline - {"each":{"classic":{"peak":0.1133,"rms":0.01049,"zc":58},"soft":{"peak":0.1417,"rms":0.01317,"zc":112},"deep":{"peak":0.1312,"rms":0.01119,"zc":34},"electronic":{"peak":0.1187,"rms":0.00809,"zc":84},"static":{"peak":0.2719,"rms":0.00914,"zc":472},"hollow":{"peak":0.0864,"rms":0.01179,"zc":64},"chime":{"peak":0.145,"rms":0.0145,"zc":352}},"up":{"peak":0.1211,"rms":0.01055,"zc":102},"down":{"peak":0.1312,"rms":0.01119,"zc":34},"sumPeak":0.3942}
+ok   voice_no_page_errors_customize -
+ok   voice_multiplayer - {"onB":{"scheduled":5,"id":4,"p":"deep","h":-5,"s":70,"chirps":5},"hB":{"p":"deep","h":-5,"s":70},"write":2691,"wantW":2691,"onA":{"id":5,"p":"soft","h":4,"s":130,"chirps":5},"hA":{"p":"soft","h":4,"s":130},"ownA":{"p":"deep","h":-5,"s":70},"chirpsB":30,"chirpsA":15,"ctx":["running","running"]}
+ok   voice_level_follows_volume_and_mute - {"master":1,"half":0.45,"full":0.9,"muted":0}
+ok   voice_newer_line_stops_old - {"stopped":1,"chirpsCut":7}
+ok   voice_listener_off - {"off":{"aria":"false","saved":false,"vol":true},"wrote":true,"said":0,"chirps":0}
+ok   voice_muted_speaker_silent - {"mute":true,"said":0,"bubble":false}
+ok   voice_old_line_default_voice - {"id":4,"p":"classic","h":0,"s":100,"chirps":4}
+ok   voice_no_page_errors_two -
+ok   voice_reduced_motion_still_speaks - {"at":{"id":6,"mode":"","x":null,"y":null,"w":0,"a":null,"shown":49,"of":49,"write":2136,"life":5014},"chirps":19}
+CHAT VOICE BROWSER: PASS - 14 of 14 cases (289 s)

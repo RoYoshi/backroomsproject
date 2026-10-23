@@ -1,0 +1,5 @@
+start 20:52:10 head a70137e steps suites,perf
+PASS suites: 474 compared; npm_test 330/343, s_humanqa_hotfix 5/6, s_ir 3/3, test_shadows 43/48, test_br_role 29/32, interp_test 3, test_3bn 7/7, audit_net 13/17, audit_net2 8/11, ir_net 4/4 (only the known B++ failures fail) (635 s)
+PASS perf: 9 compared; lifecycle -2.6%, deaths +4.02%, admin -1.2%, schedule +4.18% (57 s)
+MODERNIZATION GATE (full: suites,perf): PASS  - report <tmp>
+exit 0 691s

@@ -1,0 +1,9 @@
+FAIL a. it never walks on along its route after newly seeing somebody it may hunt (an answer within 0.5 s)  at 55.5 s
+PASS b. its head turns (snaps seen in the debug, and drawn: the page's head angle)  snaps: {"sound":20,"motion":12,"sight":14}, the largest head angle the pages drew from 1.25 rad
+PASS c. it never sees through a wall (whenever it sees a person within 650 px, that person's own page has a clear line to it at that tick or the two before)  5 of 500 sightings with no ray from the person's page in 0.1 s (the server's own line clear in 5 of them); 0 of B's not matched to a tick of B's page
+FAIL d. never faster than its run (the pages' record of its speed, the strike's lunge excepted)  28 samples over 255 px/s
+PASS e. never stuck (8 s still in a plan that moves it)  none
+PASS f. no plan flips back and forth within a second  0 flips
+PASS g. no page error  {"A":[],"B":[]}
+events: {"preempt":4,"kept":0,"snaps":{"sound":20,"motion":12,"sight":14},"fight":6,"strikes":6,"kills":6}; deaths {"A":3,"B":3}; 732 s; samples [13362,13445]; frames a second [4.6,4.4]
+CONTINUOUS: FAIL

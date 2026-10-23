@@ -289,14 +289,15 @@ async function continuous(b, port, R, qa) {
   R.fps = [+(await A.P.evaluate(() => window.__k3.frames).catch(() => 0) / R.secs).toFixed(1), +(await Bp.P.evaluate(() => window.__k3.frames).catch(() => 0) / R.secs).toFixed(1)];
   R.errors = { A: A.errs, B: Bp.errs }; await A.ctx.close();
   if (VIDEO) { const v = A.P.video && A.P.video(); if (v) R.videoFile = path.basename(await v.path()); }
-  if (ARG.raw) require('fs').writeFileSync(ARG.raw, require('zlib').gzipSync(JSON.stringify({ ids, recs, deaths: R.deaths, errors: R.errors })));   // (the pages' whole record, for analysis: never committed)
+  if (ARG.raw) require('fs').writeFileSync(ARG.raw, require('zlib').gzipSync(JSON.stringify({ ids, recs, deaths: R.deaths, errors: R.errors })));   // (the pages' whole record, for analysis and for judging again with --part judge; R17: kept with the evidence - synthetic names only)
   judge(R, recs, ids);
 }
 /* the hard failures (section 8) and the record, from what the pages had and the admin's debug */
 function judge(R, recs, ids) {
   const [rA, rB] = recs, V = R.checks = [], ev = R.events = { preempt: 0, kept: 0, snaps: { sound: 0, motion: 0, sight: 0 }, fight: 0, strikes: 0, kills: 0 }, chk = (id, ok, why) => V.push({ id, ok: !!ok, why });
   const kids = [...new Set(rA.flatMap(s => s[2].map(k => k[0])))];
-  const G = require(path.join(B.DIR, 'dev', 'tests', 'lib.js')).geo();   // (the shared geometry: the server's own line of sight, reported beside the pages')
+  const LIB = require(path.join(B.DIR, 'dev', 'tests', 'lib.js')), G = LIB.geo();   // (the shared geometry: the server's own line of sight, reported beside the pages')
+  const CROSS = LIB.WORLD.PROPS.filter(p => p.type === 'low' || p.type === 'window');                     // (R17: what a vault crosses)
   const tkey = s => JSON.stringify(s[2].map(k => [k[0], k[1], k[2], k[3]])), keyB = new Map(); rB.forEach((s, j) => { const k = tkey(s); if (s[2].length && !keyB.has(k)) keyB.set(k, j); });
   let unaligned = 0;
   let walkOn = [], blind = 0, blindN = 0, over = 0, stuck = [], flips = 0, headMax = 0;
@@ -315,6 +316,10 @@ function judge(R, recs, ids) {
     for (let i = 1; i < D.length; i++) {
       const d = D[i], p = D[i - 1];
       for (const who of [ids.A, ids.B]) if (d.sn.includes(who) && !p.sn.includes(who) && d.pl === 'roam' && d.hu >= .4) {
+        // (R17: its debug says 'roam' whenever it has no plan - also while it holds a kill, committed (the feed act, 15; "it has P<n>"),
+        // or springs (12-14): then it walks no route and answers nobody by design (T4, T5). Such sightings are counted, not judged)
+        const k = tA.reduce((b, s) => Math.abs(s[0] - d.t) < Math.abs((b || [1e9])[0] - d.t) ? s : b, null);
+        if (k && k[5] >= 12 && k[5] <= 15) { R.heldSightings = (R.heldSightings || 0) + 1; continue; }
         const later = D.filter(q => q.t > d.t && q.t <= d.t + .5);
         if (!later.some(q => q.pl !== 'roam' || q.pe)) walkOn.push(+d.t.toFixed(1));
       }
@@ -335,19 +340,33 @@ function judge(R, recs, ids) {
         const srv = who === ids.B ? (s[6].find(q => q[0] === who) || null) : jB !== undefined ? (rB[jB][6].find(q => q[0] === who) || null) : null;
         const sLos = srv ? G.g.los(k[1], k[2], srv[1], srv[2]) : null;
         blindN++; if (win.length && win.every(v => v === 0)) { blind++; (R.blindAt || (R.blindAt = [])).push({ t: s[0], id, who, k: [k[1], k[2]], p: [r[j][1][0], r[j][1][1]], srv: srv ? [srv[1], srv[2]] : null, serverLos: sLos, d: Math.round(dd), plan: d[1] }); } } }
-    // F-d: faster than its run (the page's own record of its speed; the strike's own lunge excepted)
-    for (const [i, s] of tA.entries()) if (s[6] > RUN + 1 && s[5] !== 12 && s[5] !== 13 && s[5] !== 14) { over++; const q = tA[i - 1], d = D.find(x => Math.abs(x.t - s[0]) < .1);
-      (R.overAt || (R.overAt = [])).push({ t: s[0], id, v: s[6], ac: s[5], at: [s[1], s[2]], prev: q ? [q[1], q[2], q[6], q[5]] : null, plan: d ? d.pl : '' }); }
-    for (const s of tB) if (s[6] > RUN + 1 && s[5] !== 12 && s[5] !== 13 && s[5] !== 14) over++;
+    // F-d: faster than its run (the page's own record of its speed; the strike's own lunge excepted - and (R17) the engine's crossing of a
+    // low obstacle or a window: a vault carries every species over in a fixed time whatever its pace (ai.entity.js's stepTrav, R8's code;
+    // its speed peaks near 450 px/s for a third of a second). A run of samples over its run is a crossing only if it lies within 70 px of
+    // one such prop and ends on the other side of it from where it began; every crossing is counted and listed, never silently dropped)
+    const runs = (tr, hit) => { const out = []; let cur = null; tr.forEach((s, i) => { if (hit(s)) { if (!cur) cur = { a: i, b: i }; else cur.b = i; } else if (cur) { out.push(cur); cur = null; } }); if (cur) out.push(cur); return out; };
+    const fast = s => s[6] > RUN + 1 && s[5] !== 12 && s[5] !== 13 && s[5] !== 14;
+    const crossed = (tr, g) => { const a = tr[Math.max(0, g.a - 1)], b = tr[Math.min(tr.length - 1, g.b + 1)];
+      return CROSS.find(P => { const r = P.rect, near = s => s[1] > r.x - 70 && s[1] < r.x + r.w + 70 && s[2] > r.y - 70 && s[2] < r.y + r.h + 70;
+        const side = s => r.w < r.h ? Math.sign(s[1] - (r.x + r.w / 2)) : Math.sign(s[2] - (r.y + r.h / 2));
+        return tr.slice(g.a, g.b + 1).every(near) && side(a) !== 0 && side(a) === -side(b); }) || null; };
+    for (const [tr, page] of [[tA, 'A'], [tB, 'B']]) for (const g of runs(tr, fast)) {
+      const P = crossed(tr, g), n = g.b - g.a + 1, vmax = Math.max(...tr.slice(g.a, g.b + 1).map(s => s[6]));
+      if (P) { (R.crossings || (R.crossings = [])).push({ page, id, t: tr[g.a][0], n, vmax, prop: P.id + ' (' + P.type + ')' }); continue; }
+      over += n;
+      if (page === 'A') for (let i = g.a; i <= g.b; i++) { const s = tr[i], q = tr[i - 1], d = D.find(x => Math.abs(x.t - s[0]) < .1);
+        (R.overAt || (R.overAt = [])).push({ t: s[0], id, v: s[6], ac: s[5], at: [s[1], s[2]], prev: q ? [q[1], q[2], q[6], q[5]] : null, plan: d ? d.pl : '' }); }
+    }
     // F-e: stuck: not moving 8 s on end while its plan is one that moves it
     let still = null; for (const s of tA) { const d = D.find(q => Math.abs(q.t - s[0]) < .06); const moving = d && /approach|chase|search|flank|intercept|leave/.test(d.pl);
       if (moving && s[6] < 5) { if (still === null) still = s[0]; else if (s[0] - still > 8) { stuck.push(+still.toFixed(1)); still = null; } } else still = null; }
   }
   ev.kills = (R.deaths.A || 0) + (R.deaths.B || 0);
-  chk('a. it never walks on along its route after newly seeing somebody it may hunt (an answer within 0.5 s)', !walkOn.length, walkOn.length ? `at ${walkOn.join(', ')} s` : 'every new sighting at hunting hunger while it roamed was answered within 0.5 s');
+  chk('a. it never walks on along its route after newly seeing somebody it may hunt (an answer within 0.5 s)', !walkOn.length, (walkOn.length ? `at ${walkOn.join(', ')} s` : 'every new sighting at hunting hunger while it roamed was answered within 0.5 s') + `; ${R.heldSightings || 0} sightings while it held a kill or sprang, not judged`);
   chk('b. its head turns (snaps seen in the debug, and drawn: the page\'s head angle)', ev.snaps.sound + ev.snaps.motion + ev.snaps.sight > 0 && headMax > .5, `snaps: ${JSON.stringify(ev.snaps)}, the largest head angle the pages drew from ${headMax.toFixed(2)} rad`);
   chk('c. it never sees through a wall (whenever it sees a person within 650 px, that person\'s own page has a clear line to it at that tick or the two before)', blind <= Math.max(1, blindN * .01), `${blind} of ${blindN} sightings with no ray from the person's page in 0.1 s (the server's own line clear in ${(R.blindAt || []).filter(b => b.serverLos).length} of them); ${unaligned} of B's not matched to a tick of B's page`);
-  chk('d. never faster than its run (the pages\' record of its speed, the strike\'s lunge excepted)', over === 0, `${over} samples over ${RUN} px/s`);
+  const cx = R.crossings || [];
+  chk('d. never faster than its run (the pages\' record of its speed, the strike\'s lunge and the engine\'s crossing of a low obstacle or a window excepted)', over === 0, `${over} samples over ${RUN} px/s` + (cx.length ? `; ${cx.length} crossings excepted (${cx.reduce((q, c) => q + c.n, 0)} samples, at most ${Math.max(...cx.map(c => c.vmax))} px/s): ${cx.map(c => `${c.prop} at ${c.t.toFixed(0)} s on page ${c.page}`).join(', ')}` : '; no crossing'));
   chk('e. never stuck (8 s still in a plan that moves it)', !stuck.length, stuck.length ? `at ${stuck.join(', ')} s` : 'none');
   chk('f. no plan flips back and forth within a second', flips <= 2, `${flips} flips`);
   chk('g. no page error', !R.errors.A.length && !R.errors.B.length, JSON.stringify(R.errors).slice(0, 300));

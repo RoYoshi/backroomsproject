@@ -1,0 +1,21 @@
+ok   keys_controls_row - ["Enter","Num Enter"]
+ok   keys_rebind_saved - {"r1":{"msg":"Nearby chat: T.","warn":false},"chat":["KeyT","NumpadEnter"],"saved":["KeyT","NumpadEnter"]}
+ok   keys_conflict_swap_cancel - {"r2":{"msg":"F is already used for Light on / off, raise the camcorder. Swap them (Light on / off, raise the camcorder gets T), or cancel. Swap keys Cancel","warn":true},"r3":{"msg":"M is already used for Cartograph (once you carry it). Swap them (Cartograph (once you carry it) gets F), or cancel. Swap keys Cancel","warn":true},"chat":["KeyF","NumpadEnter"],"light":["KeyT",null],"map":["KeyM",null]}
+ok   keys_icon_follows - {"exists":true,"shown":true,"label":"Nearby chat (F)","key":"F","box":[1181.9,661,1245,695],"W":1280,"H":720}
+ok   keys_old_enter_free - {"e1":{"c":false,"paused":false},"game":["Enter"]}
+ok   keys_swapped_keys_in_run - {"l0":true,"t1":{"c":false,"light":false},"l2":true,"game":["~KeyF"]}
+ok   keys_bound_key_opens - {"op":{"v":"","f":"sayText","keys":0,"light":true},"game":[]}
+ok   keys_typing_isolated_enter_sends - {"ty":{"v":"fcwasdt","light":true},"moved":0,"game":[],"sent":{"c":false,"last":"fcwasdt"}}
+ok   keys_escape_closes_only - {"c":false,"paused":false,"dialog":false}
+ok   keys_reset_restores - {"capC":{"c":false,"msg":"F is Nearby chat's only key, and nothing would be left for it. Give Nearby chat another key first."},"chat":["Enter","NumpadEnter"],"light":["KeyF",null],"icon":"Nearby chat (Enter)","back":true}
+ok   keys_no_page_errors -
+ok   keys_migration_keeps_saves - {"up":["KeyW","ArrowUp"],"left":["KeyA","ArrowLeft"],"down":["KeyS","ArrowDown"],"right":["KeyD","ArrowRight"],"run":["ShiftLeft","ShiftRight"],"crouch":["Enter",null],"light":["KeyF",null],"nv":["KeyN",null],"ir":["KeyB",null],"zoom":["KeyZ",null],"inventory":["Tab",null],"map":["KeyM","NumpadEnter"],"chat":["KeyT",null]}
+ok   keys_migrated_enter_is_crouch - {"composerOnEnter":false,"game":["~KeyC"],"tOpens":true}
+ok   keys_damaged_save_defaults - {"crouch":["KeyC",null],"chat":["Enter","NumpadEnter"]}
+ok   keys_offline_untouched - {"st":{"on":false,"chat":"KeyT","c":false,"icon":false},"game":["KeyT","Enter"]}
+MUTANT Enter hard-wired again: caught (keys_old_enter_free, keys_swapped_keys_in_run, keys_bound_key_opens, keys_typing_isolated_enter_sends, keys_migrated_enter_is_crouch)
+MUTANT re-sent keys taken for chat: caught (keys_swapped_keys_in_run, keys_bound_key_opens, keys_typing_isolated_enter_sends)
+MUTANT chat remapped as a game key: caught (keys_offline_untouched)
+MUTANT old saves reset: caught (keys_migration_keeps_saves, keys_migrated_enter_is_crouch)
+MUTANT the icon keeps its first key: caught (keys_reset_restores)
+CHAT VOICE BROWSER: PASS - 15 of 15 cases; mutants 5 of 5 caught (461 s)

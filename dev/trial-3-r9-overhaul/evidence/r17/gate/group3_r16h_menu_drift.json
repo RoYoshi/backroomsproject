@@ -1,0 +1,511 @@
+{
+ "tool": "dev/tools/checks/menu_drift.js",
+ "new": "<tmp>",
+ "old": "<tmp>",
+ "bounds": {
+  "x": 3,
+  "y": 3,
+  "step05": 1.5,
+  "step01": 0.6,
+  "resume": 0.25,
+  "rest": 0.02
+ },
+ "chromium": "141.0.7390.37",
+ "checks": {
+  "boot": {
+   "state": "menu",
+   "ok": true
+  },
+  "static": {
+   "samples": {
+    "n": 41,
+    "distinct": 41,
+    "maxX": 2.329,
+    "maxY": 2.946,
+    "maxStep": 0.6808413912211859
+   },
+   "loop": {
+    "uiCalls": 11,
+    "uiFrames": 11,
+    "frames": 10,
+    "maxPerFrame": 1,
+    "one": true
+   },
+   "drift": {
+    "running": true,
+    "t": 0.9,
+    "x": 0.375,
+    "y": 0.56,
+    "frames": 10,
+    "writes": 9,
+    "starts": 1,
+    "stops": 0
+   },
+   "pointerVars": [
+    "",
+    ""
+   ],
+   "ok": true
+  },
+  "hidden": {
+   "quiet": {
+    "uiCalls": 0,
+    "writes": 0,
+    "still": true,
+    "first": {
+     "x": 2.904,
+     "y": 0.399,
+     "mx": 0,
+     "my": 0,
+     "at": 70073.5
+    },
+    "running": false
+   },
+   "before": {
+    "x": 2.928,
+    "y": 0.408,
+    "mx": 0,
+    "my": 0,
+    "at": 69473.5
+   },
+   "after": {
+    "x": 2.904,
+    "y": 0.399,
+    "mx": 0,
+    "my": 0,
+    "at": 73305.89999999851
+   },
+   "resumeJump": 0.026,
+   "loop": {
+    "uiCalls": 9,
+    "uiFrames": 9,
+    "frames": 8,
+    "maxPerFrame": 1,
+    "one": true
+   },
+   "simulated": true,
+   "ok": true
+  },
+  "reduced": {
+   "on": {
+    "uiCalls": 0,
+    "writes": 0,
+    "still": true,
+    "first": {
+     "x": 0,
+     "y": 0,
+     "mx": 0,
+     "my": 0,
+     "at": 77063.39999999851
+    },
+    "running": false
+   },
+   "rest": {
+    "x": 0,
+    "y": 0,
+    "mx": 0,
+    "my": 0,
+    "at": 81443
+   },
+   "vars": [
+    "",
+    ""
+   ],
+   "restartedAfterOff": true,
+   "startsAdded": 1,
+   "afterOff": {
+    "uiCalls": 9,
+    "uiFrames": 9,
+    "frames": 8,
+    "maxPerFrame": 1,
+    "one": true
+   },
+   "afterSwitches": {
+    "uiCalls": 11,
+    "uiFrames": 11,
+    "frames": 10,
+    "maxPerFrame": 1,
+    "one": true
+   },
+   "systemReduce": {
+    "uiCalls": 0,
+    "writes": 0,
+    "still": true,
+    "first": {
+     "x": 0,
+     "y": 0,
+     "mx": 0,
+     "my": 0,
+     "at": 92108.79999999702
+    },
+    "running": false
+   },
+   "systemBack": true,
+   "afterSystem": {
+    "uiCalls": 9,
+    "uiFrames": 9,
+    "frames": 8,
+    "maxPerFrame": 1,
+    "one": true
+   },
+   "ok": true
+  },
+  "play": {
+   "inRun": true,
+   "inRunQuiet": {
+    "uiCalls": 0,
+    "writes": 0,
+    "still": true,
+    "first": {
+     "x": 422.4,
+     "y": -2.956,
+     "mx": 0,
+     "my": 0.739,
+     "at": 107069.89999999851
+    },
+    "running": false
+   },
+   "menuBack": true,
+   "driftBack": true,
+   "loop": {
+    "uiCalls": 8,
+    "uiFrames": 8,
+    "frames": 7,
+    "maxPerFrame": 1,
+    "one": true
+   },
+   "samples": {
+    "n": 7,
+    "distinct": 7,
+    "maxX": 1.656,
+    "maxY": 0.579,
+    "maxStep": 0.10454664030948099
+   },
+   "ok": true
+  },
+  "pointer": {
+   "lean": {
+    "mx": 0.7,
+    "my": -0.5
+   },
+   "samples": {
+    "n": 41,
+    "distinct": 41,
+    "maxX": 1.365,
+    "maxY": 2.946,
+    "maxStep": 0.17474839055052852
+   },
+   "ok": true
+  },
+  "pageErrors": {
+   "list": [],
+   "ok": true
+  },
+  "boot_os": {
+   "quiet": {
+    "uiCalls": 0,
+    "writes": 0,
+    "still": true,
+    "first": {
+     "x": 0,
+     "y": 0,
+     "mx": 0,
+     "my": 0,
+     "at": 6914.60000000149
+    },
+    "running": false
+   },
+   "drift": {
+    "running": false,
+    "t": 0,
+    "x": 0,
+    "y": 0,
+    "frames": 0,
+    "writes": 0,
+    "starts": 0,
+    "stops": 0
+   },
+   "ok": true
+  },
+  "layout": {
+   "views": {
+    "1920x1080": {
+     "controls": 10,
+     "tab": [
+      "mmPlay",
+      "mm-item",
+      "mm-item",
+      "mm-item",
+      "Settings",
+      "Customize your wanderer",
+      "mmSound",
+      "Help",
+      "ui-menu hud-nocoords",
+      "name",
+      "u-btn ghost",
+      "mmPlay",
+      "mm-item",
+      "mm-item"
+     ],
+     "diffs": [],
+     "scroll": true,
+     "newDrifting": true,
+     "newOffset": {
+      "x": 1.075,
+      "y": 0.627,
+      "mx": 0,
+      "my": 0,
+      "at": 20802.20000000298
+     },
+     "oldOffset": {
+      "x": 0,
+      "y": 0,
+      "mx": 0,
+      "my": 0,
+      "at": 21261.10000000149
+     },
+     "oldStill": true,
+     "errors": [],
+     "ok": true
+    },
+    "2560x1080": {
+     "controls": 10,
+     "tab": [
+      "mmPlay",
+      "mm-item",
+      "mm-item",
+      "mm-item",
+      "Settings",
+      "Customize your wanderer",
+      "mmSound",
+      "Help",
+      "ui-menu hud-nocoords",
+      "name",
+      "u-btn ghost",
+      "mmPlay",
+      "mm-item",
+      "mm-item"
+     ],
+     "diffs": [],
+     "scroll": true,
+     "newDrifting": true,
+     "newOffset": {
+      "x": 1.098,
+      "y": 0.621,
+      "mx": 0,
+      "my": 0,
+      "at": 25117.40000000596
+     },
+     "oldOffset": {
+      "x": 0,
+      "y": 0,
+      "mx": 0,
+      "my": 0,
+      "at": 24199.59999999404
+     },
+     "oldStill": true,
+     "errors": [],
+     "ok": true
+    },
+    "1366x768@1.5": {
+     "controls": 10,
+     "tab": [
+      "mmPlay",
+      "mm-item",
+      "mm-item",
+      "mm-item",
+      "Settings",
+      "Customize your wanderer",
+      "mmSound",
+      "Help",
+      "ui-menu hud-nocoords",
+      "name",
+      "u-btn ghost",
+      "mmPlay",
+      "mm-item",
+      "mm-item"
+     ],
+     "diffs": [],
+     "scroll": true,
+     "newDrifting": true,
+     "newOffset": {
+      "x": 1.061,
+      "y": 0.576,
+      "mx": 0,
+      "my": 0,
+      "at": 22743.20000000298
+     },
+     "oldOffset": {
+      "x": -0.001,
+      "y": 0,
+      "mx": 0,
+      "my": 0,
+      "at": 17444.60000000149
+     },
+     "oldStill": true,
+     "errors": [],
+     "ok": true
+    },
+    "390x844@3 touch": {
+     "controls": 9,
+     "tab": null,
+     "diffs": [],
+     "scroll": true,
+     "newDrifting": true,
+     "newOffset": {
+      "x": 2.181,
+      "y": 2.457,
+      "mx": 0,
+      "my": 0,
+      "at": 6359.39999999851
+     },
+     "oldOffset": {
+      "x": 0.001,
+      "y": 0,
+      "mx": 0,
+      "my": 0,
+      "at": 6216.5
+     },
+     "oldStill": true,
+     "errors": [],
+     "ok": true
+    }
+   },
+   "ok": true
+  },
+  "logo": {
+   "old": "906e19a8f4423bc7b2a7bf924a05201b3b2ba2c13753df3eec6eb6abc9cb9cb9",
+   "new": "906e19a8f4423bc7b2a7bf924a05201b3b2ba2c13753df3eec6eb6abc9cb9cb9",
+   "html": true,
+   "ok": true
+  },
+  "theme": {
+   "old": {
+    "state": "playing",
+    "want": true,
+    "begun": true,
+    "ctx": "running",
+    "muted": false,
+    "sources": 2,
+    "plays": 1,
+    "loads": 1,
+    "error": null
+   },
+   "new": {
+    "state": "playing",
+    "want": true,
+    "begun": true,
+    "ctx": "running",
+    "muted": false,
+    "sources": 2,
+    "plays": 1,
+    "loads": 1,
+    "error": null
+   },
+   "sound": [
+    [
+     "true",
+     "false"
+    ],
+    [
+     "true",
+     "false"
+    ]
+   ],
+   "ok": true
+  }
+ },
+ "ok": true,
+ "mutants": [
+  {
+   "id": "amplitude",
+   "file": "assets/ui.css",
+   "check": "static",
+   "applied": true,
+   "failed": [
+    "static",
+    "play",
+    "pointer"
+   ],
+   "caught": true
+  },
+  {
+   "id": "reduced_ignored",
+   "file": "assets/ui.js",
+   "check": "reduced",
+   "applied": true,
+   "failed": [
+    "reduced",
+    "boot_os"
+   ],
+   "caught": true
+  },
+  {
+   "id": "hidden_ignored",
+   "file": "assets/ui.js",
+   "check": "hidden",
+   "applied": true,
+   "failed": [
+    "hidden"
+   ],
+   "caught": true
+  },
+  {
+   "id": "second_loop",
+   "file": "assets/ui.js",
+   "check": "reduced",
+   "applied": true,
+   "failed": [
+    "reduced"
+   ],
+   "caught": true
+  },
+  {
+   "id": "no_drift",
+   "file": "assets/ui.js",
+   "check": "static",
+   "applied": true,
+   "failed": [
+    "static",
+    "reduced",
+    "play",
+    "pointer"
+   ],
+   "caught": true
+  },
+  {
+   "id": "control_moved",
+   "file": "assets/ui.css",
+   "check": "layout",
+   "applied": true,
+   "failed": [
+    "layout 1920x1080",
+    "layout 2560x1080",
+    "layout 1366x768@1.5",
+    "layout 390x844@3 touch"
+   ],
+   "caught": true
+  },
+  {
+   "id": "run_ignored",
+   "file": "assets/ui.js",
+   "check": "play",
+   "applied": true,
+   "failed": [
+    "play"
+   ],
+   "caught": true
+  },
+  {
+   "id": "clock_reset",
+   "file": "assets/ui.js",
+   "check": "hidden",
+   "applied": true,
+   "failed": [
+    "hidden"
+   ],
+   "caught": true
+  }
+ ],
+ "mutantsCaught": 8
+}

@@ -1,0 +1,199 @@
+{
+ "part": "judge",
+ "deaths": {
+  "A": 3,
+  "B": 3
+ },
+ "errors": {
+  "A": [],
+  "B": []
+ },
+ "checks": [
+  {
+   "id": "a. it never walks on along its route after newly seeing somebody it may hunt (an answer within 0.5 s)",
+   "ok": true,
+   "why": "every new sighting at hunting hunger while it roamed was answered within 0.5 s; 2 sightings while it held a kill or sprang, not judged"
+  },
+  {
+   "id": "b. its head turns (snaps seen in the debug, and drawn: the page's head angle)",
+   "ok": true,
+   "why": "snaps: {\"sound\":20,\"motion\":12,\"sight\":14}, the largest head angle the pages drew from 1.25 rad"
+  },
+  {
+   "id": "c. it never sees through a wall (whenever it sees a person within 650 px, that person's own page has a clear line to it at that tick or the two before)",
+   "ok": true,
+   "why": "5 of 500 sightings with no ray from the person's page in 0.1 s (the server's own line clear in 5 of them); 0 of B's not matched to a tick of B's page"
+  },
+  {
+   "id": "d. never faster than its run (the pages' record of its speed, the strike's lunge and the engine's crossing of a low obstacle or a window excepted)",
+   "ok": true,
+   "why": "0 samples over 255 px/s; 4 crossings excepted (28 samples, at most 446 px/s): W2 (window) at 26 s on page A, W2 (window) at 123 s on page A, W2 (window) at 26 s on page B, W2 (window) at 123 s on page B"
+  },
+  {
+   "id": "e. never stuck (8 s still in a plan that moves it)",
+   "ok": true,
+   "why": "none"
+  },
+  {
+   "id": "f. no plan flips back and forth within a second",
+   "ok": true,
+   "why": "0 flips"
+  },
+  {
+   "id": "g. no page error",
+   "ok": true,
+   "why": "{\"A\":[],\"B\":[]}"
+  }
+ ],
+ "events": {
+  "preempt": 4,
+  "kept": 0,
+  "snaps": {
+   "sound": 20,
+   "motion": 12,
+   "sight": 14
+  },
+  "fight": 6,
+  "strikes": 6,
+  "kills": 6
+ },
+ "heldSightings": 2,
+ "blindAt": [
+  {
+   "t": 305.6,
+   "id": 10,
+   "who": 2,
+   "k": [
+    5896,
+    4573
+   ],
+   "p": [
+    5394,
+    4224
+   ],
+   "srv": [
+    5394,
+    4163
+   ],
+   "serverLos": true,
+   "d": 611,
+   "plan": "leave"
+  },
+  {
+   "t": 597.99,
+   "id": 12,
+   "who": 1,
+   "k": [
+    5515,
+    2997
+   ],
+   "p": [
+    5967,
+    3311
+   ],
+   "srv": [
+    5967,
+    3373
+   ],
+   "serverLos": true,
+   "d": 550,
+   "plan": "feed"
+  },
+  {
+   "t": 598.28,
+   "id": 12,
+   "who": 1,
+   "k": [
+    5515,
+    2997
+   ],
+   "p": [
+    5967,
+    3251
+   ],
+   "srv": [
+    5967,
+    3373
+   ],
+   "serverLos": true,
+   "d": 518,
+   "plan": "feed"
+  },
+  {
+   "t": 599.86,
+   "id": 12,
+   "who": 1,
+   "k": [
+    5518,
+    3003
+   ],
+   "p": [
+    5967,
+    2967
+   ],
+   "srv": [
+    5967,
+    3005
+   ],
+   "serverLos": true,
+   "d": 450,
+   "plan": "leave"
+  },
+  {
+   "t": 599.86,
+   "id": 12,
+   "who": 1,
+   "k": [
+    5518,
+    3016
+   ],
+   "p": [
+    5967,
+    2967
+   ],
+   "srv": [
+    5967,
+    3005
+   ],
+   "serverLos": true,
+   "d": 452,
+   "plan": "leave"
+  }
+ ],
+ "crossings": [
+  {
+   "page": "A",
+   "id": 10,
+   "t": 25.65,
+   "n": 7,
+   "vmax": 440,
+   "prop": "W2 (window)"
+  },
+  {
+   "page": "A",
+   "id": 10,
+   "t": 122.95,
+   "n": 7,
+   "vmax": 446,
+   "prop": "W2 (window)"
+  },
+  {
+   "page": "B",
+   "id": 10,
+   "t": 25.72,
+   "n": 7,
+   "vmax": 440,
+   "prop": "W2 (window)"
+  },
+  {
+   "page": "B",
+   "id": 10,
+   "t": 123.11,
+   "n": 7,
+   "vmax": 446,
+   "prop": "W2 (window)"
+  }
+ ],
+ "blindChecked": 500,
+ "pass": true
+}

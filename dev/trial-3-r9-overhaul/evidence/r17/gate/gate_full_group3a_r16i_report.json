@@ -1,0 +1,28 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "a70137e7038187ffbbf28502e596634159457509",
+ "startedAt": "2026-10-23T01:52:10.132Z",
+ "out": "<tmp>",
+ "steps": {
+  "suites": {
+   "ok": true,
+   "cases": 474,
+   "note": "npm_test 330/343, s_humanqa_hotfix 5/6, s_ir 3/3, test_shadows 43/48, test_br_role 29/32, interp_test 3, test_3bn 7/7, audit_net 13/17, audit_net2 8/11, ir_net 4/4 (only the known B++ failures fail)",
+   "exit": 0,
+   "seconds": 635
+  },
+  "perf": {
+   "ok": true,
+   "cases": 9,
+   "note": "lifecycle -2.6%, deaths +4.02%, admin -1.2%, schedule +4.18%",
+   "exit": 0,
+   "seconds": 57
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-23T02:03:41.596Z",
+ "removed": []
+}

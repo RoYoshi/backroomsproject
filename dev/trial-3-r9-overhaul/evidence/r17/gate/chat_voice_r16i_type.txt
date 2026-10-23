@@ -1,0 +1,17 @@
+ok   type_schedule_rules - {"gaps":[42,162,302,42,42,422,42],"pauses":true,"graphemes":true,"speed":4,"long":{"write":6500,"life":10500},"short":3000,"mid":{"write":2726,"life":5714},"bounds":true}
+ok   type_reveals_progressively - {"writes":12,"mids":11,"mono":true,"prefixes":true,"box":1,"span":2905,"st":{"id":1,"mode":"bb-on","x":304,"y":171,"w":240,"h":69,"a":null,"shown":54,"of":54,"write":2726,"life":5714}}
+ok   type_life_bounded - {"gone":true,"life":5714,"write":2726}
+ok   type_screen_reader_once - {"announcements":1,"whole":1,"parts":0}
+ok   type_graphemes_whole - {"writes":7,"bad":[]}
+ok   type_newer_line_replaces - {"rep":{"n":1},"l3WrittenWhenReplaced":72,"of":154}
+ok   type_nothing_extra_sent - [54,60,154,11]
+ok   type_instant_option - {"sw0":"true","sw1":"false","saved":false,"first":34,"of":34}
+ok   type_no_page_errors -
+ok   type_reduced_motion - {"first":50,"of":50,"rm":true}
+MUTANT whole line at once always: caught (type_reveals_progressively, type_graphemes_whole, type_newer_line_replaces)
+MUTANT reduced motion ignored: caught (type_reduced_motion)
+MUTANT code points, not graphemes: caught (type_schedule_rules, type_graphemes_whole)
+MUTANT no bound on a long line: caught (type_schedule_rules)
+MUTANT cut off before written: caught (type_schedule_rules, type_life_bounded)
+MUTANT pause after every mark: caught (type_schedule_rules)
+CHAT VOICE BROWSER: PASS - 10 of 10 cases; mutants 6 of 6 caught (1766 s)

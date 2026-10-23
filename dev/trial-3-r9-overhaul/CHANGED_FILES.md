@@ -245,3 +245,36 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `HUMAN_QA.md`, `README.md` | docs | R16i-1 to R16i-6; the R16h rows; this table; the press and the lock in the play-test |
 
 No Wanderer movement file and no Hound or Smiler file changes at R16i (WL02, WL05).
+
+## R17 — final documents, the full gate, the campaign and the cost on the final tree (no game change)
+
+| File | Kind | Change |
+|---|---|---|
+| `dev/trial-3-r9-overhaul/REGRESSION.md`, `PERFORMANCE.md`, `BROWSER_AND_MEDIA.md`, `DEFERRED.md`, `EVIDENCE_INDEX.md` | docs (new) | the pack's final documents (`10_DELIVERABLES_AND_ACCEPTANCE.md`) |
+| `dev/trial-3-r9-overhaul/CHECKPOINTS.md`, `REMOTE_RECEIPTS.md`, `CHANGED_FILES.md`, `DESIGN_DECISIONS.md` | docs | the R16i and R17 rows; R17-1 to R17-4; this table |
+| `dev/trial-3-r9-overhaul/tools/r16g_campaign.js` | tool | its checks a and d corrected (R17-3): the engine's crossings of a window or a low obstacle excepted and listed; a sighting while it holds a kill not judged as a walk-on |
+| `dev/trial-3-r9-overhaul/evidence/r16i/` (R16i's receipt, scan), `evidence/r17/` | evidence | the full gate's report on R16i in groups (R16h's kept); the focused scenes, the continuous campaign (R16i, and R16h's for comparison, with their raw records), `predator_browser` and the watched hall on R16i; the step's cost against R8 in both orders, the extra counts |
+
+No file outside `dev/trial-3-r9-overhaul/` changes at R17: the game is R16i's.
+
+## The whole branch, R8 to the final tree
+
+`git diff --stat f378049 <final> -- src` lists 27 source files; each is in its checkpoint's table above.
+- The Skin-Stealer's mind (`src/frameworks/nani/server/`): `ai.skinstealer.js` (R11–R16i), `ai.skin.mind.js` (R11), `ai.skin.infer.js`
+  (R12), `ai.skin.cover.js` (R13), `ai.skin.preempt.js` (R16d), `ai.skin.look.js` (R16e), `ai.skin.move.js` (R16f); `ai.capture.js`
+  (R15: one line, the D preview); `src/build-recipes.json` (the new parts).
+- Its page: `src/frameworks/br-r/client/skin.body.js` (R14, R15, R16e, R16g), `skin.compose.js` (R10), `skin.kill.js` (R14, R15,
+  R16a); `src/frameworks/nani/client/skin.head.js` (R15); the sight-only warning `src/frameworks/spacious-audio/client/skin.sight.js`
+  (R10, R16b); `src/core/client/mp.frame.js` (R10, R16b, R16h: the frame's hook for it); `spacious-audio/client/skin.audio.js` (R15: the Rend's
+  sound).
+- Execution D (R15): `src/frameworks/gib/shared/dphys.js` (the Rend in the one shared physics), `gib/client/gore.js`, `gib/client/
+  mp.deaths.js`, `bpp/client/net-wire.js` (a corpse's two pieces kept); the admin's preview of D: `overseer/client/mp.admin.js`,
+  `overseer/server/admin.js` (the existing preview command's accepted variants - no new command, no new auth).
+- The admin overlay: `overseer/client/ents.debug.js` (R11–R13, R16g, R16h).
+- The client's ledger of `window.__api` readers: `src/core/client/bundle/api_contract.json`, `API_CONTRACT.md` (R16h, regenerated).
+- Generated documentation blocks: `src/frameworks/nani/README.md`, `src/frameworks/spacious-audio/README.md`.
+- The tests: the new suites in `dev/tests/` (`s_skinsight.js` ... `s_skinap.js`, `s_wandererlock.js`), `dev/tests/run.js`, and the
+  existing tests changed with their reasons (`REGRESSION.md`).
+Built outputs follow from them (`generated/`, `public/`), each declared to the scope gate (`dev/tools/gate/declared_changes.json`).
+No Wanderer movement file is among them - the S.P.A.C.E. framework, the surfaces, `move.js`'s parts, the server's step and
+`server.js` are R8's byte for byte (`s_wandererlock.js` WL02) - and no Hound or Smiler file (WL05).

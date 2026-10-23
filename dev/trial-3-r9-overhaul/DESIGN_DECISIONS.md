@@ -1044,3 +1044,36 @@ hotfix 5/6 (X03 inherited); `build:check`, the parts, modules, facts, window-con
 on R8's own tree passes WL01-WL04; there WL05 and WL06 fail on exactly the two things this branch meant to change in what they check - R15's
 capture line (only a Skin-Stealer reaches it) and the press (`wandererlock_on_r8.txt`). On R16h's tree WL01-WL05 pass
 (`wandererlock_on_r16h.txt`). The before/after probes (`repro_r16i.*`) are R16g's to the digit: none of their scenes is a press.
+
+## R17 — the final documents, the full gate, the campaign and the cost on the final tree (no game change)
+
+**R17-1 What it adds.** `REGRESSION.md` (every suite, the inherited failures by name, every changed test and why - loosenings marked -
+the Wanderer's movement locked, and every run that failed or was repeated), `PERFORMANCE.md` (the step against R8 in both orders, the
+extra counts, response latency), `BROWSER_AND_MEDIA.md` (every real-page scene from R9 to R16i, with its files), `DEFERRED.md` (owner
+decisions, known limits, the inherited), `EVIDENCE_INDEX.md`; `HUMAN_QA.md` and `README.md` came at R16g and R16i. No file outside this
+folder changes: the game is R16i's (`a70137e`).
+
+**R17-2 The full gate on R16i** (`evidence/r17/gate/`): every step of the full tier passes on R16i's tree or on its page - group 1 (21 steps)
+and group 2 (5 steps) PASS; `suites` (`npm test` 330/343, only B++'s recorded failures failing) and `perf` PASS; `rgb` and `contact_lab`
+PASS; `chat_voice`, run as its own four parts, 69 of 70 cases with every one of its 22 mutants caught - the one case (the voice's level
+following the volume) passed on its rerun, on R16i and on R8 alike; `menu` and `chat_browser` PASS on R16h, whose page R16i shares byte for
+byte. On R16h the first two groups gave the same, with one `bpp_checks` placement replay passing on rerun.
+
+**R17-3 The real pages on R16i** (`evidence/r17/browser/`): the focused scenes 6 of 7 on their first run - F6 failed: after the page's
+reversal it kept its old sideways way 400 ms and then sprang at them (its strike, which F6 does not count as an answer) instead of
+stepping; F6 alone twice more on R16i (answered 500 and 450 ms) and twice on R16h (550, 450 ms) passed; no press entered it (it stays
+within 340 px). The continuous campaign (12 minutes, two pages, a second starving creature from half-way): its first verdict failed
+check d on 44 samples over 255 px/s - every one inside six crossings of window W2 or low obstacle L1, the engine's vault (`stepTrav`,
+`ai.entity.js`, R8's code, every species', up to 456 px/s for a third of a second). The check now excepts such a crossing - a run of
+samples within 70 px of one low obstacle or window that ends on its other side - and lists each; and check a no longer judges a
+sighting while it holds a kill (its debug says `roam` with no plan, also through a committed kill: R16h's comparison run, the same
+session, failed a once on exactly that, "it has P2", act 15, speed 0). Judged again, both records pass every check (`*_judged.*`; the
+raw records are kept so anyone can judge them again). Its press began once in the 12 minutes (114 s, 491 px off). Deaths: 26 on R16i,
+6 on R16h in the same session, 12, 20 and 21 in R16g's three runs - the pages' scripted play varies more than one press explains.
+`predator_browser` 7 of 7; the watched hall: its covert way 0 px in the page's view in four tries.
+
+**R17-4 The cost** (`evidence/r17/perf/`, `PERFORMANCE.md`): within the 60 Hz budget in every scene, in both orders. The one signal that
+holds both ways is four Skin-Stealers each pressed by a player: +10-17 % of a 0.2 ms step (0.02-0.03 ms), as at R16g. Four starving
+ones think 0.3 ms more per second of game than R8's and cast a quarter more lines of sight (the periphery, the vantage search); route
+searching unchanged; the wire 3 bytes more for four. In the swapped order the tool's verdict reads "FAIL": there it judges R8 against
+R16i, and R8's p99 was the higher in two scenes - no invariant was violated in either order.

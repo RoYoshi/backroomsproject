@@ -1,0 +1,47 @@
+   0.38 s  K#9 hunger 0.60  plan roam  sees []  nearest B 3400 px  | roaming
+ 114.41 s  K#9 hunger 0.78  plan approach P2  EYES sight  sees [B]  nearest B 491 px  CUT roam 0s ago: P2 seen: its roaming gives way  | P2 sees it and it is very hungry: it comes on, fast (its press)
+ 114.97 s  K#9 hunger 0.78  plan approach P2  FOOTWORK P2  sees [B]  nearest B 303 px  CUT roam 0.7s ago: P2 seen: its roaming gives way  | P2 sees it and it is very hungry: it comes on, fast (its press)
+ 116.77 s  K#9 hunger 0.79  plan roam  sees [B]  nearest B 38 px  CUT roam 2.5s ago: P2 seen: its roaming gives way  | it has P2
+ 116.99 s  K#9 hunger 0.79  plan roam  sees []  nearest B 38 px  CUT roam 2.7s ago: P2 seen: its roaming gives way  | it has P2
+ 120.36 s  K#9 hunger 0.44  plan feed  sees []  nearest B 32 px  CUT roam 6.2s ago: P2 seen: its roaming gives way  | it feeds at its kill
+ 124.48 s  K#9 hunger 0.33  plan feed  sees []  nearest B 1069 px  | it feeds at its kill
+ 135.34 s  K#9 hunger 0.02  plan roam  sees []  nearest A 1626 px  | fed: it roams again
+ 202.45 s  K#9 hunger 0.13  plan roam  EYES sound  sees []  nearest B 521 px  | roaming the dark
+ 202.84 s  K#9 hunger 0.13  plan roam  sees []  nearest B 415 px  | roaming the dark
+ 203.10 s  K#9 hunger 0.13  plan mingle P2  EYES sight  sees [B]  nearest B 387 px  | in P2's skin it walks up to P2
+ 203.63 s  K#9 hunger 0.13  plan mingle P2  sees [B]  nearest B 301 px  | in P2's skin it walks up to P2
+ 204.61 s  K#9 hunger 0.13  plan mingle P2  EYES motion  sees [B]  nearest B 317 px  | in P2's skin it walks up to P2
+ 205.39 s  K#9 hunger 0.13  plan mingle P2  sees [B]  nearest B 383 px  | in P2's skin it walks up to P2
+ 207.66 s  K#9 hunger 0.14  plan roam  sees []  nearest B 287 px  | it lost sight of them
+ 208.41 s  K#9 hunger 0.14  plan leave  EYES sight  sees [B]  nearest B 318 px  | P2 hurries away: it lets them go
+ 208.89 s  K#9 hunger 0.14  plan leave  sees [B]  nearest B 364 px  | P2 hurries away: it lets them go
+ 209.00 s  K#9 hunger 0.14  plan leave  EYES motion  sees []  nearest B 380 px  | P2 hurries away: it lets them go
+ 211.09 s  K#9 hunger 0.14  plan leave  sees []  nearest B 787 px  | P2 hurries away: it lets them go
+ 230.29 s  K#9 hunger 0.17  plan roam  sees []  nearest B 2652 px  | it left; it roams again
+ 359.24 s  K#9 hunger 0.38  plan mingle P2  EYES sight  sees [B]  nearest B 1014 px  | in P2's skin it walks up to P2
+ 359.95 s  K#9 hunger 0.38  plan mingle P2  sees [B]  nearest B 899 px  | in P2's skin it walks up to P2
+ 361.07 s  K#12 hunger 0.90  plan roam  sees []  nearest B 1520 px  | roaming the dark
+ 368.94 s  K#9 hunger 0.39  plan leave  EYES sight  sees [A,B]  nearest B 156 px  | more than one of them (2)
+ 369.49 s  K#9 hunger 0.39  plan leave  sees [A,B]  nearest B 108 px  | more than one of them (2)
+ 370.05 s  K#9 hunger 0.39  plan leave  sees [B]  nearest B 93 px  | more than one of them (2)
+ 370.87 s  K#9 hunger 0.40  plan leave  sees []  nearest B 124 px  | more than one of them (2)
+ 379.68 s  K#9 hunger 0.41  plan leave  EYES sight  sees [A]  nearest A 372 px  | more than one of them (2)
+ 380.20 s  K#9 hunger 0.41  plan leave  sees [A]  nearest A 365 px  | more than one of them (2)
+ 380.46 s  K#9 hunger 0.41  plan leave  sees []  nearest A 372 px  | more than one of them (2)
+ 386.22 s  K#9 hunger 0.42  plan roam  sees []  nearest A 1262 px  | it left; it roams again
+ 417.28 s  K#9 hunger 0.47  plan mingle P1  EYES sight  sees [A]  nearest A 397 px  CUT roam 0s ago: P1 seen: its roaming gives way  | in P2's skin it walks up to P1
+ 417.82 s  K#9 hunger 0.47  plan mingle P1  sees [A]  nearest A 352 px  CUT roam 0.7s ago: P1 seen: its roaming gives way  | in P2's skin it walks up to P1
+ 421.71 s  K#9 hunger 0.48  plan roam  sees []  nearest A 224 px  CUT roam 4.3s ago: P1 seen: its roaming gives way  | it has nobody to go after
+ 421.71 s  K#9 hunger 0.48  plan listen P1  sees []  nearest A 223 px  CUT roam 4.5s ago: P1 seen: its roaming gives way  | it heard run (P1): it stops and listens
+ 421.72 s  K#9 hunger 0.48  plan roam  sees []  nearest A 223 px  CUT roam 4.9s ago: P1 seen: its roaming gives way  | it has nobody to go after
+ 426.49 s  K#9 hunger 0.48  plan listen  sees []  nearest A 95 px  CUT roam 9.2s ago: P1 seen: its roaming gives way  | it heard kill: it stops and listens
+ 428.63 s  K#9 hunger 0.48  plan listen  sees []  nearest A 95 px  | it heard kill: it stops and listens
+ 428.63 s  K#9 hunger 0.49  plan search  sees []  nearest A 95 px  | it heard kill: it goes quietly to look
+ 430.52 s  K#9 hunger 0.49  plan roam  sees []  nearest A 837 px  | nothing there: it roams again
+ 433.27 s  K#9 hunger 0.49  plan mingle P1  EYES sight  sees [A]  nearest A 634 px  CUT roam 0.1s ago: P1 seen: its roaming gives way  | in P2's skin it walks up to P1
+ 433.28 s  K#9 hunger 0.49  plan mingle P1  sees [A]  nearest A 556 px  CUT roam 0.6s ago: P1 seen: its roaming gives way  | in P2's skin it walks up to P1
+ 442.48 s  K#9 hunger 0.51  plan roam  sees []  nearest A 554 px  CUT roam 9.6s ago: P1 seen: its roaming gives way  | it has nobody to go after
+ 442.82 s  K#9 hunger 0.51  plan roam  sees []  nearest A 558 px  | nobody within reach: it waits where it is
+ 447.51 s  K#9 hunger 0.52  plan listen  sees []  nearest A 485 px  | it heard kill: it stops and listens
+ 449.34 s  K#9 hunger 0.52  plan search  sees []  nearest A 482 px  | it heard kill: it goes quietly to where it can see the place
+ 454.92 s  K#9 hunger 0.53  plan roam  sees []  nearest A 1749 px  | nothing there: it roams again
