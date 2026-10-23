@@ -1,4 +1,4 @@
-# Trial 3 R9–R17 — changed files
+# Trial 3 R9–R18 — changed files
 
 Every file this branch changes against R8 (`f378049`), by checkpoint, with why. Built outputs are listed with the source they are built
 from (`npm run build`; `npm run build:check` proves them). Development files (`dev/`) are listed by folder.
@@ -257,11 +257,31 @@ No Wanderer movement file and no Hound or Smiler file changes at R16i (WL02, WL0
 
 No file outside `dev/trial-3-r9-overhaul/` changes at R17: the game is R16i's.
 
+## R18 — the owner's overtuned experiment (a separate, reversible checkpoint on R17)
+
+| File | Kind | Change |
+|---|---|---|
+| `src/frameworks/nani/server/ai.skinstealer.js` | source | its speeds (`SKIN.speeds`: roam 160, prowl 205, investigate 232, press 260, run 270, flank 210, fatigued 190, spent 120); `SK.huntHunger` .3 and `SK.chaseHunger` .45 for the hunger gates, `skDrive`; its timers; stamina from `runFrom` 215 in proportion (`skBody`), `skCap` exhausted to `spent`; the far prowl (`farTick`); prowl, investigation and press in roaming, unseen approaches, searches and open approaches; the standoff's escalation (`enc.so`, `SK.escalate`); the walker bonus, the very hungry advance from afar, the flank factor; `skFightable`'s wider take; the open ways out (`skGuess`); the rush from cover by hunger (`skFromCover`); a curious listen's body from its head's start; the far prowl's reason text (R18-2 to R18-9) |
+| `src/frameworks/nani/server/ai.skin.move.js` | source | `SKF.near` 400, `SKF.keep`, `SKF.goAway`, `SKF.runIn`; the side it swings to (corrected), its read kept across a short break, straight in on somebody going away (R18-6) |
+| `src/frameworks/nani/server/ai.skin.preempt.js` | source | `SKP.left` and `SKP.refr`: the cooldown and refractory tables by hunger (R18-7) |
+| `generated/server/ai.js`, `generated/BUILD_MANIFEST.json` | built | rebuilt from the above |
+| `dev/tests/s_skinap.js`, `s_skinstealer.js`, `s_skinbehave.js`, `s_skinpredator.js`, `s_skinroute.js`, `s_skinadv.js`, `s_skinr16.js`, `s_wandererlock.js` | tests | each change with its reason in `REGRESSION.md` (R18 table); none dropped |
+| `dev/trial-3-r9-overhaul/tools/r16g_campaign.js` | tool | `--part threat` (S1-S13, the owner's §11) with `--raw`; its run read from the tree; F2's start for a faster roam; the threat scenes' pace with the engine's crossings excepted (R17's rule) and S2/S13 not judged where the page cannot sprint or is caught before a long hunt; the crouch key held until the page's state changes, and each threat scene begun standing |
+| `dev/trial-3-r9-overhaul/tools/threat_sim.js` | tool (new) | ordinary play at the players' true speeds, headless: two people answering it as players do, every number of §10 |
+| `dev/trial-3-r9-overhaul/tools/threat_measure.js` | tool (new) | the §10 numbers from saved real-page records, tree beside tree |
+| `dev/trial-3-r9-overhaul/tools/scene_probe.js` | tool (new) | the walk-away (S1) and dithering (S3) scenes headless, at true speeds, for any tree |
+| `dev/tools/gate/declared_changes.json` | the scope gate's list | R18's reason on `ai.js` |
+| `dev/trial-3-r9-overhaul/evidence/r17/` (R17's receipt, scan), `evidence/r18/` | evidence | the suites, `npm test`, Human QA; ordinary play R18 / R16i / R8; the real pages (threat scenes R18 and R16i, focused scenes, the continuous campaign R18 and R16i); the step's cost; the full gate's groups 1, 2 and 3a and their reruns |
+| `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `REGRESSION.md`, `PERFORMANCE.md`, `BROWSER_AND_MEDIA.md`, `DEFERRED.md`, `EVIDENCE_INDEX.md`, `HUMAN_QA.md`, `README.md` | docs | R18-1 to R18-12; the R17 and R18 rows; the overtuned play-test |
+
+No Wanderer movement file and no Hound or Smiler file changes at R18 (WL01-WL05): only the three Skin-Stealer parts above among the game's
+sources. To go back to R17's creature: `git checkout 636f01e -- src/frameworks/nani/server/ai.skinstealer.js src/frameworks/nani/server/ai.skin.move.js src/frameworks/nani/server/ai.skin.preempt.js && npm run build` (or check out `636f01e`).
+
 ## The whole branch, R8 to the final tree
 
 `git diff --stat f378049 <final> -- src` lists 27 source files; each is in its checkpoint's table above.
-- The Skin-Stealer's mind (`src/frameworks/nani/server/`): `ai.skinstealer.js` (R11–R16i), `ai.skin.mind.js` (R11), `ai.skin.infer.js`
-  (R12), `ai.skin.cover.js` (R13), `ai.skin.preempt.js` (R16d), `ai.skin.look.js` (R16e), `ai.skin.move.js` (R16f); `ai.capture.js`
+- The Skin-Stealer's mind (`src/frameworks/nani/server/`): `ai.skinstealer.js` (R11–R16i, R18), `ai.skin.mind.js` (R11), `ai.skin.infer.js`
+  (R12), `ai.skin.cover.js` (R13), `ai.skin.preempt.js` (R16d, R18), `ai.skin.look.js` (R16e), `ai.skin.move.js` (R16f, R18); `ai.capture.js`
   (R15: one line, the D preview); `src/build-recipes.json` (the new parts).
 - Its page: `src/frameworks/br-r/client/skin.body.js` (R14, R15, R16e, R16g), `skin.compose.js` (R10), `skin.kill.js` (R14, R15,
   R16a); `src/frameworks/nani/client/skin.head.js` (R15); the sight-only warning `src/frameworks/spacious-audio/client/skin.sight.js`
@@ -274,7 +294,7 @@ No file outside `dev/trial-3-r9-overhaul/` changes at R17: the game is R16i's.
 - The client's ledger of `window.__api` readers: `src/core/client/bundle/api_contract.json`, `API_CONTRACT.md` (R16h, regenerated).
 - Generated documentation blocks: `src/frameworks/nani/README.md`, `src/frameworks/spacious-audio/README.md`.
 - The tests: the new suites in `dev/tests/` (`s_skinsight.js` ... `s_skinap.js`, `s_wandererlock.js`), `dev/tests/run.js`, and the
-  existing tests changed with their reasons (`REGRESSION.md`).
+  existing tests changed with their reasons (`REGRESSION.md`; R18's in its own table).
 Built outputs follow from them (`generated/`, `public/`), each declared to the scope gate (`dev/tools/gate/declared_changes.json`).
 No Wanderer movement file is among them - the S.P.A.C.E. framework, the surfaces, `move.js`'s parts, the server's step and
 `server.js` are R8's byte for byte (`s_wandererlock.js` WL02) - and no Hound or Smiler file (WL05).

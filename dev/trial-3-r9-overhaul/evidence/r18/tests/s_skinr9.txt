@@ -1,0 +1,4 @@
+PASS R9-01 the owner's exposed ambush: watched by a lit person in the long hall (hunger .6 / .75 / .85), the creature never moves in their sight while it is on a covert way (a flank to its spot, an approach from cover, an approach it believes unseen) - only a withdrawal straight out of their sight may be seen (R8: fails)  [3145ms]
+       12 runs, 11 with a covert way; in the person's sight on a covert way: 0/0/0/0/0/0/0/0/0/0/0/0 px (withdrawals seen 132/138/137/134/132/138/137/134/132/0/137/134 px; a 'withdrawal' that came closer or crossed their front 0) | worst: null
+
+1/1 passed

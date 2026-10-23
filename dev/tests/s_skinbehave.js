@@ -160,7 +160,8 @@ add('BR04 a departure stays a choice: somebody in view far off changes nothing; 
 });
 add('BR05 its hunt cooldown is not blindness: somebody it has decided to leave alone, who then follows it closely, is still noticed - and is still not hunted', () => {
   const rs = over([1, 2, 3, 4, 5, 6], seed => {
-    const { w, e, p } = stage(seed, { hunger: .3 }); const T = trace(w, e, p); let go = null;
+    // (R18: fed is under SK.huntHunger, .3 - .2 here; at .3, R18's moderately hungry, its cooldown is SKP.left's 8 s, not the fed SK.cooldown)
+    const { w, e, p } = stage(seed, { hunger: .2 }); const T = trace(w, e, p); let go = null;
     w.run(50, (ww, t) => { if (!go && planOf(e) === 'leave') go = tailer(w, e, p, 90); if (go) go(); return every(T.take)(ww, t); });
     const cool = T.filter(s => s.left), L = looks(cool).filter(s => s.rx.endsWith(':' + p.id)), roamL = L.filter(s => s.plan === 'roam');
     const hunted = cool.filter(s => HUNT.has(s.plan) && s.P && s.P.pid === p.id).length;
@@ -187,13 +188,15 @@ function blind(seed, hunger, who) {
 }
 add('BR06 the blind flank: somebody behind a wall, or still and lightless out of its sight, changes nothing it does - the same seed without them gives the same creature, tick for tick', () => {
   const rs = [];
-  for (const who of ['wall', 'behind']) for (const hunger of [0, .5]) for (const seed of [1, 2, 3, 4]) {
+  // (R18: eight seeds - R18's quicker roam (160 px/s, was 105) turns it round to the person standing still 260 px behind it in most 'behind'
+  // runs within the 30 s: then in its sight and seen - a sensed run, reported, not a blind one; four seeds left 10 blind runs, the test needs 12)
+  for (const who of ['wall', 'behind']) for (const hunger of [0, .5]) for (const seed of [1, 2, 3, 4, 5, 6, 7, 8]) {
     const a = blind(seed, hunger, who), b = blind(seed, hunger, null); let first = -1;
     for (let i = 0; i < a.tr.length; i++) if (a.tr[i] !== b.tr[i]) { first = Math.floor(i / 7); break; }
     rs.push({ who, hunger, seed, sensed: a.seen + a.heard > 0 || a.rec, seen: a.seen, heard: a.heard, first, ok: a.seen + a.heard === 0 && !a.rec ? first < 0 : true });
   }
   const unsensed = rs.filter(r => !r.sensed);
-  return { ok: rs.every(r => r.ok) && unsensed.length >= 12, note: `${unsensed.length}/16 runs never sensed them (seen 0, heard 0, no record): identical to nobody there in ${unsensed.filter(r => r.first < 0).length}/${unsensed.length}${rs.some(r => r.sensed) ? ` | sensed (not a blind case, reported only): ${rs.filter(r => r.sensed).map(r => `${r.who} h${r.hunger} #${r.seed} seen ${r.seen} heard ${r.heard}`).join('; ')}` : ''}`, data: rs };
+  return { ok: rs.every(r => r.ok) && unsensed.length >= 12, note: `${unsensed.length}/${rs.length} runs never sensed them (seen 0, heard 0, no record): identical to nobody there in ${unsensed.filter(r => r.first < 0).length}/${unsensed.length}${rs.some(r => r.sensed) ? ` | sensed (not a blind case, reported only): ${rs.filter(r => r.sensed).map(r => `${r.who} h${r.hunger} #${r.seed} seen ${r.seen} heard ${r.heard}`).join('; ')}` : ''}`, data: rs };
 });
 add('BR07 an uncertain sound: footsteps it hears from behind a wall turn it to look toward the sound (its fuzzy place, no name) - never a record, a reaction to the person, a strike or a hunt for them', () => {
   const rs = over([1, 2, 3, 4, 5, 6], seed => {
@@ -337,7 +340,9 @@ add('BR14 a very hungry departure: thought over only on fresh sight of somebody 
     note: `newcomer: ${fresh.map(r => `left at ${r.leftAt} s, newcomer seen at ${r.seenC} s, ${r.changedAt < 0 ? 'kept its departure' : r.reconsider ? 'gave up its departure at ' + r.changedAt + ' s' : 'its departure ended at ' + r.changedAt + ' s (kept it when it thought again)'}`).join(' | ')} | hidden, hunger past 0.8 during the departure: changed ${stale.filter(r => r.changed).length}/4 (${stale.map(r => r.ended).join(', ')}; hunger at the end ${stale.map(r => r.hunger).join('/')}) | after a lost race (R1: no departure for a very hungry one): chase again within ${AI.SK.chaseRest} s ${race.filter(r => r.chaseAgain >= 0).length}/4, fastest then ${race.map(r => r.vmax).join('/')} px/s (its free pace ${AI.SK.runFrom}), plans ${race.map(r => r.plans).join(' | ')}; it later left ${race.filter(r => r.left).length}/4; the newcomer seen ${race.map(r => r.seenC).join('/')} ticks`, data: { fresh, stale, race } };
 });
 add('BR20 nothing stale survives: a person who leaves the game, goes far away for a minute, or an admin clear, a removal or a world reset - their pressure goes with it', () => {
-  const press = (seed) => { const { w, e, p, anchor } = stage(seed, { hunger: 0 }); const go = presser(w, e, p); w.run(5, (ww, t) => { if (t > .5) go(); return true; }); return { w, e, p, anchor, p0: e.aw.get(p.id) ? +e.aw.get(p.id).p.toFixed(2) : 0 }; };
+  // (R18: the presser runs to catch up when over 160 px off, as persist does - a fed one now leaves at its casual walk, 160 px/s (R8-R16i
+  // 105), and a walking presser (172) closed 350 px to only 200 in the 5 s: no pressure built in 3 of 5 seeds, the premise)
+  const press = (seed) => { const { w, e, p, anchor } = stage(seed, { hunger: 0 }); const go = presser(w, e, p); w.run(5, (ww, t) => { if (t > .5) { go(); if (Math.hypot(p.x - e.x, p.y - e.y) > 160) p.mode = 'run'; } return true; }); return { w, e, p, anchor, p0: e.aw.get(p.id) ? +e.aw.get(p.id).p.toFixed(2) : 0 }; };
   const out = {};
   { const { w, e, p, p0 } = press(1); w.sim.removePlayer(p); w.run(.5); out.disconnect = { p0, kept: e.aw.has(p.id), rx: !!(e.rx && e.rx.pid === p.id) }; }
   { const { w, e, p, anchor, p0 } = press(2); p.x = 8600; p.y = 6100; p.stop('crouch'); p.light = false; anchor.x = 8500; anchor.y = 6200; w.run(60); const farTier = e.tier;   // (everybody far away: its level of detail goes far)
@@ -389,7 +394,9 @@ add('BR08 a satiated one defends itself: at hunger 0, somebody who keeps pressin
 });
 add('BR10 nothing through anything solid: somebody it is ready to defend against, seen within reach across a corner or a low obstacle it cannot pass, is never sprung at; every defensive kill is at contact with a clear way', () => {
   const rs = [];
-  for (const [cx, cy] of [[5600, 900], [3384, 900], [5150, 940]]) for (const seed of [1, 2, 3]) {
+  // (R18: six seeds - a fed one now withdraws at its casual walk, 160 px/s (R8-R16i 105), and is caught at a corner or a low obstacle less
+  // often: three seeds gave 2 such runs of 9, the test needs 3; six give 6 of 18)
+  for (const [cx, cy] of [[5600, 900], [3384, 900], [5150, 940]]) for (const seed of [1, 2, 3, 4, 5, 6]) {
     const w = World(seed), s0 = floorNear(w, cx, cy, 24), e = w.eng.spawn('skinstealer', s0.x, s0.y, { hunger: 0 }); e.tier = 'near'; e.ang = Math.PI / 2;
     const s1 = floorNear(w, s0.x, s0.y + 150, 20), p = w.player(s1.x, s1.y, { light: true }); p.stop('stand');
     const anchor = w.player(s0.x - 1500, s0.y + 900, { light: false }); anchor.stop('crouch');
@@ -406,7 +413,7 @@ add('BR10 nothing through anything solid: somebody it is ready to defend against
     rs.push({ at: `${cx},${cy}#${seed}`, blocked, springs, springBlocked, kills: K.length, contact: K.every(k => contactOk(w, k, e)) });
   }
   const ex = rs.filter(r => r.blocked > 0);
-  return { ok: ex.length >= 3 && rs.every(r => !r.springBlocked && r.contact), note: `${ex.length}/9 runs had it ready to defend against somebody it saw within reach with no way to them (${ex.map(r => r.blocked).join('/')} ticks): sprung at then ${rs.reduce((a, r) => a + r.springBlocked, 0)} times; defensive springs in all ${rs.reduce((a, r) => a + r.springs, 0)}, kills ${rs.reduce((a, r) => a + r.kills, 0)}, every one at contact with a clear way: ${rs.every(r => r.contact)}`, data: rs };
+  return { ok: ex.length >= 3 && rs.every(r => !r.springBlocked && r.contact), note: `${ex.length}/${rs.length} runs had it ready to defend against somebody it saw within reach with no way to them (${ex.map(r => r.blocked).join('/')} ticks): sprung at then ${rs.reduce((a, r) => a + r.springBlocked, 0)} times; defensive springs in all ${rs.reduce((a, r) => a + r.springs, 0)}, kills ${rs.reduce((a, r) => a + r.kills, 0)}, every one at contact with a clear way: ${rs.every(r => r.contact)}`, data: rs };
 });
 add('BR15 counterplay against the defence: somebody who sees its wind-up and gets out of the way makes it miss - it stands recovering, cannot spring again for seconds, does not defend against them again for a while even when they come back, and goes', () => {
   const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
@@ -472,7 +479,10 @@ add('BR19 its streams are its own: provoking a Skin-Stealer (looks, warnings, a 
     return { tr, warns: e.tally.warn, defend: e.tally.defend + e.tally.withdraw, looks: e.tally.look, near: Math.round(near), seenBy: others.map(o => o.mem.p.has(p.id) ? 1 : 0).join('') };
   };
   const a = run(true), b = run(false); let first = -1; for (let i = 0; i < a.tr.length; i++) if (a.tr[i] !== b.tr[i]) { first = i; break; }
-  return { ok: first < 0 && a.warns >= 1 && a.defend >= 1 && a.seenBy === '0000' && b.seenBy === '0000' && Math.min(a.near, b.near) > 1500, note: `provoked (looks ${a.looks}, warnings ${a.warns}, defences or withdrawals ${a.defend}) against left alone: two Hounds and two Smilers ${first < 0 ? 'identical over ' + a.tr.length / 12 + ' ticks' : 'DIFFERENT from tick ' + Math.floor(first / 12)}; none of them ever sensed the person (${a.seenBy}/${b.seenBy}); the Skin-Stealer never came within ${Math.min(a.near, b.near)} px of them` };
+  // (R18: never within 1000 px of them - R16-R16i 1500: left alone, R18's casual walk, 160 px/s, took it 4500 px in the 30 s, to 1306 px of
+  // the south-west Smiler in the last second.  The one way creatures touch each other is the engine's separation of bodies in contact
+  // (ai.engine.js separate: under 0.9 x their radii, about 45 px) - and no Hound or Smiler senses another creature)
+  return { ok: first < 0 && a.warns >= 1 && a.defend >= 1 && a.seenBy === '0000' && b.seenBy === '0000' && Math.min(a.near, b.near) > 1000, note: `provoked (looks ${a.looks}, warnings ${a.warns}, defences or withdrawals ${a.defend}) against left alone: two Hounds and two Smilers ${first < 0 ? 'identical over ' + a.tr.length / 12 + ' ticks' : 'DIFFERENT from tick ' + Math.floor(first / 12)}; none of them ever sensed the person (${a.seenBy}/${b.seenBy}); the Skin-Stealer never came within ${Math.min(a.near, b.near)} px of them` };
 });
 
 S.helpers = { stage, persist, springs, contactOk };              // (for dev/trial-3-behavior-refinement/tools/br_dump.js: the same drivers, more seeds)

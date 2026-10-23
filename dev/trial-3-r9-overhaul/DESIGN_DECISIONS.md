@@ -1,4 +1,4 @@
-# Trial 3 R9–R17 — design decisions
+# Trial 3 R9–R18 — design decisions
 
 Every number here is PROPOSED and unapproved; Trial 3 is **not owner-approved**. Each decision names the owner's requirement it serves,
 what was chosen, why, and what it deliberately does not do.
@@ -1077,3 +1077,165 @@ holds both ways is four Skin-Stealers each pressed by a player: +10-17 % of a 0.
 ones think 0.3 ms more per second of game than R8's and cast a quarter more lines of sight (the periphery, the vantage search); route
 searching unchanged; the wire 3 bytes more for four. In the swapped order the tool's verdict reads "FAIL": there it judges R8 against
 R16i, and R8's p99 was the higher in two scenes - no invariant was violated in either order.
+
+## R18 — the owner's overtuned experiment: a faster, proactive, persistent Skin-Stealer (a separate, reversible checkpoint)
+
+**R18-1 The directive and what it is.** The owner (October 22, 22:02, "OVERTUNED COGNITIVE PREDATOR EXPERIMENT", and 22:08, an additive
+clarification): the Skin-Stealer is still too slow, too passive and not threatening enough - "overtune first, balance down after I
+experience the result": the movement profile of §1, proactive aggression (§2), immediate plan interruption (§3), fast reactions (§4),
+intelligent close encounters (§5), less passivity (§6), aggressive reacquisition (§7), graduated hunger (§8), distinct identities (§9),
+measured threat (§10), adversarial QA (§11), and (§12) not to nerf it for being dangerous but to fix what is unfair; and (22:08) standoffs
+that escalate from observation to purposeful advancement and, hungry enough, a run - with the head snaps and the stare kept, and every
+earlier requirement kept. It is **a temporary troubleshooting method for this refinement only**: every R18 number is meant to be tuned
+down by the owner once played. R17 (`636f01e`) stays the verified checkpoint to return to; R18 is its own commit on top of it. Only the
+Skin-Stealer's own parts changed (`ai.skinstealer.js`, `ai.skin.move.js`, `ai.skin.preempt.js`); the Wanderer's movement, the Hound, the
+Smiler, the shared engine and every page file are byte for byte R17's (`s_wandererlock` WL01-WL05).
+
+**R18-2 Its movement profile (§1)** - `SKIN.speeds`, every one under a fresh Wanderer's sprint (285 px/s, locked):
+
+| The owner's mode (range) | R18 | Used | R8-R16i |
+|---|---|---|---|
+| casual wandering (140-175) | roam 160 (x 1.1 roaming hungry: up to 176) | roaming; far from everyone, the engine's coarse move at its roam | 105 |
+| purposeful prowling (195-215) | prowl 205 | roaming to where its prey has been; an approach nobody sees, until 450 px off (`SK.closeFrom`), then a stalk or a creep; a search's way there, barely hungry | - |
+| alert investigation (225-240) | investigate 232 | a search's way to the place, hungry, until 220 px from it; the press's floor | - |
+| aggressive approach (255-265) | press 260 (232-260 by hunger from .45 to .8) | an open approach on somebody who has had it on their screen within 3 s (`SK.pressShown`), or who is moving, beyond its footwork's range | 238 (R16i) |
+| maximum ordinary pursuit (270) | run 270 | a chase; its footwork when it may run | 255 |
+
+Kept for their purpose: creep 62 and stalk 90 (stealth: the last stretch of an unseen approach, a search's arrival), disguise 150, flank
+210 (a quick move to cover; R8-R16i 170), fatigued 190 (180), spent 120 (exhausted; R8-R16i its roam, now 160 - exhaustion stays a
+crawl). **Stamina** (`skBody`): spent from `SK.runFrom` 215 (R8-R16i 200), in proportion to the speed beyond it, at least a quarter: 11 a
+second at its run (R8-R16i 14 at 255) - a prowl is free, an investigation costs about 3 a second, the press 9, the run 11; exhausted
+under 8 and itself again over 40, as before. A fresh runner still wins a straight race, by 15 px/s (C26, SK22, PR05, PR27, P18). Its
+acceleration (760), turning (3.6 rad/s), collisions, the strike (T4) and the recovery are unchanged.
+
+**R18-3 Hunger, graduated (§8).** Two lines replace the bands as gates: `SK.huntHunger` .3 (it hunts: listens, prowls, flanks, takes up
+a trail, springs - R8-R16i `band[1]` .4) and `SK.chaseHunger` .45 (it may run, press, cut an ambush short - R8-R16i `band[2]` .6); the
+gates on `band[1]` and `band[2]` (36 lines) moved to them; the bands keep their labels, the Rend, the feed and the kill variants. Around the lines the weights are smooth -
+`skDrive` (0 fed .. 1 starving, from .2 to .85) scales the escalation, the walker bonus and the advance; the chase is graduated from
+about .35 (`sm(.35, .6, h)`). Fed (under .3) it watches, warns, defends and leaves as before (S11, SK06's fed half, BR05, P01's .2).
+
+**R18-4 Proactive (§2, §6).** Its timers (`SK`): roam pauses .6-2 s (1.5-5), a watch 1.5-4.5 s (2-6), a lure 3-8 s and at most 14 (4-12,
+22), the interception's wait 2-5 s (4-9), a search 20 s (16) listening 1-2 s where it arrives (2-4), a sound worth looking at 4 s old
+and from .08 (2.5 s, .12), a chase from 560 px for 9 s, lost at 170 px (420, 7, 140), the retreat's hold .5 s (1), a hungry departure
+reconsidered after 2.5 s (4), the flank settling .3 s (.6), the freeze 1.5-.6 s (3-1.2), the first look at somebody .25-.4 s (.35-.55),
+a curious listen .4-1 s (.8-1.8), the fed cooldown 20-40 s (30-60); the encounter's budget 45 + 120 x hunger s (30 + 90). **Far from
+everyone, a hungry one prowls** (`farTick`): to where its prey has been (its own memory, `skPatrolGoal`) or across the level by its own
+draw, by the engine's coarse move at its roam - never toward anybody it has not perceived (SK06: the same prowl tick for tick with the
+person elsewhere). R8-R16i stood where they were (R16i's campaign: 226 s "asleep").
+
+**R18-5 Standoffs escalate (the 22:08 addition).** `enc.so`: the seconds it has stood off with somebody who knows it is there (its watch,
+and an open approach they can see). In `skDecide`: `esc = so / escT` (`SK.escalate` 5 s just hungry .. 1.2 s starving, x .8-1.2 with
+PATIENCE; 0 when fed or in a skin) - the watch loses .55 x esc, the retreat x (1 - .4 x min(1, esc)), the approach gains .9 x min(1.5,
+esc) x drive, and from esc 1.2 a chase is allowed. A stare becomes an advance, then (hungry enough, its breath allowing) a run. **Its head
+snaps and stare are unchanged** (`ai.skin.look.js` untouched: P10-P12, PR17, the focused scene F1) - one fix to a curious listen's
+body turn (R18-9).
+
+**R18-6 Close encounters (§5)** (`ai.skin.move.js`, its footwork): within 400 px (340) it fights for its place; `skFightable` also takes
+somebody who has had it on their screen within 3 s (hungry: a hesitation is a chance, not a reason to wait) and anybody moving over 40
+px/s (60); a long way round is weighed x .4 within its footwork's range when it may run. Three corrections the faster footwork exposed:
+- **the side it swings to** when they go straight away from it: R16f took the side opposite their lean (`lean >= 0 ? -1 : 1`, against
+  its own comment: cross(u, v) > 0 is the anticlockwise side) - met rarely at R16f-R16i, in every circling scene at R18 (P17: after a
+  reversal three runs never answered). Corrected.
+- **its read of their motion across a break** (`SKF.keep` 1 s): a fight taken up again starts from its last read, caught up over the gap
+  at its own lag; R16f-R16i started each new fight from their true motion (a reversal during a blocked line was read at once).
+- **somebody going away from it** (by its own lagging read: mostly away, faster than max(60, 0.7 x their speed)): it runs straight in to
+  40 px (`SKF.runIn`) of where it reckons they will be, no swing round them. R16f's band (115-170 px) behind a runner held it off: a
+  winded runner (148 px/s) was sprung at from 138 px and missed 3 of 3 (SK32); a swing beside a walker made its leap cross their path and
+  miss by 1-2 px. The mirror of R16f's "they come at it: it gives ground". The strike (T4: its wind-up, its reach, contact) is unchanged.
+A feint still works, and the check is stronger (P17): its read lags 0.27-0.3 s, its first clear step after a reversal is the old way in
+every judged run, the new way within 0.62-0.93 s; with the read made perfect (`SKF.tau` .004) the test fails.
+
+**R18-7 Reacquisition (§7).** A search lasts 20 s, a hunt makes 3-6 guesses (2-4), gives up after 15-45 s without evidence (10-30), its
+confidence floor .1 (.15), a lost listen .3-.8 s (.6-1.6), the next chase 5 s after a lost race (10); from huntHunger (was very hungry)
+a person lost from sight is searched for where it last knew them (confidence over .25, was .3). A departure's cooldown is 8 / 4 / 2 s by
+hunger (15 / 8 / 4) and the refractory before fresh sight may take them up 8 / 4 / 2 s, none under .3 (`ai.skin.preempt.js`). **The
+open ways out** (`skGuess`, §7 "check an adjacent opening ... evaluate another"): with no heading to go on - they were still when it
+last had them - the directions with open floor from that place, as far along as somebody leaving would be by now (140 x age + 150,
+250-700 px), weak guesses (.5) after every guess from evidence, a failed one not tried again. The level's shape only. R8-R16i: once that
+place was empty, "nowhere left to look". The evidence laws hold (PR08-PR13, C21-C25, SK23: identical until it senses a difference), and
+escapes still work (PR13's west end 7 of 7, PR20 7 of 8, PR04 6 of 7, C22's and PR11's silent runs); the east end of PR13's passage is
+now found by its search 5 of 7 (R16i 0) - an owner's tuning item (`DEFERRED.md`).
+
+**R18-8 Interruption (§3), reactions (§4), identities (§9).** Interruption is R16d's (`skPreempt`: every class of plan weighed on the
+think it first sees somebody, a committed strike never cut, hysteresis by `SK.rethink`); R18 shortens the waits it respects (R18-4,
+R18-7) and keeps P02-P09 (no flips: P09; the campaigns' check f). Its reactions are R16e's - its head on a sound in 0.05-0.1 s, its body
+after (0.2 s after the fix below), sight at 760 px through no wall (the campaigns' check c: 0 sightings without a line from the person's
+own page). Each one's traits still make it its own: INTELLIGENCE its read's lag and lead and its taste for a way round, PATIENCE its
+waits and now how soon a standoff escalates (x .8-1.2), CAUTION its approach and chase - drawn per creature as before.
+
+**R18-9 Decisions the tests and the measurements corrected** (each traced in `REGRESSION.md`'s R18 table):
+- a walker going away pulls the approach .9 x drive (.5 at first): at .45 it left a walker it had left before (leave .57 > approach .47).
+- very hungry (from .6, full at .85) and seen from afar (350-700 px), it comes on rather than go the long way round: + .5 x that to the
+  approach, the flank x down to .55. The hungry, and anybody close, keep their ways round and the bait (SK21 7 of 24 lay in wait, SK41
+  10 of 32, SK16 passes; an advance at any distance from .45 had ended the bait, 0 of 24 and 0 of 32, and taken SK16's watcher at .58).
+- at its flank's end, out of their sight at their side, it breaks cover and rushes from up to 360 px (`SKC.rush`) at .45 rising to 450
+  (`SK.closeFrom`) from .8 (R13-R16i: 360 at any hunger). Its flank's spot lies within 330 px of where it believed them when it set out;
+  the real-page S3 (somebody dithering in the hall) left it 331-358 px off after 7 s round, and it lay in wait for them to come (2.5 s, "it
+  hears them coming": their shuffling), then listened and searched for a person still standing there. `tools/scene_probe.js --scene
+  dither --hunger .7`: taken in all 6 at 8.8-12.4 s, 4 rushing at the flank's end (before: 5 of 6 waited first, 9.8-12.4 s).
+- a curious listen turns its body from when its head began (P10: 0.267 s after the sound at R18's roam; the owner's 150-250 ms): 0.2 s.
+- the far prowl's reason text read a field that is never set (`g.ev`): now `g.k`.
+- **left as it is, for the owner to decide:** hungry (.45-.6, and in part to .85) and watched from 600 px in the long hall, it still
+  takes R13's covert way round (about 1,550 px, 7 s out of their sight). Somebody who then walks away (S1) is often lost to it:
+  `scene_probe.js --scene walkaway`, taken 2 of 6 at .55 and .7 (17-18 s), 5 of 6 at .8 (3.6-3.8 s); R16i 0, 0 and 3 of 6; R8 1, 2 and 2.
+  A long way round from afar losing to coming on at .45-.6 would end R13's flank in the long hall where PR06, C17 and R9-01 judge it
+  (the owner's exposed ambush, R9); the blend that does it from .6 (`sm(.6, .85, h)` in the approach and the flank) is one number to move.
+
+**R18-10 Fair, still.** Its every step at or under its run outside a strike or the engine's vault (C26, P18, `s_skinadv` X01-X09, the
+campaigns' check d, `threat_sim.js`'s 0 samples over its run in 360 minutes of ordinary play); a fresh runner wins the straight race; the strike's
+wind-up, reach and contact, a dodge at the tell, stealth (P14: its periphery never fires on a crouched or crawling person; crouching
+stays silent: C22's and PR11's silent runs) and the evidence laws (no omniscient tracking: SK06's far prowl, the twin-world tests)
+unchanged; the Hound and the Smiler byte for byte; no new admin surface, no identity, no network or speech change.
+
+**R18-11 Measured (§10, §11).** Files: `evidence/r18/`; the real pages in `BROWSER_AND_MEDIA.md`, the cost in `PERFORMANCE.md`.
+- **Ordinary play at the players' true speeds** (`tools/threat_sim.js`, headless; under SwiftShader a page with its keys held covers
+  70-140 px/s, so the real pages cannot race it): two people moved by the game's own `move.js` explore the level and, when they see it,
+  answer as players do - sprint off, walk off, hide in the dark, circle and reverse, stand and watch, take another way; a person it kills
+  comes back 5 s later far from it. 12 runs of 15 minutes from hunger .55, and again from .85; R18, R16i and R8 meet the same people,
+  seed for seed (they part as soon as the creatures differ).
+
+| From hunger .55 (180 minutes each) | R18 | R16i | R8 |
+|---|---|---|---|
+| meetings / people taken | 81 / 26 | 69 / 17 | 86 / 17 |
+| walking away: taken (within 200 px; median time to it) | 7 of 19 (8; 4.3 s) | 1 of 11 (2) | 3 of 19 (5) |
+| sprinting away: taken | 2 of 15 | 0 of 17 | 1 of 19 |
+| hiding in the dark / watching it / circling it / another way: taken | 6 of 21 / 5 of 11 / 3 of 8 / 3 of 7 | 3 of 14 / 5 of 12 / 5 of 7 / 3 of 8 | 6 of 14 / 2 of 11 / 3 of 12 / 2 of 11 |
+| its mean speed while pursuing an objective | 200 px/s | 152 | 128 |
+| engaged (a plan or hunt about somebody): time at 218 px/s or more | 47 % of 468 s | 16 % of 631 s | 3 % of 779 s |
+| engaged: standing still / stealth paces | 22 % / 20 % | 28 % / 36 % | 32 % / 38 % |
+| all its time: standing still | 15 % | 37 % | 32 % |
+| standing with no plan (outside the far tier) | 703 s | 787 s | 1,280 s |
+| presses / chases / interceptions (met) | 48 / 12 / 19 (6) | 16 / 16 / 17 (5) | 0 / 5 / 14 (3) |
+| a lit person seen within 500 px for 3 s, hungry, and nothing done about them | 0 | 0 | 0 |
+| its stamina: lowest; exhaustions | 13; 0 | 6; 1 | 13; 0 |
+| samples over its run (outside a strike or a vault) | 0 | 0 | 0 |
+
+  From .85 (180 minutes each): taken 27 of 60 (R16i 17 of 65, R8 18 of 66); walkers 7 of 14 (1 of 13, 0 of 10); sprinters 2 of 8 (0 of
+  10, 1 of 11); hiders 9 of 18 (3 of 13, 8 of 18); engaged at 218 px/s or more 51 % (R16i 11 %, R8 4 %); its mean pursuit 209 px/s (139,
+  128); one exhaustion (R16i, R8 none). In both, from the moment it first sees somebody to a plan about them: median 0 s (the same think).
+  The bands by speed: R18's press (260) and run (270) are "aggressive" and "pursuit"; R16i's press (238) falls in "investigation" and its
+  run (255) in "aggressive" - hence the line at 218 px/s.
+- **The two scenes the real pages could not race** (`tools/scene_probe.js`, 6 seeds each, the same people for every tree): somebody
+  dithering 650 px off (S3) is taken 5 of 6 at .55 (6.4-18 s), 6 of 6 at .7 (8.8-12.4 s), 6 of 6 at .8 (3.4-3.5 s) - R16i 0, 3 and 6 of 6
+  (4.4-16 s), R8 4, 4 and 6 of 6; somebody who looks at it and walks away (S1): above.
+- **Real pages** (`BROWSER_AND_MEDIA.md`; pages at 1.1-2.4 frames a second, covering 26-137 px/s with their keys held). The owner's
+  thirteen scenes (`r16g_campaign.js --part threat`): **R18 9 of 13, R16i 7 of 13** in the same session (2 and 1 not judged: a page
+  that cannot sprint, a page caught before a long hunt); R18 failed S3 (dithering: its covert way round, a wait, a listen, a search -
+  not within 200 px in 12 s) and S6 (spotted on its covert way by the page it could not see, it left: R13's rule, see `DEFERRED.md`);
+  R16i failed S1, S3, S4, S5 and S12. Its presses 5 against 2, 28 s at 230 px/s or more against 17. The focused scenes: R18 4 of 7,
+  R16i 6 of 7 - F2 needs a page walking faster than 70 px/s at the edge of its eye, which these pages could not, while R18's walk
+  carried it past that edge in half a second; F7's R18 backed off round a corner (its bait) out of earshot of B; F6 failed on both.
+  The continuous campaign (12 minutes): R18 passes every hard-failure check; R16i, this session, failed check d on one correction of
+  its place by the shared engine. There, at these frame rates, both spent most of the time roaming or at their kills and the press
+  began once on R18 (three times on R16i) - the pages walked into it and were taken close; the modes are measured above, where people
+  move at their true speeds.
+
+**R18-12 Every test that changed** is in `REGRESSION.md`'s R18 table with its reason - 30 rows, none dropped; four made looser and
+marked (P02's helper by 0.005 s, X01's braking allowance, C22's silence, PR13's east end found by its own sight), one claim retired by
+the directive (PR27's "never closed on while winded and walking"), several made stronger (P17's read, SK06's far prowl, F02's waiting
+scenes); the rest restore a scene's premise that R18's faster walk moved (P03, P13, BR19, BR20, PR20, C24) or take more seeds for the same
+rule (SK23, BR06, BR10, PR11). The real-page tool (`r16g_campaign.js`) gained the threat scenes and, for slow pages and R18's walk: the
+crouch key held until the page's state changes and each threat scene begun standing (a tap fell between two frames and left the page
+crouched from S6 on), S7, S9 and S13's roams begun toward the page (as F1 and F2 give one) with a premise not met reported, F1's creature
+placed nearer and its run at once, F2's start moved by each try's own lag, its threat scenes' pace by R17's rule for the engine's
+crossings, and S2 and S13 reported, not judged, when the page cannot sprint or is caught before a long hunt. Every superseded run is kept.

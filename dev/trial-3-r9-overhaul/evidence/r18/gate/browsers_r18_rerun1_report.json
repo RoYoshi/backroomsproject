@@ -1,0 +1,23 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "636f01ea074cb969d2f1ef1cff9dd081f24185f9",
+ "startedAt": "2026-10-23T09:56:43.002Z",
+ "out": "<tmp>",
+ "steps": {
+  "browsers": {
+   "ok": true,
+   "cases": 115,
+   "note": "two_browser ok (100), col_head ok (5), col_aside ok (5), gameplay_smoke ok (5)",
+   "exit": null,
+   "seconds": 234
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-23T10:00:36.549Z",
+ "removed": [
+  "game_candidate"
+ ]
+}

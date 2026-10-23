@@ -76,16 +76,24 @@ add('SK05 a new world (world reset) and the admin\'s RESPAWN ALL take every Skin
   return { ok: n0 === 2 && n1 === 0 && !k1 && n2 === 0 && n3 === 0, note: `two -> world reset ${n1} (ss key ${k1}) -> one more -> RESPAWN ALL ${n2} -> 20 s later ${n3}` };
 });
 
-add('SK06 level of detail: far from everyone it waits where it is (its own hook: never the Smiler\'s hiding); near again it moves', () => {
-  const w = World(41), A = w.sim.admin, p = w.player(1300, 3300); p.stop('stand');
-  const e = w.eng.spawn('skinstealer', 8600, 6100); e.tier = 'near'; e.tierT = 0;
-  const states = new Set(); let moved = 0, px = e.x, py = e.y;
-  w.run(8, () => { states.add(e.state); moved += Math.hypot(e.x - px, e.y - py); px = e.x; py = e.y; return true; });
-  const farTier = e.tier, farMoved = moved;
-  p.x = e.x - 900; p.y = e.y; w.sim.step(DT);
-  moved = 0; px = e.x; py = e.y; w.run(25, () => { states.add(e.state); moved += Math.hypot(e.x - px, e.y - py); px = e.x; py = e.y; return true; });
-  const ok = farTier === 'far' && farMoved < 1 && !states.has('HIDDEN') && !states.has('DORMANT') && e.tier !== 'far' && moved > 150;
-  return { ok, note: `far: tier ${farTier}, moved ${farMoved.toFixed(1)} px; near: tier ${e.tier}, moved ${Math.round(moved)} px; states ${[...states].join(', ')}` };
+add('SK06 level of detail: far from everyone, fed it waits where it is; hungry it prowls coarsely - to where it last knew somebody, or across the level, never toward anybody it has not perceived (R18, the owner: "a planning state that keeps the creature stationary despite an available opportunity"; R8-R16i: it waited, whatever its hunger); never the Smiler\'s hiding; near again it moves', () => {
+  const run = (h, at = [1300, 3300]) => {
+    const w = World(41), p = w.player(at[0], at[1]); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', 8600, 6100, { hunger: h }); e.tier = 'near'; e.tierT = 0;
+    const states = new Set(), tr = []; let moved = 0, px = e.x, py = e.y;
+    w.run(8, () => { states.add(e.state); moved += Math.hypot(e.x - px, e.y - py); px = e.x; py = e.y; tr.push(Math.round(e.x * 10) + ',' + Math.round(e.y * 10)); return true; });
+    const farTier = e.tier, farMoved = moved, knew = e.mem.p.has(p.id);
+    p.x = e.x - 900; p.y = e.y; w.sim.step(DT);
+    moved = 0; px = e.x; py = e.y; w.run(25, () => { states.add(e.state); moved += Math.hypot(e.x - px, e.y - py); px = e.x; py = e.y; return true; });
+    return { h, farTier, farMoved, knew, states: [...states], tier: e.tier, moved, tr };
+  };
+  const fed = run(.1), hungry = run(.7), elsewhere = run(.7, [1300, 900]);
+  // (where the person it never perceived is makes no difference to its prowl: the same world with them elsewhere, far away too, gives the
+  // same prowl tick for tick)
+  let first = -1; for (let i = 0; i < hungry.tr.length; i++) if (hungry.tr[i] !== elsewhere.tr[i]) { first = i; break; }
+  const ok = [fed, hungry, elsewhere].every(r => r.farTier === 'far' && !r.states.includes('HIDDEN') && !r.states.includes('DORMANT') && r.tier !== 'far' && r.moved > 150 && !r.knew)
+    && fed.farMoved < 1 && hungry.farMoved > 100 && first < 0;
+  return { ok, note: [fed, hungry].map(r => `hunger ${r.h} - far: tier ${r.farTier}, moved ${r.farMoved.toFixed(1)} px (${r.knew ? 'KNEW the person' : 'no record of the person'}); near: tier ${r.tier}, moved ${Math.round(r.moved)} px; states ${r.states.join(', ')}`).join(' | ') + ` | the person elsewhere: its far prowl ${first < 0 ? 'identical tick for tick' : 'DIFFERS from tick ' + first}` };
 });
 
 add('SK07 admin data: the entity list marks it 2 (K on the panel); kn / mk only while one exists; the debug block is its own (no line of speech in it)', () => {
@@ -135,11 +143,14 @@ add('SK11 stamina: running drains it at its rate, walking and standing give it b
     const w = World(seed + 80), p = w.player(1300, 3300, { light: false }); p.stop('crouch');
     const e = w.eng.spawn('skinstealer', 2300, 3300, { hunger: .5 }); e.tier = 'near';
     const lim = Math.max(AI.SK.drainRun, AI.SK.regenStill) * 1.3 / 60, jumps = []; let prev = e.stam, overCap = 0;
-    let free = false; const tick = () => { if (Math.abs(e.stam - prev) > lim) jumps.push([+w.t.toFixed(2), +prev.toFixed(2), +e.stam.toFixed(2)]); prev = e.stam; if (free && e.exh && e.speed > e.sp.speeds.roam + 25) overCap++; return true; };
-    // its body told it ran at its run speed for 4 s (the body reads the speed it moved at): 14 a second
+    // (R18: exhausted, its cap is its spent walk - speeds.spent, 120; R8-R16i its roam, 105 then, 160 in R18)
+    let free = false; const tick = () => { if (Math.abs(e.stam - prev) > lim) jumps.push([+w.t.toFixed(2), +prev.toFixed(2), +e.stam.toFixed(2)]); prev = e.stam; if (free && e.exh && e.speed > e.sp.speeds.spent + 25) overCap++; return true; };
+    // its body told it ran at its run speed for 4 s (the body reads the speed it moved at): SK.drainRun a second (R18 11; R8-R16i 14)
     const s0 = e.stam; for (let i = 0; i < 240; i++) { e.speed = e.sp.speeds.run; w.step(); tick(); }
     const drained = s0 - e.stam;
-    for (let i = 0; i < 240; i++) { e.speed = e.sp.speeds.run; w.step(); tick(); }
+    // (R18: on until it is exhausted, 12 s at most - at R18's 11 a second from full that is 9.1 s; R8-R16i's 14 a second took 7.1, and the
+    // test ran 8 s in all)
+    for (let i = 0; i < 720 && !e.exh; i++) { e.speed = e.sp.speeds.run; w.step(); tick(); }
     const exh = e.exh, low = e.stam;
     w.run(.5, tick); free = true; w.run(11.5, tick); const back = e.stam, exhAfter = e.exh;               // (after half a second to brake: it moves as it chooses, exhausted, never faster than a walk)
     // plans and states changed over and over (the admin's hunt and clear, a summon): the stamina never jumps
@@ -309,8 +320,12 @@ add('SK22 the straight race: a fresh runner on a straight wins - it gives chase,
   // T3's "1500 px apart after 14 s" measured the departure; what it protected - the fresh runner wins - is asserted directly instead: once
   // the race is lost, the gap never closes while they keep running - over these 14 s, a sprint; PR27 (R7) runs on until the runner is
   // winded and walking, and asserts the lead they won does not shrink then either.)
-  const ok = fresh.every(r => r.chased && /losing the race/.test(r.why) && r.dmin >= 280 && r.runD >= r.lossD - 15) && tired.every(r => r.chased && r.dmin <= 185);
-  return { ok, note: `fresh: never closer than ${fresh.map(r => r.dmin).join('/')} px, gave up the chase ("${fresh[0].why}") ${fresh.map(r => r.lossD).join('/')} px behind, never closer than ${fresh.map(r => r.runD).join('/')} px while they ran on, ${fresh.map(r => r.end).join('/')} px apart after 14 s | winded: it closed to ${tired.map(r => r.dmin).join('/')} px (striking distance ${AI.SK.approachStop}..185; the pounce is T4's)`, data: { fresh, tired } };
+  // (R18: its run is 270, 15 px/s under the sprint: the gap grows by its chaseLose (170 px) in 11 s, and its breath (11 a second at its run)
+  // gives out first, at about 7 s - "out of breath" is the chase's own end too, the same lost race; R8-R16i ran at 255 and lost the race
+  // by distance first.  The invariant - the fresh runner wins, the gap never closes while they run on - is unchanged)
+  // (R18: a winded runner it may also run down in an open approach at its press - R8-R16i always by a chase; what is held is that it closes)
+  const ok = fresh.every(r => r.chased && /losing the race|out of breath/.test(r.why) && r.dmin >= 280 && r.runD >= r.lossD - 15) && tired.every(r => r.dmin <= 185);
+  return { ok, note: `fresh: never closer than ${fresh.map(r => r.dmin).join('/')} px, gave up the chase ("${fresh[0].why}") ${fresh.map(r => r.lossD).join('/')} px behind, never closer than ${fresh.map(r => r.runD).join('/')} px while they ran on, ${fresh.map(r => r.end).join('/')} px apart after 14 s | winded: it closed to ${tired.map(r => r.dmin).join('/')} px (by a chase: ${tired.map(r => r.chased ? 'yes' : 'no').join('/')}) (striking distance ${AI.SK.approachStop}..185; the pounce is T4's)`, data: { fresh, tired } };
 });
 
 /* interception: a person with a torch walks north past wall C's gap, where it sees them; past the gap they switch the torch off and walk on.
@@ -341,7 +356,9 @@ function interceptRun(seed, v, X0) {
   return R;
 }
 add('SK23 interception: when it loses someone it goes round to where it guesses they will be and waits there out of sight; right when they keep to their way, wrong when they double back - and the two runs are the same Skin-Stealer until it senses the difference', () => {
-  const rs = [1, 2, 3, 4, 5, 6, 7, 8].map(seed => { const A = interceptRun(seed, 'A', 2300), B = interceptRun(seed, 'B', 2300); return { seed, A, B }; });
+  // (R18: twenty seeds - R18's quicker way to its spot sights them again on the way in most doubled-back runs (an interception that took
+  // them up again: neither right nor wrong, below), so eight seeds gave one that waited in vain; R8-R16i: eight)
+  const rs = Array.from({ length: 20 }, (_, i) => i + 1).map(seed => { const A = interceptRun(seed, 'A', 2300), B = interceptRun(seed, 'B', 2300); return { seed, A, B }; });
   // the evidence law: identical until either run's Skin-Stealer senses the person differently (a sighting or a sound only one has), or
   // the engine's level of detail differs
   let lawOk = 0;
@@ -356,8 +373,8 @@ add('SK23 interception: when it loses someone it goes round to where it guesses 
   const ia = rs.filter(r => r.A.plan), ib = rs.filter(r => r.B.plan), ibw = ib.filter(r => r.B.plan.arrived);
   const right = ia.filter(r => r.A.minD < 300 && !/guessed wrong/.test(r.A.why)), wrong = ibw.filter(r => r.B.waitD >= 300 && /guessed wrong/.test(r.B.why));
   const bounded = rs.every(r => [r.A, r.B].every(R => !R.plan || (R.endAt > 0 && R.endAt - R.at <= AI.SK.interceptMax + 8.5)));
-  return { ok: lawOk === 8 && ia.length >= 3 && ibw.length >= 3 && right.length >= Math.ceil(ia.length * .6) && wrong.length === ibw.length && bounded,
-    note: `identical until it senses a difference (or its level of detail differs): ${lawOk}/8 | A (kept to their way): ${ia.length} interceptions, it met them within ${ia.map(r => Math.round(r.A.minD)).join('/')} px (${right.length} within 300; then ${ia.map(r => r.A.next).join('/')}) | B (doubled back): ${ibw.length} waited in vain, nearest ${ibw.map(r => Math.round(r.B.waitD)).join('/')} px, ${wrong.length} "guessed wrong" | every interception ended (${bounded})`,
+  return { ok: lawOk === rs.length && ia.length >= 3 && ibw.length >= 3 && right.length >= Math.ceil(ia.length * .6) && wrong.length === ibw.length && bounded,
+    note: `identical until it senses a difference (or its level of detail differs): ${lawOk}/${rs.length} | A (kept to their way): ${ia.length} interceptions, it met them within ${ia.map(r => Math.round(r.A.minD)).join('/')} px (${right.length} within 300; then ${ia.map(r => r.A.next).join('/')}) | B (doubled back): ${ibw.length} waited in vain, nearest ${ibw.map(r => Math.round(r.B.waitD)).join('/')} px, ${wrong.length} "guessed wrong" | every interception ended (${bounded})`,
     data: rs.map(r => ({ seed: r.seed, A: { at: r.A.at, minD: Math.round(r.A.minD), waitD: Math.round(r.A.waitD), why: r.A.why, next: r.A.next, pred: r.A.pred }, B: { at: r.B.at, waitD: Math.round(r.B.waitD), why: r.B.why, next: r.B.next } })) };
 });
 

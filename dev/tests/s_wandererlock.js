@@ -12,8 +12,9 @@
  *        after as before (nothing writes them), and no Skin-Stealer file reads or writes them
  *   WL05 the Hound and the Smiler: their species (speeds, caps, hooks) are R8's, and their code and the shared engine's are R8's byte for
  *        byte (ai.capture.js but for R15's one line, which only a Skin-Stealer reaches)
- *   WL06 the Skin-Stealer's own speeds, every one under a fresh Wanderer's sprint: its run (its most, 255) unchanged, its walk unchanged,
- *        R16i's purposeful approach (press) inside 230-245 and the only speed R16i added
+ *   WL06 the Skin-Stealer's own speeds, every one under a fresh Wanderer's sprint (285).  R18 (the owner's overtuned experiment) moved them
+ *        into the owner's ranges: roam 140-175, prowl 195-215, investigation 225-240, press 255-265, its run (its most) at most 270; its
+ *        stealth paces (creep, stalk) kept slow.  (R16i's form held R8's eight and a press of 230-245: R18-2 in DESIGN_DECISIONS.md)
  * R8's files are read with git (as PR25 reads 4518f93's); its hashes are also written here, so WL02 holds without git as well.  Line
  * endings are normalised before hashing (a checkout with CRLF is the same file). */
 'use strict';
@@ -196,16 +197,14 @@ add('WL05 the Hound and the Smiler: their species (speeds, caps, senses, hooks) 
   return { ok: !bad.length, note: bad.length ? bad.join('; ') : `Hound (${sp('HOUND')}) and Smiler (${sp('SMILER')}) and their acts and traits as at R8; ${parts.length} parts byte for byte; ai.capture.js one line apart (line ${diff[0] + 1}, R15)` };
 });
 
-add('WL06 the Skin-Stealer\'s own speeds, every one under a fresh Wanderer\'s sprint (285): its run, its most, 255 as at R8; its walk (roam) as at R8; R16i\'s purposeful approach (press) inside 230-245 and the only speed added since R8', () => {
-  const { AI, WORLD } = require('./lib.js'), bad = [], S8 = { roam: 105, creep: 62, stalk: 90, disguise: 150, run: 255, fatigued: 180, follow: 105, flank: 170 };
-  const sp = AI.SKIN.speeds, top = Math.max(...Object.values(sp));
-  for (const [k, v] of Object.entries(S8)) if (sp[k] !== v) bad.push(`${k} ${sp[k]} (R8 ${v})`);
-  const added = Object.keys(sp).filter(k => !(k in S8));
-  if (added.join() !== 'press') bad.push('added since R8: ' + (added.join(', ') || 'none'));
-  if (!(sp.press >= 230 && sp.press <= 245)) bad.push('press ' + sp.press);
+add('WL06 the Skin-Stealer\'s own speeds, every one under a fresh Wanderer\'s sprint (285): R18\'s overtuned profile in the owner\'s ranges - roam 140-175, prowl 195-215, investigation 225-240, press 255-265, its run (its most) at most 270 - its stealth paces slow', () => {
+  const { AI, WORLD } = require('./lib.js'), bad = [], sp = AI.SKIN.speeds, top = Math.max(...Object.values(sp));
+  const within = (k, lo, hi) => { if (!(sp[k] >= lo && sp[k] <= hi)) bad.push(`${k} ${sp[k]} (the owner's ${lo}-${hi})`); };
+  within('roam', 140, 175); within('prowl', 195, 215); within('investigate', 225, 240); within('press', 255, 265); within('run', 240, 270);
+  if (!(sp.creep <= 90 && sp.stalk <= 110)) bad.push(`stealth paces creep ${sp.creep}, stalk ${sp.stalk}`);
   if (!(top === sp.run && top < WORLD.MOVE.run)) bad.push(`its most ${top}, a fresh sprint ${WORLD.MOVE.run}`);
-  if (!(sp.press > AI.SK.runFrom)) bad.push('a press would cost it no stamina');
-  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `its speeds ${JSON.stringify(sp)}: its most ${top} < a fresh sprint ${WORLD.MOVE.run}; press ${sp.press} (over the ${AI.SK.runFrom} px/s from which it spends stamina); the rest R8's` };
+  if (!(sp.press > AI.SK.runFrom && sp.run > AI.SK.runFrom && sp.prowl <= AI.SK.runFrom)) bad.push(`stamina: runFrom ${AI.SK.runFrom} - the press and the run must cost it, the prowl must not`);
+  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `its speeds ${JSON.stringify(sp)}: its most ${top} < a fresh sprint ${WORLD.MOVE.run}; the press and the run spend stamina (over ${AI.SK.runFrom} px/s), its prowl does not` };
 });
 
 module.exports = S;

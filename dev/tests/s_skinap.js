@@ -33,19 +33,20 @@ const INNER = (() => {
   const file = path.join(ROOT, 'generated', 'server', 'ai.js'), src = fs.readFileSync(file, 'utf8'), ret = 'return { create, S, SNAMES,';
   if (src.split(ret).length !== 2) throw new Error('ai.js: its return is not where this test expects it');
   const m = new Module(file + '#ap', module); m.filename = file; m.paths = Module._nodeModulePaths(path.dirname(file));
-  m._compile(src.replace(ret, 'return { skPreempt, skPlanClass, skLeftFor, skRefractory, skPatrolGoal, SKP, skVantage, skPeriph, SKL, visualObservation, SKF, skFight, create, S, SNAMES,'), file);
+  m._compile(src.replace(ret, 'return { skPreempt, skPlanClass, skLeftFor, skRefractory, skPatrolGoal, SKP, skVantage, skPeriph, SKL, visualObservation, SKF, skFight, SK, create, S, SNAMES,'), file);
   return m.exports;
 })();
 const ARENA = { x: 3960, y: 3384 };
 const leaveAs = (w, e, p) => { const h = e.hunger; e.left.set(p.id, w.eng.now + (h < .4 ? 45 : INNER.skLeftFor(h))); (e.leftAt || (e.leftAt = new Map())).set(p.id, w.eng.now); };   // (as skLeave leaves them)
 /* did it weigh this person in a decision at or after time t (its decision's own record) */
-const weighed = (e, pid, at) => !!(e.dbg.decide && e.dbg.decide.pid === pid && e.dbg.decide.at >= at - 1e-6);
+// (R18: the record's time is rounded to 0.01 s - a decision on the tick it first saw them at 61.3333 reads 61.33: within half its precision)
+const weighed = (e, pid, at) => !!(e.dbg.decide && e.dbg.decide.pid === pid && e.dbg.decide.at >= at - .005 - 1e-6);
 /* the trace of its plans: a change of kind, with when */
 function planTrace(e) { const T = { last: '', list: [] }; T.tick = t => { const k = e.plan ? e.plan.k : '-'; if (k !== T.last) { T.list.push([+t.toFixed(2), k]); T.last = k; } }; return T; }
 
-add('P01 a person it left, seen again plainly (R16d; AP_AUDIT E: never taken up, 30-60 s whatever its hunger): it roams east down the long hall with the person lit, walking 500 px ahead of it in plain view - fed (.3) it leaves them alone; mildly hungry (.45) not before its refractory (10 s); hungry (.65 / .75) after 6 s; starving (.95) after 3 s - never before, and within a second once it may', () => {
+add('P01 a person it left, seen again plainly (R16d; AP_AUDIT E: never taken up, 30-60 s whatever its hunger): it roams east down the long hall with the person lit, walking 500 px ahead of it in plain view - fed (.2) it leaves them alone; mildly hungry (.45) not before its refractory (4 s); hungry (.65 / .75) after 4 / 2 s; starving (.95) after 2 s - never before, and within a second once it may (R18: the owner\'s hunger bands - hunts from SK.huntHunger .3, its refractory skRefractory; R16d: fed .3, 10 / 6 / 3 s)', () => {
   const rs = [];
-  for (const h of [.3, .45, .65, .75, .95]) rs.push(...over([1, 2, 3], seed => {
+  for (const h of [.2, .45, .65, .75, .95]) rs.push(...over([1, 2, 3], seed => {
     const w = World(seed * 7 + Math.round(h * 100) + 900); bystander(w, 1300, 3300);
     const e = w.eng.spawn('skinstealer', 3700, LONG.y, { hunger: h }); e.tier = 'near'; e.ang = 0;
     w.run(.3); const p = w.player(4200, LONG.y, { light: true, angle: 0 }); p.stop('stand');
@@ -58,7 +59,7 @@ add('P01 a person it left, seen again plainly (R16d; AP_AUDIT E: never taken up,
       if (took < 0 && (e.hunt || (e.plan && e.plan.pid === p.id && e.plan.k !== 'leave'))) took = w.eng.now - t0; return took < 0; });
     return { h, seed, inSight: +inSight.toFixed(1), may: may < 0 ? null : +may.toFixed(1), took: took < 0 ? null : +took.toFixed(1), refr };
   }));
-  const ok = rs.every(r => !r.err) && rs.every(r => r.h < .4 ? r.took === null && r.inSight > 8 : r.may !== null && r.took !== null && r.took >= r.refr - .05 && r.took - r.may <= 1);
+  const ok = rs.every(r => !r.err) && rs.every(r => r.h < INNER.SK.huntHunger ? r.took === null && r.inSight > 8 : r.may !== null && r.took !== null && r.took >= r.refr - .05 && r.took - r.may <= 1);
   return { ok, note: rs.map(r => r.err ? 'ERR ' + r.err : `${r.h}/${r.seed}: in sight ${r.inSight} s, taken up ${r.took === null ? 'never' : r.took + ' s'} after it left them (refractory ${r.refr > 1e6 ? 'none' : r.refr + ' s'})`).join(' | ') };
 });
 
@@ -94,7 +95,10 @@ add('P03 roaming on a long route of its own, a person appears (R16d; the owner: 
     let p = null, seenAt = -1, weighedAt = -1, onRoute = 0, lx = e.x, ly = e.y, why = '';
     if (e.roam) { e.roam.goal = { x: arena ? ARENA.x + 900 : 8400, y: O.y }; e.roam.until = w.eng.now + 60; e.roam.pause = 0; }
     w.run(10, (ww, t) => {
-      if (t > 2 && !p) { const f = floorNear(w, e.x + dx, e.y + dy) || { x: e.x + dx, y: e.y + dy }; p = w.player(f.x, f.y, { light: true, angle: 0 }); p.go(f.x + vx * 900, f.y + vy * 900, 'walk');
+      // (R18: the person appears once it has roamed 170 px - where R16i's roam, 105 px/s, had it at 2 s; at R18's casual walk 2 s took it
+      // 280 px, and the periphery scene's spot fell in the arena's wall: the person, put beside it, could not walk, so nothing moved at the
+      // edge of its view - the scene's place, not its rule)
+      if (!p && Math.hypot(e.x - O.x, e.y - O.y) >= 170) { const f = floorNear(w, e.x + dx, e.y + dy) || { x: e.x + dx, y: e.y + dy }; p = w.player(f.x, f.y, { light: true, angle: 0 }); p.go(f.x + vx * 900, f.y + vy * 900, 'walk');
         if (left) { e.left.set(p.id, w.eng.now + 30); (e.leftAt || (e.leftAt = new Map())).set(p.id, w.eng.now - 12); } }   // (left 12 s ago, still on its list - R8 held them 30-60 s)
       if (p && seenAt < 0 && e.seenNow.has(p.id)) seenAt = w.eng.now;
       if (seenAt >= 0 && weighedAt < 0 && weighed(e, p.id, seenAt)) { weighedAt = w.eng.now; why = e.dbg.preempt && e.dbg.preempt.at >= seenAt - 1e-6 ? e.dbg.preempt.why : ''; }
@@ -382,8 +386,10 @@ add('P13 where to look from (R16e; AP_AUDIT B: it walked to the sound itself, sa
     const p = w2.player(5650, LONG.y, { light: false, angle: 0 }); p.stop('stand');
     let heardAt = -1, sawAt = -1, turned = false;
     w2.run(10, (ww, t) => {
-      if (t > 1 && t < 2.2) { if (!p.r) { p.r = 1; p.go(5500, LONG.y, 'run'); } } else if (t >= 2.2 && p.r === 1) { p.r = 2; p.stop('stand'); }
-      if (heardAt < 0 && t > 1 && c.mem.sounds.length) heardAt = t;
+      // (R18: the sprint begins once it has roamed 440 px past them - where R16i's roam, 105 px/s, had it at 1 s; the owner's casual walk,
+      // 140-175, took it there sooner and the same sprint at 1 s was 510 px off, too faint to look at: the scene's distance, not its rule)
+      if (!p.r && c.x - p.x >= 440) { p.r = 1; p.t0 = t; p.go(5500, LONG.y, 'run'); } else if (p.r === 1 && t >= p.t0 + 1.2) { p.r = 2; p.stop('stand'); }
+      if (heardAt < 0 && p.r && c.mem.sounds.length) heardAt = t;
       if (heardAt >= 0 && Math.abs(Math.atan2(Math.sin(c.ang + (c.head || 0) - Math.PI), Math.cos(c.ang + (c.head || 0) - Math.PI))) < 1) turned = true;
       if (sawAt < 0 && c.seenNow.has(p.id)) sawAt = t; return sawAt < 0; });
     return { h, seed: sd, saw: sawAt < 0 ? null : +(sawAt - heardAt).toFixed(2), turned, vantage: c.tally.vantage || 0 };
@@ -415,16 +421,22 @@ function circled(h, dir, seed, T = 8, flip = 0) {
   const w = World(Math.round(h * 100) + (dir > 0 ? 700 : 800) + seed * 3); bystander(w, 1300, 3300);
   const cx = 5000, cy = LONG.y, e = w.eng.spawn('skinstealer', cx, cy, { hunger: h }); e.tier = 'near'; e.ang = 0;
   const p = w.player(cx + 240, cy, { light: true, angle: Math.PI }); p.stop('stand');
-  const R = { errSum: 0, n: 0, side: 0, back: 0, fightT: 0, strikes: 0, kill: -1, vmax: 0, over: 0, flipAt: -1, latAfter: [], stam0: e.stam, stamMin: e.stam, fast: 0 }; let px = e.x, py = e.y, pp = false, d0 = dir;
+  const R = { errSum: 0, n: 0, side: 0, back: 0, fightT: 0, strikes: 0, kill: -1, vmax: 0, over: 0, flipAt: -1, latAfter: [], readAt: -1, stam0: e.stam, stamMin: e.stam, fast: 0 }; let px = e.x, py = e.y, pp = false, d0 = dir, run = 0;
   w.run(T, (ww, t) => {
-    if (flip && t >= flip && R.flipAt < 0) { R.flipAt = t; dir = -dir; }
+    // (R18: the reversal comes in a fight - from `flip` s on, once it has fought for its place 0.3 s on end; R16f-R16i reversed at `flip`
+    // whatever it was doing, and R18's quicker footwork was often between two fights then: no feint of its footwork to judge)
+    if (flip && t >= flip && R.flipAt < 0 && run >= .3) { R.flipAt = t; dir = -dir; }
     const a = Math.atan2(p.y - e.y, p.x - e.x); p.go(e.x + Math.cos(a + dir * .5) * 230, e.y + Math.sin(a + dir * .5) * 230, 'run'); p.look = Math.atan2(e.y - p.y, e.x - p.x);
     const fighting = !!(e.fight && !e.fight.blocked && w.eng.now - e.fight.at < .15) && !e.pounce && !e.recover;   // (R16g: a fight with no clear way to them is no footwork)
     const mvx = (e.x - px) / DT, mvy = (e.y - py) / DT, f = mvx * Math.cos(e.ang) + mvy * Math.sin(e.ang), l = -mvx * Math.sin(e.ang) + mvy * Math.cos(e.ang); px = e.x; py = e.y;
     const v = Math.hypot(mvx, mvy); if (!e.pounce && !e.recover) { R.vmax = Math.max(R.vmax, v); R.cmax = Math.max(R.cmax || 0, e.speed); if (e.speed > AI.SKIN.speeds.run + .5 || v > AI.SKIN.speeds.run * 1.02) R.over++; }   // (its own speed; and what it covered, a wall's slide allowed 2 %)
+    run = fighting ? run + DT : 0;
     if (fighting) { R.fightT += DT; R.errSum += Math.abs(Math.atan2(Math.sin(e.ang - a), Math.cos(e.ang - a))); R.n++; if (Math.abs(l) > 40 && Math.abs(l) > Math.abs(f)) R.side += DT; if (f < -30) R.back += DT; }
-    if (R.flipAt >= 0 && t - R.flipAt < 1.2 && fighting) R.latAfter.push([+(t - R.flipAt).toFixed(3), Math.sign(l) * d0]);   // (its sideways step, in the old direction's sense)
-    if (v > 200 && !e.pounce) R.fast += DT; R.stamMin = Math.min(R.stamMin, e.stam);
+    // (R18) its read of their motion after the reversal: when it first reckons them going round it the new way (the sense of its read across
+    // the line from it to them: they go round it the way `dir` says - toward the bearing + dir x 0.5 - so the new sense is -d0)
+    if (R.flipAt >= 0 && R.readAt < 0 && e.fight && e.fight.vx != null && Math.sign((p.x - e.x) * e.fight.vy - (p.y - e.y) * e.fight.vx) === -d0) R.readAt = +(t - R.flipAt).toFixed(3);
+    if (R.flipAt >= 0 && t - R.flipAt < 1.2 && fighting) R.latAfter.push([+(t - R.flipAt).toFixed(3), Math.sign(l) * d0, Math.round(Math.abs(l))]);   // (its sideways step, in the old direction's sense, and how fast)
+    if (e.speed > INNER.SK.runFrom && !e.pounce) R.fast += DT; R.stamMin = Math.min(R.stamMin, e.stam);   // (R18: its own speed over SK.runFrom, the speed its stamina is spent from - 215 since R18, the owner's prowl free; R16f counted what it covered over 200, R8-R16i's runFrom)
     if (e.pounce && !pp) R.strikes++; pp = !!e.pounce; if (R.kill < 0 && w.kills.length) R.kill = t;
     return R.kill < 0; });
   R.meanErr = R.n ? +(R.errSum / R.n).toFixed(2) : null; return R;
@@ -471,17 +483,26 @@ add('P16 somebody slipping past it out of a dead end (R16f; the owner: cut off e
 
 add('P17 a feint (R16f; the owner: no perfect mirroring - a feint can cause mistakes): circling it one way, the person abruptly reverses - for a moment it still steps the old way (its read of their motion lags), and within a second it steps the new way', () => {
   const rs = [];
-  for (const h of [.85, .95]) for (const dir of [1, -1]) for (const seed of [1, 2]) rs.push(...over([seed], sd => { const R = circled(h, dir, sd, 6, 3); return { h, dir, seed: sd, flipAt: R.flipAt, lat: R.latAfter, kill: R.kill }; }));
-  const judge = r => { const L = r.lat; if (!L.length) return null; const old = L.filter(x => x[0] <= .12 && x[1] > 0).length, turned = L.find(x => x[0] >= .1 && x[1] < 0); return { old, turned: turned ? turned[0] : null }; };
-  const J = rs.map(r => Object.assign(r, { j: judge(r) })), Fj = J.filter(r => r.j && (r.kill < 0 || r.kill > r.flipAt + 1.2));
-  const ok = rs.every(r => !r.err) && Fj.length >= 4 && Fj.filter(r => r.j.old > 0).length >= Math.ceil(Fj.length * .6) && Fj.every(r => r.j.turned !== null && r.j.turned <= 1);
-  return { ok, note: J.map(r => r.err ? 'ERR ' + r.err : !r.j ? `${r.h} ${r.dir > 0 ? 'ccw' : 'cw'} #${r.seed}: not fighting at the reversal${r.kill >= 0 ? ' (a kill at ' + r.kill.toFixed(1) + ' s)' : ''}` : `${r.h} ${r.dir > 0 ? 'ccw' : 'cw'} #${r.seed}: the old way still ${r.j.old} ticks after the reversal, the new way from ${r.j.turned === null ? 'NEVER' : r.j.turned + ' s'}`).join(' | ') };
+  for (const h of [.85, .95]) for (const dir of [1, -1]) for (const seed of [1, 2]) rs.push(...over([seed], sd => { const R = circled(h, dir, sd, 6, 3); return { h, dir, seed: sd, flipAt: R.flipAt, lat: R.latAfter, readAt: R.readAt, kill: R.kill }; }));
+  // (R18: a step is its sideways motion over 40 px/s, P15's own measure - under that its sign is noise; R16f judged the sign of any motion
+  // in the first 0.12 s, and R18's quicker footwork often met the reversal closing straight in, 1-4 px/s sideways, then stepped the old way
+  // for half a second: fooled is its first clear step after the reversal the old way; answered, a clear step the new way within a second.
+  // A fight broken off (no clear way to them) before a second had passed and before a step the new way is not judged, and is listed)
+  const judge = r => { const L = r.lat; if (!L.length || L[0][0] > .05) return null;
+    const C = L.filter(x => x[2] > 40), first = C[0], turned = C.find(x => x[1] < 0), cut = !turned && L[L.length - 1][0] < .95;
+    return { fooled: !!first && first[1] > 0, first: first ? first[0] : null, turned: turned ? turned[0] : null, cut, end: L[L.length - 1][0] }; };
+  const J = rs.map(r => Object.assign(r, { j: judge(r) })), Fj = J.filter(r => r.j && !r.j.cut && (r.kill < 0 || r.kill > r.flipAt + 1.2));
+  // (R18) and the lag itself: its read of their motion still lies the old way for a moment (SKF.tau: 0.18-0.32 s, about a tenth of a second
+  // or more to swing past) - its own momentum alone would also carry its feet the old way; a perfect read would swing at once
+  const ok = rs.every(r => !r.err) && Fj.length >= 4 && Fj.filter(r => r.j.fooled).length >= Math.ceil(Fj.length * .6) && Fj.every(r => r.j.turned !== null && r.j.turned <= 1)
+    && Fj.every(r => r.readAt >= .08 && r.readAt <= 1);
+  return { ok, note: `judged ${Fj.length}, fooled ${Fj.filter(r => r.j.fooled).length} | ` + J.map(r => r.err ? 'ERR ' + r.err : !r.j ? `${r.h} ${r.dir > 0 ? 'ccw' : 'cw'} #${r.seed}: not fighting at the reversal${r.kill >= 0 ? ' (a kill at ' + r.kill.toFixed(1) + ' s)' : ''}` : `${r.h} ${r.dir > 0 ? 'ccw' : 'cw'} #${r.seed}: reversed at ${r.flipAt.toFixed(2)} s, its read of them the new way from ${r.readAt < 0 ? 'NEVER' : r.readAt + ' s'}; its first clear step after it ${r.j.first === null ? 'none' : (r.j.fooled ? 'the old way' : 'the new way') + ' at ' + r.j.first + ' s'}, the new way from ${r.j.turned === null ? 'NEVER' : r.j.turned + ' s'}${r.j.cut ? ' (the fight broke off at ' + r.j.end + ' s: not judged)' : ''}`).join(' | ') };
 });
-add('P18 the fair race and its stamina (R16f; the locks: no speed above its own, finite stamina): circled either way at hunger .85 and .95 (the slipping scenes check their own speed in P16) its every step is at or under its run (255 px/s; a fresh sprint is 285); running fast it spends stamina as before', () => {
+add('P18 the fair race and its stamina (R16f; the locks: no speed above its own, finite stamina): circled either way at hunger .85 and .95 (the slipping scenes check their own speed in P16) its every step is at or under its run (R18: 270 px/s; R16f-R16i 255; a fresh sprint is 285); running fast - over the speed its stamina is spent from - it spends stamina as before', () => {
   const rs = [];
   for (const h of [.85, .95]) for (const dir of [1, -1]) rs.push(...over([1], sd => { const R = circled(h, dir, sd, 8); return { h, dir, vmax: Math.round(R.vmax), cmax: Math.round(R.cmax), over: R.over, fast: +R.fast.toFixed(1), spent: Math.round(R.stam0 - R.stamMin) }; }));
   const ok = rs.every(r => !r.err && r.over === 0) && rs.filter(r => r.fast > 1).every(r => r.spent > 0);
-  return { ok, note: rs.map(r => r.err ? 'ERR ' + r.err : `${r.h} ${r.dir > 0 ? 'ccw' : 'cw'}: fastest ${r.cmax} px/s its own, ${r.vmax} covered (its run ${AI.SKIN.speeds.run}), over it ${r.over} ticks; ${r.fast} s over 200 px/s, stamina spent ${r.spent}`).join(' | ') };
+  return { ok, note: rs.map(r => r.err ? 'ERR ' + r.err : `${r.h} ${r.dir > 0 ? 'ccw' : 'cw'}: fastest ${r.cmax} px/s its own, ${r.vmax} covered (its run ${AI.SKIN.speeds.run}), over it ${r.over} ticks; ${r.fast} s over ${INNER.SK.runFrom} px/s, stamina spent ${r.spent}`).join(' | ') };
 });
 
 module.exports = S;

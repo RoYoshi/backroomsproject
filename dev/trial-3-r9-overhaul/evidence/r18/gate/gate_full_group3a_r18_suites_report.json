@@ -1,0 +1,202 @@
+{
+ "tool": "dev/stage-3h/gate/suites.js",
+ "known": "dev/stage-3h/gate/known_failures_bpp.json",
+ "suites": {
+  "npm_test": {
+   "ran": 343,
+   "summary": {
+    "passed": 330,
+    "total": 343
+   },
+   "failing": [
+    "P01 noticing distance: run > walk > crouch (resting hound, corridor)",
+    "P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming",
+    "H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)",
+    "NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm",
+    "C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it",
+    "C3 it does not track the hidden prey exactly: after losing it, its goals come from memory and sound, never from where the prey really is",
+    "C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)",
+    "C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you",
+    "C9 / C10 an exhausted runner is far more vulnerable; a fresh one can still make distance",
+    "C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out",
+    "L9 lifecycle (v22.2): a living player starts a new run only through the NEW RUN sequence (vanish, 2 s or more, then leave / join), once per 30 s",
+    "2F F13 death/respawn/leave/world reset clear encounter identity",
+    "2F F22 species physical/canon parameter preservation"
+   ],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 480568,
+   "ok": true
+  },
+  "s_humanqa_hotfix": {
+   "ran": 6,
+   "summary": {
+    "passed": 5,
+    "total": 6
+   },
+   "failing": [
+    "HQA X03 dead hover and switched-off physical-light QOL are present in shipped client"
+   ],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 1717,
+   "ok": true
+  },
+  "s_ir": {
+   "ran": 3,
+   "summary": {
+    "passed": 3,
+    "total": 3
+   },
+   "failing": [],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 0,
+   "ms": 1556,
+   "ok": true
+  },
+  "test_shadows": {
+   "ran": 48,
+   "summary": {
+    "passed": 43,
+    "total": 48
+   },
+   "failing": [
+    "S06 the local flashlight casts a lit hound's shadow away from the player; rotating the aim off it fades it smoothly (no pop)",
+    "S16 the shipped server serves the module without any server change (assets/ is already whitelisted)",
+    "V08 the strongest place in the busiest scenes stays partial: everything drawn at one spot (grounding, lamps, your light) never removes more than 85 % of the light",
+    "X01 mixed light (SH-QA-01): inside your flashlight beam a lamp's shadow gives way to the flashlight (strong beam, cut > .3: at most 45 % of its lamps-only darkening, and close to the exact share), outside the beam it is unchanged",
+    "X02 mixed light at LOW and from another wanderer's light: LOW fills too; a peer's beam fills a lamp shadow as yours does"
+   ],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 30618,
+   "ok": true
+  },
+  "test_br_role": {
+   "ran": 32,
+   "summary": {
+    "passed": 29,
+    "total": 32
+   },
+   "failing": [
+    "U01 loads, attaches above the carpet on the first frame, and takes over the light (on() true); version reported; the blockers are every wall side and pillar side",
+    "U02 one compositor, no visibility polygon: nothing is clipped to any shape (only, BR3, shadow fills to their light's own pixel box; QA2, a face band's end pieces to its mitred outline); every light is ADDED to the light buffer (`lighter`): each lamp as its own shadowed field, each carried light (beam, then hand glow); the overlay loses the buffer once (destination-out), then the beam colour (source-over)",
+    "U26 BR2.1 the player's two hands are part of the silhouette: each gets the same self-shading gradient as the body, the cast is cut out around them too and starts past them (one pass, the dominant light only)"
+   ],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 37469,
+   "ok": true
+  },
+  "interp_test": {
+   "ran": 3,
+   "summary": null,
+   "failing": [],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 0,
+   "ms": 49,
+   "ok": true
+  },
+  "test_3bn": {
+   "ran": 7,
+   "summary": {
+    "passed": 7,
+    "total": 7
+   },
+   "failing": [],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 0,
+   "ms": 313,
+   "ok": true
+  },
+  "audit_net": {
+   "ran": 17,
+   "summary": {
+    "passed": 12,
+    "total": 17
+   },
+   "failing": [
+    "A1 admin tools still move people (bring) and the moved player carries on from there",
+    "M4 a short hop through a wall is refused",
+    "R1 a living player cannot respawn (no free teleport home)",
+    "D3 a normal death: the victim's own replay and corpse are used - one replay, one corpse, nothing added by the server",
+    "R2 a dead player can respawn (back at the spawn point, alive)"
+   ],
+   "newFailures": [
+    "R1 a living player cannot respawn (no free teleport home)"
+   ],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 54994,
+   "ok": false
+  },
+  "audit_net2": {
+   "ran": 11,
+   "summary": {
+    "passed": 8,
+    "total": 11
+   },
+   "failing": [
+    "LC4 NEW RUN only through its sequence: a bare join or leave while alive does nothing; vanish (2.7 s on screen) -> leave -> join starts a run at the client's spawn choice; a second vanish within 30 s does not",
+    "MT1 real move.js traces (walk, sprint, vault, crouch, crawl through a hole, slide; plain and in lag bursts) sent by an ordinary client: no correction, the server ends where the client does",
+    "DD2 a connected victim: its own replay and corpse, exactly one of each, nothing added by the server even after the fallback deadline"
+   ],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 216591,
+   "ok": true
+  },
+  "ir_net": {
+   "ran": 4,
+   "summary": {
+    "passed": 4,
+    "total": 4
+   },
+   "failing": [],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 0,
+   "ms": 4889,
+   "ok": true
+  }
+ },
+ "ok": false
+}

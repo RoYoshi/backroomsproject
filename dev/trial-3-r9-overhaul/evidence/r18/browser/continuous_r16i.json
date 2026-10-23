@@ -1,0 +1,435 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r16g_campaign.js",
+ "part": "continuous",
+ "chromium": "141.0.7390.37",
+ "tree": "R16i (a70137e)",
+ "ids": {
+  "A": 1,
+  "B": 2
+ },
+ "K": [
+  {
+   "ok": true,
+   "op": "spawn",
+   "id": 11,
+   "x": 7600,
+   "y": 3504,
+   "hunger": 0.6
+  },
+  {
+   "ok": true,
+   "op": "spawn",
+   "id": 14,
+   "x": 3300,
+   "y": 2904,
+   "hunger": 0.9
+  }
+ ],
+ "log": [
+  [
+   7.2,
+   "A: explore"
+  ],
+  [
+   7.2,
+   "B: explore"
+  ],
+  [
+   24.8,
+   "A: hide"
+  ],
+  [
+   42.2,
+   "B died"
+  ],
+  [
+   50.5,
+   "B: explore"
+  ],
+  [
+   56.6,
+   "A: flee"
+  ],
+  [
+   70.6,
+   "B: peek"
+  ],
+  [
+   82.7,
+   "A: flee"
+  ],
+  [
+   89.8,
+   "B died"
+  ],
+  [
+   99.8,
+   "B: flee"
+  ],
+  [
+   114.7,
+   "A: explore"
+  ],
+  [
+   132.7,
+   "B: hide"
+  ],
+  [
+   141.6,
+   "A: flee"
+  ],
+  [
+   161,
+   "B: circle"
+  ],
+  [
+   170,
+   "A: explore"
+  ],
+  [
+   196.3,
+   "B: peek"
+  ],
+  [
+   202.4,
+   "A: flee"
+  ],
+  [
+   224.7,
+   "B: explore"
+  ],
+  [
+   236.2,
+   "A: flee"
+  ],
+  [
+   242.5,
+   "B: explore"
+  ],
+  [
+   263.6,
+   "A: peek"
+  ],
+  [
+   289.4,
+   "A: explore"
+  ],
+  [
+   289.4,
+   "B: explore"
+  ],
+  [
+   320.5,
+   "A: flee"
+  ],
+  [
+   320.5,
+   "B: explore"
+  ],
+  [
+   348.1,
+   "A: feint"
+  ],
+  [
+   348.1,
+   "B: explore"
+  ],
+  [
+   360.7,
+   "a second Skin-Stealer, hunger .9"
+  ],
+  [
+   371.7,
+   "B: explore"
+  ],
+  [
+   383.6,
+   "A died"
+  ],
+  [
+   392.4,
+   "A: explore"
+  ],
+  [
+   409.9,
+   "B died"
+  ],
+  [
+   421.1,
+   "A: feint"
+  ],
+  [
+   421.1,
+   "B: flee"
+  ],
+  [
+   449.6,
+   "A died"
+  ],
+  [
+   459.8,
+   "A: explore"
+  ],
+  [
+   459.8,
+   "B: flee"
+  ],
+  [
+   473.7,
+   "A died"
+  ],
+  [
+   484.6,
+   "A: feint"
+  ],
+  [
+   489.8,
+   "B: explore"
+  ],
+  [
+   498.2,
+   "A died"
+  ],
+  [
+   509.7,
+   "A: feint"
+  ],
+  [
+   534.5,
+   "A died"
+  ],
+  [
+   534.5,
+   "B: peek"
+  ],
+  [
+   546.2,
+   "A: circle"
+  ],
+  [
+   553.8,
+   "A died"
+  ],
+  [
+   564.2,
+   "A: explore"
+  ],
+  [
+   571.2,
+   "A died"
+  ],
+  [
+   571.2,
+   "B: peek"
+  ],
+  [
+   586.5,
+   "A: feint"
+  ],
+  [
+   598.6,
+   "B: hide"
+  ],
+  [
+   605.7,
+   "A died"
+  ],
+  [
+   615.4,
+   "A: peek"
+  ],
+  [
+   632.1,
+   "B: peek"
+  ],
+  [
+   650.8,
+   "A died"
+  ],
+  [
+   660.8,
+   "A: explore"
+  ],
+  [
+   670.3,
+   "B: hide"
+  ],
+  [
+   679.5,
+   "A died"
+  ],
+  [
+   687.7,
+   "A: circle"
+  ],
+  [
+   698.5,
+   "B: explore"
+  ]
+ ],
+ "shots": [
+  "C_A_32s.png",
+  "C_B_32s.png",
+  "C_A_100s.png",
+  "C_B_100s.png",
+  "C_A_151s.png",
+  "C_B_151s.png",
+  "C_A_214s.png",
+  "C_B_214s.png",
+  "C_A_276s.png",
+  "C_B_276s.png",
+  "C_A_332s.png",
+  "C_B_332s.png",
+  "C_A_392s.png",
+  "C_B_392s.png",
+  "C_A_460s.png",
+  "C_B_460s.png",
+  "C_A_518s.png",
+  "C_B_518s.png",
+  "C_A_571s.png",
+  "C_B_571s.png",
+  "C_A_632s.png",
+  "C_B_632s.png",
+  "C_A_698s.png",
+  "C_B_698s.png"
+ ],
+ "deaths": {
+  "A": 10,
+  "B": 3
+ },
+ "secs": 744,
+ "samples": [
+  13266,
+  13480
+ ],
+ "fps": [
+  1.7,
+  1.9
+ ],
+ "errors": {
+  "A": [],
+  "B": []
+ },
+ "checks": [
+  {
+   "id": "a. it never walks on along its route after newly seeing somebody it may hunt (an answer within 0.5 s)",
+   "ok": true,
+   "why": "every new sighting at hunting hunger while it roamed was answered within 0.5 s; 0 sightings while it held a kill or sprang, not judged"
+  },
+  {
+   "id": "b. its head turns (snaps seen in the debug, and drawn: the page's head angle)",
+   "ok": true,
+   "why": "snaps: {\"sound\":0,\"motion\":0,\"sight\":6}, the largest head angle the pages drew from 1.25 rad"
+  },
+  {
+   "id": "c. it never sees through a wall (whenever it sees a person within 650 px, that person's own page has a clear line to it at that tick or the two before)",
+   "ok": true,
+   "why": "0 of 81 sightings with no ray from the person's page in 0.1 s (the server's own line clear in 0 of them); 0 of B's not matched to a tick of B's page"
+  },
+  {
+   "id": "d. never faster than its run (the pages' record of its speed, the strike's lunge and the engine's crossing of a low obstacle or a window excepted)",
+   "ok": false,
+   "why": "6 samples over 255 px/s; 2 crossings excepted (12 samples, at most 449 px/s): L3 (low) at 511 s on page A, L3 (low) at 511 s on page B"
+  },
+  {
+   "id": "e. never stuck (8 s still in a plan that moves it)",
+   "ok": true,
+   "why": "none"
+  },
+  {
+   "id": "f. no plan flips back and forth within a second",
+   "ok": true,
+   "why": "0 flips"
+  },
+  {
+   "id": "g. no page error",
+   "ok": true,
+   "why": "{\"A\":[],\"B\":[]}"
+  }
+ ],
+ "events": {
+  "preempt": 3,
+  "kept": 0,
+  "snaps": {
+   "sound": 0,
+   "motion": 0,
+   "sight": 6
+  },
+  "fight": 5,
+  "strikes": 4,
+  "kills": 13
+ },
+ "crossings": [
+  {
+   "page": "A",
+   "id": 14,
+   "t": 511.19,
+   "n": 6,
+   "vmax": 449,
+   "prop": "L3 (low)"
+  },
+  {
+   "page": "B",
+   "id": 14,
+   "t": 510.6,
+   "n": 6,
+   "vmax": 449,
+   "prop": "L3 (low)"
+  }
+ ],
+ "overAt": [
+  {
+   "t": 514.69,
+   "id": 14,
+   "v": 2520,
+   "ac": 0,
+   "at": [
+    6212,
+    3339
+   ],
+   "prev": [
+    6254,
+    3337,
+    0,
+    0
+   ],
+   "plan": "roam"
+  },
+  {
+   "t": 515.34,
+   "id": 14,
+   "v": 376,
+   "ac": 0,
+   "at": [
+    6232,
+    3338
+   ],
+   "prev": [
+    6212,
+    3339,
+    2520,
+    0
+   ],
+   "plan": "roam"
+  },
+  {
+   "t": 515.34,
+   "id": 14,
+   "v": 261,
+   "ac": 0,
+   "at": [
+    6253,
+    3337
+   ],
+   "prev": [
+    6232,
+    3338,
+    376,
+    0
+   ],
+   "plan": "roam"
+  }
+ ],
+ "blindChecked": 81,
+ "pass": false
+}

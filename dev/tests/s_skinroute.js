@@ -28,7 +28,7 @@ function sw(seed, h, way, mode, T, o = {}) {
       if (Y.heard && (!R.heardChecks.length || R.heardChecks[R.heardChecks.length - 1].t !== Y.heard.t)) R.heardChecks.push(Object.assign({ world: way }, Y.heard)); }
     if (e.dbg.guess && e.dbg.guess !== lastG) { lastG = e.dbg.guess; R.rej.push(...(e.dbg.guess.rej || []).map(x => x[2])); }
     R.tr.push([Math.round(e.x * 10), Math.round(e.y * 10), seen ? 1 : 0, e.mem.sounds.map(q => q.id + ':' + Math.round(q.x) + ':' + Math.round(q.y)).join(';'), P ? P.k : '-',
-      Y ? Y.key + '#' + Y.list.map(h => h.id + h.k + h.p.toFixed(3)).join(',') + '#' + Y.bet : '-', e.dbg.guess ? JSON.stringify(e.dbg.guess) : '-'].join('|'));
+      Y ? Y.key + '#' + Y.list.map(h => h.id + h.k + h.p.toFixed(3)).join(',') + '#' + Y.bet : '-', e.dbg.guess ? JSON.stringify(e.dbg.guess) : '-', e.tier].join('|'));   // (R18: and the engine's level of detail, last)
     if (P && P !== lastP && (P.k === 'intercept' || P.k === 'search')) {
       const g = P.k === 'intercept' ? { x: P.g.qx, y: P.g.qy } : P.goal;
       R.guesses.push({ t: +t.toFixed(1), k: P.k, x: Math.round(g.x), y: Math.round(g.y), hyp: P.k === 'intercept' ? P.g.hyp || 0 : e.dbg.guess ? e.dbg.guess.hyp : 0, guess: e.dbg.guess ? e.dbg.guess.k : '',
@@ -42,9 +42,12 @@ function sw(seed, h, way, mode, T, o = {}) {
 }
 /* the creature's own evidence and decisions, tick by tick, identical in two worlds until it senses a difference (the person's script is
  * not in it: its sounds, its sight of them, its place, plan, ways and guesses) */
+// (R18: or until the engine's level of detail differs - the trace's last field, as in s_skinadv.js and SK23: decided by the distance to the
+// nearest player, it changes WHEN it thinks (every .1 s near, less often beyond 1900 px), never what it knows; R18's quicker roam took it
+// 1900 px from the person in one world and not the other - C23 seed 44: mid from tick 624, the traces 0.2 px apart from tick 1066)
 function sameUntilSensed(A, B) {
   const n = Math.min(A.tr.length, B.tr.length);
-  for (let i = 0; i < n; i++) { const a = A.tr[i].split('|'), b = B.tr[i].split('|'); if (a[2] !== b[2] || a[3] !== b[3]) return { sensed: i, diff: -1 }; if (a.join('|') !== b.join('|')) return { sensed: -1, diff: i }; }
+  for (let i = 0; i < n; i++) { const a = A.tr[i].split('|'), b = B.tr[i].split('|'); if (a[2] !== b[2] || a[3] !== b[3]) return { sensed: i, diff: -1 }; if (a[a.length - 1] !== b[b.length - 1]) return { sensed: i, diff: -1, lod: 1 }; if (a.join('|') !== b.join('|')) return { sensed: -1, diff: i }; }
   return { sensed: n, diff: -1 };
 }
 const REASONS = new Set(['evidence_stale', 'no_heading', 'late_to_intercept', 'no_likely_way', 'disproved', 'unlikely', 'no_floor', 'on_a_way', 'less_likely']);
@@ -81,11 +84,14 @@ add('C22 a valid new footstep changes its hypotheses: the person runs on one sid
     const rej = L.heardChecks.filter(c => c.fit < c.of || c.shift >= .15), after = rej.length ? L.guesses.find(g => g.t >= rej[0].t - 60 - .05) : null;
     // (on the side it heard: past the fork that way, or at the very place it heard them - a look where the sound was is the sound's answer)
     const side = after ? (way === 'east' ? after.x > 1350 : after.x < 1250) || rej.some(c => Math.hypot(after.x - c.x, after.y - c.y) < 250) : null;
-    return { way, heard: L.tally.heardQ, checks: L.heardChecks.length, rejected: rej.length > 0, side, kills: L.w.kills.length, qChecks: Q.heardChecks.length, fits: L.heardChecks.map(c => c.fit + '/' + c.of + '+' + c.shift).join(',') || '-' };
+    // (R18: silently, no sound re-weighs its ways - R8-R16i: no sound was checked at all; R18 takes fainter sounds (SK.heardMin .08, was .12)
+    // and in two runs took a footstep of the walk BEFORE the fork, I .09, that every way explains: checked, fit 4/4, gain .01 - re-weighs nothing)
+    const qRe = Q.heardChecks.filter(c => c.fit < c.of || c.shift >= .15).length;
+    return { way, heard: L.tally.heardQ, checks: L.heardChecks.length, rejected: rej.length > 0, side, kills: L.w.kills.length, qChecks: Q.heardChecks.length, qRe, fits: L.heardChecks.map(c => c.fit + '/' + c.of + '+' + c.shift).join(',') || '-' };
   }));
   const h = rs.filter(r => r.checks > 0), rj = h.filter(r => r.rejected), guessed = rj.filter(r => r.side !== null);
-  return { ok: h.length >= 8 && rj.length >= Math.ceil(h.length * .6) && guessed.length >= 3 && guessed.filter(r => r.side).length >= Math.ceil(guessed.length * .75) && rs.every(r => r.qChecks === 0),
-    note: `running: sounds taken for theirs ${rs.map(r => r.way[0] + r.heard).join(' ')}; checked against its ways in ${h.length}/20 (fit/held+gain ${h.map(r => r.fits).join(' ')}); re-weighed (a way rejected, or one gaining .15 or more) ${rj.length}/${h.length}; the next guess on the side it heard ${guessed.filter(r => r.side).length}/${guessed.length} (the rest caught them first or guessed nothing) | silently: ways checked against a sound ${rs.map(r => r.qChecks).join('/')}` };
+  return { ok: h.length >= 8 && rj.length >= Math.ceil(h.length * .6) && guessed.length >= 3 && guessed.filter(r => r.side).length >= Math.ceil(guessed.length * .75) && rs.every(r => r.qRe === 0),
+    note: `running: sounds taken for theirs ${rs.map(r => r.way[0] + r.heard).join(' ')}; checked against its ways in ${h.length}/20 (fit/held+gain ${h.map(r => r.fits).join(' ')}); re-weighed (a way rejected, or one gaining .15 or more) ${rj.length}/${h.length}; the next guess on the side it heard ${guessed.filter(r => r.side).length}/${guessed.length} (the rest caught them first or guessed nothing) | silently: ways re-weighed by a sound ${rs.map(r => r.qRe).join('/')} (sounds checked against them ${rs.map(r => r.qChecks).join('/')})` };
 });
 add('C23 no new evidence, no new guess: the person silently takes one way or another (and in both worlds another person, never seen, runs the same lane) - its ways, its bets, its rejected rivals and its every decision are identical until it senses a difference', () => {
   const B2 = (t, p, e, w, R) => { if (!R.B && t > 4) { R.B = w.player(1700, 4880, { light: false, angle: 0 }); R.B.lane = [{ x: 2150, y: 4880 }, { x: 1700, y: 4880 }]; }
@@ -98,7 +104,7 @@ add('C23 no new evidence, no new guess: the person silently takes one way or ano
   });
   const all = rs.flat();
   return { ok: all.every(r => r.diff < 0 && r.sensed > r.parted + 60) && all.filter(r => r.hyps > 0).length >= 6,
-    note: all.map((r, i) => `${i % 2 ? 'with B' : 'alone'}: identical ${r.sensed} ticks (parted at ${r.parted}; first difference ${r.diff}; ticks with ways ${r.hyps})`).join(' | ') };
+    note: all.map((r, i) => `${i % 2 ? 'with B' : 'alone'}: identical ${r.sensed} ticks${r.lod ? ' (to where its level of detail differs)' : ''} (parted at ${r.parted}; first difference ${r.diff}; ticks with ways ${r.hyps})`).join(' | ') };
 });
 add('R12-A its rivals and its reasons: every guess records the rival guesses it rejected and why, in a fixed vocabulary (stale evidence, too late to get ahead, disproved, unlikely, less likely ...); once its evidence is older than its freshness an interception is never chosen', () => {
   const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
@@ -207,8 +213,11 @@ add('C19 out of their view first, then the run: watched in the lit hall, a cover
     note: `${fl.length}/6 withdrew first (${fl.map(r => (r.exit / 60).toFixed(1)).join('/')} s; nearer them ${fl.map(r => r.closer).join('/')} ticks, faster than a walk ${fl.map(r => r.fastExit).join('/')}); then ran hidden ${fl.map(r => (r.ran / 60).toFixed(1)).join('/')} s - at a run in their view ${fl.map(r => r.runSeen).join('/')} ticks` };
 });
 add('C24 arriving first is reckoned on its real route and its legs: the same glimpse, rested or tired (under its tired mark its top speed is its tired run) - tired, it aims farther ahead along the way or cannot get ahead at all; every interception it makes, it expects to reach before them by its own route (slack >= 0)', () => {
-  const first = (seed, stam) => { let g = null; sw(seed, .8, 'east', 'walk', 6, { on: (t, p, e) => { if (t < .1 && stam !== undefined) e.stam = stam; if (!g && e.plan && e.plan.k === 'intercept') g = { lead: e.plan.g.lead, slack: e.plan.g.slack }; if (!g && e.dbg.guess && /late_to_intercept/.test(JSON.stringify(e.dbg.guess.rej || []))) g = { lead: -1, slack: null }; } }); return g; };
-  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => ({ full: first(seed), tired: first(seed, 20) }));
+  // (R18: the same glimpse from the same place - tired from the tick before its rested twin chose its interception (the world is the same
+  // until then); R16i made it tired from the start, and R18's tired cap (190) under its approach's paces (205-260) put the tired one
+  // elsewhere by the glimpse, so the two reckoned from different places: seed 1 rested 720 px, tired 672 on the same route)
+  const first = (seed, stam, atN) => { let g = null, n = 0; sw(seed, .8, 'east', 'walk', 6, { on: (t, p, e) => { n++; if (stam !== undefined && n === atN) e.stam = stam; if (!g && e.plan && e.plan.k === 'intercept') g = { lead: e.plan.g.lead, slack: e.plan.g.slack, n }; if (!g && e.dbg.guess && /late_to_intercept/.test(JSON.stringify(e.dbg.guess.rej || []))) g = { lead: -1, slack: null, n }; } }); return g; };
+  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => { const full = first(seed); return { full, tired: full ? first(seed, 20, Math.max(1, full.n - 1)) : null }; });
   const both = rs.filter(r => r.full && r.tired), ok = both.filter(r => r.tired.lead < 0 || r.tired.lead >= r.full.lead - 1), diff = both.filter(r => r.tired.lead < 0 || r.tired.lead > r.full.lead);
   const slack = rs.flatMap(r => [r.full, r.tired]).filter(g => g && g.lead >= 0);
   return { ok: both.length >= 4 && ok.length === both.length && diff.length >= 1 && slack.every(g => g.slack >= 0),
@@ -235,7 +244,7 @@ add('C26 the fair race stands: a fresh runner on the open hall outruns it, reste
     w.run(12, (ww, t) => { if (p.tx !== null && t > .6) dmin = Math.min(dmin, Math.hypot(p.x - e.x, p.y - e.y)); if (!e.pounce && !e.trav) vmax = Math.max(vmax, e.speed); if (w.kills.length && p.tx !== null) killedRunning = 1; return true; });
     return { h, dmin: Math.round(dmin), vmax: Math.round(vmax), killedRunning, end: Math.round(Math.hypot(p.x - e.x, p.y - e.y)) };
   }));
-  return { ok: rs.every(r => r.dmin >= 250 && r.vmax <= 256 && r.killedRunning === 0 && r.end > 600),
+  return { ok: rs.every(r => r.dmin >= 250 && r.vmax <= AI.SKIN.speeds.run + 1 && r.killedRunning === 0 && r.end > 600),   // (R18: its run, 270 - the bound was 256, R8-R16i's run 255 + 1)
     note: rs.map(r => `h ${r.h}: never nearer than ${r.dmin} px, its top ${r.vmax} px/s, ${r.end} px apart at the end`).join(' | ') };
 });
 add('C27 lawful bodies: through the covert, open and rushed moves of these scenes it is never inside a wall, every spring shows its whole wind-up, and every kill is body to body with nothing solid between', () => {

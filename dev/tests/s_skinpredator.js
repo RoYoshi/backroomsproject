@@ -52,11 +52,14 @@ add('PR01 satiated, a person passing close by: it notices them (a look at most) 
 add('PR02 satiated, pressed after a warning it may defend itself (B1-B5 kept); backing off after the warning ends it - nothing follows', () => {
   const press = (seed, back) => {
     const { w, p, e } = hall(seed + 2100, { hunger: 0, px: 5380, pa: 0 }); const T = trace(w, e, p);
-    let warnEnd = -1, followed = 0;
+    let warnEnd = -1, followed = 0, lex = e.x, ley = e.y;
     w.run(40, (ww, t) => {
       const d = Math.hypot(p.x - e.x, p.y - e.y), ux = (p.x - e.x) / (d || 1), uy = (p.y - e.y) / (d || 1);
+      // (R18: followed = within 300 px AND it moving toward them, over 20 px/s - R16i counted 300 px alone, and seed 5 counted 29 samples of
+      // it standing still at its departure's look (B1) while they walked away from it, 228 -> 295 px)
+      const toward = ((e.x - lex) * ux + (e.y - ley) * uy) / DT; lex = e.x; ley = e.y;
       if (e.tally.warn && warnEnd < 0 && !(e.rx && e.rx.k === 'warn')) warnEnd = t;
-      if (back && warnEnd >= 0) { if (!p.going) { p.going = 1; p.look = null; p.pathTo(3300, 3300, 'walk'); } if (t - warnEnd > 4 && d < 300) followed++; }
+      if (back && warnEnd >= 0) { if (!p.going) { p.going = 1; p.look = null; p.pathTo(3300, 3300, 'walk'); } if (t - warnEnd > 4 && d < 300 && toward > 20) followed++; }
       else if (!p.dead && !p.caught) { p.path = null; p.mode = 'walk'; p.tx = { x: e.x + ux * 60, y: e.y + uy * 60 }; p.look = Math.atan2(e.y - p.y, e.x - p.x); }
       T.take(t); return true;
     });
@@ -92,21 +95,23 @@ add('PR04 starving: a person it keeps seeing stays hunted across a long encounte
     const leftAt = firstAt(T, s => s.plan === 'leave'), huntT = T.filter(s => s.hunt === p.id).length / 10;
     return { ok: w.kills.length > 0 || (leftAt < 0 || leftAt > 45) && huntT >= 30, killed: w.kills.length, leftAt, huntT: +huntT.toFixed(1), seen: T.filter(s => s.seen).length };
   });
-  // B: seen once (walking north past wall C's gap with a torch), then - once out of its sight - torch off, crouched (quiet), on north out of
+  // B: seen once (going north past wall C's gap with a torch), then - once out of its sight - torch off, crouched (quiet), on north out of
   // the room and west along the north passage, where they crouch still: the hunt ends because nothing more came.  Only runs where it saw
-  // them on that first walk are judged (a creature that never saw them has nothing to give up)
+  // them on that first walk are judged (a creature that never saw them has nothing to give up).  (R18: they RUN to the gap - walking, R18's
+  // starving one, 800 px off, took them in 6 s before they got out of its sight, 7 of 8; and a run is judged only when they got out of its
+  // sight alive)
   const quiet = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
     const w = World(seed + 2350); bystander(w, 8400, 900);
     const p = w.player(1300, 5600, { light: true, angle: -Math.PI / 2 }); p.stop('stand');
     const e = w.eng.spawn('skinstealer', 2100, 5560, { hunger: .95 }); e.tier = 'near'; e.ang = Math.PI;
-    const T = trace(w, e, p); let lastSeen = -1, hideAt = -1, seenHiding = 0;
+    const T = trace(w, e, p); let lastSeen = -1, hideAt = -1, seenHiding = 0, alive = false;
     w.run(80, (ww, t) => {
       if (e.seenNow.has(p.id)) { lastSeen = t; if (hideAt >= 0) seenHiding++; }
-      if (t > .5 && !p.going) { p.going = 1; p.route([{ x: 1300, y: 5420 }, { x: 1300, y: 5200 }], 'walk'); }
-      if (p.going === 1 && lastSeen >= 0 && t - lastSeen > .6 && p.y < 5450) { p.going = 2; hideAt = t; p.light = false; p.route([{ x: 1300, y: 5150 }, { x: 1250, y: 4870 }, { x: 480, y: 4870 }], 'crouch'); }
+      if (t > .5 && !p.going) { p.going = 1; p.route([{ x: 1300, y: 5420 }, { x: 1300, y: 5200 }], 'run'); }
+      if (p.going === 1 && lastSeen >= 0 && t - lastSeen > .6 && p.y < 5450) { p.going = 2; hideAt = t; alive = !p.dead; p.light = false; p.route([{ x: 1300, y: 5150 }, { x: 1250, y: 4870 }, { x: 480, y: 4870 }], 'crouch'); }
       if (p.going === 2 && p.path && !p.path.length) { p.going = 3; p.stop('crouch'); }
       T.take(t); return true; });
-    const end = e.dbg.huntEnd, gaveUp = !!end && /no sign|searched|cold|gives up|guessed wrong/.test(end.why), judged = hideAt >= 0 && hideAt < 8;
+    const end = e.dbg.huntEnd, gaveUp = !!end && /no sign|searched|cold|gives up|guessed wrong/.test(end.why), judged = hideAt >= 0 && hideAt < 8 && alive;
     return { judged, ok: !w.kills.length && gaveUp && !e.hunt, gaveUp, why: end ? end.why : '-', at: end ? +(end.at - 60).toFixed(1) : -1, hideAt: +hideAt.toFixed(1), seenHiding, killed: w.kills.length, plans: plansOf(T).join('>') };
   });
   const qj = quiet.filter(r => r.judged), qOk = qj.filter(r => r.ok).length;
@@ -169,7 +174,11 @@ add('PR20 a failed chase, then a reacquisition only on new evidence: a runner wh
     const w = World(seed + 2700), y = LONG.y; bystander(w, 1300, 3300);
     const p = w.player(5300, y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
     const e = w.eng.spawn('skinstealer', 5000, y, { hunger: .85 }); e.tier = 'near'; e.ang = 0;
-    p.go(8600, y, 'run'); const T = trace(w, e, p);
+    // (R18: the one who hides runs on round the corner without a stop - one route from the start; R8-R16i reached the hall's end by p.go and
+    // then took the route, and the harness's arrival (letting go of the keys, coasting to a stop) is a pause no runner makes: R18's straight
+    // pursuit closed on it and saw them crouch 1 s later round the corner in 5 of 8.  The one who stops in view stops there, as before)
+    if (hide) p.route([{ x: 8600, y }, { x: 8560, y: 4220 }, { x: 8070, y: 4300 }, { x: 8070, y: 4900 }], 'run'); else p.go(8600, y, 'run');
+    const T = trace(w, e, p);
     let lostAt = -1, reAt = -1, stopAt = -1, lastSeen = 0, ph = 0, end1 = null, killAt = -1, had = false;
     w.run(60, (ww, t) => {
       if (lostAt < 0 && e.tally.chaseLost) lostAt = t;
@@ -177,7 +186,7 @@ add('PR20 a failed chase, then a reacquisition only on new evidence: a runner wh
       if (killAt < 0 && w.kills.length) killAt = t;
       if (stopAt < 0 && p.tx === null) stopAt = t;
       if (hide) {
-        if (ph === 0 && p.tx === null) { ph = 1; p.look = null; p.route([{ x: 8560, y: 4220 }, { x: 8070, y: 4300 }, { x: 8070, y: 4900 }], 'run'); }
+        if (ph === 0 && p.x > 8500) { ph = 1; p.look = null; }                         // (R18: at the hall's end, on its route round the corner)
         if (ph === 1 && (t - lastSeen > .5 || (p.path && !p.path.length))) { ph = 2; p.light = false; p.route([{ x: 8070, y: 4900 }, { x: 7500, y: 4950 }], 'crouch'); }
         if (ph === 2 && p.path && !p.path.length) { ph = 3; p.stop('crouch'); }
       } else if (lostAt >= 0 && reAt < 0 && stopAt >= 0 && e.seenNow.has(p.id) && ['approach', 'flank', 'chase'].includes(planOf(e))) reAt = t;
@@ -216,6 +225,7 @@ function sw(seed, h, way, mode, T, o = {}) {
     if (o.on) o.on(t, p, e, R);
     const r = e.mem.p.get(p.id), H = e.hunt, P = e.plan, seen = e.seenNow.has(p.id);
     if (seen && R.firstSeen < 0) R.firstSeen = t;
+    if (R.lostAt >= 0 && seen && !(R.seenAgain >= 0)) R.seenAgain = +t.toFixed(2);   // (R18: it saw them again after it lost them - by its own sight)
     if (R.lostAt < 0 && H && !seen) R.lostAt = +t.toFixed(2);
     if (H) { R.maxTries = Math.max(R.maxTries, H.tries); R.had = 1; } else if (R.had === 1 && e.dbg.huntEnd) { R.had = 2; R.firstEnd = { why: e.dbg.huntEnd.why, at: +t.toFixed(1) }; }   // (its first hunt, and how that ended)
     const ev = [seen ? 1 : 0, r ? [r.heardAt, r.seenAt, r.hx, r.hy, r.lkx, r.lky, r.lvx, r.lvy].map(v => Math.round(v * 10)).join(':') : '-',
@@ -278,14 +288,16 @@ add('PR10 a wrong interception with nothing more to go on: it remembers the plac
 });
 
 add('PR11 doubling back: footsteps it really hears on the other way turn its guess toward them; the same doubling back made silently turns nothing - and the two runs are the same creature until the first sound', () => {
-  const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
+  // (R18: sixteen seeds - R18 often reaches its guessed interception, 1000-1050 px east, and waits there while they run back west, beyond
+  // the reach of their footsteps: eight seeds gave 4 runs that heard them, the test needs 5; sixteen give 7, every one turned)
+  const rs = over(Array.from({ length: 16 }, (_, i) => i + 1), seed => {
     const L = sw(seed, .8, 'back', 'run', 30), Q = sw(seed, .8, 'back', 'crouch', 30);
     const turned = L.guesses.some(q => q.heard > 0 && q.x < 1250) || L.tally.revise > 0;
     return { law: lawOk(L, Q), heard: L.tally.heardQ, revise: L.tally.revise, turned, qHeard: Q.tally.heardQ, qRevise: Q.tally.revise, killed: L.w.kills.length + '/' + Q.w.kills.length, lg: L.guesses.map(q => q.k + '@' + q.x + ',' + q.y).join(' '), qg: Q.guesses.map(q => q.k + '@' + q.x + ',' + q.y).join(' ') };
   });
   const heard = rs.filter(r => r.heard > 0);
   return { ok: rs.every(r => r.law) && heard.length >= 5 && heard.filter(r => r.turned).length >= 4 && rs.every(r => r.qHeard === 0 && r.qRevise === 0),
-    note: `the same until a sound differed: ${rs.filter(r => r.law).length}/8 | running back: heard and took for theirs in ${heard.length}/8 (${rs.map(r => r.heard).join('/')} sounds), turned its guess toward them in ${heard.filter(r => r.turned).length} (revisions ${rs.map(r => r.revise).join('/')}) | crouching back: sounds taken ${rs.map(r => r.qHeard).join('/')}, revisions ${rs.map(r => r.qRevise).join('/')}; killed ${rs.map(r => r.killed).join(' ')}`, data: rs };
+    note: `the same until a sound differed: ${rs.filter(r => r.law).length}/${rs.length} | running back: heard and took for theirs in ${heard.length}/${rs.length} (${rs.map(r => r.heard).join('/')} sounds), turned its guess toward them in ${heard.filter(r => r.turned).length} (revisions ${rs.map(r => r.revise).join('/')}) | crouching back: sounds taken ${rs.map(r => r.qHeard).join('/')}, revisions ${rs.map(r => r.qRevise).join('/')}; killed ${rs.map(r => r.killed).join(' ')}`, data: rs };
 });
 
 add('PR12 footsteps behind a wall, nobody seen: it stops, turns to the sound and listens, then goes quietly to look - and nobody is named: no record, no plan about a person, until it sees them', () => {
@@ -311,17 +323,22 @@ add('PR12 footsteps behind a wall, nobody seen: it stops, turns to the sound and
     note: `heard footsteps before seeing anybody in ${h.length}/8: it stopped and listened ${h.filter(r => r.listen).length}, then went to look ${h.filter(r => r.look).length} (${[...new Set(h.map(r => r.ks.join('>')))].join(' | ')}); a person named before it saw them: ${rs.reduce((a, r) => a + r.named, 0)} ticks; saw them at ${rs.map(r => r.seenAt < 0 ? '-' : r.seenAt.toFixed(1)).join('/')} s`, data: rs };
 });
 
-add('PR13 a silent croucher in the dark beyond its sight escapes its guesses: two hiding places it never senses (either end of the north passage, off the way it saw them going) give the same creature, and in both it gives up for a stated reason', () => {
+add('PR13 a silent croucher in the dark beyond its sight escapes its guesses: two hiding places (either end of the north passage, off the way it saw them going) give the same creature until it senses a difference; at the west end it gives up for a stated reason; at the east end it gives up, or (R18: its longer, quicker search) comes upon them and sees them first - never sooner than its own senses allow', () => {
   const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
     const A = sw(seed, .95, 'north', 'crouch', 70), B = sw(seed, .95, 'northEast', 'crouch', 70);
     // its first hunt of them (begun on the sighting) ends for want of evidence, nobody caught during it; a later chance meeting while it
     // roams is a new encounter on new evidence (reported).  Runs where it never saw them are not judged
     const gave = R => !!R.firstEnd && /gives up/.test(R.firstEnd.why) && !(R.killT >= 0 && R.killT <= R.firstEnd.at);
-    return { judged: A.lostAt >= 0 && B.lostAt >= 0, law: lawOk(A, B), a: gave(A), b: gave(B), why: [A.firstEnd ? A.firstEnd.why : '-', B.firstEnd ? B.firstEnd.why : '-'], at: [A.firstEnd ? A.firstEnd.at : -1, B.firstEnd ? B.firstEnd.at : -1], killed: [A.w.kills.length, B.w.kills.length], heard: [A.tally.heardQ, B.tally.heardQ] };
+    // (R18) or its search came upon them and saw them before that hunt ended - by its own sight, the same creature in both worlds until then
+    // (the law, above): a found croucher, reported; R8-R16i never found either end (searchMax 20 s and its prowl, 205 px/s, cover more ground)
+    const found = R => R.seenAgain >= 0 && !(R.firstEnd && R.firstEnd.at < R.seenAgain);
+    return { judged: A.lostAt >= 0 && B.lostAt >= 0, law: lawOk(A, B), a: gave(A), b: gave(B), fa: found(A), fb: found(B), why: [A.firstEnd ? A.firstEnd.why : '-', B.firstEnd ? B.firstEnd.why : '-'], at: [A.firstEnd ? A.firstEnd.at : -1, B.firstEnd ? B.firstEnd.at : -1], killed: [A.w.kills.length, B.w.kills.length], heard: [A.tally.heardQ, B.tally.heardQ] };
   });
   const j = rs.filter(r => r.judged);
-  return { ok: rs.every(r => r.law) && j.length >= 6 && j.filter(r => r.a).length >= j.length - 1 && j.filter(r => r.b).length >= j.length - 1,
-    note: `the same until it sensed a difference: ${rs.filter(r => r.law).length}/8 | ${j.length}/8 hunted them; gave up: the north passage's west end ${j.filter(r => r.a).length}/${j.length}, its east end ${j.filter(r => r.b).length}/${j.length}, at ${j.map(r => r.at.join('|')).join(' ')} s (${[...new Set(j.flatMap(r => r.why).map(w => '"' + w + '"'))].slice(0, 4).join(', ')}); killed in the run (in that hunt, or met again later) ${j.map(r => r.killed.join('|')).join(' ')}; sounds taken ${j.map(r => r.heard.join('|')).join(' ')}`, data: rs };
+  // (R18: the west end still escapes it in all but one judged run; at the east end every run either gives up for a stated reason or found
+  // them by its own sight first - R8-R16i: both ends escaped in all but one)
+  return { ok: rs.every(r => r.law) && j.length >= 6 && j.filter(r => r.a).length >= j.length - 1 && j.every(r => r.b || r.fb),
+    note: `the same until it sensed a difference: ${rs.filter(r => r.law).length}/8 | ${j.length}/8 hunted them; gave up: the north passage's west end ${j.filter(r => r.a).length}/${j.length}, its east end ${j.filter(r => r.b).length}/${j.length} (found there by its own sight ${j.filter(r => r.fb).length}, at the west end ${j.filter(r => r.fa).length}), at ${j.map(r => r.at.join('|')).join(' ')} s (${[...new Set(j.flatMap(r => r.why).map(w => '"' + w + '"'))].slice(0, 4).join(', ')}); killed in the run (in that hunt, or met again later) ${j.map(r => r.killed.join('|')).join(' ')}; sounds taken ${j.map(r => r.heard.join('|')).join(' ')}`, data: rs };
 });
 
 add('PR14 a misleading sound: they run on east (it hears it), then crouch back west in silence - it follows what it heard and can be fooled; it does not always find the one who doubled back', () => {
@@ -432,16 +449,21 @@ add('PR07 the narrow north corridor, no way round the watcher: a very hungry one
 add('PR17 one person with a torch, seen, then out of sight: the phases show - listening (still, its head turning) is not approaching (moving: crouched while hidden, R13 upright in their view) - and what the page is sent (state, act, head) is what it is doing, without flicker', () => {
   // (R13: twelve seeds - its first approach now often goes on a covert way, so fewer runs reach a pause to listen; R16: seven with both phases)
   const rs = over([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], seed => {
-    const R = { listen: 0, listenOk: 0, appr: 0, apprOk: 0, mism: 0, flick: 0, head: 0, moveInListen: 0 }; let lastAc = -1, lastT = 0;
+    const R = { listen: 0, listenOk: 0, appr: 0, apprOk: 0, mism: 0, flick: 0, head: 0, moveInListen: 0, ph: [] }; let lastAc = -1, lastT = 0, ph = null;
     sw(seed, .8, 'back', 'crouch', 24, { on: (t, p, e) => {
       const sn = AI.SKIN.snap(e), P = e.plan;
       if (sn.ac !== AI.KACT[e.act] || sn.s !== AI.SCODE[e.state] || Math.abs(sn.h - (e.head || 0)) > .006) R.mism++;
       if (sn.ac !== lastAc) { if (t - lastT < .1 && lastAc !== -1 && !e.pounce && !e.recover) R.flick++; lastAc = sn.ac; lastT = t; }
-      if (P && P.k === 'listen' && t - (P.seenT ?? (P.seenT = t)) > .3) { R.listen++; if (e.act === 'listen') R.listenOk++; if (e.speed > 5) R.moveInListen++; if (Math.abs(e.head || 0) > .1) R.head++; }   // (after 0.3 s: it stops from a walk, it does not teleport to a halt)
+      // (R18: its head turning, phase by phase - a listen whose head sweeps 0.1 rad or more, or is turned over 0.1 for most of it (R8's
+      // measure, which alone counted the ticks with the head over 0.1: R18's listens are short, 0.3-0.8 s after a loss, and its sway starts
+      // from where the head is - a sweep from -0.06 to 0.27 in 0.4 s was mostly under 0.1))
+      if (P && P.k === 'listen' && t - (P.seenT ?? (P.seenT = t)) > .3) { R.listen++; if (e.act === 'listen') R.listenOk++; if (e.speed > 5) R.moveInListen++;
+        const hd = e.head || 0; if (!ph || ph.P !== P) R.ph.push(ph = { P, n: 0, over: 0, lo: hd, hi: hd }); ph.n++; if (Math.abs(hd) > .1) ph.over++; ph.lo = Math.min(ph.lo, hd); ph.hi = Math.max(ph.hi, hd); }   // (after 0.3 s: it stops from a walk, it does not teleport to a halt)
       // (R13: an approach moves in one of its acts - hidden, crouched (approach, creep); along a covert way, its withdrawal (back) and its
       // hidden run (intercept); in somebody's view, open (pace), or a rush from cover (chase))
       if (P && P.k === 'approach' && !e.pounce && !e.recover && e.act !== 'look') { R.appr++; if (['approach', 'creep', 'back', 'intercept', 'pace', 'chase'].includes(e.act)) R.apprOk++; }
     } });
+    R.head = R.ph.filter(q => q.hi - q.lo >= .1 || q.over > q.n * .5).reduce((a, q) => a + q.n, 0); delete R.ph;
     return R;
   });
   const both = rs.filter(r => r.listen > 10 && r.appr > 10);
@@ -605,25 +627,28 @@ add('PR26 nothing of a hunt is left behind: the quarry leaving the game, an admi
   return { ok, note: `a hunt under way each time (${Object.values(out).map(o => o.had).join('/')}); they left the game: hunt ${out.leave.hunt}, plan ${out.leave.plan}, effort record ${out.leave.spent}, departure ${out.leave.left} ("${out.leave.why}") | admin clear: hunt ${out.clear.hunt}, plan ${out.clear.plan}, effort records ${out.clear.spent} | everyone far (tier ${out.far.tier}): hunt ${out.far.hunt} | removed ${out.removed.gone}, world reset ${out.reset.none} | its snapshot entry ${out.snap.keys}`, data: out };
 });
 
-add('PR27 (R7) a won race stays won: a fresh runner who outruns it and keeps going - winded after about 10 s, then walking - is never closed on while they move; it keeps to their trail, and only a person who stops is reached', () => {
+add('PR27 (R7) a won race stays won: a fresh runner who outruns it and keeps going is never closed on while they run fresh; winded after about 10 s, then walking, they may be closed on (R18, the owner: exhausted and walking prey is pursued - R7-R16i: never closed on while they moved; how near, and how much of it in its sight, reported); it keeps to their trail, and only a person who stops is reached', () => {
   const rs = over([1, 2, 3, 4, 5, 6, 7, 8], seed => {
     const h = seed % 2 ? .95 : .75, w = World(seed + 7700), y = LONG.y; bystander(w, 1300, 3300);
     const p = w.player(3600, y, { light: true, angle: 0 }); p.stop('stand'); p.look = 0;
     const e = w.eng.spawn('skinstealer', 3300, y, { hunger: h }); e.tier = 'near'; e.ang = 0;
     p.go(8700, y, 'run');                                       // 5100 px: a sprint, then winded, walking on to the hall's end
-    let lostAt = -1, gap0 = -1, minGap = 1e9, wind = -1, gapWind = -1, minWind = 1e9, stoppedAt = -1, shadowed = false;
+    let lostAt = -1, gap0 = -1, minGap = 1e9, wind = -1, gapWind = -1, minWind = 1e9, stoppedAt = -1, shadowed = false, lastD = -1, closeT = 0, closeBlind = 0;
     w.run(45, (ww, t) => {
       const d = Math.hypot(p.x - e.x, p.y - e.y), moving = p.tx !== null;
       if (lostAt < 0 && e.tally.chaseLost) { lostAt = t; gap0 = d; }
       if (wind < 0 && p.ex) { wind = t; gapWind = d; } if (stoppedAt < 0 && t > 1 && !moving) stoppedAt = t;
       if (e.plan && e.plan.shadow) shadowed = true;
-      if (lostAt >= 0 && moving) minGap = Math.min(minGap, d);
-      if (wind >= 0 && moving) minWind = Math.min(minWind, d);                      // (winded, walking at 148 px/s: the lead they won must not shrink)
+      if (lostAt >= 0 && wind < 0 && moving) minGap = Math.min(minGap, d);         // (the race: while they run fresh, the lead they won never shrinks)
+      // (R18) winded, walking at 148 px/s: it may close on them (reported: when, and whether it saw them then - out of its sight it goes on to
+      // where it last knew them, which down a straight hall is toward them too; that it knows only that is the evidence law's, PR11-PR13)
+      if (wind >= 0 && moving) { minWind = Math.min(minWind, d); if (lastD >= 0 && d < lastD - .1) { closeT += DT; if (!e.seenNow.has(p.id)) closeBlind += DT; } }
+      lastD = d;
       return true; });
     const killT = w.kills.length ? w.kills[0].at : -1, killMoving = killT >= 0 && (stoppedAt < 0 || killT < stoppedAt);
-    return { ok: lostAt >= 0 && wind > lostAt && stoppedAt > wind && minGap >= gap0 - 20 && minWind >= gapWind - 20 && !killMoving, h, lostAt: +lostAt.toFixed(1), gap0: Math.round(gap0), minGap: Math.round(minGap), wind: +wind.toFixed(1), gapWind: Math.round(gapWind), minWind: Math.round(minWind), stoppedAt: +stoppedAt.toFixed(1), shadowed, killed: killT >= 0 ? +killT.toFixed(1) : -1 };
+    return { ok: lostAt >= 0 && wind > lostAt && stoppedAt > wind && minGap >= gap0 - 20 && !killMoving, h, closeT: +closeT.toFixed(1), closeBlind: +closeBlind.toFixed(1), lostAt: +lostAt.toFixed(1), gap0: Math.round(gap0), minGap: Math.round(minGap), wind: +wind.toFixed(1), gapWind: Math.round(gapWind), minWind: Math.round(minWind), stoppedAt: +stoppedAt.toFixed(1), shadowed, killed: killT >= 0 ? +killT.toFixed(1) : -1 };
   });
-  return { ok: rate(rs) === 1, note: `${rs.filter(r => r.ok).length}/8 (hunger ${rs.map(r => r.h).join('/')}): race lost at ${rs.map(r => r.lostAt).join('/')} s, ${rs.map(r => r.gap0).join('/')} px behind; the runner winded at ${rs.map(r => r.wind).join('/')} s, ${rs.map(r => r.gapWind).join('/')} px ahead, and walked on to the hall's end (${rs.map(r => r.stoppedAt).join('/')} s); while they moved never closer than ${rs.map(r => r.minGap).join('/')} px, and once winded never closer than ${rs.map(r => r.minWind).join('/')} px; kept to their trail ${rs.filter(r => r.shadowed).length}/8; killed after they stopped ${rs.filter(r => r.killed >= 0).length}/8`, data: rs };
+  return { ok: rate(rs) === 1, note: `${rs.filter(r => r.ok).length}/8 (hunger ${rs.map(r => r.h).join('/')}): race lost at ${rs.map(r => r.lostAt).join('/')} s, ${rs.map(r => r.gap0).join('/')} px behind; the runner winded at ${rs.map(r => r.wind).join('/')} s, ${rs.map(r => r.gapWind).join('/')} px ahead, and walked on to the hall's end (${rs.map(r => r.stoppedAt).join('/')} s); while they ran fresh never closer than ${rs.map(r => r.minGap).join('/')} px; once winded as near as ${rs.map(r => r.minWind).join('/')} px (closing on them ${rs.map(r => r.closeT).join('/')} s, of it out of its sight ${rs.map(r => r.closeBlind).join('/')} s); kept to their trail ${rs.filter(r => r.shadowed).length}/8; killed after they stopped ${rs.filter(r => r.killed >= 0).length}/8`, data: rs };
 });
 
 add('PR28 (R7) effort is kept when its attention moves to somebody else: what it spent on A is still A\'s after it has dealt with B, and when it sees A again', () => {
@@ -649,12 +674,15 @@ add('PR28 (R7) effort is kept when its attention moves to somebody else: what it
   return { ok: rate(rs) === 1 && judged.length >= 4, note: `${rs.filter(r => r.ok).length}/6: effort on A ${rs.map(r => r.encA).join('/')} s; its attention moved to B ${judged.length}/6 (judged); A's kept meanwhile ${judged.map(r => r.keptA).join('/')} s; A seen again, their effort ${judged.map(r => r.again).join('/')} s - it went on from there (halving every 90 s), not from a fresh budget`, data: rs };
 });
 
-add('PR29 (R7) a departure it keeps keeps its cooldown: starving, it leaves two people together (a lone ambusher); some seconds into its departure the two step into its view again - when it keeps going, the person it left is still left alone (not counted as taken up); only when it takes them up does the cooldown go', () => {
-  const rs = over([1, 2, 3, 4, 5, 6], seed => {
+add('PR29 (R7) a departure it keeps keeps its cooldown: hungry (.55; R7-R16i starving), it leaves two people together (a lone ambusher); some seconds into its departure the two step into its view again - when it keeps going, the person it left is still left alone (not counted as taken up); only when it takes them up does the cooldown go', () => {
+  const rs = [.55].flatMap(h => over([1, 2, 3, 4, 5, 6], seed => {
     const w = World(seed + 7900), y = LONG.y; bystander(w, 1300, 3300);
     const A = w.player(5100, y - 30, { light: true, angle: Math.PI / 2 }), B = w.player(5130, y + 30, { light: true, angle: Math.PI / 2 });
     for (const q of [A, B]) { q.stop('stand'); q.look = Math.PI / 2; }
-    const e = w.eng.spawn('skinstealer', 5500, y, { hunger: .95 }); e.tier = 'near'; e.ang = Math.PI;
+    // (R18: hungry, .55 - a starving one's cooldown is now 2 s (SKP.left), over before the SK.leaveDwell (2.5 s) after which a departure may be
+    // reconsidered at all: at .95 the two stepped in with no cooldown left to keep or end (it roamed on, neither branch: 0 of 6 judged).  At .55
+    // the cooldown is 8 s and the scene's 5 s fall in it.  R7-R16i: starving.  (Taken up once its time is over: P01, s_skinap.js)
+    const e = w.eng.spawn('skinstealer', 5500, y, { hunger: h }); e.tier = 'near'; e.ang = Math.PI;
     let leftAt = -1; w.run(4, (ww, t) => { if (leftAt < 0 && e.plan && e.plan.k === 'leave' && e.left.size) { leftAt = t; return false; } return true; });
     if (leftAt < 0) return { ok: false, why: 'it never left them', plan: planOf(e) };
     const L = [...e.left.keys()][0], O = L === A.id ? B : A, Lp = L === A.id ? A : B;
@@ -665,10 +693,10 @@ add('PR29 (R7) a departure it keeps keeps its cooldown: starving, it leaves two 
     const re0 = e.tally.reengage; let kept = 0;
     w.run(1.5, (ww, t) => { if (e.dbg.lv && /keeps going/.test(e.dbg.lv) && w.eng.now - (e.dbg.lvAt || -9) < .05) kept++; return true; });
     const leaving = !!(e.plan && e.plan.k === 'leave'), still = e.left.has(L), took = e.tally.reengage - re0;
-    return { ok: leaving ? still && took === 0 : took > 0 && !still, leaving, still, took, kept: kept > 0, plan: planOf(e) };
-  });
+    return { ok: leaving ? still && took === 0 : took > 0 && !still, h, leaving, still, took, kept: kept > 0, plan: planOf(e) };
+  }));
   const keptRuns = rs.filter(r => r.leaving);
-  return { ok: rate(rs) === 1 && keptRuns.length >= 2, note: `${rs.filter(r => r.ok).length}/6: it went on leaving ${keptRuns.length}/6 (the person it left still left alone ${keptRuns.filter(r => r.still).length}, counted as taken up ${keptRuns.filter(r => r.took).length}); it took them up ${rs.filter(r => !r.leaving).length}/6 (plans ${rs.filter(r => !r.leaving).map(r => r.plan).join('/') || '-'}), the cooldown gone then`, data: rs };
+  return { ok: rate(rs) === 1 && keptRuns.length >= 2, note: `${rs.filter(r => r.ok).length}/${rs.length} (hunger ${rs.map(r => r.h).join('/')}): it went on leaving ${keptRuns.length}/${rs.length} (the person it left still left alone ${keptRuns.filter(r => r.still).length}, counted as taken up ${keptRuns.filter(r => r.took).length}); it took them up ${rs.filter(r => !r.leaving).length}/${rs.length} (plans ${rs.filter(r => !r.leaving).map(r => r.plan).join('/') || '-'}), the cooldown gone then`, data: rs };
 });
 
 add('PR30 (R7) an admin summon during a hunt: the hunt ends and it goes where it was summoned', () => {

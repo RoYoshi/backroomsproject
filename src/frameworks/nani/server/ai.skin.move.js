@@ -30,7 +30,7 @@
  *             lay in wait, and with it SK21's scene - tried, and left as R13 made it).
  * Cost: per tick a few multiplications; on a think, 12 rays from the person for their way out. */
 const SKF = Object.freeze({
-  near: 340,                                     // px: within this of a person it sees (and a clear way to them) it moves as a fighter
+  near: 400,                                     // px: within this of a person it sees (and a clear way to them) it moves as a fighter (R18; R16f-R16i 340)
   band: [115, 170],                              // px: the distance it keeps from where it reckons they will be (its spring: 55-185)
   side: .75, back: .55,                          // the share of its pace it can move sideways and backward
   gain: 3.2,                                     // 1/s: how hard it steers toward where it wants to be
@@ -38,6 +38,8 @@ const SKF = Object.freeze({
   lead: [.25, .45],                              // s ahead it reckons where they will be (dull .. sharp)
   cut: .55,                                      // how far toward their way out it places itself (0: straight at them; 1: squarely in their path)
   swing: .9,                                     // rad: the most it swings its place about them at a time
+  keep: 1,                                       // s: a break in the fight shorter than this keeps its read of their motion (R18)
+  goAway: 60, runIn: 40,                         // px/s away from it (and most of their speed) that is going away; px from where it reckons they will be that it runs in to (R18)
 });
 /* move toward (gx, gy) at up to vmax (forward; SKF.side sideways, SKF.back backward), facing (fx, fy); its own velocity and acceleration */
 function skStrafe(eng, e, gx, gy, fx, fy, vmax, dt, gain = SKF.gain) {
@@ -61,12 +63,16 @@ function skStrafe(eng, e, gx, gy, fx, fy, vmax, dt, gain = SKF.gain) {
  * band: the distance it keeps (SKF.band; a watch its own) */
 function skFight(eng, e, r, p, d, dt, thinkNow, vmax, band = SKF.band) {
   if (!r.seen || d > SKF.near || e.disguise || e.exh) return false;
-  const geo = eng.geo, now = eng.now;
+  const geo = eng.geo, now = eng.now, T = e.tr.INTELLIGENCE, tau = lerp(SKF.tau[0], SKF.tau[1], T), lead = lerp(SKF.lead[0], SKF.lead[1], T);
   const fresh = e.fight && e.fight.pid === r.id && now - e.fight.at < .5;
+  // (R18) its read of their motion goes on across a short break (a blocked line, a strike): a fight taken up again starts from it, caught
+  // up by the time between at its own lag - R16f-R16i started every fight from their true motion, so a reversal during a break was read at once
+  const rd = e.fight && e.fight.pid === r.id && e.fight.rd && now - e.fight.rd.at < SKF.keep ? e.fight.rd : null;
   if (fresh && e.fight.blocked && !thinkNow) return false;                                       // (R16g: no clear way to them - tested again on its next think, not every tick)
   if (thinkNow || !fresh) {
-    if (!geo.lineClear(e.x, e.y, p.x, p.y, e.rc * .6, 'walk')) { e.fight = { pid: r.id, at: now, blocked: 1 }; return false; }
-    const F = fresh && !e.fight.blocked ? e.fight : (e.fight = { pid: r.id, vx: p.vx, vy: p.vy, esc: null, t0: now });
+    if (!geo.lineClear(e.x, e.y, p.x, p.y, e.rc * .6, 'walk')) { e.fight = { pid: r.id, at: now, blocked: 1, rd }; return false; }
+    const k0 = rd ? 1 - Math.exp(-(now - rd.at) / tau) : 1;
+    const F = fresh && !e.fight.blocked ? e.fight : (e.fight = { pid: r.id, vx: rd ? rd.vx + (p.vx - rd.vx) * k0 : p.vx, vy: rd ? rd.vy + (p.vy - rd.vy) * k0 : p.vy, esc: null, t0: now });
     // their way out: of twelve directions from them, the one with open floor, the way they move, and away from it (a doorway, a corridor)
     const sp = Math.hypot(F.vx, F.vy), mv = Math.atan2(F.vy, F.vx), away = Math.atan2(p.y - e.y, p.x - e.x); let best = -1e9;
     for (let k = 0; k < 12; k++) {
@@ -75,17 +81,24 @@ function skFight(eng, e, r, p, d, dt, thinkNow, vmax, band = SKF.band) {
     }
     F.at = now;
   }
-  const F = e.fight, T = e.tr.INTELLIGENCE, tau = lerp(SKF.tau[0], SKF.tau[1], T), lead = lerp(SKF.lead[0], SKF.lead[1], T);
+  const F = e.fight;
   const k = 1 - Math.exp(-dt / tau); F.vx += (p.vx - F.vx) * k; F.vy += (p.vy - F.vy) * k;          // (its read of their motion: it lags)
+  const R = F.rd || (F.rd = {}); R.vx = F.vx; R.vy = F.vy; R.at = now;                              // (R18: kept across a short break)
   const qx = p.x + F.vx * lead, qy = p.y + F.vy * lead;
   // where it wants to be: SKF.band from where it reckons they will be, round them toward their way out - it swings its place about them
   // (at most SKF.swing at a time), so that it steps into their path the way they lean, never through them
   const ux = e.x - qx, uy = e.y - qy, L = Math.hypot(ux, uy) || 1, u0 = Math.atan2(uy, ux);
   let dA = angDiff(F.esc, u0);
-  if (Math.abs(dA) > 2.6) { const lean = ux * F.vy - uy * F.vx; dA = (lean >= 0 ? -1 : 1) * 2.6; }    // (straight away from it: round the way they are moving)
-  const g = u0 + clamp(dA * SKF.cut, -SKF.swing, SKF.swing);
+  if (Math.abs(dA) > 2.6) { const lean = ux * F.vy - uy * F.vx; dA = (lean >= 0 ? 1 : -1) * 2.6; }    // (straight away from it: round the way they are moving - R18: the side they lean to; R16f-R16i took the other)
   const closing = ((e.x - p.x) * p.vx + (e.y - p.y) * p.vy) / Math.max(1, d) > 40;                  // (they come at it: it gives ground)
-  const D = closing ? band[1] : clamp(L, band[0], band[1]);
+  // (R18) it reckons they go away from it - mostly away (within 45 degrees of straight away, over SKF.goAway; its own lagging read of their
+  // motion, so a reversal fools this too): it runs straight in on where it reckons they will be (SKF.runIn from it, no swing round them) -
+  // a band held behind a runner only lets them go, and a place swung beside them made its spring cross their path (two misses by 1-2 px
+  // of a walker); somebody going round it keeps its band and its swing.  (R16f-R16i closed on a runner because the straight-away case
+  // swung its place to the wrong side and back, tick by tick: see the lean above)
+  const relR = ((e.x - p.x) * F.vx + (e.y - p.y) * F.vy) / Math.max(1, d), going = relR < -Math.max(SKF.goAway, .7 * Math.hypot(F.vx, F.vy));
+  const g = going ? u0 : u0 + clamp(dA * SKF.cut, -SKF.swing, SKF.swing);
+  const D = closing ? band[1] : going ? Math.min(L, SKF.runIn) : clamp(L, band[0], band[1]);
   const m = skStrafe(eng, e, qx + Math.cos(g) * D, qy + Math.sin(g) * D, p.x, p.y, vmax, dt);
   setAct(e, m.f < -30 ? 'back' : e.speed > 150 ? 'chase' : 'pace');
   F.side = (F.side || 0) + (Math.abs(m.l) > 40 && Math.abs(m.l) > Math.abs(m.f) ? dt : 0); F.backT = (F.backT || 0) + (m.f < -30 ? dt : 0);

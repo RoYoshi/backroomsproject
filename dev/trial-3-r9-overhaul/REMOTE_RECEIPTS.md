@@ -1,4 +1,4 @@
-# Trial 3 R9–R17 — remote receipts
+# Trial 3 R9–R18 — remote receipts
 
 Each checkpoint was pushed to `trial-3-r9-cognitive-ambush-overhaul` only and read back from GitHub by
 `dev/trial-3-r9-overhaul/tools/verify_remote_r9.py` (git ls-remote and the REST commit/branch: tip = local HEAD, tree and parent agree, one
@@ -23,3 +23,7 @@ push, no new branch). The receipt JSON of each is under `evidence/`. A post-push
 | R16g | `035c8cfafd9516802ab7b30fd4fe789622089c90` | `85395de996d4fb8e74239192b3ddca82b66e1d01` | `c3a6161373711288a8179f76cdc89d45f1ff1d44` | `evidence/r16g/receipt_r16g.json` — VERIFIED (7/7 checks, 78 changed files' blobs equal) | `evidence/r16g/secret_scan_r16g_post.txt` — CLEAN |
 | R16h | `4d7960775bca46464e5fc09276bfc8796521ffc2` | `01b8c6c31a5653df862dc0f56805a0449ee6fffc` | `035c8cfafd9516802ab7b30fd4fe789622089c90` | `evidence/r16h/receipt_r16h.json` — VERIFIED (7/7 checks, 34 changed files' blobs equal) | `evidence/r16h/secret_scan_r16h_post.txt` — CLEAN |
 | R16i | `a70137e7038187ffbbf28502e596634159457509` | `83e5e57147915c4f0e07f2edd1ec45beef203970` | `4d7960775bca46464e5fc09276bfc8796521ffc2` | `evidence/r16i/receipt_r16i.json` — VERIFIED (7/7 checks, 47 changed files' blobs equal) | `evidence/r16i/secret_scan_r16i_post.txt` — CLEAN |
+| R17 | `636f01ea074cb969d2f1ef1cff9dd081f24185f9` | `0879f3070a14b0407348e01aaeb0119a68ac1a93` | `a70137e7038187ffbbf28502e596634159457509` | `evidence/r17/receipt_r17.json` — VERIFIED (7/7 checks, 97 changed files' blobs equal) | `evidence/r17/secret_scan_r17_post.txt` — CLEAN |
+
+R18's receipt (`evidence/r18/receipt_r18.json`) and its post-push scan are committed in a receipt commit after it; that commit is read
+back the same way, and its own result is given in the handoff (a commit cannot carry its own receipt).

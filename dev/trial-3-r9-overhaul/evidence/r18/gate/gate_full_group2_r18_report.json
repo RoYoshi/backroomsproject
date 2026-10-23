@@ -1,0 +1,53 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "636f01ea074cb969d2f1ef1cff9dd081f24185f9",
+ "startedAt": "2026-10-23T09:20:33.863Z",
+ "out": "<tmp>",
+ "steps": {
+  "cli_mutants": {
+   "ok": true,
+   "cases": 57,
+   "note": "3 in assets/net-newrun.js, 11 in assets/mp-hum.js; mp.js's module seams: 35 of 35 caught",
+   "exit": 0,
+   "seconds": 21
+  },
+  "live_wire": {
+   "ok": true,
+   "cases": 65,
+   "note": "structurally identical, ui {\"menuAfterFirst\":true,\"refusedLabel\":\"Spontaneously Combust? · WAIT N S\",\"menuAfterRefused\":false,\"menuAfterAdmin\":true}",
+   "exit": 0,
+   "seconds": 393
+  },
+  "bpp_checks": {
+   "ok": true,
+   "cases": 36,
+   "note": "proto_check as on B++ (8), place_replay as on B++ (22), place_guard as on B++ (6)",
+   "exit": null,
+   "seconds": 148
+  },
+  "browsers": {
+   "ok": false,
+   "cases": 121,
+   "note": "two_browser FAIL (106), col_head ok (5), col_aside ok (5), gameplay_smoke ok (5)",
+   "exit": null,
+   "seconds": 231
+  },
+  "workflow": {
+   "ok": true,
+   "cases": 30,
+   "note": "dev workflow 22 of 22 steps (the compiled client: checked); browser contracts PASS: 8 checks on B++ and this tree (the 52-member facade, unauthorized access refused, a phone), the two sides agree on 3 of 3",
+   "exit": 0,
+   "seconds": 240
+  }
+ },
+ "ok": false,
+ "finishedAt": "2026-10-23T09:37:46.520Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate",
+  "client_work"
+ ]
+}

@@ -30,19 +30,23 @@ function exposureWatch(w, p, e) {
     if (Math.round(t * 60) % 6) return;
     const P = e.plan, m = modeOf(e), V = sees(w, p, e.x, e.y), step = Math.hypot(e.x - lx, e.y - ly), d = Math.hypot(e.x - p.x, e.y - p.y);
     if (P !== lastP) { if (P) R.plans.push(P.k + (m ? ':' + m : '')); lastP = P; run = 0; b0 = null; }
-    if (P && P.phase === 'exit') { if (R.exitAt === undefined) { R.exitAt = t; R.braked = 0; } } else R.exitAt = undefined;   // (R16: when the withdrawal began, seen or not)
+    if (P && P.phase === 'exit') { if (R.exitAt === undefined) { R.exitAt = t; R.braked = 0; R.v0 = Math.max(e.speed, R.vPrev || 0); } } else R.exitAt = undefined;   // (R16: when the withdrawal began, seen or not; R18: its speed then, or in the sample before)
     if (/COMPROMISED/i.test(e.dbg.why || '')) R.compromised++;
     if (m === 'covert') {
       R.covert += step;
       if (V.vis) {
         const bear = Math.atan2(e.y - p.y, e.x - p.x); if (b0 === null) b0 = bear;
-        const brake = P.phase === 'exit' && t - R.exitAt < .3 && R.braked + Math.max(0, ld - d) <= 10; if (brake) R.braked += Math.max(0, ld - d);   // (s_skinr9.js: its braking, 10 px at most)
+        // (s_skinr9.js: its braking, 10 px at most in 0.3 s - the sample that holds the switch also holds the last of the move before.  R18: or
+        // that last move (a sample, 0.1 s, at the speed it had) and what its own acceleration needs to stop from it, v0^2 / 2a in v0 / a - at
+        // R18's paces, 130-210 px/s, 13-21 px and 11-29 px; R16i's covert ways went at 62-90)
+        const acc = e.caps.ACCELERATION || 500, v0 = R.v0 || 0, bMax = Math.max(10, v0 * .1 + v0 * v0 / (2 * acc) + 2), bT = Math.max(.3, v0 / acc + .1);
+        const brake = P.phase === 'exit' && t - R.exitAt < bT && R.braked + Math.max(0, ld - d) <= bMax; if (brake) R.braked += Math.max(0, ld - d);
         const away = (d >= ld - 1 || brake) && Math.abs(angDiff(bear, b0)) < .45;
         if (P.phase === 'exit' && away) R.exitSeen += step; else { R.exposed += step; run += step; R.worst = Math.max(R.worst, run); }
         if (P.phase === 'exit' && !away) R.badExit++;
       } else run = 0;
     }
-    lx = e.x; ly = e.y; ld = d;
+    lx = e.x; ly = e.y; ld = d; R.vPrev = e.speed;
   };
   return R;
 }

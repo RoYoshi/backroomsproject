@@ -87,9 +87,26 @@ add('F02 a waiting spot hides all of it (R16; the R14 edge test and the independ
       return true; });
     return { waited, leak };
   }));
+  // (R18) and SK23's interception scene (s_skinstealer.js: it loses them, goes round to where it guesses they will be and waits there out of
+  // sight; they keep to their way, A, or double back, B): R18 no longer waits in hiding in the long-hall scenes above - an approach, a flank,
+  // a lure, a retreat instead: no sample of it waiting in 108 such scenes (hunger .45-.65, 450-900 px); R16i waited in an ambush at .55
+  for (const v of ['A', 'B']) for (const seed of Array.from({ length: 20 }, (_, i) => i + 1)) rs.push(...over([seed], sd => {
+    const w3 = World(sd + 500), p = w3.player(1300, 5950, { light: true, angle: -Math.PI / 2 }); p.stop('stand');
+    const e = w3.eng.spawn('skinstealer', 2300, 5570, { hunger: .6 }); e.tier = 'near'; e.ang = Math.PI;
+    let waited = 0, leak = 0;
+    w3.run(35, (ww, t) => {
+      if (w3.t > .5 && !p.going) { p.going = 1; p.route([{ x: 1300, y: 5400 }, { x: 1300, y: 5150 }], 'walk'); }
+      if (p.going === 1 && p.path && !p.path.length) { p.going = 2; p.pathTo(v === 'A' ? 1720 : 700, v === 'A' ? 4900 : 5330, 'walk'); }
+      if (p.light && p.y < 5440) p.light = false;
+      if (Math.round(t * 60) % 6) return true;
+      if (e.act === 'wait' && e.plan && /ambush|intercept|lure|flank/.test(e.plan.k) && seenAny(w3, p, e.x, e.y)) leak++;
+      if (e.act === 'wait') waited++;
+      return true; });
+    return { waited, leak, scene: 'intercept ' + v + sd };
+  }));
   const waits = rs.reduce((a, r) => a + (r.waited || 0), 0), leaks = rs.reduce((a, r) => a + (r.leak || 0), 0);
   return { ok: edge > 0 && centreOnly === edge && agree > 0 && rs.every(r => !r.err) && waits > 0 && leaks === 0,
-    note: `level sample: ${edge} spots with the centre hidden but an edge in a line of sight - all ${centreOnly === edge ? '' : 'NOT '}counted as seen; in the halls: ${waits} samples of it waiting, ${leaks} with any part of it made out by the person` };
+    note: `level sample: ${edge} spots with the centre hidden but an edge in a line of sight - all ${centreOnly === edge ? '' : 'NOT '}counted as seen; in the halls and the interception scenes: ${waits} samples of it waiting (${rs.filter(r => r.waited).length} runs), ${leaks} with any part of it made out by the person` };
 });
 
 add('F03 no ambush point near them: it does not search again on every think (R16, the independent review; a flank already remembered this, SK.noFlank) - a lit person facing away, a mildly hungry creature (.45 / .55) in the dark 420-650 px off: covert-way searches in 10 s stay few', () => {

@@ -1,0 +1,24 @@
+| Measure | R18 | R16i (same session) | R16i (R17's run) | R16h (R17's run) |
+|---|---|---|---|---|
+| minutes recorded, creatures, deaths (A/B) | 12.1, 2, 10/6 | 12, 2, 10/3 | 12, 2, 13/13 | 12, 2, 3/3 |
+| time still (0-10 px/s) | 142.4 s (15 %) | 231.1 s (23 %) | 314.4 s (33 %) | 224.4 s (23 %) |
+| time stealth (10-110 px/s) | 46.2 s (5 %) | 488.4 s (49 %) | 280.4 s (29 %) | 571.3 s (57 %) |
+| time casual (110-185 px/s) | 726.4 s (76 %) | 227.6 s (23 %) | 342.1 s (36 %) | 128.2 s (13 %) |
+| time prowl (185-222 px/s) | 0.3 s (0 %) | 4 s (0 %) | 0.3 s (0 %) | 5.2 s (1 %) |
+| time investigation (222-248 px/s) | 0.4 s (0 %) | 2.2 s (0 %) | 0.5 s (0 %) | 1.4 s (0 %) |
+| time aggressive (248-266 px/s) | 1.7 s (0 %) | 2.3 s (0 %) | 0.8 s (0 %) | 3.4 s (0 %) |
+| time pursuit (266- px/s) | 1.7 s (0 %) | 0.4 s (0 %) | 1 s (0 %) | 0.7 s (0 %) |
+| its strike and its kill | 40.8 s | 37.2 s | 16.9 s | 59.2 s |
+| mean speed while it pursued an objective | 170 px/s | 206 px/s | 163 px/s | 150 px/s |
+| standing still roaming, no tactical purpose | 61.7 s | 121.1 s | 75.2 s | 110.3 s |
+| standing still after a meal; asleep far from everyone (3,800 px: the level of detail) | 0 s; 74.2 s | 0.1 s; 104.8 s | 0.1 s; 225.9 s | 0.1 s; 87.9 s |
+| watching (a standoff, its stare) | 4.4 s | 0 s | 2.7 s | 8.9 s |
+| plans begun per minute | approach 0.17, roam 0.58, feed 0.25, leave 0.25, mingle 0.17, chase 0.08 | approach 0.33, chase 0.08, roam 0.75, feed 0.17, mingle 0.17, leave 0.08, listen 0.25, search 0.08 | approach 0.08, roam 0.83, feed 0.08, mingle 0.33, leave 0.17, listen 0.25, search 0.17 | leave 0.58, approach 0.5, chase 0.17, listen 0.5, search 0.25, retreat 0.17, roam 1.25, feed 0.25, mingle 0.5, intercept 0.08 |
+| presses begun per minute | 0.08 | 0.25 | 0.08 | 0 |
+| from a new sighting (hungry, roaming) to its answer | median null s, 90 % null s (0) | median null s, 90 % null s (0) | median 6.54 s, 90 % 6.54 s (1) | median 18.39 s, 90 % 19.35 s (4) |
+| encounters (page A captures / escapes) | 6 (3 / 3) | 3 (2 / 1) | 6 (3 / 3) | 13 (3 / 10) |
+| stamina | mean 100, 0 s under 40, 0 exhaustions, 0 recoveries | mean 99, 1.2 s under 40, 0 exhaustions, 0 recoveries | not in this record (R16i and earlier tools did not keep it) | not in this record (R16i and earlier tools did not keep it) |
+| opportunities not taken up (hungry, seen within 600 px, > 4 s) | 1 | 0 | 0 | 1 |
+| samples over its run (crossings not excepted here) | 18 | 9 | 22 | 14 |
+R18 ignored: [{"t":483.1,"id":15,"page":"A","plan":"roam","d":24,"hunger":1}]
+R16h (R17's run) ignored: [{"t":568.8,"id":12,"page":"A","plan":"roam","d":21,"hunger":1}]

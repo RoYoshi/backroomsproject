@@ -2,7 +2,7 @@
 /* dev/trial-3-r9-overhaul/tools/r16g_campaign.js - Trial 3 R16g: the owner's extended browser campaign (October 22, the additional
  * refinement, section 7).  Development tool; checkpoint evidence, not a gate step.  Trial 3 is not owner-approved.
  *
- *   node dev/trial-3-r9-overhaul/tools/r16g_campaign.js --part focused|continuous [--dir DIR] [--mins 12] [--out FILE.json]
+ *   node dev/trial-3-r9-overhaul/tools/r16g_campaign.js --part focused|continuous|threat|judge [--dir DIR] [--mins 12] [--only S3] [--run 270] [--out FILE.json]
  *        [--shots DIR] [--video DIR]
  *
  * Real pages (headless Chromium, SwiftShader) on one real server (DIR's server.js through the test-only qa_server.js, as r9_browser.js):
@@ -21,20 +21,38 @@
  *               it perceived, what plan it cut or kept and why, what it visibly did; and the hard failures checked throughout (it walks on
  *               after newly seeing somebody it may hunt; its head never turns; it sees through a wall; faster than its run; stuck;
  *               plans flipping back and forth; page errors).
+ *   threat      (R18, the owner's overtuned experiment, section 11) thirteen adversarial scenes, S1-S13 (see threat() below), each recording
+ *               its speeds, acts, plans and stamina, judged on threat and fairness alike; run on R18 and on R16i (--dir) to compare.
  * Every name and passcode is synthetic; no address, path or secret is written to the output. */
 'use strict';
 const fs = require('fs'), path = require('path');
 const B = require('./r9_browser.js');
 const ARG = { part: 'focused', mins: '12' }; for (let i = 2; i < process.argv.length; i += 2) ARG[process.argv[i].replace(/^--/, '')] = process.argv[i + 1];
 const { sleep, until, alive } = B, SHOTS = B.SHOTS, VIDEO = B.VIDEO;
-const LONG = 3504, RUN = 255, angDiff = (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b));
+// (R18) its run is the tree's own (R8-R16i 255, R18's overtuned 270): --run N to judge a record of another tree
+const RUN = ARG.run ? +ARG.run : (() => { try { return require(path.join(B.DIR, 'dev', 'tests', 'lib.js')).AI.SKIN.speeds.run; } catch (e) { return 255; } })();
+const LONG = 3504, angDiff = (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b));
+/* (R18) its fastest pace in a track (samples [t, x, y, ang, head, act, speed, ...]): its strike (acts 12-14) and its kill (15) excepted, and
+ * the engine's crossings of a low obstacle or a window by check d's own rule (R17: a run of samples over its run, all within 70 px of one such
+ * prop, ending on its other side - every species is carried over in a fixed time, up to about 450 px/s); the crossings are returned, listed */
+function paceOf(tr) {
+  const CROSS = require(path.join(B.DIR, 'dev', 'tests', 'lib.js')).WORLD.PROPS.filter(p => p.type === 'low' || p.type === 'window'), mv = s => !(s[5] >= 12 && s[5] <= 15);
+  const out = []; let cur = null; tr.forEach((s, i) => { if (s[6] > RUN + 1 && mv(s)) { if (!cur) cur = { a: i, b: i }; else cur.b = i; } else if (cur) { out.push(cur); cur = null; } }); if (cur) out.push(cur);
+  const skip = new Set(), crossings = [];
+  for (const g of out) { const a = tr[Math.max(0, g.a - 1)], b = tr[Math.min(tr.length - 1, g.b + 1)];
+    const P = CROSS.find(P => { const r = P.rect, near = s => s[1] > r.x - 70 && s[1] < r.x + r.w + 70 && s[2] > r.y - 70 && s[2] < r.y + r.h + 70;
+      const side = s => r.w < r.h ? Math.sign(s[1] - (r.x + r.w / 2)) : Math.sign(s[2] - (r.y + r.h / 2));
+      return tr.slice(g.a, g.b + 1).every(near) && side(a) !== 0 && side(a) === -side(b); });
+    if (P) { for (let i = g.a; i <= g.b; i++) skip.add(i); crossings.push({ t: tr[g.a][0], n: g.b - g.a + 1, vmax: Math.max(...tr.slice(g.a, g.b + 1).map(s => s[6])), prop: P.id + ' (' + P.type + ')' }); } }
+  return { vmax: Math.max(0, ...tr.filter((s, i) => mv(s) && !skip.has(i)).map(s => s[6])), crossings };
+}
 /* in the page: at every snapshot it receives (20 a second), what it has - its own wanderer, every creature as the snapshot has it, the
  * admin debug last received (the admin page only; 6-7 a second), how much of each creature's body the page's own rays reach */
 const REC = `(() => { const K = window.__k3; K.rec = []; const t0 = performance.now(); K.frames = 0; const fr = () => { K.frames++; K.raf = requestAnimationFrame(fr); }; fr();
   K.dbgRec = null;
   // (the admin's debug rides in the same snapshot message as the server tick it describes, every third: it is read from that message, so
   // the debug and the creatures' places are of one tick - s[5] says whether this sample's debug is its own tick's)
-  const pd = list => (list || []).filter(d => d.sk).map(d => { const q = d.sk; return [d.i, q.pl, (q.why || '').slice(0, 80), q.pe ? [q.pe.ago, q.pe.from, q.pe.kept, q.pe.why.slice(0, 70)] : null, q.lk ? [q.lk.k, q.lk.body] : null, q.ft ? [q.ft.pid, q.ft.side, q.ft.back] : null, q.sw || [], q.hu, q.pid || 0]; });
+  const pd = list => (list || []).filter(d => d.sk).map(d => { const q = d.sk; return [d.i, q.pl, (q.why || '').slice(0, 80), q.pe ? [q.pe.ago, q.pe.from, q.pe.kept, q.pe.why.slice(0, 70)] : null, q.lk ? [q.lk.k, q.lk.body] : null, q.ft ? [q.ft.pid, q.ft.side, q.ft.back] : null, q.sw || [], q.hu, q.pid || 0, q.st, q.ex]; });   // (R18: its stamina and exhaustion too)
   K.onMsg = ev => { let m; try { m = JSON.parse(ev.data); } catch (x) { return; } if (m.t !== 's' || !m.e) return; const H = __api.H; if (!H) return;
     if (m.dbg) K.dbgRec = pd(m.dbg);
     const list = m.e.ss || [], ss = list.map(k => [k.i, Math.round(k.x), Math.round(k.y), +(+k.a).toFixed(3), +(+(k.h || 0)).toFixed(2), k.ac, k.v, k.s]);
@@ -58,7 +76,13 @@ const stop = pg => keys(pg, 0, 0, false);
 const H = pg => pg.P.evaluate(() => { const h = __api.H; return h ? { x: h.x, y: h.y, a: h.angle, st: h.mv ? h.mv.s : '', light: __api.lightOn(), dead: !!((__api.death() && __api.death().active) || h.dead), id: h.id } : null; }).catch(() => null);
 const SS = pg => pg.P.evaluate(() => (window.__k3.ss || []).map(k => ({ i: k.i, x: k.x, y: k.y, a: +k.a, h: +(k.h || 0), ac: k.ac, v: k.v }))).catch(() => []);
 async function torch(pg, on) { if ((await pg.P.evaluate(() => __api.lightOn()).catch(() => on)) !== on) await pg.P.keyboard.press('KeyF'); }
-async function crouch(pg, on) { const st = await pg.P.evaluate(() => __api.H.mv ? __api.H.mv.s : '').catch(() => ''); if ((st === 'crouch' || st === 'crawl') !== on) { await pg.P.evaluate(() => window.__k3.key('KeyC', true)); await sleep(60); await pg.P.evaluate(() => window.__k3.key('KeyC', false)); } }
+// (R18: the key is held until the page's own movement state has changed, at most 3 s - a tap of 60 ms can fall between two frames of a page
+// drawing one or two a second, and the page stayed crouched: the threat scenes' run of October 23 from S7 on)
+async function crouch(pg, on) { const st = () => pg.P.evaluate(() => __api.H.mv ? __api.H.mv.s : '').catch(() => ''), is = s => s === 'crouch' || s === 'crawl';
+  if (is(await st()) === on) return;
+  await pg.P.evaluate(() => window.__k3.key('KeyC', true)); await sleep(60);
+  const t0 = Date.now(); while (Date.now() - t0 < 3000 && is(await st()) !== on) await sleep(50);
+  await pg.P.evaluate(() => window.__k3.key('KeyC', false)); }
 async function look(pg, x, y) { await B.aimAt(pg.P, x, y); }
 const place = async (pg, x, y) => { await stop(pg); await pg.P.evaluate(q => __api.tp(q.x, q.y), { x, y }); await sleep(250); };
 async function shot(pg, name, R) { if (!SHOTS) return; const f = `${name}.png`; await pg.P.screenshot({ path: path.join(SHOTS, f) }).catch(() => { }); (R.shots || (R.shots = [])).push(f); }
@@ -70,19 +94,22 @@ async function admin(A) {
 }
 const clearK = async A => { A.cmd({ c: 'skinstealers', mode: 'remove', n: 4 }); A.cmd({ c: 'hounds', mode: 'remove', n: 10 }); A.cmd({ c: 'smilers', mode: 'remove', n: 10 }); await sleep(700); };
 /* a recorded stretch: the pages' samples while fn runs (the world unfrozen) */
+const RAWS = [], CUR = { scene: '', fps: null };   // (R18) the threat part's records, scene by scene, for --raw; the page's frame rate in the last stretch
 async function stretch(A, pages, fn) {
   for (const pg of pages) await pg.P.evaluate(REC);
   A.cmd({ c: 'freeze', on: false });
   const t0 = Date.now(); await fn(t0);
   A.cmd({ c: 'freeze', on: true });
+  CUR.fps = +((await pages[0].P.evaluate(() => window.__k3.frames).catch(() => 0)) / Math.max(.1, (Date.now() - t0) / 1000)).toFixed(1);
   const recs = []; for (const pg of pages) recs.push(await pg.P.evaluate(STOPREC).catch(() => [])); for (const pg of pages) await stop(pg);
+  if (ARG.part === 'threat' && ARG.raw) RAWS.push({ scene: CUR.scene, recs });
   return recs;
 }
 /* what the page had of creature id: [t, x, y, a, h, ac, v] */
 const track = (rec, id) => rec.map(s => { const k = s[1] && s[2].find(q => q[0] === id); return k ? [s[0], k[1], k[2], k[3], k[4], k[5], k[6], s[1], s] : null; }).filter(Boolean);
 /* its debug, where anything changed: [t, plan, its eyes' stimulus, its last interruption (why)] */
 const dTrace = D => { const out = []; let l = ''; for (const d of D) { const k = `${d.pl}|${d.lk ? d.lk[0] : ''}|${d.pe ? d.pe[3] : ''}`; if (k !== l) out.push([d.t, d.pl, d.lk ? d.lk[0] + (d.lk[1] ? '+body' : '') : '', d.pe ? (d.pe[2] ? 'kept: ' : '') + d.pe[3] : '', d.sn.join(',')]); l = k; } return out.slice(0, 40); };
-const dbgOf = (rec, id) => rec.map(s => { const d = s[3].find(q => q[0] === id); return d ? { t: s[0], pl: d[1], why: d[2], pe: d[3], lk: d[4], ft: d[5], sn: d[6], hu: d[7], pid: d[8] } : null; }).filter(Boolean);
+const dbgOf = (rec, id) => rec.map(s => { const d = s[3].find(q => q[0] === id); return d ? { t: s[0], pl: d[1], why: d[2], pe: d[3], lk: d[4], ft: d[5], sn: d[6], hu: d[7], pid: d[8], st: d[9], ex: d[10] } : null; }).filter(Boolean);
 /* ---------------------------------------------------------------- the focused scenarios */
 async function focused(b, port, R, qa) {
   const room = 'r16gf' + (Date.now() % 1e6), VP = { width: 1024, height: 640 };
@@ -99,8 +126,10 @@ async function focused(b, port, R, qa) {
   // F1 a sound behind it: the page, dark, runs a moment 350 px behind a roaming creature, then stands
   await scene('F1 a sound behind it: its head turns first, then its body, on the page', async F => {
     await park(Bp); await place(A, 5650, LONG); await torch(A, false); await crouch(A, false);
-    const k = await qa({ op: 'spawn', kind: 'skinstealer', x: 6000, y: LONG, hunger: .55, ang: 0, goal: { x: 8400, y: LONG } }); await until(A.P, () => (window.__k3.ss || []).length > 0, null, 5000);   // (roaming away east, its back to the page)
-    const [rec] = await stretch(A, [A], async () => { await sleep(1000); await keys(A, 0, -1, true); await sleep(700); await stop(A); await sleep(2800); });
+    // (R18: placed 300 px from the page, and the page runs at once - R16g-R16i placed it 350 px off and ran after 1 s: at R18's walk, 160 px/s
+    // (R16i 105), and with a page at 1-2 frames a second starting its run 1-2 s late, the creature was 850 px off by then, beyond its ears)
+    const k = await qa({ op: 'spawn', kind: 'skinstealer', x: 5950, y: LONG, hunger: .55, ang: 0, goal: { x: 8400, y: LONG } }); await until(A.P, () => (window.__k3.ss || []).length > 0, null, 5000);   // (roaming away east, its back to the page)
+    const [rec] = await stretch(A, [A], async () => { await sleep(200); await keys(A, 0, -1, true); await sleep(700); await stop(A); await sleep(3600); });
     const tr = track(rec, k.id), runAt = (rec.find(s => s[0] > .9 && s[1][3] === 'run') || [null])[0];
     const err = s => Math.abs(angDiff(s[3] + s[4], Math.atan2(s[7][1] - s[2], s[7][0] - s[1]))), body = s => Math.abs(angDiff(s[3], Math.atan2(s[7][1] - s[2], s[7][0] - s[1])));
     const before = tr.filter(s => runAt !== null && s[0] < runAt), e0 = before.length ? err(before[before.length - 1]) : null, b0 = before.length ? body(before[before.length - 1]) : null;
@@ -122,12 +151,16 @@ async function focused(b, port, R, qa) {
   // crouched in the dark 420 px north of the hall (seen from 285 px so - repro V), and once the creature is past it - the page off its
   // left side, outside its field of view - stands and walks to and fro, unlit (footsteps carry 240 px: not to it).  Nothing is moved by
   // hand: a teleport is itself a jump the creature could notice
+  let F2trig = 5330;                                                           // (R18: where the creature is when the page stands - see below)
   await scene('F2 movement at the edge of its view: noticed, its head (and, beyond what the head reaches, its body) turns to it, then it sees them', async F => {
     await park(Bp); await place(A, 5420, 3084); await torch(A, false); await crouch(A, true);
     const k = await qa({ op: 'spawn', kind: 'skinstealer', x: 5250, y: LONG, hunger: .3, ang: 0, goal: { x: 8400, y: LONG } }); await until(A.P, () => (window.__k3.ss || []).length > 0, null, 5000);   // (roaming east down the hall, past the room)
     let walkAt = null;
     const [rec] = await stretch(A, [A], async t0 => {
-      while (Date.now() - t0 < 8000) { const c = (await SS(A)).find(q => q.i === k.id); if (c && c.x >= 5520) break; await sleep(60); }
+      // (R18: the page stands once the creature is 1.36 rad past it - x 5330, its view's edge 1.25 - R16g-R16i waited for x 5520 (1.8 rad).  A page
+      // at 1-3 frames a second begins to walk a second or two after it decides to, and at R18's roam (160 px/s; R8-R16i 105) the creature was
+      // 2.39 rad past it by then, beyond the edge of its eye (1.25 + 0.9): R16i's run 2.03)
+      while (Date.now() - t0 < 8000) { const c = (await SS(A)).find(q => q.i === k.id); if (c && c.x >= F2trig) break; await sleep(60); }
       await crouch(A, false); let dir = 1; while (Date.now() - t0 < 11000) { await keys(A, dir, 0, false); await sleep(1100); dir = -dir; } await stop(A); await sleep(800); });
     { const w = rec.find(s => s[1][3] === 'walk'); walkAt = w ? w[0] : null; }               // (when the page began to walk: its own samples)
     const tr = track(rec, k.id), D = dbgOf(rec, k.id); F.trace = dTrace(D); const mot = D.find(d => d.lk && (d.lk[0] === 'motion' || d.lk[0] === 'sight' || d.lk[0] === 'sound')), saw = D.find(d => d.sn.includes(aid));
@@ -138,6 +171,10 @@ async function focused(b, port, R, qa) {
     if (walkAt !== null && D.some(d => d.t < walkAt && d.sn.includes(aid))) F.void = 'it saw the page before it walked';
     if (walkAt === null) F.void = F.void || 'the page did not walk';
     const off = tr.find(s => walkAt !== null && s[0] >= walkAt); F.offAtEntry = off ? +err(off).toFixed(2) : null;
+    // (R18: a premise, set again - and the next try's start moved by what this one showed: the page's own lag)
+    if (F.offAtEntry !== null && F.offAtEntry > 2.15) { F.void = F.void || `the page began to walk ${F.offAtEntry} rad off its head, beyond the edge of its eye (2.15)`; F2trig -= 150; }
+    else if (F.offAtEntry !== null && F.offAtEntry <= 1.25) { F.void = F.void || `the page began to walk ${F.offAtEntry} rad off its head, inside its view`; F2trig += 100; }
+    F.nextTrig = F2trig;
     // (the movement's snap and the sight it brings can be a tenth of a second apart, under the debug's own pace of 6-7 a second: the first
     // stimulus must be the movement, logged no later than the sight, within that pace; and the page must have begun outside its view)
     F.ok = !F.void && !!firstM && !!saw && !!turned && F.by === 'motion' && firstM.t <= saw.t + .2 && F.offAtEntry > 1.25;
@@ -240,6 +277,241 @@ async function focused(b, port, R, qa) {
   R.errors = { A: A.errs, B: Bp.errs }; await A.ctx.close();
   if (VIDEO) { const v = A.P.video && A.P.video(); if (v) R.videoFile = path.basename(await v.path()); }
   R.pass = R.F.every(F => F.ok) && !A.errs.length && !Bp.errs.length;
+}
+/* ---------------------------------------------------------------- (R18) the owner's adversarial scenes (the overtuned experiment, section 11)
+ * Each scene is real pages against one placed creature, the page moved only by its own keys and mouse; each records what it did (its speeds,
+ * acts, plans, stamina - the admin's debug), and is judged on what the owner asked of it: a threat that is fair.  Run on any tree (--dir):
+ * R18 beside R16i.  S1 walking away, S2 sprinting at once, S3 hesitating, S4 circling, S5 reversing, S6 hiding behind a wall, S7 another
+ * way out, S8 unsuspecting prey, S9 a sound to investigate, S10 after a failed spring, S11 a fed one near somebody harmless, S12 two
+ * people going different ways, S13 a long hunt against its stamina. */
+async function threat(b, port, R, qa) {
+  const room = 'r18t' + (Date.now() % 1e6), VP = { width: 1024, height: 640 };
+  const b2 = await B.pw.chromium.launch({ args: B.LAUNCH }); R.closers = [() => b2.close()];
+  // (under SwiftShader two pages draw 1-6 frames a second, and a page's own movement is frame-limited - at most 0.25 s of it a frame, 71 px
+  // of a sprint: a page with its keys held covers 70-140 px/s.  A smaller second page did not help (1.4-2.5 frames a second) and left page
+  // A without a line to it from S3 on: kept full size)
+  const A = await B.runPage(b, port, room, VP, 'K3Ta', VIDEO), Bp = await B.runPage(b2, port, room, VP, 'K3Tb');
+  await admin(A); const aid = await A.P.evaluate(() => __api.H.id), bid = await Bp.P.evaluate(() => __api.H.id); R.ids = { A: aid, B: bid };
+  for (const pg of [A, Bp]) await pg.P.keyboard.press('KeyW');
+  const park = async pg => { await place(pg, 8400, 900); await torch(pg, false); await crouch(pg, true); };
+  R.S = [];
+  const AGG = 230;                                                                 // px/s: its investigation's pace and above (R18's purposeful modes)
+  const scene = async (name, fn) => { if (ARG.only && !name.startsWith(ARG.only)) return; const F = { name }; CUR.scene = name.slice(0, 3).trim(); CUR.fps = null;
+    // (R18: every scene begins with page A standing - S6 and S7 end crouched, and S8-S13 were run crouched in the dark, unseen, when no
+    // death in between had reset the page; a scene that wants a crouch makes it)
+    try { await clearK(A); await alive(A, A, aid); await alive(Bp, A, bid); await crouch(A, false); await fn(F); } catch (e) { F.error = String(e && e.message || e).slice(0, 200); }
+    F.fps = CUR.fps; R.S.push(F); console.log(`${F.ok === null ? 'NOT JUDGED' : F.ok ? 'PASS' : 'FAIL'} ${name}: ${F.note || F.error || ''} [page A ${F.fps} frames/s]`); };
+  // (R18) the page's own speed over a stretch of its record, by the server's snapshots (50 ms apart, in order) - the page's clock is not
+  const pageV = (rec, from, to) => { const L = rec.filter(s => s[0] >= from && s[0] <= to && !s[1][5]); if (L.length < 6) return null;
+    return Math.round(Math.hypot(L[L.length - 1][1][0] - L[0][1][0], L[L.length - 1][1][1] - L[0][1][1]) / ((L.length - 1) * .05)); };
+  const spawn = async (x, y, hunger, ang, goal) => { const k = await qa(Object.assign({ op: 'spawn', kind: 'skinstealer', x, y, hunger, ang }, goal ? { goal } : {})); await until(A.P, () => (window.__k3.ss || []).length > 0, null, 5000); return k; };
+  // what the page's record says of creature k and page A: a sample a snapshot (50 ms)
+  const sum = (rec, k, pageId = aid) => {
+    const tr = track(rec, k.id), D = dbgOf(rec, k.id), mv = tr.filter(s => !(s[5] >= 12 && s[5] <= 15));
+    const pace = paceOf(tr), vmax = pace.vmax, fast = mv.filter(s => s[6] >= AGG).length * .05, press = D.filter((d, i) => /its press/.test(d.why) && !(i && /its press/.test(D[i - 1].why))).length;
+    const plans = []; for (const d of D) if (plans[plans.length - 1] !== d.pl) plans.push(d.pl);
+    const sight = D.find(d => d.sn.includes(pageId)), dead = rec.find(s => s[1][5]), st = D.map(d => d.st).filter(v => v !== undefined && v !== null);
+    const dist = s => Math.hypot(s[7][0] - s[1], s[7][1] - s[2]);
+    return { tr, D, vmax, crossings: pace.crossings, fast: +fast.toFixed(2), press, plans, sightAt: sight ? sight.t : null, deadAt: dead ? dead[0] : null, stMin: st.length ? Math.min(...st) : null, stMax: st.length ? Math.max(...st) : null, dist,
+      strikes: tr.filter((s, i) => s[5] === 12 && (!i || tr[i - 1][5] !== 12)).length, misses: tr.filter((s, i) => s[5] === 14 && (!i || tr[i - 1][5] !== 14)).length };
+  };
+  const brief = S => `plans ${S.plans.join('>')}; fastest ${S.vmax} px/s (run ${RUN}${S.crossings.length ? `; the engine's crossings excepted: ${S.crossings.map(c => `${c.prop} at ${c.t} s, ${c.vmax} px/s`).join(', ')}` : ''}), ${S.fast} s at ${AGG}+, presses ${S.press}, springs ${S.strikes}${S.stMin !== null ? `, stamina ${S.stMin}-${S.stMax}` : ''}${S.deadAt !== null ? `; the page was caught at ${S.deadAt} s` : ''}`;
+  // S1 walking away: a hungry one sees a lit Wanderer 600 px off, who then walks away (172 px/s) down the long hall
+  await scene('S1 walking away: walking off from a hungry one does not trivialize it', async F => {
+    await park(Bp); await place(A, 4700, LONG); await torch(A, true); await look(A, 5300, LONG);
+    const k = await spawn(5300, LONG, .7, Math.PI);
+    let walkAt = null;
+    const [rec] = await stretch(A, [A], async t0 => { while (Date.now() - t0 < 2500) { const ss = await SS(A); if (ss.length) break; await sleep(100); } await sleep(1200); walkAt = (Date.now() - t0) / 1000; await keys(A, -1, 0, false);
+      while (Date.now() - t0 < 14000) { const h = await H(A); if (!h || h.dead || h.x < 3150) break; await sleep(150); } await stop(A); await sleep(800); });
+    const S = sum(rec, k), i0 = S.tr.findIndex(s => s[0] >= walkAt), d0 = i0 >= 0 ? S.dist(S.tr[i0]) : null;
+    const close = S.tr.find(s => s[0] >= walkAt && (S.dist(s) < 200 || s[7][5]));
+    Object.assign(F, { walkAt, d0: d0 && Math.round(d0), closeAt: close ? +(close[0] - walkAt).toFixed(2) : null, vmax: S.vmax, fast: S.fast, plans: S.plans, deadAt: S.deadAt });
+    F.ok = F.closeAt !== null && F.closeAt <= 9 && S.vmax <= RUN + 1;
+    F.note = `the page walked off at ${walkAt} s, ${F.d0} px from it: it was within 200 px of them ${F.closeAt} s later; ${brief(S)}`;
+  });
+  // S2 sprinting at once: a fresh Wanderer sprints away down the long hall as soon as it is seen - a fresh sprint must still win
+  await scene('S2 sprinting at once: a fresh sprint in the open still outruns its pursuit', async F => {
+    await park(Bp); await place(A, 7600, LONG); await torch(A, true); await look(A, 8250, LONG);
+    const k = await spawn(8250, LONG, .8, Math.PI);
+    let runAt = null;
+    const [rec] = await stretch(A, [A], async t0 => { await sleep(1300); runAt = (Date.now() - t0) / 1000; await keys(A, -1, 0, true);
+      while (Date.now() - t0 < 13000) { const h = await H(A); if (!h || h.dead || h.x < 3300) break; await sleep(150); } await stop(A); await sleep(500); });
+    const S = sum(rec, k), sprint = S.tr.filter(s => s[0] >= runAt && s[7][3] === 'run'), i0 = S.tr.findIndex(s => s[0] >= runAt + .3);
+    const d0 = i0 >= 0 ? S.dist(S.tr[i0]) : null, dmin = sprint.length ? Math.min(...sprint.map(S.dist)) : null, dEnd = sprint.length ? S.dist(sprint[sprint.length - 1]) : null;
+    const chased = S.D.some(d => d.t >= runAt && /chase|approach/.test(d.pl));
+    // (judged only when the page really sprinted - a fresh sprint is 285 px/s; under SwiftShader a page's movement is frame-limited and a
+    // page at 1-4 frames a second covers 70-140 px/s with its keys held: no race at all.  The race itself is judged on the real movement
+    // code, headless: C26, PR05, P18, WL03)
+    const pv = sprint.length ? pageV(rec, sprint[0][0] + .5, sprint[sprint.length - 1][0]) : null;
+    Object.assign(F, { runAt, d0: d0 && Math.round(d0), dmin: dmin && Math.round(dmin), dEnd: dEnd && Math.round(dEnd), sprintS: +(sprint.length * .05).toFixed(1), caught: S.deadAt !== null, chased, pageV: pv });
+    F.ok = pv === null || pv < 265 ? null : !F.caught && dEnd !== null && dEnd >= d0 - 40 && S.vmax <= RUN + 1 && chased;
+    F.note = `${F.ok === null ? `the page could not sprint here (${pv} px/s with its keys held - a fresh sprint is 285): no race to judge; ` : ''}the page sprinted at ${runAt} s from ${F.d0} px: closest in the sprint ${F.dmin} px, at its end ${F.dEnd} px (${F.sprintS} s of sprint, the page at ${pv} px/s); it gave chase ${chased}; ${brief(S)}`;
+  });
+  // S3 hesitating: a lit Wanderer in the hall a few steps one way, then the other, looking about - a hungry one takes the chance
+  await scene('S3 hesitating: a person who dithers is an opening', async F => {
+    await park(Bp); await place(A, 5000, LONG); await torch(A, true); await look(A, 5650, LONG);
+    const k = await spawn(5650, LONG, .7, Math.PI);
+    const [rec] = await stretch(A, [A], async t0 => { let dir = 1; while (Date.now() - t0 < 12000) { const h = await H(A); if (!h || h.dead) break; await keys(A, 0, dir, false); await sleep(450); await stop(A); await look(A, 5000 + dir * 300, LONG - 300 * dir); await sleep(650); dir = -dir; } await stop(A); });
+    const S = sum(rec, k), close = S.tr.find(s => S.dist(s) < 200 || s[7][5]);
+    Object.assign(F, { closeAt: close ? close[0] : null, deadAt: S.deadAt, fast: S.fast, springs: S.strikes, plans: S.plans });
+    F.ok = F.closeAt !== null && F.closeAt <= 8 && S.vmax <= RUN + 1;
+    F.note = `within 200 px of them at ${F.closeAt} s; ${brief(S)}`;
+  });
+  // S4 circling and S5 reversing: the page runs round it at 260 px (its own keys, steered each snapshot); S5 reverses after 2.2 s
+  const circle = async (F, flip) => {
+    await park(Bp); await place(A, 5240, LONG); await torch(A, true);
+    const k = await spawn(5000, LONG, .9, 0);
+    let flipT = null;
+    const [rec] = await stretch(A, [A], async t0 => {
+      await A.P.evaluate(q => { window.__k3.circ = { id: q.id, dir: 1, R: q.R }; }, { id: k.id, R: 280 });
+      while (Date.now() - t0 < 9000) { if (flip && flipT === null && Date.now() - t0 > 2200) flipT = await A.P.evaluate(() => { window.__k3.circ.dir = -1; return +((window.__k3.rec.length ? window.__k3.rec[window.__k3.rec.length - 1][0] : 0)).toFixed(2); }); if ((await H(A) || {}).dead) break; await sleep(200); }
+      await A.P.evaluate(() => { window.__k3.circ = null; }); });
+    const S = sum(rec, k); let nF = 0, errF = 0, sideF = 0, backF = 0;
+    for (let i = 1; i < S.tr.length; i++) { const s = S.tr[i], p = S.tr[i - 1], mvx = (s[1] - p[1]) / .05, mvy = (s[2] - p[2]) / .05, f = mvx * Math.cos(s[3]) + mvy * Math.sin(s[3]), l = -mvx * Math.sin(s[3]) + mvy * Math.cos(s[3]);
+      if ((s[8][3].find(q => q[0] === k.id) || [])[5]) { nF++; errF += Math.abs(angDiff(s[3], Math.atan2(s[7][1] - s[2], s[7][0] - s[1]))); if (Math.abs(l) > 40 && Math.abs(l) > Math.abs(f)) sideF += .05; if (f < -30) backF += .05; } }
+    Object.assign(F, { footwork: nF, footErr: nF ? +(errF / nF).toFixed(2) : null, side: +sideF.toFixed(2), back: +backF.toFixed(2), flipT, deadAt: S.deadAt, plans: S.plans, springs: S.strikes });
+    return S;
+  };
+  await scene('S4 circling: it faces them, sidesteps and backs, contesting their way out', async F => {
+    const S = await circle(F, false);
+    F.ok = (F.footwork >= 10 && F.footErr <= .5 && F.side > 0 || S.deadAt !== null && S.deadAt < 4) && S.vmax <= RUN + 1;
+    F.note = `its footwork ${F.footwork} snapshots, facing off by ${F.footErr} rad, sideways ${F.side} s, backing ${F.back} s; ${brief(S)}`;
+  });
+  await scene('S5 reversing: a sudden reversal fools it for a moment - then it answers', async F => {
+    const S = await circle(F, true);
+    // (its answer: a sideways step the new way, or a spring at them, within 1.2 s of the reversal reaching the server; fooled first: the old
+    // way kept for at least a snapshot)
+    const i0 = S.tr.findIndex(s => F.flipT !== null && s[0] >= F.flipT); let ans = null, kept = 0, s0 = 0;
+    for (let i = Math.max(1, i0 - 20); i < i0 && i > 0; i++) { const s = S.tr[i], p = S.tr[i - 1]; s0 += Math.sign(-((s[1] - p[1]) * Math.sin(s[3])) + (s[2] - p[2]) * Math.cos(s[3])); }
+    const sg = Math.sign(s0);
+    for (let i = i0 + 1; i0 > 0 && i < S.tr.length && i < i0 + 30; i++) { const s = S.tr[i], p = S.tr[i - 1], l = -((s[1] - p[1]) * Math.sin(s[3])) + (s[2] - p[2]) * Math.cos(s[3]);
+      if (s[5] === 12) { ans = { ms: (i - i0) * 50, by: 'a spring' }; break; } if (Math.sign(l) === -sg && Math.abs(l / .05) > 30) { ans = { ms: (i - i0) * 50, by: 'a step the new way' }; break; } kept++; }
+    Object.assign(F, { answer: ans, keptMs: kept * 50 });
+    F.ok = (ans && ans.ms >= 50 && ans.ms <= 1200 || S.deadAt !== null && F.flipT !== null && S.deadAt < F.flipT + .3) && S.vmax <= RUN + 1;
+    F.note = `reversed at ${F.flipT} s: ${ans ? `answered by ${ans.by} ${ans.ms} ms later` : 'no answer'}; ${brief(S)}`;
+  });
+  // S6 hiding behind solid geometry: seen in the hall, the page steps round a pillar on the hall's north side into a nook (5150, 3350) that
+  // neither the creature's place nor the place it was seen at has a line to, and crouches there in the dark
+  const P0 = [5200, 3480], M0 = [5100, 3450], H0 = [5150, 3350];
+  const walkTo = async (pg, x, y, run, ms) => { const t1 = Date.now(); while (Date.now() - t1 < ms) { const h = await H(pg); if (!h || Math.hypot(x - h.x, y - h.y) < 25) break; await keys(pg, x - h.x, y - h.y, run); await sleep(60); } await stop(pg); };
+  await scene('S6 hiding behind a wall: it goes to where it last saw them and looks - it does not know where they are', async F => {
+    await park(Bp); await place(A, P0[0], P0[1]); await torch(A, true); await look(A, 5850, LONG);
+    const k = await spawn(5850, LONG, .7, Math.PI);
+    let hidAt = null, lastSeen = null;
+    const [rec] = await stretch(A, [A], async t0 => { await sleep(1300); await torch(A, false); await walkTo(A, M0[0], M0[1], true, 1500); await walkTo(A, H0[0], H0[1], false, 1500); await crouch(A, true); hidAt = (Date.now() - t0) / 1000; await sleep(9000); });
+    const S = sum(rec, k), seen = S.D.filter(d => d.sn.includes(aid)); lastSeen = seen.length ? seen[seen.length - 1] : null;
+    const atLS = lastSeen && S.tr.find(s => s[0] > lastSeen.t && Math.hypot(s[1] - P0[0], s[2] - P0[1]) < 220);
+    const after = S.tr.filter(s => lastSeen && s[0] > lastSeen.t), moving = after.filter(s => s[6] >= 10 && !(s[5] >= 12));
+    Object.assign(F, { hidAt, lostAt: lastSeen ? lastSeen.t : null, toLastSeen: atLS ? +(atLS[0] - lastSeen.t).toFixed(2) : null, meanV: moving.length ? Math.round(moving.reduce((a, s) => a + s[6], 0) / moving.length) : null, plans: S.plans, foundAgain: S.D.some(d => lastSeen && d.t > lastSeen.t + 1 && d.sn.includes(aid)), deadAt: S.deadAt });
+    F.ok = F.lostAt !== null && F.toLastSeen !== null && F.toLastSeen <= 8 && S.vmax <= RUN + 1;
+    F.note = `it lost them at ${F.lostAt} s; at the place it last saw them ${F.toLastSeen} s later (moving at ${F.meanV} px/s on average); it found them again: ${F.foundAgain}; ${brief(S)}`;
+  });
+  // S7 another way out: seen at the mouth of the room off the hall, the page goes in, out of its sight, and leaves by the room's far side, quietly
+  await scene('S7 another way out: it follows the evidence it has, not where they really went', async F => {
+    await park(Bp); await place(A, P0[0], P0[1]); await torch(A, true); await look(A, 5850, LONG);
+    const k = await spawn(5850, LONG, .7, Math.PI, { x: 4300, y: LONG });   // (R18: its roam begun west, past them - at R18's walk it was 1,000 px off east before it had seen them)
+    let goneAt = null, ls = null;
+    const [rec] = await stretch(A, [A], async t0 => { await sleep(1300); await torch(A, false); await walkTo(A, M0[0], M0[1], true, 1500); await walkTo(A, H0[0], H0[1], false, 1500); await crouch(A, true); goneAt = (Date.now() - t0) / 1000;
+      await walkTo(A, 4700, 3330, false, 6000); await sleep(2000); });   // (crouched: quiet - it leaves the nook the other way, west)
+    const S = sum(rec, k), seen = S.D.filter(d => d.sn.includes(aid)); ls = seen.length ? seen[seen.length - 1] : null;
+    // where it went in the 4 s after it lost them: toward the place it last saw them, or straight to where the page really was
+    const lsP = ls ? (rec.find(s => s[0] >= ls.t) || [null, [5420, LONG]])[1] : null, path = S.tr.filter(s => ls && s[0] > ls.t && s[0] < ls.t + 4);
+    const endP = path.length ? path[path.length - 1] : null, trueP = endP ? endP[7] : null;
+    const toLS = endP && lsP ? Math.hypot(endP[1] - lsP[0], endP[2] - lsP[1]) : null, toTrue = endP && trueP ? Math.hypot(endP[1] - trueP[0], endP[2] - trueP[1]) : null;
+    // (seen again: only with a line from the page's own rays at that tick or the two before - never through the pillar)
+    const blind = S.D.filter(d => ls && d.t > ls.t && d.sn.includes(aid)).length, noRay = rec.filter((s, i) => ls && s[0] > ls.t && s[5] && (s[3].find(q => q[0] === k.id) || [, , , , , , []])[6].includes(aid) && [0, 1, 2].every(j => { const r = rec[i - j]; if (!r) return true; const ix = r[2].findIndex(q => q[0] === k.id); return ix < 0 || !r[4][ix]; })).length;
+    F.noRay = noRay;
+    Object.assign(F, { lostAt: ls ? ls.t : null, toLastSeen: toLS && Math.round(toLS), toTrue: toTrue && Math.round(toTrue), seenAgain: blind, plans: S.plans, deadAt: S.deadAt });
+    F.ok = F.lostAt !== null && S.vmax <= RUN + 1 && F.noRay === 0 && (F.seenAgain > 0 || F.toLastSeen !== null);
+    if (F.lostAt === null && S.vmax <= RUN + 1 && F.noRay === 0) F.ok = null;   // (R18: it never saw them - no evidence to follow: the scene's premise not met, reported)
+    F.note = `${F.ok === null ? 'it never saw the page: no evidence to follow - not judged; ' : ''}lost at ${F.lostAt} s; 4 s later it was ${F.toLastSeen} px from where it last saw them and ${F.toTrue} px from where they were; seen again in ${F.seenAgain} debug samples, ${F.noRay} of them without a line from the page; ${brief(S)}`;
+  });
+  // S8 unsuspecting prey: a hungry one 750 px behind somebody walking away from it with their torch on, who never looks back
+  await scene('S8 unsuspecting prey: a hungry one goes for somebody who does not know it is there', async F => {
+    await park(Bp); await place(A, 5000, LONG); await torch(A, true); await look(A, 4000, LONG);
+    const k = await spawn(5750, LONG, .75, Math.PI);
+    const [rec] = await stretch(A, [A], async t0 => { await keys(A, -1, 0, false); while (Date.now() - t0 < 12000) { const h = await H(A); if (!h || h.dead || h.x < 3200) break; await look(A, h.x - 400, LONG); await sleep(300); } await stop(A); await sleep(500); });
+    const S = sum(rec, k), act = S.D.find(d => S.sightAt !== null && d.t >= S.sightAt && /approach|chase|intercept|flank/.test(d.pl));
+    const close = S.tr.find(s => S.dist(s) < 200 || s[7][5]);
+    Object.assign(F, { sightAt: S.sightAt, actAt: act ? +(act.t - S.sightAt).toFixed(2) : null, closeAt: close ? close[0] : null, deadAt: S.deadAt, plans: S.plans });
+    F.ok = F.actAt !== null && F.actAt <= 2 && F.closeAt !== null && S.vmax <= RUN + 1;
+    F.note = `it saw them at ${F.sightAt} s and went for them ${F.actAt} s later; within 200 px at ${F.closeAt} s; ${brief(S)}`;
+  });
+  // S9 a sound to investigate: out of its sight round the corner of the room, the page runs a moment, then crouches in the dark
+  await scene('S9 a sound: it goes to look, at its investigation\'s pace, and gets a line on them', async F => {
+    await park(Bp); await place(A, H0[0], H0[1]); await torch(A, false); await crouch(A, true);
+    const k = await spawn(5850, LONG, .6, Math.PI, { x: 4300, y: LONG });   // (R18: its roam begun west along the hall, past the room - at R18's walk it was 1,000 px off east before the page ran)
+    let ranAt = null;
+    const [rec] = await stretch(A, [A], async t0 => { await sleep(1000); await crouch(A, false); ranAt = (Date.now() - t0) / 1000; await walkTo(A, M0[0], M0[1], true, 700); await walkTo(A, H0[0], H0[1], true, 700); await crouch(A, true); await sleep(9000); });
+    const S = sum(rec, k), heard = S.D.find(d => ranAt !== null && d.t >= ranAt && (d.lk && d.lk[0] === 'sound' || /heard/.test(d.why)));
+    const moving = S.tr.filter(s => heard && s[0] > heard.t && s[6] >= 10 && !(s[5] >= 12)), fastS = moving.filter(s => s[6] >= 200).length * .05;
+    Object.assign(F, { ranAt, heardAt: heard ? heard.t : null, fastS: +fastS.toFixed(2), sawAt: S.D.find(d => heard && d.t > heard.t && d.sn.includes(aid)) ? 1 : 0, nearest: Math.round(Math.min(...S.tr.map(S.dist))), plans: S.plans, deadAt: S.deadAt });
+    // (its pace there is reported, not judged: within SK.closeFrom (450 px) of a person it heard it goes in quietly - a stalk - by design;
+    // from farther its investigation's pace.  Judged: it heard them, went to look and got a line on them or came within 250 px)
+    const hd = heard ? S.tr.find(s => s[0] >= heard.t) : null; F.dHeard = hd ? Math.round(S.dist(hd)) : null;
+    F.ok = F.heardAt !== null && (F.sawAt || F.nearest < 250) && S.vmax <= RUN + 1;
+    if (F.heardAt === null && !S.D.some(d => ranAt !== null && d.t >= ranAt && d.sn.includes(aid)) && S.vmax <= RUN + 1) F.ok = null;   // (R18: no sound reached it and it never saw them: the premise not met, reported)
+    F.note = `${F.ok === null ? 'no sound of the page reached it and it never saw them - not judged; ' : ''}it heard them at ${F.heardAt} s (ran at ${ranAt}), ${F.dHeard} px off; ${F.fastS} s at 200 px/s or more on its way; it got a line on them: ${!!F.sawAt}, nearest ${F.nearest} px; ${brief(S)}`;
+  });
+  // S10 after a failed spring: the page waits for its wind-up and dodges sideways; once its recovery ends it must come again at once
+  await scene('S10 a failed spring: it recovers and comes again - no sulking', async F => {
+    await park(Bp); await place(A, 5000, LONG); await torch(A, true); await look(A, 5500, LONG);
+    const k = await spawn(5500, LONG, .85, Math.PI);
+    const [rec] = await stretch(A, [A], async t0 => { let dodged = 0;
+      while (Date.now() - t0 < 14000) { const h = await H(A); if (!h || h.dead) break; const c = (await SS(A)).find(q => q.i === k.id);
+        if (c && c.ac === 12 && dodged < 3) { dodged++; await keys(A, 0, dodged % 2 ? -1 : 1, true); await sleep(650); await stop(A); }
+        await sleep(40); } await stop(A); });
+    const S = sum(rec, k), rec14 = S.tr.findIndex((s, i) => i && S.tr[i - 1][5] === 14 && s[5] !== 14), after = rec14 >= 0 ? S.tr.slice(rec14) : [];
+    const again = after.find(s => s[6] >= 150 || s[5] === 12 || s[7][5]);
+    Object.assign(F, { misses: S.misses, springs: S.strikes, againMs: again && rec14 >= 0 ? Math.round((again[0] - S.tr[rec14][0]) * 1000) : null, deadAt: S.deadAt, plans: S.plans });
+    F.ok = (S.misses > 0 ? F.againMs !== null && F.againMs <= 1500 : S.deadAt !== null) && S.vmax <= RUN + 1;
+    F.note = `${S.misses} misses of ${S.strikes} springs; after its first recovery it came again ${F.againMs} ms later; ${brief(S)}`;
+  });
+  // S11 a fed one near somebody harmless: hunger .1, the page stands lit 300 px off, facing away, for 10 s
+  await scene('S11 fed, near somebody harmless: it watches, it does not hunt', async F => {
+    await park(Bp); await place(A, 5000, LONG); await torch(A, true); await look(A, 4500, LONG);
+    const k = await spawn(5300, LONG, .1, Math.PI);
+    const [rec] = await stretch(A, [A], async () => { await sleep(10000); });
+    const S = sum(rec, k), hostile = S.D.some(d => /approach|chase|flank|intercept|ambush|lure/.test(d.pl));
+    Object.assign(F, { hostile, springs: S.strikes, fast: S.fast, plans: S.plans, deadAt: S.deadAt });
+    F.ok = !hostile && !S.strikes && S.deadAt === null && S.fast < .5;
+    F.note = `${hostile ? 'it hunted them' : 'no hunt'}; ${brief(S)}`;
+  });
+  // S12 two people going different ways: both lit in the hall, then A walks west and B east
+  await scene('S12 two people split up: it picks one and goes after them', async F => {
+    await place(A, 5000, LONG); await place(Bp, 5060, LONG + 40); await torch(A, true); await torch(Bp, true); await crouch(Bp, false); await look(A, 5650, LONG); await look(Bp, 5650, LONG);
+    const k = await spawn(5650, LONG, .8, Math.PI);
+    const [rec, recB] = await stretch(A, [A, Bp], async t0 => { await sleep(1500); await keys(A, -1, 0, false); await keys(Bp, 1, 0.3, false); await sleep(9000); await stop(A); await stop(Bp); });
+    const S = sum(rec, k), go = S.D.find(d => d.t > 1.5 && /approach|chase|intercept/.test(d.pl) && d.pid), who = go ? (go.pid === aid ? 'A' : go.pid === bid ? 'B' : 'P' + go.pid) : null;
+    Object.assign(F, { pickedAt: go ? go.t : null, who, plans: S.plans, deadAt: S.deadAt, springs: S.strikes });
+    F.ok = !!go && go.t <= 5 && S.vmax <= RUN + 1;
+    F.note = `it went after ${who} at ${F.pickedAt} s; ${brief(S)}`;
+    await park(Bp);
+  });
+  // S13 a long hunt against its stamina: the page keeps moving round the hall's middle for 60 s - walking, with sprints when it comes close
+  await scene('S13 a long hunt: its breath runs out and comes back; it keeps hunting while it has evidence', async F => {
+    await park(Bp); await place(A, 4400, LONG); await torch(A, true);
+    const k = await spawn(6000, LONG, .85, Math.PI, { x: 4600, y: LONG });   // (R18: its roam begun toward the hall's middle - at R18's walk it was gone east before it had seen them)
+    const pts = [[4400, LONG], [6600, LONG], [5420, LONG - 350], [7400, LONG]];
+    const [rec] = await stretch(A, [A], async t0 => { let i = 1;
+      while (Date.now() - t0 < 60000) { const h = await H(A); if (!h) break; if (h.dead) { await stop(A); await sleep(2000); A.cmd({ c: 'revive', id: aid }); await sleep(1500); await place(A, 4400, LONG); continue; }
+        const c = (await SS(A)).find(q => q.i === k.id), g = pts[i % pts.length]; if (Math.hypot(g[0] - h.x, g[1] - h.y) < 80) i++;
+        const near = c && Math.hypot(c.x - h.x, c.y - h.y) < 350; await keys(A, g[0] - h.x, g[1] - h.y, near); if (c) await look(A, c.x, c.y); await sleep(150); } await stop(A); });
+    const S = sum(rec, k), st = S.D.map(d => d.st).filter(v => v !== undefined && v !== null), low = st.findIndex(v => v < 40), back = low >= 0 ? st.slice(low).some(v => v > 60) : false;
+    const deaths = rec.filter((s, i) => s[1][5] && (!i || !rec[i - 1][1][5])).length, leaves = S.D.filter((d, i) => d.pl === 'leave' && (!i || S.D[i - 1].pl !== 'leave')).length;
+    Object.assign(F, { stMin: S.stMin, recovered: back, deaths, leaves, presses: S.press, chases: S.D.filter((d, i) => d.pl === 'chase' && (!i || S.D[i - 1].pl !== 'chase')).length, plans: S.plans.slice(0, 30) });
+    // (R18: a long hunt needs the page alive - a page at 1-3 frames a second covers 70-140 px/s with its keys held and is caught; the
+    // creature then holds its kill and feeds (8 s and more) and, fed, hunts less.  Caught before its breath ran low: no long hunt to judge,
+    // reported as such.  Its breath against a true runner is judged headless: SK11, SK22, PR05, P18 and tools/threat_sim.js)
+    const lowAt = low >= 0 ? S.D.filter(d => d.st !== undefined && d.st !== null)[low].t : null, died = rec.find(s => s[1][5]);
+    F.diedFirst = !!died && (lowAt === null || died[0] < lowAt); F.neverSaw = !S.D.some(d => d.sn.includes(aid));
+    F.ok = F.diedFirst || F.neverSaw ? null : st.length > 0 && S.stMin !== null && S.stMin < 40 && back && (F.presses + F.chases) >= 2 && S.vmax <= RUN + 1;
+    F.note = `${F.neverSaw ? 'it never saw the page: no hunt to judge; ' : F.diedFirst ? `the page was caught at ${died[0]} s, before its breath ran low: no long hunt to judge; ` : ''}stamina down to ${S.stMin}, ${back ? 'back over 60 after' : 'never back over 60'}; ${F.chases} chases, ${F.presses} presses, ${leaves} departures; the page died ${deaths} times; fastest ${S.vmax} px/s${S.crossings.length ? ` (the engine's crossings excepted: ${S.crossings.map(c => `${c.prop}, ${c.vmax} px/s`).join(', ')})` : ''}`;
+  });
+  R.errors = { A: A.errs, B: Bp.errs }; await A.ctx.close();
+  if (VIDEO) { const v = A.P.video && A.P.video(); if (v) R.videoFile = path.basename(await v.path()); }
+  R.pass = R.S.every(F => F.ok !== false) && !A.errs.length && !Bp.errs.length;
+  if (ARG.raw) fs.writeFileSync(ARG.raw, require('zlib').gzipSync(JSON.stringify({ ids: R.ids, scenes: RAWS })));   // (R18: every scene's records, both pages - for analysis)
 }
 /* ---------------------------------------------------------------- the continuous campaign */
 const SPOTS = [{ x: 3300, y: LONG }, { x: 4200, y: LONG }, { x: 5000, y: LONG }, { x: 5600, y: LONG }, { x: 5600, y: LONG - 600 }, { x: 6400, y: LONG }, { x: 7200, y: LONG }, { x: 8200, y: LONG }, { x: 5600, y: LONG - 300 }, { x: 5000, y: LONG + 400 }];
@@ -380,11 +652,12 @@ if (ARG.part === 'judge') { const X = JSON.parse(require('zlib').gunzipSync(fs.r
   const { p: srv, port, qa } = await B.serve();
   const b = await B.pw.chromium.launch({ args: B.LAUNCH });
   const R = { tool: 'dev/trial-3-r9-overhaul/tools/r16g_campaign.js', part: ARG.part, chromium: b.version(), tree: path.basename(B.DIR) };
-  try { if (ARG.part === 'continuous') await continuous(b, port, R, qa); else await focused(b, port, R, qa); }
+  try { if (ARG.part === 'continuous') await continuous(b, port, R, qa); else if (ARG.part === 'threat') await threat(b, port, R, qa); else await focused(b, port, R, qa); }
   catch (e) { R.error = e && e.stack ? e.stack.split('\n').slice(0, 4).join(' | ').replace(/\/[^\s|:]*\//g, '') : String(e); }
   finally { for (const f of R.closers || []) await f().catch(() => { }); delete R.closers; await b.close().catch(() => { }); try { process.kill(srv.pid); } catch (e) { } }
   if (R.checks) { for (const c of R.checks) console.log((c.ok ? 'PASS ' : 'FAIL ') + c.id + '  ' + c.why); console.log(`events: ${JSON.stringify(R.events)}; deaths ${JSON.stringify(R.deaths)}; ${R.secs} s; samples ${JSON.stringify(R.samples)}; frames a second ${JSON.stringify(R.fps)}`); }
   if (R.F) console.log(`FOCUSED: ${R.pass ? 'PASS' : 'FAIL'} - ${R.F.filter(F => F.ok).length} of ${R.F.length}`);
+  if (R.S) console.log(`THREAT: ${R.pass ? 'PASS' : 'FAIL'} - ${R.S.filter(F => F.ok).length} of ${R.S.length}${R.S.some(F => F.ok === null) ? `, not judged ${R.S.filter(F => F.ok === null).length}` : ''}`);
   if (R.checks) console.log(`CONTINUOUS: ${R.pass ? 'PASS' : 'FAIL'}`);
   if (R.error) console.log('ERROR ' + R.error);
   if (ARG.out) fs.writeFileSync(path.resolve(ARG.out), JSON.stringify(R, null, 1) + '\n');

@@ -31,8 +31,8 @@ const SKP = Object.freeze({
   again: .6,                                     // seconds between two forced reassessments about the same person
   awayFor: 1.5,                                  // seconds a lure's or an ambush's quarry is seen going away before the wait is given up
   awayV: 60,                                     // px/s away from it that counts as going away (not coming)
-  left: [[.6, 15], [.8, 8], [1.01, 4]],          // from hunger .4 (skLeave; fed, R8's SK.cooldown): hunger under -> seconds it leaves a person alone (R8: 30-60, starving 12)
-  refr: [[.4, 1e9], [.6, 10], [.8, 6], [1.01, 3]],            // hunger under -> seconds after leaving before fresh sight may take them up
+  left: [[.6, 8], [.8, 4], [1.01, 2]],           // from SK.huntHunger (skLeave; fed, SK.cooldown): hunger under -> seconds it leaves a person alone (R18; R16d 15/8/4, R8: 30-60, starving 12)
+  refr: [[.3, 1e9], [.45, 8], [.7, 4], [1.01, 2]],            // hunger under -> seconds after leaving before fresh sight may take them up (R18; R16d .4/1e9, .6/10, .8/6, 3)
 });
 const SKP_LOW = new Set(['leave']), SKP_TACT = new Set(['approach', 'flank', 'intercept', 'lure', 'ambush', 'chase', 'retreat', 'watch', 'mingle']);
 const skStep = (T, h) => { for (const [lim, v] of T) if (h < lim) return v; return T[T.length - 1][1]; };

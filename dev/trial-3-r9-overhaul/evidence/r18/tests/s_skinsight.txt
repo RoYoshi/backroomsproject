@@ -1,0 +1,22 @@
+PASS V01 a Skin-Stealer 1 px behind a wall, close by (60 px from the player, lit beyond it): no new heartbeat, no sting - for 3 s  [8ms]
+       ks max 0.000, stings 0 (the wall at x 40-60, its centre at 85; every ray stopped at the wall)
+PASS V02 an undisguised Skin-Stealer on screen, in sight and lit (260 px, a lamp over it): the heartbeat comes in within 0.3 s and one sting plays; out of sight it goes within the release (0.5 s), no second sting while it stays  [6ms]
+       onset at 0.117 s, ks max 0.76, stings 1 at 0.12 s; gone (removed from the list at 4 s) ks 0 by 4.38 s
+PASS V03 / V05 darkness and the screen: in sight but in the dark (no lamp, torch off, 300 px) - nothing; lit but outside the screen (in the sight mask) - nothing; lit on screen - the cue  [9ms]
+       dark: ks 0.000 stings 0 | off screen: ks 0.000 stings 0 | lit on screen: ks 0.76 stings 1
+PASS V04 a torch reveals it: in the dark 300 px ahead, the torch off - nothing; the torch on, aimed at it - the cue comes in (onset, one sting); the torch off again - it fades within the release  [6ms]
+       before the torch: ks 0; the torch on at 2 s: onset 2.12 s, stings 1; off at 4 s: ks 0 by 4.35 s
+PASS V06 a glimpse is not a sighting: a body flickering at a wall edge (seen one frame in two, or one frame in ten) confirms nothing - no sting, no heartbeat; a real sighting with one-frame drop-outs stings once  [18ms]
+       every other frame: ks 0.000 stings 0 | one frame in ten: ks 0.000 stings 0 | seen with a one-frame drop-out every 0.5 s: stings 1, ks max 0.76
+PASS V08 a hidden sprint: a Skin-Stealer running past behind a wall (300 px a second, 120-260 px from the player) - no cue at all (its footsteps are skin.audio's, physical, and untouched)  [4ms]
+       ks max 0, stings 0 (it ran from x -400 to 500 at y 180, the hall's wall at y 100-120 between)
+PASS V09 a convincing disguise is never given away: the same lit body in a borrowed skin (dg) - nothing; the skin drops (its wind-up) - the cue at once (onset, one sting)  [3ms]
+       in the skin: ks 0; the skin gone at 2 s: onset 2.12 s, stings 1
+PASS V11 several in sight: three lit Skin-Stealers - one heartbeat level (the strongest, never above 1), one sting (not three); the next sting only after the gap and a real loss  [27ms]
+       ks max 0.81; stings 2 at 0.12/9.13 s (three in sight from 0 s; none 5-9 s; three again from 9 s)
+PASS V12 no Skin-Stealer in sight, every output of the dread hook is R8's: 40 s of a Hound walking up and away and two Smilers drifting - thumps, drone, vignette, shake, flicker and stings frame by frame, R8's mp.frame.js against this tree's (none; one behind a wall); and with one in sight only the heartbeat and its sting differ  [288ms]
+       R8 vs this tree, no Skin-Stealer: identical (4985 records: 122 thumps, 2 stings); one behind a wall: identical; one far out of sight: identical; one in sight 260 px: thumps 122 -> 162, stings 2 -> 3, drone unchanged, vignette and shake unchanged
+PASS V13 one sting, not two, either way round (R16, the independent review): the Hound's sting falls due just after a Skin-Stealer's - only one plays (R10 already kept a Skin-Stealer's sting from doubling the Hound's); with no Skin-Stealer every output is R8's (V12)  [96ms]
+       the Hound's sting alone at 12.8/24.13 s; a Skin-Stealer in sight from 12.40 s: stings at 12.52/24.13 s - 1 between 12.40 and 14.00 s (the Skin-Stealer's)
+
+10/10 passed

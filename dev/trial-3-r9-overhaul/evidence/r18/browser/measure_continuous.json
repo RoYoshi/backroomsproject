@@ -1,0 +1,364 @@
+[
+ {
+  "label": "R18",
+  "minutes": 12.1,
+  "creatures": 2,
+  "deaths": {
+   "A": 10,
+   "B": 6
+  },
+  "modes": {
+   "still": 142.4,
+   "stealth": 46.2,
+   "casual": 726.4,
+   "prowl": 0.3,
+   "investigation": 0.4,
+   "aggressive": 1.7,
+   "pursuit": 1.7
+  },
+  "strikeKill": 40.8,
+  "acts": {
+   "none": 806.5,
+   "listen": 55.6,
+   "pace": 2.8,
+   "chase": 0.9,
+   "back": 0.6,
+   "wind": 0.5,
+   "pounce": 0.4,
+   "feed": 39.8,
+   "leave": 44,
+   "watch": 4.4,
+   "mimic": 1.7,
+   "intercept": 0.9,
+   "creep": 1.7,
+   "approach": 0.1
+  },
+  "activeSpeed": 170,
+  "idleRoam": 61.7,
+  "idleFed": 0,
+  "idleFar": 74.2,
+  "watching": 4.4,
+  "begun": {
+   "approach": 2,
+   "roam": 7,
+   "feed": 3,
+   "leave": 3,
+   "mingle": 2,
+   "chase": 1
+  },
+  "presses": 1,
+  "reaction": {
+   "n": 0,
+   "median": null,
+   "p90": null
+  },
+  "encounters": {
+   "n": 6,
+   "captures": 3,
+   "escapes": 3,
+   "note": "captures from page A's own death flag; page B's deaths are in the campaign's tally (deaths)"
+  },
+  "stamina": {
+   "mean": 100,
+   "under40s": 0,
+   "exhaustions": 0,
+   "recoveries": 0
+  },
+  "ignored": [
+   {
+    "t": 483.1,
+    "id": 15,
+    "page": "A",
+    "plan": "roam",
+    "d": 24,
+    "hunger": 1
+   }
+  ],
+  "overRun": 18,
+  "share": {
+   "still": 15,
+   "stealth": 5,
+   "casual": 76,
+   "prowl": 0,
+   "investigation": 0,
+   "aggressive": 0,
+   "pursuit": 0
+  },
+  "perMinute": {
+   "approach": 0.17,
+   "roam": 0.58,
+   "feed": 0.25,
+   "leave": 0.25,
+   "mingle": 0.17,
+   "chase": 0.08,
+   "press": 0.08
+  }
+ },
+ {
+  "label": "R16i (same session)",
+  "minutes": 12,
+  "creatures": 2,
+  "deaths": {
+   "A": 10,
+   "B": 3
+  },
+  "modes": {
+   "still": 231.1,
+   "stealth": 488.4,
+   "casual": 227.6,
+   "prowl": 4,
+   "investigation": 2.2,
+   "aggressive": 2.3,
+   "pursuit": 0.4
+  },
+  "strikeKill": 37.2,
+  "acts": {
+   "none": 805.9,
+   "listen": 118.9,
+   "pace": 5.7,
+   "chase": 4.2,
+   "wind": 0.5,
+   "pounce": 0.3,
+   "recover": 2.1,
+   "approach": 3.1,
+   "back": 0.2,
+   "feed": 34.4,
+   "leave": 17.6,
+   "search": 0.3
+  },
+  "activeSpeed": 206,
+  "idleRoam": 121.1,
+  "idleFed": 0.1,
+  "idleFar": 104.8,
+  "watching": 0,
+  "begun": {
+   "approach": 4,
+   "chase": 1,
+   "roam": 9,
+   "feed": 2,
+   "mingle": 2,
+   "leave": 1,
+   "listen": 3,
+   "search": 1
+  },
+  "presses": 3,
+  "reaction": {
+   "n": 0,
+   "median": null,
+   "p90": null
+  },
+  "encounters": {
+   "n": 3,
+   "captures": 2,
+   "escapes": 1,
+   "note": "captures from page A's own death flag; page B's deaths are in the campaign's tally (deaths)"
+  },
+  "stamina": {
+   "mean": 99,
+   "under40s": 1.2,
+   "exhaustions": 0,
+   "recoveries": 0
+  },
+  "ignored": [],
+  "overRun": 9,
+  "share": {
+   "still": 23,
+   "stealth": 49,
+   "casual": 23,
+   "prowl": 0,
+   "investigation": 0,
+   "aggressive": 0,
+   "pursuit": 0
+  },
+  "perMinute": {
+   "approach": 0.33,
+   "chase": 0.08,
+   "roam": 0.75,
+   "feed": 0.17,
+   "mingle": 0.17,
+   "leave": 0.08,
+   "listen": 0.25,
+   "search": 0.08,
+   "press": 0.25
+  }
+ },
+ {
+  "label": "R16i (R17's run)",
+  "minutes": 12,
+  "creatures": 2,
+  "deaths": {
+   "A": 13,
+   "B": 13
+  },
+  "modes": {
+   "still": 314.4,
+   "stealth": 280.4,
+   "casual": 342.1,
+   "prowl": 0.3,
+   "investigation": 0.5,
+   "aggressive": 0.8,
+   "pursuit": 1
+  },
+  "strikeKill": 16.9,
+  "acts": {
+   "none": 799.8,
+   "listen": 76.3,
+   "pace": 21.4,
+   "chase": 1.1,
+   "wind": 0.1,
+   "pounce": 0.2,
+   "feed": 16.7,
+   "leave": 34.3,
+   "watch": 2.7,
+   "mimic": 1.7,
+   "search": 2
+  },
+  "activeSpeed": 163,
+  "idleRoam": 75.2,
+  "idleFed": 0.1,
+  "idleFar": 225.9,
+  "watching": 2.7,
+  "begun": {
+   "approach": 1,
+   "roam": 10,
+   "feed": 1,
+   "mingle": 4,
+   "leave": 2,
+   "listen": 3,
+   "search": 2
+  },
+  "presses": 1,
+  "reaction": {
+   "n": 1,
+   "median": 6.54,
+   "p90": 6.54
+  },
+  "encounters": {
+   "n": 6,
+   "captures": 3,
+   "escapes": 3,
+   "note": "captures from page A's own death flag; page B's deaths are in the campaign's tally (deaths)"
+  },
+  "stamina": "not in this record (R16i and earlier tools did not keep it)",
+  "ignored": [],
+  "overRun": 22,
+  "share": {
+   "still": 33,
+   "stealth": 29,
+   "casual": 36,
+   "prowl": 0,
+   "investigation": 0,
+   "aggressive": 0,
+   "pursuit": 0
+  },
+  "perMinute": {
+   "approach": 0.08,
+   "roam": 0.83,
+   "feed": 0.08,
+   "mingle": 0.33,
+   "leave": 0.17,
+   "listen": 0.25,
+   "search": 0.17,
+   "press": 0.08
+  }
+ },
+ {
+  "label": "R16h (R17's run)",
+  "minutes": 12,
+  "creatures": 2,
+  "deaths": {
+   "A": 3,
+   "B": 3
+  },
+  "modes": {
+   "still": 224.4,
+   "stealth": 571.3,
+   "casual": 128.2,
+   "prowl": 5.2,
+   "investigation": 1.4,
+   "aggressive": 3.4,
+   "pursuit": 0.7
+  },
+  "strikeKill": 59.2,
+  "acts": {
+   "none": 622.5,
+   "leave": 125.1,
+   "watch": 8.9,
+   "pace": 29.3,
+   "chase": 10.5,
+   "wind": 1.1,
+   "pounce": 1.5,
+   "recover": 3.3,
+   "approach": 3.3,
+   "listen": 112.5,
+   "search": 10.1,
+   "back": 3.4,
+   "feed": 53.3,
+   "mimic": 3.6,
+   "wait": 5.2
+  },
+  "activeSpeed": 150,
+  "idleRoam": 110.3,
+  "idleFed": 0.1,
+  "idleFar": 87.9,
+  "watching": 8.9,
+  "begun": {
+   "leave": 7,
+   "approach": 6,
+   "chase": 2,
+   "listen": 6,
+   "search": 3,
+   "retreat": 2,
+   "roam": 15,
+   "feed": 3,
+   "mingle": 6,
+   "intercept": 1
+  },
+  "presses": 0,
+  "reaction": {
+   "n": 4,
+   "median": 18.39,
+   "p90": 19.35
+  },
+  "encounters": {
+   "n": 13,
+   "captures": 3,
+   "escapes": 10,
+   "note": "captures from page A's own death flag; page B's deaths are in the campaign's tally (deaths)"
+  },
+  "stamina": "not in this record (R16i and earlier tools did not keep it)",
+  "ignored": [
+   {
+    "t": 568.8,
+    "id": 12,
+    "page": "A",
+    "plan": "roam",
+    "d": 21,
+    "hunger": 1
+   }
+  ],
+  "overRun": 14,
+  "share": {
+   "still": 23,
+   "stealth": 57,
+   "casual": 13,
+   "prowl": 1,
+   "investigation": 0,
+   "aggressive": 0,
+   "pursuit": 0
+  },
+  "perMinute": {
+   "leave": 0.58,
+   "approach": 0.5,
+   "chase": 0.17,
+   "listen": 0.5,
+   "search": 0.25,
+   "retreat": 0.17,
+   "roam": 1.25,
+   "feed": 0.25,
+   "mingle": 0.5,
+   "intercept": 0.08,
+   "press": 0
+  }
+ }
+]
