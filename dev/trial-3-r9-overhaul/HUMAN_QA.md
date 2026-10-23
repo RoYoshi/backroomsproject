@@ -24,7 +24,8 @@ Open `http://localhost:8000` and start an **online** run; two tabs or two browse
 * Press **`** (backquote), unlock with your passcode, then **K** with the panel open (not in a text field): the **SKIN** tab appears.
   **+ NEAR ME** puts one a few hundred px from you, out of sight where it can; **+ SKIN-STEALER** puts one far off in the dark. At most
   four; none ever appear by themselves (no ecology, no director).
-* **DEBUG** tab → overlay on, **ENTITY LABELS: FULL**. Its label: `HUNGER <value> <band>  PLAN <plan>`, `WHY …`, and (new in R16g)
+* **DEBUG** tab → overlay on, **ENTITY LABELS: FULL**. Its label: `HUNGER <value> <band>  PLAN <plan>`, `WHY …` (R16i: `… it comes on,
+  fast (its press)` when a very hungry one you have seen closes on you openly), and (new in R16g)
   `EYES SOUND | MOTION | SIGHT (its body turned): <what>` - what last turned its head - `FOOTWORK P<n> sideways <s> backing <s>` while it
   fights for its place close to somebody, and `CUT <plan> (<class>) <s>s ago: <why>` or `KEPT …` - the last time something it perceived
   cut its plan, or did not and why. `MOVE COVERT | OPEN | FEINT` says how it is moving (R13).
@@ -55,8 +56,11 @@ satiated, 0.2–0.4 mild, 0.4–0.6 hungry, 0.6–0.8 very hungry, 0.8+ starving
    was, never to your exact spot; stay quiet and it can miss you.
 4. **Hunger changes the answer (4 min).** The same meeting - lit, in its sight at about 500 px, looking at it - at hunger ≈0.25 and
    ≈0.9. *Expected:* fed, it notes you and goes its way or keeps its distance; starving, it comes for you: openly, or round you to come
-   from a side. Starving is active, never a spectator. It never grows faster than its run, never sees farther or through walls, and
-   never knows where you are without seeing or hearing you.
+   from a side. Starving is active, never a spectator. **New in R16i:** openly, once it is on your screen and very hungry (0.6+, rested),
+   it closes fast and upright - its *press*, 238 px/s, between its walk and its run - until it is about 340 px off, where it fights for
+   its place as in part 5; it spends breath doing so and stops pressing when winded. Fed (under 0.6), tired, unseen or disguised it does
+   not press. It never grows faster than its run (255), never sees farther or through walls, and never knows where you are without
+   seeing or hearing you. Judge whether the press feels purposeful and dangerous, or too fast.
 5. **Circle it, feint it (3 min), very hungry.** Run round it at 200–300 px, torch on, then reverse. *Expected:* it **faces you** and
    **steps sideways** after you, gives ground when you come at it, and places itself toward your way out (a doorway, the open corridor).
    Your reversal fools it for a moment (a few tenths of a second in the checks) - then it answers. It turns no faster than its kind can
@@ -83,8 +87,11 @@ satiated, 0.2–0.4 mild, 0.4–0.6 hungry, 0.6–0.8 very hungry, 0.8+ starving
 
 **C. Fairness and regression**
 
-13. **Fresh sprint (2 min).** Full stamina, run straight away down the long lit hall. *Expected:* you pull away. Winded, it is far more
-    dangerous. Its wind-up (about 0.2 s) always shows before a spring: step aside and that spring misses.
+13. **Fresh sprint (2 min).** Full stamina, run straight away down the long lit hall - also when it is pressing toward you. *Expected:*
+    you pull away (285 against its 238 press and 255 run). Winded, it is far more dangerous. Its wind-up (about 0.2 s) always shows before
+    a spring: step aside and that spring misses. **Your own movement is R8's exactly** - walk 172, a fresh sprint 285, crouch, crawl,
+    slide, vault, stamina, exhaustion and the floors' effects: nothing in it was changed on this branch (`dev/tests/s_wandererlock.js`,
+    WL01-WL06, proves it against R8). If your movement feels different, that is a finding.
 14. **Two people (3 min).** One stands in front of it, the other makes a sound behind it. *Expected:* its head turns to the sound while
     it deals with the first; it never knows whose footsteps they are until it sees someone.
 15. **No Skin-Stealer (2 min).** **− SKIN-STEALER** until none: Hounds and Smilers, their dread, deaths, chat and replays as before.
@@ -106,6 +113,8 @@ DEBUG LINES (EYES / CUT / KEPT / FOOTWORK / WHY), if any:
 PASS / MIXED / NEEDS CHANGES / BLOCKED:
 ```
 
-Deterministic versions of most parts, without a browser: `node dev/tests/run.js s_skinap.js` (P01–P18, the October 22 refinement) and
-`node dev/trial-3-r9-overhaul/tools/repro_ap.js` (the before/after probes); the real-page ones: `node
+Deterministic versions of most parts, without a browser: `node dev/tests/run.js s_skinap.js` (P01–P18, the October 22 refinement),
+`node dev/tests/run.js s_wandererlock.js` (the Wanderer's movement against R8), `node dev/trial-3-r9-overhaul/tools/repro_ap.js` (the
+before/after probes) and `node dev/trial-3-r9-overhaul/tools/press_eval.js --press 230` (or 238, 245: the press's meetings); the
+real-page ones: `node
 dev/trial-3-r9-overhaul/tools/r16g_campaign.js --part focused` (F1–F7) and `--part continuous --mins 12`.

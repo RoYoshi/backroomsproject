@@ -967,3 +967,80 @@ Checked again (`evidence/r16h/`): `s_skinsight` 10/10; `npm test` 324/337 with t
 inherited); the sight-only warning on real pages 12/12 twice - its first run, straight after `npm test`, failed 6 of 12 on page A as
 R16g's first two runs did (page A's frame hook did not run in the whole scene: its camera never came to it, no dread even from the
 Hound; R16g-7). All three runs are kept. The server is unchanged, so R16g's campaign, probes and the cost against R8 stand.
+
+## R16i — the Wanderer's movement locked; the Skin-Stealer's purposeful approach (the owner's clarification of October 22)
+
+**R16i-1 The clarification.** The owner: the Wanderer's movement is locked - walk 172 px/s, a fresh sprint 285 px/s, every crouch, crawl,
+slide, stamina, acceleration, exhaustion and surface modifier unchanged; only the Skin-Stealer's own movement and speed choices may be
+refined; its most (255 px/s) stays under the fresh sprint; 230-245 px/s is to be evaluated for purposeful aggressive approaches without
+becoming its walking speed; nothing of the Hound, the Smiler or another entity may change; a regression check must prove the Wanderer's
+movement unchanged. **No Wanderer movement file was ever changed on this branch** (R9 to R16h): `git diff f378049` touches nothing in
+`src/frameworks/space/`, the surfaces, `move.js`'s other parts, the server's step or `server.js`.
+
+**R16i-2 The proof: `dev/tests/s_wandererlock.js`, WL01-WL06** (in `npm test`):
+- WL01 the constants by value in the server's `world.js` and the page's, each equal to R8's (git `f378049`), and every key of the world
+  module (props, crawlspaces, surfaces, functions by their source) R8's.
+- WL02 23 files byte for byte R8's - the S.P.A.C.E. framework (the constants, the page's mover, the server's movement check, the other
+  Wanderers' bodies), the surfaces, `move.poses.js` and `move.sound.js`, `sim.js`, `sim.step.js`, `server.js`, and the built `move.js`,
+  `world.js` (the page's and the server's) and timing policy - by pinned hashes (no git needed) and by git; the framework's file set R8's.
+- WL03 the real `move.js` run headless (as `dev/move_model.js` runs it for every scripted player): this tree's and R8's give the same
+  ticks in nine movements - walk, sprint, crouch, crawl, slide, vault, deep carpet, recovery, a 20 s sprint to exhaustion; 6,000 ticks
+  each - and the speeds reached are the constants: walk 172.0, fresh sprint 285.0, crouch 92.0, crawl 54.0, winded 148.0 px/s, a sprint
+  drains 10.50 a second and winds the Wanderer at 9.50 s, recovery at 36.
+- WL04 four starving Skin-Stealers among four players for 30 s: `MOVE`, `NOISE`, `PROFILE`, `SURF`, `S`, `SN` the same objects with the
+  same values afterwards; no Skin-Stealer file names the movement table.
+- WL05 the Hound's and the Smiler's species (speeds, caps, senses, hooks), their acts and the traits are R8's (R8's `ai.js` compiled in
+  the test); `ai.head.js`, `ai.senses.js`, `ai.intelligence.js`, `ai.engine.js`, `ai.entity.js`, `ai.hound.js`, `ai.smiler.js` byte for
+  byte R8's; `ai.capture.js` one line apart (R15's, which only a Skin-Stealer reaches).
+- WL06 the Skin-Stealer's own speeds: R8's eight unchanged (roam 105 ... run 255); `press` the only one added, inside 230-245; its most is
+  its run, under 285.
+
+On R16h (before the press) WL01-WL05 pass and WL06 fails (no press yet): the lock is not something R16i had to restore.
+
+**R16i-3 The press** (`ai.skinstealer.js` only: its species table and its open approach). `speeds.press = 238`. It is used in one place: an
+open approach (R13's `mode: 'open'`, not a lost race's trail) by one that may give chase (`skMayRun`: very hungry, 0.6+; not winded; stamina
+at least 40; no race lost to this person in the last 10 s), already shown (on somebody's screen now - R13's exposure: a clear line and
+enough light, whichever way they face - or on theirs within `SK.pressShown`, 2 s: nothing left to hide) and still beyond its footwork's
+range (`SKF.near`, 340 px). There it closes upright and fast (the `pace` act; its stride is measured from its speed) instead of stalking at
+90 or pacing their speed plus 30; within 340 px its footwork (R16f) or its creep goes on as before. 238 is over `runFrom` (200), so the
+press spends stamina (about 13 a second) and ends of itself when its breath falls under 40. Not pressed: an approach nobody has seen (it
+stalks), a fed or mildly hungry one (its pace), a lost race's trail (it lags, R7), a winded or tired one, a disguised one (150 at most). Its
+walk (roam 105; a starving prowl at most 147), its run (255: chase, rush, interception, footwork when it may run) and every other speed are
+R8's. The overlay's `WHY` says when a press begins (`P<n> sees it and it is very hungry: it comes on, fast (its press)`) and its record
+counts `press`.
+
+**R16i-4 The evaluation** (`tools/press_eval.js`, `evidence/r16i/press/`): six meetings in the long lit hall, 6 seeds each, the same on
+R16h's tree and on R16i's with its press at 230, 238 and 245 - a lit person 650 px off who stands and watches it come; who walks away (172
+px/s, their own `move.js`) once it is within 560 px, to the hall's end; who sprints away fresh (285 px/s) from there; a dark person with
+their back to it; one at hunger 0.5; one at stamina 15. In one seed of six it never takes the person up (it roams on: R16h alike).
+
+| Tree | stands and watches: pressed | its footwork's range reached | caught | walks away: caught | fresh sprint: caught | unseen: its top px/s | fed .5 / tired 15: pressed |
+|---|---|---|---|---|---|---|---|
+| R16h (no press) | none | 3.88-3.98 s | 5 of 6 at 5.4-5.5 s | 2 of 6 | 0 of 6 (gap 204-1746 px) | 140.8-142.5 | 0 / 0 |
+| press 230 | 5 of 6, 0.92-0.93 s at 229.3 px/s | 2.02-2.07 s | 5 of 6 at 3.4-3.5 s | 5 of 6 | 0 of 6 (gap 203-1746 px) | 142.5-230 | 0 / 0 |
+| **press 238 (kept)** | 5 of 6, 0.88-0.9 s at 236.8 px/s | 1.98-2.03 s | 5 of 6 at 3.38-3.45 s | 5 of 6 | 0 of 6 (gap 203-1746 px) | 142.5-238 | 0 / 0 |
+| press 245 | 5 of 6, 0.85-0.88 s at 243.3 px/s | 1.95-2.02 s | 5 of 6 at 3.37-3.43 s | 5 of 6 | 0 of 6 (gap 203-1746 px) | 142.5-245 | 0 / 0 |
+
+The three speeds differ by hundredths of a second over a press that lasts about 0.9 s: in the stand-off it reaches its footwork's range 1.9
+s sooner than R16h's stalk and takes a person who stands and watches it 2 s sooner. A person who walks away from a seen, very hungry one is
+now given chase (5 of 6; R16h went from approach to watch and back in 3 of 6 and lost them) and caught where the hall ends; a fresh sprint
+is never caught at any of the three, and the gap at the end is R16h's. Fed, tired or unseen it does not press (the unseen one's 0.1 s is the
+moment its model of their screen - a clear line and enough light, whichever way they face - said they could make it out). **238 is kept**:
+the middle of the owner's range, 17 px/s under its run and 47 under a fresh sprint; 230 and 245 are measured and not chosen (no meeting
+tells them apart).
+
+**R16i-5 One test changed, its scene only: PR28** (R7: what it spent on A is still A's after its attention has been on B). Its first phase
+ran a fixed 4 s with A lit in the long hall, 600 px off; at R16i A has it on their screen, so it presses and reaches A sooner, and in 3 of 6
+seeds it was winding up its spring on A when the scene moved A away - a strike holds its attention, so it never turned to B, and the test's
+own count of judged runs (at least 4 of 6) failed at 3 while its invariant held in all 6 (A's 3.85 s kept, taken up again at 3.81 s:
+`evidence/r16i/pr28_unbounded_on_r16i.txt`). The first phase now ends once it has spent 3 s on A (its effort of at least 2 s is still
+required): 6 of 6 judged, the effort kept (3.03 s; 3.00 when it sees A again), and the same 6 of 6 and the same numbers on R16h's code
+(`pr28_bounded_on_r16h.txt`) - the change hides nothing R16h did. The pass condition is unchanged: not a loosening.
+
+**R16i-6 Checked** (`evidence/r16i/`): every Skin-Stealer suite passes - `s_skinap` 18/18, `s_skinstealer` 34/34, `s_skinbehave` 19/19,
+`s_skinpredator` 30/30, `s_skinsight` 10/10, `s_skinmind` 15/15, `s_skinroute` 15/15, `s_skinr9` 1/1, `s_skinbody` 11/11, `s_skinrend` 8/8,
+`s_skinadv` 9/9, `s_skinr16` 5/5 - and `s_wandererlock` 6/6; `npm test` 330/343 with the same 13 inherited failures by name; the Human QA
+hotfix 5/6 (X03 inherited); `build:check`, the parts, modules, facts, window-contract and docs checks and the scope gate. The lock suite run
+on R8's own tree passes WL01-WL04; there WL05 and WL06 fail on exactly the two things this branch meant to change in what they check - R15's
+capture line (only a Skin-Stealer reaches it) and the press (`wandererlock_on_r8.txt`). On R16h's tree WL01-WL05 pass
+(`wandererlock_on_r16h.txt`). The before/after probes (`repro_r16i.*`) are R16g's to the digit: none of their scenes is a press.

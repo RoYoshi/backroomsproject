@@ -220,6 +220,7 @@ const SK = Object.freeze({
   flankMax: 3, flankDur: 8, flankMin: 220,       // flanks in one hunt; the longest a flank lasts; the nearest to them a flank spot is
   flankCome: 6,                                  // seconds it comes on from a flank toward where it believes them before it stops to listen
   chaseRest: 10,                                 // seconds after a lost race before it gives chase again
+  pressShown: 2,                                 // (R16i) s: seen by them this lately, its approach is no secret - it may press (speeds.press)
   shadowPace: .85,                               // (R7) keeping to a runner's trail after a lost race: this share of their speed (at most its free pace) - a
                                                  //  person who keeps moving, even winded (148 px/s), keeps their lead; one who stops or turns back is reached
   leftFresh: 4,                                  // a starving one takes up a person it left at least this long ago, on fresh sight
@@ -265,7 +266,10 @@ const SKIN = {
   // not a dark-seer: a lightless person in the dark is seen only from close by, as the Hound sees
   vision: { range: 760, fov: 2.5, dark: false, gain: 2.6, floor: 90 },
   // run: 0.89 x a fresh sprint (285 px/s) - it loses a straight race to a rested runner and gains on a winded one (<= 219 px/s)
-  speeds: { roam: 105, creep: 62, stalk: 90, disguise: 150, run: 255, fatigued: 180, follow: 105, flank: 170 },   // (R1: flank - a quick move to cover, under a person's walk and under the pace that costs it stamina)
+  speeds: { roam: 105, creep: 62, stalk: 90, disguise: 150, run: 255, fatigued: 180, follow: 105, flank: 170, press: 238 },   // (R1: flank - a quick move to cover, under a person's walk and under the pace that costs it stamina)
+  // (R16i, the owner's clarification of October 22) press: a purposeful approach - very hungry, already in their view, free to run - in the
+  // owner's 230-245 px/s: over runFrom (it spends stamina), under its run (255, its most) and so under a fresh Wanderer's sprint (285, which
+  // is not changed: the Wanderer's movement is locked); never its walk (roam) nor a hidden approach's
   evidence: { sight: 3, sound: 1.5, light: 1.6 },               // (ai.intelligence.js evidenceWeights: its own, never the Smiler's)
   /* its kills (ai.capture.js): always quick, committed for its own death lengths (dphys.js DURS.SkinStealer), one of three - (R15) or,
    * rarely, the fourth: D, the Rend */
@@ -1372,6 +1376,17 @@ function skAct(eng, e, dt, thinkNow) {
       // creeps as before
       if (P.rush) { setAct(e, 'chase'); follow(eng, e, dt, skSpeed(e, 'run'), { arrive: 40 }); return; }
       if (thinkNow) P.inView = P.mode === 'open' && skExposedNow(eng, e).length > 0;   // (in somebody's view: it walks openly; unseen yet, it stalks)
+      // (R16i) a purposeful approach: very hungry and free to run (skMayRun - its hunger, its breath, no race lost to them lately), shown
+      // already (in somebody's view now, or in theirs within SK.pressShown: nothing left to hide), and still beyond its footwork's range, it
+      // closes on them at its press, upright and fast - not its run (a chase, 255) and never faster than its breath allows (skCap); within
+      // SKF.near its footwork or its creep goes on as before.  Not pressed: an approach nobody has seen (it stalks), a fed or mildly hungry
+      // one (its pace), a lost race's trail (it lags), a winded one
+      const o = e.mind && e.mind.obs.get(r.id), shown = P.inView || !!(o && now - o.sawAt < SK.pressShown);
+      const press = P.mode === 'open' && !P.shadow && shown && d > SKF.near && skMayRun(eng, e, r);
+      if (press) {
+        if (!P.press) { P.press = now; e.tally.press = (e.tally.press || 0) + 1; e.dbg.why = `P${r.id} sees it and it is very hungry: it comes on, fast (its press)`; }
+        setAct(e, 'pace'); follow(eng, e, dt, skSpeed(e, 'press'), { arrive: 60 }); return;   // (skSpeed: never over its breath's cap)
+      }
       setAct(e, P.inView && !P.shadow ? (creep && !pace ? 'creep' : 'pace') : creep && !pace ? 'creep' : 'approach');
       follow(eng, e, dt, pace ? Math.min(pace, skCap(e)) : skSpeed(e, creep ? 'creep' : 'stalk'), { arrive: pace ? 60 : SK.approachStop - 10 });
       return;

@@ -1,0 +1,15 @@
+PASS WL01 the Wanderer's movement constants by value: walk 172, a fresh sprint 285, crouch 92, crawl 54, winded 148, the stamina, slide and vault numbers, the surfaces, the noise and the body heights - the server's copy and the page's alike, each equal to R8's  [47ms]
+       walk 172, sprint 285, crouch 92, crawl 54, winded 148; sprint drain 10.5/s, recovery at 36, winded acceleration x0.62; surfaces carpet/deep/concrete/wet; the page's copy the same; and every key of the whole world module (props, crawlspaces, surfaces, functions by their source) is R8's
+PASS WL02 every file that moves a Wanderer or sets how it moves is R8's byte for byte - the S.P.A.C.E. framework (constants, the page's mover, the server's movement check, the other Wanderers' bodies), the surfaces, the parts built into move.js, the server's step, and the built move.js, world.js and timing policy - and nothing was added among them  [118ms]
+       23 files equal to R8's pinned hashes, 23 of them also to git's f378049; the framework's 13 files the same set as R8's
+PASS WL03 the real move.js, run headless: this tree's and R8's give the same ticks in every movement (walk, sprint, crouch, crawl, slide, vault, deep carpet, recovery, a 20 s sprint to exhaustion), and the speeds reached are the constants - walk 172, fresh sprint 285, crouch 92, crawl 54, winded 148  [1771ms]
+       9 movements, 6000 ticks each the same from R8's move.js; walk 172.0, fresh sprint 285.0, crouch 92.0, crawl 54.0 (38 ticks), winded 148.0 px/s; a sprint drains 10.50/s and winds it at 9.50 s; recovered at 36.5 stamina
+PASS WL04 four starving Skin-Stealers among four players for 30 s: the shared movement constants are the same objects with the same values after as before (nothing writes them), and no Skin-Stealer file reads or writes them  [279ms]
+       MOVE, NOISE, PROFILE, SURF, S, SN the same objects, the same values, after 30 s; 7 Skin-Stealer files never name them; its fastest 176.0 px/s, the players' 285.0 (their own move.js)
+PASS WL05 the Hound and the Smiler: their species (speeds, caps, senses, hooks) are R8's, and their code and the shared engine's are R8's byte for byte (ai.capture.js but for R15's one line, which only a Skin-Stealer reaches)  [76ms]
+       Hound (roam 92, stalk 84, investigate 122, search 134, chase 292, retreat 235, frustrated 150) and Smiler (roam 80, approach 92, investigate 118, creep 34, drift 40, chase 255, rush 300, retreat 110) and their acts and traits as at R8; 7 parts byte for byte; ai.capture.js one line apart (line 120, R15)
+FAIL WL06 the Skin-Stealer's own speeds, every one under a fresh Wanderer's sprint (285): its run, its most, 255 as at R8; its walk (roam) as at R8; R16i's purposeful approach (press) inside 230-245 and the only speed added since R8  [0ms]
+       added since R8: none; press undefined; a press would cost it no stamina
+
+5/6 passed
+FAILED: WL06 the Skin-Stealer's own speeds, every one under a fresh Wanderer's sprint (285): its run, its most, 255 as at R8; its walk (roam) as at R8; R16i's purposeful approach (press) inside 230-245 and the only speed added since R8

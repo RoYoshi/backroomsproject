@@ -1,0 +1,652 @@
+{
+ "tree": "r9-overhaul",
+ "press": 238,
+ "seeds": 6,
+ "runs": [
+  {
+   "scene": "stand",
+   "seed": 1,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "vmax": 255,
+   "pressS": 0.9,
+   "pressV": 236.8,
+   "stamMin": 55,
+   "within340": 2.03,
+   "caught": 3.43,
+   "fled": null,
+   "gapEnd": 39,
+   "press": 1
+  },
+  {
+   "scene": "stand",
+   "seed": 2,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "vmax": 255,
+   "pressS": 0.9,
+   "pressV": 236.8,
+   "stamMin": 55,
+   "within340": 2.02,
+   "caught": 3.42,
+   "fled": null,
+   "gapEnd": 39,
+   "press": 1
+  },
+  {
+   "scene": "stand",
+   "seed": 3,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "vmax": 255,
+   "pressS": 0.88,
+   "pressV": 236.8,
+   "stamMin": 55,
+   "within340": 1.98,
+   "caught": 3.38,
+   "fled": null,
+   "gapEnd": 40,
+   "press": 1
+  },
+  {
+   "scene": "stand",
+   "seed": 4,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "vmax": 255,
+   "pressS": 0.9,
+   "pressV": 236.8,
+   "stamMin": 55,
+   "within340": 2.03,
+   "caught": 3.45,
+   "fled": null,
+   "gapEnd": 38,
+   "press": 1
+  },
+  {
+   "scene": "stand",
+   "seed": 5,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "vmax": 255,
+   "pressS": 0.9,
+   "pressV": 236.8,
+   "stamMin": 55,
+   "within340": 2,
+   "caught": 3.4,
+   "fled": null,
+   "gapEnd": 41,
+   "press": 1
+  },
+  {
+   "scene": "stand",
+   "seed": 6,
+   "plans": [
+    "roam"
+   ],
+   "vmax": 142.5,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 100,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 1746,
+   "press": 0
+  },
+  {
+   "scene": "walk",
+   "seed": 1,
+   "plans": [
+    "roam",
+    "approach",
+    "chase",
+    "approach",
+    "roam"
+   ],
+   "vmax": 255,
+   "pressS": 0.1,
+   "pressV": 227.3,
+   "stamMin": 19,
+   "within340": 3.7,
+   "caught": 10.43,
+   "fled": 1.1,
+   "gapEnd": 42,
+   "press": 1
+  },
+  {
+   "scene": "walk",
+   "seed": 2,
+   "plans": [
+    "roam",
+    "approach",
+    "chase",
+    "approach",
+    "roam"
+   ],
+   "vmax": 255,
+   "pressS": 0.1,
+   "pressV": 227.3,
+   "stamMin": 19,
+   "within340": 3.68,
+   "caught": 10.43,
+   "fled": 1.08,
+   "gapEnd": 38,
+   "press": 1
+  },
+  {
+   "scene": "walk",
+   "seed": 3,
+   "plans": [
+    "roam",
+    "approach",
+    "chase",
+    "approach",
+    "roam"
+   ],
+   "vmax": 255,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 19,
+   "within340": 3.67,
+   "caught": 10.4,
+   "fled": 1.03,
+   "gapEnd": 41,
+   "press": 1
+  },
+  {
+   "scene": "walk",
+   "seed": 4,
+   "plans": [
+    "roam",
+    "approach",
+    "chase",
+    "approach",
+    "roam"
+   ],
+   "vmax": 255,
+   "pressS": 0.1,
+   "pressV": 227.3,
+   "stamMin": 19,
+   "within340": 3.7,
+   "caught": 10.45,
+   "fled": 1.1,
+   "gapEnd": 37,
+   "press": 1
+  },
+  {
+   "scene": "walk",
+   "seed": 5,
+   "plans": [
+    "roam",
+    "approach",
+    "chase",
+    "approach",
+    "roam"
+   ],
+   "vmax": 255,
+   "pressS": 0.1,
+   "pressV": 227.3,
+   "stamMin": 19,
+   "within340": 3.67,
+   "caught": 10.42,
+   "fled": 1.07,
+   "gapEnd": 40,
+   "press": 1
+  },
+  {
+   "scene": "walk",
+   "seed": 6,
+   "plans": [
+    "roam"
+   ],
+   "vmax": 142.5,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 100,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 1746,
+   "press": 0
+  },
+  {
+   "scene": "sprint",
+   "seed": 1,
+   "plans": [
+    "roam",
+    "approach",
+    "chase",
+    "approach"
+   ],
+   "vmax": 255,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 43,
+   "within340": 9.83,
+   "caught": null,
+   "fled": 1.1,
+   "gapEnd": 205,
+   "press": 1
+  },
+  {
+   "scene": "sprint",
+   "seed": 2,
+   "plans": [
+    "roam",
+    "approach",
+    "chase",
+    "approach"
+   ],
+   "vmax": 255,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 43,
+   "within340": 9.82,
+   "caught": null,
+   "fled": 1.08,
+   "gapEnd": 204,
+   "press": 1
+  },
+  {
+   "scene": "sprint",
+   "seed": 3,
+   "plans": [
+    "roam",
+    "approach",
+    "chase",
+    "approach",
+    "intercept",
+    "approach"
+   ],
+   "vmax": 255,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 43,
+   "within340": 9.92,
+   "caught": null,
+   "fled": 1.03,
+   "gapEnd": 210,
+   "press": 1
+  },
+  {
+   "scene": "sprint",
+   "seed": 4,
+   "plans": [
+    "roam",
+    "approach",
+    "chase",
+    "approach"
+   ],
+   "vmax": 255,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 43,
+   "within340": 9.83,
+   "caught": null,
+   "fled": 1.1,
+   "gapEnd": 205,
+   "press": 1
+  },
+  {
+   "scene": "sprint",
+   "seed": 5,
+   "plans": [
+    "roam",
+    "approach",
+    "chase",
+    "approach"
+   ],
+   "vmax": 255,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 43,
+   "within340": 9.8,
+   "caught": null,
+   "fled": 1.07,
+   "gapEnd": 203,
+   "press": 1
+  },
+  {
+   "scene": "sprint",
+   "seed": 6,
+   "plans": [
+    "roam"
+   ],
+   "vmax": 142.5,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 100,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 1746,
+   "press": 0
+  },
+  {
+   "scene": "unseen",
+   "seed": 1,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "vmax": 238,
+   "pressS": 0.1,
+   "pressV": 227.4,
+   "stamMin": 78,
+   "within340": 2.33,
+   "caught": 5.53,
+   "fled": null,
+   "gapEnd": 39,
+   "press": 1
+  },
+  {
+   "scene": "unseen",
+   "seed": 2,
+   "plans": [
+    "roam"
+   ],
+   "vmax": 142.5,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 100,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 1853,
+   "press": 0
+  },
+  {
+   "scene": "unseen",
+   "seed": 3,
+   "plans": [
+    "roam"
+   ],
+   "vmax": 142.5,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 100,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 1377,
+   "press": 0
+  },
+  {
+   "scene": "unseen",
+   "seed": 4,
+   "plans": [
+    "roam"
+   ],
+   "vmax": 142.5,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 100,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 848,
+   "press": 0
+  },
+  {
+   "scene": "unseen",
+   "seed": 5,
+   "plans": [
+    "roam"
+   ],
+   "vmax": 142.5,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 100,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 1450,
+   "press": 0
+  },
+  {
+   "scene": "unseen",
+   "seed": 6,
+   "plans": [
+    "roam"
+   ],
+   "vmax": 142.5,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 100,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 1746,
+   "press": 0
+  },
+  {
+   "scene": "fed",
+   "seed": 1,
+   "plans": [
+    "roam",
+    "retreat",
+    "lure"
+   ],
+   "vmax": 90,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 100,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 866,
+   "press": 0
+  },
+  {
+   "scene": "fed",
+   "seed": 2,
+   "plans": [
+    "roam",
+    "retreat",
+    "lure"
+   ],
+   "vmax": 90,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 100,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 831,
+   "press": 0
+  },
+  {
+   "scene": "fed",
+   "seed": 3,
+   "plans": [
+    "roam",
+    "retreat",
+    "lure"
+   ],
+   "vmax": 105,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 100,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 800,
+   "press": 0
+  },
+  {
+   "scene": "fed",
+   "seed": 4,
+   "plans": [
+    "roam",
+    "retreat",
+    "lure"
+   ],
+   "vmax": 90,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 100,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 667,
+   "press": 0
+  },
+  {
+   "scene": "fed",
+   "seed": 5,
+   "plans": [
+    "roam",
+    "retreat",
+    "lure"
+   ],
+   "vmax": 90,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 100,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 906,
+   "press": 0
+  },
+  {
+   "scene": "fed",
+   "seed": 6,
+   "plans": [
+    "roam"
+   ],
+   "vmax": 105,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 100,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 1472,
+   "press": 0
+  },
+  {
+   "scene": "winded",
+   "seed": 1,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "vmax": 253.4,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 15,
+   "within340": 3.98,
+   "caught": 5.88,
+   "fled": null,
+   "gapEnd": 41,
+   "press": 0
+  },
+  {
+   "scene": "winded",
+   "seed": 2,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "vmax": 253.3,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 15,
+   "within340": 3.97,
+   "caught": 5.87,
+   "fled": null,
+   "gapEnd": 41,
+   "press": 0
+  },
+  {
+   "scene": "winded",
+   "seed": 3,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "vmax": 254,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 15,
+   "within340": 3.88,
+   "caught": 5.85,
+   "fled": null,
+   "gapEnd": 40,
+   "press": 0
+  },
+  {
+   "scene": "winded",
+   "seed": 4,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "vmax": 253.4,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 15,
+   "within340": 3.98,
+   "caught": 5.9,
+   "fled": null,
+   "gapEnd": 38,
+   "press": 0
+  },
+  {
+   "scene": "winded",
+   "seed": 5,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "vmax": 253.3,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 15,
+   "within340": 3.95,
+   "caught": 5.87,
+   "fled": null,
+   "gapEnd": 40,
+   "press": 0
+  },
+  {
+   "scene": "winded",
+   "seed": 6,
+   "plans": [
+    "roam"
+   ],
+   "vmax": 142.5,
+   "pressS": 0,
+   "pressV": 0,
+   "stamMin": 15,
+   "within340": null,
+   "caught": null,
+   "fled": null,
+   "gapEnd": 1746,
+   "press": 0
+  }
+ ]
+}

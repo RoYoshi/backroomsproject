@@ -1,0 +1,5 @@
+FAIL PR28 (R7) effort is kept when its attention moves to somebody else: what it spent on A is still A's after it has dealt with B, and when it sees A again  [926ms]
+       6/6: effort on A 3.85/3.85/3.85/3.85/3.85/3.85 s; its attention moved to B 3/6 (judged); A's kept meanwhile 3.85/3.85/3.85 s; A seen again, their effort 3.81/3.81/3.81 s - it went on from there (halving every 90 s), not from a fresh budget
+
+0/1 passed
+FAILED: PR28 (R7) effort is kept when its attention moves to somebody else: what it spent on A is still A's after it has dealt with B, and when it sees A again

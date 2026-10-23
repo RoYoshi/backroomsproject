@@ -631,7 +631,9 @@ add('PR28 (R7) effort is kept when its attention moves to somebody else: what it
     const w = World(seed + 7800), y = LONG.y; bystander(w, 1300, 3300);
     const a = w.player(5000, y, { light: true, angle: 0 }); a.stop('stand'); a.look = Math.PI;
     const e = w.eng.spawn('skinstealer', 5600, y, { hunger: .7 }); e.tier = 'near'; e.ang = Math.PI;
-    w.run(4);                                                    // it sees A and spends time on them
+    // it sees A and spends time on them - 3 s of effort at most (R16i: an approach that presses would otherwise be springing on A when the
+    // scene takes A away, and a strike holds its attention: the premise, not the invariant, would fail)
+    w.run(4, () => !(e.enc && e.enc.pid === a.id && e.enc.spent >= 3));
     const encA = e.enc && e.enc.pid === a.id ? e.enc.spent : -1;
     a.x = 600; a.y = 3900; a.light = false; a.stop('crouch');                                     // A goes far out of its sight
     const b = w.player(e.x - 260, y, { light: true, angle: 0 }); b.stop('stand'); b.look = 0;  // B, right in front of it, not watching

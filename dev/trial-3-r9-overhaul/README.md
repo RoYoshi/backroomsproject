@@ -3,7 +3,8 @@
 **ENGINEERING COMPLETE — READY FOR OWNER HUMAN QA — NOT OWNER APPROVED.** Branch `trial-3-r9-cognitive-ambush-overhaul`, from R8
 `f378049a825e53eafc626a637b8c43397e4072f0` (owner-disapproved October 22, 2026). No merge, no release, no deploy; the owner's Human QA alone
 may accept. The Skin-Stealer stays admin-only (at most four; never spawned by the ecology or the director); the Hound, the Smiler, player
-movement, Level 0, chat and identity are unchanged.
+movement, Level 0, chat and identity are unchanged - the Wanderer's movement (walk 172, a fresh sprint 285, crouch, crawl, slide, vault,
+stamina, exhaustion, the floors) locked to R8 and proven so by `dev/tests/s_wandererlock.js`.
 
 Start with `HUMAN_QA.md` (what to play and what to look for), then `CHECKPOINTS.md` (what each commit did) and `DEFERRED.md` (what is
 not done and the decisions that are yours).
@@ -12,7 +13,7 @@ not done and the decisions that are yours).
 |---|---|
 | `R9_AUDIT.md` | R8 audited before any change: the owner's exposed ambush reproduced, the causes in the code, the baseline |
 | `AP_AUDIT.md` | the owner's October 22 refinement (perception, interruption, hunger, footwork) measured on R8 and R16b before any change |
-| `DESIGN_DECISIONS.md` | every decision R10–R16g made and why, with what was measured and every test changed |
+| `DESIGN_DECISIONS.md` | every decision R10–R16i made and why, with what was measured and every test changed |
 | `CHECKPOINTS.md` | the commits, one logical change each, with their trees and parents |
 | `REMOTE_RECEIPTS.md` | each commit read back from GitHub: the tip, tree, parent, every changed file's blob, the protected heads |
 | `CHANGED_FILES.md` | every file each checkpoint changed, and the build outputs that follow |

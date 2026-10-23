@@ -229,3 +229,19 @@ from (`npm run build`; `npm run build:check` proves them). Development files (`d
 | `dev/tools/gate/declared_changes.json` | the scope gate's list | R16h's reasons on `mp.js` and `ents.js` |
 | `dev/trial-3-r9-overhaul/evidence/r16h/`, `evidence/r16g/` (R16g's receipt, scan) | evidence | the gate's first group on R16g, the three steps on R8, R10 and R11, the fixed steps; the suites, `npm test`, Human QA, the sight scene |
 | `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `HUMAN_QA.md` | docs | R16h-1, R16h-2 (and R16g-4 on the drawn snap, R16g-7's real-page reruns and probes); the R16g rows; this table; which QA parts want two tabs and headphones |
+
+## R16i — the Wanderer's movement locked; the Skin-Stealer's purposeful approach (the owner's clarification of October 22)
+
+| File | Kind | Change |
+|---|---|---|
+| `src/frameworks/nani/server/ai.skinstealer.js` | source | its species table's `press: 238` and `SK.pressShown`; an open approach by a very hungry one that may run, already shown and beyond its footwork's range closes at its press; the press counted (`tally.press`) and said (`WHY`) |
+| `generated/server/ai.js`, `generated/BUILD_MANIFEST.json` | built | rebuilt from the above |
+| `dev/tests/s_wandererlock.js` | test (new) | WL01–WL06: the Wanderer's movement constants, files and real `move.js` ticks against R8; the Hound and the Smiler against R8; the Skin-Stealer's speeds under a fresh sprint |
+| `dev/tests/run.js` | test runner | `s_wandererlock.js` in `npm test` |
+| `dev/tests/s_skinpredator.js` | test | PR28's first phase ends at 3 s of effort on A (its premise, not its pass condition; R16i-5) |
+| `dev/trial-3-r9-overhaul/tools/press_eval.js` | tool (new) | six meetings in the long hall at a chosen press speed, seeded |
+| `dev/tools/gate/declared_changes.json` | the scope gate's list | R16i's reason on `ai.js` |
+| `dev/trial-3-r9-overhaul/evidence/r16i/`, `evidence/r16h/` (R16h's receipt, scan) | evidence | the press at 230, 238 and 245 against R16h; the suites, `npm test`, Human QA, the probes |
+| `dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md`, `CHECKPOINTS.md`, `CHANGED_FILES.md`, `REMOTE_RECEIPTS.md`, `HUMAN_QA.md`, `README.md` | docs | R16i-1 to R16i-6; the R16h rows; this table; the press and the lock in the play-test |
+
+No Wanderer movement file and no Hound or Smiler file changes at R16i (WL02, WL05).
