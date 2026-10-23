@@ -862,6 +862,19 @@ function follow(eng, e, dt, vmax, o = {}) {
   else if (wp.link) { e.unst = null; tx = wp.link.ax; ty = wp.link.ay; }
   else {
     e.unst = null; const c = carrotOf(eng, e, clamp(e.speed * .42, 64, 150)); tx = c.x; ty = c.y;
+    // (Trial 3 R19, the N track) the aim swinging back - over 57 deg off the body's heading - for a waypoint the body has passed on the inside
+    // of a bend: it cut the corner and is beside the waypoint (over the line square to the next leg through it, the waypoint 80 deg or more
+    // off its heading, within 26 px and .12 s of its travel) and can get onto the next leg from here (a point 48 px along it, with the
+    // route's own margin).  The waypoint is dropped and this tick followed again without it.  R8-R18 kept it until the body was 26 px from it
+    // or the whole next leg was clear: the aim fell back to the waypoint beside or behind it, the heading error passed 90 deg and the body
+    // stopped, pivoted and went (the stop-pivot-go of a Hound at a bend).  Only then: an aim that does not swing back is R18's, unchanged
+    const n1 = e.path[1];
+    if (!o.passed && n1 && !n1.link && (n1.c | 0) <= 1 && (wp.c | 0) <= 1 && Math.abs(angDiff(Math.atan2(ty - e.y, tx - e.x), e.ang)) > 1) {
+      const d = Math.hypot(wp.x - e.x, wp.y - e.y), ll = Math.hypot(n1.x - wp.x, n1.y - wp.y) || 1, ux = (n1.x - wp.x) / ll, uy = (n1.y - wp.y) / ll, k = Math.min(ll, 48);
+      if (d < 26 + e.speed * .12 && (e.x - wp.x) * ux + (e.y - wp.y) * uy > 0 && Math.abs(angDiff(Math.atan2(wp.y - e.y, wp.x - e.x), e.ang)) > 1.4 && geo.lineClear(e.x, e.y, wp.x + ux * k, wp.y + uy * k, e.rc + NAV_MARGIN, e.mode)) {
+        e.path.shift(); navOf(e).passed = (navOf(e).passed || 0) + 1; return follow(eng, e, dt, vmax, Object.assign({}, o, { passed: 1 }));
+      }
+    }
     if (!c.ok) {
       // the straight line to the next point clips a corner (it came in at an angle, or was pushed off its leg): slide round it - the nearest heading on
       // either side of the wanted one that has a short clear run.  Only if there is none is the route itself no longer valid from here.

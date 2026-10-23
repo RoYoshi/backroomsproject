@@ -218,11 +218,15 @@ add('C14 it answers events fast and never idles while a hungry hunt is possible:
 });
 /* C15: with no Skin-Stealer in the world, the Hounds, the Smilers and everything else run exactly as on R8: the per-second snapshot hashes
  * of this tree against R8's own (fixtures/c15_r8.json, made by dev/trial-3-r9-overhaul/tools/c15_hashes.js on R8 f378049) */
-add('C15 no Skin-Stealer, no difference: 30 s of the director\'s Hounds and Smilers with four players moving, three seeds - every snapshot of this tree is R8\'s, byte for byte (the per-second hashes stored from f378049)', () => {
+add('C15 no Skin-Stealer, no difference: 30 s of the director\'s Hounds and Smilers with four players moving, three seeds - every snapshot of this tree is R8\'s, byte for byte (the per-second hashes stored from f378049); R19 N: with the shared cornering hunks (r19n_patch.js) taken back out - the one difference from R8 the N track makes, which moves Hounds and Smilers differently at some bends', () => {
   const F = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'trial-3-r9-overhaul', 'fixtures', 'c15_r8.json'), 'utf8'));
-  const now = require('../trial-3-r9-overhaul/tools/c15_hashes.js').hashes(path.join(__dirname, '..', '..'));
+  // (Trial 3 R19, the N track, dev/trial-3-nani-corners/DESIGN_DECISIONS.md N1) a child process runs this tree with exactly the N hunks taken
+  // out of the built ai.js (r19n_c15.js): every snapshot must be R8's.  This tree as built is run too, and how many seconds differ reported
+  const out = require('child_process').execFileSync(process.execPath, [path.join(__dirname, 'r19n_c15.js'), path.join(__dirname, '..', '..')], { maxBuffer: 1 << 26 }).toString();
+  const R = JSON.parse(out), now = R.runs, asBuilt = require('../trial-3-r9-overhaul/tools/c15_hashes.js').hashes(path.join(__dirname, '..', '..'));
   const diff = Object.keys(F.runs).filter(k => JSON.stringify(F.runs[k]) !== JSON.stringify(now[k]));
-  return { ok: !diff.length && Object.keys(F.runs).length === 3, note: `runs ${Object.keys(F.runs).join(', ')}: ${diff.length ? 'DIFFERENT ' + diff.join(',') : 'identical'} (${Object.values(now).reduce((a, r) => a + r.length, 0)} snapshot hashes; R8 fixture from ${F.from})` };
+  const moved = Object.keys(F.runs).map(k => (asBuilt[k] || []).filter((h, i) => h !== F.runs[k][i]).length);
+  return { ok: R.took === 1 && !diff.length && Object.keys(F.runs).length === 3, note: `without the N hunks: runs ${Object.keys(F.runs).join(', ')}: ${diff.length ? 'DIFFERENT ' + diff.join(',') : 'identical'} (${Object.values(now).reduce((a, r) => a + r.length, 0)} snapshot hashes; R8 fixture from ${F.from}) | as built, seconds whose snapshot differs from R8 (the N hunks' cornering): ${moved.join('/')}` };
 });
 
 S.helpers = { hall, glimpse, planOf };                         // (for development tools; run.js reads only the list)

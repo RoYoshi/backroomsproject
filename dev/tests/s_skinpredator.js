@@ -594,7 +594,7 @@ add('PR24 stress: eight people (walking, running, crouching, torches on and off)
   return { ok, note: rs.map(R => `${R.kind}${R === lost ? '' : ', 120 s'} (${R.hunts} hunts, ${R.flanks} flanks and ${R.noFlank} places with no way round, ${R.guesses} guesses, ${R.kills} kills): every route it searched, per creature a second - mean ${R.mean.toFixed(2)}, 95th percentile ${R.p95.toFixed(2)}, worst ${R.mx.toFixed(2)} (${R.total} in all); most held at once - failed places ${R.maxFailed} (cap 4), failed turns ${R.maxBad} (cap 3)${R === lost ? '' : `, effort records ${R.maxSpent} (cap 6), sounds ${R.maxSounds} (the engine's 8), departures ${R.maxLeft}, their times ${R.maxLeftAt}; a hunt of somebody gone ${R.stale}; inside a wall ${R.inWall}`}`).join(' | '), data: rs.map(R => ({ kind: R.kind, perSec: R.perSec })) };
 });
 
-add('PR25 (in-tree part) the Hound and the Smiler: the shared engine and their own code are byte for byte the starting commit\'s (4518f93, itself proven equal to P9 at Trial 3 and B1-B5; R15: but for the one line of ai.capture.js that refused the Skin-Stealer\'s D); with no Skin-Stealer in a world none of its code runs - the full P9 comparison is the tool dev/trial-3-skin-stealer/tools/equiv_p9.js (evidence/r6_equiv_p9.txt)', () => {
+add('PR25 (in-tree part) the Hound and the Smiler: the shared engine and their own code are byte for byte the starting commit\'s (4518f93, itself proven equal to P9 at Trial 3 and B1-B5; R15: but for the one line of ai.capture.js that refused the Skin-Stealer\'s D; R19 N: but for the cornering hunks of ai.entity.js, r19n_patch.js); with no Skin-Stealer in a world none of its code runs - the full P9 comparison is the tool dev/trial-3-skin-stealer/tools/equiv_p9.js (evidence/r6_equiv_p9.txt)', () => {
   const { execFileSync } = require('child_process'), path = require('path'), fs = require('fs'), root = path.join(__dirname, '..', '..');
   const shared = ['ai.head.js', 'ai.senses.js', 'ai.intelligence.js', 'ai.engine.js', 'ai.capture.js', 'ai.entity.js', 'ai.hound.js', 'ai.smiler.js'].map(f => 'src/frameworks/nani/server/' + f);
   // (R15, documented in DESIGN_DECISIONS R15-7/R15-9: ai.capture.js may differ from 4518f93 by exactly one line - previewKill no longer refusing
@@ -602,14 +602,17 @@ add('PR25 (in-tree part) the Hound and the Smiler: the shared engine and their o
   const R15_OLD = "  const geo = eng.geo, V = /^[ABCD]$/.test(variant) && !(e.kind === 'skinstealer' && variant === 'D') ? variant : 'A', hound = e.kind === 'hound';   // (Trial 3: the Skin-Stealer has A-C)\n";
   const R15_NEW = "  const geo = eng.geo, V = /^[ABCD]$/.test(variant) ? variant : 'A', hound = e.kind === 'hound';   // (Trial 3 R15: the Skin-Stealer's D too)\n";
   const R15 = (f, base) => f.endsWith('/ai.capture.js') && base.split(R15_OLD).length === 2 ? base.replace(R15_OLD, () => R15_NEW) : base;
-  const same = shared.map(f => { let base = null; try { base = R15(f, execFileSync('git', ['show', '4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a:' + f], { cwd: root, maxBuffer: 1 << 26 }).toString()); } catch (e) { } return { f: path.basename(f), same: base !== null && base === fs.readFileSync(path.join(root, f), 'utf8') }; });
+  // (Trial 3 R19, the N track - the owner's shared cornering QoL, documented in dev/trial-3-nani-corners/DESIGN_DECISIONS.md N1: ai.entity.js
+  // may differ from 4518f93 by exactly the hunks in r19n_patch.js - and by nothing else)
+  const R19N = (f, base) => f === RN.FILE ? RN.add(base) : base, RN = require('./r19n_patch.js');
+  const same = shared.map(f => { let base = null; try { base = R19N(f, R15(f, execFileSync('git', ['show', '4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a:' + f], { cwd: root, maxBuffer: 1 << 26 }).toString())); } catch (e) { } return { f: path.basename(f), same: base !== null && base === fs.readFileSync(path.join(root, f), 'utf8') }; });
   // a world with the director's own Hounds and Smilers and four players, no Skin-Stealer: the species' tick never runs
   const w = World(4500, { director: true }); w.sim.resetWorld(); for (const [x, y] of [[1300, 5900], [5000, LONG.y], [700, 5330], [8000, 3504]]) { const p = w.player(x, y, { light: true }); p.go(x + 300, y, 'walk'); }
   let calls = 0; const tk = AI.SKIN.tick; AI.SKIN.tick = function (...a) { calls++; return tk.apply(this, a); };
   try { w.run(20); } finally { AI.SKIN.tick = tk; }
   const kinds = [...new Set(w.eng.entities.map(e => e.kind))].sort();
   return { ok: same.every(q => q.same) && calls === 0 && !kinds.includes('skinstealer'),
-    note: `unchanged since 4518f93: ${same.map(q => q.f + (q.same ? '' : ' CHANGED')).join(', ')} | 20 s with the director's ${kinds.join(' and ')} and four players: the Skin-Stealer's tick ran ${calls} times`, data: same };
+    note: `unchanged since 4518f93: ${same.map(q => q.f + (q.same ? '' : ' CHANGED')).join(', ')} (ai.capture.js but for R15's line, ai.entity.js but for R19 N's hunks) | 20 s with the director's ${kinds.join(' and ')} and four players: the Skin-Stealer's tick ran ${calls} times`, data: same };
 });
 
 add('PR26 nothing of a hunt is left behind: the quarry leaving the game, an admin clear, the level of detail going far, a removal, a world reset - the hunt, its plan, its guesses and the people it remembers go with them', () => {
