@@ -1,5 +1,5 @@
 /** @part generated/server/ai.js - N.A.N.I.: the Skin-Stealer's footwork (Trial 3 R16f): close to a person it sees, it moves like a fighter - facing them, sidestepping, backing, cutting off their way out
- * provides: SKF, skFight
+ * provides: SKF, skFight, skWayOut
  * uses: angDiff, clamp, lerp, moveCollide, setAct, TAU, turnTo
  * writes: -
  */
@@ -41,6 +41,16 @@ const SKF = Object.freeze({
   keep: 1,                                       // s: a break in the fight shorter than this keeps its read of their motion (R18)
   goAway: 60, runIn: 40,                         // px/s away from it (and most of their speed) that is going away; px from where it reckons they will be that it runs in to (R18)
 });
+/* (R19: factored out of skFight, unchanged) their way out, as it reckons it: of twelve directions from them, the one with open floor, the
+ * way it reads them moving (vx, vy) and away from it - a doorway, a corridor.  The level's shape and its own read of them only */
+function skWayOut(geo, e, p, vx, vy) {
+  const sp = Math.hypot(vx, vy), mv = Math.atan2(vy, vx), away = Math.atan2(p.y - e.y, p.x - e.x); let best = -1e9, esc = 0;
+  for (let k = 0; k < 12; k++) {
+    const a = k / 12 * TAU, s = geo.ray(p.x, p.y, a, 420) / 420 + (sp > 60 ? .9 * Math.cos(angDiff(a, mv)) : 0) + .7 * Math.cos(angDiff(a, away));
+    if (s > best) { best = s; esc = a; }
+  }
+  return esc;
+}
 /* move toward (gx, gy) at up to vmax (forward; SKF.side sideways, SKF.back backward), facing (fx, fy); its own velocity and acceleration */
 function skStrafe(eng, e, gx, gy, fx, fy, vmax, dt, gain = SKF.gain) {
   const now = eng.now, M = e.mv && now - e.mv.at <= dt * 1.5 + 1e-6 ? e.mv : (e.mv = { x: Math.cos(e.ang) * e.speed, y: Math.sin(e.ang) * e.speed, at: now });   // (only the tick before's: R16g)
@@ -73,12 +83,7 @@ function skFight(eng, e, r, p, d, dt, thinkNow, vmax, band = SKF.band) {
     if (!geo.lineClear(e.x, e.y, p.x, p.y, e.rc * .6, 'walk')) { e.fight = { pid: r.id, at: now, blocked: 1, rd }; return false; }
     const k0 = rd ? 1 - Math.exp(-(now - rd.at) / tau) : 1;
     const F = fresh && !e.fight.blocked ? e.fight : (e.fight = { pid: r.id, vx: rd ? rd.vx + (p.vx - rd.vx) * k0 : p.vx, vy: rd ? rd.vy + (p.vy - rd.vy) * k0 : p.vy, esc: null, t0: now });
-    // their way out: of twelve directions from them, the one with open floor, the way they move, and away from it (a doorway, a corridor)
-    const sp = Math.hypot(F.vx, F.vy), mv = Math.atan2(F.vy, F.vx), away = Math.atan2(p.y - e.y, p.x - e.x); let best = -1e9;
-    for (let k = 0; k < 12; k++) {
-      const a = k / 12 * TAU, s = geo.ray(p.x, p.y, a, 420) / 420 + (sp > 60 ? .9 * Math.cos(angDiff(a, mv)) : 0) + .7 * Math.cos(angDiff(a, away));
-      if (s > best) { best = s; F.esc = a; }
-    }
+    F.esc = skWayOut(geo, e, p, F.vx, F.vy);                                                     // their way out (R19: the same reckoning, shared)
     F.at = now;
   }
   const F = e.fight;
