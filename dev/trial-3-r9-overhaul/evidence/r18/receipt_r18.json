@@ -1,0 +1,1491 @@
+{
+ "checkpoint": "R18",
+ "verifiedAt": "2026-10-23T10:03:04Z",
+ "branch": "trial-3-r9-cognitive-ambush-overhaul",
+ "local": {
+  "commit": "c3b40dc35b5f8f7d5542134c3c21e66c8ad9cb66",
+  "tree": "8178f7854a5a3b2e05245bcf8065d34d465d4a75",
+  "parent": "636f01ea074cb969d2f1ef1cff9dd081f24185f9"
+ },
+ "lsRemote": "c3b40dc35b5f8f7d5542134c3c21e66c8ad9cb66",
+ "githubApi": {
+  "commit": "c3b40dc35b5f8f7d5542134c3c21e66c8ad9cb66",
+  "tree": "8178f7854a5a3b2e05245bcf8065d34d465d4a75",
+  "parents": [
+   "636f01ea074cb969d2f1ef1cff9dd081f24185f9"
+  ],
+  "message": "Trial 3 R18: the owner's overtuned experiment - a faster, proactive, persistent Skin-Stealer (not owner-approved)",
+  "branchHead": "c3b40dc35b5f8f7d5542134c3c21e66c8ad9cb66",
+  "branchTree": "8178f7854a5a3b2e05245bcf8065d34d465d4a75"
+ },
+ "sinceBase": [
+  {
+   "commit": "0c735eaaa63e0eba214fff681631296fa4680580",
+   "tree": "1a8c0d964f9bbbdeffaaf1342cf10f87c6ba9dbf",
+   "subject": "Trial 3 R9: audit of R8 and the owner's exposed ambush reproduced"
+  },
+  {
+   "commit": "d4a0edc65d3b99d96f2a3836d9cb94b0b75c8350",
+   "tree": "805039ae5ff785bf8fea0866277dd44b3ceb66d6",
+   "subject": "Trial 3 R10: the Skin-Stealer's heartbeat and sting only while it is seen"
+  },
+  {
+   "commit": "a002a2d02378d006ee47cdf4c7629e58e53e954d",
+   "tree": "bcf215c87616a99ff6069bd943cf0310601ab425",
+   "subject": "Trial 3 R11: the Skin-Stealer's mind - attention, events, opportunism, belief (not owner-approved)"
+  },
+  {
+   "commit": "61f4128c0db969b2fd9367a922d00c79bc3ecc31",
+   "tree": "f0890e03a22b2023e12eeb4aaa5eec9b9d31e417",
+   "subject": "Trial 3 R12: the Skin-Stealer's inference - the ways a quarry could have gone (not owner-approved)"
+  },
+  {
+   "commit": "14203ac075f4e04ab649d415915dc37c1ec3bc52",
+   "tree": "6da6cd33e469916e6f78b223d923c65502141df6",
+   "subject": "Trial 3 R13: the Skin-Stealer's cover - covert ways audited against every view it knows of, the withdrawal then the hidden run, caught on the way, honest open moves (not owner-approved)"
+  },
+  {
+   "commit": "a6b82ba9c2a69ec925c621cd0317bbfc3824f968",
+   "tree": "752a380d5fdb3cffef520c0a81d0f75881612528",
+   "subject": "Trial 3 R14: the Skin-Stealer's body drawn for the top-down camera - a skeleton seen from above, posed only by what the server says (not owner-approved; visual approval pending)"
+  },
+  {
+   "commit": "b9f60409ae35ab4266e6a9f55eaf30e38dabc447",
+   "tree": "5a30191fcef1738091357d61e3bc291fa8d879bc",
+   "subject": "Trial 3 R15: Execution D, the Rend, through G.I.B. - two halves in the one shared physics, the same on every screen and in the server's fallback (not owner-approved)"
+  },
+  {
+   "commit": "eaf21bbaa0b5e0937d6d5f459eb2b28b12a28b2c",
+   "tree": "c44d4f0da221274bea3d6afc991410b71a1096ef",
+   "subject": "Trial 3 R16a: the adversarial QA (X01-X10) and the tear's sound on a slow page (not owner-approved)"
+  },
+  {
+   "commit": "b58db41e04390f5cffb596cfcca23072a748c224",
+   "tree": "4c5ccb518203f605ffcd24c61c5d7a62a68d0611",
+   "subject": "Trial 3 R16b: the independent review's findings fixed - the Rend's victim's own corpse, other people's lights, the whole body hidden where it waits, a failed ambush search remembered (not owner-approved)"
+  },
+  {
+   "commit": "dd0e09a7483238e9d872014c81f6f31d566e950d",
+   "tree": "abfc618ce884dd0fca775e9e76d8737a7cfc4b4f",
+   "subject": "Trial 3 R16c: the owner's additional refinement audited before any change - repro_ap.js on R8 and R16b, AP_AUDIT.md (not owner-approved)"
+  },
+  {
+   "commit": "ec0d8e029d37fb248a9f098bafc0c60c0c030925",
+   "tree": "f26354cb9c0f1173f6ec1f43133e6a56bacd4cd5",
+   "subject": "Trial 3 R16d: plan interruption and preemption, hunger-dependent aggression (not owner-approved)"
+  },
+  {
+   "commit": "0081e3c7aac659a99a19ff05b126e57ca037194a",
+   "tree": "01354bcfe34a8dbeca5365f37af2372bd1a182fe",
+   "subject": "Trial 3 R16e: its eyes - head snaps, the edge of its view, where to look from (not owner-approved)"
+  },
+  {
+   "commit": "c3a6161373711288a8179f76cdc89d45f1ff1d44",
+   "tree": "8356e4c7c01b31f234f7e8161ee57f09b9eb5293",
+   "subject": "Trial 3 R16f: its footwork - facing, sidesteps, giving ground, the way out (not owner-approved)"
+  },
+  {
+   "commit": "035c8cfafd9516802ab7b30fd4fe789622089c90",
+   "tree": "85395de996d4fb8e74239192b3ddca82b66e1d01",
+   "subject": "Trial 3 R16g: the real-page campaign, the review of R16d-R16f, the overlay's new lines (not owner-approved)"
+  },
+  {
+   "commit": "4d7960775bca46464e5fc09276bfc8796521ffc2",
+   "tree": "01b8c6c31a5653df862dc0f56805a0449ee6fffc",
+   "subject": "Trial 3 R16h: the full gate's findings fixed - the heartbeat's second beat, the overlay's callbacks, the API ledger (not owner-approved)"
+  },
+  {
+   "commit": "a70137e7038187ffbbf28502e596634159457509",
+   "tree": "83e5e57147915c4f0e07f2edd1ec45beef203970",
+   "subject": "Trial 3 R16i: the Wanderer's movement locked to R8 and proven; the Skin-Stealer's purposeful approach at 238 px/s (not owner-approved)"
+  },
+  {
+   "commit": "636f01ea074cb969d2f1ef1cff9dd081f24185f9",
+   "tree": "0879f3070a14b0407348e01aaeb0119a68ac1a93",
+   "subject": "Trial 3 R17: the final documents; the full gate, the real pages and the cost on R16i (no game change; not owner-approved)"
+  },
+  {
+   "commit": "c3b40dc35b5f8f7d5542134c3c21e66c8ad9cb66",
+   "tree": "8178f7854a5a3b2e05245bcf8065d34d465d4a75",
+   "subject": "Trial 3 R18: the owner's overtuned experiment - a faster, proactive, persistent Skin-Stealer (not owner-approved)"
+  }
+ ],
+ "merges": [],
+ "base": {
+  "commit": "f378049a825e53eafc626a637b8c43397e4072f0",
+  "tree": "a6d72690727a58dbab6e770dfda64a1d9dbf70f3",
+  "firstCommitsParent": "f378049a825e53eafc626a637b8c43397e4072f0"
+ },
+ "changedFiles": [
+  {
+   "path": "dev/tests/s_skinadv.js",
+   "status": "M",
+   "local": "44d24b9d03c8d1fc7d98e03cd934c9c63a9d88cc",
+   "remote": "44d24b9d03c8d1fc7d98e03cd934c9c63a9d88cc",
+   "ok": true
+  },
+  {
+   "path": "dev/tests/s_skinap.js",
+   "status": "M",
+   "local": "30cbbcc21123fb805cbdd67b0285d306ab862a04",
+   "remote": "30cbbcc21123fb805cbdd67b0285d306ab862a04",
+   "ok": true
+  },
+  {
+   "path": "dev/tests/s_skinbehave.js",
+   "status": "M",
+   "local": "1fdddbaed0a8709a3441db4c7964e3914b07cbe5",
+   "remote": "1fdddbaed0a8709a3441db4c7964e3914b07cbe5",
+   "ok": true
+  },
+  {
+   "path": "dev/tests/s_skinpredator.js",
+   "status": "M",
+   "local": "5925643fbbe7691e3eb97843636f9f4a3f35d276",
+   "remote": "5925643fbbe7691e3eb97843636f9f4a3f35d276",
+   "ok": true
+  },
+  {
+   "path": "dev/tests/s_skinr16.js",
+   "status": "M",
+   "local": "71973f02ee035210abbcd61b0f0631861c9359eb",
+   "remote": "71973f02ee035210abbcd61b0f0631861c9359eb",
+   "ok": true
+  },
+  {
+   "path": "dev/tests/s_skinroute.js",
+   "status": "M",
+   "local": "f44d83fb5c0bccaf6bd05623386366d7c5a08d57",
+   "remote": "f44d83fb5c0bccaf6bd05623386366d7c5a08d57",
+   "ok": true
+  },
+  {
+   "path": "dev/tests/s_skinstealer.js",
+   "status": "M",
+   "local": "2ac447f1c5ffe139573b66948d6e9a3027e1dae8",
+   "remote": "2ac447f1c5ffe139573b66948d6e9a3027e1dae8",
+   "ok": true
+  },
+  {
+   "path": "dev/tests/s_wandererlock.js",
+   "status": "M",
+   "local": "a2a93a46fccb72ccf05172bae580281ca8a44bb3",
+   "remote": "a2a93a46fccb72ccf05172bae580281ca8a44bb3",
+   "ok": true
+  },
+  {
+   "path": "dev/tools/gate/declared_changes.json",
+   "status": "M",
+   "local": "4f6da6b7575902fc72c254df288834bb968f64bc",
+   "remote": "4f6da6b7575902fc72c254df288834bb968f64bc",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/BROWSER_AND_MEDIA.md",
+   "status": "M",
+   "local": "eca8f625aa8dd0723f0ccd94df82cff36ea8fc83",
+   "remote": "eca8f625aa8dd0723f0ccd94df82cff36ea8fc83",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/CHANGED_FILES.md",
+   "status": "M",
+   "local": "ee5034b200364775dfa694a3a1b40f11c36e2ad2",
+   "remote": "ee5034b200364775dfa694a3a1b40f11c36e2ad2",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/CHECKPOINTS.md",
+   "status": "M",
+   "local": "4fa6da213b4410a372d122f9d9c8eab3b2d7f093",
+   "remote": "4fa6da213b4410a372d122f9d9c8eab3b2d7f093",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/DEFERRED.md",
+   "status": "M",
+   "local": "4847e88718a174fc5fcb49ce320928a777d9a32f",
+   "remote": "4847e88718a174fc5fcb49ce320928a777d9a32f",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/DESIGN_DECISIONS.md",
+   "status": "M",
+   "local": "e46e6f4d07eb0561019510c6867d4a204ecb9bb7",
+   "remote": "e46e6f4d07eb0561019510c6867d4a204ecb9bb7",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/EVIDENCE_INDEX.md",
+   "status": "M",
+   "local": "e77afdc0720bcd464c3c1e8cda6f1cb4a706f378",
+   "remote": "e77afdc0720bcd464c3c1e8cda6f1cb4a706f378",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/HUMAN_QA.md",
+   "status": "M",
+   "local": "c3fd785304335a0573780943d366caacda70cde9",
+   "remote": "c3fd785304335a0573780943d366caacda70cde9",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/PERFORMANCE.md",
+   "status": "M",
+   "local": "44f2a50f646a22d8d3fdb821a428cefa11ecc0a4",
+   "remote": "44f2a50f646a22d8d3fdb821a428cefa11ecc0a4",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/README.md",
+   "status": "M",
+   "local": "3e5cb7e085b16398a4c94c18f5cfbc31c25d4ab4",
+   "remote": "3e5cb7e085b16398a4c94c18f5cfbc31c25d4ab4",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/REGRESSION.md",
+   "status": "M",
+   "local": "34db6769564deb13e082c3af5c64a53c02ff4146",
+   "remote": "34db6769564deb13e082c3af5c64a53c02ff4146",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/REMOTE_RECEIPTS.md",
+   "status": "M",
+   "local": "d64a2dfeb71679caf5811ede5749f41dde975238",
+   "remote": "d64a2dfeb71679caf5811ede5749f41dde975238",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r17/receipt_r17.json",
+   "status": "A",
+   "local": "6f401f9c543561055a3f4bab3920390ea862577d",
+   "remote": "6f401f9c543561055a3f4bab3920390ea862577d",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r17/secret_scan_r17_post.txt",
+   "status": "A",
+   "local": "2f2989636cfefae71c76eca13cda16f7294dad79",
+   "remote": "2f2989636cfefae71c76eca13cda16f7294dad79",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/continuous_r16i.json",
+   "status": "A",
+   "local": "909c26d0d2d54af2c26cf4d8a993310763382b5f",
+   "remote": "909c26d0d2d54af2c26cf4d8a993310763382b5f",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/continuous_r16i.json.gz",
+   "status": "A",
+   "local": "f3f142a18553d248b2820fc3c8c9286243f72c6f",
+   "remote": "f3f142a18553d248b2820fc3c8c9286243f72c6f",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/continuous_r16i.txt",
+   "status": "A",
+   "local": "f542ecb574115c779353df021133143ff7d29195",
+   "remote": "f542ecb574115c779353df021133143ff7d29195",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/continuous_r16i_pageA_every_minute.jpg",
+   "status": "A",
+   "local": "e8b6433350473b05378c15d2eee516418b3fe58c",
+   "remote": "e8b6433350473b05378c15d2eee516418b3fe58c",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/continuous_r16i_pageB_every_minute.jpg",
+   "status": "A",
+   "local": "c85b85406d5e301f58e11625876002eaccf84cf8",
+   "remote": "c85b85406d5e301f58e11625876002eaccf84cf8",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/continuous_r18.json",
+   "status": "A",
+   "local": "80874be45fda6e1baacd91864b6b76aede7b353b",
+   "remote": "80874be45fda6e1baacd91864b6b76aede7b353b",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/continuous_r18.json.gz",
+   "status": "A",
+   "local": "52a91fce20ecccd8cba2061f3799598940f262d9",
+   "remote": "52a91fce20ecccd8cba2061f3799598940f262d9",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/continuous_r18.txt",
+   "status": "A",
+   "local": "7c7c647e8dca8b85c53f18914b2c366e4eb65332",
+   "remote": "7c7c647e8dca8b85c53f18914b2c366e4eb65332",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/continuous_r18_pageA_every_minute.jpg",
+   "status": "A",
+   "local": "1c972b3486d098a2818393f0a2af6ba25a859694",
+   "remote": "1c972b3486d098a2818393f0a2af6ba25a859694",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/continuous_r18_pageB_every_minute.jpg",
+   "status": "A",
+   "local": "0c4cf4427c94e2d41221beb711bb5fe18d025014",
+   "remote": "0c4cf4427c94e2d41221beb711bb5fe18d025014",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/focused_r16i.json",
+   "status": "A",
+   "local": "07bca7845bc6710ccadb7b5e2ffa794f9a8bafc3",
+   "remote": "07bca7845bc6710ccadb7b5e2ffa794f9a8bafc3",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/focused_r16i.txt",
+   "status": "A",
+   "local": "1177b2dd6ec0c7d3a174329b5e7f344db45c56fc",
+   "remote": "1177b2dd6ec0c7d3a174329b5e7f344db45c56fc",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/focused_r16i_sheet.jpg",
+   "status": "A",
+   "local": "fbe7dfb51188bf3cbbed618c08c53222326ab7e7",
+   "remote": "fbe7dfb51188bf3cbbed618c08c53222326ab7e7",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/focused_r18.json",
+   "status": "A",
+   "local": "41f893ba1f0611e3e2d213fb19a40d1392a5dc0e",
+   "remote": "41f893ba1f0611e3e2d213fb19a40d1392a5dc0e",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/focused_r18.txt",
+   "status": "A",
+   "local": "f93815a1ed8f3fec25e7f2a908d5b96a12e07ed9",
+   "remote": "f93815a1ed8f3fec25e7f2a908d5b96a12e07ed9",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/focused_r18_sheet.jpg",
+   "status": "A",
+   "local": "f7aab4382cc2a6e9c8247ed1115532e8615b3006",
+   "remote": "f7aab4382cc2a6e9c8247ed1115532e8615b3006",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/measure_continuous.json",
+   "status": "A",
+   "local": "9c2eda7dc2390d4f95f7842d47c5f17d14b4c696",
+   "remote": "9c2eda7dc2390d4f95f7842d47c5f17d14b4c696",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/measure_continuous.txt",
+   "status": "A",
+   "local": "1220ced910b67207a1a2ef9ce9f1c4dbc38d43bf",
+   "remote": "1220ced910b67207a1a2ef9ce9f1c4dbc38d43bf",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/r18_focused_pageA.mp4",
+   "status": "A",
+   "local": "f7dd2cbeb84df12e4320a4ac75d06f15bff1497e",
+   "remote": "f7dd2cbeb84df12e4320a4ac75d06f15bff1497e",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/r18_focused_pageA_sheet.jpg",
+   "status": "A",
+   "local": "91455343ad125932bb6850f28b7fdf8c88874df3",
+   "remote": "91455343ad125932bb6850f28b7fdf8c88874df3",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/r18_threat_pageA.mp4",
+   "status": "A",
+   "local": "610985832f282604ead23adf08afab574f306e0e",
+   "remote": "610985832f282604ead23adf08afab574f306e0e",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/r18_threat_pageA_sheet.jpg",
+   "status": "A",
+   "local": "ea8a7fcd3bf5d404cd520c3a5ec75c915c2d5ce7",
+   "remote": "ea8a7fcd3bf5d404cd520c3a5ec75c915c2d5ce7",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/focused_r16i_run3.json",
+   "status": "A",
+   "local": "aca23e110e59e73885ca9af7435a507c52ea3288",
+   "remote": "aca23e110e59e73885ca9af7435a507c52ea3288",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/focused_r16i_run3.txt",
+   "status": "A",
+   "local": "ee4bcb497fdec27d3642bf662593f6a178f9dbed",
+   "remote": "ee4bcb497fdec27d3642bf662593f6a178f9dbed",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/focused_r18_run1.txt",
+   "status": "A",
+   "local": "4c56990a8a0fd9475736b366f69529925c2e44d7",
+   "remote": "4c56990a8a0fd9475736b366f69529925c2e44d7",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/focused_r18_run2.json",
+   "status": "A",
+   "local": "056b74852cc95385b6297a24526a1afee030b9d5",
+   "remote": "056b74852cc95385b6297a24526a1afee030b9d5",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/focused_r18_run2.txt",
+   "status": "A",
+   "local": "16f74183395775a4545a1110626d07e125641b61",
+   "remote": "16f74183395775a4545a1110626d07e125641b61",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/focused_r18_run3.json",
+   "status": "A",
+   "local": "8461efd91afadf6465bc2386a54a2ebaad499b61",
+   "remote": "8461efd91afadf6465bc2386a54a2ebaad499b61",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/focused_r18_run3.txt",
+   "status": "A",
+   "local": "19803f161704329e5e0069652186e4ebfe42f881",
+   "remote": "19803f161704329e5e0069652186e4ebfe42f881",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r16i_run1.json",
+   "status": "A",
+   "local": "71b590d27ac66f0e3effa8f7d48902052347d013",
+   "remote": "71b590d27ac66f0e3effa8f7d48902052347d013",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r16i_run1.json.gz",
+   "status": "A",
+   "local": "9b55e06435adb44ad244381b9a6752e3e3958ab3",
+   "remote": "9b55e06435adb44ad244381b9a6752e3e3958ab3",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r16i_run1.txt",
+   "status": "A",
+   "local": "04c5debc0ef1c73818ec2346675bb856b0879db4",
+   "remote": "04c5debc0ef1c73818ec2346675bb856b0879db4",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r16i_run3.json",
+   "status": "A",
+   "local": "1f654123e9fa68ecfabfa3c4712816ec0fb74cd8",
+   "remote": "1f654123e9fa68ecfabfa3c4712816ec0fb74cd8",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r16i_run3.json.gz",
+   "status": "A",
+   "local": "82e163215d2ca0d650cdd862649a16f18baddd4b",
+   "remote": "82e163215d2ca0d650cdd862649a16f18baddd4b",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r16i_run3.txt",
+   "status": "A",
+   "local": "b2957fb3e94f2b04cc9b7963e924f04b0ec5b29a",
+   "remote": "b2957fb3e94f2b04cc9b7963e924f04b0ec5b29a",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r18_run1.json",
+   "status": "A",
+   "local": "9849d1737c6fb4be7f52706de12f2bb710e16e9d",
+   "remote": "9849d1737c6fb4be7f52706de12f2bb710e16e9d",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r18_run1.json.gz",
+   "status": "A",
+   "local": "896437004cebc13637ea5748a5fd8ae144855f7f",
+   "remote": "896437004cebc13637ea5748a5fd8ae144855f7f",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r18_run1.txt",
+   "status": "A",
+   "local": "2379b3844c00c276119de85f5373c1942aef07fc",
+   "remote": "2379b3844c00c276119de85f5373c1942aef07fc",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r18_run2.json",
+   "status": "A",
+   "local": "c84194f03bc11e971a3ddefec701dd8137bdca6e",
+   "remote": "c84194f03bc11e971a3ddefec701dd8137bdca6e",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r18_run2.json.gz",
+   "status": "A",
+   "local": "7f74fa57f142c1de8769cdb6ffefc15058ff3b71",
+   "remote": "7f74fa57f142c1de8769cdb6ffefc15058ff3b71",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r18_run2.txt",
+   "status": "A",
+   "local": "5df7eec441bf12632f0d0627d4fd5773d0cb68f0",
+   "remote": "5df7eec441bf12632f0d0627d4fd5773d0cb68f0",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r18_run3.json",
+   "status": "A",
+   "local": "b1d619eb202bca888a210c439b4853dd495dc194",
+   "remote": "b1d619eb202bca888a210c439b4853dd495dc194",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r18_run3.json.gz",
+   "status": "A",
+   "local": "8955d043e4d0f32172e706a565027a553f8edbe1",
+   "remote": "8955d043e4d0f32172e706a565027a553f8edbe1",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/superseded/threat_r18_run3.txt",
+   "status": "A",
+   "local": "df306265ae01a76c2d1b060145f4967da4edc230",
+   "remote": "df306265ae01a76c2d1b060145f4967da4edc230",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/threat_r16i.json",
+   "status": "A",
+   "local": "669b47571bc44f1e715962a90cf40f4848a2f13a",
+   "remote": "669b47571bc44f1e715962a90cf40f4848a2f13a",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/threat_r16i.json.gz",
+   "status": "A",
+   "local": "cfc7a535b9da861a9877bee1a4966d3b431aa961",
+   "remote": "cfc7a535b9da861a9877bee1a4966d3b431aa961",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/threat_r16i.txt",
+   "status": "A",
+   "local": "99e935e8b50d54a76623a3cb4886e77ab00b6869",
+   "remote": "99e935e8b50d54a76623a3cb4886e77ab00b6869",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/threat_r18.json",
+   "status": "A",
+   "local": "c0f7bf6d0c2fb897692144c3a5d46f7bc2ce16c4",
+   "remote": "c0f7bf6d0c2fb897692144c3a5d46f7bc2ce16c4",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/threat_r18.json.gz",
+   "status": "A",
+   "local": "a59fd82739067d34f95943c91416fd385cbfeae2",
+   "remote": "a59fd82739067d34f95943c91416fd385cbfeae2",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/threat_r18.txt",
+   "status": "A",
+   "local": "13951d378e9a3ea2d3791ab5dc1816281584f672",
+   "remote": "13951d378e9a3ea2d3791ab5dc1816281584f672",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/threat_r18_video.json",
+   "status": "A",
+   "local": "67d4dae049dc441aa2ce606f3417d53363f7fd8c",
+   "remote": "67d4dae049dc441aa2ce606f3417d53363f7fd8c",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/browser/threat_r18_video.txt",
+   "status": "A",
+   "local": "c77a248d9e1a02462cf3f443435f2239bd830407",
+   "remote": "c77a248d9e1a02462cf3f443435f2239bd830407",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/audit_net_r17_rerun1.txt",
+   "status": "A",
+   "local": "8c8c3cf435c10dff504415f2e8b5a564e4b7990a",
+   "remote": "8c8c3cf435c10dff504415f2e8b5a564e4b7990a",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/audit_net_r18_group3a.txt",
+   "status": "A",
+   "local": "d04e62955ae68997f5b66c04c5f1a412d33c446d",
+   "remote": "d04e62955ae68997f5b66c04c5f1a412d33c446d",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/audit_net_r18_rerun1.txt",
+   "status": "A",
+   "local": "d8ade692989098508f3189d02ba4ff76b776fbcd",
+   "remote": "d8ade692989098508f3189d02ba4ff76b776fbcd",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/audit_net_r18_rerun2.txt",
+   "status": "A",
+   "local": "daf2900aa5deb66f0f5710a07a8615cbb4c90cbd",
+   "remote": "daf2900aa5deb66f0f5710a07a8615cbb4c90cbd",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/browsers_r18_rerun1.txt",
+   "status": "A",
+   "local": "fae05fb7d0ce14226500eebb7346607d27c80e97",
+   "remote": "fae05fb7d0ce14226500eebb7346607d27c80e97",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/browsers_r18_rerun1_report.json",
+   "status": "A",
+   "local": "35c9058cee5c3fb7a5ee9f88925a23015010cb6a",
+   "remote": "35c9058cee5c3fb7a5ee9f88925a23015010cb6a",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/gate_full_group1_r18.txt",
+   "status": "A",
+   "local": "636fa9f3c8b10bf3f017e9ba3731432e27ed60df",
+   "remote": "636fa9f3c8b10bf3f017e9ba3731432e27ed60df",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/gate_full_group1_r18_report.json",
+   "status": "A",
+   "local": "c4a828284259baabf71c67f1e25174264a0bf961",
+   "remote": "c4a828284259baabf71c67f1e25174264a0bf961",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/gate_full_group2_r18.txt",
+   "status": "A",
+   "local": "6839062a625dc3fd3ef9d1c4e66d7150a638d209",
+   "remote": "6839062a625dc3fd3ef9d1c4e66d7150a638d209",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/gate_full_group2_r18_report.json",
+   "status": "A",
+   "local": "f07e1107ed9d2ea46687c81980e891bcbd5cefd5",
+   "remote": "f07e1107ed9d2ea46687c81980e891bcbd5cefd5",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/gate_full_group3a_r18.txt",
+   "status": "A",
+   "local": "fff3de15d7c54b8d6ae744291c02896b848401ec",
+   "remote": "fff3de15d7c54b8d6ae744291c02896b848401ec",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/gate_full_group3a_r18_perf_det.json",
+   "status": "A",
+   "local": "33b901995b302f07d49eb690896601779444a51a",
+   "remote": "33b901995b302f07d49eb690896601779444a51a",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/gate_full_group3a_r18_report.json",
+   "status": "A",
+   "local": "fd6c6899639456c3d40e2beb9fc4f303d8c02d69",
+   "remote": "fd6c6899639456c3d40e2beb9fc4f303d8c02d69",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/gate_full_group3a_r18_suites_report.json",
+   "status": "A",
+   "local": "93c4ada2e5628112ed56c630186159888c603826",
+   "remote": "93c4ada2e5628112ed56c630186159888c603826",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/gate/two_browser_r18_group2_failed.json",
+   "status": "A",
+   "local": "1d8961dc1e98eb7f89fd1d2fd8f55701e6f80b34",
+   "remote": "1d8961dc1e98eb7f89fd1d2fd8f55701e6f80b34",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/perf/perf_r16_counts_r18.json",
+   "status": "A",
+   "local": "8a7066fabed5724f69c69b8d11975fb6289b87af",
+   "remote": "8a7066fabed5724f69c69b8d11975fb6289b87af",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/perf/perf_r16_counts_r18.txt",
+   "status": "A",
+   "local": "09b0cc9a6055c5ce811e71ec4fcc815cfb55005f",
+   "remote": "09b0cc9a6055c5ce811e71ec4fcc815cfb55005f",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/perf/perf_r18_vs_r8_swapped.json",
+   "status": "A",
+   "local": "d56d78635b4a8f4adb23eb54ce2538fb07af097e",
+   "remote": "d56d78635b4a8f4adb23eb54ce2538fb07af097e",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/perf/perf_r18_vs_r8_swapped.txt",
+   "status": "A",
+   "local": "d7baa4021be25b5bb32b941b44d1af587196b524",
+   "remote": "d7baa4021be25b5bb32b941b44d1af587196b524",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/perf/perf_r8_vs_r18.json",
+   "status": "A",
+   "local": "9c66ac50172dd9ec502f7559e643330c005012b1",
+   "remote": "9c66ac50172dd9ec502f7559e643330c005012b1",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/perf/perf_r8_vs_r18.txt",
+   "status": "A",
+   "local": "8d0b36f6ae5417c14598d2d0718786e7ec158fdd",
+   "remote": "8d0b36f6ae5417c14598d2d0718786e7ec158fdd",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/dither_r16i_h.55.txt",
+   "status": "A",
+   "local": "0a488d46fa2bfe6f976e9e1ab15ffc2ff3da5cdf",
+   "remote": "0a488d46fa2bfe6f976e9e1ab15ffc2ff3da5cdf",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/dither_r16i_h.7.txt",
+   "status": "A",
+   "local": "54f059a5766211484b100374ee081b17ded65bbe",
+   "remote": "54f059a5766211484b100374ee081b17ded65bbe",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/dither_r16i_h.8.txt",
+   "status": "A",
+   "local": "08e148e50f0df8baab787fecdc2f80a42143cffc",
+   "remote": "08e148e50f0df8baab787fecdc2f80a42143cffc",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/dither_r18_h.55.txt",
+   "status": "A",
+   "local": "cc61b9eca66ba2a25ea7150355ea419bc923d693",
+   "remote": "cc61b9eca66ba2a25ea7150355ea419bc923d693",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/dither_r18_h.7.txt",
+   "status": "A",
+   "local": "87d3d84b7c789705ff90c6e66dedcbe378242fb6",
+   "remote": "87d3d84b7c789705ff90c6e66dedcbe378242fb6",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/dither_r18_h.8.txt",
+   "status": "A",
+   "local": "f67b290b2a23bd1f7d70443d70cbf76bf37517da",
+   "remote": "f67b290b2a23bd1f7d70443d70cbf76bf37517da",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/dither_r8_h.55.txt",
+   "status": "A",
+   "local": "70ff9019f9ef8130dd1274c28fb37dc9f4154740",
+   "remote": "70ff9019f9ef8130dd1274c28fb37dc9f4154740",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/dither_r8_h.7.txt",
+   "status": "A",
+   "local": "67c998af1df05ec61bc59c6e32a953dadac84ced",
+   "remote": "67c998af1df05ec61bc59c6e32a953dadac84ced",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/dither_r8_h.8.txt",
+   "status": "A",
+   "local": "f11b480f019131d9952d4275f222857f6c2e5465",
+   "remote": "f11b480f019131d9952d4275f222857f6c2e5465",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/walkaway_r16i_h.55.txt",
+   "status": "A",
+   "local": "21f2a185c500420de8ced34871b8c80fa34bbd3d",
+   "remote": "21f2a185c500420de8ced34871b8c80fa34bbd3d",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/walkaway_r16i_h.7.txt",
+   "status": "A",
+   "local": "7d947cfbbc40617da63d70035bbd38d3ec11f817",
+   "remote": "7d947cfbbc40617da63d70035bbd38d3ec11f817",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/walkaway_r16i_h.8.txt",
+   "status": "A",
+   "local": "72f8664e30b0424638988c66b4fc53427b8ed786",
+   "remote": "72f8664e30b0424638988c66b4fc53427b8ed786",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/walkaway_r18_h.55.txt",
+   "status": "A",
+   "local": "0220086d75be5de69f72f0f62565f4b794b256a7",
+   "remote": "0220086d75be5de69f72f0f62565f4b794b256a7",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/walkaway_r18_h.7.txt",
+   "status": "A",
+   "local": "0419162cf1685c9c6106e982bbc044e341ce982a",
+   "remote": "0419162cf1685c9c6106e982bbc044e341ce982a",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/walkaway_r18_h.8.txt",
+   "status": "A",
+   "local": "f303329549f9865c12cdfdb9f42bf31e9cd3d8a8",
+   "remote": "f303329549f9865c12cdfdb9f42bf31e9cd3d8a8",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/walkaway_r8_h.55.txt",
+   "status": "A",
+   "local": "b1dbbef6ef236c1fa772635e5535b0cbd8e83772",
+   "remote": "b1dbbef6ef236c1fa772635e5535b0cbd8e83772",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/walkaway_r8_h.7.txt",
+   "status": "A",
+   "local": "3b673af59f0f0bb5b25097b227e987ac0693a4e1",
+   "remote": "3b673af59f0f0bb5b25097b227e987ac0693a4e1",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/probes/walkaway_r8_h.8.txt",
+   "status": "A",
+   "local": "b2cb8ba1fdd8dc2a618ec3546cd0c23f39275767",
+   "remote": "b2cb8ba1fdd8dc2a618ec3546cd0c23f39275767",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/secret_scan_r18_pre.txt",
+   "status": "A",
+   "local": "d372f1930d33a901d6285c448cb8f65bfc9b774c",
+   "remote": "d372f1930d33a901d6285c448cb8f65bfc9b774c",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/sim/sim_r16i_h.55.json",
+   "status": "A",
+   "local": "b79346919b3a34597e8bd82479c5f5673e647336",
+   "remote": "b79346919b3a34597e8bd82479c5f5673e647336",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/sim/sim_r16i_h.85.json",
+   "status": "A",
+   "local": "039b7888202de81204b229097b243111f56b2ca2",
+   "remote": "039b7888202de81204b229097b243111f56b2ca2",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/sim/sim_r18_h.55.json",
+   "status": "A",
+   "local": "b3ab6c65e0413699691eef8d12e54523b5c75e99",
+   "remote": "b3ab6c65e0413699691eef8d12e54523b5c75e99",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/sim/sim_r18_h.85.json",
+   "status": "A",
+   "local": "dc9453bb867892d44705a1f3778ea73c84781eb7",
+   "remote": "dc9453bb867892d44705a1f3778ea73c84781eb7",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/sim/sim_r8_h.55.json",
+   "status": "A",
+   "local": "308f16ccadf5db23c466a9c1b1d02028257d0667",
+   "remote": "308f16ccadf5db23c466a9c1b1d02028257d0667",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/sim/sim_r8_h.85.json",
+   "status": "A",
+   "local": "8b95ab5cbe5b73d74ad233875ca4985e2a32b3bd",
+   "remote": "8b95ab5cbe5b73d74ad233875ca4985e2a32b3bd",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/checks/build_check.txt",
+   "status": "A",
+   "local": "aaff0e1cb333cd5d98d35fa2e5f9dd4f31c5974b",
+   "remote": "aaff0e1cb333cd5d98d35fa2e5f9dd4f31c5974b",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/checks/docs.txt",
+   "status": "A",
+   "local": "a91dfc6c16ef88d6d6f4e611738a02686d5f0921",
+   "remote": "a91dfc6c16ef88d6d6f4e611738a02686d5f0921",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/checks/facts.txt",
+   "status": "A",
+   "local": "33cd8d2ce84568803ee00b24f6155d68d196068e",
+   "remote": "33cd8d2ce84568803ee00b24f6155d68d196068e",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/checks/modules.txt",
+   "status": "A",
+   "local": "656c17c81687182f59e734d0533f7a79de8acc0b",
+   "remote": "656c17c81687182f59e734d0533f7a79de8acc0b",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/checks/parts.txt",
+   "status": "A",
+   "local": "dfef75258110737bbc808ea8bffaef0a64bcdec8",
+   "remote": "dfef75258110737bbc808ea8bffaef0a64bcdec8",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/checks/scope.txt",
+   "status": "A",
+   "local": "f4dcc9737bd69198efeef84cd91cbafa199867fa",
+   "remote": "f4dcc9737bd69198efeef84cd91cbafa199867fa",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/checks/window_contract.txt",
+   "status": "A",
+   "local": "5591d38f177b8b6af2799db14a0bb0b55e4a62f9",
+   "remote": "5591d38f177b8b6af2799db14a0bb0b55e4a62f9",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/fails.txt",
+   "status": "A",
+   "local": "0747e2eff0e1e07b07f779c2c0951a0bd840bab0",
+   "remote": "0747e2eff0e1e07b07f779c2c0951a0bd840bab0",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/humanqa.txt",
+   "status": "A",
+   "local": "c8251c4f80e86c1cf3ef7d8d551c712d98a0ff16",
+   "remote": "c8251c4f80e86c1cf3ef7d8d551c712d98a0ff16",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/npm_test.txt",
+   "status": "A",
+   "local": "7349af79f89a7f507e016e4756014f936db0b681",
+   "remote": "7349af79f89a7f507e016e4756014f936db0b681",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/s_skinadv.txt",
+   "status": "A",
+   "local": "f365a2093316c03cd520e0ad58cf0da3606b548c",
+   "remote": "f365a2093316c03cd520e0ad58cf0da3606b548c",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/s_skinap.txt",
+   "status": "A",
+   "local": "eaeb1c4477040e64b83b86f9ace2a5d2616ddc7d",
+   "remote": "eaeb1c4477040e64b83b86f9ace2a5d2616ddc7d",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/s_skinbehave.txt",
+   "status": "A",
+   "local": "607ff5a8a9f9de2737805a195de51ff9af7f9188",
+   "remote": "607ff5a8a9f9de2737805a195de51ff9af7f9188",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/s_skinbody.txt",
+   "status": "A",
+   "local": "813383fe45003e800c74a3f81cc483938adc3df0",
+   "remote": "813383fe45003e800c74a3f81cc483938adc3df0",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/s_skinmind.txt",
+   "status": "A",
+   "local": "1189ecd6a98b926531939141134fe082c6724170",
+   "remote": "1189ecd6a98b926531939141134fe082c6724170",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/s_skinpredator.txt",
+   "status": "A",
+   "local": "5ef9d583e4456a33ce42f35c5deb50ce2713b39d",
+   "remote": "5ef9d583e4456a33ce42f35c5deb50ce2713b39d",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/s_skinr16.txt",
+   "status": "A",
+   "local": "7dd127ad49ba98b4004ff4996d48c3ba3a9bd0b6",
+   "remote": "7dd127ad49ba98b4004ff4996d48c3ba3a9bd0b6",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/s_skinr9.txt",
+   "status": "A",
+   "local": "2bcf0d2546dc1653284820b2631aa52563fd2d8b",
+   "remote": "2bcf0d2546dc1653284820b2631aa52563fd2d8b",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/s_skinrend.txt",
+   "status": "A",
+   "local": "bf1889a6e8665798a6af47a091e370ec4eff2471",
+   "remote": "bf1889a6e8665798a6af47a091e370ec4eff2471",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/s_skinroute.txt",
+   "status": "A",
+   "local": "c30eaacb53dd02c01937365cae241cef01a1b9c9",
+   "remote": "c30eaacb53dd02c01937365cae241cef01a1b9c9",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/s_skinsight.txt",
+   "status": "A",
+   "local": "3186c3d3d75f62dd7b698f421e11057e6d352026",
+   "remote": "3186c3d3d75f62dd7b698f421e11057e6d352026",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/s_skinstealer.txt",
+   "status": "A",
+   "local": "dcdfa0cf8da66b569bf8eeb383f3af54fb389ec4",
+   "remote": "dcdfa0cf8da66b569bf8eeb383f3af54fb389ec4",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/evidence/r18/tests/s_wandererlock.txt",
+   "status": "A",
+   "local": "53e63290bbfd241d55bf37f7b0f53f2124041991",
+   "remote": "53e63290bbfd241d55bf37f7b0f53f2124041991",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/tools/r16g_campaign.js",
+   "status": "M",
+   "local": "279c2de8615d743aaa3a646393f7581187c6d4c1",
+   "remote": "279c2de8615d743aaa3a646393f7581187c6d4c1",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/tools/scene_probe.js",
+   "status": "A",
+   "local": "700a4749a827fa8c42142a09a959cce595522390",
+   "remote": "700a4749a827fa8c42142a09a959cce595522390",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/tools/threat_measure.js",
+   "status": "A",
+   "local": "49f772e2849e88d871a01d7820d8ee356b26fae2",
+   "remote": "49f772e2849e88d871a01d7820d8ee356b26fae2",
+   "ok": true
+  },
+  {
+   "path": "dev/trial-3-r9-overhaul/tools/threat_sim.js",
+   "status": "A",
+   "local": "ab8d15442bcdb2e406bd2d8ddce6af13aea3baab",
+   "remote": "ab8d15442bcdb2e406bd2d8ddce6af13aea3baab",
+   "ok": true
+  },
+  {
+   "path": "generated/BUILD_MANIFEST.json",
+   "status": "M",
+   "local": "0979a280fd06cd28aa4f5435ebd37bc4edb38097",
+   "remote": "0979a280fd06cd28aa4f5435ebd37bc4edb38097",
+   "ok": true
+  },
+  {
+   "path": "generated/server/ai.js",
+   "status": "M",
+   "local": "e347a309f9718a938336c06c618b3903917d7c14",
+   "remote": "e347a309f9718a938336c06c618b3903917d7c14",
+   "ok": true
+  },
+  {
+   "path": "src/frameworks/nani/server/ai.skin.move.js",
+   "status": "M",
+   "local": "52c0556baf5a68260f3d28da9a8aac02532f155b",
+   "remote": "52c0556baf5a68260f3d28da9a8aac02532f155b",
+   "ok": true
+  },
+  {
+   "path": "src/frameworks/nani/server/ai.skin.preempt.js",
+   "status": "M",
+   "local": "dc9a6bd0ca2cb04565d43cf8614713d45e9b7d4e",
+   "remote": "dc9a6bd0ca2cb04565d43cf8614713d45e9b7d4e",
+   "ok": true
+  },
+  {
+   "path": "src/frameworks/nani/server/ai.skinstealer.js",
+   "status": "M",
+   "local": "a2d35479f92dd34b67970ba01581477942ec4c07",
+   "remote": "a2d35479f92dd34b67970ba01581477942ec4c07",
+   "ok": true
+  }
+ ],
+ "protected": {
+  "main": {
+   "expected": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "api": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "apiTree": "15eee7643ea69c8733e55dacc34981e7276c17e0",
+   "lsRemote": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "ok": true
+  },
+  "stage-3h-engine-modernization": {
+   "expected": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "api": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "apiTree": "677d4ebf95d960e51dc86792bbc0861e3e1eb4c9",
+   "lsRemote": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "ok": true
+  },
+  "stage-3h": {
+   "expected": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "api": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "apiTree": "d44c4bafa3c1a78e2d910187ecbe1cc2ec18f3c9",
+   "lsRemote": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "ok": true
+  },
+  "stage-3e-0-bplusplus": {
+   "expected": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "api": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "apiTree": "b25c26ec3eedab406a6b93f80a59ba6a1cb7c128",
+   "lsRemote": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "ok": true
+  },
+  "post-3h-trials-1-2-4": {
+   "expected": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "api": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "apiTree": "7f1ead5efe5a8c136134f1f1db19e8e087960cc2",
+   "lsRemote": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "ok": true
+  },
+  "trial-4-rgb-chat-accessibility": {
+   "expected": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "api": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "apiTree": "72e60eb7b68a8dc3d2f735599d8ab828fc21691e",
+   "lsRemote": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "ok": true
+  },
+  "post-trial4-review-polish": {
+   "expected": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "api": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "apiTree": "ddc6385c0f6d7112bfaf9dac3e40154acd4bbaed",
+   "lsRemote": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "ok": true
+  },
+  "post-trial4-chat-voice-polish": {
+   "expected": "63805e98867c3677261307b8cd597f63592b8c45",
+   "api": "63805e98867c3677261307b8cd597f63592b8c45",
+   "apiTree": "60e4452bb90c3a9650022dcdae9c2a225c356a8d",
+   "lsRemote": "63805e98867c3677261307b8cd597f63592b8c45",
+   "ok": true
+  },
+  "pre-trial3-final-polish": {
+   "expected": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "api": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "apiTree": "d6b71b88e2baaec0cce1eb8a222ccc66ad1a1aef",
+   "lsRemote": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "ok": true
+  },
+  "trial-3-skin-stealer": {
+   "expected": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "api": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "apiTree": "26234cdcd68b59727c68bbd21662b980d8d28bbe",
+   "lsRemote": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "ok": true
+  },
+  "trial-3-behavior-refinement": {
+   "expected": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "api": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "apiTree": "28815b06019ed38aff8c083e93b1ba7056da3d67",
+   "lsRemote": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "ok": true
+  },
+  "trial-3-predator-refinement": {
+   "expected": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "api": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "apiTree": "a6d72690727a58dbab6e770dfda64a1d9dbf70f3",
+   "lsRemote": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "ok": true
+  },
+  "trial-3-cognitive-predator-refinement": {
+   "expected": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "api": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "apiTree": "9dc97e2a848f130b4a9f21921b4e8d1bfb32eed5",
+   "lsRemote": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "ok": true
+  }
+ },
+ "otherBranchesUntouched": {
+  "br-role": {
+   "expected": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "remote": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "ok": true
+  },
+  "lighting-shadows-2d": {
+   "expected": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "remote": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "ok": true
+  },
+  "main": {
+   "expected": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "remote": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "ok": true
+  },
+  "part-3a": {
+   "expected": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "remote": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "ok": true
+  },
+  "part-3b": {
+   "expected": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "remote": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "ok": true
+  },
+  "post-3h-trials-1-2-4": {
+   "expected": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "remote": "58fcf5b9ab8a115ea266f0e39d16bed49c0cdfa5",
+   "ok": true
+  },
+  "post-trial4-chat-voice-polish": {
+   "expected": "63805e98867c3677261307b8cd597f63592b8c45",
+   "remote": "63805e98867c3677261307b8cd597f63592b8c45",
+   "ok": true
+  },
+  "post-trial4-review-polish": {
+   "expected": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "remote": "1a89863286d218c8b67ccc5456ee08bbf8c15066",
+   "ok": true
+  },
+  "pre-trial3-final-polish": {
+   "expected": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "remote": "1ff9374babc034eafed4c7c26dc941f46fc55908",
+   "ok": true
+  },
+  "stage-3b-l": {
+   "expected": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "remote": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "ok": true
+  },
+  "stage-3b-l-qa1": {
+   "expected": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "remote": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "ok": true
+  },
+  "stage-3b-l-qa2": {
+   "expected": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "remote": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "ok": true
+  },
+  "stage-3b-n": {
+   "expected": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "remote": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "ok": true
+  },
+  "stage-3b-n-camera": {
+   "expected": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "remote": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "ok": true
+  },
+  "stage-3b-pillar-los": {
+   "expected": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "remote": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "ok": true
+  },
+  "stage-3b-remaster": {
+   "expected": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "remote": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "ok": true
+  },
+  "stage-3c": {
+   "expected": "76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace",
+   "remote": "76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace",
+   "ok": true
+  },
+  "stage-3c-qa1": {
+   "expected": "5f30e28532200bca52b57a112c6691498a263e92",
+   "remote": "5f30e28532200bca52b57a112c6691498a263e92",
+   "ok": true
+  },
+  "stage-3c-qa2": {
+   "expected": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+   "remote": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+   "ok": true
+  },
+  "stage-3d": {
+   "expected": "ffe2b53c2e5c6aa76a8db8bd222fd1910c1b0e57",
+   "remote": "ffe2b53c2e5c6aa76a8db8bd222fd1910c1b0e57",
+   "ok": true
+  },
+  "stage-3d-hq1": {
+   "expected": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+   "remote": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+   "ok": true
+  },
+  "stage-3d-hq2": {
+   "expected": "f542b7cbd90f95148e644e6cba513cf55ddd52c9",
+   "remote": "f542b7cbd90f95148e644e6cba513cf55ddd52c9",
+   "ok": true
+  },
+  "stage-3d-hq3": {
+   "expected": "49343193e6948c8323f35a34539ac84db5a89835",
+   "remote": "49343193e6948c8323f35a34539ac84db5a89835",
+   "ok": true
+  },
+  "stage-3d-hq4": {
+   "expected": "79e146124a5941c6578ef84dc9ff13176cc7f1f0",
+   "remote": "79e146124a5941c6578ef84dc9ff13176cc7f1f0",
+   "ok": true
+  },
+  "stage-3d-hq5": {
+   "expected": "ad98475767bcae6794cd01af832de660355da7a2",
+   "remote": "ad98475767bcae6794cd01af832de660355da7a2",
+   "ok": true
+  },
+  "stage-3e-0": {
+   "expected": "1f2deba0fc4a1facd41366fb2da9b88af3bd5a52",
+   "remote": "1f2deba0fc4a1facd41366fb2da9b88af3bd5a52",
+   "ok": true
+  },
+  "stage-3e-0-bplusplus": {
+   "expected": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "remote": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "ok": true
+  },
+  "stage-3h": {
+   "expected": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "remote": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+   "ok": true
+  },
+  "stage-3h-engine-modernization": {
+   "expected": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "remote": "4beba2f36deaf17473ad3b955eeefdd6fcfbd90b",
+   "ok": true
+  },
+  "stage-3h0": {
+   "expected": "06949a8a4204a1ce8144b87b2192251b259b21ec",
+   "remote": "06949a8a4204a1ce8144b87b2192251b259b21ec",
+   "ok": true
+  },
+  "stage-e": {
+   "expected": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "remote": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "ok": true
+  },
+  "stage-f": {
+   "expected": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "remote": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "ok": true
+  },
+  "stage-g": {
+   "expected": "7fb4dafef92040571209403358e536ccb1105509",
+   "remote": "7fb4dafef92040571209403358e536ccb1105509",
+   "ok": true
+  },
+  "stage-h": {
+   "expected": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "remote": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "ok": true
+  },
+  "stage-i": {
+   "expected": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "remote": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "ok": true
+  },
+  "trial-3-behavior-refinement": {
+   "expected": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "remote": "4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a",
+   "ok": true
+  },
+  "trial-3-cognitive-predator-refinement": {
+   "expected": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "remote": "02175734d5b9626bf02867f2e6f85a508270e91d",
+   "ok": true
+  },
+  "trial-3-predator-refinement": {
+   "expected": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "remote": "f378049a825e53eafc626a637b8c43397e4072f0",
+   "ok": true
+  },
+  "trial-3-skin-stealer": {
+   "expected": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "remote": "020b5b533a3ab1e8edaaa7dd6a02bf29070421fc",
+   "ok": true
+  },
+  "trial-4-rgb-chat-accessibility": {
+   "expected": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "remote": "518b99021b601963cfe0ee79e9bfd2cccd2f3748",
+   "ok": true
+  }
+ },
+ "newBranches": [],
+ "checks": {
+  "remote tip is local HEAD": true,
+  "tree and parent agree": true,
+  "one straight line from f378049": true,
+  "every changed file has the same blob on GitHub": true,
+  "protected branches unchanged": true,
+  "every other branch unchanged": true,
+  "no new branch besides this one": true
+ },
+ "ok": true
+}
