@@ -548,8 +548,8 @@
   },
   {
    "out": "public/mp.js",
-   "bytes": 108345,
-   "sha256": "4c0887408a6f35de6381da9d0e4a5befdebec48f2c4600e73329ae6c79084047",
+   "bytes": 108395,
+   "sha256": "f92710db4ae98d946727dddca6f35d7c2c6dc584607eb4aa7bd20b5aab993c1b",
    "parts": [
     {
      "path": "src/core/client/mp.js",
@@ -593,7 +593,7 @@
     },
     {
      "path": "src/frameworks/gib/client/mp.deaths.js",
-     "sha256": "1f13d2602fffef1980503780d478599046387fecf3a9433118f3426fdf70f9e4",
+     "sha256": "81b5019dc91e8951ffef248dde87fb4cab2a1f938eac1ad121b5f5de51659895",
      "headerBytes": 1571
     },
     {
