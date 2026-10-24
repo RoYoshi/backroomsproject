@@ -81,15 +81,18 @@ function pose(S, o, t, dt) {
   const want = POSE[a] || POSE[''], e = 1 - Math.exp(-dt * (a === 'wind' || a === 'pounce' ? 18 : a === 'recover' ? 9 : 6));
   for (let i = 0; i < PK.length; i++) S[PK[i]] += (want[i] - S[PK[i]]) * e;
   // the head: (R4) listening or lying in wait it turns its head exactly as the server says - its listening, nothing invented; other still
-  // figures tilt it, slowly, too far (the T5 tell, cosmetic); otherwise it follows where the server says it looks
+  // figures tilt it, slowly, too far (the T5 tell, cosmetic); otherwise it follows where the server says it looks.  (Trial 3 R20, the N
+  // track: the head swivel) the drawn head is the server's head - the centre of its sight - in every act: the whole of it (R19 drew .7 of it
+  // while it moved) and closely (R19 eased it at 1.3-5 /s, which left a watching head up to .6 rad behind); the T5 tell is a small cock of
+  // the head now (.06-.12 rad, R19 .35-.85), so a head turned away is never a head that is not looking (NA01 measures it)
   const hearing = a === 'listen' || a === 'wait';
-  S.tiltT -= dt; if (S.tiltT <= 0) { S.tiltT = 1.5 + rnd(S) * 3; S.tiltTo = still && !hearing ? (rnd(S) < .5 ? -1 : 1) * (.35 + rnd(S) * .5) : 0; }
+  S.tiltT -= dt; if (S.tiltT <= 0) { S.tiltT = 1.5 + rnd(S) * 3; S.tiltTo = still && !hearing ? (rnd(S) < .5 ? -1 : 1) * (.06 + rnd(S) * .06) : 0; }
   // (R16e) a snap - the server's head jumping toward a sound or a movement - is drawn as one: fast, and the whole of it.  (R16g, the
   // review) told by how far the head moved between two snapshots (50 ms apart): a snap (13 rad/s) moves it up to .65 rad, the plan's own
   // turns (at most 8 rad/s) .4 - over .5 is a snap (R16e's .12 took every brisk turn for one)
   const hd = clamp(o.head || 0, -1.3, 1.3); if (Math.abs(hd - (S.hp ?? hd)) > .5) S.snapT = .45; S.hp = hd; S.snapT = Math.max(0, (S.snapT || 0) - dt);
   const snap = S.snapT > 0;
-  S.tilt += ((snap ? 0 : S.tiltTo) + hd * (hearing || snap ? 1 : .7) - S.tilt) * (1 - Math.exp(-dt * (snap ? 22 : hearing ? 4 : still ? 1.3 : 5)));
+  S.tilt += ((snap ? 0 : S.tiltTo) + hd - S.tilt) * (1 - Math.exp(-dt * (snap ? 22 : 20)));
   S.twitch = Math.max(0, S.twitch - dt * 3); if (still && !hearing && rnd(S) < dt * .35) S.twitch = 1;   // (it holds its breath when it listens)
   S.chew = a === 'feed' ? S.chew + dt : 0;
   // the stride: one cycle a long double step, measured on the floor in the view's own units

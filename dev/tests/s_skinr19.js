@@ -140,16 +140,18 @@ add('SR04 a vault is carried through: begun, the body keeps to the vault\'s line
     e.trav = { ax: L.ax, ay: L.ay, bx: L.bx, by: L.by, t: 0, dur: .5 / .9, prop: L.prop, dir: a };   // (beginTrav's own record: a vault begun)
     const R = { off: 0, ticks: 0, landed: -1, jump: 0 }; let lx = e.x, ly = e.y;
     w.run(2, (ww, t) => {
-      if (e.trav) { R.ticks++; const lx2 = L.bx - L.ax, ly2 = L.by - L.ay, L2 = lx2 * lx2 + ly2 * ly2, k = Math.max(0, Math.min(1, ((e.x - L.ax) * lx2 + (e.y - L.ay) * ly2) / L2)); R.off = Math.max(R.off, Math.hypot(e.x - L.ax - lx2 * k, e.y - L.ay - ly2 * k)); }
+      // (R20, checkpoint D) each vault judged against its own line: with the head swivel it may see the person sooner, go for them and vault
+      // again (back over a prop, from another place) within the 2 s - R19 measured every vault against the first one's line
+      if (e.trav) { R.ticks++; const V = e.trav; if (V !== R.cur) { R.cur = V; R.vaults = (R.vaults || 0) + 1; } const lx2 = V.bx - V.ax, ly2 = V.by - V.ay, L2 = lx2 * lx2 + ly2 * ly2, k = Math.max(0, Math.min(1, ((e.x - V.ax) * lx2 + (e.y - V.ay) * ly2) / L2)); R.off = Math.max(R.off, Math.hypot(e.x - V.ax - lx2 * k, e.y - V.ay - ly2 * k)); }
       else if (R.landed < 0) R.landed = +t.toFixed(3);
       if (!e.pounce && Math.hypot(e.x - lx, e.y - ly) > AI.SKIN.speeds.run * DT * 1.5 + 2 && !e.trav) R.jump++;
       lx = e.x; ly = e.y; return true;
     });
-    rs.push(R);
+    delete R.cur; rs.push(R);
   }
   const ok = rs.filter(r => !r.none);
   return { ok: ok.length >= 4 && ok.every(r => r.off < 1 && r.landed > 0 && r.landed <= .5 / .9 + 2 * DT && r.jump === 0),
-    note: `${ok.length} vaults with a person 160 px off and a hungry one (.9) in it: off the vault's line ${ok.map(r => r.off.toFixed(1)).join('/')} px, landed at ${ok.map(r => r.landed).join('/')} s (its vault ${(.5 / .9).toFixed(2)} s), jumps ${ok.reduce((a, r) => a + r.jump, 0)}` };
+    note: `${ok.length} vaults with a person 160 px off and a hungry one (.9) in it: off the vault's line ${ok.map(r => r.off.toFixed(1)).join('/')} px, landed at ${ok.map(r => r.landed).join('/')} s (its vault ${(.5 / .9).toFixed(2)} s; vaults in the 2 s ${ok.map(r => r.vaults).join('/')}), jumps ${ok.reduce((a, r) => a + r.jump, 0)}` };
 });
 
 add('SR05 no churn where it reckons: a watcher turning to it and away every half second, somebody walking and stopping in turn, somebody walking towards it, somebody walking off its way round - its positioning records at most once a think, plans changed at most a few times a second, no way round begun and dropped on the next think, a refusal not searched again on the next thinks', () => {

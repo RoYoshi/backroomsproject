@@ -1,5 +1,5 @@
 /** @part generated/server/ai.js - N.A.N.I.: entities: personality, movement, traversal, navigation records, state plumbing
- * provides: approach, coarseMove, directOk, directTo, faceToward, follow, goTo, mkEntity, moodTick, moveCollide, navOf, plan,
+ * provides: approach, coarseMove, directOk, directTo, faceToward, follow, goTo, headAhead, mkEntity, moodTick, moveCollide, navOf, plan,
  *           randomFloor, setAct, setState, steerTo, stopMoving, tierOf, turnTo
  * uses: OL, S, SPECIES, TAU, TRAITS, angDiff, clamp, entityStreams, lerp, newMemory
  * writes: -
@@ -295,6 +295,18 @@ function faceToward(e, tx, ty, dt, rate = 4) {
   const err = angDiff(Math.atan2(ty - e.y, tx - e.x), e.ang);
   e.ang = (e.ang + clamp(err, -rate * dt, rate * dt) + TAU) % TAU;
   return Math.abs(err);
+}
+/* (Trial 3 R20, the N track) the head swivel, for a species that opts in with caps.HEAD_SWIVEL = { max, run, rate, ahead }: the head angle
+ * (from the body's heading) its gaze leads with while it walks its route - toward the next bend of its own path as it comes within
+ * `ahead` px of it, more as it nears it, to `max` rad (`run` rad at a run).  It is only where its head points: the sight is the engine's
+ * (centred on e.ang + e.head, range, light and walls as for every species), so the turn shows it the corner's mouth as it opens and nothing
+ * behind the wall; its body's speed, turn and collision are untouched.  A species without the capability gets 0 and never calls it. */
+function headAhead(eng, e) {
+  const H = e.caps && e.caps.HEAD_SWIVEL, P = e.path;
+  if (!H || !P || P.length < 2 || e.trav || e.speed < 30 || P[0].link || P[1].link) return 0;
+  const d0 = Math.hypot(P[0].x - e.x, P[0].y - e.y); if (d0 > H.ahead) return 0;
+  const w = 1 - d0 / H.ahead, lim = e.speed > (H.runFrom || 230) ? H.run : H.max;
+  return clamp(angDiff(Math.atan2(P[1].y - e.y, P[1].x - e.x), e.ang) * w, -lim, lim);
 }
 function moodTick(e, dt) {
   const m = e.mood;
