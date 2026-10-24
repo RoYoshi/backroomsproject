@@ -14,6 +14,7 @@ Trial 3 is **not owner-approved**.  Environment: this session's machine (2 CPUs,
 | Hound / Smiler / navigation suites (s_hound, s_smiler, s_nav, s_chase, s_hound2e, s_shared2f, s_percept, s_capture ...) | green but the inherited | green but the inherited (the same) |
 | every Skin-Stealer suite | green | green |
 | `npm run build:check`, `dev/tools/checks/parts.js` | PASS | PASS |
+| after the second review's comment correction (no code change): the four suites that read the hunk's text - s_nanicorner, s_skinpredator (PR25), s_wandererlock (WL05), s_skinmind (C15) | - | 55/55 (`evidence/N2/locks_after_comment_fix.txt`) |
 
 ## The locks taught exactly the hunk (not loosened)
 
@@ -35,7 +36,7 @@ follower exactly) - before and after in one run.
 | NC01 the stop at a bend | N01, N03, N04, N10 | PASS: Hound 292 px/s slow 1.03 -> 0.55 s, pivoting 0.37 -> 0.03 s, aim jumps 9 -> 1, total time 270.33 -> 269.18 s, no route slower, stop-pivot-go eased 2/2 (6 waypoints passed); Smiler 255 unchanged (0 passed); Skin-Stealer 270 slow 0.27 -> 0, pivoting 0.07 -> 0, aim jumps 7 -> 5 (2 passed); the most off its route at speed Hound 50.4 = 50.4 px (still the widest), Smiler 42 = 42, Skin-Stealer 39 = 39; fastest turns 3.01 / 2.69 / 2.94 rad/s, each within its own rate |
 | NC02 collision | N02, N05, N06 | PASS: 0 ticks inside anything solid (least clearance 0.28 px); contacts Hound 39 -> 38, Smiler 73 = 73, Skin-Stealer 40 = 40; bonks, stuck, side-steps 0 = 0; arrivals equal (118, 176, 180) |
 | NC03 traversal | N07 | PASS: Hound (292 and 92 px/s) and Smiler (255 and 80) routes through vault links and crawl cells (31 runs): the same traversals and modes as R18, no link or crawl waypoint dropped.  It holds by construction - such waypoints, and the one after the next, are excluded from the hunk - and checks exactly that |
-| NC04 the real engine | N08, N09, N15, N17 | PASS: 120 s of two Hounds, a Smiler and a Skin-Stealer among four players, near/mid/far: 28,800 creature-ticks, none inside anything, no jump over its top speed, every number finite, routes at most 10 waypoints (the hunk did not fire there: 0 drops).  Added after the review, where it does fire: Hounds sent after runners by the admin's navigation command (4 seeds x 60 s, `dev/tests/r19n_chase.js`), against the same chase with the hunk taken back out in a child process (`r19n_child.js`): waypoints passed 0 -> 2, inside anything 0 = 0, jumps over its top speed 1 = 1 (R18's own: seed 3 at 21.85 s, an 11.7 px push; none new), stuck re-routes 1 = 1, contacts 121 -> 116 |
+| NC04 the real engine | N08, N09, N15, N17 | PASS: 120 s of two Hounds, a Smiler and a Skin-Stealer among four players, near/mid/far: 28,800 creature-ticks, none inside anything, no jump over its top speed, every number finite, routes at most 10 waypoints (the hunk did not fire there: 0 drops).  Added after the review, where it does fire: Hounds sent after runners by the admin's navigation command (4 seeds x 60 s, `dev/tests/r19n_chase.js`), against the same chase with the hunk taken back out in a child process (`r19n_child.js`): waypoints passed 0 -> 2 (thin, as the second review noted - non-vacuous: it fails with none), inside anything 0 = 0, jumps over its top speed 1 = 1 (R18's own: seed 3 at 21.85 s, an 11.7 px push; none new), stuck re-routes 1 = 1, contacts 121 -> 116 |
 
 The before is in each check (R18's follower measured on the same routes in the same run); the locks (PR25, WL05, C15) fail on any other
 change to ai.entity.js.
@@ -75,3 +76,11 @@ Skin-Stealer +1..+3; contacts, bonks, stuck, re-plans, least clearance, the wide
   9.32).  Recorded here, not hidden; the test (caught at least 85 % within 60 s) passes on both.
 - C15 now also reports the as-built difference (0/0/0); PR25 and WL05 name the hunk.
 - Y02, NV12, X09, P01 (timings): this machine, other jobs running beside the suite; see `PERFORMANCE.md` for the controlled comparison.
+
+## The Skin-Stealer's ordinary play on this tree (the S track's simulation)
+
+The S track's `prechase_sim.js` (on the S branch, `dev/trial-3-r19-positioning/tools/`; `--mins 180 --seeds 12 --log 1`, run with
+`--dir` on this tree): 3 x 36 h of one Skin-Stealer among two people.  Every measure equal to R18's, every run equal (only the wall-clock
+time differs): the hunk never fired for the Skin-Stealer there (its open approach and chase mostly go straight at a person it sees, not
+round a bend of a route at speed).  `evidence/N2/sims_n_vs_r18.json`, the logs `sims_N_*.log` (their `STALE` lines are R18's own late
+vault landings, the same 22 as R18's; the S track carries the vault through).

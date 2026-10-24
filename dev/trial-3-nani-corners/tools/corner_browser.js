@@ -35,6 +35,8 @@ const REC = `(() => { const K = window.__k3; K.hrec = []; const t0 = performance
     for (const id of ARG.routes.split(',').map(Number)) for (let tr = 1; tr <= +ARG.tries; tr++) {
       const R = ROUTES.find(r => r.id === id); if (!R) continue;
       W.cmd({ c: 'freeze', on: true }); W.cmd({ c: 'hounds', mode: 'remove', n: 10 }); await sleep(400);
+      // (a Hound that reached the page is a Hound again once its navigation ends - the page may have been caught: revive it first)
+      await B.alive(W, W, await W.P.evaluate(() => __api.H.id));
       await W.P.evaluate(q => { __api.tp(q.x, q.y); }, { x: R.bx, y: R.by }); await sleep(500);
       const placed = await S.qa({ op: 'spawn', kind: 'hound', x: R.ax, y: R.ay, ang: Math.atan2(R.by - R.ay, R.bx - R.ax) });
       if (!placed || !placed.ok) { out.runs.push({ route: id, tr, skipped: 'not placed' }); continue; }
@@ -45,13 +47,13 @@ const REC = `(() => { const K = window.__k3; K.hrec = []; const t0 = performance
       while (Date.now() - t0 < 16000) {
         await sleep(200);
         const last = await W.P.evaluate(() => { const r = window.__k3.hrec; return r.length ? r[r.length - 1] : null; }).catch(() => null);
-        if (last && Math.hypot(last[1] - R.bx, last[2] - R.by) < 50 && last[4] < 5) break;
+        if (last && Math.hypot(last[1] - R.bx, last[2] - R.by) < 50 && last[4] < 5) { W.cmd({ c: 'freeze', on: true }); break; }
         if (SHOTS && last && shot < 3 && Date.now() - t0 > 1500 + shot * 1500) { shot++; await W.P.screenshot({ path: path.join(SHOTS, `corner_${out.tree}_r${id}_try${tr}_${shot}.png`) }).catch(() => { }); }
       }
       const rec = await W.P.evaluate(() => { const K = window.__k3; K.game.removeEventListener('message', K.onH); cancelAnimationFrame(K.raf); const r = K.hrec.slice(); K.hrec = []; return { r, frames: K.frames }; });
       // the measures, on the samples the page received (each sample: [t page, x, y, heading, speed as sent, act])
       const s = rec.r, M = { route: id, tr, samples: s.length, arrivedS: null, slowest: 1e9, pivotS: 0, maxTurn: 0, minMidV: 1e9, fps: +(rec.frames / Math.max(1, (Date.now() - t0) / 1000)).toFixed(1) };
-      for (let i = 1; i < s.length; i++) {
+      for (let i = 1; i < s.length && M.arrivedS === null; i++) {                     // (measured up to its arrival: after it, the Hound is a Hound again)
         const dt = .05, turn = Math.abs(angDiff(s[i][3], s[i - 1][3])) / dt, toEnd = Math.hypot(s[i][1] - R.bx, s[i][2] - R.by), fromStart = Math.hypot(s[i][1] - R.ax, s[i][2] - R.ay);
         if (fromStart > 120 && toEnd > 120) { M.minMidV = Math.min(M.minMidV, s[i][4]); if (s[i][4] < 292 / 3 && turn > 1.2) M.pivotS += dt; M.maxTurn = Math.max(M.maxTurn, turn); }
         if (M.arrivedS === null && toEnd < 60) M.arrivedS = +(i * .05).toFixed(2);

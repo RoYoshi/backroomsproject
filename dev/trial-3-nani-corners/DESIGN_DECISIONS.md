@@ -16,8 +16,9 @@ waypoint is one the body has passed on the inside of the bend - all of:
 - the waypoint, the next and the one after are plain (no vault link, no crawl or tight-gap cell);
 - the body is within 26 px + 0.12 s of its own travel of it (26 px at rest, 61 px at a Hound's 292 px/s);
 - the body is over the line square to the next leg through the waypoint (`(body - wp) . u_next > 0`);
-- the body is on the inner side of the turn - the side its own heading turns toward to get onto the next leg (a body that ran wide and is
-  curving back is on the other side, and keeps R18's follower);
+- the body is on the side its own heading turns toward to take the next leg - the inside of the bend while it is turning into it (this
+  is a test of its heading, not of the bend's geometry: a body whose heading has already swung past the next leg could pass it from the
+  outside; in the review's 2,000 fresh runs, classified by the real bend, every one of the 39 drops was on the inside);
 - the waypoint lies 80 degrees or more off the body's heading (beside or behind it);
 - the straight line from the body to the point it will aim at along the next leg - its own look-ahead, `clamp(speed x 0.42, 64, 150)` px,
   the carrot's, or the whole leg if shorter - is clear by its collider and 2 px (`geo.lineClear(..., e.rc + 2, e.mode)`);
@@ -75,6 +76,15 @@ A reviewer who had not seen the work read the hunk and probed it on fresh seeds.
 **Balancing defaults (new, in the code):** 1 rad (the aim's swing), 26 px + 0.12 s (reach), 1.4 rad (beside or behind), the body's own
 look-ahead (64-150 px) along the next leg, the collider + 2 px (room).  No speed, turn rate, acceleration, collider, clearance, smoothing,
 braking or feeler value changed.
+
+## The second independent review
+
+A second reviewer read the narrowed hunk and probed it (no blocker): the inner-side sign is right for corner cutting, re-entry is bounded
+by `o.passed`, the stuck side-step and link/crawl waypoints are excluded, `moveCollide` is unchanged (the drop changes only the aim and
+cannot tunnel), and the locks pin exactly this text.  Two nits, both taken: the hunk's comment said the side test was geometric - it is a
+test of the heading (corrected above and in the code's comment; behaviour unchanged, `r19n_patch.js` regenerated); and NC04's navigation
+chase exercises the hunk only thinly (2 drops in 28,800 Hound-ticks) - it is non-vacuous (it fails with none) and the weight of the
+evidence is NC01-NC03, the seed-7 audit and the fresh seeds.
 
 ## The locks that hold the shared engine, taught exactly this hunk
 

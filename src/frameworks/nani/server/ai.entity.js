@@ -226,8 +226,9 @@ function follow(eng, e, dt, vmax, o = {}) {
   else {
     e.unst = null; const c = carrotOf(eng, e, clamp(e.speed * .42, 64, 150)); tx = c.x; ty = c.y;
     // (Trial 3 R19, the N track) the aim swinging back - over 57 deg off the body's heading - for a waypoint the body has passed on the inside
-    // of a bend: it cut the corner and is beside the waypoint - over the line square to the next leg through it, on the inner side of the
-    // turn (the side its heading turns toward: a body that ran wide and is curving back is not), the waypoint 80 deg or more off its heading,
+    // of a bend: it cut the corner and is beside the waypoint - over the line square to the next leg through it, on the side its heading
+    // turns toward to take the next leg (the inside of the bend while it turns into it; a test of its heading, not of the bend's geometry:
+    // the review's fresh seeds found every drop on the inside), the waypoint 80 deg or more off its heading,
     // within 26 px and .12 s of its travel - and can get onto the next leg from here: the line to a point its own look-ahead along it (64-150
     // px by its speed, or the whole leg) is clear by its collider and 2 px, and neither the next waypoint nor the one after is a vault link
     // or a crawl cell.  The waypoint is dropped and this tick followed again without it.  R8-R18 kept it until the body was 26 px from it or the
