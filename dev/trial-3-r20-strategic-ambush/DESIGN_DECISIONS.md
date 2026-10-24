@@ -157,3 +157,12 @@ ears it is not.  Each changed check keeps its property and says why, in a commen
 
 **Not changed: the owner's crouch stealth.**  A first proposal of crouched steps heard at × 1.9 failed PR11 and PR15.  The proposal was
 withdrawn; the test was not changed.
+
+## S10 (checkpoint C3): a search goes to floor its body fits
+
+A search's goal comes from a guess or a heard place: `skSearch`, and the hunt's "fresher footsteps" move.  That place can lie against or
+inside a wall.  A goal its body could not reach left it pinned at a corner, side-stepping, until the watchdog cleared its route.  The
+combined tree's stuck trace showed it: 15 s at hunger .55, in one seed.
+
+The goal is now set down with `skFloorNear`: open floor within 200 px that its collider fits, as its patrol places already were.  The
+same checkpoint carries the N track's W4: a second side-step at the same spot goes to a new route.

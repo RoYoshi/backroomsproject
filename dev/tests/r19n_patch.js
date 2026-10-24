@@ -33,8 +33,18 @@ const HUNKS = [
   "src/frameworks/nani/server/ai.entity.js"
  ],
  [
-  "function moodTick(e, dt) {\n",
-  "/* (Trial 3 R20, the N track) the head swivel, for a species that opts in with caps.HEAD_SWIVEL = { max, run, rate, ahead }: the head angle\n * (from the body's heading) its gaze leads with while it walks its route - toward the next bend of its own path as it comes within\n * `ahead` px of it, more as it nears it, to `max` rad (`run` rad at a run).  It is only where its head points: the sight is the engine's\n * (centred on e.ang + e.head, range, light and walls as for every species), so the turn shows it the corner's mouth as it opens and nothing\n * behind the wall; its body's speed, turn and collision are untouched.  A species without the capability gets 0 and never calls it. */\nfunction headAhead(eng, e) {\n  const H = e.caps && e.caps.HEAD_SWIVEL, P = e.path;\n  if (!H || !P || P.length < 2 || e.trav || e.speed < 30 || P[0].link || P[1].link) return 0;\n  const d0 = Math.hypot(P[0].x - e.x, P[0].y - e.y); if (d0 > H.ahead) return 0;\n  const w = 1 - d0 / H.ahead, lim = e.speed > (H.runFrom || 230) ? H.run : H.max;\n  return clamp(angDiff(Math.atan2(P[1].y - e.y, P[1].x - e.x), e.ang) * w, -lim, lim);\n}\nfunction moodTick(e, dt) {\n",
+  "  if (e.stuck > .35 && !e.unst) {\n",
+  "  // (R20 D3, the Skin-Stealer's alone: caps.TURN_AWARE_STUCK) a second side-step at the same spot within 2.5 s goes straight to the new\n  // route: R8-R19's ladder, pinned on a corner its waypoint's line clips, side-stepped every second and never reached the new route (each\n  // side-step lets the timer fall back) until the watchdog cleared its route 6 s on - the \"stuck: the watchdog cleared its route\" a\n  // search showed in R20's traces.  Every other species keeps the ladder as it was\n  const U = e.unstAt;\n  if (e.stuck > .35 && !e.unst && e.caps.TURN_AWARE_STUCK && U && eng.now - U.t < 2.5 && Math.hypot(e.x - U.x, e.y - U.y) < 40) { e.stuck = 1; e.unstAt = null; }\n  else if (e.stuck > .35 && !e.unst) {\n",
+  "src/frameworks/nani/server/ai.entity.js"
+ ],
+ [
+  "    if (best !== null) { e.unst = { dir: best, until: eng.now + .45 }; navOf(e).recover++; }\n",
+  "    if (best !== null) { e.unst = { dir: best, until: eng.now + .45 }; navOf(e).recover++; if (e.caps.TURN_AWARE_STUCK) e.unstAt = { t: eng.now, x: e.x, y: e.y }; }\n",
+  "src/frameworks/nani/server/ai.entity.js"
+ ],
+ [
+  "}\nfunction moodTick(e, dt) {\n",
+  "}\n/* (Trial 3 R20, the N track) the head swivel, for a species that opts in with caps.HEAD_SWIVEL = { max, run, rate, ahead }: the head angle\n * (from the body's heading) its gaze leads with while it walks its route - toward the next bend of its own path as it comes within\n * `ahead` px of it, more as it nears it, to `max` rad (`run` rad at a run).  It is only where its head points: the sight is the engine's\n * (centred on e.ang + e.head, range, light and walls as for every species), so the turn shows it the corner's mouth as it opens and nothing\n * behind the wall; its body's speed, turn and collision are untouched.  A species without the capability gets 0 and never calls it. */\nfunction headAhead(eng, e) {\n  const H = e.caps && e.caps.HEAD_SWIVEL, P = e.path;\n  if (!H || !P || P.length < 2 || e.trav || e.speed < 30 || P[0].link || P[1].link) return 0;\n  const d0 = Math.hypot(P[0].x - e.x, P[0].y - e.y); if (d0 > H.ahead) return 0;\n  const w = 1 - d0 / H.ahead, lim = e.speed > (H.runFrom || 230) ? H.run : H.max;\n  return clamp(angDiff(Math.atan2(P[1].y - e.y, P[1].x - e.x), e.ang) * w, -lim, lim);\n}\nfunction moodTick(e, dt) {\n",
   "src/frameworks/nani/server/ai.entity.js",
   "head"
  ],

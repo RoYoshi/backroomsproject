@@ -994,7 +994,9 @@ function skInterceptWay(eng, e, P, r, g) {
   plan(eng, e, g.x, g.y, { why: 'intercept', cost: skAround(eng, g.from, { x: g.qx, y: g.qy }), maxNodes: 4000 });
 }
 function skSearch(eng, e, r, why, goal, extra) {
-  const G = goal || { x: r.lkx, y: r.lky };
+  // (R20 C3) the place set down on open floor its body fits (skFloorNear): a guess or a heard place can lie against or inside a wall, and a
+  // goal its body cannot reach left it pinned at a corner, side-stepping, until the watchdog cleared its route (R20's traces; R2-R19 alike)
+  const G0 = goal || { x: r.lkx, y: r.lky }, G = skFloorNear(eng, e, G0.x, G0.y) || G0;
   const H = r && e.hunger >= SK.huntHunger ? skHuntBegin(eng, e, r, 'it goes to look for them') : null;   // (R1) a search for somebody is a hunt
   skBegin(eng, e, 'search', r, why, Object.assign({ goal: G, until: eng.now + SK.searchMax, hAt: Math.max(r ? r.heardAt : 0, H ? H.hAt : -99), sid: e.mem.soundId || 0 }, extra));
   plan(eng, e, G.x, G.y, { why: 'search' });
@@ -1823,7 +1825,7 @@ function skAct(eng, e, dt, thinkNow) {
       const Hh = r && e.hunt && e.hunt.pid === r.id ? e.hunt : null, hAt = Math.max(r ? r.heardAt : -99, Hh ? Hh.hAt : -99);
       if (thinkNow && r && hAt > P.hAt + .3 && (P.moved || 0) < 3) {   // fresher footsteps (theirs, or - R2 - a body's where they could be): it goes there (at most three times)
         P.hAt = hAt; P.moved = (P.moved || 0) + 1;
-        const gx = Hh && Hh.hAt >= r.heardAt ? Hh.x : r.hx, gy = Hh && Hh.hAt >= r.heardAt ? Hh.y : r.hy;
+        const gx0 = Hh && Hh.hAt >= r.heardAt ? Hh.x : r.hx, gy0 = Hh && Hh.hAt >= r.heardAt ? Hh.y : r.hy, gf = skFloorNear(eng, e, gx0, gy0), gx = gf ? gf.x : gx0, gy = gf ? gf.y : gy0;   // (R20 C3) on floor it fits
         if (Math.hypot(gx - P.goal.x, gy - P.goal.y) > 90) { P.goal = { x: gx, y: gy }; P.looked = 0; plan(eng, e, gx, gy, { why: 'search (heard)' }); e.dbg.why = `it heard ${Hh && Hh.hAt >= r.heardAt ? 'something where P' + r.id + ' could be' : 'P' + r.id}: it goes there, quietly`; }
       }
       // (R20) ...or a fresh one from another way, about as loud as the one it went for (or louder): the newer evidence leads (within its three moves)

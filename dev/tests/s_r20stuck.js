@@ -12,7 +12,8 @@
  *        arrival as R19 to 0.1 s; (b) walks there and back past the same spot: no reset; (c) ordinary play: no label in open air, no reset
  *   ST03 real obstruction still caught: the follower's rungs on a waypoint through a wall, every species; the watchdog on a Skin-Stealer
  *        that keeps walking into a wall (where it stands - no teleport, nothing inside the wall); an overlapping body still un-embedded
- *   ST04 vaults (R19's mid-vault fix kept) and the near / mid / far tiers: no false label or reset */
+ *   ST04 vaults (R19's mid-vault fix kept) and the near / mid / far tiers: no false label or reset
+ *   ST05 (R20 D3) pinned on a corner: a second side-step at the same spot goes to a new route (the Skin-Stealer's alone) */
 'use strict';
 const path = require('path'), { execFileSync } = require('child_process');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -75,6 +76,16 @@ add('ST04 vaults and tiers: a Skin-Stealer sent over vault links (R19\'s mid-vau
   for (const r of now.vault) if (r.label > 0 || r.resets || r.stale || !r.arrived || !(r.trav > 0)) bad.push(`vault: ${JSON.stringify(r)}`);
   for (const r of now.tiers) { if (r.label > 0 || r.resets) bad.push(`tiers seed ${r.seed}: ${JSON.stringify(r)}`); if (!(r.tiers.near > 0 && r.tiers.mid > 0)) bad.push(`tiers seed ${r.seed}: tiers ${JSON.stringify(r.tiers)}`); }
   return { ok: !bad.length, note: bad.length ? bad.join('; ') : `${now.vault.length} vault routes: ${sum(now.vault, r => r.trav).toFixed(2)} s vaulting, no label, no reset, no vault left open (R19 ${sum(r19.vault, r => r.label).toFixed(2)} s label) | ${now.tiers.length} x 240 s with four people: tiers ${now.tiers.map(r => JSON.stringify(r.tiers)).join(' ')}, ${sum(now.tiers, r => r.changes)} tier changes, no label, no reset (R19 ${sum(r19.tiers, r => r.openLabel).toFixed(1)} s label in open air)` };
+});
+
+add('ST05 pinned on a corner (a route\'s last waypoint against a wall, its line clipping the corner): the Skin-Stealer goes to a new route at its second side-step (within 5 s of setting off; the corner is 2 s away) instead of side-stepping until the watchdog clears its route (R19: side-steps all 15 s, no new route); the Hound exactly as R19; on floor it fits, both arrive', () => {
+  const { now, r19 } = both('pin'), bad = [], f = (R, k, g) => R.runs.find(r => r.kind === k && r.goal === g);
+  const s = f(now, 'skinstealer', 'raw'), s19 = f(r19, 'skinstealer', 'raw');
+  if (!(s.firstNew !== null && s.firstNew < 5 && s.side <= s19.side / 2)) bad.push(`the Skin-Stealer: first new route at ${s.firstNew} s (${JSON.stringify(s)})`);
+  if (!(s19.replans === 0 && s19.side >= 8)) bad.push(`the negative proof: R19 ${JSON.stringify(s19)}`);
+  for (const g of ['raw', 'fit']) if (JSON.stringify(f(now, 'hound', g)) !== JSON.stringify(f(r19, 'hound', g))) bad.push(`the Hound (${g}) differs from R19`);
+  for (const k of ['skinstealer', 'hound']) if (f(now, k, 'fit').at === null) bad.push(`${k} never reached the goal on floor it fits`);
+  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `the Skin-Stealer: a new route at ${s.firstNew} s, ${s.replans} in 15 s and ${s.side} side-steps (R19: ${s19.side} side-steps, no new route) | the Hound: R19's exactly (${f(now, 'hound', 'raw').side} side-steps, ${f(now, 'hound', 'raw').replans} new routes) | on floor it fits: arrived ${f(now, 'skinstealer', 'fit').at} / ${f(now, 'hound', 'fit').at} s`, data: { now: now.runs, r19: r19.runs } };
 });
 
 module.exports = S;
