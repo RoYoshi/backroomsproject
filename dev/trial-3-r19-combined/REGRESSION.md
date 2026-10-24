@@ -1,11 +1,11 @@
 # Trial 3 R19 - the combined QA branch: regression
 
 Trial 3 is **not owner-approved**.  Environment: this session's machine (2 CPUs, Linux, node v22.22.2), the repository's own scripts,
-`ADMIN_PASSCODE=<synthetic>` in the shell for each run.  The tree: the merge `9c7e3de` of S `f0c95ff` and N `451f1d6`.
+`ADMIN_PASSCODE=<synthetic>` in the shell for each run.  The tree: `a456230` (S `83a05c1` and N `451f1d6` merged).
 
 ## The suites
 
-| run | R18 01e5d97 | S f0c95ff | N 451f1d6 | **combined 9c7e3de** |
+| run | R18 01e5d97 | S 83a05c1 | N 451f1d6 | **combined a456230** |
 |---|---|---|---|---|
 | `npm test` (dev/tests/run.js, its default list) | 330/343 | 336/349 | 334/347 | **340/353** (+6 SR, +4 NC) |
 | failing | the 13 inherited P9 names | the same 13 | the same 13 | **the same 13**: 2F F13, 2F F22, C1, C18, C3, C4, C5, C9/C10, H07, L9, NV09, P01, P08 - none new |

@@ -1,9 +1,10 @@
 # Trial 3 R19 - the combined QA branch (S + N)
 
 Trial 3 is **not owner-approved**.  Branch `trial-3-r19-combined-humanqa`: **for the owner's Human QA only**.  It is R19's two isolated
-tracks put together - the S track's positioning (`trial-3-r19-prechase-positioning`, tip `f0c95ff`) and the N track's shared cornering
-(`trial-3-nani-cornering-qol`, tip `451f1d6`) - by one merge commit (`9c7e3de`) of their tips, both of which descend in one straight line
-from the R18 receipt `01e5d97`.  Nothing here is merged anywhere, deployed, or spawned organically.  Each track's own reports are in its
+tracks put together - the S track's positioning (`trial-3-r19-prechase-positioning`) and the N track's shared cornering
+(`trial-3-nani-cornering-qol`) - by merge commits of their tips only (`9c7e3de`: S `f0c95ff` + N `451f1d6`; then each track's later
+commits as they landed - `a456230` brings in S `83a05c1`); both tracks descend in one straight line from the R18 receipt `01e5d97`.
+Nothing here is merged anywhere, deployed, or spawned organically.  Each track's own reports are in its
 own folder, unchanged here: `dev/trial-3-r19-positioning/` (S) and `dev/trial-3-nani-corners/` (N).
 
 | document | what |
