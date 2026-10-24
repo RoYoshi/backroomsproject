@@ -11,11 +11,16 @@
  *   RV07b a replay of somebody else's death (one, two at once, four Skin-Stealers): only each replay's killer hidden; and a replay without
  *         an id (an older server) hides none - never a guess
  *   RV07c a replay naming its killer with a pack-mate nearer the attacker's place than the killer's mirrored view: a Hound's hides the
- *         killer's slot, not the pack-mate's; a Smiler's the same; a Skin-Stealer's kill hides no Hound and no Smiler; a Hound's message as
- *         the server sends it (no id, B++'s) is handled as R19 did
+ *         killer's slot, not the pack-mate's; a Smiler's the same; a Skin-Stealer's kill hides no Hound and no Smiler; a Hound's message
+ *         without an id (an older server) hides none
  *   RV07d every creature's death-replay message carries a valid killer id (death_srv.js fxFor), including late joiners;
  *         only the e field is the approved B++ extension, and bad ids are omitted; own kill record's id survives the bundle taking
- *         window.__kill, and cleared with it on a new life */
+ *         window.__kill, and cleared with it on a new life
+ *   RV07e replays over time (G.I.B.'s own per-frame updateFx) while snapshots change the mirror under them: a killer mirrored late, its
+ *         slot reused, a killer 400 px or more away, a Smiler re-slotted, two replays at once, an id of the other species
+ *   RV07f our own Hound death (N.A.N.I.'s markKiller and applyServerState): the killer's slot is followed by its id when the slots change
+ *         hands during the death; a kill record whose killer has no mirror keeps B++'s nearest guess (a pinned B++ client behaviour) until
+ *         the killer is mirrored; a reconnect forgets the old server's id */
 'use strict';
 const vm = require('vm'), fs = require('fs'), path = require('path'), { execFileSync } = require('child_process');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -107,7 +112,7 @@ function deathsModule(which) {
 }
 const fxMsg = (c, e, sx, sy, de) => ({ t: 'fx', k: 'death', id: 7, c, e, x: 500, y: 500, a: 0, sx, sy, v: 'A', w: 0, lk: 'cap', ek: 'flashlight', de });
 
-add('RV07c a replay naming its killer, with a pack-mate nearer the attacker\'s place than the killer\'s mirrored view: a Hound\'s hides the killer\'s slot, not the pack-mate\'s (R19: the pack-mate\'s); a Smiler\'s the same; a Skin-Stealer\'s kill hides no Hound or Smiler; a Hound\'s message as the server sends it (no id: B++\'s) is handled exactly as at R19', () => {
+add('RV07c a replay naming its killer, with a pack-mate nearer the attacker\'s place than the killer\'s mirrored view: a Hound\'s hides the killer\'s slot, not the pack-mate\'s (R19: the pack-mate\'s); a Smiler\'s the same; a Skin-Stealer\'s kill hides no Hound or Smiler; a Hound\'s message without an id (an older server) hides none (R19: the Hound nearest the attacker\'s place)', () => {
   const out = {}, bad = [];
   for (const which of ['now', 'r19']) {
     const D = deathsModule(which), R = {};
@@ -147,6 +152,105 @@ add('RV07d all death replay species carry the authoritative killer id (fxFor e; 
   if (!kept || !cleared) bad.push(`killBy kept ${kept}, cleared ${cleared}`);
   if ('__killBy' in ctx) bad.push('a new window name');
   return { ok: !bad.length, note: bad.length ? bad.join('; ') : `all Hound, Smiler and Skin-Stealer death FX add only an authoritative e (keys ${R20}); invalid IDs omitted, late replay transport preserved; own kill id retained and cleared` };
+});
+
+/* (the B++ killer-identity branch) G.I.B.'s replay module over time: its startFx and then its own per-frame updateFx (exposed in the VM
+ * only), with the monsters mirror changing under it as snapshots change it - what each frame hides (window.__fxKill / __fxKillS) */
+function deathsFrames(which) {
+  const file = 'src/frameworks/gib/client/mp.deaths.js', code = src(which, file).replace('return { applyBodies,', 'window.__updateFx = updateFx; return { applyBodies,');
+  if (!/window\.__updateFx = updateFx/.test(code)) throw new Error('mp.deaths.js: its return is not where expected');
+  const layer = new FakeC(), clock = { t: 1000 }, ctx = { console, Math, performance: { now: () => clock.t * 1000 }, window: null };
+  ctx.window = ctx; vm.createContext(ctx);
+  class Av extends FakeC { update() { } deathPose() { } }
+  class Att extends FakeC { attackPose() { } }
+  class Jl { constructor() { this.blood = new FakeC(); this.foreground = new FakeC(); this.debris = new FakeC(); this.ph = null; this.body = { x: 500, y: 500, angle: 0, scaleX: 1, scaleY: 1, alpha: 1 }; this.attacker = { x: 0, y: 0, angle: 0 }; this.elapsed = 0; this.done = false; }
+    start(k, now, src) { this.source = src; this.kind = k; this.t0 = now; this.attacker = { x: src.x, y: src.y, angle: 0 }; } frame(now) { this.elapsed = now - this.t0; return this.done || this.elapsed > 4; } }
+  ctx.__api = { layer: () => layer, floor: () => new FakeC(), mkAvatar: () => new Av(), Jl, Gl: Att, Wl: Att, q: [] };
+  vm.runInContext(code + '\n;window.__gibDeaths = gibDeaths;', ctx);
+  const hMap = new Map(), sSlot = Array(64).fill(null);
+  const M = ctx.__gibDeaths({ core: { cx: () => null, EN: () => ({ attackSmiler: () => { } }), NET: {}, parseLook: () => ({ hat: 'cap' }), partObj: () => ({}), PEER_MODE: 'bplus', toRec: x => x },
+    session: { myId: () => 99, N: { on: true }, peers: new Map(), tellId: () => { } }, monsters: { angDiff: (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b)), hMap, sSlot }, wanderers: { hoverTip: () => { }, mx: () => 0, my: () => 0 } });
+  const frame = (dt = 1 / 60) => { clock.t += dt; ctx.__updateFx(clock.t); return { h: [...ctx.__fxKill].sort(), s: [...ctx.__fxKillS].sort() }; };
+  return { ctx, M, hMap, sSlot, frame, clock };
+}
+const hound = (D, id, slot, x, y) => D.hMap.set(id, { id, slot, x, y });
+add('RV07e replays over time, as snapshots change the mirror under them: a killer mirrored only after its replay began is hidden from then on; its slot reused by another Hound hides that one never; a killer 400 px or more from its kill is drawn; a Smiler moved to another slot is followed; two Hound replays at once each hide their own; an id of the other species hides nothing; a killer mirrored when its replay begins, then gone and its slot given to a pack-mate beside the kill, hides that pack-mate never (R19: the Hound or Smiler nearest the attacker\'s place, whichever it is)', () => {
+  const out = {}, bad = [];
+  for (const which of ['now', 'r19']) {
+    const D = deathsFrames(which), R = {}, q = (i, x, y) => { D.ctx.__api.q[i] = { x, y, off: false }; };
+    for (let i = 0; i < 4; i++) D.ctx.__api.q[i] = { x: -9e4, y: -9e4, off: true };
+    // (a) the replay arrives before the snapshot that mirrors its killer (a late joiner's first frames)
+    D.M.startFx(Object.assign(fxMsg('Hound', 31, 546, 500, 11), { id: 7 }));
+    R.before = D.frame().h; hound(D, 31, 0, 552, 503); R.mirrored = D.frame().h;
+    // (b) the killer leaves (its slot freed) and a pack-mate is mirrored into the same slot, beside the kill
+    D.hMap.delete(31); hound(D, 32, 0, 560, 510); R.reused = D.frame().h;
+    // (b2) a killer mirrored when its replay begins (36, slot 0); it goes, and pack-mate 37 takes slot 0 beside the kill
+    D.hMap.clear(); hound(D, 36, 0, 552, 503); D.M.startFx(Object.assign(fxMsg('Hound', 36, 546, 500, 17), { id: 13 })); const ra = D.frame().h;
+    D.hMap.delete(36); hound(D, 37, 0, 556, 506); R.reusedAfter = [ra, D.frame().h]; for (const f of D.ctx.__fxs) f.end = true; D.frame();
+    // (c) a fresh replay whose killer is mirrored 520 px from its kill (it has gone on: no longer on it)
+    D.hMap.clear(); hound(D, 33, 1, 1066, 500); D.M.startFx(Object.assign(fxMsg('Hound', 33, 546, 500, 12), { id: 8 })); R.far = D.frame().h;
+    // (d) two Hound replays at once, the killers 33 (moved back beside its kill) and 34
+    D.hMap.get(33).x = 560; hound(D, 34, 2, 900, 900); D.M.startFx(Object.assign(fxMsg('Hound', 34, 905, 905, 13), { id: 9 })); R.two = D.frame().h;
+    // (e) a Smiler's replay; its killer 41 moves from slot 0 to slot 2 (the mirror re-slotted it), slot 0 taken by Smiler 42 beside the kill
+    q(0, 600, 300); D.sSlot[0] = 41; D.M.startFx(Object.assign(fxMsg('Smiler', 41, 605, 305, 14), { id: 10 })); R.smiler = D.frame().s;
+    D.sSlot[0] = 42; D.sSlot[2] = 41; q(2, 610, 300); R.smilerMoved = D.frame().s;
+    // (f) the other species' id: a Hound replay naming Smiler 41's id, a Smiler replay naming Hound 32's
+    D.hMap.clear(); hound(D, 32, 3, 600, 300); for (const f of D.ctx.__fxs) f.end = true; D.frame();
+    D.M.startFx(Object.assign(fxMsg('Hound', 41, 600, 300, 15), { id: 11 })); D.M.startFx(Object.assign(fxMsg('Smiler', 32, 600, 300, 16), { id: 12 })); R.cross = D.frame();
+    out[which] = R;
+  }
+  const n = out.now, r = out.r19, eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  const want = { before: [], mirrored: [0], reused: [], reusedAfter: [[0], []], far: [], two: [1, 2], smiler: [0], smilerMoved: [2], cross: { h: [], s: [] } };
+  for (const k of Object.keys(want)) if (!eq(n[k], want[k])) bad.push(`${k}: ${JSON.stringify(n[k])}, wanted ${JSON.stringify(want[k])}`);
+  if (!(eq(r.reusedAfter[1], [0]) && eq(r.smilerMoved, [0]))) bad.push(`the negative proof: R19 ${JSON.stringify(r)}`);
+  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `hidden Hound slots / Smiler slots, frame by frame - this tree: ${JSON.stringify(n)} | R19: ${JSON.stringify(r)}`, data: out };
+});
+
+/* N.A.N.I.'s monsters module in a VM: its applyServerState fed snapshots, with the session's tick calling markKiller as our death begins */
+function monstersPage(which) {
+  const ctx = { console, Math, performance: { now: () => 5000 }, __skin: null }; ctx.window = ctx; vm.createContext(ctx);
+  vm.runInContext(src(which, 'src/frameworks/nani/client/mp.monsters.js') + '\n;window.__nm = naniMonsters;', ctx);
+  let S = { h: [], m: [] };
+  const E = { slotH: (o, t) => { o.x = t.x; o.y = t.y; }, slotS: (o, t) => { o.x = t.x; o.y = t.y; } };
+  ctx.__api = { H: { x: 500, y: 500 }, G: { caught: false }, q: Array.from({ length: 8 }, () => ({ x: -9e4, y: -9e4, off: true })), V: {} };
+  const NM = ctx.__nm({ core: { EN: () => E, NET: {}, netPose: () => null }, session: { cpNow: () => 0, graceUntil: () => 0, N: {}, snap: () => S }, glitch: { glitchesFrom: () => { } }, cartograph: { itemsFrom: () => { } } });
+  const snapH = list => { S = { h: list.map(([i, x, y]) => ({ i, x, y, a: 0 })), m: [] }; NM.applyServerState(1 / 60); };
+  const slotOf = id => { const o = NM.hMap.get(id); return o ? o.slot : -1; };
+  const die = k => { if (k) NM.announceKill(k); ctx.__api.G.caught = true; NM.markKiller(ctx.__api, 'Hound'); };
+  const live = () => { ctx.__api.G.caught = false; NM.clearKiller(); NM.clearKill(); };
+  return { ctx, NM, snapH, slotOf, die, live, killer: () => ctx.__killer };
+}
+add('RV07f our own Hound death: two Hounds, the farther one the killer, hides the farther one; the killer is followed by its id while the slots change hands during the death - a pack-mate given the killer\'s old slot stays drawn (R19: hidden, and the killer drawn twice once it is back in another slot); a kill record whose killer has no mirror keeps B++\'s guess, the nearest (the C3c client scene c3c_misc holds it), until the killer is mirrored: then the killer is hidden (R19: the guess, all death long); a reconnect forgets the old server\'s id', () => {
+  const out = {}, bad = [];
+  for (const which of ['now', 'r19']) {
+    const P = monstersPage(which), R = {};
+    // (a) two Hounds beside us, the farther one (31, 60 px) the killer, the pack-mate (32) 20 px away
+    P.snapH([[31, 560, 500], [32, 520, 500]]); P.die({ k: 'Hound', e: 31, v: 'A', de: 1 }); R.farther = { killer: P.killer(), slot31: P.slotOf(31), slot32: P.slotOf(32) };
+    P.snapH([[31, 560, 500], [32, 520, 500]]); R.fartherNext = P.killer(); P.live();
+    // (b) a kill record naming Hound 33, which this page has not mirrored; Hound 32 beside us
+    P.snapH([[32, 520, 500]]); P.die({ k: 'Hound', e: 33, v: 'A', de: 2 }); R.unmirrored = P.killer(); P.snapH([[32, 520, 500]]); R.unmirroredNext = P.killer(); P.live();
+    // (c) killer 34 in slot 0 (32 gone); mid-death it leaves the snapshot, then Hound 35 is mirrored into its slot 0; then 34 comes back
+    P.snapH([[34, 540, 500]]); P.die({ k: 'Hound', e: 34, v: 'A', de: 3 }); R.start = { killer: P.killer(), slot34: P.slotOf(34) };
+    P.snapH([]); R.gone = P.killer(); P.snapH([[35, 530, 500]]); R.reused = { killer: P.killer(), slot35: P.slotOf(35) };
+    P.snapH([[35, 530, 500], [34, 540, 500]]); R.back = { killer: P.killer(), slot34: P.slotOf(34) }; P.live();
+    // (e) the kill record names Hound 38, not yet mirrored; pack-mate 32 beside us; 38 is mirrored in the next snapshot
+    P.snapH([[32, 520, 500]]); P.die({ k: 'Hound', e: 38, v: 'A', de: 4 }); const g0 = P.killer(), s32 = P.slotOf(32); P.snapH([[32, 520, 500], [38, 545, 500]]); R.late = { guess: g0, slot32: s32, killer: P.killer(), slot38: P.slotOf(38) };
+    P.snapH([[32, 520, 500]]); R.lateGone = P.killer();
+    // (f) the connection closes mid-death (the session clears the slots); the new server's Hound 38 is another creature
+    P.NM.clearSlots(); P.snapH([[38, 900, 900], [39, 520, 500]]); R.reconnect = { killer: P.killer(), slot38: P.slotOf(38) }; P.live();
+    // (d) no kill record at all (B++'s guess is kept: the nearest)
+    P.snapH([[36, 700, 500], [37, 510, 500]]); P.die(null); R.noRecord = { killer: P.killer(), nearest: P.slotOf(37) };
+    out[which] = R;
+  }
+  const n = out.now, r = out.r19;
+  if (n.farther.killer !== n.farther.slot31 || n.fartherNext !== n.farther.slot31) bad.push(`the farther killer: ${JSON.stringify(n.farther)} next ${n.fartherNext}`);
+  if (n.unmirrored !== 1 || n.unmirroredNext !== 1) bad.push(`an unmirrored killer: B++'s nearest (slot 1) wanted, got ${n.unmirrored} / ${n.unmirroredNext}`);
+  if (n.start.killer !== n.start.slot34 || n.gone !== -1 || n.reused.slot35 !== n.start.slot34 || n.reused.killer !== -1 || n.back.killer !== n.back.slot34 || n.back.slot34 === n.reused.slot35) bad.push(`slot churn: ${JSON.stringify([n.start, n.reused, n.back])}`);
+  if (n.noRecord.killer !== n.noRecord.nearest) bad.push(`no record: ${JSON.stringify(n.noRecord)}`);
+  if (n.late.guess !== n.late.slot32 || n.late.killer !== n.late.slot38 || n.lateGone !== -1) bad.push(`a killer mirrored after its record: ${JSON.stringify(n.late)}, gone ${n.lateGone}`);
+  if (n.reconnect.killer === n.reconnect.slot38) bad.push(`after a reconnect the new server's Hound 38 was hidden: ${JSON.stringify(n.reconnect)}`);
+  if (!(r.reused.killer === r.reused.slot35 && r.back.killer !== r.back.slot34 && r.late.killer !== r.late.slot38)) bad.push(`the negative proof: R19 ${JSON.stringify(r)}`);
+  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `window.__killer - this tree: ${JSON.stringify(n)} | R19: ${JSON.stringify(r)}`, data: out };
 });
 
 module.exports = S;

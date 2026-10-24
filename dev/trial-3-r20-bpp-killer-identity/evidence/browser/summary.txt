@@ -1,0 +1,166 @@
+tree BPP chromium 141.0.7390.37
+## BPP1 two Hounds 110 px apart, one kills (its pack-mate nearer the attacker's place on the spectator's page)
+  kills [(11, 'Hound', 'A')] ents [(11, 'hound'), (12, 'hound')] error None
+  page0: playing 11 (own death 11), killer hidden 11/11, bystander hidden 0/11, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [11], replay ids []
+  page1: playing 11 (own death 0), killer hidden 11/11, bystander hidden 0/11, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [11], replay ids [11]
+  after [(0, 0, 0, 0), (0, 0, 0, 0)]
+## BPP1 two Hounds 110 px apart, one kills, variant B
+  kills [(13, 'Hound', 'B')] ents [(13, 'hound'), (14, 'hound')] error None
+  page0: playing 11 (own death 11), killer hidden 11/11, bystander hidden 0/11, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [13], replay ids []
+  page1: playing 13 (own death 0), killer hidden 13/13, bystander hidden 0/13, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [13], replay ids [13]
+  after [(0, 0, 0, 0), (0, 0, 0, 0)]
+## BPP1 two Hounds 34 px apart, one kills
+  kills [(15, 'Hound', 'B')] ents [(15, 'hound'), (16, 'hound')] error None
+  page0: playing 11 (own death 11), killer hidden 11/11, bystander hidden 0/11, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [15], replay ids []
+  page1: playing 12 (own death 0), killer hidden 12/12, bystander hidden 0/12, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [15], replay ids [15]
+  after [(0, 0, 0, 0), (0, 0, 0, 0)]
+## BPP2 two Smilers, one kills
+  kills [(17, 'Smiler', 'A')] ents [(17, 'smiler'), (18, 'smiler')] error None
+  page0: playing 10 (own death 10), killer hidden 0/10, bystander hidden 0/10, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [], replay ids []
+  page1: playing 11 (own death 0), killer hidden 11/11, bystander hidden 0/11, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [17], replay ids [17]
+  after [(0, 0, 0, 0), (0, 0, 0, 0)]
+## BPP2 two Smilers, the other one nearer the spectator
+  kills [(19, 'Smiler', 'A')] ents [(19, 'smiler'), (20, 'smiler')] error None
+  page0: playing 11 (own death 11), killer hidden 0/11, bystander hidden 0/11, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [], replay ids []
+  page1: playing 11 (own death 0), killer hidden 11/11, bystander hidden 0/11, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [19], replay ids [19]
+  after [(0, 0, 0, 0), (0, 0, 0, 0)]
+## BPP3 two Skin-Stealers, variant A
+  kills [(21, 'SkinStealer', 'A')] ents [(21, 'skinstealer'), (22, 'skinstealer')] error None
+  page0: playing 12, killer shown 0/12, bystander hidden 0 faded 0 of 12, attackers [1, 1], H/S slots hidden [] [], replay ids []
+  page1: playing 10, killer shown 0/10, bystander hidden 0 faded 0 of 10, attackers [1, 1], H/S slots hidden [] [], replay ids [21]
+  after [(0, 0, 0, 2), (0, 0, 0, 2)]
+## BPP3 two Skin-Stealers, variant D
+  kills [(23, 'SkinStealer', 'D')] ents [(23, 'skinstealer'), (24, 'skinstealer')] error None
+  page0: playing 12, killer shown 0/12, bystander hidden 0 faded 0 of 12, attackers [1, 1], H/S slots hidden [] [], replay ids []
+  page1: playing 11, killer shown 0/11, bystander hidden 0 faded 0 of 11, attackers [1, 1], H/S slots hidden [] [], replay ids [23]
+  after [(0, 0, 0, 2), (0, 0, 0, 2)]
+## BPP4 two victims at once, two Hounds, a Smiler and a Skin-Stealer beside them, a third page watching
+  kills [(25, 'Hound', 'A'), (26, 'Hound', 'A')] ents [(25, 'hound'), (26, 'hound'), (27, 'smiler'), (28, 'skinstealer')] error None
+  page0: playing 5 (own death 4), killer hidden 8/8, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/5, hidden ids [26, 25], replay ids [26]
+  page1: playing 7 (own death 7), killer hidden 12/12, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/7, hidden ids [25, 26], replay ids [25]
+  page2: playing 6 (own death 0), killer hidden 12/12, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/6, hidden ids [25, 26], replay ids [26, 25]
+  after [(0, 0, 0, 1), (0, 0, 0, 1), (0, 0, 0, 1)]
+## BPP5 a Hound kills beside its pack-mate: a replay delivered 1.2 s late (with el), the spectator reconnecting a
+  kills [(29, 'Hound', 'A')] ents [(29, 'hound'), (30, 'hound')] error None
+   heldAt 2.87   lateFx 1   lateAt 4.17   joinAt 0.7   jIn 9.55   dropAt 2.03   backAt 7.18
+  page0: playing 6 (own death 6), killer hidden 6/6, bystander hidden 0/6, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [29], replay ids []
+  page1: playing 2 (own death 0), killer hidden 1/2, bystander hidden 1/2, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [29, 30], replay ids [29]
+  page2: playing 4 (own death 0), killer hidden 4/4, bystander hidden 0/4, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [29], replay ids [29]
+  page3: playing 9 (own death 0), killer hidden 9/9, bystander hidden 0/9, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [29], replay ids [29]
+  after [(0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0)]
+
+tree R20C chromium 141.0.7390.37
+## BPP1 two Hounds 110 px apart, one kills (its pack-mate nearer the attacker's place on the spectator's page)
+  kills [(10, 'Hound', 'A')] ents [(10, 'hound'), (11, 'hound')] error None
+  page0: playing 10 (own death 10), killer hidden 10/10, bystander hidden 0/10, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [10], replay ids []
+  page1: playing 12 (own death 0), killer hidden 0/12, bystander hidden 12/12, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [11], replay ids [0]
+  after [(0, 0, 0, 0), (0, 0, 0, 0)]
+## BPP1 two Hounds 110 px apart, one kills, variant B
+  kills [(12, 'Hound', 'B')] ents [(12, 'hound'), (13, 'hound')] error None
+  page0: playing 10 (own death 10), killer hidden 10/10, bystander hidden 0/10, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [12], replay ids []
+  page1: playing 11 (own death 0), killer hidden 11/11, bystander hidden 0/11, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [12], replay ids [0]
+  after [(0, 0, 0, 0), (0, 0, 0, 0)]
+## BPP1 two Hounds 34 px apart, one kills
+  kills [(14, 'Hound', 'B')] ents [(14, 'hound'), (15, 'hound')] error None
+  page0: playing 9 (own death 9), killer hidden 9/9, bystander hidden 0/9, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [14], replay ids []
+  page1: playing 11 (own death 0), killer hidden 11/11, bystander hidden 0/11, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [14], replay ids [0]
+  after [(0, 0, 0, 0), (0, 0, 0, 0)]
+## BPP2 two Smilers, one kills
+  kills [(16, 'Smiler', 'A')] ents [(16, 'smiler'), (17, 'smiler')] error None
+  page0: playing 9 (own death 9), killer hidden 0/9, bystander hidden 0/9, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [], replay ids []
+  page1: playing 11 (own death 0), killer hidden 11/11, bystander hidden 0/11, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [16], replay ids [0]
+  after [(0, 0, 0, 0), (0, 0, 0, 0)]
+## BPP2 two Smilers, the other one nearer the spectator
+  kills [(18, 'Smiler', 'A')] ents [(18, 'smiler'), (19, 'smiler')] error None
+  page0: playing 10 (own death 10), killer hidden 0/10, bystander hidden 0/10, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [], replay ids []
+  page1: playing 10 (own death 0), killer hidden 10/10, bystander hidden 0/10, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [18], replay ids [0]
+  after [(0, 0, 0, 0), (0, 0, 0, 0)]
+## BPP3 two Skin-Stealers, variant A
+  kills [(20, 'SkinStealer', 'A')] ents [(20, 'skinstealer'), (21, 'skinstealer')] error None
+  page0: playing 11, killer shown 0/11, bystander hidden 0 faded 0 of 11, attackers [1, 1], H/S slots hidden [] [], replay ids []
+  page1: playing 8, killer shown 0/8, bystander hidden 0 faded 0 of 8, attackers [1, 1], H/S slots hidden [] [], replay ids [20]
+  after [(0, 0, 0, 2), (0, 0, 0, 2)]
+## BPP3 two Skin-Stealers, variant D
+  kills [(22, 'SkinStealer', 'D')] ents [(22, 'skinstealer'), (23, 'skinstealer')] error None
+  page0: playing 10, killer shown 0/10, bystander hidden 0 faded 0 of 10, attackers [1, 1], H/S slots hidden [] [], replay ids []
+  page1: playing 9, killer shown 0/9, bystander hidden 0 faded 0 of 9, attackers [1, 1], H/S slots hidden [] [], replay ids [22]
+  after [(0, 0, 0, 2), (0, 0, 0, 2)]
+## BPP4 two victims at once, two Hounds, a Smiler and a Skin-Stealer beside them, a third page watching
+  kills [(24, 'Hound', 'A'), (25, 'Hound', 'A')] ents [(24, 'hound'), (25, 'hound'), (26, 'smiler'), (27, 'skinstealer')] error None
+  page0: playing 4 (own death 3), killer hidden 6/6, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/4, hidden ids [25, 24], replay ids [0]
+  page1: playing 8 (own death 8), killer hidden 13/13, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/8, hidden ids [24, 25], replay ids [0]
+  page2: playing 4 (own death 0), killer hidden 6/6, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/4, hidden ids [25, 24], replay ids [0]
+  after [(0, 0, 0, 1), (0, 0, 0, 1), (0, 0, 0, 1)]
+## BPP5 a Hound kills beside its pack-mate: a replay delivered 1.2 s late (with el), the spectator reconnecting a
+  kills [(28, 'Hound', 'A')] ents [(28, 'hound'), (29, 'hound')] error None
+   heldAt 1.16   lateFx 1   lateAt 2.86   joinAt 0.7   jIn 12.83   dropAt 3.72   backAt 13.11
+  page0: playing 11 (own death 11), killer hidden 11/11, bystander hidden 0/11, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [28], replay ids []
+  page1: playing 2 (own death 0), killer hidden 0/2, bystander hidden 2/2, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [29], replay ids [0]
+  page2: playing 3 (own death 0), killer hidden 3/3, bystander hidden 0/3, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [28], replay ids [0]
+  page3: playing 9 (own death 0), killer hidden 0/9, bystander hidden 9/9, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [29], replay ids [0]
+  after [(0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0)]
+
+# repeats of BPP4-BPP5 on this branch (raw frames kept)
+tree BPP chromium 141.0.7390.37
+## BPP4 two victims at once, two Hounds, a Smiler and a Skin-Stealer beside them, a third page watching
+  kills [(9, 'Hound', 'A'), (10, 'Hound', 'A')] ents [(9, 'hound'), (10, 'hound'), (11, 'smiler'), (12, 'skinstealer')] error None
+  page0: playing 5 (own death 4), killer hidden 8/8, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/5, hidden ids [10, 9], replay ids [10]
+  page1: playing 5 (own death 5), killer hidden 9/9, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/5, hidden ids [9, 10], replay ids [9]
+  page2: playing 7 (own death 0), killer hidden 12/12, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/7, hidden ids [10, 9], replay ids [10, 9]
+  after [(0, 0, 0, 1), (0, 0, 0, 1), (0, 0, 0, 1)]
+## BPP5 a Hound kills beside its pack-mate: a replay delivered 1.2 s late (with el), the spectator reconnecting a
+  kills [(13, 'Hound', 'A')] ents [(13, 'hound'), (14, 'hound')] error None
+   heldAt 1.89   lateFx 1   lateAt 3.52   joinAt 0.71   jIn 11.15   dropAt 1.68   backAt 10.41
+  page0: playing 6 (own death 6), killer hidden 6/6, bystander hidden 0/6, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [13], replay ids []
+  page1: playing 2 (own death 0), killer hidden 2/2, bystander hidden 0/2, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [13], replay ids [13]
+  page2: playing 5 (own death 0), killer hidden 5/5, bystander hidden 0/5, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [13], replay ids [13]
+  page3: playing 10 (own death 0), killer hidden 10/10, bystander hidden 0/10, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [13], replay ids [13]
+  after [(0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0)]
+
+tree BPP chromium 141.0.7390.37
+## BPP4 two victims at once, two Hounds, a Smiler and a Skin-Stealer beside them, a third page watching
+  kills [(7, 'Hound', 'A'), (8, 'Hound', 'A')] ents [(7, 'hound'), (8, 'hound'), (9, 'smiler'), (10, 'skinstealer')] error None
+  page0: playing 5 (own death 4), killer hidden 8/8, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/5, hidden ids [8, 7], replay ids [8]
+  page1: playing 7 (own death 7), killer hidden 12/12, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/7, hidden ids [7, 8], replay ids [7]
+  page2: playing 7 (own death 0), killer hidden 12/12, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/7, hidden ids [8, 7], replay ids [8, 7]
+  after [(0, 0, 0, 1), (0, 0, 0, 1), (0, 0, 0, 1)]
+## BPP5 a Hound kills beside its pack-mate: a replay delivered 1.2 s late (with el), the spectator reconnecting a
+  kills [(11, 'Hound', 'A')] ents [(11, 'hound'), (12, 'hound')] error None
+   heldAt 2.71   lateFx 1   lateAt 4.18   joinAt 0.7   jIn 14.23   dropAt 4.6   backAt 12.15
+  page0: playing 9 (own death 9), killer hidden 9/9, bystander hidden 0/9, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [11], replay ids []
+  page1: playing 3 (own death 0), killer hidden 3/3, bystander hidden 0/3, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [11], replay ids [11]
+  page2: playing 4 (own death 0), killer hidden 4/4, bystander hidden 0/4, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [11], replay ids [11]
+  page3: playing 9 (own death 0), killer hidden 9/9, bystander hidden 0/9, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [11], replay ids [11]
+  after [(0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0)]
+
+tree BPP chromium 141.0.7390.37
+## BPP4 two victims at once, two Hounds, a Smiler and a Skin-Stealer beside them, a third page watching
+  kills [(13, 'Hound', 'A'), (14, 'Hound', 'A')] ents [(13, 'hound'), (14, 'hound'), (15, 'smiler'), (16, 'skinstealer')] error None
+  page0: playing 4 (own death 4), killer hidden 7/7, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/4, hidden ids [13, 14], replay ids [14]
+  page1: playing 7 (own death 6), killer hidden 11/11, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/7, hidden ids [13, 14], replay ids [13]
+  page2: playing 6 (own death 0), killer hidden 10/10, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/6, hidden ids [13, 14], replay ids [13, 14]
+  after [(0, 0, 0, 1), (0, 0, 0, 1), (0, 0, 0, 1)]
+## BPP5 a Hound kills beside its pack-mate: a replay delivered 1.2 s late (with el), the spectator reconnecting a
+  kills [(17, 'Hound', 'A')] ents [(17, 'hound'), (18, 'hound')] error None
+   heldAt 1.54   lateFx 1   lateAt 2.89   joinAt 0.7   jIn 10.38   dropAt 1.3   backAt 8.15
+  page0: playing 8 (own death 8), killer hidden 8/8, bystander hidden 0/8, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [17], replay ids []
+  page1: playing 0 (own death 0), killer hidden 0/0, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [], replay ids []
+  page2: playing 4 (own death 0), killer hidden 4/4, bystander hidden 0/4, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [17], replay ids [17]
+  page3: playing 11 (own death 0), killer hidden 11/11, bystander hidden 0/11, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [17], replay ids [17]
+  after [(0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0)]
+
+tree BPP chromium 141.0.7390.37
+## BPP4 two victims at once, two Hounds, a Smiler and a Skin-Stealer beside them, a third page watching
+  kills [(11, 'Hound', 'A'), (12, 'Hound', 'A')] ents [(11, 'hound'), (12, 'hound'), (13, 'smiler'), (14, 'skinstealer')] error None
+  page0: playing 4 (own death 3), killer hidden 6/6, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/4, hidden ids [12, 11], replay ids [12]
+  page1: playing 5 (own death 5), killer hidden 9/9, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/5, hidden ids [11, 12], replay ids [11]
+  page2: playing 7 (own death 0), killer hidden 11/11, bystander hidden 0/0, other kind hidden 0, skin-stealer views hidden 0/7, hidden ids [12, 11], replay ids [12, 11]
+  after [(0, 0, 0, 1), (0, 0, 0, 1), (0, 0, 0, 1)]
+## BPP5 a Hound kills beside its pack-mate: a replay delivered 1.2 s late (with el), the spectator reconnecting a
+  kills [(15, 'Hound', 'A')] ents [(15, 'hound'), (16, 'hound')] error None
+   heldAt 1.15   lateFx 1   lateAt 2.49   joinAt 0.7   jIn 10.79   dropAt 2.17   backAt 13.53
+  page0: playing 11 (own death 11), killer hidden 11/11, bystander hidden 0/11, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [15], replay ids []
+  page1: playing 3 (own death 0), killer hidden 3/3, bystander hidden 0/3, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [15], replay ids [15]
+  page2: playing 4 (own death 0), killer hidden 4/4, bystander hidden 0/4, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [15], replay ids [15]
+  page3: playing 11 (own death 0), killer hidden 11/11, bystander hidden 0/11, other kind hidden 0, skin-stealer views hidden 0/0, hidden ids [15], replay ids [15]
+  after [(0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0)]

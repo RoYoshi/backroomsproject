@@ -35,7 +35,7 @@ function entitySignals(e) {
   E.setFails(e.lf || []);
 }
 window.__netPose = netPose; window.__NET = NET;
-NET.onEpoch = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); if (window.__skin) window.__skin.clear(); };   // entity slots belong to the old world too (Trial 3: the Skin-Stealers' too)
+NET.onEpoch = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); killerE = 0; killerSeen = false; if (window.__skin) window.__skin.clear(); };   // entity slots belong to the old world too (Trial 3: the Skin-Stealers' too)
 function applyServerState(dt) {
   const A = window.__api, s = snap(), E = EN();
   if (!A || !s || !E) return;
@@ -48,6 +48,7 @@ function applyServerState(dt) {
     E.slotH(o, t, dt, netPose('h' + t.i));
   }
   for (const [id, o] of hMap) if (!ids.has(id)) { hSlots[o.slot] = null; hMap.delete(id); }
+  if (killerE && A.G.caught) { const k = hMap.get(killerE); if (k) { killerSeen = true; window.__killer = k.slot; } else if (killerSeen) window.__killer = -1; }   // (R20 B++) our killer by its id, this frame
   let best = null, bd = 1e18;
   for (const o of hMap.values()) { const d = Math.hypot(o.x - A.H.x, o.y - A.H.y); if (d < bd) { bd = d; best = o; } }
   const G = A.G, grace = Math.max(0, graceUntil() - performance.now() / 1000);
@@ -86,14 +87,20 @@ function applyCaught() {
   }
 }
 /* (C3c) the monsters' state is this module's: the session, the world epoch and the per-frame hook ask for its changes */
+/* (R20 B++ killer identity) our killer's entity id while our own Hound death plays: applyServerState finds its slot from that id on every
+ * frame, so a slot that changes hands (the killer gone, another Hound in its place) never hides the other one, and a killer first
+ * mirrored after the death began is hidden from then on.  Until the killer has been mirrored, B++'s nearest guess below stands (the C3c
+ * client scene c3c_misc holds it); once it has been, the guess is never used again.  0: no killer id */
+let killerE = 0, killerSeen = false;
 function markKiller(A, by) {                          // our death has begun (the session's tick): which hound slot made the kill
   const K = window.__kill; let b = -1;
   if (K && K.slot >= 0) b = K.slot; else { let bd = 1e18; for (const o of hMap.values()) { const d = Math.hypot(o.x - A.H.x, o.y - A.H.y); if (d < bd) { bd = d; b = o.slot; } } }
   window.__killer = by === 'Hound' ? b : -1;             // that hound's own model is replaced by the attack animation
+  killerE = by === 'Hound' && K && K.k === 'Hound' && Number.isSafeInteger(K.e) && K.e > 0 ? K.e : 0; killerSeen = !!killerE && K.slot >= 0;
 }
 const clearKill = () => { window.__kill = null; if (window.__skin) window.__skin.killBy = null; };
-const clearKiller = () => { window.__killer = -1; };
-const clearSlots = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); if (window.__skin) window.__skin.clear(); };
+const clearKiller = () => { window.__killer = -1; killerE = 0; killerSeen = false; };
+const clearSlots = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); killerE = 0; killerSeen = false; if (window.__skin) window.__skin.clear(); };   // (R20 B++: a new connection's ids are its server's own)
 function unhold() { if (window.__mv) { window.__mv.down = 0; window.__mv.dragTo = null; } }
 const noFails = () => { if (EN()) EN().setFails([]); };
 const fadeHit = t => { hitFlash = Math.max(0, hitFlash - t * 1.6); };

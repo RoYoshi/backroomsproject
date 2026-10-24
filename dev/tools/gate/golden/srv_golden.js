@@ -27,6 +27,7 @@ const fs = require('fs'), path = require('path'), os = require('os'), zlib = req
 const { execFileSync, spawnSync } = require('child_process');
 const HERE = __dirname, REPO = path.resolve(HERE, '..', '..', '..', '..'), LAYOUT = require(path.join(REPO, 'dev', 'tools', 'layout.js'));
 const H0 = path.join(REPO, 'dev', 'stage-3h0', 'golden');
+const AX = require('./approved_ext.js');   // (R20 B++ killer identity) the one approved B++ extension, e, taken out again before a comparison with B++
 const ARG = { 'old-ref': '143b63ff42b88c6780c5043e0f61d64100f81f40', repeat: '0' };
 for (let i = 2; i < process.argv.length; i++) { const k = process.argv[i].replace(/^--/, ''); if (['write-baseline'].includes(k)) ARG[k] = true; else ARG[k] = process.argv[++i]; }
 const ALL = Object.keys(require(path.join(H0, 'srv_scenarios.js')));
@@ -92,13 +93,14 @@ for (const s of SCEN) {
     rec.baseline = b ? { sha256: b.sha256, equal: b.sha256 === n.sha256 } : { sha256: null, equal: null, note: 'no baseline: a scenario added after H0-1 (compared old code against new code only)' };
     if (b && !rec.baseline.equal) {
       const bl = zlib.gunzipSync(fs.readFileSync(path.join(path.resolve(ARG.baseline), b.file))).toString('utf8').split('\n'), nl = n.buf.toString('utf8').split('\n');
-      const exp = [], unexp = [];
+      const exp = [], unexp = [], ext = [];
       for (let i = 0; i < Math.max(bl.length, nl.length); i++) {
         if (bl[i] === nl[i]) continue;
+        { const r = AX.srvLine(nl[i] || ''); if (r.n && r.line === bl[i] && bl.length === nl.length) { ext.push(i + 1); continue; } }   // (R20 B++) e, and nothing else
         const f = httpFileOf(bl[i] || '') || httpFileOf(nl[i] || '');
         if (f && changed.has(f) && bl.length === nl.length) exp.push({ line: i + 1, file: f }); else { unexp.push({ line: i + 1, baseline: (bl[i] || '').slice(0, 400), now: (nl[i] || '').slice(0, 400) }); if (unexp.length > 5) break; }
       }
-      rec.baseline.expectedContentChanges = exp; rec.baseline.unexpected = unexp; rec.baseline.equalExceptChangedFiles = !unexp.length && bl.length === nl.length;
+      rec.baseline.expectedContentChanges = exp; rec.baseline.approvedExtensionLines = ext; rec.baseline.unexpected = unexp; rec.baseline.equalExceptChangedFiles = !unexp.length && bl.length === nl.length;
     }
   }
   rec.ok = rec.equal && rec.repeats.every(r => r.equal) && (!baseline || rec.baseline.equal !== false || rec.baseline.equalExceptChangedFiles);
@@ -106,7 +108,7 @@ for (const s of SCEN) {
   report.scenarios.push(rec);
   console.log(`${rec.ok ? 'PASS' : 'FAIL'} ${s}: old ${o.lines} lines ${o.sha256.slice(0, 12)} (${o.ms} ms) | new ${n.lines} lines ${n.sha256.slice(0, 12)} (${n.ms} ms)` +
     `${rec.equal ? ' | identical' : ' | DIFFERENT'}${rec.repeats.length ? ' | repeats ' + rec.repeats.map(r => r.equal ? 'same' : 'DIFF').join(',') : ''}` +
-    `${baseline ? ' | baseline ' + (rec.baseline.equal === null ? 'none (new scenario)' : rec.baseline.equal ? 'same' : rec.baseline.equalExceptChangedFiles ? 'same except ' + rec.baseline.expectedContentChanges.length + ' lines about changed files' : 'DIFFERENT') : ''}` +
+    `${baseline ? ' | baseline ' + (rec.baseline.equal === null ? 'none (new scenario)' : rec.baseline.equal ? 'same' : rec.baseline.equalExceptChangedFiles ? 'same except ' + rec.baseline.expectedContentChanges.length + ' lines about changed files and ' + rec.baseline.approvedExtensionLines.length + ' replay messages with the approved e' : 'DIFFERENT') : ''}` +
     `${n.struct && n.struct.newRequires.length ? ' | new requires: ' + n.struct.newRequires.join(' ') : ''}`);
   if (!rec.ok && rec.firstDiff) console.log('   first difference at line ' + rec.firstDiff.line + '\n   old: ' + rec.firstDiff.old.slice(0, 300) + '\n   new: ' + rec.firstDiff.new.slice(0, 300));
   if (rec.errors) console.log('   errors: ' + JSON.stringify(rec.errors).slice(0, 800));
@@ -127,5 +129,5 @@ if (ARG.out) {
   fs.writeFileSync(path.join(OUT, 'srv_golden_report.json'), JSON.stringify(report, null, 1) + '\n');
 }
 if (!ARG.keep) fs.rmSync(tmp, { recursive: true, force: true });
-console.log(report.ok ? 'server golden traces: ALL IDENTICAL' : 'server golden traces: DIFFERENCES FOUND');
+console.log(report.ok ? 'server golden traces: ALL IDENTICAL' + (report.scenarios.some(s => s.baseline && (s.baseline.approvedExtensionLines || []).length) ? ' (the baseline: except the approved e)' : '') : 'server golden traces: DIFFERENCES FOUND');
 process.exitCode = report.ok ? 0 : 1;

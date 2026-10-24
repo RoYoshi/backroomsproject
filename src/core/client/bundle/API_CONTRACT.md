@@ -37,8 +37,8 @@ the same name and the same meaning, for every reader below.
 | `map` | function | B10 | `vu` = client/main.ts `function toggleMap` | inventory.js ×2 |
 | `mapOpen` | function | B10 | `ou` = client/main.ts `map` | inventory.js ×2 |
 | `gear` | value | B10 | `Zc` = client/loadout.ts `equipment`; `Qc` = client/loadout.ts `function saveEquipment`; `PD` (written by B10); `Pg` (written by B10); `Jc` = shared/equipment.ts `function validLight`; `Gd` (written by B10) | inventory.js ×19, assets/net-wire.js ×5, assets/ui.js ×6 |
-| `G` | binding | B05 | `G` = shared/entity.ts `entity` | mp.js ×11, assets/chat.js ×4 |
-| `q` | binding | B05 | `q` = shared/entity.ts `smilers` | mp.js ×6 |
+| `G` | binding | B05 | `G` = shared/entity.ts `entity` | mp.js ×12, assets/chat.js ×4 |
+| `q` | binding | B05 | `q` = shared/entity.ts `smilers` | mp.js ×5 |
 | `V` | binding | B05 | `V` = shared/world.ts `lighting` | ents.js ×2, light.js ×2, mp.js ×1, assets/br-role.js ×2, assets/mp-hum.js ×1, assets/shadows-2d.js ×2 |
 | `el` | binding | B05 | `el` = shared/evidence.ts `traces` | - |
 | `H` | binding | B05 | `H` = shared/movement.ts `player` | camcorder.js ×4, ents.js ×7, light.js ×3, move.js ×7, mp.js ×24, assets/br-role.js ×4, assets/chat.js ×2, assets/l0-remaster.js ×1, assets/mp-hum.js ×1, assets/shadows-2d.js ×5, assets/skinstealer.js ×3, assets/ui.js ×1, assets/index-DKbV5Nv9.js (itself) ×3 |

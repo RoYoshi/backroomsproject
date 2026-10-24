@@ -19,6 +19,7 @@ const ARG = { 'old-ref': '143b63ff42b88c6780c5043e0f61d64100f81f40', repeat: '0'
 for (let i = 2; i < process.argv.length; i++) { const k = process.argv[i].replace(/^--/, ''); if (k === 'write-baseline') ARG[k] = true; else ARG[k] = process.argv[++i]; }
 const SCENES = ARG.scenes ? ARG.scenes.split(',') : L.SCENES;
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
+const AX = require('./approved_ext.js');   // (R20 B++ killer identity) the one approved B++ extension, e, taken out again before a comparison with B++
 (async () => {
   const OLD = L.fromRef(ARG['old-ref']), NEW = ARG['new-ref'] ? L.fromRef(ARG['new-ref']) : L.fromTree();
   const browser = await L.launch();
@@ -33,18 +34,22 @@ const sha = b => crypto.createHash('sha256').update(b).digest('hex');
       new: { entries: JSON.parse(n.trace).length, bytes: n.trace.length, sha256: sha(n.trace), ms: t2 - t1, errors: n.errs },
       globalsOnlyInNew: n.globals.filter(g => !o.globals.includes(g)), globalsOnlyInOld: o.globals.filter(g => !n.globals.includes(g)) };
     rec.equal = rec.old.sha256 === rec.new.sha256;
+    if (!rec.equal) { rec.approved = AX.cliCompare(o.trace, n.trace); rec.equalExceptApproved = rec.approved.equal; }   // (R20 B++) what e changes on a page, and nothing else
     rec.undeclaredGlobals = rec.globalsOnlyInNew.filter(g => !L.NEWG.includes(g)).concat(rec.globalsOnlyInOld);
     if (!rec.equal) { const A = JSON.parse(o.trace), B = JSON.parse(n.trace); for (let i = 0; i < Math.max(A.length, B.length); i++) { const a = JSON.stringify(A[i]), b = JSON.stringify(B[i]); if (a !== b) { rec.firstDiff = { index: i, old: (a || '').slice(0, 500), new: (b || '').slice(0, 500) }; break; } } }
     rec.repeats = [];
     for (let k = 0; k < +ARG.repeat; k++) { const r = await L.runScene(browser, NEW, sc); rec.repeats.push({ sha256: sha(r.trace), equal: sha(r.trace) === rec.new.sha256 }); }
-    if (baseline) { const b = baseline.scenes[sc]; rec.baseline = { sha256: b ? b.sha256 : null, equal: !!b && b.sha256 === rec.new.sha256 }; }
-    rec.ok = rec.equal && !rec.undeclaredGlobals.length && !rec.new.errors.length && !rec.old.errors.length && rec.repeats.every(x => x.equal) && (!baseline || rec.baseline.equal);
+    if (baseline) { const b = baseline.scenes[sc]; rec.baseline = { sha256: b ? b.sha256 : null, equal: !!b && b.sha256 === rec.new.sha256 };
+      if (b && !rec.baseline.equal) { const bf = path.join(path.resolve(ARG.baseline), b.file), bt = fs.existsSync(bf) ? zlib.gunzipSync(fs.readFileSync(bf)) : null; const c = bt && sha(bt) === b.sha256 ? AX.cliCompare(bt.toString('utf8'), n.trace) : { equal: false, why: ['the stored trace is missing or is not the one its hash names'] }; rec.baseline.approved = c; rec.baseline.equalExceptApproved = c.equal; } }
+    rec.ok = (rec.equal || rec.equalExceptApproved === true) && !rec.undeclaredGlobals.length && !rec.new.errors.length && !rec.old.errors.length && rec.repeats.every(x => x.equal) && (!baseline || rec.baseline.equal || rec.baseline.equalExceptApproved === true);
     report.ok = report.ok && rec.ok; report.scenes.push(rec);
     console.log(`${rec.ok ? 'PASS' : 'FAIL'} ${sc}: old ${rec.old.entries} entries ${rec.old.sha256.slice(0, 12)} (${rec.old.ms} ms) | new ${rec.new.entries} entries ${rec.new.sha256.slice(0, 12)} (${rec.new.ms} ms)` +
-      `${rec.equal ? ' | identical' : ' | DIFFERENT'}${rec.repeats.length ? ' | repeats ' + rec.repeats.map(x => x.equal ? 'same' : 'DIFF').join(',') : ''}${baseline ? ' | baseline ' + (rec.baseline.equal ? 'same' : 'DIFFERENT') : ''}` +
+      `${rec.equal ? ' | identical' : rec.equalExceptApproved ? ' | identical except the approved e (' + rec.approved.differing + ' moments hide fewer)' : ' | DIFFERENT'}${rec.repeats.length ? ' | repeats ' + rec.repeats.map(x => x.equal ? 'same' : 'DIFF').join(',') : ''}${baseline ? ' | baseline ' + (rec.baseline.equal ? 'same' : rec.baseline.equalExceptApproved ? 'same except the approved e' : 'DIFFERENT') : ''}` +
       `${rec.globalsOnlyInNew.length ? ' | new globals: ' + rec.globalsOnlyInNew.join(' ') : ''}${rec.undeclaredGlobals.length ? ' | UNDECLARED: ' + rec.undeclaredGlobals.join(' ') : ''}` +
       `${rec.old.errors.length || rec.new.errors.length ? ' | errors old ' + rec.old.errors.length + ' new ' + rec.new.errors.length : ''}`);
-    if (rec.firstDiff) console.log('   first difference at entry ' + rec.firstDiff.index + '\n   old: ' + rec.firstDiff.old.slice(0, 300) + '\n   new: ' + rec.firstDiff.new.slice(0, 300));
+    if (rec.approved && !rec.approved.equal) console.log('   not the approved extension: ' + rec.approved.why.slice(0, 3).join(' / ').slice(0, 600));
+    if (rec.baseline && rec.baseline.approved && !rec.baseline.approved.equal) console.log('   baseline, not the approved extension: ' + rec.baseline.approved.why.slice(0, 3).join(' / ').slice(0, 600));
+    if (rec.firstDiff && !rec.equalExceptApproved) console.log('   first difference at entry ' + rec.firstDiff.index + '\n   old: ' + rec.firstDiff.old.slice(0, 300) + '\n   new: ' + rec.firstDiff.new.slice(0, 300));
     if (rec.new.errors.length) console.log('   new errors: ' + rec.new.errors.slice(0, 3).join(' | '));
   }
   await browser.close();
@@ -60,6 +65,6 @@ const sha = b => crypto.createHash('sha256').update(b).digest('hex');
     fs.writeFileSync(path.join(OUT, 'cli_golden_report.json'), JSON.stringify(report, null, 1) + '\n');
   }
   if (!ARG.keep) fs.rmSync(tmp, { recursive: true, force: true });
-  console.log(report.ok ? 'client golden traces: ALL IDENTICAL' : 'client golden traces: DIFFERENCES FOUND');
+  console.log(report.ok ? 'client golden traces: ALL IDENTICAL' + (report.scenes.some(s => s.equalExceptApproved || (s.baseline && s.baseline.equalExceptApproved)) ? ' EXCEPT THE APPROVED e' : '') : 'client golden traces: DIFFERENCES FOUND');
   process.exitCode = report.ok ? 0 : 1;
 })().catch(e => { console.error('RUNNER ERROR', e && e.stack || e); process.exitCode = 2; });

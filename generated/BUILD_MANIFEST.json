@@ -548,8 +548,8 @@
   },
   {
    "out": "public/mp.js",
-   "bytes": 108395,
-   "sha256": "f92710db4ae98d946727dddca6f35d7c2c6dc584607eb4aa7bd20b5aab993c1b",
+   "bytes": 109468,
+   "sha256": "d7f1ad413191814f95a51bb49f1b288eec5920d1712f7a0bdd9b06b8fbea8c5f",
    "parts": [
     {
      "path": "src/core/client/mp.js",
@@ -573,7 +573,7 @@
     },
     {
      "path": "src/frameworks/nani/client/mp.monsters.js",
-     "sha256": "d67da8f8bb7d258fc8793f3da6dbd02f746376ac44f21b4715c702183ce7c7da",
+     "sha256": "f7544e22e00521a4358056c51044086c23cf1daa99f947af942460c405d203e9",
      "headerBytes": 1279
     },
     {
@@ -593,7 +593,7 @@
     },
     {
      "path": "src/frameworks/gib/client/mp.deaths.js",
-     "sha256": "81b5019dc91e8951ffef248dde87fb4cab2a1f938eac1ad121b5f5de51659895",
+     "sha256": "eba89fa4591071b3fbff4c636559f80cd127e992f978f26120841bb9662b93d1",
      "headerBytes": 1571
     },
     {

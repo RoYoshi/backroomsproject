@@ -1,0 +1,807 @@
+{
+ "tool": "dev/trial-3-r20-kill-visibility/tools/rv_browser.js",
+ "chromium": "141.0.7390.37",
+ "tree": "BPP",
+ "cases": [
+  {
+   "name": "BPP1 two Hounds 110 px apart, one kills (its pack-mate nearer the attacker's place on the spectator's page)",
+   "kills": [
+    {
+     "e": 11,
+     "k": "Hound",
+     "v": "A"
+    }
+   ],
+   "ents": [
+    {
+     "id": 11,
+     "kind": "hound"
+    },
+    {
+     "id": 12,
+     "kind": "hound"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 14,
+     "playing": 11,
+     "ownDeath": 11,
+     "killerJudged": 11,
+     "killerHidden": 11,
+     "bystanderSeen": 11,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 0,
+     "skinHidden": 0,
+     "hiddenIds": [
+      11
+     ],
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 17,
+     "playing": 11,
+     "ownDeath": 0,
+     "killerJudged": 11,
+     "killerHidden": 11,
+     "bystanderSeen": 11,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 0,
+     "skinHidden": 0,
+     "hiddenIds": [
+      11
+     ],
+     "replayIds": [
+      11
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    },
+    {
+     "frames": 7,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    }
+   ]
+  },
+  {
+   "name": "BPP1 two Hounds 110 px apart, one kills, variant B",
+   "kills": [
+    {
+     "e": 13,
+     "k": "Hound",
+     "v": "B"
+    }
+   ],
+   "ents": [
+    {
+     "id": 13,
+     "kind": "hound"
+    },
+    {
+     "id": 14,
+     "kind": "hound"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 14,
+     "playing": 11,
+     "ownDeath": 11,
+     "killerJudged": 11,
+     "killerHidden": 11,
+     "bystanderSeen": 11,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 0,
+     "skinHidden": 0,
+     "hiddenIds": [
+      13
+     ],
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 20,
+     "playing": 13,
+     "ownDeath": 0,
+     "killerJudged": 13,
+     "killerHidden": 13,
+     "bystanderSeen": 13,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 0,
+     "skinHidden": 0,
+     "hiddenIds": [
+      13
+     ],
+     "replayIds": [
+      13
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 3,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    },
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    }
+   ]
+  },
+  {
+   "name": "BPP1 two Hounds 34 px apart, one kills",
+   "kills": [
+    {
+     "e": 15,
+     "k": "Hound",
+     "v": "B"
+    }
+   ],
+   "ents": [
+    {
+     "id": 15,
+     "kind": "hound"
+    },
+    {
+     "id": 16,
+     "kind": "hound"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 14,
+     "playing": 11,
+     "ownDeath": 11,
+     "killerJudged": 11,
+     "killerHidden": 11,
+     "bystanderSeen": 11,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 0,
+     "skinHidden": 0,
+     "hiddenIds": [
+      15
+     ],
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 21,
+     "playing": 12,
+     "ownDeath": 0,
+     "killerJudged": 12,
+     "killerHidden": 12,
+     "bystanderSeen": 12,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 0,
+     "skinHidden": 0,
+     "hiddenIds": [
+      15
+     ],
+     "replayIds": [
+      15
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    },
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    }
+   ]
+  },
+  {
+   "name": "BPP2 two Smilers, one kills",
+   "kills": [
+    {
+     "e": 17,
+     "k": "Smiler",
+     "v": "A"
+    }
+   ],
+   "ents": [
+    {
+     "id": 17,
+     "kind": "smiler"
+    },
+    {
+     "id": 18,
+     "kind": "smiler"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 13,
+     "playing": 10,
+     "ownDeath": 10,
+     "killerJudged": 10,
+     "killerHidden": 0,
+     "bystanderSeen": 10,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 0,
+     "skinHidden": 0,
+     "hiddenIds": [],
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 19,
+     "playing": 11,
+     "ownDeath": 0,
+     "killerJudged": 11,
+     "killerHidden": 11,
+     "bystanderSeen": 11,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 0,
+     "skinHidden": 0,
+     "hiddenIds": [
+      17
+     ],
+     "replayIds": [
+      17
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 4,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    },
+    {
+     "frames": 6,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    }
+   ]
+  },
+  {
+   "name": "BPP2 two Smilers, the other one nearer the spectator",
+   "kills": [
+    {
+     "e": 19,
+     "k": "Smiler",
+     "v": "A"
+    }
+   ],
+   "ents": [
+    {
+     "id": 19,
+     "kind": "smiler"
+    },
+    {
+     "id": 20,
+     "kind": "smiler"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 14,
+     "playing": 11,
+     "ownDeath": 11,
+     "killerJudged": 11,
+     "killerHidden": 0,
+     "bystanderSeen": 11,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 0,
+     "skinHidden": 0,
+     "hiddenIds": [],
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 20,
+     "playing": 11,
+     "ownDeath": 0,
+     "killerJudged": 11,
+     "killerHidden": 11,
+     "bystanderSeen": 11,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 0,
+     "skinHidden": 0,
+     "hiddenIds": [
+      19
+     ],
+     "replayIds": [
+      19
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    },
+    {
+     "frames": 9,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    }
+   ]
+  },
+  {
+   "name": "BPP3 two Skin-Stealers, variant A",
+   "kills": [
+    {
+     "e": 21,
+     "k": "SkinStealer",
+     "v": "A"
+    }
+   ],
+   "ents": [
+    {
+     "id": 21,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 22,
+     "kind": "skinstealer"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 15,
+     "playing": 12,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 12,
+     "killerShown": 0,
+     "killerJudged": 12,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 20,
+     "playing": 10,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 10,
+     "killerShown": 0,
+     "killerJudged": 10,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      21
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 4,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    },
+    {
+     "frames": 6,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    }
+   ]
+  },
+  {
+   "name": "BPP3 two Skin-Stealers, variant D",
+   "kills": [
+    {
+     "e": 23,
+     "k": "SkinStealer",
+     "v": "D"
+    }
+   ],
+   "ents": [
+    {
+     "id": 23,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 24,
+     "kind": "skinstealer"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 15,
+     "playing": 12,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 12,
+     "killerShown": 0,
+     "killerJudged": 12,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 21,
+     "playing": 11,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 11,
+     "killerShown": 0,
+     "killerJudged": 11,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      23
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 4,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    },
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    }
+   ]
+  },
+  {
+   "name": "BPP4 two victims at once, two Hounds, a Smiler and a Skin-Stealer beside them, a third page watching",
+   "kills": [
+    {
+     "e": 25,
+     "k": "Hound",
+     "v": "A"
+    },
+    {
+     "e": 26,
+     "k": "Hound",
+     "v": "A"
+    }
+   ],
+   "ents": [
+    {
+     "id": 25,
+     "kind": "hound"
+    },
+    {
+     "id": 26,
+     "kind": "hound"
+    },
+    {
+     "id": 27,
+     "kind": "smiler"
+    },
+    {
+     "id": 28,
+     "kind": "skinstealer"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 7,
+     "playing": 5,
+     "ownDeath": 4,
+     "killerJudged": 8,
+     "killerHidden": 8,
+     "bystanderSeen": 0,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 5,
+     "skinHidden": 0,
+     "hiddenIds": [
+      26,
+      25
+     ],
+     "replayIds": [
+      26
+     ]
+    },
+    {
+     "page": 1,
+     "frames": 11,
+     "playing": 7,
+     "ownDeath": 7,
+     "killerJudged": 12,
+     "killerHidden": 12,
+     "bystanderSeen": 0,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 7,
+     "skinHidden": 0,
+     "hiddenIds": [
+      25,
+      26
+     ],
+     "replayIds": [
+      25
+     ]
+    },
+    {
+     "page": 2,
+     "frames": 12,
+     "playing": 6,
+     "ownDeath": 0,
+     "killerJudged": 12,
+     "killerHidden": 12,
+     "bystanderSeen": 0,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 6,
+     "skinHidden": 0,
+     "hiddenIds": [
+      25,
+      26
+     ],
+     "replayIds": [
+      26,
+      25
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 6,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 1
+    },
+    {
+     "frames": 4,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 1
+    },
+    {
+     "frames": 4,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 1
+    }
+   ]
+  },
+  {
+   "name": "BPP5 a Hound kills beside its pack-mate: a replay delivered 1.2 s late (with el), the spectator reconnecting at 1.0 s, a fresh page entering at 0.7 s",
+   "joinAt": 0.7,
+   "dropAt": 2.03,
+   "heldAt": 2.87,
+   "lateFx": 1,
+   "lateAt": 4.17,
+   "backAt": 7.18,
+   "jIn": 9.55,
+   "kills": [
+    {
+     "e": 29,
+     "k": "Hound",
+     "v": "A"
+    }
+   ],
+   "ents": [
+    {
+     "id": 29,
+     "kind": "hound"
+    },
+    {
+     "id": 30,
+     "kind": "hound"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 96,
+     "playing": 6,
+     "ownDeath": 6,
+     "killerJudged": 6,
+     "killerHidden": 6,
+     "bystanderSeen": 6,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 0,
+     "skinHidden": 0,
+     "hiddenIds": [
+      29
+     ],
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 84,
+     "playing": 2,
+     "ownDeath": 0,
+     "killerJudged": 2,
+     "killerHidden": 1,
+     "bystanderSeen": 2,
+     "bystanderHidden": 1,
+     "otherHidden": 0,
+     "skinSeen": 0,
+     "skinHidden": 0,
+     "hiddenIds": [
+      29,
+      30
+     ],
+     "replayIds": [
+      29
+     ]
+    },
+    {
+     "page": 2,
+     "frames": 22,
+     "playing": 4,
+     "ownDeath": 0,
+     "killerJudged": 4,
+     "killerHidden": 4,
+     "bystanderSeen": 4,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 0,
+     "skinHidden": 0,
+     "hiddenIds": [
+      29
+     ],
+     "replayIds": [
+      29
+     ]
+    },
+    {
+     "page": 3,
+     "frames": 133,
+     "playing": 9,
+     "ownDeath": 0,
+     "killerJudged": 9,
+     "killerHidden": 9,
+     "bystanderSeen": 9,
+     "bystanderHidden": 0,
+     "otherHidden": 0,
+     "skinSeen": 0,
+     "skinHidden": 0,
+     "hiddenIds": [
+      29
+     ],
+     "replayIds": [
+      29
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    },
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 5,
+     "mirrors": 0
+    },
+    {
+     "frames": 3,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    },
+    {
+     "frames": 3,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    }
+   ]
+  }
+ ],
+ "errors": {
+  "V": [],
+  "S": []
+ }
+}

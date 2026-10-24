@@ -22,11 +22,13 @@ const L = require('./cli_lib_c3c.js');
 const ARG = { 'old-ref': L.BPP };
 for (let i = 2; i < process.argv.length; i++) { const k = process.argv[i].replace(/^--/, ''); if (k === 'write-baseline') ARG[k] = true; else ARG[k] = process.argv[++i]; }
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
+const AX = require('./approved_ext.js');   // (R20 B++ killer identity) the one approved B++ extension, e, taken out again before a comparison with B++
 /* the functions of mp.js no scene runs, and why (matched by V8's function name; an anonymous one by the start of its text) */
 const UNRUN = [
   ['connect', 'only its `file:` and constructor-failure branches are unrun; the function itself runs (listed for its old name only)', 0],
   ['say', "post-3H Trial 2: the send of {t:'say'} the session links into F.R.O.N.T.'s chat.js (window.__chat.link); chat.js is not one of the scenes' scripts, so no scene makes or calls it; dev/tools/checks/chat_browser.js runs it in real pages", 1],
   ['bodySkin', "Trial 3: the admin panel's SKIN tab (the Skin-Stealer's admin-only tools); B++ has no such tab and the admin scene visits B++'s five, so no scene opens it; dev/trial-3-skin-stealer/tools/skin_browser.js opens it and uses it in real pages", 1],
+  ['nearKillAt', "Trial 3 R20, the B++ killer-identity branch: replayKillerSlots' 400 px check of the mirror its replay names by e; every scene's replay message is B++'s and names no killer, so replayKillerSlots returns before it; dev/tests/s_r20rv.js RV07b-RV07e run it in a VM, and dev/trial-3-r20-bpp-killer-identity/tools/bpp_browser.js in real pages", 1],
 ];
 const UNRUN_NAMES = new Set(UNRUN.filter(u => u[2]).map(u => u[0]));
 /* one side's union over scenes: per function (name@offset) whether it ran; per byte the highest count (V8's innermost range wins) */
@@ -69,17 +71,21 @@ async function compare() {
     const s = { scene: sc, old: { entries: A.length, sha256: sha(o.trace), errors: o.errs }, new: { entries: B.length, sha256: sha(n.trace), errors: n.errs },
       globalsOnlyInNew: n.globals.filter(g => !o.globals.includes(g)), globalsOnlyInOld: o.globals.filter(g => !n.globals.includes(g)) };
     s.equal = s.old.sha256 === s.new.sha256;
+    if (!s.equal) { s.approved = AX.cliCompare(o.trace, n.trace); s.equalExceptApproved = s.approved.equal; }   // (R20 B++) what e changes on a page, and nothing else
     s.undeclaredGlobals = s.globalsOnlyInNew.filter(g => !L.NEWG.includes(g)).concat(s.globalsOnlyInOld);
     s.steps = sc.startsWith('c3c_') ? B.filter(e => /^c3c\./.test(e[1])).length : null;
     s.thrown = B.filter(e => e[1] === 'scene.throw').map(e => e.slice(2).join(' ')).concat(A.filter(e => e[1] === 'scene.throw').map(e => 'B++: ' + e.slice(2).join(' ')));
     if (!s.equal) for (let i = 0; i < Math.max(A.length, B.length); i++) { const a = JSON.stringify(A[i]), b = JSON.stringify(B[i]); if (a !== b) { s.firstDiff = { index: i, old: (a || '').slice(0, 600), new: (b || '').slice(0, 600) }; break; } }
-    if (baseline && (sc.startsWith('c3c_') || baseline.scenes[sc])) { const b = baseline.scenes[sc]; s.baseline = { sha256: b ? b.sha256 : null, equal: !!b && b.sha256 === s.new.sha256 }; }
-    s.ok = s.equal && !s.undeclaredGlobals.length && !s.new.errors.length && !s.old.errors.length && !s.thrown.length && (s.steps === null || s.steps > 0) && (!s.baseline || s.baseline.equal);
+    if (baseline && (sc.startsWith('c3c_') || baseline.scenes[sc])) { const b = baseline.scenes[sc]; s.baseline = { sha256: b ? b.sha256 : null, equal: !!b && b.sha256 === s.new.sha256 };
+      if (b && !s.baseline.equal) { const bf = path.join(path.resolve(ARG.baseline), b.file), bt = fs.existsSync(bf) ? zlib.gunzipSync(fs.readFileSync(bf)) : null; const c = bt && sha(bt) === b.sha256 ? AX.cliCompare(bt.toString('utf8'), n.trace) : { equal: false, why: ['the stored trace is missing or is not the one its hash names'] }; s.baseline.approved = c; s.baseline.equalExceptApproved = c.equal; } }
+    s.ok = (s.equal || s.equalExceptApproved === true) && !s.undeclaredGlobals.length && !s.new.errors.length && !s.old.errors.length && !s.thrown.length && (s.steps === null || s.steps > 0) && (!s.baseline || s.baseline.equal || s.baseline.equalExceptApproved === true);
     R.ok = R.ok && s.ok; R.scenes.push(s);
     console.log(`${s.ok ? 'PASS' : 'FAIL'} ${sc}: B++ ${s.old.entries} entries ${s.old.sha256.slice(0, 12)} | this tree ${s.new.entries} entries ${s.new.sha256.slice(0, 12)}${s.steps !== null ? ' | scene steps ' + s.steps : ''}` +
-      `${s.equal ? ' | identical' : ' | DIFFERENT'}${s.baseline ? ' | baseline ' + (s.baseline.equal ? 'same' : 'DIFFERENT') : ''}${s.undeclaredGlobals.length ? ' | UNDECLARED: ' + s.undeclaredGlobals.join(' ') : ''}` +
+      `${s.equal ? ' | identical' : s.equalExceptApproved ? ' | identical except the approved e (' + s.approved.differing + ' moments hide fewer)' : ' | DIFFERENT'}${s.baseline ? ' | baseline ' + (s.baseline.equal ? 'same' : s.baseline.equalExceptApproved ? 'same except the approved e' : 'DIFFERENT') : ''}${s.undeclaredGlobals.length ? ' | UNDECLARED: ' + s.undeclaredGlobals.join(' ') : ''}` +
       `${s.old.errors.length || s.new.errors.length ? ' | errors B++ ' + s.old.errors.length + ' this tree ' + s.new.errors.length : ''}${s.thrown.length ? ' | THROWN: ' + s.thrown.join(' | ').slice(0, 300) : ''}`);
-    if (s.firstDiff) console.log('   first difference at entry ' + s.firstDiff.index + '\n   B++:       ' + s.firstDiff.old.slice(0, 400) + '\n   this tree: ' + s.firstDiff.new.slice(0, 400));
+    if (s.approved && !s.approved.equal) console.log('   not the approved extension: ' + s.approved.why.slice(0, 3).join(' / ').slice(0, 600));
+    if (s.baseline && s.baseline.approved && !s.baseline.approved.equal) console.log('   baseline, not the approved extension: ' + s.baseline.approved.why.slice(0, 3).join(' / ').slice(0, 600));
+    if (s.firstDiff && !s.equalExceptApproved) console.log('   first difference at entry ' + s.firstDiff.index + '\n   B++:       ' + s.firstDiff.old.slice(0, 400) + '\n   this tree: ' + s.firstDiff.new.slice(0, 400));
     if (s.new.errors.length) console.log('   errors: ' + s.new.errors.slice(0, 3).join(' | '));
   }
   await browser.close();
@@ -104,7 +110,7 @@ async function compare() {
     fs.writeFileSync(path.join(OUT, 'cli_golden_c3c_report.json'), JSON.stringify(R, null, 1) + '\n');
   }
   if (!ARG.keep) fs.rmSync(tmp, { recursive: true, force: true });
-  console.log(R.ok ? 'client scenes (all, C3c): ALL IDENTICAL, mp.js reached' : 'client scenes (all, C3c): FAIL');
+  console.log(R.ok ? 'client scenes (all, C3c): ALL IDENTICAL' + (R.scenes.some(s => s.equalExceptApproved || (s.baseline && s.baseline.equalExceptApproved)) ? ' EXCEPT THE APPROVED e' : '') + ', mp.js reached' : 'client scenes (all, C3c): FAIL');
   process.exitCode = R.ok ? 0 : 1;
 }
 async function mutants() {

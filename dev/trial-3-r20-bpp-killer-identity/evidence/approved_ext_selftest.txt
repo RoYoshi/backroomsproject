@@ -1,0 +1,35 @@
+PASS server: the baselines hold death replay lines (52 lines)
+PASS server: each B++ replay line with e after c (the approved extension) compares equal (52 of 52)
+PASS server: a line without e is left as it is
+PASS server mutant caught: e after x (another place)
+PASS server mutant caught: e = 0
+PASS server mutant caught: e a string
+PASS server mutant caught: e negative
+PASS server mutant caught: e fractional
+PASS server mutant caught: the frame length not changed with it
+PASS server mutant caught: a second field beside e
+PASS server mutant caught: e twice
+PASS server mutant caught: another field changed (x)
+PASS server mutant caught: another species (c: SkinStealer, not in the B++ traces)
+PASS server mutant caught: e on another message (k: end)
+PASS server mutant caught: a line added
+PASS client: B++ hides the nearest slot 0, this tree none (the approved policy)
+PASS client: identical traces
+PASS client mutant caught: this tree hides another slot
+PASS client mutant caught: this tree hides more
+PASS client mutant caught: another entry changed
+PASS client mutant caught: another state field changed
+PASS client mutant caught: fewer hidden with no replay without an id to explain it
+PASS client mutant caught: fewer hidden although the replay names its killer
+PASS client mutant caught: the received messages differ
+PASS client: this tree logging no state for a slot-only change (as the page does)
+PASS client mutant caught: an extra state entry, a copy of the one before, later
+PASS client mutant caught: an extra state entry right after the first
+PASS client mutant caught: another slot hidden, overwritten at the same moment
+PASS client mutant caught: the slot lists left out
+PASS client mutant caught: the slot lists null / false
+PASS client mutant caught: fxstate slot items 0 / null
+PASS client mutant caught: a repeated slot
+PASS client mutant caught: a slot list of the wrong type (an object)
+PASS client mutant caught: some of B++'s hidden slots kept (an id-less replay hides none)
+approved extension (e), self-test: PASS (34/34)

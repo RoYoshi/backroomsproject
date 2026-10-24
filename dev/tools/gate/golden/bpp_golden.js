@@ -23,6 +23,7 @@ const fs = require('fs'), path = require('path'), os = require('os'), zlib = req
 const { execFileSync, spawnSync } = require('child_process');
 const HERE = __dirname, REPO = path.resolve(HERE, '..', '..', '..', '..'), HARNESS = path.join(HERE, 'srv_harness.js');
 const LAYOUT = require(path.join(REPO, 'dev', 'tools', 'layout.js'));
+const AX = require('./approved_ext.js');   // (R20 B++ killer identity) the one approved B++ extension, e, taken out again before a comparison with B++
 const ARG = { 'old-ref': '143b63ff42b88c6780c5043e0f61d64100f81f40', repeat: '1' };
 for (let i = 2; i < process.argv.length; i++) { const k = process.argv[i].replace(/^--/, ''); if (k === 'write-baseline') ARG[k] = true; else ARG[k] = process.argv[++i]; }
 const SCEN_FILE = ARG.scenarios ? path.resolve(ARG.scenarios) : path.join(REPO, 'dev', 'stage-3h', 'golden', 'srv_scenarios_bpp.js');   // (C2) --scenarios
@@ -49,13 +50,18 @@ for (const sc of SCEN) {
   const rec = { scenario: sc, old: { ok: o.ok, lines: o.lines, sha256: o.sha256, ms: o.ms, stderr: o.stderr }, new: { ok: n.ok, lines: n.lines, sha256: n.sha256, ms: n.ms, stderr: n.stderr },
     identical: o.ok && n.ok && o.sha256 === n.sha256, deterministic: reps.every(x => x.ok && x.sha256 === n.sha256), repeats: reps.map(x => x.sha256) };
   if (base) rec.baseline = { expected: base[sc] || null, equal: base[sc] === n.sha256 };
-  rec.ok = rec.identical && rec.deterministic && (!base || rec.baseline.equal);
+  if (base && !rec.baseline.equal && base[sc] && n.ok) {                        // (R20 B++) the stored B++ trace, against this one with the approved e taken out
+    const bf = path.join(path.resolve(ARG.baseline), sc + '.jsonl.gz'), bt = fs.existsSync(bf) ? zlib.gunzipSync(fs.readFileSync(bf)) : null;
+    const c = bt && sha(bt) === base[sc] ? AX.srvCompare(bt.toString('utf8'), n.buf.toString('utf8')) : { equal: false, applied: [], unexpected: [{ why: 'the stored trace is missing or is not the one its hash names' }] };
+    rec.baseline.equalExceptApprovedExtension = c.equal; rec.baseline.approvedExtensionLines = c.applied; rec.baseline.unexpected = c.unexpected;
+  }
+  rec.ok = rec.identical && rec.deterministic && (!base || rec.baseline.equal || rec.baseline.equalExceptApprovedExtension === true);
   if (bdir) { fs.writeFileSync(path.join(bdir, sc + '.jsonl.gz'), zlib.gzipSync(n.buf, { level: 9 })); hashes[sc] = n.sha256; }
   R.scenarios.push(rec); R.ok = R.ok && rec.ok;
-  console.log(`${rec.ok ? 'PASS' : 'FAIL'} ${sc}: old ${o.lines} lines ${o.sha256.slice(0, 12)} | new ${n.lines} lines ${n.sha256.slice(0, 12)} | ${rec.identical ? 'identical' : 'DIFFERENT'} | repeats ${rec.deterministic ? 'same' : 'DIFFER'}${base ? ' | baseline ' + (rec.baseline.equal ? 'equal' : 'DIFFERENT') : ''}${n.stderr ? ' | stderr: ' + n.stderr.slice(0, 200) : ''}`);
+  console.log(`${rec.ok ? 'PASS' : 'FAIL'} ${sc}: old ${o.lines} lines ${o.sha256.slice(0, 12)} | new ${n.lines} lines ${n.sha256.slice(0, 12)} | ${rec.identical ? 'identical' : 'DIFFERENT'} | repeats ${rec.deterministic ? 'same' : 'DIFFER'}${base ? ' | baseline ' + (rec.baseline.equal ? 'equal' : rec.baseline.equalExceptApprovedExtension ? 'equal except ' + rec.baseline.approvedExtensionLines.length + ' replay messages with the approved e' : 'DIFFERENT') : ''}${n.stderr ? ' | stderr: ' + n.stderr.slice(0, 200) : ''}`);
 }
 if (bdir) fs.writeFileSync(path.join(bdir, 'hashes.json'), JSON.stringify(hashes, null, 1) + '\n');
 if (outDir) fs.writeFileSync(path.join(outDir, REPORT), JSON.stringify(R, null, 1) + '\n');
 if (!ARG.keep) fs.rmSync(tmp, { recursive: true, force: true });
-console.log(`B++ golden traces: ${R.ok ? 'ALL IDENTICAL' : 'NOT IDENTICAL'}`);
+console.log(`B++ golden traces: ${R.ok ? 'ALL IDENTICAL' + (R.scenarios.some(s => s.baseline && s.baseline.equalExceptApprovedExtension) ? ' (the baseline: except the approved e)' : '') : 'NOT IDENTICAL'}`);
 process.exit(R.ok ? 0 : 1);

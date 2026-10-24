@@ -97,6 +97,10 @@
  *                    same way, against evidence/h2/golden/bpp_traces
  *       cli_golden   Stage 3H0's 9 client scenes (mp.js in a real Chromium, fake clock): B++'s client against the working tree's, and
  *                    against evidence/h1/golden/cli_traces (plus, once C-3 is prepared, the B++ client scenes of cli_golden_h2.js)
+ *                    (Trial 3 R20, the B++ killer-identity branch: srv_golden, bpp_golden and the client comparisons take out the one
+ *                    approved extension - e in a Hound's or a Smiler's death replay message, and what it changes on a page: fewer
+ *                    hidden slots where a replay names no killer - before they compare, and nothing else: golden/approved_ext.js, whose
+ *                    self-test against its own mutants runs in the bpp_golden step.  The stored B++ traces are not rewritten)
  *       protocol     every message in those traces against the B++ protocol contract v2 (protocol_bpp.json), and the checker's selftest
  *       mutants      18 one-line server mutants, each must change a B++ golden (bpp_mutants.js): the goldens still see the code where it lives
  *       static       real HTTP on a copy of the working tree's game: allowlist, blocked paths, favicon bytes (dev/stage-3e-0/static_check.js)
@@ -219,9 +223,13 @@ const STEPS = {
     return { ok: r.exit === 0 && j && j.ok, cases: j ? j.counts.runtimeIdentical + j.counts.runtimeChanged + j.counts.runtimeAdded + j.counts.otherIdentical + (j.counts.otherMoved || 0) : 0, note: j ? `runtime changed (declared): ${Object.keys(j.runtime.changed).join(', ')}; added: ${Object.keys(j.runtime.added).join(', ')}; other files: ${j.counts.otherIdentical} identical, ${j.counts.otherMoved || 0} moved, ${j.counts.otherReplaced || 0} replaced (declared)` : '', r }; },
   srv_golden: () => { const r = run('srv_golden', ['node', G('golden', 'srv_golden.js'), '--old-ref', BPP, '--baseline', path.join(E1, 'srv_traces'), '--out', o('srv'), '--keep', o('srv_keep')]); const j = J(o('srv', 'srv_golden_report.json'));
     const n = j ? j.scenarios.length : 0, exp = j ? j.scenarios.flatMap(s => (s.baseline && s.baseline.expectedContentChanges || []).map(x => x.file)) : [];
-    return { ok: r.exit === 0 && j && j.ok && n === 11, cases: n, note: exp.length ? 'HTTP lines about changed files: ' + [...new Set(exp)].join(', ') : 'identical to the baseline', r }; },
+    const ext = j ? j.scenarios.reduce((a, s) => a + (s.baseline && s.baseline.approvedExtensionLines || []).length, 0) : 0;   // (R20 B++) replay messages with the approved e
+    return { ok: r.exit === 0 && j && j.ok && n === 11, cases: n, note: (exp.length ? 'HTTP lines about changed files: ' + [...new Set(exp)].join(', ') : 'identical to the baseline') + (ext ? `; ${ext} replay messages equal once the approved e is taken out` : ''), r }; },
   bpp_golden: () => { const r = run('bpp_golden', ['node', G('golden', 'bpp_golden.js'), '--old-ref', BPP, '--repeat', '0', '--baseline', path.join(E2, 'bpp_traces'), '--out', o('bpp'), '--keep', o('bpp_keep')]); const j = J(o('bpp', 'bpp_golden_report.json'));
-    const n = j ? j.scenarios.length : 0; return { ok: r.exit === 0 && j && j.ok && n === 7 && j.scenarios.every(s => s.baseline && s.baseline.equal), cases: n, r }; },
+    const n = j ? j.scenarios.length : 0, ext = j ? j.scenarios.reduce((a, s) => a + (s.baseline && s.baseline.approvedExtensionLines || []).length, 0) : 0;
+    const ax = run('approved_ext', ['node', G('golden', 'approved_ext.js'), '--self-test']);   // (R20 B++) the allowance for e, against its own mutants
+    return { ok: r.exit === 0 && j && j.ok && n === 7 && j.scenarios.every(s => s.baseline && (s.baseline.equal || s.baseline.equalExceptApprovedExtension === true)) && ax.exit === 0, cases: n,
+      note: `${ext ? ext + ' replay messages equal to B++\'s once the approved e is taken out; ' : ''}the allowance's self-test ${ax.exit === 0 ? 'PASS' : 'FAIL'}`, r }; },
   session: () => {                                                         // (C2) the WebSocket session and the admin login: B++'s server.js and this one on the session scenarios, both equal to the stored B++ traces; and the session mutants, each caught
     const r = run('session_golden', ['node', G('golden', 'bpp_golden.js'), '--old-ref', BPP, '--repeat', '0', '--scenarios', G('golden', 'srv_scenarios_session.js'), '--baseline', path.join(EC2, 'session_traces'), '--out', o('session')]), j = J(o('session', 'srv_scenarios_session_report.json'));
     const m = run('session_mutants', ['node', G('golden', 'bpp_mutants.js'), '--scenarios', G('golden', 'srv_scenarios_session.js'), '--mutants', G('golden', 'session_mutants.js'), '--out', o('session_mutants.json')]), jm = J(o('session_mutants.json'));

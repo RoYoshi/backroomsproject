@@ -44,15 +44,15 @@ function killFx(f) {
 function replayKillerSlots(f, A) {
   const none = { h: -1, s: -1 };
   if (!f.eid || !f.killAt || !Number.isFinite(f.killAt.x) || !Number.isFinite(f.killAt.y)) return none;
-  const close = p => !!p && Number.isFinite(p.x) && Number.isFinite(p.y) &&
+  const nearKillAt = p => !!p && Number.isFinite(p.x) && Number.isFinite(p.y) &&
     Math.hypot(p.x - f.killAt.x, p.y - f.killAt.y) < 400;
   if (f.cause === 'Hound') {
     const h = hMap.get(f.eid);
-    return close(h) && Number.isSafeInteger(h.slot) && h.slot >= 0 ? { h: h.slot, s: -1 } : none;
+    return nearKillAt(h) && Number.isSafeInteger(h.slot) && h.slot >= 0 ? { h: h.slot, s: -1 } : none;
   }
   if (f.cause === 'Smiler') {
     const i = sSlot.indexOf(f.eid), m = i >= 0 && (A.q || [])[i];
-    return i >= 0 && close(m) && !m.off ? { h: -1, s: i } : none;
+    return i >= 0 && nearKillAt(m) && !m.off ? { h: -1, s: i } : none;
   }
   return none;
 }
