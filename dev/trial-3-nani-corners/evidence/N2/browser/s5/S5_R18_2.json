@@ -1,0 +1,40 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r16g_campaign.js",
+ "part": "threat",
+ "chromium": "141.0.7390.37",
+ "tree": "r9-overhaul",
+ "ids": {
+  "A": 1,
+  "B": 2
+ },
+ "S": [
+  {
+   "name": "S5 reversing: a sudden reversal fools it for a moment - then it answers",
+   "footwork": 57,
+   "footErr": 0.76,
+   "side": 0.85,
+   "back": 0.65,
+   "flipT": 2.89,
+   "deadAt": 8.16,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "springs": 3,
+   "answer": {
+    "ms": 50,
+    "by": "a spring"
+   },
+   "keptMs": 0,
+   "ok": true,
+   "note": "reversed at 2.89 s: answered by a spring 50 ms later; plans roam>approach>roam; fastest 270 px/s (run 270), 0.8 s at 230+, presses 0, springs 3, stamina 51-100; the page was caught at 8.16 s",
+   "fps": 1.9
+  }
+ ],
+ "errors": {
+  "A": [],
+  "B": []
+ },
+ "pass": true
+}

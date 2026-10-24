@@ -41,9 +41,20 @@ tool now freezes the world on arrival, revives the page before each try, and mea
 
 ## The Skin-Stealer's scenes on this tree
 
-The owner's thirteen adversarial scenes and the focused scenes of R16g's browser campaign (`dev/trial-3-r9-overhaul/tools/r16g_campaign.js`,
-unchanged) ran on R18, S, N and the combined tree in the same session: see `dev/trial-3-r19-positioning/BROWSER_AND_MEDIA.md` on the S
-branch (and here, `evidence/N2/browser/threat_N.txt`, `focused_N.txt`, copied when they ran).  N's results are listed there beside R18's.
+The owner's thirteen threat scenes and the focused scenes of R16g's browser campaign (`dev/trial-3-r9-overhaul/tools/r16g_campaign.js`,
+unchanged) ran on R18, S, N and the combined tree in one session (the table and its reading are in the S branch's
+`BROWSER_AND_MEDIA.md`; here `evidence/N2/browser/threat_N.*`, `focused_N.*`).  N, first pass: threat **7 of 13** (R18 7 of 13: N
+passed S12 where R18 failed it, failed S3-S5 where R18 failed S3 and S4 too), focused **5 of 7** (R18 6 of 7: F2 failed on N).  F2 -
+movement at the edge of its view, a perception scene the cornering cannot reach - was run three more times on R18 and N
+(`evidence/N2/browser/f2/`): R18 passed 2 of 4, N 1 of 4; the scene is a coin-toss on both trees at these frame rates.  S5
+(reversing: the page runs round it at 280 px and reverses; it must answer - a sideways step the new way, or a spring - within 50-1200 ms)
+passed on R18 and failed on N, so it too was run three more times (`s5/`): R18 3 of 4, N 0 of 4 - N's answers came at 1350 and 1450 ms or
+not within the window, R18's at 50, 1150 and 1350 ms.  Under the owner's addendum that is a responsiveness question, so the same scene was
+run on the server without a page, 24 seeds on each tree (`tools/s5_server.js`, `evidence/N2/browser/s5_server_R18_N_S_C.txt`): R18,
+N, S and the combined tree answer 24 of 24, **the same answer to the millisecond in every seed** (850-1150 ms), and the cornering hunk
+never acted (0 waypoints dropped: a Skin-Stealer circling somebody it sees steers straight at them).  The page's failures sit on the
+window's edge (the server's own answers come at 850-1150 ms; a page drawing 2 frames a second adds a frame or two) and are not N's.  The
+creature never ran faster than its run (270 px/s), and no page error, on any tree.
 
 ## Not done in a browser
 

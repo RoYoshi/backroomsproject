@@ -1,0 +1,95 @@
+{
+ "tool": "dev/trial-3-r19-positioning/tools/r19_browser.js",
+ "chromium": "141.0.7390.37",
+ "tree": "R18",
+ "runs": [
+  {
+   "name": "B.1 Scene B (standing, lit, .85)",
+   "nearAt": 2.08,
+   "outOfView": 0,
+   "vanished": false,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "ps": [],
+   "deadAt": 5.47,
+   "samples": 136,
+   "note": "stayed in view (longest out of the page's view before it was within 200 px: 0 s); within 200 px at 2.08 s; plans roam>approach>roam; positioning -; the page killed at 5.47 s"
+  },
+  {
+   "name": "B.2 Scene B (standing, lit, .85)",
+   "nearAt": 2,
+   "outOfView": 0,
+   "vanished": false,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "ps": [],
+   "deadAt": 6.23,
+   "samples": 143,
+   "note": "stayed in view (longest out of the page's view before it was within 200 px: 0 s); within 200 px at 2 s; plans roam>approach>roam; positioning -; the page killed at 6.23 s"
+  },
+  {
+   "name": "B.3 Scene B (standing, lit, .85)",
+   "nearAt": 11.46,
+   "outOfView": 5.7,
+   "vanished": true,
+   "plans": [
+    "roam",
+    "flank",
+    "approach",
+    "roam"
+   ],
+   "ps": [],
+   "deadAt": 12.38,
+   "samples": 256,
+   "note": "VANISHED (longest out of the page's view before it was within 200 px: 5.7 s); within 200 px at 11.46 s; plans roam>flank>approach>roam; positioning -; the page killed at 12.38 s"
+  },
+  {
+   "name": "J.1 the junction (standing, lit, .9)",
+   "eastMax": 0,
+   "nearAt": 2.29,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "ps": [],
+   "deadAt": 3.3,
+   "samples": 83,
+   "note": "the most east of the straight line while 400 px or more off: 0 px; within 200 px at 2.29 s; plans roam>approach>roam; positioning -; the page killed at 3.3 s"
+  },
+  {
+   "name": "J.2 the junction (standing, lit, .9)",
+   "eastMax": 0,
+   "nearAt": 2.44,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "ps": [],
+   "deadAt": 3.3,
+   "samples": 83,
+   "note": "the most east of the straight line while 400 px or more off: 0 px; within 200 px at 2.44 s; plans roam>approach>roam; positioning -; the page killed at 3.3 s"
+  },
+  {
+   "name": "J.3 the junction (standing, lit, .9)",
+   "eastMax": 0,
+   "nearAt": 2.28,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "ps": [],
+   "deadAt": 3.32,
+   "samples": 82,
+   "note": "the most east of the straight line while 400 px or more off: 0 px; within 200 px at 2.28 s; plans roam>approach>roam; positioning -; the page killed at 3.32 s"
+  }
+ ]
+}

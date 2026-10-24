@@ -17,6 +17,13 @@ Trial 3 is **not owner-approved**.
   floor when it is next simulated (seen only at the mid tier, 1900+ px from every player).  A fix belongs here (the shared engine) but
   changes every species' tier switch; it needs the owner's word.
 - **Render heading**: the page draws the server's heading; nothing on the client changed (no orientation easing added).
+- **Lap chases are chaotic** (the owner's "never weaker" study): a creature started 1 px off changes about a quarter of lap chases round a
+  wall island, by up to 35 s, on R18 itself.  Where the hunk acted in a lap the outcome moved the same way - mostly 0.05-0.13 s sooner,
+  twice ~11 s later (one lap scene), and NV05's one Hound lap 2.7 -> 7.4 s.  Recorded, not "fixed": no systematic loss was found, and
+  turning the hunk off for a species would bring back the stop at the bend.  A per-species opt-out (one flag read in the hunk) is the
+  fallback if the owner's play finds a species weaker (HUMAN_QA N-H).
+- **Real-page single tries vary** (the owner's threat and focused scenes): F2 and S5 failed on N's first pass; repeated, F2 is a coin-toss
+  on R18 too, and S5 on the server gives the same answers on every tree (BROWSER_AND_MEDIA).
 
 ## Not in this track
 

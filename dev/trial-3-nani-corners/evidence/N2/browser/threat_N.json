@@ -1,0 +1,265 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r16g_campaign.js",
+ "part": "threat",
+ "chromium": "141.0.7390.37",
+ "tree": "r19-n",
+ "ids": {
+  "A": 1,
+  "B": 2
+ },
+ "S": [
+  {
+   "name": "S1 walking away: walking off from a hungry one does not trivialize it",
+   "walkAt": 1.65,
+   "d0": 611,
+   "closeAt": 11.41,
+   "vmax": 270,
+   "fast": 8.05,
+   "plans": [
+    "roam",
+    "flank",
+    "approach",
+    "chase",
+    "roam",
+    "feed"
+   ],
+   "deadAt": 14.19,
+   "ok": false,
+   "note": "the page walked off at 1.65 s, 611 px from it: it was within 200 px of them 11.41 s later; plans roam>flank>approach>chase>roam>feed; fastest 270 px/s (run 270), 8.05 s at 230+, presses 1, springs 1, stamina 5-100; the page was caught at 14.19 s",
+   "fps": 2.1
+  },
+  {
+   "name": "S2 sprinting at once: a fresh sprint in the open still outruns its pursuit",
+   "runAt": 1.3,
+   "d0": 649,
+   "dmin": 32,
+   "dEnd": 154,
+   "sprintS": 11.1,
+   "caught": true,
+   "chased": true,
+   "pageV": 142,
+   "ok": null,
+   "note": "the page could not sprint here (142 px/s with its keys held - a fresh sprint is 285): no race to judge; the page sprinted at 1.3 s from 649 px: closest in the sprint 32 px, at its end 154 px (11.1 s of sprint, the page at 142 px/s); it gave chase true; plans roam>approach>chase>approach>roam; fastest 270 px/s (run 270), 4.2 s at 230+, presses 0, springs 3, stamina 22-100; the page was caught at 15.35 s",
+   "fps": 2
+  },
+  {
+   "name": "S3 hesitating: a person who dithers is an opening",
+   "closeAt": 12.32,
+   "deadAt": 14.08,
+   "fast": 4.7,
+   "springs": 1,
+   "plans": [
+    "roam",
+    "flank",
+    "ambush",
+    "listen",
+    "search",
+    "approach",
+    "roam"
+   ],
+   "ok": false,
+   "note": "within 200 px of them at 12.32 s; plans roam>flank>ambush>listen>search>approach>roam; fastest 270 px/s (run 270), 4.7 s at 230+, presses 0, springs 1, stamina 52-100; the page was caught at 14.08 s",
+   "fps": 2.2
+  },
+  {
+   "name": "S4 circling: it faces them, sidesteps and backs, contesting their way out",
+   "footwork": 57,
+   "footErr": 0.55,
+   "side": 0.55,
+   "back": 0.15,
+   "flipT": null,
+   "deadAt": 7.27,
+   "plans": [
+    "roam",
+    "approach",
+    "listen",
+    "approach",
+    "chase",
+    "roam"
+   ],
+   "springs": 2,
+   "ok": false,
+   "note": "its footwork 57 snapshots, facing off by 0.55 rad, sideways 0.55 s, backing 0.15 s; plans roam>approach>listen>approach>chase>roam; fastest 270 px/s (run 270), 1.05 s at 230+, presses 0, springs 2, stamina 65-100; the page was caught at 7.27 s",
+   "fps": 1.7
+  },
+  {
+   "name": "S5 reversing: a sudden reversal fools it for a moment - then it answers",
+   "footwork": 75,
+   "footErr": 0.39,
+   "side": 1.45,
+   "back": 0.4,
+   "flipT": 2.87,
+   "deadAt": 9.13,
+   "plans": [
+    "roam",
+    "approach",
+    "listen",
+    "approach",
+    "chase",
+    "roam"
+   ],
+   "springs": 2,
+   "answer": null,
+   "keptMs": 1450,
+   "ok": false,
+   "note": "reversed at 2.87 s: no answer; plans roam>approach>listen>approach>chase>roam; fastest 270 px/s (run 270), 1.35 s at 230+, presses 0, springs 2, stamina 73-100; the page was caught at 9.13 s",
+   "fps": 2
+  },
+  {
+   "name": "S6 hiding behind a wall: it goes to where it last saw them and looks - it does not know where they are",
+   "hidAt": 10.198,
+   "lostAt": 17.27,
+   "toLastSeen": 0.41,
+   "meanV": null,
+   "plans": [
+    "roam",
+    "flank",
+    "approach",
+    "listen",
+    "search",
+    "flank",
+    "approach",
+    "roam"
+   ],
+   "foundAgain": false,
+   "deadAt": 17.68,
+   "ok": true,
+   "note": "it lost them at 17.27 s; at the place it last saw them 0.41 s later (moving at null px/s on average); it found them again: false; plans roam>flank>approach>listen>search>flank>approach>roam; fastest 270 px/s (run 270), 1.9 s at 230+, presses 0, springs 1, stamina 75-100; the page was caught at 17.68 s",
+   "fps": 2.2
+  },
+  {
+   "name": "S7 another way out: it follows the evidence it has, not where they really went",
+   "noRay": 0,
+   "lostAt": 9.71,
+   "toLastSeen": 290,
+   "toTrue": 440,
+   "seenAgain": 0,
+   "plans": [
+    "roam",
+    "flank",
+    "approach",
+    "listen",
+    "search",
+    "retreat",
+    "lure",
+    "listen",
+    "search"
+   ],
+   "deadAt": null,
+   "ok": true,
+   "note": "lost at 9.71 s; 4 s later it was 290 px from where it last saw them and 440 px from where they were; seen again in 0 debug samples, 0 of them without a line from the page; plans roam>flank>approach>listen>search>retreat>lure>listen>search; fastest 270 px/s (run 270), 1.95 s at 230+, presses 0, springs 0, stamina 89-100",
+   "fps": 2.2
+  },
+  {
+   "name": "S8 unsuspecting prey: a hungry one goes for somebody who does not know it is there",
+   "sightAt": 1.2,
+   "actAt": 0,
+   "closeAt": 5.08,
+   "deadAt": 6.5,
+   "plans": [
+    "roam",
+    "approach",
+    "roam",
+    "feed"
+   ],
+   "ok": true,
+   "note": "it saw them at 1.2 s and went for them 0 s later; within 200 px at 5.08 s; plans roam>approach>roam>feed; fastest 270 px/s (run 270), 4.1 s at 230+, presses 1, springs 1, stamina 37-100; the page was caught at 6.5 s",
+   "fps": 2.1
+  },
+  {
+   "name": "S9 a sound: it goes to look, at its investigation's pace, and gets a line on them",
+   "ranAt": 2.36,
+   "heardAt": 4.8,
+   "fastS": 0,
+   "sawAt": 0,
+   "nearest": 163,
+   "plans": [
+    "roam",
+    "listen",
+    "search",
+    "roam",
+    "listen",
+    "search",
+    "roam"
+   ],
+   "deadAt": null,
+   "dHeard": 257,
+   "ok": true,
+   "note": "it heard them at 4.8 s (ran at 2.36), 257 px off; 0 s at 200 px/s or more on its way; it got a line on them: false, nearest 163 px; plans roam>listen>search>roam>listen>search>roam; fastest 176 px/s (run 270), 0 s at 230+, presses 0, springs 0, stamina 100-100",
+   "fps": 2.5
+  },
+  {
+   "name": "S10 a failed spring: it recovers and comes again - no sulking",
+   "misses": 0,
+   "springs": 1,
+   "againMs": null,
+   "deadAt": 4.27,
+   "plans": [
+    "roam",
+    "approach",
+    "roam",
+    "feed"
+   ],
+   "ok": true,
+   "note": "0 misses of 1 springs; after its first recovery it came again null ms later; plans roam>approach>roam>feed; fastest 270 px/s (run 270), 1.25 s at 230+, presses 1, springs 1, stamina 66-100; the page was caught at 4.27 s",
+   "fps": 1.8
+  },
+  {
+   "name": "S11 fed, near somebody harmless: it watches, it does not hunt",
+   "hostile": false,
+   "springs": 0,
+   "fast": 0,
+   "plans": [
+    "roam",
+    "leave"
+   ],
+   "deadAt": null,
+   "ok": true,
+   "note": "no hunt; plans roam>leave; fastest 160 px/s (run 270), 0 s at 230+, presses 0, springs 0, stamina 100-100",
+   "fps": 2
+  },
+  {
+   "name": "S12 two people split up: it picks one and goes after them",
+   "pickedAt": 1.69,
+   "who": "B",
+   "plans": [
+    "roam",
+    "approach",
+    "roam",
+    "leave"
+   ],
+   "deadAt": null,
+   "springs": 1,
+   "ok": true,
+   "note": "it went after B at 1.69 s; plans roam>approach>roam>leave; fastest 270 px/s (run 270), 1.2 s at 230+, presses 0, springs 1, stamina 71-100",
+   "fps": 2.4
+  },
+  {
+   "name": "S13 a long hunt: its breath runs out and comes back; it keeps hunting while it has evidence",
+   "stMin": 69,
+   "recovered": false,
+   "deaths": 1,
+   "leaves": 1,
+   "presses": 1,
+   "chases": 0,
+   "plans": [
+    "roam",
+    "approach",
+    "roam",
+    "feed",
+    "leave",
+    "roam"
+   ],
+   "diedFirst": true,
+   "neverSaw": false,
+   "ok": null,
+   "note": "the page was caught at 8.3 s, before its breath ran low: no long hunt to judge; stamina down to 69, never back over 60; 0 chases, 1 presses, 1 departures; the page died 1 times; fastest 270 px/s",
+   "fps": 2.1
+  }
+ ],
+ "errors": {
+  "A": [],
+  "B": []
+ },
+ "pass": false
+}

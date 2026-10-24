@@ -86,6 +86,16 @@ test of the heading (corrected above and in the code's comment; behaviour unchan
 chase exercises the hunk only thinly (2 drops in 28,800 Hound-ticks) - it is non-vacuous (it fails with none) and the weight of the
 evidence is NC01-NC03, the seed-7 audit and the fresh seeds.
 
+## The owner's addendum: never weaker
+
+The owner (October 23, during the QA): the movement work must not weaken any monster - not its pursuit, corner speed, attacks,
+acceleration or character - and no artificial slowdown, braking or hesitation for the look of it; if a species is measurably weaker, fix
+it or keep R18's behaviour for that species.  The hunk adds no braking, delay or slowdown (it only stops the aim turning back for a
+waypoint already passed; every speed, acceleration, turn rate, braking and feeler is R18's).  Measured as game outcomes on identical
+seeded chases (REGRESSION "Never weaker": 1,044 per tree, and a lap study with a 1 px control): catches and attacks begun equal for every
+species; where the hunk acted (rarely - a pursuer that sees its quarry steers straight at it) the result moved both ways, within the lap
+chase's own sensitivity.  **Kept for every species**; a per-species opt-out was not needed.
+
 ## The locks that hold the shared engine, taught exactly this hunk
 
 PR25 (s_skinpredator.js: the shared engine and the Hound's and Smiler's code byte for byte 4518f93), WL05 (s_wandererlock.js: R8 f378049)

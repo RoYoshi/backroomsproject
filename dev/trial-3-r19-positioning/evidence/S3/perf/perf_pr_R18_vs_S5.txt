@@ -1,0 +1,56 @@
+round 1 BR-0: mean 0.139 ms, p95 0.253, p99 1.499, worst 12.99; entities 711 B; 2H 3S 0K; kills 10; violations 0
+round 1 PR-0: mean 0.143 ms, p95 0.227, p99 1.594, worst 10.51; entities 711 B; 2H 3S 0K; kills 10; violations 0
+round 1 BR-1: mean 0.149 ms, p95 0.261, p99 2.012, worst 7.31; entities 786 B; 2H 3S 1K; kills 9; violations 0
+round 1 PR-1: mean 0.209 ms, p95 0.272, p99 2.873, worst 99.74; entities 786 B; 2H 3S 1K; kills 9; violations 0
+round 1 BR-4: mean 0.235 ms, p95 0.455, p99 2.673, worst 11.08; entities 991 B; 2H 3S 4K; kills 9; violations 0
+round 1 PR-4: mean 0.220 ms, p95 0.422, p99 2.077, worst 7.70; entities 991 B; 2H 3S 4K; kills 9; violations 0
+round 1 BR-4p: mean 0.239 ms, p95 0.472, p99 2.357, worst 8.47; entities 1000 B; 2H 3S 4K; kills 6; violations 0
+round 1 PR-4p: mean 0.249 ms, p95 0.432, p99 2.576, worst 9.59; entities 1001 B; 2H 3S 4K; kills 5; violations 0
+round 1 BR-4h: mean 0.180 ms, p95 0.325, p99 1.273, worst 9.22; entities 990 B; 2H 3S 4K; kills 8; violations 0
+round 1 PR-4h: mean 0.190 ms, p95 0.351, p99 1.309, worst 11.61; entities 990 B; 2H 3S 4K; kills 9; violations 0
+round 2 BR-0: mean 0.122 ms, p95 0.202, p99 0.978, worst 14.54; entities 711 B; 2H 3S 0K; kills 10; violations 0
+round 2 PR-0: mean 0.143 ms, p95 0.257, p99 1.362, worst 13.47; entities 711 B; 2H 3S 0K; kills 10; violations 0
+round 2 BR-1: mean 0.150 ms, p95 0.267, p99 1.446, worst 9.16; entities 786 B; 2H 3S 1K; kills 9; violations 0
+round 2 PR-1: mean 0.139 ms, p95 0.242, p99 0.976, worst 6.50; entities 786 B; 2H 3S 1K; kills 9; violations 0
+round 2 BR-4: mean 0.231 ms, p95 0.428, p99 2.883, worst 9.12; entities 991 B; 2H 3S 4K; kills 9; violations 0
+round 2 PR-4: mean 0.213 ms, p95 0.415, p99 1.304, worst 12.83; entities 991 B; 2H 3S 4K; kills 9; violations 0
+round 2 BR-4p: mean 0.229 ms, p95 0.432, p99 2.061, worst 14.39; entities 1000 B; 2H 3S 4K; kills 6; violations 0
+round 2 PR-4p: mean 0.255 ms, p95 0.486, p99 2.817, worst 8.37; entities 1001 B; 2H 3S 4K; kills 5; violations 0
+round 2 BR-4h: mean 0.193 ms, p95 0.347, p99 1.230, worst 8.91; entities 990 B; 2H 3S 4K; kills 8; violations 0
+round 2 PR-4h: mean 0.190 ms, p95 0.371, p99 1.466, worst 6.44; entities 990 B; 2H 3S 4K; kills 9; violations 0
+round 3 BR-0: mean 0.114 ms, p95 0.195, p99 0.855, worst 10.08; entities 711 B; 2H 3S 0K; kills 10; violations 0
+round 3 PR-0: mean 0.125 ms, p95 0.200, p99 0.925, worst 8.62; entities 711 B; 2H 3S 0K; kills 10; violations 0
+round 3 BR-1: mean 0.145 ms, p95 0.241, p99 1.240, worst 8.10; entities 786 B; 2H 3S 1K; kills 9; violations 0
+round 3 PR-1: mean 0.144 ms, p95 0.255, p99 1.118, worst 6.51; entities 786 B; 2H 3S 1K; kills 9; violations 0
+round 3 BR-4: mean 0.224 ms, p95 0.452, p99 2.047, worst 8.23; entities 991 B; 2H 3S 4K; kills 9; violations 0
+round 3 PR-4: mean 0.210 ms, p95 0.429, p99 1.863, worst 5.82; entities 991 B; 2H 3S 4K; kills 9; violations 0
+round 3 BR-4p: mean 0.227 ms, p95 0.410, p99 2.263, worst 7.68; entities 1000 B; 2H 3S 4K; kills 6; violations 0
+round 3 PR-4p: mean 0.252 ms, p95 0.468, p99 2.641, worst 7.56; entities 1001 B; 2H 3S 4K; kills 5; violations 0
+round 3 BR-4h: mean 0.215 ms, p95 0.443, p99 2.534, worst 10.63; entities 990 B; 2H 3S 4K; kills 8; violations 0
+round 3 PR-4h: mean 0.209 ms, p95 0.395, p99 1.820, worst 8.75; entities 990 B; 2H 3S 4K; kills 9; violations 0
+round 4 BR-0: mean 0.119 ms, p95 0.208, p99 0.654, worst 12.85; entities 711 B; 2H 3S 0K; kills 10; violations 0
+round 4 PR-0: mean 0.123 ms, p95 0.212, p99 0.846, worst 8.98; entities 711 B; 2H 3S 0K; kills 10; violations 0
+round 4 BR-1: mean 0.135 ms, p95 0.249, p99 0.879, worst 5.52; entities 786 B; 2H 3S 1K; kills 9; violations 0
+round 4 PR-1: mean 0.129 ms, p95 0.239, p99 0.878, worst 7.23; entities 786 B; 2H 3S 1K; kills 9; violations 0
+round 4 BR-4: mean 0.226 ms, p95 0.431, p99 2.010, worst 8.79; entities 991 B; 2H 3S 4K; kills 9; violations 0
+round 4 PR-4: mean 0.227 ms, p95 0.438, p99 2.087, worst 7.80; entities 991 B; 2H 3S 4K; kills 9; violations 0
+round 4 BR-4p: mean 0.243 ms, p95 0.442, p99 2.171, worst 12.83; entities 1000 B; 2H 3S 4K; kills 6; violations 0
+round 4 PR-4p: mean 0.253 ms, p95 0.444, p99 2.972, worst 10.05; entities 1001 B; 2H 3S 4K; kills 5; violations 0
+round 4 BR-4h: mean 0.193 ms, p95 0.375, p99 1.483, worst 10.35; entities 990 B; 2H 3S 4K; kills 8; violations 0
+round 4 PR-4h: mean 0.203 ms, p95 0.403, p99 1.733, worst 9.32; entities 990 B; 2H 3S 4K; kills 9; violations 0
+round 5 BR-0: mean 0.144 ms, p95 0.241, p99 1.841, worst 15.21; entities 711 B; 2H 3S 0K; kills 10; violations 0
+round 5 PR-0: mean 0.112 ms, p95 0.194, p99 0.767, worst 7.53; entities 711 B; 2H 3S 0K; kills 10; violations 0
+round 5 BR-1: mean 0.151 ms, p95 0.271, p99 1.549, worst 9.86; entities 786 B; 2H 3S 1K; kills 9; violations 0
+round 5 PR-1: mean 0.139 ms, p95 0.225, p99 1.065, worst 8.02; entities 786 B; 2H 3S 1K; kills 9; violations 0
+round 5 BR-4: mean 0.227 ms, p95 0.451, p99 2.309, worst 7.43; entities 991 B; 2H 3S 4K; kills 9; violations 0
+round 5 PR-4: mean 0.228 ms, p95 0.449, p99 2.720, worst 7.67; entities 991 B; 2H 3S 4K; kills 9; violations 0
+round 5 BR-4p: mean 0.218 ms, p95 0.413, p99 1.748, worst 8.40; entities 1000 B; 2H 3S 4K; kills 6; violations 0
+round 5 PR-4p: mean 0.262 ms, p95 0.465, p99 2.389, worst 9.88; entities 1001 B; 2H 3S 4K; kills 5; violations 0
+round 5 BR-4h: mean 0.183 ms, p95 0.339, p99 1.231, worst 8.62; entities 990 B; 2H 3S 4K; kills 8; violations 0
+round 5 PR-4h: mean 0.206 ms, p95 0.388, p99 1.921, worst 12.42; entities 990 B; 2H 3S 4K; kills 9; violations 0
+without a Skin-Stealer: base 0.1224 ms, refinement 0.1248 ms (+2 %, tolerance 0.0305 ms): SAME COST
+one: base 0.1493 ms (p99 1.4458), refinement 0.139 ms (p99 1.0654): -6.9 % mean, -26.3 % p99; entities +0 B; within the 60 Hz budget true; no worse than the base true (judged: the 60 Hz budget)
+four: base 0.2275 ms (p99 2.3088), refinement 0.2204 ms (p99 2.077): -3.1 % mean, -10 % p99; entities +0 B; within the 60 Hz budget true; no worse than the base true (judged: the 60 Hz budget)
+four, every player pressing one: base 0.2286 ms (p99 2.1707), refinement 0.2527 ms (p99 2.6408): +10.5 % mean, +21.7 % p99; entities +1 B; within the 60 Hz budget true; no worse than the base true (judged: against the base)
+four starving, players wandering: base 0.1932 ms (p99 1.2734), refinement 0.2025 ms (p99 1.7332): +4.8 % mean, +36.1 % p99; entities +0 B; within the 60 Hz budget true; no worse than the base true (judged: against the base)
+PERF PR: PASS (violations 0)
