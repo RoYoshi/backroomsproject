@@ -103,3 +103,25 @@ now judged against its own line.  Every vault in every seed is exactly on its li
   9,500 ticks of bends (the Skin-Stealer: up to .85 rad).  A disguised Skin-Stealer's head stayed at 0.
 - **NA05 (it never moves a body).**  20 runs: every path and arrival identical with the head swivelling and straight.
 - **NA06 (R19's corner timing).**  NC01-NC04 pass unchanged; NA05 shows the swivel cannot change an arrival.
+
+## Checkpoint D2: W1 made the Skin-Stealer's alone (`caps.TURN_AWARE_STUCK`)
+
+Why: the fast gate on the combined tree failed its server golden traces, which hold the Hound's and the Smiler's B++ behaviour byte for
+byte.  The cause was W1's shared yardstick: with it taken out, the traces were B++'s again.  The independent review found the same change.
+DESIGN_DECISIONS W1 has the details.
+
+| run | checkpoint D | **D2** |
+|---|---|---|
+| `npm test` | 349/362 (with SR04 re-judged) | **349/362**: the same 13 inherited failures (`evidence/D2/npm_test.txt`); ST02 now holds the Hound's and the Smiler's turns to R19's, run for run |
+| `npm run gate` (fast) | not run on this branch until then: srv_golden, bpp_golden, session, sim and parts would have failed | **R19's**: only `port` and `bundle`, NOT RUN (the locked client packages are not in this session) |
+
+The chase study against R19 combined (`evidence/D2/cmp_R19C_D2.md`, 1,044 runs per species):
+
+| species | caught R19 combined → D2 | runs that differ |
+|---|---|---|
+| Hound | 345 = 345 | **0**: identical, run for run |
+| Smiler | 323 = 323 | **0**: identical, run for run |
+| Skin-Stealer | 305 → 306 | 25 (13 sooner, 12 later): its own W1, W2 and head swivel |
+
+At checkpoints B-D, W1 was shared.  Those study tables show the Hound's and the Smiler's caught counts equal to R19's but a few loop runs
+differing; that is the difference D2 removes.
