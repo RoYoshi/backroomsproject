@@ -23,6 +23,8 @@ Trial 3 is **not owner-approved**.  Environment: this session's machine (2 CPUs,
 - WL05 (s_wandererlock.js): the same against R8 (f378049); PASS ("ai.entity.js with R19 N's 1 cornering hunk").
 - C15 (s_skinmind.js): a child process runs this tree with the hunk taken back out (`dev/tests/r19n_c15.js`) - every one of R8's 90
   snapshot hashes identical; as built, 0/0/0 seconds differ in those three 30 s worlds (the hunk did not fire there).
+- The locks still bite (checked after the second review, in a scratch worktree of `451f1d6` with one character of the hunk changed -
+  `26 + e.speed * .12` to `27 + ...` - and rebuilt): PR25, WL05, C15 and NC01-NC04 all FAIL.
 - `r19n_patch.js` checks itself: applied to R8's ai.entity.js it gives this tree's byte for byte, and taken out of this tree's (and of the
   built ai.js) it gives R8's.
 
@@ -84,3 +86,51 @@ The S track's `prechase_sim.js` (on the S branch, `dev/trial-3-r19-positioning/t
 time differs): the hunk never fired for the Skin-Stealer there (its open approach and chase mostly go straight at a person it sees, not
 round a bend of a route at speed).  `evidence/N2/sims_n_vs_r18.json`, the logs `sims_N_*.log` (their `STALE` lines are R18's own late
 vault landings, the same 22 as R18's; the S track carries the vault through).
+
+## Never weaker: game outcomes against R18 (the owner's addendum of October 23)
+
+The owner: smoother cornering must never weaken a monster - pursuit, corner speed, attack and lunge opportunities, acceleration and
+each species' character preserved or improved; measured by gameplay outcomes on identical seeded scenes, not movement constants.  The
+tool: `tools/pursuit_outcomes.js` (run on each tree with `--dir`; the tree's own server simulation - real AI, perception, stamina,
+attacks; only the people are moved, as players are); `tools/pursuit_compare.py` pairs two trees run by run; `tools/pursuit_chaos.py`
+adds the control.  Scenes per species (Hound, Skin-Stealer at .9, Smiler in a blackout after a lit runner):
+- **corner pursuits** - a runner sent through rooms and doorways along 60 seeded routes (and on along others), the creature hunting it
+  from just behind: with real stamina, with endless stamina (the pure race round the bends), and starting farther back so the runner is
+  round the first bends out of its sight (it follows its route at speed - where the change can act), 40 s each;
+- **attacks round obstacles** - the runner lapping each of 13 wall islands both ways, the creature across the island (156 laps: six
+  seeds; and 234 more: nine starting places on the far side);
+- **sustained chases** - 60 s from route to route, real stamina.
+
+`--n 60 --loopSeeds 6` (`evidence/N2/outcomes/po_*.json`, `cmp_N.md`), 348 paired runs per species:
+
+| species | runs | caught (R18 -> N) | attacks begun | runs that differ at all | waypoints the change dropped |
+|---|---|---|---|---|---|
+| Hound | 348 | 345 -> 345 | 174 -> 174 | 2 (both **sooner**: a lap caught 0.11 / 0.13 s earlier) | 2 |
+| Skin-Stealer | 348 | 304 -> 304 | 367 -> 367 | 0 | 0 |
+| Smiler | 348 | 323 -> 323 | 306 -> 306 | 6 (4 sooner by 0.05-0.11 s; the same lap scene, twice, 10.9 s later) | 6 |
+
+The lap study with its control (`--scenes loop --loopStarts 9`, and the same with every creature started 1 px off; `laps_chaos_N.md`),
+234 laps per species:
+
+| | Hound | Skin-Stealer | Smiler |
+|---|---|---|---|
+| R18 -> N: laps that differ, mean change where they differ, largest | 0 | 1, +10.9 s, 10.9 s | 9 (6 sooner, 3 later), -1.24 s, 11.8 s |
+| **control** - R18 -> R18 with the creature 1 px off: laps that differ, mean, largest | 67 (32 sooner, 35 later), +0.10 s, 14.2 s | 47 (23 / 24), +0.51 s, 34.9 s | 46 (16 / 30), -0.36 s, 11.7 s |
+| caught | 234 = 234 | 234 = 234 | 234 = 234 |
+| attacks begun | 123 = 123 | 285 -> 286 | 231 = 231 |
+
+What it shows:
+- In real chases the change rarely acts at all: a pursuer that sees its quarry steers straight at it, not round a route's corners; it
+  acted in 0 of 360 Hound and Skin-Stealer corner pursuits (2 of 180 for the Smiler) and in 19 of 1,170 laps over all species.
+- Where it acted, the outcome moved both ways: mostly a little sooner (by 0.05-0.13 s - the stop at the bend gone), twice much later
+  (one lap scene, Smiler and Skin-Stealer, ~11 s; and NV05's Hound lap, 2.7 -> 7.4 s).  Those large changes are the lap chase's own
+  sensitivity, not a weaker creature: starting the creature **1 px** off, with no code change at all, changes 160 of 702 laps, by up to 35
+  s, in both directions.  Catches and attacks begun are equal.  The mean time to a catch moves by as much as the control moves it: the 1 px control shifts
+  the lap means by -0.07 to +0.11 s; N shifts them by 0 (Hound), +0.05 s (Skin-Stealer, its one lap) and +0.14 / -0.05 s (Smiler, over
+  156 / 234 laps; +0.03 s over all 390) - each driven by the one lap scene above.
+- No species got slower, more hesitant or less able to attack: no speed, acceleration, turn rate, braking, lunge, strike, reach,
+  detection or tracking was touched (the hunk only stops the aim turning back for a waypoint already passed); the seed-7 audit and the
+  fresh seeds show its routed cornering quicker (Hound chase slow 0.81 -> 0.39 s, pivots 0.40 -> 0.12 s), and the real-page corner runs
+  keep a Hound at 160+ px/s through two bends where R18's stopped to 29-58 px/s.
+- Decision: kept for every species.  Had a species shown a systematic loss beyond the control, it would have kept R18's follower (the
+  owner's rule); none did.  The owner's own play remains the judge (HUMAN_QA: "does any monster feel weaker or more hesitant?").

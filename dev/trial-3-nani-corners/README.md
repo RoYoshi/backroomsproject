@@ -17,7 +17,9 @@ engineering for the owner's Human QA: no merge, no deployment.
 | `DEFERRED.md` | seen and not changed; out of scope |
 
 Tools (`tools/`): `corner_audit.js` (every species round 40 seeded routes, from rest and from speed), `corner_plot.py` (a run drawn),
-`corner_browser.js` (a Hound sent round corners by the admin's own navigation command, recorded by the page), `verify_remote_r19.py`.
+`corner_browser.js` (a Hound sent round corners by the admin's own navigation command, recorded by the page), `fresh_seeds.js` (the
+review's probe: R18's follower against this one on fresh routes), `pursuit_outcomes.js` / `pursuit_compare.py` / `pursuit_chaos.py`
+(the owner's "never weaker": game outcomes of seeded chases on any tree, paired, with a 1 px control), `verify_remote_r19.py`.
 
 ```
 npm run build:check
@@ -25,4 +27,6 @@ ADMIN_PASSCODE=<synthetic> npm test                    # 334/347 here: the 13 fa
 node dev/tests/run.js s_nanicorner.js                  # NC01-NC04: before and after on the same routes
 node dev/trial-3-nani-corners/tools/corner_audit.js --dir . --routes 40 --seed 7 --out A.json --trace T.json --traceRoutes 23,26
 python3 -I dev/trial-3-nani-corners/tools/corner_plot.py T.json plots --route 23 --kind hound --pace chase
+node dev/trial-3-nani-corners/tools/pursuit_outcomes.js --dir <tree> --n 60 --loopSeeds 6 --out <tree>.json   # each of R18 and this tree
+python3 -I dev/trial-3-nani-corners/tools/pursuit_compare.py R18.json N.json
 ```

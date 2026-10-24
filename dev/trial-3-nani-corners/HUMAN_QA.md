@@ -34,6 +34,7 @@ tighter line grazes a corner a little more often (a few more slides along a wall
 | N-E | Vaults, crawls and tight gaps (a Hound under a table, anyone over a counter) | unchanged |  |  |
 | N-F | Walk far away and come back while they move | no visible jumps as they come back into view |  |  |
 | N-G | Anything slower, floaty, twitchy or unfair? | your call |  |  |
+| N-H | **Never weaker** (your addendum): does any monster feel weaker, slower round a corner, more hesitant, or less able to lunge or strike than in R18? | none should: on 1,044 seeded chases per tree the catches and attacks were R18's (REGRESSION "Never weaker") |  |  |
 
 **N-track questions (the pack's):** Does each species take corners more naturally?  Are narrow bends still physically honest?  Does the
 Hound feel ferocious?  Does the Skin-Stealer's body turn without shoulder scraping or robot pivots?  Did anything become slower, floaty,
