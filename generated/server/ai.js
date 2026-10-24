@@ -912,10 +912,16 @@ function follow(eng, e, dt, vmax, o = {}) {
   }
   steerTo(eng, e, tx, ty, vmax, dt, Object.assign({}, o, { vcap }));
   // stuck recovery ladder: 1 side-step (at .35 s), 2 new route (.9 s), 3 an alternate route that keeps off this spot (2nd time), 4 drop the route (4th)
-  if (e.stuck > .35 && !e.unst) {
+  // (R20 D3, the Skin-Stealer's alone: caps.TURN_AWARE_STUCK) a second side-step at the same spot within 2.5 s goes straight to the new
+  // route: R8-R19's ladder, pinned on a corner its waypoint's line clips, side-stepped every second and never reached the new route (each
+  // side-step lets the timer fall back) until the watchdog cleared its route 6 s on - the "stuck: the watchdog cleared its route" a
+  // search showed in R20's traces.  Every other species keeps the ladder as it was
+  const U = e.unstAt;
+  if (e.stuck > .35 && !e.unst && e.caps.TURN_AWARE_STUCK && U && eng.now - U.t < 2.5 && Math.hypot(e.x - U.x, e.y - U.y) < 40) { e.stuck = 1; e.unstAt = null; }
+  else if (e.stuck > .35 && !e.unst) {
     const want = e.want ?? e.ang; let best = null, bs = -1e9;
     for (let k = 0; k < 12; k++) { const a = want + (k - 6) / 12 * TAU, free = geo.ray(e.x, e.y, a, 90), sc = free - Math.abs(angDiff(a, want)) * 25; if (free > e.rc + 20 && sc > bs) { bs = sc; best = a; } }
-    if (best !== null) { e.unst = { dir: best, until: eng.now + .45 }; navOf(e).recover++; }
+    if (best !== null) { e.unst = { dir: best, until: eng.now + .45 }; navOf(e).recover++; if (e.caps.TURN_AWARE_STUCK) e.unstAt = { t: eng.now, x: e.x, y: e.y }; }
   }
   if (e.stuck > .9) {
     const nv = navOf(e); nv.stuckN++; e.stuck = 0; e.pathAge = 99; e.aim = null; e.unst = null; e.nudge = (e.nudge || 0) + 1;

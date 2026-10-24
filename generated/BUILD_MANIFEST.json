@@ -681,8 +681,8 @@
   },
   {
    "out": "generated/server/ai.js",
-   "bytes": 477269,
-   "sha256": "e99d56ffffa4e9176d40f08485ee6133c65a818fcb8631ba27136338872229fd",
+   "bytes": 478023,
+   "sha256": "7bc7984bba48aefc632a18a1ed919e5c117954eeda37237b3bc7a5249f76d758",
    "parts": [
     {
      "path": "src/frameworks/nani/server/ai.head.js",
@@ -711,7 +711,7 @@
     },
     {
      "path": "src/frameworks/nani/server/ai.entity.js",
-     "sha256": "d75fc074517298f111a9aa44c428d0839a0e6f8e2ec8977bbc580f8f10b7e172",
+     "sha256": "dc8f0ab9c05290d140a8c6b8947977e62c55a734ac0a5d195c121cd17118ecd1",
      "headerBytes": 444
     },
     {

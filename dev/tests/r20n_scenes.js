@@ -19,6 +19,23 @@ function drive(AI, fn, body) { const tk = AI.SKIN.tick; AI.SKIN.tick = fn; try {
 const resets = e => e.unstuck || 0;
 
 module.exports = {
+  /* ST05 (R20 D3): pinned on a corner - a route's last waypoint against a wall where its body cannot stand (as a search's unsnapped goal
+   * was in R20's traces), its line clipping the corner: the follower by itself, 15 s, the Skin-Stealer and the Hound; and the same goal set
+   * down on floor it fits */
+  pin({ World, DT, AI, floorNear }) {
+    const w = World(2), eng = w.eng, out = [], raw = { x: 7723, y: 2494 }, fit = floorNear(w, raw.x, raw.y, 22);
+    const p = w.player(5000, 3504, {}); p.stop('stand');
+    for (const kind of ['skinstealer', 'hound']) for (const goal of [raw, fit]) {
+      const e = eng.spawn(kind, 7547, 2700, kind === 'skinstealer' ? { hunger: .1 } : {}); e.tier = 'near'; e.ang = 5.2;
+      AI.plan(eng, e, goal.x, goal.y); e.goal = { x: goal.x, y: goal.y };
+      const sp = kind === 'skinstealer' ? AI.SKIN : AI.HOUND, tk = sp.tick; let T = 0, at = null, firstNew = null, side = 0;
+      sp.tick = (eng2, e2, dt) => { if (e2 === e) { AI.follow(eng, e, dt, 90, {}); if (firstNew === null && AI.navOf(e).stuckN > 0) firstNew = T; } else return tk(eng2, e2, dt); };
+      try { w.run(15, () => { T += DT; if (Math.hypot(e.x - goal.x, e.y - goal.y) < 24) { at = T; return false; } return true; }); } finally { sp.tick = tk; }
+      const n = AI.navOf(e); out.push({ kind, goal: goal === raw ? 'raw' : 'fit', at: at === null ? null : +at.toFixed(2), side: n.recover, replans: n.stuckN, firstNew: firstNew === null ? null : +firstNew.toFixed(2), resets: e.unstuck || 0 });
+      eng.entities.splice(eng.entities.indexOf(e), 1);
+    }
+    return { runs: out };
+  },
   /* ST01: 10 minutes of a corner wait - holding still (it says so: e.still), its head swivelling (60 sweeps), a small step to one side and back
    * every 6.15 s, so the watchdog's 6-s checks fall now in the stillness, now in the step */
   waits({ World, DT, AI }) {
