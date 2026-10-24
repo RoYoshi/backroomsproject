@@ -2,9 +2,8 @@
  * second Skin-Stealer turn invisible while the first one's kill played.  R9-R19's page hid every Skin-Stealer within 260 px of a death's
  * source (skin.kill.js), and every page's replay hid the Hound - and the Smiler - nearest the attacker's place within 240 px
  * (mp.deaths.js).  Now each page hides a killing Skin-Stealer by the server's own id of it (the kill record's e: our own record, and a
- * Skin-Stealer's replay message, which now carries it).  A Hound's and a Smiler's replay message is B++'s and carries none: those replays
- * keep R19's nearest-within-240 (a defect the real pages reproduced, left for the owner: REPORT.md RV05); the code takes an id when one
- * comes.
+ * Skin-Stealer's replay message, which now carries it).  On the separately authorized R20 B++ killer-id branch,
+ * Hound and Smiler replays also carry e; the old nearest-within-240 fallback is removed.
  * Each check runs this tree's page code and R19 combined's (2f11eae, from git), in a VM with recorder Pixi classes and stand-ins for the
  * game around it: R19's must show the defect (the negative proof), this tree's must not.  The real pages are in
  * dev/trial-3-r20-kill-visibility/tools/rv_browser.js (REPORT.md).
@@ -14,8 +13,8 @@
  *   RV07c a replay naming its killer with a pack-mate nearer the attacker's place than the killer's mirrored view: a Hound's hides the
  *         killer's slot, not the pack-mate's; a Smiler's the same; a Skin-Stealer's kill hides no Hound and no Smiler; a Hound's message as
  *         the server sends it (no id, B++'s) is handled as R19 did
- *   RV07d a Skin-Stealer's replay message carries the killer's id (death_srv.js fxFor), for a late joiner too (aftSend sends that
- *         message); a Hound's and a Smiler's are B++'s (the protocol contract's); our own kill record's id is kept past the bundle taking
+ *   RV07d every creature's death-replay message carries a valid killer id (death_srv.js fxFor), including late joiners;
+ *         only the e field is the approved B++ extension, and bad ids are omitted; own kill record's id survives the bundle taking
  *         window.__kill, and cleared with it on a new life */
 'use strict';
 const vm = require('vm'), fs = require('fs'), path = require('path'), { execFileSync } = require('child_process');
@@ -122,18 +121,20 @@ add('RV07c a replay naming its killer, with a pack-mate nearer the attacker\'s p
   }
   const n = out.now, r = out.r19, eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
   if (!eq(n.hound, [0, -1]) || !eq(n.smiler, [-1, 0]) || !eq(n.skin, [-1, -1, 55])) bad.push(`this tree: ${JSON.stringify(n)}`);
-  if (!eq(n.houndNoId, r.houndNoId)) bad.push(`a Hound's message as the server sends it (no id) is not handled as R19 did: ${JSON.stringify(n.houndNoId)} against ${JSON.stringify(r.houndNoId)}`);
+  if (!eq(n.houndNoId, [-1, -1])) bad.push(`a missing-id Hound replay must not hide a bystander: ${JSON.stringify(n.houndNoId)}`);
   if (!(r.hound[0] === 1 && r.smiler[1] === 1)) bad.push(`the negative proof: R19 ${JSON.stringify(r)}`);
-  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `[Hound slot, Smiler slot] hidden - this tree: a Hound's kill ${JSON.stringify(n.hound)} (the killer's slot 0), a Smiler's ${JSON.stringify(n.smiler)}, a Skin-Stealer's ${JSON.stringify(n.skin.slice(0, 2))} (its own id ${n.skin[2]} for skinstealer.js), a Hound's as the server sends it today, with no id: ${JSON.stringify(n.houndNoId)}, R19's nearest unchanged (the pack-mate: the RV05 defect, left for the owner - an id in a Hound's message changes the B++ contract) | R19: a Hound's ${JSON.stringify(r.hound)} (the pack-mate's slot 1), a Smiler's ${JSON.stringify(r.smiler)}`, data: out };
+  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `killer's ID wins over closer pack-mate (Hound ${JSON.stringify(n.hound)}, Smiler ${JSON.stringify(n.smiler)}), Skin-Stealer untouched; missing-id Hound hides none ${JSON.stringify(n.houndNoId)}; R19 nearest incorrectly hid pack-mate ${JSON.stringify(r.hound)}`, data: out };
 });
 
-add('RV07d a Skin-Stealer\'s replay message names its killer (fxFor e; an aftSend late joiner gets that message with el) and a Hound\'s or a Smiler\'s is B++\'s unchanged; our own kill record\'s id outlives the bundle taking window.__kill, until a new life clears it', () => {
+add('RV07d all death replay species carry the authoritative killer id (fxFor e; aftSend late joiners), bad ids omitted; own kill id survives window.__kill until cleared', () => {
   const bad = [], D = require(path.join(ROOT, 'src', 'frameworks', 'gib', 'server', 'death_srv.js'));
   const kill = k => ({ k, v: 'A', e: 17, ax: 10, ay: 20, x: 30, y: 40, a: 0, w: 0 }), info = { look: 'cap', ek: 'flashlight', ec: '#fff', ep: '', vx: 0, vy: 0, ex: 0 };
   const B19 = 't,k,id,c,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex,srv';                                  // (R19's fxFor: the B++ key order)
   const keys = k => Object.keys(D.fxFor(5, kill(k), info)).join(','), es = D.fxFor(5, kill('SkinStealer'), info).e;
   if (es !== 17 || keys('SkinStealer') !== 't,k,id,c,e,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex,srv') bad.push(`a Skin-Stealer's message: e ${es}, keys ${keys('SkinStealer')}`);
-  if (keys('Hound') !== B19 || keys('Smiler') !== B19) bad.push(`a Hound's or a Smiler's message is not B++'s: ${keys('Hound')} / ${keys('Smiler')}`);
+  const R20 = B19.replace('t,k,id,c,x', 't,k,id,c,e,x');
+  if (keys('Hound') !== R20 || keys('Smiler') !== R20) bad.push(`an approved Hound/Smiler replay must add ONLY e: ${keys('Hound')} / ${keys('Smiler')}`);
+  for (const k of ['Hound', 'Smiler', 'SkinStealer']) if ('e' in D.fxFor(5, { ...kill(k), e: 0 }, info) || 'e' in D.fxFor(5, { ...kill(k), e: 'wrong' }, info)) bad.push(`an invalid ${k} ID was sent`);
   if ('e' in D.fxFor(5, Object.assign(kill('SkinStealer'), { e: 'x' }), info)) bad.push('a bad id is sent');
   const aft = fs.readFileSync(path.join(ROOT, 'src', 'frameworks', 'gib', 'server', 'aftermath.js'), 'utf8');
   if (!/fx = Object\.assign\(deathSrv\.fxFor\(c\.id, kill, info\)/.test(aft) || !/Object\.assign\(\{\}, a\.fxMsg, \{ el:/.test(aft)) bad.push('aftermath no longer sends fxFor\'s message (with el) to a late joiner');
@@ -145,7 +146,7 @@ add('RV07d a Skin-Stealer\'s replay message names its killer (fxFor e; an aftSen
   const kept = ctx.__skin.killBy && ctx.__skin.killBy.e === 17; NM.clearKill(); const cleared = ctx.__skin.killBy === null;
   if (!kept || !cleared) bad.push(`killBy kept ${kept}, cleared ${cleared}`);
   if ('__killBy' in ctx) bad.push('a new window name');
-  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `a Skin-Stealer's replay message names its killer (e ${es}; a bad id: none sent); a Hound's and a Smiler's are B++'s key for key (${B19}); aftermath sends that message, with el, to a late joiner; our own kill record's id kept after window.__kill is taken, cleared with clearKill` };
+  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `all Hound, Smiler and Skin-Stealer death FX add only an authoritative e (keys ${R20}); invalid IDs omitted, late replay transport preserved; own kill id retained and cleared` };
 });
 
 module.exports = S;
