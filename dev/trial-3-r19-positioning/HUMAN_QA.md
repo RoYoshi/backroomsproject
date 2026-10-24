@@ -32,6 +32,7 @@ quickly, step away, WORLD SPEED 3x, then back to 1x before you judge anything.  
 | S-G | **Fresh sprint** in a straight line when it gives chase | you still pull away (285 vs its 270); its chase, stare, head snap, press, spring and kills unchanged | the R18 chase |  |  |
 | S-H | Four people: split up, group, sprint into each other | it takes real openings it can see; no switching to somebody it never saw |  |  |  |
 | S-I | Make it vault a low prop (a counter) mid-hunt, then make it fight or spring | it lands first, then acts - never slides through a wall | could pass through things after an interrupted vault (rare) |  |  |
+| S-J | **Never weaker** (your addendum): is it anywhere less of a threat than R18 - slower to come, more hesitant, fewer openings taken? | no: on 348 seeded chases it caught 305 to R18's 304 and attacked 374 times to 367 (REGRESSION "Never weaker") | the baseline |  |  |
 
 **For your decision (fairness):** at the junction, a hungry one 550 px off now heads for your side passage first - in the simulation
 that way out went from 8/8 escapes (R18) to 0/8, while sprinting the other way along the hall still escaped 8/8 (S-D).  Whether one

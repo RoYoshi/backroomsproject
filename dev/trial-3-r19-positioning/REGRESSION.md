@@ -122,3 +122,23 @@ unchanged (WL06, C26, PR05).
 
 The walker at .6 and the junction's east exit are the two places where S is harder on the person than R18; a straight fresh sprint still
 escapes (C26, PR05, the hall at 550 px); the owner's judgement is asked for both (HUMAN_QA S-A, S-D).
+
+## Never weaker: game outcomes against R18 (the owner's addendum of October 23)
+
+The owner: the R19 work must never weaken a monster, the Skin-Stealer above all - its pursuit, attacks and responsiveness kept or
+improved, measured as outcomes of identical seeded chases.  The N branch's `tools/pursuit_outcomes.js` (on the combined branch beside this
+track's tools) ran on R18 and on this tree: corner pursuits through rooms (60 routes; real stamina, endless stamina, and starting
+farther back), laps round 13 wall islands both ways (156), sustained 60 s chases (12) - the real AI, nothing steered but the runner
+(`evidence/S3/outcomes/po_*.json`, `cmp_S.md`):
+
+| species | runs | caught (R18 -> S) | attacks begun | runs that differ |
+|---|---|---|---|---|
+| Skin-Stealer | 348 | 304 -> **305** | 367 -> **374** | 11: 7 sooner (by up to 11.1 s), 4 later (0.11 / 0.17 / 4.5 s, and one lap 37 s) |
+| Hound, Smiler | 348 each | equal | equal | 0 (this track does not touch them) |
+
+And the lap study (234 laps, nine starting places; `laps_S_C.md`): the Skin-Stealer's laps R18 -> S - 7 differ (4 sooner, 3 later), mean
+-0.30 s where they differ, largest 3.7 s; caught 234 = 234, attacks 285 = 285.  The control - R18 against itself with the creature started
+1 px off - changes 47 of the same 234 laps, by up to 34.9 s: a lap chase is that sensitive, so a single lap's difference (like the 37 s
+one above) is not a weaker creature; the counts are the measure, and they are equal or better.  With the ordinary-play simulation (kills
++3 %, the same pursuit speeds) and the scenes (a walker at .6 caught 8/8 where R18 lost two), the Skin-Stealer is not weaker anywhere
+measured; no speed, reach, damage, detection or tracking was added to make it so.
