@@ -1,6 +1,6 @@
 /** @part generated/server/ai.js - N.A.N.I.: the Skin-Stealer's mind (Trial 3 R11): who could see it, what changed since its last think, what it knows of its quarry
  * provides: skBodyInSight, skExposedTo, skLegible, skMindDbg, skMindKept, skMindLog, skMindNew, skMindTick, skObsOf, skSpotExposed
- * uses: angDiff, sm
+ * uses: angDiff, skFatigueSee, skWinded, sm
  * writes: -
  */
 /* ---------------------------------------------------------------- THE SKIN-STEALER'S MIND (Trial 3 R11; dev/trial-3-r9-overhaul/)

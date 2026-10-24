@@ -118,3 +118,35 @@ the Skin-Stealer's open chase".  The Hound and the Smiler are identical to the N
 - **SH12:** four people; every plan about a person was about somebody it had seen.
 - **NA07:** a walk heard to 680 px (a player hears its walk to 734); a run to 847 (770); through a wall a walk to 510 (668) and a run to
   635 (717); crouching at R19's reach.  The Hound and the Smiler are on the shared law exactly.
+
+## Checkpoint C2: the independent review's fixes, and W1 the Skin-Stealer's alone
+
+**The changes.**
+- **N's D2, carried here as the same change.**  The turn-aware stuck timer is now an opt-in, `caps.TURN_AWARE_STUCK`, and only the
+  Skin-Stealer has it.  The Hound's and the Smiler's recovery is B++'s again, which the gate's server golden traces require.
+- **Posts.**  Neither a post nor a wait-where-it-stands is ever built from another creature's sounds (`src -1`): two Hound footsteps were
+  "somebody" to wait for.
+- **The fatigue belief.**  Time out of its sight counts only toward their getting their breath back (the walk-back), never also as run
+  time.
+- **The summon guard** (`e.roam.summon`) is cleared with the rest of its state on an admin clear.
+- **The part headers** of `ai.skinstealer.js` and `ai.skin.mind.js` name `skFatigueSee` and `skWinded`; the gate's parts check had failed.
+- **The doc correction** (S4): `skAhead`'s route queries use the search stream, so later draws can differ from R19's.
+
+**The results.**
+
+| run | checkpoint C | **C2** |
+|---|---|---|
+| `npm test` | 357/370 | **357/370**: the same 13 inherited failures (`evidence/C2/npm_test.txt`) |
+| `npm run gate` (fast) | not run at C: srv_golden, bpp_golden, session, sim and parts would have failed | **R19's**: only `port` and `bundle`, NOT RUN here (`evidence/C2/gate_fast.txt`) |
+| A/B, F at .55 and .85 (16 seeds × 10 min) | the table above | **identical, run for run** (`evidence/C2/ab/`): those scenes have no other creature, and no decision there turned on the fatigue fix |
+
+The chase study against R19 combined (`evidence/C2/cmp_R19C_S2.md`):
+
+| species | caught R19 combined → C2 | runs that differ |
+|---|---|---|
+| Hound | 345 = 345 | **0** |
+| Smiler | 323 = 323 | **0** |
+| Skin-Stealer | 305 → 302 | the strategic hunter (as at C) |
+
+At C, the Hound's and the Smiler's caught counts were already equal to R19's, but some loop runs differed (`cmp_N_S.md` was against the
+N branch's then-shared W1).  Now they are identical run for run.
