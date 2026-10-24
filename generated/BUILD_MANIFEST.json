@@ -289,8 +289,8 @@
   },
   {
    "out": "public/assets/skinstealer.js",
-   "bytes": 54431,
-   "sha256": "980a2bc90d3f787ac762be51dd6c538f4d5b76d8b490f8923453601ce8058ca9",
+   "bytes": 54833,
+   "sha256": "5472121cb860d2abf8acab2639ce5c36bdaf918b98801891f9726671500cefba",
    "parts": [
     {
      "path": "src/frameworks/nani/client/skin.head.js",
@@ -309,7 +309,7 @@
     },
     {
      "path": "src/frameworks/br-r/client/skin.kill.js",
-     "sha256": "20f98695b0854d8a862bd9406f16a7cea2946cf3c15fd1b7418a6b59e4e1efc5",
+     "sha256": "57bcf95f0379b292945970bfd9506d65350169ee3635da09921d37c61a64d9d1",
      "headerBytes": 1709
     },
     {
