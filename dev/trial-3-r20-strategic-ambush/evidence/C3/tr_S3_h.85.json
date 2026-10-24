@@ -1,0 +1,116 @@
+{
+ "tree": "r20-s",
+ "patched": {
+  "hits": 4,
+  "grow": 456
+ },
+ "kinds": {
+  "skinstealer": {
+   "ticks": 231704,
+   "steerTicks": 187741,
+   "label": 0.9000000000000011,
+   "labelFrozen": 0,
+   "labelFrozenStill": 0,
+   "labelOpen": 0,
+   "labelOpenFrozen": 0,
+   "grow": {
+    "real": 0.36666666666666664,
+    "turn": 0.5166666666666666,
+    "vcap": 0,
+    "feel": 2.666666666666662,
+    "accel": 4.883333333333321,
+    "hold": 0,
+    "other": 0
+   },
+   "growOpen": {
+    "real": 0,
+    "turn": 0.016666666666666666,
+    "vcap": 0,
+    "feel": 0,
+    "accel": 2.583333333333329,
+    "hold": 0,
+    "other": 0
+   },
+   "side": 3,
+   "replan": 0,
+   "wdChecks": 637,
+   "wdStuck": 0,
+   "wdEmb": 0,
+   "wdStuckIdleOK": 0,
+   "wdEvents": [],
+   "episodes": [
+    {
+     "run": 5,
+     "x": 7893,
+     "y": 2417,
+     "err0": 0,
+     "sp0": 37,
+     "t0": 376.85,
+     "max": 0.37,
+     "n": 21,
+     "act": "search",
+     "plan": "search",
+     "causes": {
+      "accel": 26,
+      "turn": 2,
+      "feel": 12,
+      "real": 6
+     },
+     "dur": 0.35,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 7893,
+     "y": 2434,
+     "err0": 0,
+     "sp0": 26,
+     "t0": 378.02,
+     "max": 0.34,
+     "n": 12,
+     "act": "search",
+     "plan": "search",
+     "causes": {
+      "feel": 12,
+      "accel": 9,
+      "real": 6
+     },
+     "dur": 0.2,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 7893,
+     "y": 2433,
+     "err0": 0,
+     "sp0": 21,
+     "t0": 378.38,
+     "max": 0.37,
+     "n": 21,
+     "act": "search",
+     "plan": "search",
+     "causes": {
+      "accel": 8,
+      "real": 7,
+      "feel": 7
+     },
+     "dur": 0.35,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    }
+   ],
+   "frozenEp": []
+  }
+ }
+}

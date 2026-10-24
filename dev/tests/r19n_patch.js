@@ -27,6 +27,16 @@ const HUNKS = [
   "src/frameworks/nani/server/ai.entity.js"
  ],
  [
+  "  if (e.stuck > .35 && !e.unst) {\n",
+  "  // (R20 D3, the Skin-Stealer's alone: caps.TURN_AWARE_STUCK) a second side-step at the same spot within 2.5 s goes straight to the new\n  // route: R8-R19's ladder, pinned on a corner its waypoint's line clips, side-stepped every second and never reached the new route (each\n  // side-step lets the timer fall back) until the watchdog cleared its route 6 s on - the \"stuck: the watchdog cleared its route\" a\n  // search showed in R20's traces.  Every other species keeps the ladder as it was\n  const U = e.unstAt;\n  if (e.stuck > .35 && !e.unst && e.caps.TURN_AWARE_STUCK && U && eng.now - U.t < 2.5 && Math.hypot(e.x - U.x, e.y - U.y) < 40) { e.stuck = 1; e.unstAt = null; }\n  else if (e.stuck > .35 && !e.unst) {\n",
+  "src/frameworks/nani/server/ai.entity.js"
+ ],
+ [
+  "    if (best !== null) { e.unst = { dir: best, until: eng.now + .45 }; navOf(e).recover++; }\n",
+  "    if (best !== null) { e.unst = { dir: best, until: eng.now + .45 }; navOf(e).recover++; if (e.caps.TURN_AWARE_STUCK) e.unstAt = { t: eng.now, x: e.x, y: e.y }; }\n",
+  "src/frameworks/nani/server/ai.entity.js"
+ ],
+ [
   "    if (e.kind === 'hound') { if (!idle) w.t += dt; } else w.t += dt;\n",
   "    // (R20) a species that says itself when it stands still on purpose (sp.still: the Skin-Stealer) has the hound's rule too, its stillness\n    // asked every tick rather than at the one tick of the check; a second of standing still on purpose begins its time afresh (a wait, a\n    // stare, a meal: whatever it does next is a new attempt); and it is stuck only if in its 6 s of trying it never got 60 px from where it\n    // began (a walk there and back past the same spot is not being stuck)\n    const own = !!e.sp.still;\n    if (own) { if (idle) { w.rest = (w.rest || 0) + dt; if (w.rest >= 1) { w.t = 0; w.x = e.x; w.y = e.y; w.far = 0; } } else w.rest = 0; }\n    if (e.kind === 'hound' || own) { if (!idle) w.t += dt; } else w.t += dt;\n    if (own) w.far = Math.max(w.far || 0, Math.hypot(e.x - w.x, e.y - w.y));\n",
   "src/frameworks/nani/server/ai.engine.js"

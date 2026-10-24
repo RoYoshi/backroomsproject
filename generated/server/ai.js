@@ -913,10 +913,16 @@ function follow(eng, e, dt, vmax, o = {}) {
   }
   steerTo(eng, e, tx, ty, vmax, dt, Object.assign({}, o, { vcap }));
   // stuck recovery ladder: 1 side-step (at .35 s), 2 new route (.9 s), 3 an alternate route that keeps off this spot (2nd time), 4 drop the route (4th)
-  if (e.stuck > .35 && !e.unst) {
+  // (R20 D3, the Skin-Stealer's alone: caps.TURN_AWARE_STUCK) a second side-step at the same spot within 2.5 s goes straight to the new
+  // route: R8-R19's ladder, pinned on a corner its waypoint's line clips, side-stepped every second and never reached the new route (each
+  // side-step lets the timer fall back) until the watchdog cleared its route 6 s on - the "stuck: the watchdog cleared its route" a
+  // search showed in R20's traces.  Every other species keeps the ladder as it was
+  const U = e.unstAt;
+  if (e.stuck > .35 && !e.unst && e.caps.TURN_AWARE_STUCK && U && eng.now - U.t < 2.5 && Math.hypot(e.x - U.x, e.y - U.y) < 40) { e.stuck = 1; e.unstAt = null; }
+  else if (e.stuck > .35 && !e.unst) {
     const want = e.want ?? e.ang; let best = null, bs = -1e9;
     for (let k = 0; k < 12; k++) { const a = want + (k - 6) / 12 * TAU, free = geo.ray(e.x, e.y, a, 90), sc = free - Math.abs(angDiff(a, want)) * 25; if (free > e.rc + 20 && sc > bs) { bs = sc; best = a; } }
-    if (best !== null) { e.unst = { dir: best, until: eng.now + .45 }; navOf(e).recover++; }
+    if (best !== null) { e.unst = { dir: best, until: eng.now + .45 }; navOf(e).recover++; if (e.caps.TURN_AWARE_STUCK) e.unstAt = { t: eng.now, x: e.x, y: e.y }; }
   }
   if (e.stuck > .9) {
     const nv = navOf(e); nv.stuckN++; e.stuck = 0; e.pathAge = 99; e.aim = null; e.unst = null; e.nudge = (e.nudge || 0) + 1;
@@ -4034,7 +4040,9 @@ function skInterceptWay(eng, e, P, r, g) {
   plan(eng, e, g.x, g.y, { why: 'intercept', cost: skAround(eng, g.from, { x: g.qx, y: g.qy }), maxNodes: 4000 });
 }
 function skSearch(eng, e, r, why, goal, extra) {
-  const G = goal || { x: r.lkx, y: r.lky };
+  // (R20 C3) the place set down on open floor its body fits (skFloorNear): a guess or a heard place can lie against or inside a wall, and a
+  // goal its body cannot reach left it pinned at a corner, side-stepping, until the watchdog cleared its route (R20's traces; R2-R19 alike)
+  const G0 = goal || { x: r.lkx, y: r.lky }, G = skFloorNear(eng, e, G0.x, G0.y) || G0;
   const H = r && e.hunger >= SK.huntHunger ? skHuntBegin(eng, e, r, 'it goes to look for them') : null;   // (R1) a search for somebody is a hunt
   skBegin(eng, e, 'search', r, why, Object.assign({ goal: G, until: eng.now + SK.searchMax, hAt: Math.max(r ? r.heardAt : 0, H ? H.hAt : -99), sid: e.mem.soundId || 0 }, extra));
   plan(eng, e, G.x, G.y, { why: 'search' });
@@ -4856,7 +4864,7 @@ function skAct(eng, e, dt, thinkNow) {
       const Hh = r && e.hunt && e.hunt.pid === r.id ? e.hunt : null, hAt = Math.max(r ? r.heardAt : -99, Hh ? Hh.hAt : -99);
       if (thinkNow && r && hAt > P.hAt + .3 && (P.moved || 0) < 3) {   // fresher footsteps (theirs, or - R2 - a body's where they could be): it goes there (at most three times)
         P.hAt = hAt; P.moved = (P.moved || 0) + 1;
-        const gx = Hh && Hh.hAt >= r.heardAt ? Hh.x : r.hx, gy = Hh && Hh.hAt >= r.heardAt ? Hh.y : r.hy;
+        const gx0 = Hh && Hh.hAt >= r.heardAt ? Hh.x : r.hx, gy0 = Hh && Hh.hAt >= r.heardAt ? Hh.y : r.hy, gf = skFloorNear(eng, e, gx0, gy0), gx = gf ? gf.x : gx0, gy = gf ? gf.y : gy0;   // (R20 C3) on floor it fits
         if (Math.hypot(gx - P.goal.x, gy - P.goal.y) > 90) { P.goal = { x: gx, y: gy }; P.looked = 0; plan(eng, e, gx, gy, { why: 'search (heard)' }); e.dbg.why = `it heard ${Hh && Hh.hAt >= r.heardAt ? 'something where P' + r.id + ' could be' : 'P' + r.id}: it goes there, quietly`; }
       }
       // (R20) ...or a fresh one from another way, about as loud as the one it went for (or louder): the newer evidence leads (within its three moves)

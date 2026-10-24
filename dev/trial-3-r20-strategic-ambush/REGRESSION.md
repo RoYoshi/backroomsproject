@@ -150,3 +150,17 @@ The chase study against R19 combined (`evidence/C2/cmp_R19C_S2.md`):
 
 At C, the Hound's and the Smiler's caught counts were already equal to R19's, but some loop runs differed (`cmp_N_S.md` was against the
 N branch's then-shared W1).  Now they are identical run for run.
+
+## Checkpoint C3: search goals on floor its body fits (S10), with N's W4
+
+| run | result |
+|---|---|
+| `npm test` | **358/371**: the same 13 inherited failures; +1 (ST05, carried from N's D3) |
+| the stuck trace, 8 seeds x 10 min (`evidence/C3/trace_summary.txt`) | **.55:** STUCK label 0.1 s, 0 watchdog resets.  **.85:** 0.9 s, 3 side-steps, 0 resets.  The combined tree before this fix showed a 15 s corner pin with 2 resets at .55 |
+
+The A/B (F at C2 against F at C3; kills / escapes / chases / meetings, then interceptions):
+
+| hunger | C2 | C3 | interceptions C2 | C3 |
+|---|---|---|---|---|
+| .55 | 27 / 57 / 8 / 84 | 26 / 59 / 7 / 85 | 14 | 16 |
+| .85 | 27 / 56 / 19 / 83 | 27 / 60 / 19 / 87 | 16 | 18 |
