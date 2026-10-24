@@ -1,0 +1,73 @@
+== scene_r19.js hall <C> stand .7
+seed 1: ways round 1, refused 0, on them 11.6 s (out of their sight 7.2 s), KILLED | 0.0 roam d450 > 0.1 flank:covert d450 > 9.8 flank d351 > 10.2 approach:open d351 > 11.7 roam d40
+seed 2: ways round 1, refused 0, on them 11.5 s (out of their sight 7.2 s), KILLED | 0.0 roam d450 > 0.1 flank:covert d450 > 9.9 flank d307 > 10.2 approach:open d307 > 11.6 roam d41
+seed 3: ways round 1, refused 0, on them 11.7 s (out of their sight 7.4 s), KILLED | 0.0 roam d450 > 0.1 flank:covert d450 > 10.0 flank d311 > 10.4 approach:open d310 > 11.8 roam d39
+seed 4: ways round 1, refused 0, on them 20.0 s (out of their sight 14.8 s) | 0.0 roam d450 > 0.0 flank:covert d450 > 10.1 flank d297 > 10.4 approach:open d297 > 11.7 retreat:feint d189 > 16.7 lure d445
+seed 5: ways round 1, refused 0, on them 11.5 s (out of their sight 7.2 s), KILLED | 0.0 roam d450 > 0.0 flank:covert d450 > 9.7 flank d343 > 10.1 approach:open d343 > 11.5 roam d40
+seed 6: ways round 1, refused 0, on them 20.0 s (out of their sight 15.4 s) | 0.0 roam d450 > 0.1 flank:covert d450 > 9.8 flank d340 > 10.1 approach:open d339 > 10.8 retreat:feint d210 > 15.2 lure d434
+seed 7: ways round 1, refused 0, on them 11.7 s (out of their sight 7.4 s), KILLED | 0.0 roam d450 > 0.0 flank:covert d450 > 9.8 flank d333 > 10.2 approach:open d333 > 11.7 roam d42
+seed 8: ways round 1, refused 0, on them 11.5 s (out of their sight 7.2 s), KILLED | 0.0 roam d450 > 0.0 flank:covert d450 > 9.7 flank d334 > 10.1 approach:open d333 > 11.5 roam d41
+C hall stand 0.7: killed 6/8
+== scene_r19.js hall <C> stand .85
+seed 1: ways round 0, refused 1, on them 5.1 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > [flankRefused its way round P101 would take 10.2 s (against 1.7 s coming on; it may spend 6.2 s more): approach] > 0.1 approach:open d450 > 5.2 roam d40
+seed 2: ways round 0, refused 1, on them 4.8 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > [flankRefused its way round P101 would take 10.2 s (against 1.7 s coming on; it may spend 6.2 s more): approach] > 0.1 approach:open d450 > 4.9 roam d39
+seed 3: ways round 0, refused 1, on them 4.5 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > [flankRefused its way round P101 would take 10.3 s (against 1.7 s coming on; it may spend 6.2 s more): approach] > 0.1 approach:open d450 > 4.5 roam d38
+seed 4: ways round 0, refused 0, on them 5.7 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > 0.0 approach:open d450 > 5.8 roam d40
+seed 5: ways round 0, refused 0, on them 5.3 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > 0.0 approach:open d450 > 5.3 roam d40
+seed 6: ways round 0, refused 0, on them 4.7 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > 0.1 approach:open d450 > 4.8 roam d37
+seed 7: ways round 0, refused 1, on them 5.1 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > [flankRefused its way round P101 would take 10.2 s (against 1.7 s coming on; it may spend 6.2 s more): approach] > 0.0 approach:open d450 > 5.1 roam d41
+seed 8: ways round 0, refused 1, on them 4.4 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > [flankRefused its way round P101 would take 10.1 s (against 1.7 s coming on; it may spend 6.2 s more): approach] > 0.0 approach:open d450 > 4.5 roam d37
+C hall stand 0.85: killed 8/8
+== scene_r19.js hall <C> walk0 .6
+seed 1: ways round 0, refused 0, on them 4.9 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > 0.1 chase d455 > 5.0 roam d41
+seed 2: ways round 0, refused 0, on them 4.9 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > 0.1 chase d457 > 5.0 roam d41
+seed 3: ways round 0, refused 0, on them 4.9 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > 0.1 chase d455 > 5.0 roam d41
+seed 4: ways round 1, refused 0, on them 5.1 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > 0.0 flank:covert d451 > [flankStale P101 is running off from its way round: chase] > 0.1 chase d464 > 5.2 roam d41
+seed 5: ways round 0, refused 1, on them 5.2 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > [flankRefused its way round P101 would take 10.1 s (they would be 924 px from its spot by then): watch] > 0.0 watch d452 > 0.1 chase d468 > 5.2 roam d41
+seed 6: ways round 0, refused 1, on them 4.9 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > [flankRefused its way round P101 would take 10.2 s (they would be 1135 px from its spot by then): chase] > 0.1 chase d453 > 5.0 roam d40
+seed 7: ways round 0, refused 1, on them 5.2 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > [flankRefused its way round P101 would take 10.2 s (they would be 888 px from its spot by then): watch] > 0.0 watch d452 > 0.1 chase d468 > 5.2 roam d41
+seed 8: ways round 0, refused 1, on them 5.2 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > [flankRefused its way round P101 would take 10.1 s (they would be 897 px from its spot by then): watch] > 0.0 watch d452 > 0.1 chase d468 > 5.2 roam d41
+C hall walk0 0.6: killed 8/8
+== scene_r19.js hall <C> walk0 .75
+seed 1: ways round 0, refused 0, on them 4.9 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > 0.1 chase d455 > 5.0 roam d41
+seed 2: ways round 0, refused 0, on them 4.9 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > 0.1 chase d457 > 5.0 roam d41
+seed 3: ways round 0, refused 0, on them 4.9 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > 0.1 chase d455 > 5.0 roam d41
+seed 4: ways round 1, refused 0, on them 5.1 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > 0.0 flank:covert d451 > [flankStale P101 is running off from its way round: chase] > 0.1 chase d464 > 5.2 roam d41
+seed 5: ways round 0, refused 1, on them 4.8 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > [flankRefused its way round P101 would take 10.1 s (they would be 924 px from its spot by then): approach] > 0.0 approach:open d452 > 0.1 chase d460 > 4.9 roam d41
+seed 6: ways round 0, refused 0, on them 4.9 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > 0.1 approach:open d453 > 0.2 chase d463 > 5.0 roam d40
+seed 7: ways round 0, refused 1, on them 4.8 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > [flankRefused its way round P101 would take 10.2 s (they would be 888 px from its spot by then): approach] > 0.0 approach:open d452 > 0.1 chase d460 > 4.9 roam d41
+seed 8: ways round 0, refused 1, on them 4.8 s (out of their sight 0.0 s), KILLED | 0.0 roam d450 > [flankRefused its way round P101 would take 10.1 s (they would be 897 px from its spot by then): approach] > 0.0 approach:open d452 > 0.1 chase d460 > 4.9 roam d41
+C hall walk0 0.75: killed 8/8
+== scene_r19.js hall <C> walkoff .7
+seed 1: ways round 1, refused 0, on them 15.6 s (out of their sight 2.0 s), KILLED | 0.0 roam d450 > 0.1 flank:covert d450 > [flankStale P101 is moving off from its way round: approach] > 3.1 approach:open d986 > 3.8 listen d1027 > 4.5 search d1136 > 5.4 approach:open d1117 > 12.0 chase d637 > 13.8 approach:open d273 > 15.7 roam d32
+seed 2: ways round 1, refused 0, on them 19.9 s (out of their sight 5.7 s) | 0.0 roam d450 > 0.1 flank:covert d450 > [flankStale P101 is moving off from its way round: watch] > 3.1 watch d989 > 3.8 listen d1109 > 4.4 search d1209 > 7.5 approach:open d1058 > 12.0 intercept:open d970
+seed 3: ways round 1, refused 0, on them 15.9 s (out of their sight 1.5 s), KILLED | 0.0 roam d450 > 0.1 flank:covert d450 > [flankStale P101 is moving off from its way round: watch] > 3.1 watch d986 > 3.8 listen d1106 > 4.2 search d1166 > 4.7 approach:open d1165 > 11.8 chase d639 > 13.5 approach:open d359 > 15.9 roam d32
+seed 4: ways round 1, refused 0, on them 10.5 s (out of their sight 2.0 s) | 0.0 roam d450 > 0.0 flank:covert d450 > [flankStale P101 is moving off from its way round: watch] > 3.0 watch d978 > 3.8 listen d1098 > 4.6 search d1238 > 5.2 approach:open d1237 > 10.4 retreat:feint d894 > 10.5 leave d900
+seed 5: ways round 1, refused 0, on them 15.9 s (out of their sight 1.6 s), KILLED | 0.0 roam d450 > 0.0 flank:covert d450 > [flankStale P101 is moving off from its way round: watch] > 3.1 watch d980 > 3.8 listen d1101 > 4.2 search d1181 > 4.8 approach:open d1179 > 12.6 chase d635 > 14.0 approach:open d282 > 15.9 roam d32
+seed 6: ways round 1, refused 0, on them 20.0 s (out of their sight 6.7 s) | 0.0 roam d450 > 0.1 flank:covert d450 > [flankStale P101 is moving off from its way round: approach] > 3.1 approach:open d983 > 3.8 listen d1024 > 4.7 search d1173 > 5.4 approach:open d1167 > 10.0 retreat:feint d874 > 10.3 watch d911 > 10.6 approach:open d951 > 12.4 listen d1089 > 12.9 intercept:open d1144
+seed 7: ways round 1, refused 0, on them 16.1 s (out of their sight 2.0 s), KILLED | 0.0 roam d450 > 0.0 flank:covert d450 > [flankStale P101 is moving off from its way round: watch] > 3.1 watch d980 > 3.8 listen d1101 > 4.6 search d1241 > 5.2 approach:open d1240 > 13.1 chase d629 > 14.5 approach:open d256 > 16.1 roam d38
+seed 8: ways round 1, refused 0, on them 15.9 s (out of their sight 1.6 s), KILLED | 0.0 roam d450 > 0.0 flank:covert d450 > [flankStale P101 is moving off from its way round: watch] > 3.1 watch d980 > 3.8 listen d1101 > 4.2 search d1181 > 4.8 approach:open d1179 > 12.6 chase d635 > 14.0 approach:open d282 > 15.9 roam d32
+C hall walkoff 0.7: killed 5/8
+== scene_r19.js junction <C> .9 stand
+seed 1: contest points 1, KILLED | 0.0 roam d600 > 0.1 approach:open@cp d600 cp(1344,732) > 1.1 approach:open d392 > 2.7 roam d39
+seed 2: contest points 1, KILLED | 0.0 roam d600 > 0.0 approach:open@cp d600 cp(1344,732) > 1.0 approach:open d392 > 2.6 roam d39
+seed 3: contest points 1, KILLED | 0.0 roam d600 > 0.0 approach:open@cp d600 cp(1344,732) > 1.0 approach:open d392 > 2.6 roam d41
+seed 4: contest points 1, KILLED | 0.0 roam d600 > 0.1 approach:open@cp d600 cp(1344,732) > 1.1 approach:open d392 > 2.7 roam d41
+seed 5: contest points 1, KILLED | 0.0 roam d600 > 0.1 approach:open@cp d600 cp(1344,732) > 1.1 approach:open d392 > 2.7 roam d41
+seed 6: contest points 1, KILLED | 0.0 roam d600 > 0.1 approach:open@cp d600 cp(1344,732) > 1.1 approach:open d392 > 2.7 roam d38
+== scene_r19.js junction <C> .9 walk
+seed 1: contest points 0 | 0.0 roam d600 > 0.1 approach:open d600 > 1.4 intercept:open d387 > 3.1 approach:open d617
+seed 2: contest points 0 | 0.0 roam d600 > 0.0 approach:open d600 > 1.4 intercept:open d374 > 3.3 approach:open d620
+seed 3: contest points 0 | 0.0 roam d600 > 0.0 approach:open d600 > 1.3 intercept:open d384 > 3.1 approach:open d605
+seed 4: contest points 0 | 0.0 roam d600 > 0.1 approach:open d600 > 1.4 intercept:open d386 > 3.1 approach:open d611
+seed 5: contest points 0 | 0.0 roam d600 > 0.1 approach:open d600 > 1.4 intercept:open d386 > 3.1 approach:open d611
+seed 6: contest points 0 | 0.0 roam d600 > 0.1 approach:open d600 > 1.4 intercept:open d388 > 3.1 approach:open d624
+== scene_r19.js escape <C> 550
+C escape east at 550 px: X33 X34 X34 X33 X34 X33 X33 X34
+C escape west at 550 px: .144 .150 .146 .144 .147 .144 .144 .149
+== scene_r19.js escape <C> 450
+C escape east at 450 px: .100 X34 X33 .100 X33 .100 .100 X33
+C escape west at 450 px: .146 X13 .152 X21 X42 X12 X13 X24
+== scene_r19.js escape <C> 350
+C escape east at 350 px: .126 .126 .126 .126 .126 .126 .125 .126
+C escape west at 350 px: X39 X41 .148 X39 X41 X39 X39 X41
