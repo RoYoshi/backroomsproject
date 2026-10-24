@@ -1,0 +1,4682 @@
+{
+ "tree": "r9-overhaul",
+ "patched": {
+  "hits": 4,
+  "grow": 456
+ },
+ "kinds": {
+  "skinstealer": {
+   "ticks": 233013,
+   "steerTicks": 198182,
+   "label": 126.33333333332745,
+   "labelFrozen": 0,
+   "labelFrozenStill": 0,
+   "labelOpen": 90.04999999999617,
+   "labelOpenFrozen": 0,
+   "grow": {
+    "real": 0.36666666666666664,
+    "turn": 121.44999999999439,
+    "vcap": 0,
+    "feel": 2.2999999999999967,
+    "accel": 5.666666666666652,
+    "hold": 0,
+    "other": 0
+   },
+   "growOpen": {
+    "real": 0,
+    "turn": 93.21666666666266,
+    "vcap": 0,
+    "feel": 0,
+    "accel": 2.583333333333329,
+    "hold": 0,
+    "other": 0
+   },
+   "side": 212,
+   "replan": 1,
+   "wdChecks": 642,
+   "wdStuck": 2,
+   "wdEmb": 0,
+   "wdStuckIdleOK": 0,
+   "wdEvents": [
+    {
+     "t": 440.05,
+     "stuck": true,
+     "emb": false,
+     "disp": 21,
+     "idle": false,
+     "stillNow": false,
+     "act": "",
+     "state": "ROAMING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "near",
+     "sp": 168,
+     "path": 5,
+     "clear": 128,
+     "trav": false,
+     "why": "roaming the dark",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.13,
+      "steerFrac": 0.85
+     },
+     "next": [
+      "-/"
+     ],
+     "nextWhy": [
+      "stuck: the watchdog cleared its route",
+      "roaming the dark"
+     ]
+    },
+    {
+     "t": 315.68,
+     "stuck": true,
+     "emb": false,
+     "disp": 0,
+     "idle": false,
+     "stillNow": false,
+     "act": "",
+     "state": "ROAMING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 0,
+     "path": 3,
+     "clear": 61,
+     "trav": false,
+     "why": "fed: it roams again",
+     "stuckT": 0.02,
+     "win": {
+      "stillFrac": 0.95,
+      "slowFrac": 1,
+      "steerFrac": 0
+     },
+     "next": [
+      "-/",
+      "-/listen"
+     ],
+     "nextWhy": [
+      "stuck: the watchdog cleared its route",
+      "roaming the dark"
+     ]
+    }
+   ],
+   "episodes": [
+    {
+     "t0": 65.02,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 86.8,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 39
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 132.4,
+     "max": 0.32,
+     "n": 16,
+     "act": "search",
+     "plan": "search",
+     "causes": {
+      "turn": 23,
+      "accel": 2
+     },
+     "dur": 0.27,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 140.12,
+     "max": 0.25,
+     "n": 9,
+     "act": "search",
+     "plan": "search",
+     "causes": {
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 167.65,
+     "max": 0.23,
+     "n": 8,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 3,
+      "accel": 4,
+      "turn": 16
+     },
+     "dur": 0.13,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 176.47,
+     "max": 0.2,
+     "n": 4,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 12
+     },
+     "dur": 0.06,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 185.8,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 199.27,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 216.67,
+     "max": 0.2,
+     "n": 4,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 12
+     },
+     "dur": 0.06,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 223.67,
+     "max": 0.2,
+     "n": 4,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 12
+     },
+     "dur": 0.06,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 228.05,
+     "max": 0.37,
+     "n": 21,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "turn": 22
+     },
+     "dur": 0.35,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 242.73,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 246.2,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 11
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 267.92,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 26
+     },
+     "dur": 0.46,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 288.4,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 32
+     },
+     "dur": 0.43,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 294.73,
+     "max": 0.42,
+     "n": 26,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "turn": 25
+     },
+     "dur": 0.44,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 309.38,
+     "max": 0.77,
+     "n": 61,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 37,
+      "real": 3,
+      "feel": 2,
+      "accel": 4
+     },
+     "dur": 1.02,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.08
+    },
+    {
+     "t0": 322.67,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 21
+     },
+     "dur": 0.31,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 358.6,
+     "max": 0.52,
+     "n": 54,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 7,
+      "turn": 33,
+      "feel": 4
+     },
+     "dur": 0.9,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 386.92,
+     "max": 0.47,
+     "n": 46,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31,
+      "feel": 3,
+      "accel": 3
+     },
+     "dur": 0.76,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 419.65,
+     "max": 0.45,
+     "n": 44,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30,
+      "feel": 3,
+      "accel": 3
+     },
+     "dur": 0.73,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 437.12,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 440.27,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 19
+     },
+     "dur": 0.26,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 467.25,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 30
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 476.85,
+     "max": 0.25,
+     "n": 11,
+     "act": "back",
+     "plan": "flank",
+     "causes": {
+      "turn": 16
+     },
+     "dur": 0.18,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 477.05,
+     "max": 0.16,
+     "n": 1,
+     "act": "back",
+     "plan": "flank",
+     "causes": {
+      "feel": 1
+     },
+     "dur": 0.02,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 497.98,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 526.22,
+     "max": 0.28,
+     "n": 13,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 17
+     },
+     "dur": 0.21,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 533.92,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.51,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 550.67,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 28
+     },
+     "dur": 0.51,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 566.27,
+     "max": 0.37,
+     "n": 21,
+     "act": "search",
+     "plan": "search",
+     "causes": {
+      "accel": 2,
+      "turn": 22
+     },
+     "dur": 0.35,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 582.48,
+     "max": 0.3,
+     "n": 14,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "accel": 1,
+      "turn": 18
+     },
+     "dur": 0.24,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 596.05,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 610.07,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.76
+    },
+    {
+     "t0": 610.77,
+     "max": 0.16,
+     "n": 1,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 3,
+      "accel": 3
+     },
+     "dur": 0.01,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 617.52,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 1,
+      "accel": 1,
+      "turn": 11
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 628.15,
+     "max": 0.22,
+     "n": 6,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 13
+     },
+     "dur": 0.1,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 636.22,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 645.02,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.51,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 654.82,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 65.02,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.46,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 74.78,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 105.02,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 26
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 132.38,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.27,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 145.22,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 154.9,
+     "max": 0.63,
+     "n": 58,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 35,
+      "real": 1,
+      "feel": 4,
+      "accel": 4
+     },
+     "dur": 0.97,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 166.93,
+     "max": 0.45,
+     "n": 43,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31,
+      "feel": 3,
+      "accel": 2
+     },
+     "dur": 0.72,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 176.97,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 25
+     },
+     "dur": 0.43,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 190.8,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 199.28,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.18
+    },
+    {
+     "t0": 223.53,
+     "max": 0.51,
+     "n": 51,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 40,
+      "feel": 4,
+      "accel": 3
+     },
+     "dur": 0.85,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 227.45,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 27
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 241.85,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 255.42,
+     "max": 0.59,
+     "n": 61,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 7,
+      "turn": 35,
+      "feel": 5
+     },
+     "dur": 1.01,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 278.87,
+     "max": 0.33,
+     "n": 18,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.3,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0.28
+    },
+    {
+     "t0": 304.02,
+     "max": 0.42,
+     "n": 26,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "turn": 26,
+      "accel": 1
+     },
+     "dur": 0.43,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 316.78,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 325.43,
+     "max": 0.35,
+     "n": 19,
+     "act": "back",
+     "plan": "retreat",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 341.57,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 354.88,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 368.72,
+     "max": 0.23,
+     "n": 8,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 14
+     },
+     "dur": 0.13,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 387.38,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 29
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 393.57,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 399.63,
+     "max": 0.37,
+     "n": 21,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 22
+     },
+     "dur": 0.35,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 407.8,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 19
+     },
+     "dur": 0.27,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 415.77,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 438.52,
+     "max": 0.2,
+     "n": 4,
+     "act": "intercept",
+     "plan": "approach",
+     "causes": {
+      "accel": 2,
+      "turn": 14
+     },
+     "dur": 0.06,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 462.18,
+     "max": 0.23,
+     "n": 8,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "turn": 16,
+      "accel": 3
+     },
+     "dur": 0.14,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 463.82,
+     "max": 0.48,
+     "n": 33,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 479.03,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 25
+     },
+     "dur": 0.44,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 495.27,
+     "max": 0.28,
+     "n": 13,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 25
+     },
+     "dur": 0.21,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 519.03,
+     "max": 0.27,
+     "n": 11,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 4,
+      "turn": 20
+     },
+     "dur": 0.19,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 543.68,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 6,
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 568.85,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.43,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.85
+    },
+    {
+     "t0": 577.93,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 584.17,
+     "max": 0.42,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28,
+      "feel": 1,
+      "accel": 1
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 590.4,
+     "max": 0.3,
+     "n": 14,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 18
+     },
+     "dur": 0.23,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 594.8,
+     "max": 0.51,
+     "n": 53,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 33,
+      "feel": 4,
+      "accel": 4
+     },
+     "dur": 0.88,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 611.52,
+     "max": 0.47,
+     "n": 36,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28,
+      "feel": 2,
+      "accel": 1
+     },
+     "dur": 0.6,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.19
+    },
+    {
+     "t0": 620.35,
+     "max": 0.2,
+     "n": 4,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 12
+     },
+     "dur": 0.07,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 628.72,
+     "max": 0.4,
+     "n": 24,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 24
+     },
+     "dur": 8.3,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 658,
+     "max": 0.64,
+     "n": 56,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 9,
+      "turn": 31,
+      "real": 3,
+      "feel": 4
+     },
+     "dur": 0.93,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 60.22,
+     "max": 0.41,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 18,
+      "real": 2,
+      "feel": 4,
+      "accel": 5
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 73.13,
+     "max": 0.37,
+     "n": 21,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "turn": 22
+     },
+     "dur": 0.35,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 86.08,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 116.2,
+     "max": 0.27,
+     "n": 11,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 18
+     },
+     "dur": 0.18,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 144.07,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 11
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 151.03,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 157.67,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 164.57,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 167.67,
+     "max": 0.3,
+     "n": 14,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "turn": 18
+     },
+     "dur": 0.23,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 184.4,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 235.27,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 278.13,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 35,
+      "accel": 2
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 284.73,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 19
+     },
+     "dur": 0.27,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 296.82,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 304.05,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 311.2,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 319.27,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 390.93,
+     "max": 0.48,
+     "n": 36,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 0.6,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 398.27,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.46,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 404.13,
+     "max": 0.47,
+     "n": 43,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32,
+      "feel": 2,
+      "accel": 1
+     },
+     "dur": 0.72,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 430.9,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 23,
+      "accel": 1
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 438.85,
+     "max": 0.45,
+     "n": 46,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32,
+      "feel": 5,
+      "accel": 5
+     },
+     "dur": 0.77,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 458.45,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 477.28,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 33
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 491.27,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.18
+    },
+    {
+     "t0": 506.3,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 516.57,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 522.43,
+     "max": 0.4,
+     "n": 24,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 526.47,
+     "max": 0.37,
+     "n": 21,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 22
+     },
+     "dur": 0.35,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 540.03,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 547.95,
+     "max": 0.43,
+     "n": 48,
+     "act": "chase",
+     "plan": "intercept",
+     "causes": {
+      "turn": 29,
+      "feel": 4,
+      "accel": 8
+     },
+     "dur": 0.8,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.33
+    },
+    {
+     "t0": 580.55,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 37
+     },
+     "dur": 18.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.85
+    },
+    {
+     "t0": 604.28,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 609.42,
+     "max": 0.75,
+     "n": 60,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 34,
+      "real": 3,
+      "feel": 3,
+      "accel": 5
+     },
+     "dur": 1,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 625.78,
+     "max": 0.22,
+     "n": 6,
+     "act": "chase",
+     "plan": "intercept",
+     "causes": {
+      "turn": 13
+     },
+     "dur": 0.1,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 60.23,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 71.23,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.03
+    },
+    {
+     "t0": 95.05,
+     "max": 0.4,
+     "n": 24,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 4,
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 102.38,
+     "max": 0.28,
+     "n": 13,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 17
+     },
+     "dur": 0.22,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 113.77,
+     "max": 0.43,
+     "n": 43,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 3,
+      "turn": 30,
+      "feel": 3
+     },
+     "dur": 0.71,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 127.6,
+     "max": 0.48,
+     "n": 53,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 33,
+      "feel": 5,
+      "accel": 5
+     },
+     "dur": 0.88,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 137.13,
+     "max": 0.49,
+     "n": 48,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32,
+      "feel": 3,
+      "accel": 3
+     },
+     "dur": 0.8,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 167.43,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 19
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 174.3,
+     "max": 0.68,
+     "n": 63,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 34,
+      "real": 2,
+      "accel": 6,
+      "feel": 5
+     },
+     "dur": 1.05,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 198.25,
+     "max": 0.4,
+     "n": 24,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 4,
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 202.95,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 19
+     },
+     "dur": 0.27,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 223.02,
+     "max": 0.27,
+     "n": 11,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 19
+     },
+     "dur": 0.18,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 228.52,
+     "max": 0.4,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 1.51,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 230.97,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.46,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 235.37,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 242.35,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 250.28,
+     "max": 0.3,
+     "n": 14,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 18
+     },
+     "dur": 0.24,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 262.82,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 28
+     },
+     "dur": 0.26,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 274.63,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 28
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 283.03,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.21
+    },
+    {
+     "t0": 322.65,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 340.05,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 351.43,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 357.38,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 25
+     },
+     "dur": 0.44,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 364.73,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 378.77,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 16
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 395.13,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 22
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 403.93,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 425.02,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 436.38,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.18
+    },
+    {
+     "t0": 449.58,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 461.23,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 477.92,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 37
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 488.57,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.85
+    },
+    {
+     "t0": 497.03,
+     "max": 0.43,
+     "n": 28,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 508.68,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 525.23,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.09
+    },
+    {
+     "t0": 561.47,
+     "max": 0.28,
+     "n": 13,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 17
+     },
+     "dur": 0.21,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 566.17,
+     "max": 0.5,
+     "n": 51,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 33,
+      "feel": 4,
+      "accel": 3
+     },
+     "dur": 0.85,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 581.67,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 16
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 586.22,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.51,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 591.12,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 609.2,
+     "max": 0.47,
+     "n": 44,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 38,
+      "accel": 4,
+      "feel": 2
+     },
+     "dur": 0.73,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 618.77,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 632.62,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 3,
+      "accel": 5,
+      "turn": 32
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 646.75,
+     "max": 0.38,
+     "n": 23,
+     "act": "search",
+     "plan": "search",
+     "causes": {
+      "accel": 2,
+      "turn": 23
+     },
+     "dur": 0.38,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 74.88,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 4,
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 82.1,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 90.27,
+     "max": 0.58,
+     "n": 54,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32,
+      "accel": 6,
+      "feel": 4
+     },
+     "dur": 0.9,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 111.08,
+     "max": 0.35,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 3,
+      "turn": 25,
+      "feel": 2
+     },
+     "dur": 0.52,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 146.7,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.18
+    },
+    {
+     "t0": 155.13,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 164.67,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 204.22,
+     "max": 0.2,
+     "n": 4,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 16,
+      "accel": 4
+     },
+     "dur": 0.06,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 214.6,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 225.02,
+     "max": 0.55,
+     "n": 46,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 33,
+      "accel": 2,
+      "feel": 2
+     },
+     "dur": 0.76,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 243.35,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 20
+     },
+     "dur": 0.27,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 251.93,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.69
+    },
+    {
+     "t0": 269.47,
+     "max": 0.22,
+     "n": 6,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 5,
+      "accel": 5,
+      "turn": 13
+     },
+     "dur": 0.1,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 309.7,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 28
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.83
+    },
+    {
+     "t0": 336.1,
+     "max": 0.22,
+     "n": 6,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 22,
+      "accel": 1
+     },
+     "dur": 0.1,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 341.52,
+     "max": 0.27,
+     "n": 11,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 16
+     },
+     "dur": 0.18,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 347.08,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31,
+      "feel": 5,
+      "accel": 4
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 355.88,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 11
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 364.02,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 373.35,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 387.13,
+     "max": 0.3,
+     "n": 14,
+     "act": "search",
+     "plan": "search",
+     "causes": {
+      "accel": 2,
+      "turn": 18
+     },
+     "dur": 0.24,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 400.2,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 28
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 408.8,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 27
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 417.32,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 431.18,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 20,
+      "accel": 1
+     },
+     "dur": 0.27,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 437.35,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.25
+    },
+    {
+     "t0": 449.08,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 21
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 459.65,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 36
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 464.05,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 473.62,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 19
+     },
+     "dur": 0.26,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 543.13,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 47,
+      "accel": 5
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 566.23,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 618.93,
+     "max": 0.28,
+     "n": 13,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 3,
+      "turn": 21
+     },
+     "dur": 0.22,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 627,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 77.27,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 28
+     },
+     "dur": 0.51,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 112.67,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 5,
+      "turn": 16
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 122.2,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 138.28,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 37,
+      "feel": 2,
+      "accel": 2
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 145.98,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 170.07,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.46,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 298.98,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 306.62,
+     "max": 0.23,
+     "n": 8,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 14
+     },
+     "dur": 0.13,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 319.45,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 36
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 330.08,
+     "max": 0.3,
+     "n": 14,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 18
+     },
+     "dur": 0.24,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 379.25,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 8,
+      "turn": 19
+     },
+     "dur": 0.27,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 383.65,
+     "max": 0.65,
+     "n": 60,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 35,
+      "real": 2,
+      "feel": 4,
+      "accel": 4
+     },
+     "dur": 1,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 393.45,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 401.15,
+     "max": 0.27,
+     "n": 11,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 16
+     },
+     "dur": 0.18,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 413.62,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 443.02,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 15,
+      "accel": 2
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 463.9,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 508.13,
+     "max": 0.33,
+     "n": 18,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26,
+      "accel": 2
+     },
+     "dur": 0.3,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 513.37,
+     "max": 0.61,
+     "n": 60,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 34,
+      "accel": 6,
+      "feel": 5
+     },
+     "dur": 1,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 525.1,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 531.75,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 544.92,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 20
+     },
+     "dur": 0.26,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 550.05,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 558.85,
+     "max": 0.23,
+     "n": 8,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 14
+     },
+     "dur": 0.13,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 560.78,
+     "max": 0.33,
+     "n": 18,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "turn": 20
+     },
+     "dur": 0.3,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 569.62,
+     "max": 0.4,
+     "n": 24,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 582.48,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 3,
+      "turn": 21
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 590.8,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 605.92,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.35
+    },
+    {
+     "t0": 618.57,
+     "max": 0.4,
+     "n": 24,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 631.8,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 648.85,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 67.18,
+     "max": 0.3,
+     "n": 14,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 20
+     },
+     "dur": 0.24,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0.21
+    },
+    {
+     "t0": 75.52,
+     "max": 0.33,
+     "n": 18,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 20
+     },
+     "dur": 0.3,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 93.48,
+     "max": 0.2,
+     "n": 4,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 22,
+      "accel": 1
+     },
+     "dur": 0.07,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 163.95,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 9,
+      "turn": 31
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 185.4,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 36,
+      "accel": 1
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 205.18,
+     "max": 0.33,
+     "n": 18,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 22
+     },
+     "dur": 0.3,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 217.18,
+     "max": 0.23,
+     "n": 8,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 23
+     },
+     "dur": 0.14,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 234.32,
+     "max": 0.88,
+     "n": 44,
+     "act": "chase",
+     "plan": "intercept",
+     "causes": {
+      "turn": 40,
+      "real": 5,
+      "feel": 5,
+      "accel": 6
+     },
+     "dur": 0.73,
+     "lad": [
+      "sidestep",
+      "sidestep",
+      "replan"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 266.65,
+     "max": 0.23,
+     "n": 8,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 5,
+      "feel": 1,
+      "turn": 15
+     },
+     "dur": 0.13,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 302.75,
+     "max": 0.68,
+     "n": 63,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 7,
+      "turn": 39,
+      "real": 1,
+      "feel": 4
+     },
+     "dur": 1.05,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 320.18,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 343.58,
+     "max": 0.45,
+     "n": 29,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "turn": 28,
+      "accel": 2
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.14
+    },
+    {
+     "t0": 355.83,
+     "max": 0.32,
+     "n": 16,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "turn": 20
+     },
+     "dur": 0.27,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 372.05,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 383.82,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 404.43,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 417.38,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.21
+    },
+    {
+     "t0": 426.12,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.31,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 432.72,
+     "max": 0.4,
+     "n": 24,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 443.65,
+     "max": 0.23,
+     "n": 8,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 14
+     },
+     "dur": 0.13,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 450.57,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 462.3,
+     "max": 0.43,
+     "n": 39,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30,
+      "feel": 2,
+      "accel": 1
+     },
+     "dur": 0.65,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 475.65,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 487.43,
+     "max": 0.2,
+     "n": 4,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 12
+     },
+     "dur": 0.07,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 492.57,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.51,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 512.92,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 25
+     },
+     "dur": 0.43,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 520.82,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 26
+     },
+     "dur": 0.46,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 528.52,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 11
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 538.03,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 554.05,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 37
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 563.95,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 568.9,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 583.52,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 588.87,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 593.63,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 603.52,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 11
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 609.5,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 622.52,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 627.28,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 651.83,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 70.15,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 28
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 83.25,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 94.45,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 114.98,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29,
+      "accel": 2
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 143.92,
+     "max": 0.23,
+     "n": 8,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 14
+     },
+     "dur": 0.13,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 150.53,
+     "max": 0.42,
+     "n": 38,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29,
+      "feel": 2,
+      "accel": 1
+     },
+     "dur": 0.64,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 167.77,
+     "max": 0.2,
+     "n": 4,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 12
+     },
+     "dur": 0.06,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 175.93,
+     "max": 0.38,
+     "n": 23,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "feel": 3,
+      "accel": 2,
+      "turn": 23
+     },
+     "dur": 0.39,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 199.07,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 205.02,
+     "max": 0.46,
+     "n": 43,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31,
+      "feel": 2,
+      "accel": 2
+     },
+     "dur": 0.71,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 212.83,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 219.6,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "t0": 364.13,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 576.88,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 27
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 586.95,
+     "max": 0.54,
+     "n": 56,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 43
+     },
+     "dur": 3.6,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "t0": 643.63,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32,
+      "accel": 2
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    }
+   ],
+   "frozenEp": []
+  }
+ }
+}

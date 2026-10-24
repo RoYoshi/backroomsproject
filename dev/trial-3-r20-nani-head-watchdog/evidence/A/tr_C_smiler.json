@@ -1,0 +1,2446 @@
+{
+ "tree": "r20-n",
+ "patched": {
+  "hits": 4,
+  "grow": 456
+ },
+ "kinds": {
+  "smiler": {
+   "ticks": 241097,
+   "steerTicks": 52360,
+   "label": 295.7166666667264,
+   "labelFrozen": 254.16666666676107,
+   "labelFrozenStill": 254.11666666676103,
+   "labelOpen": 83.94999999999652,
+   "labelOpenFrozen": 66.14999999999753,
+   "grow": {
+    "real": 0.18333333333333332,
+    "turn": 36.99999999999918,
+    "vcap": 0,
+    "feel": 0.8166666666666675,
+    "accel": 1.483333333333333,
+    "hold": 0,
+    "other": 0
+   },
+   "growOpen": {
+    "real": 0,
+    "turn": 17.950000000000262,
+    "vcap": 0,
+    "feel": 0,
+    "accel": 0.8666666666666677,
+    "hold": 0,
+    "other": 0
+   },
+   "side": 72,
+   "replan": 0,
+   "wdChecks": 663,
+   "wdStuck": 23,
+   "wdEmb": 0,
+   "wdStuckIdleOK": 0,
+   "wdEvents": [
+    {
+     "run": 1,
+     "x": 7634,
+     "y": 4965,
+     "t": 514.5,
+     "stuck": true,
+     "emb": false,
+     "disp": 5,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "near",
+     "sp": 11,
+     "path": 6,
+     "clear": 27,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.45,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.93,
+      "steerFrac": 0.07
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 1,
+     "x": 7577,
+     "y": 3628,
+     "t": 610.77,
+     "stuck": true,
+     "emb": false,
+     "disp": 3,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 65,
+     "path": 3,
+     "clear": 21,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.61,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.84,
+      "steerFrac": 0.16
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 2,
+     "x": 5522,
+     "y": 4924,
+     "t": 179.62,
+     "stuck": true,
+     "emb": false,
+     "disp": 3,
+     "idle": false,
+     "stillNow": false,
+     "act": "search",
+     "state": "FOLLOWING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "near",
+     "sp": 12,
+     "path": 4,
+     "clear": 28,
+     "trav": false,
+     "why": "a loud run nearby",
+     "stuckT": 0.23,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.96,
+      "steerFrac": 0.04
+     },
+     "next": [
+      "-/lurk",
+      "-/search",
+      "-/drawn",
+      "-/search",
+      "-/drawn",
+      "-/search",
+      "-/rush",
+      "-/chase",
+      "-/stare"
+     ],
+     "nextWhy": [
+      "waiting in the dark",
+      "a loud run nearby",
+      "a fresher litwall lead",
+      "a loud run nearby",
+      "a fresher litwall lead",
+      "a loud run nearby",
+      "P100 walked in on it to point-blank (124 px, closed 12 px)",
+      "missed P100; they still carry a light",
+      "a kill: it lingers a moment, then goes back to the dark"
+     ]
+    },
+    {
+     "run": 2,
+     "x": 5475,
+     "y": 4967,
+     "t": 454.63,
+     "stuck": true,
+     "emb": false,
+     "disp": 2,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 6,
+     "clear": 25,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.23,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.96,
+      "steerFrac": 0.04
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 3,
+     "x": 2641,
+     "y": 5794,
+     "t": 201.58,
+     "stuck": true,
+     "emb": false,
+     "disp": 3,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "near",
+     "sp": 11,
+     "path": 2,
+     "clear": 49,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.28,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.95,
+      "steerFrac": 0.05
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 3,
+     "x": 3253,
+     "y": 4668,
+     "t": 274.83,
+     "stuck": true,
+     "emb": false,
+     "disp": 26,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 110,
+     "path": 2,
+     "clear": 85,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.94,
+      "steerFrac": 0.06
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 4,
+     "x": 3659,
+     "y": 1369,
+     "t": 252.68,
+     "stuck": true,
+     "emb": false,
+     "disp": 5,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 3,
+     "clear": 71,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.48,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.92,
+      "steerFrac": 0.08
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 4,
+     "x": 5306,
+     "y": 1245,
+     "t": 386.83,
+     "stuck": true,
+     "emb": false,
+     "disp": 1,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 3,
+     "clear": 29,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.12,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.98,
+      "steerFrac": 0.02
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 4,
+     "x": 5320,
+     "y": 1240,
+     "t": 410.9,
+     "stuck": true,
+     "emb": false,
+     "disp": 14,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 79,
+     "path": 2,
+     "clear": 43,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.25,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.88,
+      "steerFrac": 0.12
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 4,
+     "x": 4990,
+     "y": 1162,
+     "t": 548.45,
+     "stuck": true,
+     "emb": false,
+     "disp": 5,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 3,
+     "clear": 86,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.52,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.91,
+      "steerFrac": 0.09
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 5,
+     "x": 6969,
+     "y": 1686,
+     "t": 492.95,
+     "stuck": true,
+     "emb": false,
+     "disp": 17,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 88,
+     "path": 3,
+     "clear": 42,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.93,
+      "steerFrac": 0.07
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 5,
+     "x": 7417,
+     "y": 1678,
+     "t": 568.43,
+     "stuck": true,
+     "emb": false,
+     "disp": 5,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 4,
+     "clear": 25,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.53,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.91,
+      "steerFrac": 0.09
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 6,
+     "x": 6863,
+     "y": 1611,
+     "t": 307.65,
+     "stuck": true,
+     "emb": false,
+     "disp": 3,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 52,
+     "path": 2,
+     "clear": 75,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.98,
+      "steerFrac": 0.02
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 6,
+     "x": 6853,
+     "y": 1596,
+     "t": 331.72,
+     "stuck": true,
+     "emb": false,
+     "disp": 18,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "near",
+     "sp": 90,
+     "path": 3,
+     "clear": 60,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.02,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.88,
+      "steerFrac": 0.12
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 6,
+     "x": 6856,
+     "y": 1579,
+     "t": 355.78,
+     "stuck": true,
+     "emb": false,
+     "disp": 17,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 83,
+     "path": 4,
+     "clear": 43,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.91,
+      "steerFrac": 0.09
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 6,
+     "x": 7092,
+     "y": 1677,
+     "t": 650.65,
+     "stuck": true,
+     "emb": false,
+     "disp": 1,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 2,
+     "clear": 51,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.05,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.99,
+      "steerFrac": 0.01
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 7,
+     "x": 5609,
+     "y": 862,
+     "t": 242.25,
+     "stuck": true,
+     "emb": false,
+     "disp": 2,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 43,
+     "path": 2,
+     "clear": 137,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.99,
+      "steerFrac": 0.01
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 7,
+     "x": 4289,
+     "y": 723,
+     "t": 525.62,
+     "stuck": true,
+     "emb": false,
+     "disp": 1,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "near",
+     "sp": 11,
+     "path": 3,
+     "clear": 31,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.12,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.98,
+      "steerFrac": 0.02
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 7,
+     "x": 4289,
+     "y": 723,
+     "t": 549.68,
+     "stuck": true,
+     "emb": false,
+     "disp": 1,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 2,
+     "clear": 31,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.17,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.99,
+      "steerFrac": 0.01
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 7,
+     "x": 4292,
+     "y": 722,
+     "t": 573.75,
+     "stuck": true,
+     "emb": false,
+     "disp": 2,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 3,
+     "clear": 28,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.38,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.96,
+      "steerFrac": 0.04
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 7,
+     "x": 4298,
+     "y": 727,
+     "t": 597.82,
+     "stuck": true,
+     "emb": false,
+     "disp": 9,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 30,
+     "path": 2,
+     "clear": 22,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.21,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.93,
+      "steerFrac": 0.07
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 8,
+     "x": 3637,
+     "y": 4297,
+     "t": 192.37,
+     "stuck": true,
+     "emb": false,
+     "disp": 13,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 57,
+     "path": 3,
+     "clear": 23,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.85,
+      "steerFrac": 0.15
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 8,
+     "x": 2533,
+     "y": 5662,
+     "t": 600.43,
+     "stuck": true,
+     "emb": false,
+     "disp": 0,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 3,
+     "clear": 98,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0.03,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.99,
+      "steerFrac": 0.01
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    }
+   ],
+   "episodes": [
+    {
+     "run": 1,
+     "x": 8406,
+     "y": 4941,
+     "err0": -1.85,
+     "sp0": 11,
+     "t0": 116.4,
+     "max": 0.3,
+     "n": 14,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 20,
+      "feel": 3
+     },
+     "dur": 0.23,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 1,
+     "x": 7636,
+     "y": 4967,
+     "err0": 2.54,
+     "sp0": 9,
+     "t0": 135.53,
+     "max": 0.52,
+     "n": 58,
+     "act": "drawn",
+     "plan": "FOLLOWING",
+     "causes": {
+      "turn": 31,
+      "accel": 5
+     },
+     "dur": 0.97,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0.24,
+     "openFrac": 0
+    },
+    {
+     "run": 1,
+     "x": 7108,
+     "y": 4295,
+     "err0": 2.44,
+     "sp0": 11,
+     "t0": 179.8,
+     "max": 0.5,
+     "n": 34,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "accel": 1,
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 1,
+     "x": 8637,
+     "y": 4205,
+     "err0": -2.67,
+     "sp0": 11,
+     "t0": 290.13,
+     "max": 0.57,
+     "n": 41,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "accel": 2,
+      "turn": 34
+     },
+     "dur": 0.69,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 8162,
+     "y": 4291,
+     "err0": -2.55,
+     "sp0": 11,
+     "t0": 319.47,
+     "max": 0.53,
+     "n": 38,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 32
+     },
+     "dur": 0.63,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 8637,
+     "y": 4251,
+     "err0": -2.56,
+     "sp0": 11,
+     "t0": 348.8,
+     "max": 0.53,
+     "n": 38,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 32
+     },
+     "dur": 0.63,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 8204,
+     "y": 4195,
+     "err0": 1.64,
+     "sp0": 11,
+     "t0": 389.88,
+     "max": 0.23,
+     "n": 8,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 15
+     },
+     "dur": 0.14,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 8443,
+     "y": 4131,
+     "err0": 2.23,
+     "sp0": 11,
+     "t0": 446.42,
+     "max": 0.42,
+     "n": 26,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 25
+     },
+     "dur": 0.43,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 8089,
+     "y": 4959,
+     "err0": 1.62,
+     "sp0": 11,
+     "t0": 485.32,
+     "max": 0.22,
+     "n": 6,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "accel": 1,
+      "turn": 13
+     },
+     "dur": 0.1,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 7635,
+     "y": 4968,
+     "err0": 2.5,
+     "sp0": 11,
+     "t0": 514.22,
+     "max": 0.52,
+     "n": 1495,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 24.91,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0.98,
+     "openFrac": 0
+    },
+    {
+     "run": 1,
+     "x": 7203,
+     "y": 4295,
+     "err0": 1.63,
+     "sp0": 11,
+     "t0": 578.07,
+     "max": 0.23,
+     "n": 8,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 14
+     },
+     "dur": 0.13,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 1,
+     "x": 7580,
+     "y": 3626,
+     "err0": 2.63,
+     "sp0": 11,
+     "t0": 609.95,
+     "max": 0.81,
+     "n": 1547,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 54,
+      "real": 3,
+      "accel": 2,
+      "feel": 3
+     },
+     "dur": 27.1,
+     "lad": [
+      "sidestep",
+      "sidestep",
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0.94,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 6273,
+     "y": 2952,
+     "err0": -2.47,
+     "sp0": 12,
+     "t0": 90.25,
+     "max": 0.5,
+     "n": 34,
+     "act": "search",
+     "plan": "FOLLOWING",
+     "causes": {
+      "accel": 1,
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 6524,
+     "y": 5011,
+     "err0": -2.15,
+     "sp0": 9,
+     "t0": 157.35,
+     "max": 0.4,
+     "n": 24,
+     "act": "drawn",
+     "plan": "FOLLOWING",
+     "causes": {
+      "accel": 1,
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 5522,
+     "y": 4925,
+     "err0": 2.41,
+     "sp0": 12,
+     "t0": 179.55,
+     "max": 0.68,
+     "n": 72,
+     "act": "search",
+     "plan": "FOLLOWING",
+     "causes": {
+      "accel": 6,
+      "turn": 42,
+      "feel": 1
+     },
+     "dur": 1.2,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0.1,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 6290,
+     "y": 5678,
+     "err0": -1.43,
+     "sp0": 15,
+     "t0": 208.65,
+     "max": 0.17,
+     "n": 1,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "accel": 1,
+      "turn": 10
+     },
+     "dur": 0.02,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 6497,
+     "y": 5042,
+     "err0": 2.1,
+     "sp0": 11,
+     "t0": 240.32,
+     "max": 0.38,
+     "n": 23,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 23
+     },
+     "dur": 0.38,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 7032,
+     "y": 5853,
+     "err0": -2.57,
+     "sp0": 12,
+     "t0": 271.4,
+     "max": 0.53,
+     "n": 38,
+     "act": "search",
+     "plan": "FOLLOWING",
+     "causes": {
+      "turn": 32
+     },
+     "dur": 0.63,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 6381,
+     "y": 4249,
+     "err0": -2.62,
+     "sp0": 11,
+     "t0": 349.93,
+     "max": 0.55,
+     "n": 39,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "accel": 1,
+      "turn": 34
+     },
+     "dur": 0.65,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 6428,
+     "y": 4966,
+     "err0": 2.61,
+     "sp0": 11,
+     "t0": 419.97,
+     "max": 0.55,
+     "n": 39,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "accel": 1,
+      "turn": 33
+     },
+     "dur": 0.65,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 5475,
+     "y": 4968,
+     "err0": 2.32,
+     "sp0": 11,
+     "t0": 454.57,
+     "max": 0.45,
+     "n": 1534,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 25.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0.98,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 5236,
+     "y": 4292,
+     "err0": -2.67,
+     "sp0": 11,
+     "t0": 546.03,
+     "max": 0.57,
+     "n": 51,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "accel": 2,
+      "turn": 36,
+      "feel": 3
+     },
+     "dur": 0.85,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 5449,
+     "y": 4988,
+     "err0": -2.66,
+     "sp0": 11,
+     "t0": 591.02,
+     "max": 0.84,
+     "n": 75,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 44,
+      "real": 3,
+      "accel": 3,
+      "feel": 4
+     },
+     "dur": 1.25,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 4751,
+     "y": 3734,
+     "err0": -1.69,
+     "sp0": 11,
+     "t0": 654.7,
+     "max": 0.25,
+     "n": 9,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "accel": 7,
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 3957,
+     "y": 5605,
+     "err0": -2.1,
+     "sp0": 11,
+     "t0": 117.7,
+     "max": 0.38,
+     "n": 23,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "accel": 9,
+      "turn": 24
+     },
+     "dur": 0.38,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.87
+    },
+    {
+     "run": 3,
+     "x": 2643,
+     "y": 5793,
+     "err0": -2.65,
+     "sp0": 11,
+     "t0": 201.47,
+     "max": 0.43,
+     "n": 1491,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 24.85,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0.98,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 3255,
+     "y": 4667,
+     "err0": 2.27,
+     "sp0": 11,
+     "t0": 299.23,
+     "max": 0.43,
+     "n": 28,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 33,
+      "accel": 1
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 2871,
+     "y": 5426,
+     "err0": 2.43,
+     "sp0": 11,
+     "t0": 344.2,
+     "max": 0.48,
+     "n": 33,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 3081,
+     "y": 4942,
+     "err0": -2.55,
+     "sp0": 11,
+     "t0": 373.82,
+     "max": 0.53,
+     "n": 38,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 32
+     },
+     "dur": 0.63,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.21
+    },
+    {
+     "run": 3,
+     "x": 2050,
+     "y": 5853,
+     "err0": 2.59,
+     "sp0": 11,
+     "t0": 436.28,
+     "max": 0.55,
+     "n": 39,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 34
+     },
+     "dur": 0.65,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 2794,
+     "y": 6000,
+     "err0": -2.67,
+     "sp0": 11,
+     "t0": 515.82,
+     "max": 0.57,
+     "n": 41,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 39
+     },
+     "dur": 0.68,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 3724,
+     "y": 2547,
+     "err0": -2.6,
+     "sp0": 11,
+     "t0": 112.05,
+     "max": 0.55,
+     "n": 39,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "accel": 1,
+      "turn": 33
+     },
+     "dur": 0.65,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 3765,
+     "y": 3022,
+     "err0": -2.64,
+     "sp0": 11,
+     "t0": 140.28,
+     "max": 0.57,
+     "n": 41,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 34
+     },
+     "dur": 0.69,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 4034,
+     "y": 1576,
+     "err0": -1.97,
+     "sp0": 12,
+     "t0": 221.07,
+     "max": 0.35,
+     "n": 21,
+     "act": "search",
+     "plan": "FOLLOWING",
+     "causes": {
+      "accel": 1,
+      "turn": 23
+     },
+     "dur": 0.35,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 4,
+     "x": 4032,
+     "y": 1569,
+     "err0": -0.92,
+     "sp0": 12,
+     "t0": 221.43,
+     "max": 0.16,
+     "n": 1,
+     "act": "search",
+     "plan": "FOLLOWING",
+     "causes": {
+      "feel": 1
+     },
+     "dur": 0.02,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 4,
+     "x": 3662,
+     "y": 1367,
+     "err0": -2.53,
+     "sp0": 11,
+     "t0": 252.37,
+     "max": 0.5,
+     "n": 1124,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 18.73,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0.97,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 5372,
+     "y": 746,
+     "err0": 2.61,
+     "sp0": 11,
+     "t0": 338.12,
+     "max": 0.76,
+     "n": 66,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "accel": 3,
+      "turn": 43,
+      "real": 2,
+      "feel": 3
+     },
+     "dur": 1.1,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 4,
+     "x": 5307,
+     "y": 1246,
+     "err0": -2.77,
+     "sp0": 11,
+     "t0": 410.23,
+     "max": 0.6,
+     "n": 1444,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 37
+     },
+     "dur": 24.07,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0.97,
+     "openFrac": 0
+    },
+    {
+     "run": 4,
+     "x": 5804,
+     "y": 1562,
+     "err0": -2.64,
+     "sp0": 11,
+     "t0": 479.37,
+     "max": 0.62,
+     "n": 60,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 39,
+      "real": 1,
+      "feel": 5
+     },
+     "dur": 1,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 4,
+     "x": 5307,
+     "y": 819,
+     "err0": -2.08,
+     "sp0": 11,
+     "t0": 519.87,
+     "max": 0.38,
+     "n": 23,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 23
+     },
+     "dur": 0.38,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 4990,
+     "y": 1158,
+     "err0": -2.63,
+     "sp0": 11,
+     "t0": 548.1,
+     "max": 0.57,
+     "n": 1436,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 34
+     },
+     "dur": 23.93,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0.97,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 5338,
+     "y": 767,
+     "err0": 2.61,
+     "sp0": 11,
+     "t0": 647.33,
+     "max": 0.55,
+     "n": 39,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 33
+     },
+     "dur": 0.65,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 7417,
+     "y": 1581,
+     "err0": 2.68,
+     "sp0": 12,
+     "t0": 108.7,
+     "max": 0.7,
+     "n": 63,
+     "act": "search",
+     "plan": "FOLLOWING",
+     "causes": {
+      "accel": 2,
+      "turn": 40,
+      "real": 2,
+      "feel": 4
+     },
+     "dur": 1.05,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 6789,
+     "y": 963,
+     "err0": -2.52,
+     "sp0": 11,
+     "t0": 145.22,
+     "max": 0.52,
+     "n": 36,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 32
+     },
+     "dur": 0.6,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 7068,
+     "y": 1680,
+     "err0": -1.83,
+     "sp0": 11,
+     "t0": 176.7,
+     "max": 0.3,
+     "n": 14,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 18
+     },
+     "dur": 0.23,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 7104,
+     "y": 1691,
+     "err0": 2.22,
+     "sp0": 11,
+     "t0": 239.5,
+     "max": 0.42,
+     "n": 31,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 28,
+      "accel": 2,
+      "feel": 1
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 6386,
+     "y": 1696,
+     "err0": 1.63,
+     "sp0": 9,
+     "t0": 261.48,
+     "max": 0.23,
+     "n": 8,
+     "act": "drawn",
+     "plan": "FOLLOWING",
+     "causes": {
+      "turn": 14
+     },
+     "dur": 0.14,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 6990,
+     "y": 1554,
+     "err0": -2.15,
+     "sp0": 11,
+     "t0": 267.92,
+     "max": 0.4,
+     "n": 24,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 6482,
+     "y": 1651,
+     "err0": -2.47,
+     "sp0": 11,
+     "t0": 296.52,
+     "max": 0.5,
+     "n": 34,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 7149,
+     "y": 1695,
+     "err0": -2.63,
+     "sp0": 11,
+     "t0": 346,
+     "max": 0.55,
+     "n": 39,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 33
+     },
+     "dur": 0.65,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.08
+    },
+    {
+     "run": 5,
+     "x": 6758,
+     "y": 1488,
+     "err0": -2.09,
+     "sp0": 11,
+     "t0": 374.38,
+     "max": 0.38,
+     "n": 23,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 23
+     },
+     "dur": 0.39,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 6147,
+     "y": 1697,
+     "err0": -2.48,
+     "sp0": 11,
+     "t0": 413.55,
+     "max": 0.5,
+     "n": 43,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 32,
+      "feel": 3
+     },
+     "dur": 0.72,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 7421,
+     "y": 1677,
+     "err0": 2.68,
+     "sp0": 11,
+     "t0": 568.07,
+     "max": 0.6,
+     "n": 1449,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "feel": 3,
+      "turn": 45,
+      "accel": 1
+     },
+     "dur": 24.15,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0.96,
+     "openFrac": 0
+    },
+    {
+     "run": 6,
+     "x": 8454,
+     "y": 1225,
+     "err0": 1.83,
+     "sp0": 11,
+     "t0": 98.12,
+     "max": 0.3,
+     "n": 14,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 19
+     },
+     "dur": 0.23,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 7171,
+     "y": 1678,
+     "err0": -2.67,
+     "sp0": 11,
+     "t0": 172.43,
+     "max": 0.57,
+     "n": 48,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 37,
+      "accel": 7,
+      "feel": 2
+     },
+     "dur": 0.8,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 6,
+     "x": 7086,
+     "y": 1203,
+     "err0": 2.46,
+     "sp0": 9,
+     "t0": 182.47,
+     "max": 0.5,
+     "n": 34,
+     "act": "drawn",
+     "plan": "FOLLOWING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 6098,
+     "y": 1456,
+     "err0": -2.68,
+     "sp0": 11,
+     "t0": 219.03,
+     "max": 0.57,
+     "n": 41,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "accel": 1,
+      "turn": 34
+     },
+     "dur": 0.69,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 6674,
+     "y": 1641,
+     "err0": 2.02,
+     "sp0": 11,
+     "t0": 249.5,
+     "max": 0.35,
+     "n": 19,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 6243,
+     "y": 1697,
+     "err0": -2.54,
+     "sp0": 11,
+     "t0": 277.85,
+     "max": 0.53,
+     "n": 44,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 34,
+      "feel": 2
+     },
+     "dur": 0.73,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 6,
+     "x": 6864,
+     "y": 1610,
+     "err0": -2.31,
+     "sp0": 11,
+     "t0": 331.15,
+     "max": 0.45,
+     "n": 29,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "accel": 1,
+      "turn": 27
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 6852,
+     "y": 1595,
+     "err0": 1.88,
+     "sp0": 11,
+     "t0": 355.35,
+     "max": 0.31,
+     "n": 16,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 17
+     },
+     "dur": 0.27,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 6856,
+     "y": 1577,
+     "err0": -1.44,
+     "sp0": 14,
+     "t0": 385.75,
+     "max": 0.17,
+     "n": 1,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 10
+     },
+     "dur": 0.02,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 6,
+     "x": 6787,
+     "y": 915,
+     "err0": -2.16,
+     "sp0": 11,
+     "t0": 447.12,
+     "max": 0.4,
+     "n": 24,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "feel": 3,
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 6,
+     "x": 7785,
+     "y": 1970,
+     "err0": -2.63,
+     "sp0": 11,
+     "t0": 615.53,
+     "max": 0.55,
+     "n": 39,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 44,
+      "accel": 6
+     },
+     "dur": 0.65,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 7090,
+     "y": 1630,
+     "err0": 1.87,
+     "sp0": 11,
+     "t0": 139.37,
+     "max": 0.3,
+     "n": 14,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "accel": 1,
+      "turn": 18
+     },
+     "dur": 0.23,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 6788,
+     "y": 964,
+     "err0": -1.9,
+     "sp0": 11,
+     "t0": 178.57,
+     "max": 0.32,
+     "n": 16,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 19
+     },
+     "dur": 0.26,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 7,
+     "x": 5608,
+     "y": 861,
+     "err0": -2.15,
+     "sp0": 9,
+     "t0": 262.6,
+     "max": 0.4,
+     "n": 54,
+     "act": "drawn",
+     "plan": "FOLLOWING",
+     "causes": {
+      "turn": 28,
+      "accel": 6
+     },
+     "dur": 0.9,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0.39,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 4186,
+     "y": 720,
+     "err0": 2.01,
+     "sp0": 11,
+     "t0": 463.75,
+     "max": 0.35,
+     "n": 19,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 31,
+      "accel": 2
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 4293,
+     "y": 1437,
+     "err0": -2.61,
+     "sp0": 11,
+     "t0": 494.5,
+     "max": 0.55,
+     "n": 41,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 34
+     },
+     "dur": 0.68,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 8,
+     "x": 2928,
+     "y": 4257,
+     "err0": -2.62,
+     "sp0": 11,
+     "t0": 127.78,
+     "max": 0.55,
+     "n": 39,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 35,
+      "accel": 2
+     },
+     "dur": 0.65,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.05
+    },
+    {
+     "run": 8,
+     "x": 3411,
+     "y": 3930,
+     "err0": 1.44,
+     "sp0": 15,
+     "t0": 160.3,
+     "max": 0.17,
+     "n": 1,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 10
+     },
+     "dur": 0.02,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 3646,
+     "y": 4287,
+     "err0": 2.26,
+     "sp0": 11,
+     "t0": 191.62,
+     "max": 0.43,
+     "n": 33,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 28,
+      "feel": 1
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 8,
+     "x": 3525,
+     "y": 3891,
+     "err0": -2.65,
+     "sp0": 11,
+     "t0": 253.33,
+     "max": 0.57,
+     "n": 41,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "feel": 2,
+      "accel": 1,
+      "turn": 34
+     },
+     "dur": 0.69,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 8,
+     "x": 3644,
+     "y": 4250,
+     "err0": 2.67,
+     "sp0": 11,
+     "t0": 284.87,
+     "max": 0.57,
+     "n": 41,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 34
+     },
+     "dur": 0.68,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 8,
+     "x": 3482,
+     "y": 3938,
+     "err0": -1.59,
+     "sp0": 11,
+     "t0": 376.72,
+     "max": 0.22,
+     "n": 6,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 13
+     },
+     "dur": 0.1,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 2834,
+     "y": 4289,
+     "err0": -2.54,
+     "sp0": 11,
+     "t0": 448.47,
+     "max": 0.53,
+     "n": 44,
+     "act": "fade",
+     "plan": "DISAPPEARING",
+     "causes": {
+      "turn": 34,
+      "feel": 2
+     },
+     "dur": 0.73,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    }
+   ],
+   "frozenEp": []
+  }
+ }
+}

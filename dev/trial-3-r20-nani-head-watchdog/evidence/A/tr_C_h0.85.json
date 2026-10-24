@@ -1,0 +1,6096 @@
+{
+ "tree": "r20-n",
+ "patched": {
+  "hits": 4,
+  "grow": 456
+ },
+ "kinds": {
+  "skinstealer": {
+   "ticks": 213108,
+   "steerTicks": 178483,
+   "label": 125.13333333332751,
+   "labelFrozen": 0.4833333333333333,
+   "labelFrozenStill": 0.4833333333333333,
+   "labelOpen": 90.99999999999612,
+   "labelOpenFrozen": 0.4833333333333333,
+   "grow": {
+    "real": 0.18333333333333332,
+    "turn": 119.0166666666612,
+    "vcap": 0,
+    "feel": 2.7333333333333285,
+    "accel": 5.6833333333333185,
+    "hold": 0,
+    "other": 0
+   },
+   "growOpen": {
+    "real": 0.06666666666666667,
+    "turn": 94.69999999999591,
+    "vcap": 0,
+    "feel": 0,
+    "accel": 2.2166666666666637,
+    "hold": 0,
+    "other": 0
+   },
+   "side": 214,
+   "replan": 0,
+   "wdChecks": 586,
+   "wdStuck": 3,
+   "wdEmb": 0,
+   "wdStuckIdleOK": 0,
+   "wdEvents": [
+    {
+     "run": 4,
+     "x": 2051,
+     "y": 5947,
+     "t": 315.68,
+     "stuck": true,
+     "emb": false,
+     "disp": 0,
+     "idle": false,
+     "stillNow": false,
+     "act": "",
+     "state": "ROAMING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 0,
+     "path": 3,
+     "clear": 61,
+     "trav": false,
+     "why": "fed: it roams again",
+     "stuckT": 0.02,
+     "win": {
+      "stillFrac": 0.95,
+      "slowFrac": 1,
+      "steerFrac": 0
+     },
+     "next": [
+      "-/",
+      "-/listen"
+     ],
+     "nextWhy": [
+      "stuck: the watchdog cleared its route",
+      "roaming the dark"
+     ]
+    },
+    {
+     "run": 5,
+     "x": 3587,
+     "y": 5987,
+     "t": 562.7,
+     "stuck": true,
+     "emb": false,
+     "disp": 24,
+     "idle": false,
+     "stillNow": false,
+     "act": "",
+     "state": "ROAMING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "near",
+     "sp": 176,
+     "path": 1,
+     "clear": 61,
+     "trav": false,
+     "why": "roaming the dark",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.03,
+      "steerFrac": 0.96
+     },
+     "next": [
+      "-/"
+     ],
+     "nextWhy": [
+      "stuck: the watchdog cleared its route",
+      "roaming the dark"
+     ]
+    },
+    {
+     "run": 7,
+     "x": 1411,
+     "y": 3367,
+     "t": 576.58,
+     "stuck": true,
+     "emb": false,
+     "disp": 20,
+     "idle": false,
+     "stillNow": false,
+     "act": "search",
+     "state": "SEARCHING",
+     "plan": "search",
+     "planStuck": 0,
+     "tier": "near",
+     "sp": 103,
+     "path": 4,
+     "clear": 29,
+     "trav": false,
+     "why": "it goes to where it believes P102 is (heard 3 s ago)",
+     "stuckT": 0.04,
+     "win": {
+      "stillFrac": 0.9,
+      "slowFrac": 0.9,
+      "steerFrac": 0.1
+     },
+     "next": [
+      "search/search",
+      "approach/pace",
+      "watch/watch",
+      "leave/leave"
+     ],
+     "nextWhy": [
+      "stuck: the watchdog cleared its route",
+      "P101 is moving off: it comes on, fast (its press)",
+      "it watches P101",
+      "it decides against P101"
+     ]
+    }
+   ],
+   "episodes": [
+    {
+     "run": 1,
+     "x": 8722,
+     "y": 5994,
+     "err0": 2.61,
+     "sp0": 18,
+     "t0": 65.02,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 6247,
+     "y": 4956,
+     "err0": -2.57,
+     "sp0": 18,
+     "t0": 86.68,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 39
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 4034,
+     "y": 5763,
+     "err0": 2.01,
+     "sp0": 23,
+     "t0": 134.22,
+     "max": 0.33,
+     "n": 18,
+     "act": "search",
+     "plan": "search",
+     "causes": {
+      "turn": 24,
+      "accel": 4
+     },
+     "dur": 0.3,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 3302,
+     "y": 5497,
+     "err0": -1.61,
+     "sp0": 27,
+     "t0": 138.77,
+     "max": 0.2,
+     "n": 4,
+     "act": "intercept",
+     "plan": "approach",
+     "causes": {
+      "feel": 4,
+      "accel": 6,
+      "turn": 12
+     },
+     "dur": 0.06,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 3331,
+     "y": 5635,
+     "err0": 2.09,
+     "sp0": 23,
+     "t0": 140.17,
+     "max": 0.37,
+     "n": 21,
+     "act": "search",
+     "plan": "search",
+     "causes": {
+      "turn": 22
+     },
+     "dur": 0.35,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1279,
+     "y": 4395,
+     "err0": 2.05,
+     "sp0": 16,
+     "t0": 157.9,
+     "max": 0.33,
+     "n": 18,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "feel": 2,
+      "accel": 7,
+      "turn": 20
+     },
+     "dur": 0.3,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 534,
+     "y": 5987,
+     "err0": 2.68,
+     "sp0": 21,
+     "t0": 170.18,
+     "max": 0.52,
+     "n": 36,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 0.6,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1248,
+     "y": 4485,
+     "err0": 1.81,
+     "sp0": 18,
+     "t0": 179.73,
+     "max": 0.27,
+     "n": 11,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 16
+     },
+     "dur": 0.19,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1992,
+     "y": 4872,
+     "err0": 1.51,
+     "sp0": 18,
+     "t0": 186.33,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 11
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1271,
+     "y": 5624,
+     "err0": -2.27,
+     "sp0": 18,
+     "t0": 193.3,
+     "max": 0.4,
+     "n": 24,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 2042,
+     "y": 5672,
+     "err0": -2.62,
+     "sp0": 18,
+     "t0": 198.8,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1019,
+     "y": 4181,
+     "err0": 1.67,
+     "sp0": 23,
+     "t0": 214.47,
+     "max": 0.23,
+     "n": 8,
+     "act": "search",
+     "plan": "search",
+     "causes": {
+      "accel": 2,
+      "turn": 14
+     },
+     "dur": 0.13,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1037,
+     "y": 4383,
+     "err0": 1.75,
+     "sp0": 23,
+     "t0": 218.42,
+     "max": 0.25,
+     "n": 9,
+     "act": "search",
+     "plan": "search",
+     "causes": {
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 3237,
+     "y": 4872,
+     "err0": -2.36,
+     "sp0": 18,
+     "t0": 265.22,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 36,
+      "accel": 5
+     },
+     "dur": 0.46,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 4406,
+     "y": 3578,
+     "err0": 2.23,
+     "sp0": 18,
+     "t0": 339.75,
+     "max": 0.4,
+     "n": 24,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 5,
+      "accel": 4,
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1323,
+     "y": 4873,
+     "err0": 1.47,
+     "sp0": 18,
+     "t0": 378.65,
+     "max": 0.17,
+     "n": 1,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 10
+     },
+     "dur": 0.02,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1170,
+     "y": 5297,
+     "err0": 1.58,
+     "sp0": 18,
+     "t0": 388.62,
+     "max": 0.2,
+     "n": 4,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 19
+     },
+     "dur": 0.06,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1805,
+     "y": 5421,
+     "err0": -2.61,
+     "sp0": 18,
+     "t0": 393.68,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1966,
+     "y": 5580,
+     "err0": 2.4,
+     "sp0": 18,
+     "t0": 399.23,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 758,
+     "y": 5931,
+     "err0": -1.73,
+     "sp0": 18,
+     "t0": 409.8,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 17
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1802,
+     "y": 5675,
+     "err0": -1.53,
+     "sp0": 18,
+     "t0": 416.77,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 11
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1469,
+     "y": 5927,
+     "err0": 1.84,
+     "sp0": 18,
+     "t0": 447.42,
+     "max": 0.28,
+     "n": 13,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 32
+     },
+     "dur": 0.21,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 855,
+     "y": 5063,
+     "err0": -2.48,
+     "sp0": 18,
+     "t0": 454.38,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 716,
+     "y": 5885,
+     "err0": -1.73,
+     "sp0": 18,
+     "t0": 460.62,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1437,
+     "y": 5250,
+     "err0": 2.6,
+     "sp0": 18,
+     "t0": 467.22,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 936,
+     "y": 5819,
+     "err0": -2.56,
+     "sp0": 18,
+     "t0": 473.2,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1456,
+     "y": 5065,
+     "err0": -2.61,
+     "sp0": 18,
+     "t0": 479.92,
+     "max": 0.6,
+     "n": 44,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32,
+      "real": 4
+     },
+     "dur": 0.73,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 2079,
+     "y": 5478,
+     "err0": 2.29,
+     "sp0": 18,
+     "t0": 490.72,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 25
+     },
+     "dur": 0.43,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 762,
+     "y": 4254,
+     "err0": -2.44,
+     "sp0": 18,
+     "t0": 505.73,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1480,
+     "y": 5987,
+     "err0": 2.1,
+     "sp0": 18,
+     "t0": 520.38,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1595,
+     "y": 4150,
+     "err0": 2.56,
+     "sp0": 18,
+     "t0": 536.88,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 4,
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 597,
+     "y": 4953,
+     "err0": -2.6,
+     "sp0": 18,
+     "t0": 546.05,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1655,
+     "y": 4291,
+     "err0": 2.48,
+     "sp0": 18,
+     "t0": 554.8,
+     "max": 0.5,
+     "n": 54,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32,
+      "feel": 5,
+      "accel": 5
+     },
+     "dur": 0.9,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 1,
+     "x": 455,
+     "y": 5797,
+     "err0": 1.73,
+     "sp0": 18,
+     "t0": 572.92,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 4,
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1201,
+     "y": 4724,
+     "err0": 2.39,
+     "sp0": 18,
+     "t0": 581.72,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.46,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 2089,
+     "y": 5492,
+     "err0": -1.53,
+     "sp0": 18,
+     "t0": 594.92,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 11
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 2647,
+     "y": 5286,
+     "err0": 2.45,
+     "sp0": 18,
+     "t0": 616.35,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 1639,
+     "y": 4054,
+     "err0": 2.57,
+     "sp0": 18,
+     "t0": 641.4,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 1,
+     "x": 2061,
+     "y": 5552,
+     "err0": 2.49,
+     "sp0": 18,
+     "t0": 658.15,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 6087,
+     "y": 2758,
+     "err0": 2.37,
+     "sp0": 18,
+     "t0": 64.65,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 7197,
+     "y": 3040,
+     "err0": 2.41,
+     "sp0": 18,
+     "t0": 74.43,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 6602,
+     "y": 3576,
+     "err0": -2.66,
+     "sp0": 16,
+     "t0": 114.7,
+     "max": 0.52,
+     "n": 36,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 0.6,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 8716,
+     "y": 5316,
+     "err0": 2.6,
+     "sp0": 16,
+     "t0": 149.7,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31,
+      "accel": 1
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 8146,
+     "y": 4489,
+     "err0": -2.37,
+     "sp0": 16,
+     "t0": 158.87,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.46,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 8088,
+     "y": 5686,
+     "err0": 1.52,
+     "sp0": 16,
+     "t0": 168.77,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 11
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 8477,
+     "y": 2715,
+     "err0": -1.55,
+     "sp0": 16,
+     "t0": 197.82,
+     "max": 0.2,
+     "n": 4,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 13
+     },
+     "dur": 0.06,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 6967,
+     "y": 3543,
+     "err0": -2.38,
+     "sp0": 16,
+     "t0": 211.35,
+     "max": 0.43,
+     "n": 28,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "accel": 1,
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 8538,
+     "y": 3527,
+     "err0": -2.51,
+     "sp0": 16,
+     "t0": 221.82,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.51,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 8114,
+     "y": 4493,
+     "err0": 2.05,
+     "sp0": 16,
+     "t0": 235.32,
+     "max": 0.33,
+     "n": 18,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 33
+     },
+     "dur": 0.3,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 8089,
+     "y": 3196,
+     "err0": 2.62,
+     "sp0": 16,
+     "t0": 244.85,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 6716,
+     "y": 1617,
+     "err0": -2.37,
+     "sp0": 16,
+     "t0": 277.47,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 33
+     },
+     "dur": 0.46,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 5541,
+     "y": 4940,
+     "err0": 2.23,
+     "sp0": 17,
+     "t0": 340.83,
+     "max": 0.42,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27,
+      "feel": 3,
+      "accel": 2
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 5541,
+     "y": 4924,
+     "err0": 0.24,
+     "sp0": 24,
+     "t0": 341.45,
+     "max": 0.16,
+     "n": 1,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 1,
+      "accel": 1
+     },
+     "dur": 0.02,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 5542,
+     "y": 4923,
+     "err0": 0.12,
+     "sp0": 22,
+     "t0": 341.5,
+     "max": 0.17,
+     "n": 1,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 1,
+      "accel": 1
+     },
+     "dur": 0.02,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 8114,
+     "y": 4729,
+     "err0": -1.97,
+     "sp0": 17,
+     "t0": 410.55,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 19
+     },
+     "dur": 0.27,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 8148,
+     "y": 4700,
+     "err0": -1.7,
+     "sp0": 17,
+     "t0": 418.8,
+     "max": 0.23,
+     "n": 8,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 14
+     },
+     "dur": 0.13,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 7754,
+     "y": 4925,
+     "err0": 2.48,
+     "sp0": 17,
+     "t0": 422.4,
+     "max": 0.53,
+     "n": 56,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32,
+      "feel": 5,
+      "accel": 6
+     },
+     "dur": 0.93,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 8472,
+     "y": 4287,
+     "err0": 2.61,
+     "sp0": 17,
+     "t0": 430.1,
+     "max": 0.51,
+     "n": 51,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 34,
+      "feel": 3,
+      "accel": 3
+     },
+     "dur": 0.85,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 8052,
+     "y": 4922,
+     "err0": 2.59,
+     "sp0": 17,
+     "t0": 436.33,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 4298,
+     "y": 3579,
+     "err0": 2.54,
+     "sp0": 18,
+     "t0": 476.92,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 4,
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 4996,
+     "y": 4203,
+     "err0": -1.87,
+     "sp0": 18,
+     "t0": 484.15,
+     "max": 0.28,
+     "n": 13,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 17
+     },
+     "dur": 0.22,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 5119,
+     "y": 3854,
+     "err0": 2.38,
+     "sp0": 18,
+     "t0": 487.25,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 5147,
+     "y": 3915,
+     "err0": 2.26,
+     "sp0": 18,
+     "t0": 488.68,
+     "max": 0.4,
+     "n": 24,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.17
+    },
+    {
+     "run": 2,
+     "x": 5988,
+     "y": 2903,
+     "err0": -2.46,
+     "sp0": 18,
+     "t0": 498.22,
+     "max": 0.49,
+     "n": 48,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32,
+      "feel": 3,
+      "accel": 3
+     },
+     "dur": 0.8,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 5626,
+     "y": 4489,
+     "err0": 1.77,
+     "sp0": 18,
+     "t0": 514.85,
+     "max": 0.27,
+     "n": 11,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 16
+     },
+     "dur": 0.18,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 4806,
+     "y": 5651,
+     "err0": 2.59,
+     "sp0": 18,
+     "t0": 534.87,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 4171,
+     "y": 4965,
+     "err0": -2.18,
+     "sp0": 18,
+     "t0": 568.88,
+     "max": 0.38,
+     "n": 23,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 23
+     },
+     "dur": 0.39,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 4150,
+     "y": 5638,
+     "err0": 2.29,
+     "sp0": 18,
+     "t0": 573.65,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 25
+     },
+     "dur": 0.43,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 2,
+     "x": 2953,
+     "y": 4252,
+     "err0": -2.51,
+     "sp0": 18,
+     "t0": 587.72,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 34
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.09
+    },
+    {
+     "run": 3,
+     "x": 2613,
+     "y": 5208,
+     "err0": -1.6,
+     "sp0": 18,
+     "t0": 60.22,
+     "max": 0.41,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 18,
+      "real": 2,
+      "feel": 4,
+      "accel": 5
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 3,
+     "x": 507,
+     "y": 1474,
+     "err0": -2.56,
+     "sp0": 23,
+     "t0": 90.98,
+     "max": 0.5,
+     "n": 34,
+     "act": "search",
+     "plan": "search",
+     "causes": {
+      "turn": 32
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 586,
+     "y": 1713,
+     "err0": -2.6,
+     "sp0": 16,
+     "t0": 132.78,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 36
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 3344,
+     "y": 1349,
+     "err0": 2.57,
+     "sp0": 16,
+     "t0": 163.82,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31,
+      "accel": 2
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 2618,
+     "y": 1151,
+     "err0": -2.62,
+     "sp0": 16,
+     "t0": 177.38,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 36
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 3277,
+     "y": 2566,
+     "err0": -2.6,
+     "sp0": 16,
+     "t0": 192.78,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 3051,
+     "y": 1797,
+     "err0": -2.56,
+     "sp0": 16,
+     "t0": 200.12,
+     "max": 0.59,
+     "n": 61,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 35,
+      "accel": 6,
+      "feel": 5
+     },
+     "dur": 1.01,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 3,
+     "x": 4112,
+     "y": 2824,
+     "err0": -2.59,
+     "sp0": 16,
+     "t0": 211.78,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 2883,
+     "y": 1026,
+     "err0": 2.35,
+     "sp0": 16,
+     "t0": 260.48,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 29
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 4250,
+     "y": 1638,
+     "err0": 2,
+     "sp0": 16,
+     "t0": 272.22,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 19
+     },
+     "dur": 0.26,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 2520,
+     "y": 5412,
+     "err0": -2.4,
+     "sp0": 16,
+     "t0": 330.45,
+     "max": 0.47,
+     "n": 44,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 38,
+      "accel": 4,
+      "feel": 3
+     },
+     "dur": 0.73,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 3,
+     "x": 1754,
+     "y": 5444,
+     "err0": 1.61,
+     "sp0": 16,
+     "t0": 337.75,
+     "max": 0.22,
+     "n": 6,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 13
+     },
+     "dur": 0.1,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 2013,
+     "y": 4963,
+     "err0": -2.54,
+     "sp0": 16,
+     "t0": 343.25,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 2662,
+     "y": 5447,
+     "err0": -1.86,
+     "sp0": 16,
+     "t0": 360.77,
+     "max": 0.28,
+     "n": 13,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 17
+     },
+     "dur": 0.21,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 3,
+     "x": 2747,
+     "y": 5318,
+     "err0": -2.22,
+     "sp0": 16,
+     "t0": 366.5,
+     "max": 0.38,
+     "n": 23,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 23
+     },
+     "dur": 0.38,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 1361,
+     "y": 4292,
+     "err0": -2.5,
+     "sp0": 17,
+     "t0": 422.8,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 3,
+     "x": 1898,
+     "y": 5048,
+     "err0": 2.51,
+     "sp0": 17,
+     "t0": 431.17,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.51,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 456,
+     "y": 5542,
+     "err0": -2.1,
+     "sp0": 18,
+     "t0": 459.47,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 4,
+      "turn": 27
+     },
+     "dur": 0.31,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 1372,
+     "y": 5958,
+     "err0": -2.62,
+     "sp0": 18,
+     "t0": 466.07,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 589,
+     "y": 5096,
+     "err0": 2.47,
+     "sp0": 18,
+     "t0": 475.23,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 28
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 449,
+     "y": 5902,
+     "err0": 2.54,
+     "sp0": 18,
+     "t0": 484.03,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 33
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 1513,
+     "y": 5072,
+     "err0": 1.6,
+     "sp0": 18,
+     "t0": 493.18,
+     "max": 0.22,
+     "n": 8,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 14
+     },
+     "dur": 0.14,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 3,
+     "x": 1517,
+     "y": 5074,
+     "err0": 1.05,
+     "sp0": 26,
+     "t0": 493.35,
+     "max": 0.17,
+     "n": 1,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 2
+     },
+     "dur": 0.02,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 3,
+     "x": 1517,
+     "y": 5074,
+     "err0": 0.97,
+     "sp0": 11,
+     "t0": 493.38,
+     "max": 0.17,
+     "n": 2,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 1,
+      "accel": 1
+     },
+     "dur": 0.04,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 3,
+     "x": 1518,
+     "y": 5075,
+     "err0": 0.86,
+     "sp0": 8,
+     "t0": 493.43,
+     "max": 0.26,
+     "n": 13,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 3,
+      "accel": 5
+     },
+     "dur": 0.22,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 3,
+     "x": 1423,
+     "y": 5593,
+     "err0": 2.54,
+     "sp0": 18,
+     "t0": 497.25,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 1704,
+     "y": 4293,
+     "err0": -2.35,
+     "sp0": 18,
+     "t0": 508.57,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 26
+     },
+     "dur": 0.46,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 3,
+     "x": 1160,
+     "y": 5448,
+     "err0": 1.7,
+     "sp0": 18,
+     "t0": 518.37,
+     "max": 0.23,
+     "n": 8,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 14
+     },
+     "dur": 0.13,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 872,
+     "y": 5026,
+     "err0": 1.94,
+     "sp0": 18,
+     "t0": 523.88,
+     "max": 0.3,
+     "n": 14,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 18
+     },
+     "dur": 0.24,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 1012,
+     "y": 5930,
+     "err0": -1.76,
+     "sp0": 18,
+     "t0": 530.05,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 1153,
+     "y": 4963,
+     "err0": -2.59,
+     "sp0": 18,
+     "t0": 536.28,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 680,
+     "y": 5746,
+     "err0": 2.61,
+     "sp0": 18,
+     "t0": 542.88,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 1729,
+     "y": 5212,
+     "err0": -2.52,
+     "sp0": 18,
+     "t0": 555.85,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 34
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 1024,
+     "y": 4708,
+     "err0": 2.51,
+     "sp0": 18,
+     "t0": 562.07,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.51,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 2140,
+     "y": 5427,
+     "err0": 1.85,
+     "sp0": 18,
+     "t0": 570.58,
+     "max": 0.28,
+     "n": 13,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 17
+     },
+     "dur": 0.22,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 1168,
+     "y": 5928,
+     "err0": -2.6,
+     "sp0": 18,
+     "t0": 588.15,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 1016,
+     "y": 5387,
+     "err0": 2.55,
+     "sp0": 18,
+     "t0": 592.55,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 1342,
+     "y": 5839,
+     "err0": 2.6,
+     "sp0": 18,
+     "t0": 596.95,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 550,
+     "y": 5225,
+     "err0": 1.51,
+     "sp0": 18,
+     "t0": 603.92,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 11
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 1752,
+     "y": 4250,
+     "err0": -2.55,
+     "sp0": 18,
+     "t0": 614.15,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 1771,
+     "y": 5791,
+     "err0": -2.57,
+     "sp0": 18,
+     "t0": 627.33,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 2048,
+     "y": 5330,
+     "err0": -2.43,
+     "sp0": 18,
+     "t0": 644.93,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 32
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 3,
+     "x": 1801,
+     "y": 4982,
+     "err0": 2.6,
+     "sp0": 18,
+     "t0": 656.3,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 41
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 3814,
+     "y": 3094,
+     "err0": 2.55,
+     "sp0": 18,
+     "t0": 60.23,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 5208,
+     "y": 2758,
+     "err0": -2.59,
+     "sp0": 18,
+     "t0": 71.23,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.03
+    },
+    {
+     "run": 4,
+     "x": 2473,
+     "y": 3143,
+     "err0": -2.24,
+     "sp0": 18,
+     "t0": 95.05,
+     "max": 0.4,
+     "n": 24,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 4,
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 3490,
+     "y": 3640,
+     "err0": 1.85,
+     "sp0": 18,
+     "t0": 102.38,
+     "max": 0.28,
+     "n": 13,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 17
+     },
+     "dur": 0.22,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1980,
+     "y": 3913,
+     "err0": -2.39,
+     "sp0": 18,
+     "t0": 113.77,
+     "max": 0.43,
+     "n": 43,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 3,
+      "turn": 30,
+      "feel": 3
+     },
+     "dur": 0.71,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 4,
+     "x": 745,
+     "y": 2624,
+     "err0": 2.41,
+     "sp0": 18,
+     "t0": 127.6,
+     "max": 0.48,
+     "n": 53,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 33,
+      "feel": 5,
+      "accel": 5
+     },
+     "dur": 0.88,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 4,
+     "x": 599,
+     "y": 1788,
+     "err0": -2.46,
+     "sp0": 18,
+     "t0": 137.13,
+     "max": 0.49,
+     "n": 48,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32,
+      "feel": 3,
+      "accel": 3
+     },
+     "dur": 0.8,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 4,
+     "x": 2003,
+     "y": 5367,
+     "err0": 1.5,
+     "sp0": 18,
+     "t0": 167.43,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 19
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1032,
+     "y": 5786,
+     "err0": 2.46,
+     "sp0": 18,
+     "t0": 174.3,
+     "max": 0.68,
+     "n": 63,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 34,
+      "real": 2,
+      "accel": 6,
+      "feel": 5
+     },
+     "dur": 1.05,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 4,
+     "x": 1126,
+     "y": 5103,
+     "err0": -2.27,
+     "sp0": 18,
+     "t0": 198.25,
+     "max": 0.4,
+     "n": 24,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 4,
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 696,
+     "y": 5506,
+     "err0": -1.97,
+     "sp0": 18,
+     "t0": 202.95,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 19
+     },
+     "dur": 0.27,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 4,
+     "x": 1034,
+     "y": 4430,
+     "err0": 1.81,
+     "sp0": 18,
+     "t0": 223.02,
+     "max": 0.27,
+     "n": 11,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 19
+     },
+     "dur": 0.18,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1274,
+     "y": 4541,
+     "err0": 2.25,
+     "sp0": 18,
+     "t0": 228.52,
+     "max": 0.4,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 1.51,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1293,
+     "y": 4589,
+     "err0": 2.36,
+     "sp0": 18,
+     "t0": 230.97,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.46,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1587,
+     "y": 4196,
+     "err0": 2.59,
+     "sp0": 18,
+     "t0": 235.37,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1205,
+     "y": 4486,
+     "err0": 2.06,
+     "sp0": 18,
+     "t0": 242.35,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1078,
+     "y": 4582,
+     "err0": 1.93,
+     "sp0": 18,
+     "t0": 250.28,
+     "max": 0.3,
+     "n": 14,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 18
+     },
+     "dur": 0.24,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1378,
+     "y": 5736,
+     "err0": -1.96,
+     "sp0": 18,
+     "t0": 262.82,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 28
+     },
+     "dur": 0.26,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 859,
+     "y": 5642,
+     "err0": 2.47,
+     "sp0": 18,
+     "t0": 274.63,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 28
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 994,
+     "y": 4584,
+     "err0": 2.61,
+     "sp0": 18,
+     "t0": 283.03,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.21
+    },
+    {
+     "run": 4,
+     "x": 2528,
+     "y": 5431,
+     "err0": -2.5,
+     "sp0": 16,
+     "t0": 322.65,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 777,
+     "y": 5103,
+     "err0": -2.58,
+     "sp0": 16,
+     "t0": 340.05,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1697,
+     "y": 5305,
+     "err0": 2.61,
+     "sp0": 16,
+     "t0": 351.43,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1273,
+     "y": 5624,
+     "err0": -2.32,
+     "sp0": 16,
+     "t0": 357.38,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 25
+     },
+     "dur": 0.44,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 2086,
+     "y": 5595,
+     "err0": -2.6,
+     "sp0": 16,
+     "t0": 364.73,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 497,
+     "y": 5576,
+     "err0": 1.74,
+     "sp0": 16,
+     "t0": 378.77,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 16
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 2197,
+     "y": 5437,
+     "err0": -2.06,
+     "sp0": 16,
+     "t0": 395.13,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 22
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1177,
+     "y": 5722,
+     "err0": -2.56,
+     "sp0": 16,
+     "t0": 403.93,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1946,
+     "y": 5548,
+     "err0": -1.73,
+     "sp0": 16,
+     "t0": 425.02,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1311,
+     "y": 4634,
+     "err0": -2.52,
+     "sp0": 16,
+     "t0": 436.38,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.18
+    },
+    {
+     "run": 4,
+     "x": 1114,
+     "y": 5844,
+     "err0": -2.35,
+     "sp0": 16,
+     "t0": 449.58,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1970,
+     "y": 4917,
+     "err0": -1.82,
+     "sp0": 16,
+     "t0": 461,
+     "max": 0.27,
+     "n": 11,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 16
+     },
+     "dur": 0.18,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 696,
+     "y": 5226,
+     "err0": -2.4,
+     "sp0": 16,
+     "t0": 470.68,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 897,
+     "y": 5836,
+     "err0": -1.66,
+     "sp0": 16,
+     "t0": 477.13,
+     "max": 0.23,
+     "n": 8,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "turn": 20
+     },
+     "dur": 0.14,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 379,
+     "y": 3741,
+     "err0": -2.6,
+     "sp0": 16,
+     "t0": 492.8,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1365,
+     "y": 4940,
+     "err0": 2.46,
+     "sp0": 16,
+     "t0": 527.52,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 37
+     },
+     "dur": 0.51,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 2778,
+     "y": 5982,
+     "err0": -2.53,
+     "sp0": 16,
+     "t0": 550.25,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 38
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 2222,
+     "y": 5432,
+     "err0": 2.56,
+     "sp0": 16,
+     "t0": 557.22,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 3942,
+     "y": 5734,
+     "err0": 2.42,
+     "sp0": 16,
+     "t0": 573.1,
+     "max": 0.51,
+     "n": 48,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 33,
+      "feel": 3,
+      "accel": 3
+     },
+     "dur": 0.8,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 4,
+     "x": 1754,
+     "y": 5494,
+     "err0": -2.31,
+     "sp0": 16,
+     "t0": 589.03,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 25
+     },
+     "dur": 0.44,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 2423,
+     "y": 5678,
+     "err0": 2.47,
+     "sp0": 16,
+     "t0": 595.73,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1035,
+     "y": 5786,
+     "err0": 2.4,
+     "sp0": 16,
+     "t0": 607.22,
+     "max": 0.6,
+     "n": 60,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32,
+      "real": 1,
+      "accel": 7,
+      "feel": 5
+     },
+     "dur": 1,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 4,
+     "x": 1762,
+     "y": 5387,
+     "err0": 2.56,
+     "sp0": 16,
+     "t0": 615.65,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 650,
+     "y": 5784,
+     "err0": 1.76,
+     "sp0": 16,
+     "t0": 625.65,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 1440,
+     "y": 4964,
+     "err0": 1.98,
+     "sp0": 16,
+     "t0": 635.4,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 19
+     },
+     "dur": 0.27,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 2181,
+     "y": 5404,
+     "err0": -2.49,
+     "sp0": 16,
+     "t0": 643.17,
+     "max": 0.52,
+     "n": 56,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32,
+      "feel": 5,
+      "accel": 6
+     },
+     "dur": 0.93,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 5272,
+     "y": 933,
+     "err0": 2.61,
+     "sp0": 18,
+     "t0": 74.88,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 4,
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 5976,
+     "y": 1606,
+     "err0": 2.55,
+     "sp0": 18,
+     "t0": 82.1,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 4775,
+     "y": 1412,
+     "err0": -2.48,
+     "sp0": 18,
+     "t0": 90.27,
+     "max": 0.64,
+     "n": 61,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 34,
+      "feel": 5,
+      "accel": 7
+     },
+     "dur": 1.01,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 5759,
+     "y": 1574,
+     "err0": 2.66,
+     "sp0": 16,
+     "t0": 121.5,
+     "max": 0.52,
+     "n": 36,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 31
+     },
+     "dur": 0.6,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.28
+    },
+    {
+     "run": 5,
+     "x": 2278,
+     "y": 3409,
+     "err0": 2.14,
+     "sp0": 16,
+     "t0": 157.48,
+     "max": 0.37,
+     "n": 21,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 3,
+      "turn": 22
+     },
+     "dur": 0.35,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 2521,
+     "y": 1710,
+     "err0": 1.76,
+     "sp0": 16,
+     "t0": 177.68,
+     "max": 0.25,
+     "n": 9,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 15
+     },
+     "dur": 0.15,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 2871,
+     "y": 1128,
+     "err0": 2.06,
+     "sp0": 16,
+     "t0": 184.68,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 3109,
+     "y": 1895,
+     "err0": 2.25,
+     "sp0": 16,
+     "t0": 191.92,
+     "max": 0.4,
+     "n": 39,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28,
+      "feel": 3,
+      "accel": 2
+     },
+     "dur": 0.65,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 2539,
+     "y": 742,
+     "err0": -2.03,
+     "sp0": 16,
+     "t0": 203.35,
+     "max": 0.33,
+     "n": 18,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 20
+     },
+     "dur": 0.3,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 832,
+     "y": 1494,
+     "err0": -2.59,
+     "sp0": 16,
+     "t0": 216.9,
+     "max": 0.37,
+     "n": 21,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 22
+     },
+     "dur": 17.05,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 818,
+     "y": 2718,
+     "err0": -2.6,
+     "sp0": 16,
+     "t0": 244.45,
+     "max": 0.5,
+     "n": 38,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30,
+      "feel": 2
+     },
+     "dur": 0.63,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.26
+    },
+    {
+     "run": 5,
+     "x": 836,
+     "y": 2720,
+     "err0": -0.55,
+     "sp0": 22,
+     "t0": 245.12,
+     "max": 0.17,
+     "n": 1,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 1,
+      "accel": 1
+     },
+     "dur": 0.01,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 837,
+     "y": 2720,
+     "err0": -0.55,
+     "sp0": 7,
+     "t0": 245.15,
+     "max": 0.17,
+     "n": 2,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 1,
+      "accel": 1
+     },
+     "dur": 0.03,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 837,
+     "y": 2719,
+     "err0": -0.47,
+     "sp0": 4,
+     "t0": 245.2,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 1,
+      "accel": 1
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 1847,
+     "y": 1428,
+     "err0": -2.19,
+     "sp0": 16,
+     "t0": 260.22,
+     "max": 0.38,
+     "n": 23,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 1,
+      "accel": 1,
+      "turn": 23
+     },
+     "dur": 0.38,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 810,
+     "y": 745,
+     "err0": -2.51,
+     "sp0": 16,
+     "t0": 289.38,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 34
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 3429,
+     "y": 4926,
+     "err0": -2.47,
+     "sp0": 17,
+     "t0": 344.02,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31,
+      "accel": 2
+     },
+     "dur": 0.51,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 1215,
+     "y": 4461,
+     "err0": -2.58,
+     "sp0": 16,
+     "t0": 361.92,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 1638,
+     "y": 5984,
+     "err0": 2.53,
+     "sp0": 17,
+     "t0": 375.48,
+     "max": 0.52,
+     "n": 69,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 11,
+      "turn": 32,
+      "feel": 9
+     },
+     "dur": 1.15,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 1159,
+     "y": 5104,
+     "err0": -2.07,
+     "sp0": 17,
+     "t0": 389.02,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.31,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 2183,
+     "y": 5542,
+     "err0": 2.57,
+     "sp0": 17,
+     "t0": 397.23,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 1705,
+     "y": 5546,
+     "err0": 2.48,
+     "sp0": 17,
+     "t0": 401.63,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 2230,
+     "y": 5498,
+     "err0": 2.46,
+     "sp0": 17,
+     "t0": 405.97,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 1168,
+     "y": 5804,
+     "err0": 1.44,
+     "sp0": 23,
+     "t0": 413.63,
+     "max": 0.17,
+     "n": 1,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 10
+     },
+     "dur": 0.02,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 2291,
+     "y": 5605,
+     "err0": -2.36,
+     "sp0": 17,
+     "t0": 435.68,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 1789,
+     "y": 5875,
+     "err0": 1.62,
+     "sp0": 17,
+     "t0": 440.02,
+     "max": 0.22,
+     "n": 6,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 13
+     },
+     "dur": 0.1,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 1797,
+     "y": 4920,
+     "err0": -1.57,
+     "sp0": 17,
+     "t0": 446.62,
+     "max": 0.2,
+     "n": 4,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 12
+     },
+     "dur": 0.06,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 740,
+     "y": 5227,
+     "err0": -2.61,
+     "sp0": 17,
+     "t0": 454.32,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 1926,
+     "y": 5786,
+     "err0": 1.9,
+     "sp0": 18,
+     "t0": 466.42,
+     "max": 0.3,
+     "n": 14,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 19,
+      "accel": 1
+     },
+     "dur": 0.23,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 1270,
+     "y": 4555,
+     "err0": -2.13,
+     "sp0": 18,
+     "t0": 487.7,
+     "max": 0.37,
+     "n": 21,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 35,
+      "accel": 6
+     },
+     "dur": 0.35,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 1631,
+     "y": 3542,
+     "err0": 2.12,
+     "sp0": 18,
+     "t0": 504.47,
+     "max": 0.37,
+     "n": 21,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 22
+     },
+     "dur": 0.35,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 1866,
+     "y": 2852,
+     "err0": -2.58,
+     "sp0": 18,
+     "t0": 513.77,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 4198,
+     "y": 4968,
+     "err0": 2.59,
+     "sp0": 18,
+     "t0": 539.43,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 37,
+      "accel": 2
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 3577,
+     "y": 4971,
+     "err0": -1.51,
+     "sp0": 18,
+     "t0": 543.83,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 11
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 3797,
+     "y": 5980,
+     "err0": 1.46,
+     "sp0": 20,
+     "t0": 550.8,
+     "max": 0.17,
+     "n": 1,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 10
+     },
+     "dur": 0.02,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 3288,
+     "y": 6012,
+     "err0": -2.41,
+     "sp0": 18,
+     "t0": 554.47,
+     "max": 0.47,
+     "n": 46,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 31,
+      "feel": 3,
+      "accel": 3
+     },
+     "dur": 0.76,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 4012,
+     "y": 5948,
+     "err0": 2.57,
+     "sp0": 18,
+     "t0": 559.62,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 2659,
+     "y": 5901,
+     "err0": 2.32,
+     "sp0": 18,
+     "t0": 568.83,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 25
+     },
+     "dur": 0.44,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 4690,
+     "y": 5528,
+     "err0": -1.96,
+     "sp0": 18,
+     "t0": 582.95,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 19
+     },
+     "dur": 0.27,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 4284,
+     "y": 5158,
+     "err0": 2.48,
+     "sp0": 18,
+     "t0": 587.97,
+     "max": 0.48,
+     "n": 48,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32,
+      "feel": 3,
+      "accel": 3
+     },
+     "dur": 0.8,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 5351,
+     "y": 5404,
+     "err0": -2.52,
+     "sp0": 18,
+     "t0": 597.4,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 4968,
+     "y": 4292,
+     "err0": 2.52,
+     "sp0": 18,
+     "t0": 619.77,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 37
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.09
+    },
+    {
+     "run": 5,
+     "x": 3436,
+     "y": 4247,
+     "err0": -2.58,
+     "sp0": 18,
+     "t0": 648.53,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 34
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 5,
+     "x": 4056,
+     "y": 5010,
+     "err0": 2.56,
+     "sp0": 18,
+     "t0": 656.35,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 7081,
+     "y": 1459,
+     "err0": 1.54,
+     "sp0": 27,
+     "t0": 67.47,
+     "max": 0.2,
+     "n": 4,
+     "act": "chase",
+     "plan": "intercept",
+     "causes": {
+      "accel": 2,
+      "turn": 12
+     },
+     "dur": 0.06,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 6487,
+     "y": 1568,
+     "err0": 1.8,
+     "sp0": 16,
+     "t0": 91.55,
+     "max": 0.27,
+     "n": 11,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "accel": 4,
+      "turn": 25
+     },
+     "dur": 0.18,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 5985,
+     "y": 2779,
+     "err0": 2.54,
+     "sp0": 21,
+     "t0": 103.67,
+     "max": 0.8,
+     "n": 90,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 34,
+      "feel": 11,
+      "accel": 18
+     },
+     "dur": 1.5,
+     "lad": [
+      "sidestep",
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.02
+    },
+    {
+     "run": 6,
+     "x": 7486,
+     "y": 1489,
+     "err0": 2.35,
+     "sp0": 18,
+     "t0": 122.98,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 3,
+      "accel": 6,
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 7012,
+     "y": 1665,
+     "err0": 2.55,
+     "sp0": 18,
+     "t0": 127.68,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 7327,
+     "y": 1309,
+     "err0": -2.42,
+     "sp0": 18,
+     "t0": 134.48,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 5641,
+     "y": 751,
+     "err0": -1.86,
+     "sp0": 18,
+     "t0": 160.05,
+     "max": 0.28,
+     "n": 13,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 17
+     },
+     "dur": 0.22,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 5846,
+     "y": 1698,
+     "err0": 2.39,
+     "sp0": 18,
+     "t0": 168.1,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.11
+    },
+    {
+     "run": 6,
+     "x": 6696,
+     "y": 1403,
+     "err0": 2.42,
+     "sp0": 18,
+     "t0": 174.63,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 6573,
+     "y": 5645,
+     "err0": -2.29,
+     "sp0": 18,
+     "t0": 226.13,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 7,
+      "turn": 31
+     },
+     "dur": 0.44,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 6418,
+     "y": 4969,
+     "err0": 2.41,
+     "sp0": 18,
+     "t0": 231.27,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 6137,
+     "y": 5008,
+     "err0": -2.1,
+     "sp0": 18,
+     "t0": 236.93,
+     "max": 0.58,
+     "n": 58,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 44
+     },
+     "dur": 11.29,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.97
+    },
+    {
+     "run": 6,
+     "x": 5495,
+     "y": 3974,
+     "err0": -2.49,
+     "sp0": 18,
+     "t0": 289.78,
+     "max": 0.5,
+     "n": 53,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 32,
+      "feel": 5,
+      "accel": 4
+     },
+     "dur": 0.89,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 6,
+     "x": 6287,
+     "y": 2800,
+     "err0": 1.8,
+     "sp0": 18,
+     "t0": 299.97,
+     "max": 0.27,
+     "n": 11,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 16
+     },
+     "dur": 0.18,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 8663,
+     "y": 4208,
+     "err0": -2.48,
+     "sp0": 18,
+     "t0": 352.92,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 28
+     },
+     "dur": 0.51,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 7173,
+     "y": 4174,
+     "err0": 2.36,
+     "sp0": 18,
+     "t0": 362.45,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 7017,
+     "y": 5423,
+     "err0": -2.44,
+     "sp0": 18,
+     "t0": 377.52,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 7929,
+     "y": 4767,
+     "err0": -2.44,
+     "sp0": 18,
+     "t0": 385.43,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.9
+    },
+    {
+     "run": 6,
+     "x": 7901,
+     "y": 4889,
+     "err0": -2.4,
+     "sp0": 18,
+     "t0": 387.38,
+     "max": 0.75,
+     "n": 70,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 51
+     },
+     "dur": 3.5,
+     "lad": [
+      "sidestep",
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.61
+    },
+    {
+     "run": 6,
+     "x": 8424,
+     "y": 5014,
+     "err0": -2.2,
+     "sp0": 18,
+     "t0": 395.27,
+     "max": 0.38,
+     "n": 23,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 23
+     },
+     "dur": 0.38,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 7172,
+     "y": 4174,
+     "err0": 2.34,
+     "sp0": 18,
+     "t0": 405.63,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 8093,
+     "y": 4293,
+     "err0": 2.59,
+     "sp0": 16,
+     "t0": 544.27,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29,
+      "accel": 1
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 7794,
+     "y": 4230,
+     "err0": 1.92,
+     "sp0": 16,
+     "t0": 627.52,
+     "max": 0.3,
+     "n": 14,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 19
+     },
+     "dur": 0.23,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 6,
+     "x": 8531,
+     "y": 3995,
+     "err0": 2.57,
+     "sp0": 16,
+     "t0": 634.85,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 7435,
+     "y": 1898,
+     "err0": -1.92,
+     "sp0": 18,
+     "t0": 66.82,
+     "max": 0.3,
+     "n": 14,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 20
+     },
+     "dur": 0.23,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0.21
+    },
+    {
+     "run": 7,
+     "x": 5731,
+     "y": 1944,
+     "err0": -2.33,
+     "sp0": 18,
+     "t0": 106.55,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29,
+      "accel": 2
+     },
+     "dur": 0.43,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 8400,
+     "y": 2749,
+     "err0": -2.41,
+     "sp0": 18,
+     "t0": 132.72,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 6266,
+     "y": 1646,
+     "err0": -2.13,
+     "sp0": 18,
+     "t0": 153.55,
+     "max": 0.37,
+     "n": 21,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 31
+     },
+     "dur": 0.35,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 7,
+     "x": 4448,
+     "y": 3541,
+     "err0": 2.41,
+     "sp0": 16,
+     "t0": 208.08,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 27
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 4248,
+     "y": 5000,
+     "err0": 1.92,
+     "sp0": 16,
+     "t0": 227.18,
+     "max": 0.3,
+     "n": 14,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 18
+     },
+     "dur": 0.24,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 1408,
+     "y": 4949,
+     "err0": 2.37,
+     "sp0": 16,
+     "t0": 350.37,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 33,
+      "accel": 3
+     },
+     "dur": 0.46,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 978,
+     "y": 5330,
+     "err0": -1.62,
+     "sp0": 16,
+     "t0": 372.18,
+     "max": 0.22,
+     "n": 6,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 13
+     },
+     "dur": 0.1,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 1518,
+     "y": 5614,
+     "err0": 1.68,
+     "sp0": 16,
+     "t0": 383.75,
+     "max": 0.23,
+     "n": 8,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 14
+     },
+     "dur": 0.13,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 1103,
+     "y": 5338,
+     "err0": 2.22,
+     "sp0": 16,
+     "t0": 391.78,
+     "max": 0.38,
+     "n": 23,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 23
+     },
+     "dur": 0.39,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 1171,
+     "y": 5830,
+     "err0": 2.5,
+     "sp0": 16,
+     "t0": 397.22,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.51,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 453,
+     "y": 5184,
+     "err0": 2.39,
+     "sp0": 16,
+     "t0": 406.38,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 1193,
+     "y": 5151,
+     "err0": 2.1,
+     "sp0": 16,
+     "t0": 413.18,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 921,
+     "y": 5985,
+     "err0": -2.29,
+     "sp0": 16,
+     "t0": 420.77,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 25
+     },
+     "dur": 0.43,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 1850,
+     "y": 5512,
+     "err0": -2.61,
+     "sp0": 16,
+     "t0": 428.4,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 602,
+     "y": 5870,
+     "err0": 2.62,
+     "sp0": 16,
+     "t0": 439,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 1855,
+     "y": 4855,
+     "err0": 1.98,
+     "sp0": 17,
+     "t0": 453.02,
+     "max": 0.32,
+     "n": 16,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 19
+     },
+     "dur": 0.26,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 1389,
+     "y": 5882,
+     "err0": -2.58,
+     "sp0": 17,
+     "t0": 461.22,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 2183,
+     "y": 5549,
+     "err0": -2.56,
+     "sp0": 17,
+     "t0": 468.8,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 1902,
+     "y": 4130,
+     "err0": -2.4,
+     "sp0": 17,
+     "t0": 488.12,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 34
+     },
+     "dur": 0.48,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 985,
+     "y": 5444,
+     "err0": -2.51,
+     "sp0": 17,
+     "t0": 515.08,
+     "max": 0.6,
+     "n": 60,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 8,
+      "turn": 42,
+      "feel": 5
+     },
+     "dur": 1,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 7,
+     "x": 1957,
+     "y": 5941,
+     "err0": -2.1,
+     "sp0": 17,
+     "t0": 523.15,
+     "max": 0.35,
+     "n": 19,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 21
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 1669,
+     "y": 4918,
+     "err0": -1.46,
+     "sp0": 19,
+     "t0": 530.08,
+     "max": 0.17,
+     "n": 1,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 10
+     },
+     "dur": 0.02,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 456,
+     "y": 5508,
+     "err0": 2.45,
+     "sp0": 17,
+     "t0": 539.03,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.55
+    },
+    {
+     "run": 7,
+     "x": 1703,
+     "y": 5022,
+     "err0": -2.01,
+     "sp0": 18,
+     "t0": 550.4,
+     "max": 0.33,
+     "n": 18,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 4,
+      "accel": 3,
+      "turn": 23
+     },
+     "dur": 0.3,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 1525,
+     "y": 3480,
+     "err0": -2.02,
+     "sp0": 27,
+     "t0": 565.38,
+     "max": 0.38,
+     "n": 29,
+     "act": "back",
+     "plan": "retreat",
+     "causes": {
+      "turn": 32,
+      "accel": 3,
+      "feel": 4,
+      "real": 1
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 7,
+     "x": 1397,
+     "y": 3378,
+     "err0": -1.94,
+     "sp0": 23,
+     "t0": 576.17,
+     "max": 0.32,
+     "n": 21,
+     "act": "search",
+     "plan": "search",
+     "causes": {
+      "turn": 20,
+      "feel": 1,
+      "accel": 1
+     },
+     "dur": 0.35,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 7,
+     "x": 1380,
+     "y": 2994,
+     "err0": -2.11,
+     "sp0": 16,
+     "t0": 580.58,
+     "max": 0.35,
+     "n": 19,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "accel": 2,
+      "turn": 21
+     },
+     "dur": 0.32,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 456,
+     "y": 4835,
+     "err0": 2.26,
+     "sp0": 21,
+     "t0": 596.27,
+     "max": 0.46,
+     "n": 43,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29,
+      "feel": 3,
+      "accel": 3
+     },
+     "dur": 0.71,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 7,
+     "x": 1172,
+     "y": 2101,
+     "err0": 2.25,
+     "sp0": 21,
+     "t0": 613.37,
+     "max": 0.4,
+     "n": 24,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 932,
+     "y": 5880,
+     "err0": -1.49,
+     "sp0": 18,
+     "t0": 639.15,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 4,
+      "turn": 13
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 7,
+     "x": 1093,
+     "y": 5063,
+     "err0": 2.11,
+     "sp0": 18,
+     "t0": 644.87,
+     "max": 0.37,
+     "n": 21,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 22
+     },
+     "dur": 0.35,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.14
+    },
+    {
+     "run": 7,
+     "x": 2040,
+     "y": 5542,
+     "err0": 2.37,
+     "sp0": 18,
+     "t0": 652.1,
+     "max": 0.43,
+     "n": 28,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26
+     },
+     "dur": 0.47,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 5038,
+     "y": 4254,
+     "err0": -2.49,
+     "sp0": 18,
+     "t0": 70.15,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 28
+     },
+     "dur": 0.52,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 3737,
+     "y": 4201,
+     "err0": -2.61,
+     "sp0": 18,
+     "t0": 83.25,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 5121,
+     "y": 3884,
+     "err0": 2.59,
+     "sp0": 18,
+     "t0": 94.45,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30
+     },
+     "dur": 0.57,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 2470,
+     "y": 4214,
+     "err0": 2.4,
+     "sp0": 18,
+     "t0": 114.98,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29,
+      "accel": 2
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 923,
+     "y": 5494,
+     "err0": -2.37,
+     "sp0": 16,
+     "t0": 238.38,
+     "max": 0.45,
+     "n": 49,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 14,
+      "turn": 36,
+      "feel": 9
+     },
+     "dur": 0.82,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 8,
+     "x": 2296,
+     "y": 5699,
+     "err0": 1.89,
+     "sp0": 16,
+     "t0": 253.78,
+     "max": 0.3,
+     "n": 14,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 18
+     },
+     "dur": 0.24,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 744,
+     "y": 5868,
+     "err0": 1.69,
+     "sp0": 16,
+     "t0": 267.35,
+     "max": 0.23,
+     "n": 8,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 14
+     },
+     "dur": 96.62,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 2099,
+     "y": 5505,
+     "err0": -2.24,
+     "sp0": 17,
+     "t0": 364,
+     "max": 0.38,
+     "n": 23,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 15
+     },
+     "dur": 0.38,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 1807,
+     "y": 4129,
+     "err0": -2.52,
+     "sp0": 17,
+     "t0": 382.38,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30,
+      "accel": 1
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 2050,
+     "y": 5414,
+     "err0": 1.61,
+     "sp0": 17,
+     "t0": 395.92,
+     "max": 0.22,
+     "n": 6,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 13
+     },
+     "dur": 0.1,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 1480,
+     "y": 5400,
+     "err0": 2.55,
+     "sp0": 17,
+     "t0": 401.03,
+     "max": 0.48,
+     "n": 33,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 29
+     },
+     "dur": 0.55,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0.82
+    },
+    {
+     "run": 8,
+     "x": 1914,
+     "y": 5152,
+     "err0": 2.15,
+     "sp0": 17,
+     "t0": 406.48,
+     "max": 0.37,
+     "n": 21,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 3,
+      "accel": 1,
+      "turn": 22
+     },
+     "dur": 0.35,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 1810,
+     "y": 5735,
+     "err0": 1.5,
+     "sp0": 17,
+     "t0": 411.03,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 11
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 2183,
+     "y": 5433,
+     "err0": -2.61,
+     "sp0": 16,
+     "t0": 446.68,
+     "max": 0.52,
+     "n": 65,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 39
+     },
+     "dur": 1.09,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0.45,
+     "openFrac": 0.91
+    },
+    {
+     "run": 8,
+     "x": 1503,
+     "y": 5255,
+     "err0": -2.55,
+     "sp0": 16,
+     "t0": 458.82,
+     "max": 0.48,
+     "n": 46,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "feel": 4,
+      "turn": 39,
+      "accel": 1
+     },
+     "dur": 0.76,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 8,
+     "x": 1401,
+     "y": 4945,
+     "err0": 2.25,
+     "sp0": 16,
+     "t0": 461.8,
+     "max": 0.4,
+     "n": 24,
+     "act": "leave",
+     "plan": "leave",
+     "causes": {
+      "turn": 24
+     },
+     "dur": 0.4,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 3072,
+     "y": 6007,
+     "err0": 2.45,
+     "sp0": 16,
+     "t0": 474.83,
+     "max": 0.45,
+     "n": 29,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 27
+     },
+     "dur": 0.49,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 8,
+     "x": 2849,
+     "y": 3341,
+     "err0": 2.49,
+     "sp0": 16,
+     "t0": 504.37,
+     "max": 0.47,
+     "n": 31,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 28
+     },
+     "dur": 0.51,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 8,
+     "x": 1978,
+     "y": 4104,
+     "err0": -2.39,
+     "sp0": 16,
+     "t0": 515.52,
+     "max": 0.43,
+     "n": 39,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 30,
+      "feel": 2,
+      "accel": 1
+     },
+     "dur": 0.65,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 8,
+     "x": 3490,
+     "y": 4072,
+     "err0": 2.6,
+     "sp0": 16,
+     "t0": 531.52,
+     "max": 0.5,
+     "n": 34,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 30
+     },
+     "dur": 0.56,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 5204,
+     "y": 2761,
+     "err0": 2.61,
+     "sp0": 16,
+     "t0": 558,
+     "max": 0.7,
+     "n": 65,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 48,
+      "accel": 5,
+      "real": 1,
+      "feel": 4
+     },
+     "dur": 1.08,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 0
+    },
+    {
+     "run": 8,
+     "x": 4848,
+     "y": 4203,
+     "err0": 1.93,
+     "sp0": 16,
+     "t0": 572.17,
+     "max": 0.3,
+     "n": 14,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 1,
+      "turn": 18
+     },
+     "dur": 0.23,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 3312,
+     "y": 4012,
+     "err0": 2.29,
+     "sp0": 16,
+     "t0": 594.22,
+     "max": 0.42,
+     "n": 26,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "turn": 26,
+      "accel": 1
+     },
+     "dur": 0.43,
+     "lad": [
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 8,
+     "x": 3102,
+     "y": 1942,
+     "err0": -1.58,
+     "sp0": 16,
+     "t0": 656.1,
+     "max": 0.2,
+     "n": 4,
+     "act": "",
+     "plan": "ROAMING",
+     "causes": {
+      "accel": 2,
+      "turn": 17
+     },
+     "dur": 0.07,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    }
+   ],
+   "frozenEp": []
+  }
+ }
+}
