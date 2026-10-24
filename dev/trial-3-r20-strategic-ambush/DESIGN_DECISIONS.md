@@ -73,8 +73,9 @@ Somebody it sees, who has not seen it (not in their view), walking on:
 - **Further off (over 420 px)** (`skAhead`): if there is a spot beside their predicted way, hidden from the way they come, that it can
   reach 0.5 s before them, it goes there (an interception) at the pace that is needed.  It keeps to it while they come on unaware toward
   it, and decides afresh if they see it, run, or turn well away.
-- `skAhead` draws only from its own cover stream, so its other draws never move.  It counts as a prediction (R12-B bounds its routes by
-  these).
+- `skAhead` draws its spot from the cover stream; its route queries use the search stream, as `skPredict`'s do, so later draws can
+  differ from R19's.  (The independent review corrected an earlier claim here that its other draws never moved.)  It counts as a
+  prediction: R12-B bounds its routes by these.
 
 ## S5: a hunt's search walks unless the evidence is fresh (the pursuit walk)
 

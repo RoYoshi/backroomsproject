@@ -814,9 +814,11 @@ function steerTo(eng, e, tx, ty, vmax, dt, o = {}) {
   e.speed = approach(e.speed, target, (target > e.speed ? acc : acc * 2.2) * dt);
   const step = e.speed * dt;
   e.moved = moveCollide(eng, e, Math.cos(e.ang) * step, Math.sin(e.ang) * step);
-  // stuck = it wants to move and does not: measured against the speed its own turn allows, not the speed a wall or a corner braked it to.
-  // (R20: against its full speed, a body slowed to 10-15 % to turn round on open floor counted as stuck - the open-air STUCK, every species)
-  const intent = Math.max(step, turnV * dt * .5);
+  // stuck = it wants to move and does not.  (R20) A species that opts in (caps.TURN_AWARE_STUCK: the Skin-Stealer) measures it against
+  // the speed its own turn allows, not the speed a wall or a corner braked it to: against its full speed, a body slowed to 10-15 % to turn
+  // round on open floor counted as stuck - the open-air STUCK.  Every other species keeps R8-R19's yardstick, its full speed: the Hound's and
+  // the Smiler's movement and recovery are B++'s byte for byte (the gate's server golden traces hold them)
+  const intent = Math.max(step, (e.caps.TURN_AWARE_STUCK ? turnV : o.hold ? 0 : vmax) * dt * .5);
   if (intent > .5 && e.moved < intent * .3) e.stuck += dt; else e.stuck = Math.max(0, e.stuck - dt * 1.5);
   e.vel.x = Math.cos(e.ang) * e.speed; e.vel.y = Math.sin(e.ang) * e.speed; e.want = want;
 }
@@ -3358,7 +3360,7 @@ const SKIN = {
   traits: { INTELLIGENCE: .8, SADISM: .1, HUNGER: .6, PATIENCE: .75, CURIOSITY: .55, CAUTION: .7, TERRITORIALITY: .3, AGGRESSION: .45, PERSISTENCE: .45, SOCIAL: .1, HEARING: .7, VISION: .55, LIGHT_SENS: .5, MEMORY: .7 },
   jitter: .12,
   // one collider in every form: it cannot crawl, and a disguise never shrinks it (LogicZ does not exist; see DEFERRED.md)
-  caps: { CAN_VAULT: true, VAULT_SPEED: .9, CAN_CROUCH: true, CAN_CRAWL: false, CAN_SLIDE: false, CAN_OPEN_DOORS: false, CAN_BREAK_DOORS: false, CAN_USE_TIGHT_GAPS: false, TURNING_ABILITY: 3.6, ACCELERATION: 760,
+  caps: { CAN_VAULT: true, VAULT_SPEED: .9, CAN_CROUCH: true, CAN_CRAWL: false, CAN_SLIDE: false, CAN_OPEN_DOORS: false, CAN_BREAK_DOORS: false, CAN_USE_TIGHT_GAPS: false, TURNING_ABILITY: 3.6, ACCELERATION: 760, TURN_AWARE_STUCK: true,   // (R20, the N track: W1, its stuck timer measured against its turn)
     HEAD_SWIVEL: { max: .85, run: .4, runFrom: 240, rate: 3, ahead: 170 } },   // (R20, the N track) its gaze leads into the bends of its way (headAhead)
   // not a dark-seer: a lightless person in the dark is seen only from close by, as the Hound sees
   vision: { range: 760, fov: 2.5, dark: false, gain: 2.6, floor: 90 },
@@ -3433,7 +3435,7 @@ const SKIN = {
   },
   still(e) { return e.still; },                                  // (the engine's stuck watchdog: it held still this tick on purpose)
   onStuck(eng, e) { if (e.plan && e.plan.k !== 'lure' && e.plan.k !== 'ambush') e.plan.stuck = (e.plan.stuck || 0) + 1; e.roam.goal = null; e.dbg.why = 'stuck: the watchdog cleared its route'; },
-  onClear(eng, e) { e.noAmbush = null; e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.aw.clear(); e.rx = null; e.head = 0; e.look.k = ''; e.look.h = null; e.look.prev = 0; e.look.seen = null; e.look.m = null; e.pre = null; e.roam.seen = null; e.fight = null; e.mv = null; e.ackHead = null; e.defLeave = 0; e.dbg.lv = ''; e.hunt = null; e.spent.clear(); e.noFlank = null; e.mind = skMindNew(); setState(e, S.ROAMING, ''); },
+  onClear(eng, e) { e.noAmbush = null; e.plan = null; e.target = null; e.enc = null; e.roam.goal = null; e.roam.summon = 0; e.aw.clear(); e.rx = null; e.head = 0; e.look.k = ''; e.look.h = null; e.look.prev = 0; e.look.seen = null; e.look.m = null; e.pre = null; e.roam.seen = null; e.fight = null; e.mv = null; e.ackHead = null; e.defLeave = 0; e.dbg.lv = ''; e.hunt = null; e.spent.clear(); e.noFlank = null; e.mind = skMindNew(); setState(e, S.ROAMING, ''); },
   debugHunt(eng, e, r) { e.left.delete(r.id); setTarget(e, r.id, eng.now); skBegin(eng, e, 'watch', r, 'admin: it was given a record of you'); return 'WATCHING YOU (real AI)'; },
   /* its own target scoring and commitment (ai.intelligence.js's debug asks for them; never the Smiler's sScore) */
   targetScore(eng, e, r) { const age = eng.now - Math.max(r.seenAt, r.heardAt); return r.aw * .8 + r.conf * .7 - Math.min(1, age / 30) * .3 + (r.seen ? .5 : 0) + (r.id === e.target ? .4 : 0); },
@@ -3465,7 +3467,7 @@ function skBody(eng, e, dt) {
  * breath to spare looks winded; one who ran briefly looks fresh whatever their meter says */
 function skFatigueSee(eng, e, r, o, now) {
   const Z = SK20.fz, v = r.visual, f = o.fz || (o.fz = { run: 0, t: now, seen: now, slowAt: -99, breathAt: -99, runAt: -99 });
-  const gap = now - f.seen, dt = Math.min(.5, Math.max(0, now - f.t));
+  const gap = now - f.seen, dt = gap > .6 ? 0 : Math.min(.5, Math.max(0, now - f.t));   // (the review: a gap out of its sight is the walk-back's alone, never also run time)
   if (gap > .6) f.run = Math.max(0, f.run - gap * Z.walkBack);                   // a while out of its sight: they will have got some breath back
   const sp = Math.hypot(v.vx, v.vy);
   if (v.st === 2 && sp > 220) { f.run += dt; f.runAt = now; }
@@ -3893,7 +3895,8 @@ function skPredict(eng, e, r) {
 }
 /* (R20) going ahead of somebody it sees walking on unaware: along the way they will go (skRoute), the first point it can reach SK20.aheadSlack s
  * before them at its run (it will go at the pace that needs: skPace) with a spot beside it hidden from the way they come (as skPredict's,
- * drawn from its own cover stream - its other draws never move).  At most six routes worked out; none, and it comes on as before */
+ * drawn from its cover stream; its route queries use the search stream, as skPredict's do, so later draws can differ - the review).  At
+ * most six routes worked out; none, and it comes on as before */
 function skAhead(eng, e, r) {
   const R = skRoute(eng, e, r); if (!R) return null;
   e.tally.predQ = (e.tally.predQ || 0) + 1;                                         // (a prediction, as skPredict's: R12-B bounds its routes by these)
@@ -4119,6 +4122,7 @@ function skCurious(eng, e, C) {
  * exhausted, the sound some way off (SK20.postFrom): nearer, it goes to look as before.  Somebody who comes into its sight there, unaware,
  * walking its way, it lies in wait for (an ambush: skDecide); anybody else it answers as it would anywhere */
 function skPost(eng, e, C, q) {
+  if (C.src === -1 || q.src === -1) return false;                                // (the review) another creature's sounds are nobody to wait for
   if (e.hunger < SK.huntHunger || e.exh || q.I < SK20.postI || Math.hypot(q.x - e.x, q.y - e.y) < SK20.postFrom) return false;
   const dt = q.t - C.t; if (dt < .15) return false;
   let vx = (q.x - C.x) / dt, vy = (q.y - C.y) / dt; const v = Math.hypot(vx, vy); if (v < 40) return false;
@@ -4135,6 +4139,7 @@ function skPost(eng, e, C, q) {
 /* (R20) the sounds come its way (the second nearer than the first by 40 px or more - as its fuzzy ears hear them), in the dark: it does not go to
  * meet them - it waits where it is, facing them (a post here), and lets them come (skDecide's post rule takes it from there) */
 function skPostHere(eng, e, C, q) {
+  if (C.src === -1 || q.src === -1) return false;                                // (the review) another creature's sounds are nobody to wait for
   if (e.hunger < SK.huntHunger || e.exh || skLit(eng, e) > SK.exposed * .5) return false;
   const dC = Math.hypot(C.x - e.x, C.y - e.y), dq = Math.hypot(q.x - e.x, q.y - e.y);
   if (!(dq < dC - 40) || dq > 760 || dq < SK.pounceRange[1] + 60) return false;   // (its ears' fuzz can fool it: a wrong guess is a short wait)
