@@ -19,7 +19,9 @@ Watch with the overlay off first.  Never paste your passcode anywhere.
 ## What changed, in one line
 
 A creature that cuts the inside of a bend at speed and goes past the corner's waypoint no longer turns back for it - the "stop, pivot, go"
-at a corner is gone.  Nothing else about how any species moves changed: speeds, turn rates, braking, overshoot, collision, vaults, crawls.
+at a corner is eased (in the measured routes the Hound's pivoting at chase pace fell from 0.40 to 0.12 s over 40 routes; most bends were
+never affected).  Nothing else about how any species moves changed: speeds, turn rates, braking, overshoot, collision, vaults, crawls.  Its
+tighter line grazes a corner a little more often (a few more slides along a wall corner per 40 routes; no more wall contacts).
 
 ## The scenes (PASS / MIXED / NEEDS CHANGES / NOT CHECKED)
 

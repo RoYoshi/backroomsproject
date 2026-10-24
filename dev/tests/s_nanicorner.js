@@ -5,15 +5,16 @@
  * own plan() and follow() and, on the same routes, the same built ai.js with that hunk taken back out (exactly R18's follower) - before and
  * after in one run, seeded, headless.
  *   NC01 (N01, N03, N04, N10) the stop at a bend: at each species' fast pace, no more slow, pivoting or aim-flicking time than R18, the
- *        Hound's stop-pivot-go gone where R18 had it, no route slower; the Hound still runs widest of the three and turns no faster than
+ *        Hound's stop-pivot-go eased where R18 had it, no route slower; the Hound still runs widest of the three and turns no faster than
  *        its own rate (no species made alike)
  *   NC02 (N02, N05, N06) collision: every tick of every run, at every pace, from rest and from speed - no body inside anything solid, no more
  *        wall contacts, hard bonks or stuck recoveries than R18
  *   NC03 (N07) traversal: routes through vault links and crawl or tight-gap cells - the same traversals and modes as R18, and no link, crawl
- *        or tight-gap waypoint ever dropped
+ *        or tight-gap waypoint ever dropped (by construction the hunk does not fire next to one: this holds that it stays so)
  *   NC04 (N08, N09, N15, N17) the real engine for 120 s: two Hounds, a Smiler and a Skin-Stealer among four players walking, running and
- *        going far away and back (near, mid and far tiers) - no body inside anything, no position jump faster than its top speed outside a
- *        vault, a strike or a tier change, every number finite, routes bounded
+ *        going far away and back (near, mid and far tiers); then (the independent review: the hunk never fired there) Hounds sent after
+ *        runners by the admin's navigation command, where it does - no body inside anything, no position jump faster than its top speed
+ *        outside a vault, a strike or a tier change, every number finite, routes bounded, the hunk fired
  * The Wanderer (N18) is WL01-WL06's; the Smiler's reactive logic and the Hound's code are WL05's and PR25's (byte for byte but for the
  * N hunks); the Skin-Stealer's covert way (skCovertFollow) and its footwork (skStrafe) do not use follow() and are its own suites'. */
 'use strict';
@@ -107,7 +108,7 @@ function runs() {
   return (RUNS = { routes: RS.length, out });
 }
 
-add('NC01 the stop at a bend (N01, N03, N04, N10): at each species\' fast pace no more slow, pivoting or aim-flicking time than R18\'s follower on the same routes, the Hound\'s stop-pivot-go gone where R18 had it, no route slower; the Hound still runs widest and no species turns faster than its own rate', () => {
+add('NC01 the stop at a bend (N01, N03, N04, N10): at each species\' fast pace no more slow, pivoting or aim-flicking time than R18\'s follower on the same routes, the Hound\'s stop-pivot-go eased where R18 had it, no route slower; the Hound still runs widest and no species turns faster than its own rate', () => {
   const { routes: nR, out } = runs(), bad = [], note = [];
   const caps = { hound: 3.4, smiler: 3.1, skinstealer: 3.6 };
   for (const kind of Object.keys(PACES)) {
@@ -150,7 +151,7 @@ add('NC03 traversal (N07): routes through vault links and crawl or tight-gap cel
   return { ok: !bad.length, note: note.join(' | ') + (bad.length ? ' | ' + bad.slice(0, 4).join('; ') : '') };
 });
 
-add('NC04 the real engine for 120 s (N08, N09, N15, N17): two Hounds, a Smiler and a Skin-Stealer among four players walking, running, and going far away and back - no body inside anything solid, no jump faster than its top speed (outside a vault, a strike or a tier change), every number finite, its route bounded', () => {
+add('NC04 the real engine (N08, N09, N15, N17): 120 s of two Hounds, a Smiler and a Skin-Stealer among four players walking, running, and going far away and back; then Hounds sent after runners by the admin\'s navigation command, where the hunk fires - no body inside anything solid, no jump faster than its top speed (outside a vault, a strike or a tier change), every number finite, its route bounded', () => {
   const w = World(2601), eng = w.eng, geo = eng.geo, R = rng(2601), bad = [];
   const spots = []; for (let k = 0; k < 4000 && spots.length < 120; k++) { const x = 200 + R() * (geo.W - 400), y = 200 + R() * (geo.H - 400); if (w.ad.clear(x, y, 30, 'walk')) spots.push({ x, y }); }
   const ps = []; for (let i = 0; i < 4; i++) { const s = spots[i * 7], p = w.player(s.x, s.y, { light: i !== 2 }); p.stop('stand'); ps.push(p); }
@@ -175,7 +176,14 @@ add('NC04 the real engine for 120 s (N08, N09, N15, N17): two Hounds, a Smiler a
   });
   const stuck = es.map(e => (e.nav && e.nav.stuckN) || 0), passed = es.map(e => (e.nav && e.nav.passed) || 0);
   if (M.inside || M.jumps || M.nan || M.maxPath > 400 || !tiers.has('far') || !tiers.has('near')) bad.push('x');
-  return { ok: !bad.length, note: `${M.ticks} creature-ticks over tiers ${[...tiers].join('/')}: inside anything ${M.inside}, jumps over its top speed ${M.jumps}, non-finite ${M.nan}, longest route ${M.maxPath} waypoints | stuck re-routes ${stuck.join('/')}, waypoints passed on the inside of a bend ${passed.join('/')}` };
+  // (the independent review: in that world the hunk never fired) and Hounds sent after running people by the admin's own navigation
+  // command, where it does fire (r19n_chase.js) - as built, and with the hunks taken back out in a child process (r19n_child.js): every
+  // jump over its top speed must be one R18's follower makes too (the engine's push out of a corner), and the stuck re-routes no more
+  const C = require('./r19n_chase.js').run(require('./lib.js'));
+  const B8 = JSON.parse(require('child_process').execFileSync(process.execPath, [path.join(__dirname, 'r19n_child.js'), ROOT], { maxBuffer: 1 << 26 }).toString());
+  const newJumps = C.jumps.filter(j => !B8.jumps.some(k => k[0] === j[0] && Math.abs(k[1] - j[1]) < .02));
+  if (C.inside || newJumps.length || C.nan || !C.passed || B8.took !== 1 || C.stuck > B8.stuck) bad.push('chase');
+  return { ok: !bad.length, note: `${M.ticks} creature-ticks over tiers ${[...tiers].join('/')}: inside anything ${M.inside}, jumps over its top speed ${M.jumps}, non-finite ${M.nan}, longest route ${M.maxPath} waypoints | stuck re-routes ${stuck.join('/')}, waypoints passed on the inside of a bend ${passed.join('/')} | Hounds sent after runners (navigation, 4 seeds x 60 s, ${C.ticks} hound-ticks), R18's follower > this tree's: waypoints passed ${B8.passed} > ${C.passed}, inside anything ${B8.inside} > ${C.inside}, jumps over its top speed ${B8.jumps.length} > ${C.jumps.length} (not also R18's: ${newJumps.length}), non-finite ${C.nan}, stuck re-routes ${B8.stuck} > ${C.stuck}, contacts ${B8.contacts} > ${C.contacts}` };
 });
 
 S.helpers = { pair, routes, walk, runs };                      // (for development tools; run.js reads only the list)
