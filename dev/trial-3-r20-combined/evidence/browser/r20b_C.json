@@ -1,0 +1,73 @@
+{
+ "tool": "dev/trial-3-r20-combined/tools/r20_browser.js",
+ "chromium": "141.0.7390.37",
+ "tree": "C",
+ "runs": [
+  {
+   "name": "D.1 a dark walk past a hidden one (.75)",
+   "caught": false,
+   "deadAt": null,
+   "at": null,
+   "nearAt": null,
+   "seenBefore": 0,
+   "plans": [
+    "roam"
+   ],
+   "staged": false,
+   "samples": 505,
+   "note": "got through; within 200 px at null s; in the page's view 0 s before that; plans roam"
+  },
+  {
+   "name": "D.2 a dark walk past a hidden one (.75)",
+   "caught": true,
+   "deadAt": 6.35,
+   "at": 4194,
+   "nearAt": 5.41,
+   "seenBefore": 1.4,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "staged": false,
+   "samples": 147,
+   "note": "CAUGHT at 6.35 s; within 200 px at 5.41 s; in the page's view 1.4 s before that; plans roam>approach>roam"
+  },
+  {
+   "name": "D.3 a dark walk past a hidden one (.75)",
+   "caught": true,
+   "deadAt": 7.63,
+   "at": 4432,
+   "nearAt": 6.37,
+   "seenBefore": 2.4,
+   "plans": [
+    "roam",
+    "listen",
+    "post",
+    "ambush",
+    "approach",
+    "roam"
+   ],
+   "staged": true,
+   "samples": 171,
+   "note": "CAUGHT at 7.63 s; within 200 px at 6.37 s; in the page's view 2.4 s before that; plans roam>listen>post>ambush>approach>roam"
+  },
+  {
+   "name": "D.4 a dark walk past a hidden one (.75)",
+   "caught": true,
+   "deadAt": 24.91,
+   "at": 7095,
+   "nearAt": 15.71,
+   "seenBefore": 2.45,
+   "plans": [
+    "roam",
+    "listen",
+    "approach",
+    "roam"
+   ],
+   "staged": false,
+   "samples": 510,
+   "note": "CAUGHT at 24.91 s; within 200 px at 15.71 s; in the page's view 2.45 s before that; plans roam>listen>approach>roam"
+  }
+ ]
+}
