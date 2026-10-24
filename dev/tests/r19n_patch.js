@@ -29,7 +29,7 @@ const HUNKS = [
  ],
  [
   "  const intent = Math.max(step, (o.hold ? 0 : vmax) * dt * .5);                 // stuck = it wants to move and does not (measured against intent, not the speed it was braked to)\n",
-  "  // stuck = it wants to move and does not: measured against the speed its own turn allows, not the speed a wall or a corner braked it to.\n  // (R20: against its full speed, a body slowed to 10-15 % to turn round on open floor counted as stuck - the open-air STUCK, every species)\n  const intent = Math.max(step, turnV * dt * .5);\n",
+  "  // stuck = it wants to move and does not.  (R20) A species that opts in (caps.TURN_AWARE_STUCK: the Skin-Stealer) measures it against\n  // the speed its own turn allows, not the speed a wall or a corner braked it to: against its full speed, a body slowed to 10-15 % to turn\n  // round on open floor counted as stuck - the open-air STUCK.  Every other species keeps R8-R19's yardstick, its full speed: the Hound's and\n  // the Smiler's movement and recovery are B++'s byte for byte (the gate's server golden traces hold them)\n  const intent = Math.max(step, (e.caps.TURN_AWARE_STUCK ? turnV : o.hold ? 0 : vmax) * dt * .5);\n",
   "src/frameworks/nani/server/ai.entity.js"
  ],
  [

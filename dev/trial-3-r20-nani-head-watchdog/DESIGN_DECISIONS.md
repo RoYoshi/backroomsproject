@@ -5,15 +5,15 @@ shared-engine hunk is listed, word for word, in `dev/tests/r19n_patch.js`, the r
 Hound's, the Smiler's and the shared engine's code to R8 / 4518f93 plus exactly those hunks.  C15 (no Skin-Stealer: every snapshot is R8's)
 runs this tree with them taken out.
 
-## W1: the follower's stuck timer measures progress against the speed its own turn allows (shared; `ai.entity.js` `steerTo`)
+## W1: the follower's stuck timer measures progress against the speed its own turn allows (`ai.entity.js` `steerTo`; opt-in, the Skin-Stealer only, since D2)
 
-**Before (R8-R19):**
+**Before (R8-R19, and still for every species but the Skin-Stealer):**
 
 ```js
 intent = max(step, (hold ? 0 : vmax) * dt * .5)
 ```
 
-**Now:**
+**Now, for a species with `caps.TURN_AWARE_STUCK` (the Skin-Stealer):**
 
 ```js
 turnV = hold ? 0 : vmax * (noSlow ? 1 : clamp(align, .1, 1))   // the target before corner or wall braking
@@ -34,10 +34,16 @@ measured against `vmax / 2`, read that as no progress.  A 180° turn takes 0.9-1
 
 That was 96 % of all its stuck-timer growth in ordinary play (AUDIT.md).
 
-**Scope.**  It is shared because the defect is shared: a Hound's and a Smiler's turnarounds were mislabelled and side-stepped too.  The
-owner's rule is that Hound and Smiler must not weaken, so both were measured against R19 combined on the same 1,044 seeded chases per
-species (REGRESSION.md): caught counts are equal in every scene.  Had either been weaker, W1 would have been made opt-in for the
-Skin-Stealer alone.
+**Scope (revised at checkpoint D2): the Skin-Stealer's alone.**  W1 was first made shared, because the defect is shared: a Hound's and a
+Smiler's turnarounds were mislabelled and side-stepped too.  Their caught counts were equal to R19 combined on the 1,044 seeded chases per
+species, but not their runs: a few loop chases differed.  Then:
+- the independent review found the change alters their recovery (a Hound turning hard no longer side-steps);
+- the gate's server golden traces, which hold the Hound's and the Smiler's B++ behaviour byte for byte, failed on it
+  (`deaths`, `admin`, and with them `bpp_golden`, `session`, `sim`).
+
+So W1 is now an opt-in, `caps.TURN_AWARE_STUCK`, and only the Skin-Stealer has it.  Every other species keeps R8-R19's yardstick, its full
+speed.  With that, the gate is R19's again and the chase study is identical to R19 combined for the Hound and the Smiler, run for run.  A
+Hound's or a Smiler's red `STUCK` while it turns round in the debug overlay is R19's: a debug label, their own behaviour.
 
 ## W2: the watchdog asks a self-declared still species every tick (`ai.engine.js` `watchdog`; in effect, the Skin-Stealer only)
 

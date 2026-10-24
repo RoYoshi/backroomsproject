@@ -29,10 +29,12 @@ add('ST01 a 10-minute corner wait - still, its head swivelling, a small step asi
   return { ok: !bad.length, note: bad.length ? bad.join('; ') : `${now.runs.length} x 600 s, ${sum(now.runs, r => r.sweeps)} head sweeps: 0 resets, 0 routes cleared, stuck timer at most ${Math.max(...now.runs.map(r => r.maxStuck))} s, no label | R19's engine: ${r19r} resets ("stuck: the watchdog cleared its route"), ${r19l.toFixed(0)} s of label` };
 });
 
-add('ST02 open floor: (a) turning round by the real follower - Skin-Stealer, Hound, Smiler, walk and fastest pace - no STUCK label or recovery rung and the same arrival as R19; (b) walks there and back: no watchdog reset; (c) ordinary play: no label in open air, no reset (R19: all three)', () => {
+add('ST02 open floor: (a) turning round by the real follower, walk and fastest pace - the Skin-Stealer: no STUCK label or recovery rung and the same arrival as R19; the Hound and the Smiler: exactly R19 (W1 is the Skin-Stealer\'s alone); (b) walks there and back: no watchdog reset; (c) ordinary play: no label in open air, no reset (R19: all three)', () => {
   const T = both('turns'), B = both('thereback'), O = both('ordinary'), bad = [], notes = [];
   for (const k of ['skinstealer', 'hound', 'smiler']) {
     const a = T.now[k], b = T.r19[k]; if (a.length < 100 || a.length !== b.length) { bad.push(`${k}: ${a.length} / ${b.length} turns`); continue; }
+    // (R20 D2) W1 is the Skin-Stealer's alone (caps.TURN_AWARE_STUCK): the Hound's and the Smiler's turns are R19's, run for run
+    if (k !== 'skinstealer') { const same = JSON.stringify(a) === JSON.stringify(b); if (!same) bad.push(`${k}: its turns differ from R19's`); notes.push(`${k} ${a.length} turns: exactly R19's (label ${sum(a, r => r.label).toFixed(0)} s, side-steps ${sum(a, r => r.side)}: its own, unchanged)`); continue; }
     const lab = sum(a, r => r.label), side = sum(a, r => r.side + r.replan), un = a.filter(r => r.t === null).length;
     let worst = 0; a.forEach((r, i) => { if (r.t !== null && b[i].t !== null) worst = Math.max(worst, r.t - b[i].t); });
     if (lab > 0 || side || un) bad.push(`${k}: label ${lab.toFixed(2)} s, rungs ${side}, not arrived ${un}`);

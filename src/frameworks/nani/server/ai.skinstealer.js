@@ -277,7 +277,7 @@ const SKIN = {
   traits: { INTELLIGENCE: .8, SADISM: .1, HUNGER: .6, PATIENCE: .75, CURIOSITY: .55, CAUTION: .7, TERRITORIALITY: .3, AGGRESSION: .45, PERSISTENCE: .45, SOCIAL: .1, HEARING: .7, VISION: .55, LIGHT_SENS: .5, MEMORY: .7 },
   jitter: .12,
   // one collider in every form: it cannot crawl, and a disguise never shrinks it (LogicZ does not exist; see DEFERRED.md)
-  caps: { CAN_VAULT: true, VAULT_SPEED: .9, CAN_CROUCH: true, CAN_CRAWL: false, CAN_SLIDE: false, CAN_OPEN_DOORS: false, CAN_BREAK_DOORS: false, CAN_USE_TIGHT_GAPS: false, TURNING_ABILITY: 3.6, ACCELERATION: 760,
+  caps: { CAN_VAULT: true, VAULT_SPEED: .9, CAN_CROUCH: true, CAN_CRAWL: false, CAN_SLIDE: false, CAN_OPEN_DOORS: false, CAN_BREAK_DOORS: false, CAN_USE_TIGHT_GAPS: false, TURNING_ABILITY: 3.6, ACCELERATION: 760, TURN_AWARE_STUCK: true,   // (R20, the N track: W1, its stuck timer measured against its turn)
     HEAD_SWIVEL: { max: .85, run: .4, runFrom: 240, rate: 3, ahead: 170 } },   // (R20, the N track) its gaze leads into the bends of its way (headAhead)
   // not a dark-seer: a lightless person in the dark is seen only from close by, as the Hound sees
   vision: { range: 760, fov: 2.5, dark: false, gain: 2.6, floor: 90 },
