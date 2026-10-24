@@ -3,7 +3,8 @@
 Trial 3 is **not owner-approved**.  Branch `trial-3-r19-combined-humanqa`: **for the owner's Human QA only**.  It is R19's two isolated
 tracks put together - the S track's positioning (`trial-3-r19-prechase-positioning`) and the N track's shared cornering
 (`trial-3-nani-cornering-qol`) - by merge commits of their tips only (`9c7e3de`: S `f0c95ff` + N `451f1d6`; then each track's later
-commits as they landed - `a456230` brings in S `83a05c1`); both tracks descend in one straight line from the R18 receipt `01e5d97`.
+commits as they landed - `a456230` brings in S `83a05c1`, `0619812` the tracks' final receipts, S `20a5844` and N `e589e76`, no game
+change); both tracks descend in one straight line from the R18 receipt `01e5d97`.
 Nothing here is merged anywhere, deployed, or spawned organically.  Each track's own reports are in its
 own folder, unchanged here: `dev/trial-3-r19-positioning/` (S) and `dev/trial-3-nani-corners/` (N).
 
@@ -11,6 +12,8 @@ own folder, unchanged here: `dev/trial-3-r19-positioning/` (S) and `dev/trial-3-
 |---|---|
 | `HUMAN_QA.md` | the owner's worksheet: both tracks' scenes and the pack's combined questions |
 | `REGRESSION.md` | the full suite, both new suites, the locks, the scenes and the real-page runs on this tree |
+| `BROWSER_AND_MEDIA.md` | the real-page runs on this tree beside R18 |
+| `PERFORMANCE.md` | the 60 Hz step against R18, both orders, with the A/A control |
 | `REMOTE_RECEIPTS.md` | every push of this branch read back from GitHub |
 
 ## What the merge had to resolve

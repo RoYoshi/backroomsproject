@@ -1,7 +1,8 @@
 # Trial 3 R19 - the combined QA branch: regression
 
 Trial 3 is **not owner-approved**.  Environment: this session's machine (2 CPUs, Linux, node v22.22.2), the repository's own scripts,
-`ADMIN_PASSCODE=<synthetic>` in the shell for each run.  The tree: `a456230` (S `83a05c1` and N `451f1d6` merged).
+`ADMIN_PASSCODE=<synthetic>` in the shell for each run.  The tree: `a456230` (S `83a05c1` and N `451f1d6` merged); its game code is unchanged at `0619812`, which brings in only the tracks'
+final reports.
 
 ## The suites
 
@@ -30,3 +31,20 @@ other.  The S track's scenes (`dev/trial-3-r19-positioning/tools/scene_r19.js`: 
 stale way round, the junction standing and walking, the escapes at 550/450/350 px) give the same lines on this tree as on S, seed for
 seed (`evidence/scenes_c.txt`).  The cornering hunk can fire for a Skin-Stealer (its open approach and chase use the shared follower);
 it did not in these scenes, and NC01's Skin-Stealer runs show what it does when it does (slow 0.27 -> 0 s at 270 px/s, no contact more).
+
+## Never weaker: game outcomes against R18 (the owner's addendum)
+
+The N branch's `tools/pursuit_outcomes.js` on R18 and on this tree, the same seeded chases (corner pursuits through rooms - real stamina,
+endless stamina, starting farther back; laps round wall islands; sustained 60 s chases), paired run by run
+(`evidence/outcomes/po_C.json`, `cmp_C.md`; R18's record is the N branch's `evidence/N2/outcomes/po_R18.json`):
+
+| species | runs | caught (R18 -> combined) | attacks begun | runs that differ |
+|---|---|---|---|---|
+| Hound | 348 | 345 = 345 | 174 = 174 | 2, both sooner (N's cornering) |
+| Skin-Stealer | 348 | 304 -> 305 | 367 -> 374 | 11: 7 sooner, 4 later (S's positioning; N's cornering did not act) |
+| Smiler | 348 | 323 = 323 | 306 = 306 | 6: 4 sooner, 2 later (one lap scene twice; N's cornering) |
+
+The lap study (`laps_S_C.md`): 234 laps per species; the Skin-Stealer 8 differ (4 sooner, 4 later), the Smiler 9 (6 sooner, 3 later),
+the Hound none; catches and attacks equal.  The control on R18 itself - every creature started 1 px off - changes 160 of 702 laps by up
+to 35 s: a single lap's difference is the chase's own sensitivity; the counts are the measure, and no monster is weaker on them.  Each
+track's report has the detail (S: REGRESSION "Never weaker"; N: REGRESSION "Never weaker", with the control table).

@@ -1,0 +1,130 @@
+{
+ "tool": "dev/trial-3-r19-positioning/tools/r19_browser.js",
+ "chromium": "141.0.7390.37",
+ "tree": "C",
+ "runs": [
+  {
+   "name": "B.1 Scene B (standing, lit, .85)",
+   "nearAt": 1.89,
+   "outOfView": 0,
+   "vanished": false,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "ps": [
+    "flankRefused: its way round P1 would take 10.1 s (against 1.7 s coming on; it may spend 6.2 s more): approach"
+   ],
+   "deadAt": 6.5,
+   "samples": 158,
+   "note": "stayed in view (longest out of the page's view before it was within 200 px: 0 s); within 200 px at 1.89 s; plans roam>approach>roam; positioning flankRefused: its way round P1 would take 10.1 s (against 1.7 s coming on; it may spend 6.2 s more): approach; the page killed at 6.5 s"
+  },
+  {
+   "name": "B.2 Scene B (standing, lit, .85)",
+   "nearAt": 1.96,
+   "outOfView": 0,
+   "vanished": false,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "ps": [
+    "flankRefused: its way round P1 would take 10.1 s (against 1.7 s coming on; it may spend 6.2 s more): approach"
+   ],
+   "deadAt": 5.47,
+   "samples": 141,
+   "note": "stayed in view (longest out of the page's view before it was within 200 px: 0 s); within 200 px at 1.96 s; plans roam>approach>roam; positioning flankRefused: its way round P1 would take 10.1 s (against 1.7 s coming on; it may spend 6.2 s more): approach; the page killed at 5.47 s"
+  },
+  {
+   "name": "B.3 Scene B (standing, lit, .85)",
+   "nearAt": 1.98,
+   "outOfView": 0,
+   "vanished": false,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "ps": [
+    "flankRefused: its way round P1 would take 10.1 s (against 1.7 s coming on; it may spend 6.2 s more): approach"
+   ],
+   "deadAt": 5.84,
+   "samples": 129,
+   "note": "stayed in view (longest out of the page's view before it was within 200 px: 0 s); within 200 px at 1.98 s; plans roam>approach>roam; positioning flankRefused: its way round P1 would take 10.1 s (against 1.7 s coming on; it may spend 6.2 s more): approach; the page killed at 5.84 s"
+  },
+  {
+   "name": "J.1 the junction (standing, lit, .9)",
+   "placed": {
+    "ok": true,
+    "id": 15
+   },
+   "firstSeenAt": [
+    1164,
+    1332
+   ],
+   "eastMax": 60,
+   "nearAt": 2.42,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "ps": [
+    "contest: it heads for P1's way out (90 deg off straight beyond them)"
+   ],
+   "deadAt": 3.4,
+   "samples": 77,
+   "note": "the most east of the straight line while 400 px or more off: 60 px; within 200 px at 2.42 s; plans roam>approach>roam; positioning contest: it heads for P1's way out (90 deg off straight beyond them); the page killed at 3.4 s"
+  },
+  {
+   "name": "J.2 the junction (standing, lit, .9)",
+   "placed": {
+    "ok": true,
+    "id": 16
+   },
+   "firstSeenAt": [
+    1164,
+    1332
+   ],
+   "eastMax": 59,
+   "nearAt": 2.48,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "ps": [
+    "contest: it heads for P1's way out (90 deg off straight beyond them)"
+   ],
+   "deadAt": 3.38,
+   "samples": 77,
+   "note": "the most east of the straight line while 400 px or more off: 59 px; within 200 px at 2.48 s; plans roam>approach>roam; positioning contest: it heads for P1's way out (90 deg off straight beyond them); the page killed at 3.38 s"
+  },
+  {
+   "name": "J.3 the junction (standing, lit, .9)",
+   "placed": {
+    "ok": true,
+    "id": 17
+   },
+   "firstSeenAt": [
+    1164,
+    1332
+   ],
+   "eastMax": 61,
+   "nearAt": 2.48,
+   "plans": [
+    "roam",
+    "approach",
+    "roam"
+   ],
+   "ps": [
+    "contest: it heads for P1's way out (90 deg off straight beyond them)"
+   ],
+   "deadAt": 3.45,
+   "samples": 78,
+   "note": "the most east of the straight line while 400 px or more off: 61 px; within 200 px at 2.48 s; plans roam>approach>roam; positioning contest: it heads for P1's way out (90 deg off straight beyond them); the page killed at 3.45 s"
+  }
+ ]
+}

@@ -56,6 +56,7 @@ back to 1x before you judge anything.  Never paste your passcode anywhere.
 | C-C | Do four-player sessions still feel fun - not too lethal, not too passive? |  |  |
 | C-D | Do the Hound and the Smiler stay fair and distinct? |  |  |
 | C-E | Anything slower, floaty, twitchy or unfair? |  |  |
+| C-F | **Never weaker** (your addendum): is any monster less of a threat than in R18 - slower round corners, more hesitant, fewer lunges or strikes? |  |  |
 
 **Owner verdict, combined:** PASS / MIXED / NEEDS CHANGES / NOT CHECKED  ____________
 
