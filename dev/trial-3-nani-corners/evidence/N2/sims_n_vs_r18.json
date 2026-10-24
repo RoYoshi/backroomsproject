@@ -1,0 +1,47 @@
+{
+ "tool": "dev/trial-3-r19-positioning/tools/prechase_sim.js --mins 180 --seeds 12 --log 1 (the S track's ordinary play: one Skin-Stealer, two people)",
+ "runs": [
+  {
+   "spec": "h.55_s1",
+   "hours": 36.0,
+   "measuresDiffering": [],
+   "runsDiffering": [],
+   "kills": [
+    212,
+    212
+   ],
+   "meetings": [
+    655,
+    655
+   ]
+  },
+  {
+   "spec": "h.7_s1",
+   "hours": 36.0,
+   "measuresDiffering": [],
+   "runsDiffering": [],
+   "kills": [
+    179,
+    179
+   ],
+   "meetings": [
+    498,
+    498
+   ]
+  },
+  {
+   "spec": "h.7_s13",
+   "hours": 36.0,
+   "measuresDiffering": [],
+   "runsDiffering": [],
+   "kills": [
+    223,
+    223
+   ],
+   "meetings": [
+    694,
+    694
+   ]
+  }
+ ]
+}
