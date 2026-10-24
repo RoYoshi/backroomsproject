@@ -35,6 +35,10 @@ left.  Every kill drew exactly its own attacker: one per kill, two while two kil
 **The frame rates were low.**  These pages drew 2-4 frames a second (software WebGL, up to four pages on two CPUs).  Each case is about
 10 frames per page; the result was the same on every frame.
 
+**After the runs.**  The independent review asked for a backstop: a killer more than 400 px from its death's source is drawn, even while its
+kill plays.  That was added after these runs.  The id test is unchanged, and in every scene the killer stood by its kill.  RV07b checks the
+backstop.
+
 ## RV04: what could not be done on this machine
 
 A Skin-Stealer's death lasts 3.2-3.6 s.  Here:

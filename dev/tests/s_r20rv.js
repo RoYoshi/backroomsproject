@@ -83,12 +83,13 @@ add('RV07b replays: one kill with two Skin-Stealers beside it, two kills at once
     P.ctx.__fxs = [fx(21, 540, 500), fx(23, 760, 520)]; for (let i = 0; i < 10; i++) P.frame(list); R.two = [21, 22, 23, 24].map(id => vis(P, id).visible);
     P.ctx.__fxs = [fx(0, 540, 500)]; for (let i = 0; i < 10; i++) P.frame(list); R.noId = [21, 22, 23, 24].map(id => vis(P, id).visible);
     P.ctx.__fxs = [fx(21, 540, 500, { gone: true })]; for (let i = 0; i < 10; i++) P.frame(list); R.done = [21, 22, 23, 24].map(id => vis(P, id).visible);
+    P.ctx.__fxs = [fx(21, 1100, 500)]; for (let i = 0; i < 10; i++) P.frame(list); R.away = vis(P, 21).visible;   // (the review's backstop: a killer 560 px from its kill is not on it)
     out[which] = R;
   }
   const n = out.now, r = out.r19, eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-  if (!eq(n.one, [false, true, true, true]) || !eq(n.two, [false, true, false, true]) || !eq(n.noId, [true, true, true, true]) || !eq(n.done, [true, true, true, true])) bad.push(`this page: ${JSON.stringify(n)}`);
+  if (!eq(n.one, [false, true, true, true]) || !eq(n.two, [false, true, false, true]) || !eq(n.noId, [true, true, true, true]) || !eq(n.done, [true, true, true, true]) || n.away !== true) bad.push(`this page: ${JSON.stringify(n)}`);
   if (!(r.one[1] === false && r.two.filter(x => !x).length === 4)) bad.push(`the negative proof: R19's page ${JSON.stringify(r)}`);
-  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `visible [21 killer, 22, 23, 24]: one replay ${JSON.stringify(n.one)}, two at once ${JSON.stringify(n.two)}, no id ${JSON.stringify(n.noId)}, done ${JSON.stringify(n.done)} | R19's page: one ${JSON.stringify(r.one)}, two ${JSON.stringify(r.two)}, no id ${JSON.stringify(r.noId)}`, data: out };
+  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `visible [21 killer, 22, 23, 24]: one replay ${JSON.stringify(n.one)}, two at once ${JSON.stringify(n.two)}, no id ${JSON.stringify(n.noId)}, done ${JSON.stringify(n.done)}, its killer 560 px from the kill drawn: ${n.away} | R19's page: one ${JSON.stringify(r.one)}, two ${JSON.stringify(r.two)}, no id ${JSON.stringify(r.noId)}`, data: out };
 });
 
 /* G.I.B.'s replay module (mp.deaths.js) in a VM: its startFx given the server's message, with the Hound slots and Smiler slots as the
