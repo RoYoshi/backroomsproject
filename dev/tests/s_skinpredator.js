@@ -219,7 +219,7 @@ function sw(seed, h, way, mode, T, o = {}) {
   let lastP = null;
   w.run(T, (ww, t) => {
     if (t > .5 && !p.going) { p.going = 1; p.route([{ x: 1300, y: 5420 }, { x: 1300, y: 5150 }], 'walk'); }
-    if (p.going === 1 && p.path && !p.path.length) { p.going = 2; R.parted = R.tr.length; R.partedT = +t.toFixed(2); p.route((o.ways || WAYS)[way], mode); }
+    if (p.going === 1 && p.path && !p.path.length) { p.going = 2; R.parted = R.tr.length; R.partedT = +t.toFixed(2); R.hq0 = e.tally.heardQ; R.rv0 = e.tally.revise; p.route((o.ways || WAYS)[way], mode); }   // (R20: what it had heard by the parting)
     if (p.going === 2 && p.path && !p.path.length) { p.going = 3; if (o.then) o.then(p); else p.stop('crouch'); }
     if (p.light && p.y < 5440) p.light = false;
     if (o.on) o.on(t, p, e, R);
@@ -233,7 +233,7 @@ function sw(seed, h, way, mode, T, o = {}) {
     R.tr.push([Math.round(e.x * 10), Math.round(e.y * 10), ev, P ? P.k : '-'].join(','));
     if (P && P !== lastP && (P.k === 'intercept' || P.k === 'search')) {
       const g = P.k === 'intercept' ? { x: P.g.qx, y: P.g.qy } : P.goal;
-      R.guesses.push({ t: +t.toFixed(1), k: P.k, x: Math.round(g.x), y: Math.round(g.y), lead: P.k === 'intercept' ? P.g.lead : null, why: e.dbg.why, guess: e.dbg.guess ? e.dbg.guess.k : '', heard: e.tally.heardQ, conf: H ? +H.conf.toFixed(2) : 0 });
+      R.guesses.push({ t: +t.toFixed(1), k: P.k, x: Math.round(g.x), y: Math.round(g.y), lead: P.k === 'intercept' ? P.g.lead : null, why: e.dbg.why, guess: e.dbg.guess ? e.dbg.guess.k : '', heard: e.tally.heardQ, conf: H ? +H.conf.toFixed(2) : 0, at: w.eng.now, evAt: H ? H.bt : -1 });   // (R20: when, and the time of its newest evidence)
     }
     if (P && lastP && P.k !== lastP.k && lastP.k === 'intercept' && R.guesses.length) R.guesses[R.guesses.length - 1].after = { k: P.k, why: e.dbg.why, conf: H ? +H.conf.toFixed(2) : 0 };
     lastP = P;
@@ -277,14 +277,17 @@ add('PR09 the fork at wall B: its first guess (east round wall B, or north-west)
 });
 
 add('PR10 a wrong interception with nothing more to go on: it remembers the place, its confidence falls, its next guesses go elsewhere, and the hunt ends for that reason - never the same empty corner again', () => {
-  const rs = over([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], seed => {
+  // (R20: 24 seeds - its ears now take more of their steps, so fewer runs guess wrong with nothing heard after)
+  const rs = over(Array.from({ length: 24 }, (_, i) => i + 1), seed => {
     const R = sw(seed, .8, 'back', 'crouch', 60), G = R.guesses, iw = G.findIndex(q => q.after && /guessed wrong/.test(q.after.why));
-    const later = iw < 0 ? [] : G.slice(iw + 1), repeat = later.some(q => G.slice(0, G.indexOf(q)).some(f => Math.hypot(f.x - q.x, f.y - q.y) < 150));
+    // (R20: a place again only on the same evidence counts - R2's rule: a failure older than its newest evidence no longer counts, and a
+    // fresh sighting or sound may send it back; its ears now bring that about in this scene - R8-R19's rarely did)
+    const later = iw < 0 ? [] : G.slice(iw + 1), repeat = later.some(q => G.slice(0, G.indexOf(q)).some(f => Math.hypot(f.x - q.x, f.y - q.y) < 150 && q.evAt <= f.at + .05));
     return { judged: iw >= 0, repeat, confBefore: iw >= 0 ? G[iw].conf : -1, confAfter: iw >= 0 ? G[iw].after.conf : -1, n: G.length, tries: R.maxTries, end: R.end ? R.end.why : '-', endAt: R.end ? R.end.at : -1, killed: R.w.kills.length, hunting: !!R.e.hunt, heard: R.tally.heardQ };
   });
   const j = rs.filter(r => r.judged), ok = j.filter(r => !r.repeat && r.confAfter < r.confBefore && !r.hunting && r.tries <= 4 && (r.killed || /gives up/.test(r.end)));
   return { ok: j.length >= 5 && ok.length === j.length,
-    note: `${j.length}/12 guessed wrong with nothing heard after (${j.map(r => r.heard).join('/')} sounds taken for theirs): no place guessed twice ${j.filter(r => !r.repeat).length}/${j.length}, confidence ${j.map(r => r.confBefore + '>' + r.confAfter).join(' ')}, guesses ${j.map(r => r.n).join('/')}, the hunt over at ${j.map(r => r.endAt).join('/')} s (${[...new Set(j.map(r => '"' + r.end + '"'))].join(', ')}); killed ${j.reduce((a, r) => a + r.killed, 0)}`, data: rs };
+    note: `${j.length}/24 guessed wrong with nothing heard after (${j.map(r => r.heard).join('/')} sounds taken for theirs): no place guessed twice ${j.filter(r => !r.repeat).length}/${j.length}, confidence ${j.map(r => r.confBefore + '>' + r.confAfter).join(' ')}, guesses ${j.map(r => r.n).join('/')}, the hunt over at ${j.map(r => r.endAt).join('/')} s (${[...new Set(j.map(r => '"' + r.end + '"'))].join(', ')}); killed ${j.reduce((a, r) => a + r.killed, 0)}`, data: rs };
 });
 
 add('PR11 doubling back: footsteps it really hears on the other way turn its guess toward them; the same doubling back made silently turns nothing - and the two runs are the same creature until the first sound', () => {
@@ -293,7 +296,9 @@ add('PR11 doubling back: footsteps it really hears on the other way turn its gue
   const rs = over(Array.from({ length: 16 }, (_, i) => i + 1), seed => {
     const L = sw(seed, .8, 'back', 'run', 30), Q = sw(seed, .8, 'back', 'crouch', 30);
     const turned = L.guesses.some(q => q.heard > 0 && q.x < 1250) || L.tally.revise > 0;
-    return { law: lawOk(L, Q), heard: L.tally.heardQ, revise: L.tally.revise, turned, qHeard: Q.tally.heardQ, qRevise: Q.tally.revise, killed: L.w.kills.length + '/' + Q.w.kills.length, lg: L.guesses.map(q => q.k + '@' + q.x + ',' + q.y).join(' '), qg: Q.guesses.map(q => q.k + '@' + q.x + ',' + q.y).join(' ') };
+    // (R20: its ears now reach a walking step as far as a player hears its own - the walk to the parting is heard in both worlds; what
+    // is judged of the silent world is the doubling back itself, from the parting on)
+    return { law: lawOk(L, Q), heard: L.tally.heardQ, revise: L.tally.revise, turned, qHeard: Q.tally.heardQ - (Q.hq0 ?? Q.tally.heardQ), qRevise: Q.tally.revise - (Q.rv0 ?? Q.tally.revise), killed: L.w.kills.length + '/' + Q.w.kills.length, lg: L.guesses.map(q => q.k + '@' + q.x + ',' + q.y).join(' '), qg: Q.guesses.map(q => q.k + '@' + q.x + ',' + q.y).join(' ') };
   });
   const heard = rs.filter(r => r.heard > 0);
   return { ok: rs.every(r => r.law) && heard.length >= 5 && heard.filter(r => r.turned).length >= 4 && rs.every(r => r.qHeard === 0 && r.qRevise === 0),
@@ -313,7 +318,7 @@ add('PR12 footsteps behind a wall, nobody seen: it stops, turns to the sound and
         if (e.mem.sounds.length) R.heard = e.mem.sounds.length;
         if (e.mem.p.has(p.id) || (e.plan && e.plan.pid === p.id) || (e.hunt && e.hunt.pid === p.id)) R.named++;   // a name before a sighting: never
         const P = e.plan; if (P && (!R.ks.length || R.ks[R.ks.length - 1] !== P.k)) R.ks.push(P.k);
-        if (P && P.k === 'listen' && P.curious) R.listen = 1; if (P && P.k === 'search' && !P.pid && R.listen) R.look = 1;
+        if (P && P.k === 'listen' && P.curious) R.listen = 1; if (P && (P.k === 'search' || P.k === 'post') && !P.pid && R.listen) R.look = 1;   // (R20: or it goes to wait where the sounds would come out - a post, anonymous as a search)
       }
       return true; });
     return R;
@@ -347,18 +352,20 @@ add('PR14 a misleading sound: they run on east (it hears it), then crouch back w
   // the run itself - such a seed is not this scene and is set aside (counted, reported), and seeds go on until eight scenes hold the
   // premise.  R8's thresholds over those eight: it took the running for theirs in 5 of 8, fooled in 3, not all eight caught)
   const rs = [], aside = [];
-  for (let seed = 1; seed <= 16 && rs.length < 8; seed++) {
+  for (let seed = 1; seed <= 48 && rs.length < 8; seed++) {   // (R20: up to 48 seeds - its ears now reach a running step as far as a player hears its own, so its head turns to the run east, and it sees it, in more of them)
     const [r] = over([seed], sd => {
       let sawRun = 0;
       const R = sw(sd, .9, 'feint', 'run', 60, { ways: Object.assign({ feint: [{ x: 1480, y: 5120 }] }, WAYS), then: p => { p.going = 4; p.route(WAYS.back, 'crouch'); }, on: (t, p, e) => { if (p.going === 2 && e.seenNow.has(p.id)) sawRun++; if (p.going === 4 && p.path && !p.path.length) { p.going = 5; p.stop('crouch'); } } });
       const fooled = !R.w.kills.length && R.end && /gives up/.test(R.end.why), east = R.guesses.filter(q => q.heard > 0 && q.x > 1350).length;
-      return { seed: sd, fooled, heard: R.tally.heardQ, saw: sawRun > 0, east, killed: R.w.kills.length, end: R.end ? R.end.why : '-', at: R.end ? R.end.at : -1, g: R.guesses.map(q => q.k + '@' + q.x + ',' + q.y).join(' ') };
+      return { seed: sd, fooled, heard: R.tally.heardQ, saw: sawRun > 0, hunted: R.lostAt >= 0, east, killed: R.w.kills.length, end: R.end ? R.end.why : '-', at: R.end ? R.end.at : -1, g: R.guesses.map(q => q.k + '@' + q.x + ',' + q.y).join(' ') };
     });
-    if (!r.err && r.saw) aside.push(seed); else rs.push(r);
+    // (R20: and a seed where it never hunted them - never had them in sight to lose, so nothing of the scene's misleading follows - is set
+    // aside too: with its ears it often turns to the footsteps before the lit person turns off, and some seeds now go another way)
+    if (!r.err && (r.saw || !r.hunted)) aside.push(seed); else rs.push(r);
   }
   const f = rs.filter(r => r.fooled).length, k = rs.filter(r => r.killed).length;
   return { ok: rs.length === 8 && rs.every(r => !r.err) && rs.filter(r => r.heard > 0).length >= 5 && f >= 3 && k < 8,
-    note: `seeds ${rs.map(r => r.seed).join(',')} (set aside, it saw the run east: ${aside.join(',') || 'none'}) | took the running for theirs in ${rs.filter(r => r.heard > 0).length}/${rs.length} (guessed east after hearing in ${rs.filter(r => r.east > 0).length}) | fooled (gave up, nobody caught) ${f}/${rs.length}, found the one who doubled back ${k}/${rs.length} (${[...new Set(rs.map(r => '"' + r.end + '"'))].slice(0, 3).join(', ')})`, data: rs, aside };
+    note: `seeds ${rs.map(r => r.seed).join(',')} (set aside - it saw the run east, or never hunted them: ${aside.join(',') || 'none'}) | took the running for theirs in ${rs.filter(r => r.heard > 0).length}/${rs.length} (guessed east after hearing in ${rs.filter(r => r.east > 0).length}) | fooled (gave up, nobody caught) ${f}/${rs.length}, found the one who doubled back ${k}/${rs.length} (${[...new Set(rs.map(r => '"' + r.end + '"'))].slice(0, 3).join(', ')})`, data: rs, aside };
 });
 
 add('PR15 a run of footsteps it hears out of sight keeps its belief near them (closer than with silence); with nothing heard its belief only carries on from the last sighting - silent steps and old sounds steer nothing', () => {
@@ -366,11 +373,11 @@ add('PR15 a run of footsteps it hears out of sight keeps its belief near them (c
     const err = (mode) => { let sum = 0, n = 0, listen = 0; const R = sw(seed, .8, 'east', mode, 14, { on: (t, p, e) => {
       const H = e.hunt; if (H && H.pid === p.id && !e.seenNow.has(p.id) && p.going >= 2) { sum += Math.hypot(H.x - p.x, H.y - p.y); n++; }   // (H.x, H.y: the place its evidence puts them)
       if (e.plan && e.plan.k === 'listen') listen = 1; } });
-      return { mean: n ? Math.round(sum / n) : -1, n, heard: R.tally.heardQ, killed: R.w.kills.length, listen }; };
+      return { mean: n ? Math.round(sum / n) : -1, n, heard: R.tally.heardQ, heardAfter: R.tally.heardQ - (R.hq0 ?? R.tally.heardQ), killed: R.w.kills.length, listen }; };   // (R20: heardAfter - from the parting on: the walk before it is heard in both worlds now)
     return { run: err('run'), quiet: err('crouch') };
   });
   const both = rs.filter(r => r.run.n > 20 && r.quiet.n > 20), closer = both.filter(r => r.run.mean < r.quiet.mean);
-  return { ok: both.length >= 5 && closer.length >= Math.ceil(both.length * .7) && rs.every(r => r.quiet.heard === 0) && rs.filter(r => r.run.heard >= 2).length >= 5,
+  return { ok: both.length >= 5 && closer.length >= Math.ceil(both.length * .7) && rs.every(r => r.quiet.heardAfter === 0) && rs.filter(r => r.run.heardAfter >= 2).length >= 5,
     note: `sounds taken for theirs: running ${rs.map(r => r.run.heard).join('/')}, crouching ${rs.map(r => r.quiet.heard).join('/')} | its belief's mean distance from them while unseen: running ${both.map(r => r.run.mean).join('/')} px, crouching ${both.map(r => r.quiet.mean).join('/')} px - closer with the sounds in ${closer.length}/${both.length}`, data: rs };
 });
 
@@ -457,7 +464,11 @@ add('PR17 one person with a torch, seen, then out of sight: the phases show - li
       // (R18: its head turning, phase by phase - a listen whose head sweeps 0.1 rad or more, or is turned over 0.1 for most of it (R8's
       // measure, which alone counted the ticks with the head over 0.1: R18's listens are short, 0.3-0.8 s after a loss, and its sway starts
       // from where the head is - a sweep from -0.06 to 0.27 in 0.4 s was mostly under 0.1))
-      if (P && P.k === 'listen' && t - (P.seenT ?? (P.seenT = t)) > .3) { R.listen++; if (e.act === 'listen') R.listenOk++; if (e.speed > 5) R.moveInListen++;
+      // (R20: its other still, listening phases are the same phase - a post's wait or an interception's (still, its head turning toward
+      // where they would come, act 'wait'): with its ears it often goes straight to one of those on the footsteps instead of stopping to
+      // listen first)
+      const still = P && (P.k === 'listen' ? 'listen' : (P.k === 'post' || P.k === 'intercept') && P.arrived ? 'wait' : '');
+      if (still && t - (P.seenT ?? (P.seenT = t)) > .3) { R.listen++; if (e.act === still) R.listenOk++; if (e.speed > 5) R.moveInListen++;
         const hd = e.head || 0; if (!ph || ph.P !== P) R.ph.push(ph = { P, n: 0, over: 0, lo: hd, hi: hd }); ph.n++; if (Math.abs(hd) > .1) ph.over++; ph.lo = Math.min(ph.lo, hd); ph.hi = Math.max(ph.hi, hd); }   // (after 0.3 s: it stops from a walk, it does not teleport to a halt)
       // (R13: an approach moves in one of its acts - hidden, crouched (approach, creep); along a covert way, its withdrawal (back) and its
       // hidden run (intercept); in somebody's view, open (pace), or a rush from cover (chase))

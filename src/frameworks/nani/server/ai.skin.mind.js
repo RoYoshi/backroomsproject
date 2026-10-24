@@ -122,7 +122,7 @@ function skMindTick(eng, e) {
     o.off = off;
     if (view && off < .35) o.eyesAt = now;
     const near = r.dist < SKM.reach; if (near && !o.near) skEvent(e, now, 'reach', id); o.near = near;
-    const wd = !!(r.ex || (r.stamina !== undefined && r.stamina < 25)); if (wd && !o.winded) skEvent(e, now, 'winded', id); o.winded = wd;
+    skFatigueSee(eng, e, r, o, now); const wd = skWinded(eng, e, r, now); if (wd && !o.winded) skEvent(e, now, 'winded', id); o.winded = wd;   // (R20: its belief from what it saw and heard - R11-R19 read their stamina)
   }
   for (const id of M.seen) if (!seenNow.has(id)) { skEvent(e, now, 'lost', id); const o = M.obs.get(id); if (o) o.inView = false; }
   M.seen = seenNow;

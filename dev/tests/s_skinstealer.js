@@ -371,10 +371,14 @@ add('SK23 interception: when it loses someone it goes round to where it guesses 
   // (what it did then - stalk, spring, retreat - is its ordinary decision).  B: wherever it got to wait, nobody came within 300 px and it
   // said it guessed wrong (an interception that sighted them again on the way, and took them, is neither)
   const ia = rs.filter(r => r.A.plan), ib = rs.filter(r => r.B.plan), ibw = ib.filter(r => r.B.plan.arrived);
-  const right = ia.filter(r => r.A.minD < 300 && !/guessed wrong/.test(r.A.why)), wrong = ibw.filter(r => r.B.waitD >= 300 && /guessed wrong/.test(r.B.why));
+  // (R20: its ears now reach a walking step as far as a player hears its own - somebody doubling back on foot is often heard, and it
+  // corrects its guess or goes to look where it heard them instead of waiting in vain: that is right too.  B is judged so: every B
+  // interception either waits in vain and says it guessed wrong, or turns on what it heard - never a meeting it could not have known of)
+  const reacted = r => /heard|hears|corrects|follows the sound|goes to look|P\d+ (cannot see|can see|has seen|is coming|comes)/.test(r.B.why);   // (its next plan began on what it heard, or on seeing them come back)
+  const right = ia.filter(r => r.A.minD < 300 && !/guessed wrong/.test(r.A.why)), wrong = ibw.filter(r => (r.B.waitD >= 300 && /guessed wrong/.test(r.B.why)) || reacted(r));
   const bounded = rs.every(r => [r.A, r.B].every(R => !R.plan || (R.endAt > 0 && R.endAt - R.at <= AI.SK.interceptMax + 8.5)));
-  return { ok: lawOk === rs.length && ia.length >= 3 && ibw.length >= 3 && right.length >= Math.ceil(ia.length * .6) && wrong.length === ibw.length && bounded,
-    note: `identical until it senses a difference (or its level of detail differs): ${lawOk}/${rs.length} | A (kept to their way): ${ia.length} interceptions, it met them within ${ia.map(r => Math.round(r.A.minD)).join('/')} px (${right.length} within 300; then ${ia.map(r => r.A.next).join('/')}) | B (doubled back): ${ibw.length} waited in vain, nearest ${ibw.map(r => Math.round(r.B.waitD)).join('/')} px, ${wrong.length} "guessed wrong" | every interception ended (${bounded})`,
+  return { ok: lawOk === rs.length && ia.length >= 3 && ib.length >= 3 && right.length >= Math.ceil(ia.length * .6) && wrong.length === ibw.length && ib.every(r => r.B.plan.arrived || reacted(r)) && bounded,
+    note: `identical until it senses a difference (or its level of detail differs): ${lawOk}/${rs.length} | A (kept to their way): ${ia.length} interceptions, it met them within ${ia.map(r => Math.round(r.A.minD)).join('/')} px (${right.length} within 300; then ${ia.map(r => r.A.next).join('/')}) | B (doubled back): ${ib.length} interceptions, ${ib.filter(r => reacted(r)).length} turned on what it heard or saw (R20), ${ibw.length} waited in vain, nearest ${ibw.map(r => Math.round(r.B.waitD)).join('/')} px, ${wrong.length} "guessed wrong" | every interception ended (${bounded})`,
     data: rs.map(r => ({ seed: r.seed, A: { at: r.A.at, minD: Math.round(r.A.minD), waitD: Math.round(r.A.waitD), why: r.A.why, next: r.A.next, pred: r.A.pred }, B: { at: r.B.at, waitD: Math.round(r.B.waitD), why: r.B.why, next: r.B.next } })) };
 });
 

@@ -369,7 +369,10 @@ add('P12 movement at the edge of its view (R16e; AP_AUDIT A: a person 85 degrees
   const hid = { x: 5496, y: 3960 };
   for (const h of [.3, .7]) rs.push(...over([1, 2], sd => Object.assign({ k: 'behind a wall' }, corridor(h, sd, { light: true, walk: 'walk' }, () => hid))));
   const W = rs.filter(r => /walker/.test(r.k)), St = rs.filter(r => r.k === 'lit, standing'), Bw = rs.filter(r => r.k === 'behind a wall');
-  const ok = rs.every(r => !r.err && r.placed) && W.filter(r => r.noticed !== null && r.seen !== null && r.seen <= 1).length >= 7 && W.every(r => !r.recAtNotice)
+  // (R20: its ears now reach the walker's steps 420 px up, as far as a player hears its own - it often turns to the footsteps and sees them
+  // before the movement at the edge of its view registers; judged: it sees them within a second, and the edge-of-view notice still works
+  // where the sound does not come first)
+  const ok = rs.every(r => !r.err && r.placed) && W.filter(r => r.seen !== null && r.seen <= 1).length >= 7 && W.filter(r => r.noticed !== null).length >= 2 && W.every(r => !r.recAtNotice)
     && St.every(r => r.noticed === null) && rs.every(r => !r.blind) && Bw.every(r => r.noticed === null);
   return { ok, note: rs.map(r => r.err ? 'ERR ' + r.err : `${r.k} ${r.h}/${r.seed}: noticed ${r.noticed === null ? 'never' : r.noticed + ' s'}, seen ${r.seen === null ? 'never' : r.seen + ' s'}${r.recAtNotice ? ' (A RECORD BEFORE SIGHT)' : ''}${r.blind ? ' (NOTICED THROUGH A WALL ' + r.blind + ' times)' : ''}`).join(' | ') };
 });

@@ -13,7 +13,8 @@ const HUNKS = [
   "    e.unst = null; const c = carrotOf(eng, e, clamp(e.speed * .42, 64, 150)); tx = c.x; ty = c.y;\n",
   "    e.unst = null; const c = carrotOf(eng, e, clamp(e.speed * .42, 64, 150)); tx = c.x; ty = c.y;\n    // (Trial 3 R19, the N track) the aim swinging back - over 57 deg off the body's heading - for a waypoint the body has passed on the inside\n    // of a bend: it cut the corner and is beside the waypoint - over the line square to the next leg through it, on the side its heading\n    // turns toward to take the next leg (the inside of the bend while it turns into it; a test of its heading, not of the bend's geometry:\n    // the review's fresh seeds found every drop on the inside), the waypoint 80 deg or more off its heading,\n    // within 26 px and .12 s of its travel - and can get onto the next leg from here: the line to a point its own look-ahead along it (64-150\n    // px by its speed, or the whole leg) is clear by its collider and 2 px, and neither the next waypoint nor the one after is a vault link\n    // or a crawl cell.  The waypoint is dropped and this tick followed again without it.  R8-R18 kept it until the body was 26 px from it or the\n    // whole next leg was clear: the aim fell back to the waypoint beside or behind it, the heading error passed 90 deg and the body stopped,\n    // pivoted and went (the stop-pivot-go of a Hound at a bend).  Only then: an aim that does not swing back is R18's, unchanged\n    const n1 = e.path[1], n2 = e.path[2];\n    if (!o.passed && n1 && !n1.link && (n1.c | 0) <= 1 && (wp.c | 0) <= 1 && !(n2 && (n2.link || (n2.c | 0) > 1)) && Math.abs(angDiff(Math.atan2(ty - e.y, tx - e.x), e.ang)) > 1) {\n      const d = Math.hypot(wp.x - e.x, wp.y - e.y), ll = Math.hypot(n1.x - wp.x, n1.y - wp.y) || 1, ux = (n1.x - wp.x) / ll, uy = (n1.y - wp.y) / ll, k = Math.min(ll, clamp(e.speed * .42, 64, 150));\n      const hx = Math.cos(e.ang), hy = Math.sin(e.ang), inner = (ux * (e.y - wp.y) - uy * (e.x - wp.x)) * (hx * uy - hy * ux) > 0;\n      if (d < 26 + e.speed * .12 && inner && (e.x - wp.x) * ux + (e.y - wp.y) * uy > 0 && Math.abs(angDiff(Math.atan2(wp.y - e.y, wp.x - e.x), e.ang)) > 1.4 && geo.lineClear(e.x, e.y, wp.x + ux * k, wp.y + uy * k, e.rc + 2, e.mode)) {\n        e.path.shift(); navOf(e).passed = (navOf(e).passed || 0) + 1; return follow(eng, e, dt, vmax, Object.assign({}, o, { passed: 1 }));\n      }\n    }\n"
  ],
-  // (Trial 3 R20, the N track: the open-air STUCK - dev/trial-3-r20-nani-head-watchdog/DESIGN_DECISIONS.md W1, W2)
+  // (Trial 3 R20: the N track - the open-air STUCK, dev/trial-3-r20-nani-head-watchdog/DESIGN_DECISIONS.md W1, W2 - and the S track - a
+  // species with its own ear, opt-in, in hearEvent: dev/trial-3-r20-strategic-ambush/DESIGN_DECISIONS.md)
  [
   "  let target = o.hold ? 0 : vmax * (o.noSlow ? 1 : clamp(align, .1, 1));\n",
   "  const turnV = o.hold ? 0 : vmax * (o.noSlow ? 1 : clamp(align, .1, 1));       // (R20) the speed its own turn allows: what its progress is measured against\n  let target = turnV;\n",
@@ -33,6 +34,16 @@ const HUNKS = [
   "    let stuck = false; if (w.t >= 6) { stuck = Math.hypot(e.x - w.x, e.y - w.y) < 26 && (e.kind === 'hound' || !idle); w.x = e.x; w.y = e.y; w.t = 0; }\n",
   "    let stuck = false; if (w.t >= 6) { stuck = Math.hypot(e.x - w.x, e.y - w.y) < 26 && (own ? (w.far || 0) < 60 : e.kind === 'hound' || !idle); w.x = e.x; w.y = e.y; w.t = 0; w.far = 0; }\n",
   "src/frameworks/nani/server/ai.engine.js"
+ ],
+ [
+  "  if (d > eff * 1.05) return;\n",
+  "  if (e.sp.hearScale) eff *= e.sp.hearScale(ev);                              // (Trial 3 R20) a species with its own ear (opt-in: the Skin-Stealer's, by kind of sound)\n  if (d > eff * 1.05) return;\n",
+  "src/frameworks/nani/server/ai.senses.js"
+ ],
+ [
+  "  if (!clear) eff *= .6;\n",
+  "  if (!clear) eff *= e.sp.hearWall || .6;                                       // (R20: its own share through a wall, if it has one)\n",
+  "src/frameworks/nani/server/ai.senses.js"
  ]
 ];   // [base text, this tree's text, file (R19's hunk: ai.entity.js)]
 const FILE = 'src/frameworks/nani/server/ai.entity.js', fileOf = h => h[2] || FILE, FILES = [...new Set(HUNKS.map(fileOf))];

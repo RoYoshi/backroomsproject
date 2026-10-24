@@ -66,16 +66,19 @@ add('C21 from the last-seen heading it infers the ways on (no omniscience): at t
     note: `${h.length}/6 held ways at the first guess: ${h.map(r => `[${r.ps}]`).join(' ')}; likeliest keeps the heading ${h.filter(r => r.keeps).length}/${h.length}; segments through walls ${h.map(r => r.bad).join('/')}; the same in both worlds ${h.filter(r => r.same).length}/${h.length}` };
 });
 add('C20 a wrong branch is a missed ambush and a bounded new search: the person silently takes a way it did not bet on - its guess there fails, that way is disproved (kept with the reason, not erased), its next guess goes to another way or to where it believes them, it never tries the same place twice, and the hunt ends within its number of guesses', () => {
-  const rs = over([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], seed => {
+  // (R20: sixteen seeds - its ears now reach a walking step as far as a player hears its own, so it takes more of them and fewer runs miss;
+  // and a place is "the same again" only on the same evidence: R2's rule - a failure older than its newest evidence no longer counts - lets
+  // a fresh sighting or sound send it back, which R8-R19's ears rarely brought about in this scene)
+  const rs = over(Array.from({ length: 16 }, (_, i) => i + 1), seed => {
     const R = sw(seed, .8, 'back', 'crouch', 60), G = R.guesses;
     const disproved = R.hyps.some(q => q.ways.some(w => w[3]));
-    const repeat = G.some((q, i) => G.slice(0, i).some(f => Math.hypot(f.x - q.x, f.y - q.y) < 150));
+    const repeat = G.some((q, i) => G.slice(0, i).some(f => Math.hypot(f.x - q.x, f.y - q.y) < 150 && q.t - q.age <= f.t + .05));
     const switched = G.length < 2 || G.slice(1).some(q => q.hyp !== G[0].hyp);
     return { n: G.length, disproved, repeat, switched, tries: Math.max(0, ...(R.e.hunt ? [R.e.hunt.tries] : [0])), end: R.end, kills: R.w.kills.length, tally: R.tally };
   });
   const missed = rs.filter(r => r.n >= 1 && !r.kills);
   return { ok: missed.length >= 6 && missed.every(r => !r.repeat && r.switched && /gives up|cold|nowhere/.test(r.end)) && missed.filter(r => r.disproved).length >= Math.ceil(missed.length * .6),
-    note: `${missed.length}/12 missed them (they doubled back unheard): guesses ${missed.map(r => r.n).join('/')}; a way disproved ${missed.filter(r => r.disproved).length}/${missed.length}; another way or its belief next ${missed.filter(r => r.switched).length}/${missed.length}; a place twice ${missed.filter(r => r.repeat).length}; ended: ${[...new Set(missed.map(r => r.end.replace(/P\d+/g, 'P').replace(/\d+/g, 'n')))].join(' | ')}` };
+    note: `${missed.length}/16 missed them (they doubled back unheard): guesses ${missed.map(r => r.n).join('/')}; a way disproved ${missed.filter(r => r.disproved).length}/${missed.length}; another way or its belief next ${missed.filter(r => r.switched).length}/${missed.length}; a place twice ${missed.filter(r => r.repeat).length}; ended: ${[...new Set(missed.map(r => r.end.replace(/P\d+/g, 'P').replace(/\d+/g, 'n')))].join(' | ')}` };
 });
 add('C22 a valid new footstep changes its hypotheses: the person runs on one side of the fork (east, or north-west; it hears them), the sound re-weighs every way it holds (the ways that explain it gain; those far worse than the best are rejected), and its next guess goes to the side it heard (or to the very place it heard them); the same moves made silently reject nothing', () => {
   const rs = [];

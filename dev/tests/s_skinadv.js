@@ -221,7 +221,7 @@ add('X09 four of them, hungers .3 / .6 / .8 / .95, and three people whose input 
       for (const e of SKS(w)) {
         if (![e.x, e.y, e.speed, e.ang].every(Number.isFinite)) bad.push('NaN e' + e.id);
         if (!e.trav && !geo.clear(e.x, e.y, e.rc * .7, 'walk')) bad.push('wall e' + e.id + ' @' + Math.round(e.x) + ',' + Math.round(e.y));
-        const cap = e.pounce ? (e.pounce.speed || SK.pounceSpeed) : e.trav ? 1e9 : AI.SKIN.vTop; if (e.speed > cap * 1.02 + 1) bad.push('speed e' + e.id + ' ' + Math.round(e.speed));
+        const cap = e.pounce ? (e.pounce.t < e.pounce.wind ? AI.SKIN.vTop : e.pounce.speed || SK.pounceSpeed) : e.trav ? 1e9 : AI.SKIN.vTop;   // (R20: in a wind-up it brakes from its pace - a grab's 200 is the lunge's speed, not the brake's) if (e.speed > cap * 1.02 + 1) bad.push('speed e' + e.id + ' ' + Math.round(e.speed));
         if (e.pounce && !strikeAt.has(e.pounce)) strikeAt.set(e.pounce, { t: w.t, L: e.pounce, eid: e.id });   // (the strike's own clock: L.t, its wind-up L.wind)
         const pk = e.plan ? e.plan : null; if (pk !== (planN.get(e.id) || {}).p) planN.set(e.id, { p: pk, n: ((planN.get(e.id) || {}).n || 0) + 1 });
         maxSnd = Math.max(maxSnd, e.mem.sounds.length); maxEv = Math.max(maxEv, e.mind.ev.length);

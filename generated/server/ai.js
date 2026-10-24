@@ -339,9 +339,10 @@ function hearEvent(e, eng, ev) {
   const identified = identifySound(eng, e, ev);
   const focus = identified && identified.id === e.target && (e.state === S.HUNTING || e.state === S.SEARCHING) && (ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land') ? 1.3 : 1;   // a hunting animal tracks its prey's running footfalls further - careful movement gets no such penalty
   let eff = ev.r * (.42 + e.tr.HEARING * 1.05) * focus * (e.act === 'listen' ? 1.5 : 1) * (e.state === S.FEEDING ? .65 : 1) * (e.state === S.DORMANT ? .75 : 1) * (e.deaf > 0 ? .3 : 1);
+  if (e.sp.hearScale) eff *= e.sp.hearScale(ev);                              // (Trial 3 R20) a species with its own ear (opt-in: the Skin-Stealer's, by kind of sound)
   if (d > eff * 1.05) return;
   const clear = geo.los(e.x, e.y, ev.x, ev.y);
-  if (!clear) eff *= .6;
+  if (!clear) eff *= e.sp.hearWall || .6;                                       // (R20: its own share through a wall, if it has one)
   if (d > eff) return;
   const I = ev.I * Math.pow(1 - d / eff, .7);
   if (I < .03) return;
@@ -2397,7 +2398,7 @@ function skMindTick(eng, e) {
     o.off = off;
     if (view && off < .35) o.eyesAt = now;
     const near = r.dist < SKM.reach; if (near && !o.near) skEvent(e, now, 'reach', id); o.near = near;
-    const wd = !!(r.ex || (r.stamina !== undefined && r.stamina < 25)); if (wd && !o.winded) skEvent(e, now, 'winded', id); o.winded = wd;
+    skFatigueSee(eng, e, r, o, now); const wd = skWinded(eng, e, r, now); if (wd && !o.winded) skEvent(e, now, 'winded', id); o.winded = wd;   // (R20: its belief from what it saw and heard - R11-R19 read their stamina)
   }
   for (const id of M.seen) if (!seenNow.has(id)) { skEvent(e, now, 'lost', id); const o = M.obs.get(id); if (o) o.inView = false; }
   M.seen = seenNow;
@@ -3185,7 +3186,9 @@ const SK = Object.freeze({
   hungerRate: .0016,                             // per second (about .1 a minute: satiated to hungry in about 4 minutes)
   band: [.2, .4, .6, .8],                        // satiated | mild | hungry | very hungry | starving
   stamExh: 8, stamBack: 40, stamLow: 25,         // exhausted under 8, itself again over 40; tired (fatigued speed) under 25
-  drainRun: 11, runFrom: 215,                    // stamina per second at its run, counted only over runFrom px/s and in proportion to the speed
+  drainRun: 13, runFrom: 215,                    // stamina per second at its run, counted only over runFrom px/s and in proportion to the speed
+                                                 //  (R20, the owner's tradeoff - a PROPOSAL for owner QA: 13, was 11 - an uninterrupted run from
+                                                 //  full to exhausted 7.1 s, was 8.4 s: 15 % less; R20 REGRESSION's A/B)
                                                  //  beyond it (R18: a prowl, 205, is free; an investigation costs about 3/s, the press 9, the run 11.
                                                  //  R8-R16i: 14 a second x speed / run, over 200; T3 had 150)
   regenWalk: 6, regenStill: 11,                  // stamina per second walking / standing
@@ -3207,7 +3210,7 @@ const SK = Object.freeze({
   interceptMax: 26, interceptWait: [2, 5],       // the longest an interception lasts; how long it waits at the spot (x PATIENCE; R18: was 4-9)
   searchMax: 20, searchLook: [1, 2],             // the longest a search lasts; how long it listens where it arrives (R18: 16; 2-4)
   heardFresh: 4, heardMin: .08,                  // a sound this recent and this strong is worth going to look at (R18: 2.5, .12)
-  chaseFrom: 560, chaseMax: 9, chaseLose: 170,   // (R18: 420, 7, 140) it gives chase only from closer than this; for at most this long; it gives up when the gap
+  chaseFrom: 500, chaseMax: 8, chaseLose: 170,   // (R20, a proposal: 500, 8 - R19 560, 9; R18: 420, 7, 140) it gives chase only from closer than this; for at most this long; it gives up when the gap
                                                  //  has grown this much beyond the closest it got
   pounceRange: [55, 185], pounceWind: .22,       // it springs from this close; the crouched wind-up before the leap (s)
   pounceSpeed: 430, pounceDur: .36,              // the leap: 1.5 x a fresh sprint, below the Hound's lunge; about 150 px
@@ -3298,6 +3301,34 @@ const SK = Object.freeze({
   contestOff: .6,                                // rad: ...when their way out lies this far off straight beyond them (a doorway, a side passage)
   contestKeep: 120,                              // px: its aim at their way out is kept until they move this far from where it chose it
 });
+/* (Trial 3 R20, the S track: the owner's strategic hunter - dev/trial-3-r20-strategic-ambush/DESIGN_DECISIONS.md.  Every value is a
+ * PROPOSAL for the owner's QA, chosen from the A/B runs in REGRESSION.md; each has a neutral value that gives R19's behaviour back) */
+const SK20 = Object.freeze({
+  chaseW: .85,                                   // the chase's weight x this (R19 1): the run on somebody is a little less its first answer
+  lead: .3,                                      // s: an interception goes at the pace that gets it there this much before them - its prowl
+                                                 //  when that will do, a burst of its run only for the part that needs it (R19: always its run);
+                                                 //  on top of SK.predictMargin, which its guess already keeps
+  urgent: 1.5,                                   // s: a hunt's search goes at its investigation's pace (232, costs stamina) only on footsteps this
+                                                 //  fresh; otherwise at its prowl (205, free) - the pursuit walk (R19: always the investigation)
+  waitCpa: 200,                                  // px: somebody coming its way unaware, whose way passes this near it, in the dark - it waits for them
+                                                 //  where it is (an ambush) rather than going to meet them
+  aheadFrom: 420, aheadSlack: .5,               // px, s: somebody it sees walking on unaware this far off - it goes ahead to wait where they will
+                                                 //  pass (an interception, skPredict) when it can be there this much sooner, beside the way and hidden
+  postFrom: 380, postI: .05,                     // px, intensity: a moving sound this far off (two that fit: a way somebody is going) - it goes to
+                                                 //  meet it where it would come out and waits there (a post), rather than going to the sound
+  postWait: [3, 6], postMax: 14,                 // s: its wait at a post (3 + 6 x hunger x PATIENCE, as an ambush); the longest, sounds coming nearer
+                                                 //  included (SK.lureMax's 14)
+  // its ears (player-equivalent reach: dev/trial-3-r20-strategic-ambush/HEARING.md): how much farther it hears each kind of a person's
+  // own sound than R8-R19's shared law (r x (.42 + 1.05 HEARING)); through a wall, this share of the reach (shared: .6).  Identity is
+  // never given by a sound (identifySound: only somebody it sees as it hears them); its fuzz grows with distance as before
+  hear: { walk: 2.4, run: 1.12, slide: 1.35, vault: 1.2, land: 1.2 },   // (the engine's types: footsteps by state, vaults, landings, slides - a crouched
+                                                 //  step and a crawl as R8-R19 exactly: the owner's crouch stealth is kept)
+  hearWall: .75,
+  // its belief that somebody it watches is winded (skFatigue): what it saw them run without a break (a fresh person runs about 9.5 s), a
+  // walk slower than a person's own (148 against 172: a winded walk), their ragged breath heard where it believes them - never their
+  // stamina.  Out of its sight the belief fades (its confidence halves in fz.half s) and their rest is guessed at the rates people recover
+  fz: { from: 5.5, full: 9, walkBack: .86, standBack: 2.3, slow: [110, 160], breathFor: 3, slowFor: 2, half: 5, at: .45 },
+});
 /* (R18) how much its hunger drives it, 0 (fed) .. 1 (starving), smooth: every R18 weight and speed scales with it - no cliff at a line */
 const skDrive = e => sm(SK.huntHunger - .1, .85, e.hunger);
 /* (R15) the Rend's weight among its kills: a grab (not a leap's landing), hungry (SK.band[2]; more when starving), with room for the two
@@ -3356,7 +3387,7 @@ const SKIN = {
     e.voice = { h: Math.round(lerp(-4, 2, e.sayRng())), s: Math.round(lerp(78, 92, e.sayRng())) };   // its voice (pitch, pace): slow and a little low
     e.roam = { goal: null, until: 0, pause: 0 }; e.dbg.why = 'roaming'; e.dbg.decide = null; e.dbg.predict = null; e.dbg.soundSeen = 0;
     e.tally = { lure: 0, lureCame: 0, ambush: 0, ambushCame: 0, intercept: 0, interceptCame: 0, chase: 0, chaseLost: 0, search: 0, searchFound: 0, pounce: 0, grab: 0, hit: 0, miss: 0, wall: 0, kills: 0,
-      mingle: 0, say: 0, sayHeard: 0, sayBait: 0, skin: 0, skinLost: 0, reveal: 0, look: 0, lookSound: 0, warn: 0, reconsider: 0, defend: 0, defendHit: 0, defendMiss: 0, withdraw: 0 };   // its record (debug, tests, the balance report)
+      mingle: 0, post: 0, say: 0, sayHeard: 0, sayBait: 0, skin: 0, skinLost: 0, reveal: 0, look: 0, lookSound: 0, warn: 0, reconsider: 0, defend: 0, defendHit: 0, defendMiss: 0, withdraw: 0 };   // its record (debug, tests, the balance report)
     e.pounceCool = 0;
     e.aw = new Map(); e.rx = null; e.awAt = 0; e.awSound = 0; e.soundLookAt = 0;                // (B1) its awareness records; a reaction in progress
     e.awRng = mkRng(deriveSeed(eng.seed, 'skinstealer-aware', e.id));                           // (B1) its own stream: noticing never moves its other choices
@@ -3394,7 +3425,7 @@ const SKIN = {
   /* its own target scoring and commitment (ai.intelligence.js's debug asks for them; never the Smiler's sScore) */
   targetScore(eng, e, r) { const age = eng.now - Math.max(r.seenAt, r.heardAt); return r.aw * .8 + r.conf * .7 - Math.min(1, age / 30) * .3 + (r.seen ? .5 : 0) + (r.id === e.target ? .4 : 0); },
   dwell(e) { return 1.5 + e.tr.PATIENCE; },
-  summon(eng, e, r, tx, ty) { skHuntEnd(eng, e, 'admin summon'); e.plan = null; e.roam.goal = { x: tx, y: ty }; plan(eng, e, tx, ty, { why: 'admin summon' }); e.roam.until = eng.now + 40; e.roam.pause = 0; e.dbg.why = 'admin summon: it goes to look'; },
+  summon(eng, e, r, tx, ty) { skHuntEnd(eng, e, 'admin summon'); e.plan = null; e.roam.goal = { x: tx, y: ty }; e.roam.summon = eng.now + 8; plan(eng, e, tx, ty, { why: 'admin summon' }); e.roam.until = eng.now + 40; e.roam.pause = 0; e.dbg.why = 'admin summon: it goes to look'; },
 };
 const skBand = h => h < SK.band[0] ? 'satiated' : h < SK.band[1] ? 'mild' : h < SK.band[2] ? 'hungry' : h < SK.band[3] ? 'very hungry' : 'starving';
 
@@ -3413,6 +3444,34 @@ function skBody(eng, e, dt) {
 /* it holds still on purpose: no route left behind (the engine's stuck watchdog would take a deliberate stop for being stuck) */
 /* (R16g) may it run at r: the chase's own conditions on it (skDecide's chase) - hungry enough, not exhausted, its breath, no race lost to
  * them lately */
+/* (R20) its belief that somebody is winded - what it has seen and heard of them, never their stamina (R8-R19 read r.stamina and r.ex,
+ * the person's own meter, through its sight).  skFatigueSee: each think, for somebody it sees (ai.skin.mind.js) - how long it has watched
+ * them run without a break, a walk slower than a fresh person's soon after a run; out of its sight it guesses they got their breath back as
+ * people do (SK20.fz).  skFatigue: the belief now - p (0 fresh .. 1 winded), its confidence (fading out of sight), the cues; a ragged breath
+ * it heard where it believes them (theirs, or nobody's it can name) counts too.  It can be wrong: a person who ran long and stopped with
+ * breath to spare looks winded; one who ran briefly looks fresh whatever their meter says */
+function skFatigueSee(eng, e, r, o, now) {
+  const Z = SK20.fz, v = r.visual, f = o.fz || (o.fz = { run: 0, t: now, seen: now, slowAt: -99, breathAt: -99, runAt: -99 });
+  const gap = now - f.seen, dt = Math.min(.5, Math.max(0, now - f.t));
+  if (gap > .6) f.run = Math.max(0, f.run - gap * Z.walkBack);                   // a while out of its sight: they will have got some breath back
+  const sp = Math.hypot(v.vx, v.vy);
+  if (v.st === 2 && sp > 220) { f.run += dt; f.runAt = now; }
+  else f.run = Math.max(0, f.run - dt * (sp < 20 ? Z.standBack : Z.walkBack));
+  if (v.st === 1 && sp > Z.slow[0] && sp < Z.slow[1] && f.runAt > 0 && now - f.runAt < 8) f.slowAt = now;   // a slow walk, soon after a run
+  f.t = now; f.seen = now;
+}
+function skFatigue(eng, e, r, now) {
+  const Z = SK20.fz, o = e.mind && e.mind.obs.get(r.id), f = o && o.fz;
+  if (!f) return { p: 0, conf: 0, est: 'unknown', cues: [] };
+  for (const q of e.mem.sounds) if (q.type === 'breath' && now - q.t < Z.breathFor && q.src !== -1 && (q.pid === r.id || (!q.pid && Math.hypot(q.x - r.lkx, q.y - r.lky) < (q.u || 0) + 120))) f.breathAt = Math.max(f.breathAt, q.t);
+  let p = sm(Z.from, Z.full, f.run); const cues = [];
+  if (f.run >= Z.from) cues.push(`ran ${f.run.toFixed(1)} s`);
+  if (now - f.breathAt < Z.breathFor) { p = Math.max(p, .85); cues.push('breath'); }
+  if (now - f.slowAt < Z.slowFor) { p = Math.max(p, .7); cues.push('slow walk'); }
+  const conf = .9 * Math.pow(.5, Math.max(0, now - f.seen) / Z.half);
+  return { p: +p.toFixed(2), conf: +conf.toFixed(2), est: p < .3 ? 'fresh' : p < .6 ? 'tiring' : 'winded', cues };
+}
+function skWinded(eng, e, r, now) { const F = skFatigue(eng, e, r, now); e.dbg.fat = Object.assign({ pid: r.id, at: +now.toFixed(2) }, F); return F.p * F.conf >= SK20.fz.at; }
 function skMayRun(eng, e, r) { const H = e.hunt && e.hunt.pid === r.id ? e.hunt : null; return e.hunger >= SK.chaseHunger && !e.exh && e.stam >= SK.stamLow + 15 && !(H && eng.now - H.raceAt < SK.chaseRest); }
 /* (R16f) close enough, and in the open, to fight for its place: somebody it sees within SKF.near who is moving, or looking at it - (R18) or,
  * hungry, who has had it on their screen within SK.pressShown (they know it is there: a hesitation is a chance, not a reason to wait) */
@@ -3444,7 +3503,7 @@ const skLit = (eng, e) => eng.geo.lightLevel(e.x, e.y, eng.lightPlayers());
 const SK_STATE = { watch: [S.WATCHING, 'watch'], retreat: [S.RETREATING, 'back'], approach: [S.STALKING, 'approach'], chase: [S.HUNTING, 'chase'],
   lure: [S.CAUTIOUS, 'lure'], ambush: [S.STALKING, 'wait'], intercept: [S.STALKING, 'intercept'], search: [S.SEARCHING, 'search'], leave: [S.DISAPPEARING, 'leave'], feed: [S.FEEDING, 'feed'],
   mingle: [S.STALKING, 'pace'],                                                                // (T6) in a borrowed skin, walking up openly
-  flank: [S.STALKING, 'approach'], listen: [S.ALERT, 'listen'] };                             // (R1) to cover at their side; standing, listening
+  flank: [S.STALKING, 'approach'], listen: [S.ALERT, 'listen'], post: [S.STALKING, 'wait'] };   // (R20) post: waiting where a sound would come out                             // (R1) to cover at their side; standing, listening
 function skBegin(eng, e, k, r, why, extra) {
   const p = Object.assign({ k, pid: r ? r.id : 0, t0: eng.now, why }, extra || {});
   e.plan = p; e.dbg.why = why; e.path = []; e.goalKey = '';
@@ -3794,7 +3853,7 @@ function skPredict(eng, e, r) {
   // the first point of that route it can be at before them: a quick estimate, then its own route there (at most four routes worked out)
   const age = eng.now - Math.max(r.seenAt, r.heardAt), v = clamp(sp, 90, 300), run = skSpeed(e, 'run');
   let q = null, tries = 0;
-  let slack = 0;
+  let slack = 0, qL = 0, qLeft = 0;
   for (const c of pts) {
     if (c.s < 160) continue;
     const left = c.s / v - age - SK.predictMargin;                               // the seconds before they are there
@@ -3802,7 +3861,7 @@ function skPredict(eng, e, r) {
     if (++tries > 4) break;
     const way = geo.path(e.x, e.y, c.x, c.y, e.caps, { maxNodes: 3000 }); e.tally.pathQ = (e.tally.pathQ || 0) + 1; if (!way) continue;
     let L = 0, ax = e.x, ay = e.y; for (const w of way) { L += Math.hypot(w.x - ax, w.y - ay); ax = w.x; ay = w.y; }
-    if (L / run < left) { q = c; slack = left - L / run; break; }                // (R12: how much sooner it is there than they are, on its real route)
+    if (L / run < left) { q = c; slack = left - L / run; qL = L; qLeft = left; break; }   // (R12: how much sooner it is there than they are, on its real route)
   }
   if (!q) return null;                                                           // it cannot get ahead of them
   const qi = pts.indexOf(q), back = pts[Math.max(0, qi - 4)];                     // where somebody coming along the route is just before
@@ -3816,7 +3875,39 @@ function skPredict(eng, e, r) {
   }
   if (!S0) { if (!geo.clear(q.x, q.y, e.rc + 2, 'walk')) return null; S0 = { x: q.x, y: q.y, hidden: false }; }
   return { x: S0.x, y: S0.y, hidden: S0.hidden, qx: q.x, qy: q.y, jx: back.x, jy: back.y, end: s < SK.predictLook && pts.length > 1, from: { x: r.lkx, y: r.lky },
-    heading: +Math.atan2(r.lvy, r.lvx).toFixed(3), turns, options: turns.length ? turns[0].n : 1, lead: Math.round(q.s), slack: +slack.toFixed(2) };
+    heading: +Math.atan2(r.lvy, r.lvx).toFixed(3), turns, options: turns.length ? turns[0].n : 1, lead: Math.round(q.s), slack: +slack.toFixed(2),
+    L: Math.round(qL), due: +(eng.now + qLeft).toFixed(2) };   // (R20) its route's length; when it must be there (their arrival less SK.predictMargin)
+}
+/* (R20) going ahead of somebody it sees walking on unaware: along the way they will go (skRoute), the first point it can reach SK20.aheadSlack s
+ * before them at its run (it will go at the pace that needs: skPace) with a spot beside it hidden from the way they come (as skPredict's,
+ * drawn from its own cover stream - its other draws never move).  At most six routes worked out; none, and it comes on as before */
+function skAhead(eng, e, r) {
+  const R = skRoute(eng, e, r); if (!R) return null;
+  e.tally.predQ = (e.tally.predQ || 0) + 1;                                         // (a prediction, as skPredict's: R12-B bounds its routes by these)
+  const geo = eng.geo, sp = Math.hypot(r.lvx, r.lvy), { pts, turns, s } = R, v = clamp(sp, 90, 300), run = skSpeed(e, 'run'), age = eng.now - Math.max(r.seenAt, r.heardAt);
+  let tries = 0;
+  for (let qi = 5; qi < pts.length; qi += 2) {                                    // (every other point of the way: 96 px apart)
+    const q = pts[qi], left = q.s / v - age - SK.predictMargin;
+    if (Math.hypot(q.x - e.x, q.y - e.y) * 1.15 / run >= left - SK20.aheadSlack) continue;
+    if (e.hunt && e.hunt.failed.some(f => Math.hypot(f.x - q.x, f.y - q.y) < SK.failedNear)) continue;   // (a place its hunt found empty)
+    // a spot beside it, hidden from the way they come (where the way passes a corner, a doorway, a side passage): the cheap test first
+    const comes = [2, 4, 6].map(k => pts[Math.max(0, qi - k)]); let S0 = null, bs = -1e9;
+    for (let k = 0; k < 16; k++) {
+      const a = e.coverRng() * TAU, d = 40 + e.coverRng() * 160, sx = q.x + Math.cos(a) * d, sy = q.y + Math.sin(a) * d;
+      if (!geo.clear(sx, sy, e.rc + 2, 'walk') || !geo.lineClear(q.x, q.y, sx, sy, e.rc, 'walk')) continue;
+      if (!comes.every(c => !skBodyInSight(geo, c.x, c.y, sx, sy))) continue;
+      const sc = -d * .6 - (geo.lamp[geo.cellAt(sx, sy)] || 0) * 250; if (sc > bs) { bs = sc; S0 = { x: sx, y: sy }; }
+    }
+    if (!S0) continue;
+    if (++tries > 4) break;
+    const way = geo.path(e.x, e.y, S0.x, S0.y, e.caps, { maxNodes: 3000 }); e.tally.pathQ = (e.tally.pathQ || 0) + 1; if (!way) continue;
+    let L = 0, ax = e.x, ay = e.y; for (const w of way) { L += Math.hypot(w.x - ax, w.y - ay); ax = w.x; ay = w.y; }
+    if (L / run >= left - SK20.aheadSlack) continue;
+    const back = pts[Math.max(0, qi - 4)];
+    return { x: S0.x, y: S0.y, hidden: true, qx: q.x, qy: q.y, jx: back.x, jy: back.y, end: s < SK.predictLook && pts.length > 1, from: { x: r.lkx, y: r.lky },
+      heading: +Math.atan2(r.lvy, r.lvx).toFixed(3), turns, options: turns.length ? turns[0].n : 1, lead: Math.round(q.s), slack: +(left - L / run).toFixed(2), L: Math.round(L), due: +(eng.now + left).toFixed(2) };
+  }
+  return null;
 }
 /* (R12) a stand-in for a hunt, from a record's last evidence (before a hunt begins): only what skHyps reads */
 const skHypSrc = r => ({ pid: r.id, x: r.lkx, y: r.lky, vx: r.lvx, vy: r.lvy, bt: Math.max(r.seenAt, r.heardAt), u: 20, ev: 'seen', heard: 0, badA: [], failed: [], hyp: null });
@@ -3853,7 +3944,7 @@ function skCovertStep(eng, e, P, dt, thinkNow, r) {
   const act = P.phase === 'exit' ? 'back' : run ? 'intercept' : 'creep';
   if (e.act !== act) setAct(e, act);
   if (P.phase === 'hidden') { const G = SKC.glance, c = Math.floor((eng.now - P.t0) / G[0]), g = (eng.now - P.t0) - c * G[0]; skHeadTo(e, g < G[1] ? (c % 2 ? 1 : -1) * G[2] * Math.sin(Math.PI * g / G[1]) : 0, dt); }   // (it looks back over its shoulder as it goes)
-  const st = skCovertFollow(eng, e, P, run ? skSpeed(e, 'run') : skSpeed(e, 'stalk'), dt);
+  const st = skCovertFollow(eng, e, P, run ? (P.g && P.need ? skPace(e, P) : skSpeed(e, 'run')) : skSpeed(e, 'stalk'), dt);   // (R20: an interception's, at the pace it needs)
   if (st === 'stuck') {                                                          // (stuck: a new covert way from here, or the covert move is over)
     const W2 = skCovertWay(eng, e, goal.x, goal.y, skWatchers(eng, e, P.pid)); e.stuck = 0;
     if (W2.ok && !W2.exit) { P.way = W2; P.wi = 0; P.pwi = -1; return 'moving'; }
@@ -3908,6 +3999,19 @@ function skLure(eng, e, r, R) {
   const P = skBegin(eng, e, 'lure', r, `out of P${r.id}'s sight: it waits round the corner for them to follow`, { until: eng.now + SK.lure[0] + SK.lure[1] * e.hunger * e.tr.PATIENCE, bait: !!R.bait });
   P.face = R.from || { x: r.lkx, y: r.lky };                                                     // the corner it came round: where they would come from
 }
+/* (R20) the measured reposition: the pace that gets it to its interception's (or its post's) spot SK20.lead s before it must be there -
+ * its prowl (free of stamina) when that will do; a burst of its run only for what needs it; its run when it is late.  The way left is its
+ * route's (or its covert way's) from where it is, worked out on its think */
+function skLeftOf(e, P) {
+  const pts = P.mode === 'covert' && P.way ? P.way.pts.slice(Math.max(0, P.wi || 0)) : e.path;
+  let L = 0, x = e.x, y = e.y; for (const w of pts) { L += Math.hypot(w.x - x, w.y - y); x = w.x; y = w.y; } return L;
+}
+function skNeed(eng, e, P) {
+  const g = P.g; if (!g || !Number.isFinite(g.due)) return 0;
+  const L = skLeftOf(e, P) || Math.hypot(g.x - e.x, g.y - e.y), t = g.due - eng.now - SK20.lead;
+  return t > .3 ? L / t : 1e9;
+}
+function skPace(e, P) { const run = skSpeed(e, 'run'); return P.need ? clamp(P.need * 1.08, skSpeed(e, 'prowl'), run) : run; }
 function skIntercept(eng, e, r, g, pre) {
   if (e.hunger >= SK.huntHunger) skHuntBegin(eng, e, r, 'it goes to meet them');   // (R1) an interception is a hunt
   const P = skBegin(eng, e, 'intercept', r, `${pre || 'lost P' + r.id + ': '}it guesses their way (${g.turns.length ? g.turns.length + ' turn' + (g.turns.length > 1 ? 's' : '') : 'straight on'}) and goes round to meet them ${g.lead} px ahead`, { g, until: eng.now + SK.interceptMax, re: 0 });
@@ -3986,17 +4090,51 @@ function skCurious(eng, e, C) {
   for (const q of e.mem.sounds) if (q.id > C.id && eng.now - q.t < SK.heardFresh + 1 && Math.hypot(q.x - C.x, q.y - C.y) <= C.u + q.u + 120 + SK.hearReach * Math.max(0, q.t - C.t)) { q2 = q; break; }   // (newest first)
   if (!q2 && C.I < SK.curiousStrong * lerp(1, .4, sm(.3, .6, e.hunger))) { e.tally.curiousDrop++;   // (the hungrier, the fainter a sound it goes to look at)
     e.dbg.why = `nothing more after the ${C.type || 'sound'}: it lets it go`; return; }
+  // (R20) two sounds that fit, some way off: somebody is going somewhere - hunting, it goes to meet them where they would come out and
+  // waits there (a post: skPost), rather than walking to where the sound was
+  if (q2 && (skPostHere(eng, e, C, q2) || skPost(eng, e, C, q2))) { e.dbg.soundSeen = Math.max(e.dbg.soundSeen, q2.id); return; }
   const g = q2 || C; e.tally.curious++;
   if (q2) e.dbg.soundSeen = Math.max(e.dbg.soundSeen, q2.id);
   // (R16e) to where it could see the place from - the nearest open floor with a clear line to it - not to the place itself
   const v = skVantage(eng, e, g.x, g.y, g.u || 0); if (v) e.tally.vantage = (e.tally.vantage || 0) + 1;
-  skSearch(eng, e, null, `${C.type === 'movement' && !q2 ? 'something moved' : 'it heard ' + (q2 ? (q2.type || 'it') + ' again' : C.type || 'something')}: it goes quietly to ${v ? 'where it can see the place' : 'look'}`, v || { x: g.x, y: g.y }, { at: { x: g.x, y: g.y } });
+  skSearch(eng, e, null, `${C.type === 'movement' && !q2 ? 'something moved' : 'it heard ' + (q2 ? (q2.type || 'it') + ' again' : C.type || 'something')}: it goes quietly to ${v ? 'where it can see the place' : 'look'}`, v || { x: g.x, y: g.y }, { at: { x: g.x, y: g.y }, I: g.I });
 }
 
+/* (R20) a post: from two sounds that fit (nobody it can name - the way the sound went, fuzzy as its ears are), the way somebody is going
+ * (skRoute along the level), and the first point of it it can reach before them (skPredict, as its interceptions); there, beside the way,
+ * out of sight of it if it can be, it waits - a while, longer while the sounds come nearer, never long.  Hungry enough to hunt, not
+ * exhausted, the sound some way off (SK20.postFrom): nearer, it goes to look as before.  Somebody who comes into its sight there, unaware,
+ * walking its way, it lies in wait for (an ambush: skDecide); anybody else it answers as it would anywhere */
+function skPost(eng, e, C, q) {
+  if (e.hunger < SK.huntHunger || e.exh || q.I < SK20.postI || Math.hypot(q.x - e.x, q.y - e.y) < SK20.postFrom) return false;
+  const dt = q.t - C.t; if (dt < .15) return false;
+  let vx = (q.x - C.x) / dt, vy = (q.y - C.y) / dt; const v = Math.hypot(vx, vy); if (v < 40) return false;
+  const k = clamp(v, 90, 300) / v; vx *= k; vy *= k;
+  const g = skPredict(eng, e, { id: 0, lkx: q.x, lky: q.y, lvx: vx, lvy: vy, seenAt: -1e9, heardAt: q.t });
+  if (!g) { e.tally.postNone = (e.tally.postNone || 0) + 1; return false; }
+  if (e.hunt && e.hunt.failed.some(f => Math.hypot(f.x - g.x, f.y - g.y) < SK.failedNear)) { e.tally.postFailed = (e.tally.postFailed || 0) + 1; return false; }   // (a place its hunt already found empty: not again)
+  const P = skBegin(eng, e, 'post', null, `it heard somebody going ${skCompass(vx, vy)}: it goes to wait where they would come out (${g.lead} px on their way)`, { g, until: eng.now + SK.interceptMax, at: { x: q.x, y: q.y } });
+  P.face = { x: g.jx, y: g.jy }; P.need = 0;
+  plan(eng, e, g.x, g.y, { why: 'post', maxNodes: 4000 });
+  e.dbg.predict = Object.assign({ at: +eng.now.toFixed(2), pid: 0, post: 1 }, g);
+  return true;
+}
+/* (R20) the sounds come its way (the second nearer than the first by 40 px or more - as its fuzzy ears hear them), in the dark: it does not go to
+ * meet them - it waits where it is, facing them (a post here), and lets them come (skDecide's post rule takes it from there) */
+function skPostHere(eng, e, C, q) {
+  if (e.hunger < SK.huntHunger || e.exh || skLit(eng, e) > SK.exposed * .5) return false;
+  const dC = Math.hypot(C.x - e.x, C.y - e.y), dq = Math.hypot(q.x - e.x, q.y - e.y);
+  if (!(dq < dC - 40) || dq > 760 || dq < SK.pounceRange[1] + 60) return false;   // (its ears' fuzz can fool it: a wrong guess is a short wait)
+  e.tally.postHere = (e.tally.postHere || 0) + 1;
+  const P = skBegin(eng, e, 'post', null, `it heard somebody coming its way: it waits for them where it is, in the dark`, { g: { x: e.x, y: e.y, jx: q.x, jy: q.y }, until: eng.now + 1, at: { x: q.x, y: q.y }, here: 1 });
+  P.face = { x: q.x, y: q.y }; P.arrived = eng.now; P.until = eng.now + Math.min(SK20.postMax, SK20.postWait[0] + SK20.postWait[1] * e.hunger * e.tr.PATIENCE); e.path = [];
+  return true;
+}
+const skCompass = (x, y) => ['east', 'south-east', 'south', 'south-west', 'west', 'north-west', 'north', 'north-east'][((Math.round(Math.atan2(y, x) / (Math.PI / 4)) % 8) + 8) % 8];
 /* ---- T4: the strike ---- */
 /* (R11) the events a decision answers by keeping its plan: about somebody it sees; about somebody it lost */
 const SK_SEEN = ['sight', 'exposed', 'hidden', 'turned', 'winded', 'reach'], SK_LOST = ['lost'], SK_ANY = SK_SEEN.concat(SK_LOST);   // (a departure carried through answers both)
-const SK_STRIKE = { approach: 1, chase: 1, lure: 1, ambush: 1, intercept: 1, search: 1, mingle: 1, flank: 1, listen: 1 };    // the plans it springs from (never while watching, retreating, leaving or feeding; R1: a flank, a pause to listen)
+const SK_STRIKE = { approach: 1, chase: 1, lure: 1, ambush: 1, intercept: 1, search: 1, mingle: 1, flank: 1, listen: 1, post: 1 };    // the plans it springs from (never while watching, retreating, leaving or feeding; R1: a flank, a pause to listen)
 /* on its think: somebody in arm's reach of a hungry one is grabbed; somebody its plan is about, in sight 55-185 px away, it springs at */
 function skStrike(eng, e) {
   if (e.exh || e.hunger < SK.huntHunger || eng.now < e.pounceCool || e.commit || e.cap) return false;
@@ -4333,6 +4471,12 @@ function skDecide(eng, e) {
   // readable light) - a top-down player sees it whichever way they face.  Eye contact keeps its own meaning where it had one (B1-B3's
   // warnings, a mildly hungry one sent away by a look); every tactic that hides from them now hides from their view
   const mo = e.mind && e.mind.obs.get(r.id), inView = !!(mo && mo.inView && now - mo.seenAt < .2), seenMe = watched || inView;
+  // (R20) at its post, somebody comes into its sight, unaware of it, walking its way: it lies in wait for them there (an ambush) - its
+  // spring takes them if they come on; anything else it answers as it would anywhere (the post is over)
+  if (P && P.k === 'post' && P.arrived && crowd === 1 && !seenMe && !lit && d > SK.approachStop && d > 1 && ((p.x - e.x) * p.vx + (p.y - e.y) * p.vy) / d < -30) {
+    e.tally.postSeen = (e.tally.postSeen || 0) + 1;
+    skBegin(eng, e, 'ambush', r, `P${r.id} comes by its post, unaware: it waits, ready`, { until: now + 3 + 3 * e.tr.PATIENCE, post: 1 }).face = { x: p.x, y: p.y }; skMindKept(e, now, SK_SEEN); return;
+  }
   const spent = enc.spent / skBudget(e), T = e.tr, cur = e.plan && e.plan.pid === r.id ? e.plan.k : null;
   const waiting = cur === 'lure' || cur === 'ambush' || (cur === 'intercept' && e.plan.arrived) || cur === 'search';
   if (waiting && e.plan.came === undefined && d < 320) { e.plan.came = now; if (cur === 'lure' || cur === 'ambush') e.tally[cur + 'Came']++; else if (cur === 'intercept') e.tally.interceptCame++; else e.tally.searchFound++; }
@@ -4340,7 +4484,7 @@ function skDecide(eng, e) {
   // which way they are moving, relative to it (from what it sees): running from it, or coming at it
   // (fleeing: running from it, or hurrying off after meeting its eyes - somebody who simply walks on has not noticed it)
   if (watched) enc.eyes = now;
-  const away = d > 1 ? ((p.x - e.x) * p.vx + (p.y - e.y) * p.vy) / d : 0, fleeing = away > 200 || (away > 110 && now - (enc.eyes ?? -99) < 4), winded = r.ex || r.stamina < 25;
+  const away = d > 1 ? ((p.x - e.x) * p.vx + (p.y - e.y) * p.vy) / d : 0, fleeing = away > 200 || (away > 110 && now - (enc.eyes ?? -99) < 4), winded = skWinded(eng, e, r, now);   // (R20: its belief, not their meter)
   // (T6) in a borrowed skin it does not hide: it walks up like one of them; a hungry one drops the skin to run after somebody who flees
   if (e.disguise && crowd === 1) {
     if (fleeing && h >= SK.chaseHunger && !e.exh && e.stam >= SK.stamLow + 15 && d < SK.chaseFrom && cur !== 'chase') {
@@ -4354,7 +4498,10 @@ function skDecide(eng, e) {
   if (waiting && cur !== 'search' && !seenMe && !lit && away < -30 && d > SK.approachStop && crowd === 1) { e.dbg.why = `P${r.id} is coming its way, unaware: it holds still`; skMindKept(e, now, SK_SEEN); return; }
   // (R13) lying in wait (round its corner, or in ambush) out of their view: seeing them from there does not draw it out - the point is that
   // they come (its spring takes them when they do); seen there, or when its wait ends, it decides afresh
-  if ((cur === 'lure' || cur === 'ambush') && !seenMe && crowd === 1 && d > SK.pounceRange[1] && !fleeing && !(e.pre && e.pre.force)) { skMindKept(e, now, SK_SEEN); return; }   // (R16d: not when they are going away from it - skPreempt)
+  if ((cur === 'lure' || cur === 'ambush') && !seenMe && crowd === 1 && d > SK.pounceRange[1] && !fleeing && !(e.pre && e.pre.force)) { skMindKept(e, now, SK_SEEN); return; }
+  // (R20) gone ahead of somebody it sees (or waiting there): kept while they come on unaware and still toward its spot - seen, running, or
+  // turned off well away from it, it decides afresh
+  if (cur === 'intercept' && e.plan.ahead && !seenMe && crowd === 1 && d > SK.pounceRange[1] && !fleeing && Math.hypot(p.x - e.plan.g.x, p.y - e.plan.g.y) < e.plan.gd + 250) { skMindKept(e, now, SK_SEEN); return; }   // (R16d: not when they are going away from it - skPreempt)
   // what each option is worth now (seeded draws break near-ties: two Skin-Stealers in the same spot do not act alike).  (R1) Smooth in
   // hunger: hm (0 below .3 .. 1 from .6) is how hungry it is for a hunt, hs (0 below .55 .. 1 from .95) how near starving.  Eye contact
   // still sends a mildly hungry one away; a hungry one flanks; a starving one comes on openly or flanks, and rarely backs off.
@@ -4387,7 +4534,7 @@ function skDecide(eng, e) {
         + (watched && !fleeing && !e.disguise && crowd === 1 && d < SK.gazeFar ? .5 * sm(.6, .85, h) * sm(350, 700, d) : 0)) * (crowd > 1 ? .6 : 1),   // (R18: very hungry and seen from afar, it comes on rather than go the long way round - the hungry, and any close by, keep their ways round and the bait)   // (R18: the standoff escalates; a walker going away is followed; R1-R16i: x .35 with two or more)   // (R1: hungry, it goes for an unaware person even in light; watched, it comes on openly when starving, or very hungry once its flanks and its bait have failed; still a lone ambusher; after a lost race it keeps to the runner's trail)
     chase: cur === 'chase' ? (e.plan.lost ? 0 : 2) :                                       // a chase runs until its own rules end it (skAct)
       e.exh || e.disguise || restRace || e.stam < SK.stamLow + 15 || d > SK.chaseFrom * (1 + .4 * hs) || (crowd > 1 && h < .7) || !(fleeing || winded || leavingThem || esc >= 1.2) ? 0 :
-        sm(SK.chaseHunger - .1, SK.chaseHunger + .15, h) * (.55 + h * .9 + (winded ? .5 : 0) + (esc >= 1.2 ? .3 * esc : 0) - T.CAUTION * .3) * (crowd > 1 ? .6 : 1),   // (R16d: starving, it gives chase from farther; R18: graduated from about .35, also after a walker or out of an escalated standoff, and - starving - with two of them about)
+        sm(SK.chaseHunger - .1, SK.chaseHunger + .15, h) * (.55 + h * .9 + (winded ? .5 : 0) + (esc >= 1.2 ? .3 * esc : 0) - T.CAUTION * .3) * (crowd > 1 ? .6 : 1) * SK20.chaseW,   // (R16d: starving, it gives chase from farther; R18: graduated from about .35, also after a walker or out of an escalated standoff, and - starving - with two of them about)
   };
   if (cur === 'retreat' && e.plan.arrived && !watched) W.retreat = 0;                       // out of sight now: decide afresh
   // (R19, the independent review) somebody going their own way (moving, not towards it) whose way round it has just dropped as stale, or
@@ -4419,6 +4566,18 @@ function skDecide(eng, e) {
   // at their side (a flank from where it is), or holds where it is, unseen
   // (R16) with no ambush point near them here a moment ago, it does not search again on every think (as with no way round them: SK.noFlank)
   let ap = null;
+  // (R20) somebody it sees walking on, unaware of it, some way off: hungry enough to hunt, it goes ahead to wait for them where they will
+  // pass - beside their way, out of sight of it (skPredict's spot), at the pace that gets it there first (skPace) - rather than coming up
+  // behind them.  They may turn off: its guess can be wrong (it then decides afresh; an interception's own rules end it)
+  if (best === 'approach' && cur !== 'approach' && cur !== 'ambush' && !seenMe && !kept('approach') && !e.disguise && h >= SK.huntHunger && !e.exh && crowd === 1 && !lit && d > SK.pounceRange[1] + 40 && away < -60) {
+    // (R20) coming its way, unaware, and their way passes close by it (in the dark): it lets them come - an ambush where it stands
+    const vv = Math.hypot(p.vx, p.vy) || 1, cpa = Math.abs(((e.x - p.x) * p.vy - (e.y - p.y) * p.vx) / vv);
+    if (cpa < SK20.waitCpa) { e.tally.waitHere = (e.tally.waitHere || 0) + 1; skHuntBegin(eng, e, r, 'it waits for them'); skBegin(eng, e, 'ambush', r, `P${r.id} is coming its way, unaware: it waits for them where it is, in the dark`, { until: now + 3 + 4 * T.PATIENCE, here: 1 }).face = { x: p.x, y: p.y }; skMindKept(e, now, SK_SEEN); return; }
+  }
+  if (best === 'approach' && cur !== 'approach' && !seenMe && !kept('approach') && !e.disguise && h >= SK.huntHunger && !e.exh && crowd === 1 && d > SK20.aheadFrom && Math.hypot(p.vx, p.vy) > 60) {
+    const g = skAhead(eng, e, r); e.dbg.ahead = { at: +now.toFixed(2), pid: r.id, g: g ? { slack: g.slack, lead: g.lead } : null };
+    if (g) { e.tally.ahead = (e.tally.ahead || 0) + 1; skIntercept(eng, e, r, g, `P${r.id} walks on, unaware of it: `); e.plan.ahead = 1; e.plan.gd = Math.hypot(p.x - g.x, p.y - g.y); return; }
+  }
   if (best === 'approach' && cur !== 'approach' && !seenMe && !kept('approach') && !e.disguise) {
     const na = e.noAmbush && now - e.noAmbush.t < SK.noFlank && Math.hypot(p.x - e.noAmbush.x, p.y - e.noAmbush.y) < 200;
     ap = d <= SK.pounceRange[1] ? { near: 1 } : na ? null : skFlankSpot(eng, e, p, d, r.id, [SK.pounceRange[0] + 45, Math.max(SK.pounceRange[0] + 45, Math.min(SK.pounceRange[1] - 15, d - 60))], e.coverRng);
@@ -4474,9 +4633,9 @@ function skUnseen(eng, e) {
     if ((L.k === 'approach' || L.k === 'chase' || L.k === 'watch') && eng.now - r.seenAt < SK.lostGrace) return;   // (R4) a glimpse lost for a moment is not yet lost: it keeps on (R16d: a watch too - no watch/intercept flicker at a sight edge)
     skLost(eng, e, L, r); return;
   }
-  if (L && (L.k === 'search' || L.k === 'listen')) return;                         // looking at a sound nobody has been named for
+  if (L && (L.k === 'search' || L.k === 'listen' || L.k === 'post')) return;      // looking at a sound nobody has been named for (R20: or waiting where it would come out)
   if (!L && H) { skHuntNext(eng, e); return; }                                     // (R1) the hunt goes on: listen, search where it believes them, or give up
-  if (!L && e.hunger >= SK.huntHunger && !e.exh) skListen(eng, e);
+  if (!L && e.hunger >= SK.huntHunger && !e.exh && !(e.roam.summon > eng.now)) skListen(eng, e);   // (R20: on its way where an admin sent it, it does not stop for sounds - its ears reach farther now)
 }
 /* ---- carrying a plan out (every tick) ---- */
 function skAct(eng, e, dt, thinkNow) {
@@ -4644,6 +4803,7 @@ function skAct(eng, e, dt, thinkNow) {
         }
       }
       if (!P.arrived && P.mode === 'covert' && P.way) {                               // (R13) along its covert way: out of every view it knows of
+        if (thinkNow) P.need = skNeed(eng, e, P);                                      // (R20) its hidden run, as fast as its guess needs
         const st = skCovertStep(eng, e, P, dt, thinkNow, r); if (e.plan !== P) return;
         if (st === 'arrived' || st === 'failed' || now > P.until) { P.arrived = now; e.path = []; P.until = Math.min(P.until + 4, now + rand(e, SK.interceptWait[0], SK.interceptWait[1]) * (.7 + .6 * e.tr.PATIENCE)); e.dbg.why = `in place, out of sight: it waits for P${r.id} beside the way it guessed`; }
         return;
@@ -4653,7 +4813,8 @@ function skAct(eng, e, dt, thinkNow) {
         const last = Math.hypot(P.g.x - e.x, P.g.y - e.y) < 160 && e.path.length <= 1;
         if (thinkNow && !e.path.length && e.pathAge > 1.5) { P.stuck = (P.stuck || 0) + 1; plan(eng, e, P.g.x, P.g.y, { why: 'intercept' }); }
         setAct(e, P.mode === 'open' ? 'chase' : 'intercept');                          // (R16, pack 03: an OPEN interception runs as an open run - upright, the chase's act - never as the hidden run)
-        follow(eng, e, dt, skSpeed(e, last ? 'stalk' : 'run'), { arrive: 30 });
+        if (thinkNow) P.need = skNeed(eng, e, P);                                      // (R20) the pace its guess needs: a prowl, a burst, or its run
+        follow(eng, e, dt, last ? skSpeed(e, 'stalk') : skPace(e, P), { arrive: 30 });
         if (Math.hypot(P.g.x - e.x, P.g.y - e.y) < 44 || (P.stuck || 0) > 2 || now > P.until) {
           P.arrived = now; P.until = Math.min(P.until + 4, now + rand(e, SK.interceptWait[0], SK.interceptWait[1]) * (.7 + .6 * e.tr.PATIENCE));
           e.dbg.why = `in place: it waits for P${r.id} beside the way it guessed`;
@@ -4693,6 +4854,10 @@ function skAct(eng, e, dt, thinkNow) {
         const gx = Hh && Hh.hAt >= r.heardAt ? Hh.x : r.hx, gy = Hh && Hh.hAt >= r.heardAt ? Hh.y : r.hy;
         if (Math.hypot(gx - P.goal.x, gy - P.goal.y) > 90) { P.goal = { x: gx, y: gy }; P.looked = 0; plan(eng, e, gx, gy, { why: 'search (heard)' }); e.dbg.why = `it heard ${Hh && Hh.hAt >= r.heardAt ? 'something where P' + r.id + ' could be' : 'P' + r.id}: it goes there, quietly`; }
       }
+      // (R20) ...or a fresh one from another way, about as loud as the one it went for (or louder): the newer evidence leads (within its three moves)
+      if (thinkNow && !r && e.hear && e.hear.id > P.sid && (P.moved || 0) < 3 && e.hear.src !== -1 && now - e.hear.t < .5 && e.hear.I >= Math.max(.2, .8 * (P.I || 0)) && Math.hypot(e.hear.x - P.goal.x, e.hear.y - P.goal.y) >= 500) {
+        P.sid = e.hear.id; P.moved = (P.moved || 0) + 1; P.at = { x: e.hear.x, y: e.hear.y }; P.goal = skVantage(eng, e, P.at.x, P.at.y, e.hear.u || 0) || P.at; P.looked = 0; plan(eng, e, P.goal.x, P.goal.y, { why: 'search (heard elsewhere)' }); e.dbg.why = 'it heard something another way, nearer: it goes there instead, quietly';
+      }
       // (R2) looking at a sound nobody has been named for: a fresher one near where it is going moves the goal (at most twice)
       if (thinkNow && !r && e.hear && e.hear.id > P.sid && (P.moved || 0) < 2 && e.hear.src !== -1 && Math.hypot(e.hear.x - P.goal.x, e.hear.y - P.goal.y) < 500) {
         P.sid = e.hear.id; P.moved = (P.moved || 0) + 1; P.at = { x: e.hear.x, y: e.hear.y }; P.goal = skVantage(eng, e, P.at.x, P.at.y, e.hear.u || 0) || P.at; P.looked = 0; plan(eng, e, P.goal.x, P.goal.y, { why: 'search (heard)' }); e.dbg.why = 'it heard it again: it goes there, quietly';   // (R16e: to where it can see the place)
@@ -4703,7 +4868,8 @@ function skAct(eng, e, dt, thinkNow) {
         // (R18) to the place: at its investigation's pace (232; a prowl when barely hungry), slowing to a stalk for the last stretch to arrive
         // quietly - R8-R16i went to a person's last place at a stalk (90) all the way
         const far = Math.hypot(P.goal.x - e.x, P.goal.y - e.y) > 220;
-        follow(eng, e, dt, !far ? skSpeed(e, 'stalk') : Math.min(lerp(skSpeed(e, P.pid ? 'prowl' : 'roam'), skSpeed(e, 'investigate'), sm(.25, .6, e.hunger)), skCap(e)), { arrive: 40 });   // (R16e: to look at a sound nobody was named for, the hungrier the quicker - under the pace that costs it stamina; a hunt's search as before)
+        const urgent = !P.pid || (r && now - Math.max(r.heardAt, r.seenAt) < SK20.urgent);   // (R20) a hunt's search hurries only on fresh footsteps: else its prowl, the pursuit walk
+        follow(eng, e, dt, !far ? skSpeed(e, 'stalk') : Math.min(lerp(skSpeed(e, P.pid ? 'prowl' : 'roam'), skSpeed(e, 'investigate'), sm(.25, .6, e.hunger)), skCap(e), urgent ? 1e9 : skSpeed(e, 'prowl')), { arrive: 40 });   // (R16e: to look at a sound nobody was named for, the hungrier the quicker - under the pace that costs it stamina; a hunt's search as before)
         if (Math.hypot(P.goal.x - e.x, P.goal.y - e.y) < 70 || (P.stuck || 0) > 2 || now > P.until) {
           const from = P.at && !P.closer && Math.hypot(P.at.x - e.x, P.at.y - e.y) > 120;           // (R16e) at a point to look from: a short look at the place
           P.looked = now; P.lookFor = from ? rand(e, SKL.lookFrom[0], SKL.lookFrom[1]) : rand(e, SK.searchLook[0], SK.searchLook[1]); P.look0 = P.at && Math.hypot(P.at.x - e.x, P.at.y - e.y) > 70 ? Math.atan2(P.at.y - e.y, P.at.x - e.x) : e.ang; P.lookC = e.ang;   // (R16g: at the place itself, the way it faces)
@@ -4721,6 +4887,40 @@ function skAct(eng, e, dt, thinkNow) {
         if (Hh) { skFailed(Hh, P.goal.x, P.goal.y, now, 'search'); Hh.conf = Math.max(0, Hh.conf - SK.wrongCost * .5); if (P.turnA !== null && P.turnA !== undefined) skBadTurn(Hh, P.turnA); }   // (R2) negative evidence: nobody here
         if (Hh && Hh.conf >= SK.huntLow && Hh.tries < skTries(e) && !e.exh) { e.plan = null; e.dbg.why = `P${r.id} is not here: it thinks again`; }   // (R1) the hunt goes on
         else if (r) skLeave(eng, e, r, `the trail of P${r.id} is cold: it gives up`); else { e.plan = null; e.dbg.why = 'nothing there: it roams again'; }
+      }
+      return;
+    }
+    case 'post': {                                                                     // (R20) where the sounds would come out: there, then waiting
+      const g = P.g;
+      if (!P.arrived) {
+        if (thinkNow) { P.need = skNeed(eng, e, P); if (!e.path.length && e.pathAge > 1.5) { P.stuck = (P.stuck || 0) + 1; plan(eng, e, g.x, g.y, { why: 'post' }); } }
+        const last = Math.hypot(g.x - e.x, g.y - e.y) < 160 && e.path.length <= 1, v = last ? skSpeed(e, 'stalk') : skPace(e, P);
+        setAct(e, v > SK.runFrom ? 'intercept' : 'approach');                         // (a burst runs as its hidden run; a prowl goes quietly)
+        follow(eng, e, dt, v, { arrive: 30 });
+        if (Math.hypot(g.x - e.x, g.y - e.y) < 44 || (P.stuck || 0) > 2 || now > P.until) {
+          P.arrived = now; P.until = now + Math.min(SK20.postMax, SK20.postWait[0] + SK20.postWait[1] * e.hunger * e.tr.PATIENCE); e.path = [];
+          e.tally.postAt = (e.tally.postAt || 0) + 1; e.dbg.why = 'at its post: it waits where they would come out';
+        }
+        return;
+      }
+      skHold(eng, e, dt); faceToward(e, P.face.x, P.face.y, dt, 1.6);
+      skHeadTo(e, Math.sin((now - P.arrived) * 1.3 + e.id) * .5, dt);               // (it listens, its head turning, toward the way they would come)
+      if (e.act !== 'wait') setAct(e, 'wait');
+      if (thinkNow) {
+        if (skComing(eng, e, P)) { P.until = Math.min(Math.max(P.until, now + 2.5), P.arrived + SK20.postMax); if (e.hear && now - e.hear.t < .6) P.face = { x: e.hear.x, y: e.hear.y }; e.dbg.why = 'it hears them coming: it waits, ready'; }
+        // the sounds it waits for: nearest so far, and - once they pass it by, unseen (the dark, another way) - it follows them quietly
+        const H = e.hear;
+        if (H && H.src !== -1 && now - H.t < .6) {
+          const dh = Math.hypot(H.x - e.x, H.y - e.y);
+          if (dh < 320 && P.came === undefined) { P.came = now; e.tally.postCame = (e.tally.postCame || 0) + 1; }
+          if ((P.hmin ?? 1e9) < 600 && dh > P.hmin + 120) { e.tally.postPassed = (e.tally.postPassed || 0) + 1; skSearch(eng, e, null, 'they passed by its post, unseen: it follows the sound, quietly', { x: H.x, y: H.y }); return; }
+          P.hmin = Math.min(P.hmin ?? 1e9, dh);
+        }
+        if (now > P.until) {
+          e.tally.postLeft = (e.tally.postLeft || 0) + 1;
+          if (H && H.src !== -1 && now - H.t < 1.5) { skSearch(eng, e, null, 'nobody came by its post, but it still hears them: it goes quietly to look', { x: H.x, y: H.y }); return; }
+          e.plan = null; e.dbg.why = 'nobody came by its post: it roams again';
+        }
       }
       return;
     }
@@ -4899,7 +5099,11 @@ function skAwTop(eng, e) {
 SKIN.tick = skinTick;
 SKIN.debug = skDebug;
 SKIN.predict = skPredict;                                       // (its guess from a record: the tests and the admin overlay ask it directly)
-SKIN.hearSpeech = skHearSpeech;                                 // (T6) the engine's hearSpeech: a line said near it
+SKIN.hearSpeech = skHearSpeech;
+/* (R20) its own ear (the shared hearEvent asks a species that has one): a person's own sounds (a positive source) by kind, SK20.hear; through a wall SK20.hearWall - another creature's sounds and speech as before */
+SKIN.hearScale = ev => ev.src > 0 ? (SK20.hear[ev.type] || 1) : 1;
+SKIN.hearWall = SK20.hearWall;
+SKIN.fatigueSee = skFatigueSee; SKIN.fatigue = skFatigue;                     // (R20) its fatigue belief, for the checks (s_skinr20.js SH10/SH11)                                 // (T6) the engine's hearSpeech: a line said near it
 SKIN.skinFrom = skSkinFrom;                                     // (T6) the engine's skinFrom: the look of the person it has killed
 /* the snapshot's entry; dg (T6) only while it wears a skin: the look it wears, as the wire carries a wanderer's (hat|texture|hands|main) */
 SKIN.snap = e => Object.assign({ i: e.id, x: Math.round(e.x * 10) / 10, y: Math.round(e.y * 10) / 10, a: +e.ang.toFixed(3), s: SCODE[e.state], ac: KACT[e.act] | 0, v: Math.round(e.speed), h: +(e.head || 0).toFixed(2) }, e.disguise ? { dg: e.disguise.look } : null);

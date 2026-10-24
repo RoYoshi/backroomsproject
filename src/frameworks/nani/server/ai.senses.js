@@ -166,9 +166,10 @@ function hearEvent(e, eng, ev) {
   const identified = identifySound(eng, e, ev);
   const focus = identified && identified.id === e.target && (e.state === S.HUNTING || e.state === S.SEARCHING) && (ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land') ? 1.3 : 1;   // a hunting animal tracks its prey's running footfalls further - careful movement gets no such penalty
   let eff = ev.r * (.42 + e.tr.HEARING * 1.05) * focus * (e.act === 'listen' ? 1.5 : 1) * (e.state === S.FEEDING ? .65 : 1) * (e.state === S.DORMANT ? .75 : 1) * (e.deaf > 0 ? .3 : 1);
+  if (e.sp.hearScale) eff *= e.sp.hearScale(ev);                              // (Trial 3 R20) a species with its own ear (opt-in: the Skin-Stealer's, by kind of sound)
   if (d > eff * 1.05) return;
   const clear = geo.los(e.x, e.y, ev.x, ev.y);
-  if (!clear) eff *= .6;
+  if (!clear) eff *= e.sp.hearWall || .6;                                       // (R20: its own share through a wall, if it has one)
   if (d > eff) return;
   const I = ev.I * Math.pow(1 - d / eff, .7);
   if (I < .03) return;

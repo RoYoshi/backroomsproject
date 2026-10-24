@@ -116,15 +116,20 @@ add('SR03 the contest: at a junction, a very hungry one coming on openly heads f
       }
       if (P && P.cp && P.cp.c && d <= near - 30) R.afterNear++;
       if (trig && R.ran < 0 && d < trig) { R.ran = t; p.look = null; p.go(mode, 732, 'run'); }
+      if (R.ran >= 0 && R.arrived === undefined) { const m = R.lx === undefined ? 99 : Math.hypot(p.x - R.lx, p.y - R.ly); R.lx = p.x; R.ly = p.y; R.still = m < .5 ? (R.still || 0) + 1 : 0; if (R.still >= 12) R.arrived = t; }   // (R20) their sprint is over: 0.2 s without moving (they stand at the hall's end)
+      if (p.dead && R.deadAt === undefined) R.deadAt = t;
       return !p.dead;
     });
-    R.dead = p.dead; return R;
+    R.dead = p.dead; R.caughtRunning = p.dead && !(R.arrived <= R.deadAt); return R;
   };
   const stand = [1, 2, 3, 4, 5, 6].map(s => one(s, 'stand')), walk = [1, 2, 3, 4, 5, 6].map(s => one(s, 'walk')), west = [1, 2, 3, 4, 5, 6, 7, 8].map(s => one(s, 264, 550));
   const got = stand.filter(r => r.cps.length).length, bad = stand.concat(walk).flatMap(r => r.bad), walkCp = walk.filter(r => r.cps.some(c => c.v > 60)).length, after = stand.concat(walk).reduce((a, r) => a + r.afterNear, 0);
-  const esc = west.filter(r => !r.dead).length;
+  // (R20: the other way out stays open - judged while they run: its ears now reach a running step as far as a player hears its own, so
+  // somebody who sprints off and then stands still at the hall's end in its hearing is followed and found, which R19's ears missed - that
+  // later finding is its hunt, not its positioning cutting the way off.  R19: escaped 8/8 by surviving the 10 s)
+  const esc = west.filter(r => !r.caughtRunning).length;
   return { ok: got >= 4 && !bad.length && !walkCp && !after && esc >= 4 && !!g0,
-    note: `standing: headed for their way out in ${got}/6 (${stand.flatMap(r => r.cps.map(c => `${Math.round(c.x)},${Math.round(c.y)} ${c.r} px`)).slice(0, 3).join('; ')}), points off floor / out of reach / not to their side ${bad.length} | walking: a contest point while they walked ${walkCp}/6 | a contest point held inside its footwork's range ${after} ticks | standing, then a sprint west along the hall when it is 550 px off: escaped ${esc}/8` };
+    note: `standing: headed for their way out in ${got}/6 (${stand.flatMap(r => r.cps.map(c => `${Math.round(c.x)},${Math.round(c.y)} ${c.r} px`)).slice(0, 3).join('; ')}), points off floor / out of reach / not to their side ${bad.length} | walking: a contest point while they walked ${walkCp}/6 | a contest point held inside its footwork's range ${after} ticks | standing, then a sprint west along the hall when it is 550 px off: escaped ${esc}/8 while running (${west.filter(r => r.dead).length} found later, standing at the hall's end)` };
 });
 
 add('SR04 a vault is carried through: begun, the body keeps to the vault\'s line until it lands - its decisions meanwhile (a hungry one close to a person it sees, its footwork and its spring) move nothing - and no jump faster than its run', () => {
