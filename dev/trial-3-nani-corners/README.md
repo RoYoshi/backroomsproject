@@ -19,7 +19,8 @@ engineering for the owner's Human QA: no merge, no deployment.
 Tools (`tools/`): `corner_audit.js` (every species round 40 seeded routes, from rest and from speed), `corner_plot.py` (a run drawn),
 `corner_browser.js` (a Hound sent round corners by the admin's own navigation command, recorded by the page), `fresh_seeds.js` (the
 review's probe: R18's follower against this one on fresh routes), `pursuit_outcomes.js` / `pursuit_compare.py` / `pursuit_chaos.py`
-(the owner's "never weaker": game outcomes of seeded chases on any tree, paired, with a 1 px control), `verify_remote_r19.py`.
+(the owner's "never weaker": game outcomes of seeded chases on any tree, paired, with a 1 px control), `s5_server.js` (the owner's
+threat scene S5 without the page), `verify_remote_r19.py`.
 
 ```
 npm run build:check

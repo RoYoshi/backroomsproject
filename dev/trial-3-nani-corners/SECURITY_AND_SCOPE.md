@@ -11,7 +11,7 @@ Trial 3 is **not owner-approved**.
 | `dev/tests/s_nanicorner.js`, `dev/tests/run.js` | the new suite NC01-NC04, added to the default list |
 | `dev/tests/r19n_patch.js`, `dev/tests/r19n_c15.js`, `dev/tests/r19n_chase.js`, `dev/tests/r19n_child.js` | the hunk as text (for the locks), C15's child run without it, NC04's navigation chase and its run without the hunk - none is a suite |
 | `dev/tests/s_skinpredator.js` (PR25), `dev/tests/s_wandererlock.js` (WL05), `dev/tests/s_skinmind.js` (C15) | the locks on the shared engine taught exactly that hunk (`REGRESSION.md`); no threshold changed |
-| `dev/trial-3-nani-corners/**` | this folder: reports, tools (corner_audit.js, corner_plot.py, corner_browser.js, fresh_seeds.js, pursuit_outcomes.js, pursuit_compare.py, pursuit_chaos.py, verify_remote_r19.py - development tools, not part of the game), inventory, evidence |
+| `dev/trial-3-nani-corners/**` | this folder: reports, tools (corner_audit.js, corner_plot.py, corner_browser.js, fresh_seeds.js, pursuit_outcomes.js, pursuit_compare.py, pursuit_chaos.py, s5_server.js, verify_remote_r19.py - development tools, not part of the game), inventory, evidence |
 
 Not changed: every species file (ai.hound.js, ai.smiler.js, ai.skinstealer.js, ai.skin.*.js), the rest of the shared engine, every speed,
 turn rate, acceleration, collider and clearance, the vault/crawl traversal, the tiers, the Wanderer (WL01-WL06), the page, the server,
