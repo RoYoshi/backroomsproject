@@ -2772,6 +2772,8 @@
       "object"
      ],
      "keyOrders": [
+      "t,k,id,c,e,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex,srv,de,wn,lo,lf",
+      "t,k,id,c,e,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex,srv,de,wn,lo,lf,el",
       "t,k,id,c,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex,srv,de,wn,lo,lf",
       "t,k,id,c,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex,srv,de,wn,lo,lf,el",
       "t,k,id,de",
@@ -2944,6 +2946,12 @@
      "keyOrders": []
     },
     ".w[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e": {
      "kinds": [
       "number"
      ],
@@ -3674,5 +3682,16 @@
   }
  },
  "messagesRead": 26370,
- "wideObjects": []
+ "wideObjects": [],
+ "approvedExtensions": [
+  {
+   "scope": "serverToClient.fx",
+   "variant": "k=death; c=Hound or Smiler; also SkinStealer in R20",
+   "field": "e",
+   "type": "positive safe-integer",
+   "position": "after c",
+   "reason": "identity-based kill mirror suppression; historic B++ traces immutable",
+   "branch": "trial-3-r20-bpp-killer-identity"
+  }
+ ]
 }
