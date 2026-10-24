@@ -16,12 +16,10 @@ new Function('window', fs.readFileSync(path.join(__dirname, '..', '..', '..', '.
 const DP = box.__dphys;
 for (const kind of ['Hound', 'Smiler', 'SkinStealer']) DP.simulate({ kind, v: 'A', victim: { x: 500, y: 500, angle: 0 }, src: { x: 454, y: 500 }, walls: () => [], clear: () => true });
 
-/* what the victim's client would have sent as 'fx' for a death, from the server's own record (Trial 3: c names the Skin-Stealer too;
- * R20, the kill-visibility addendum: a Skin-Stealer's death also carries e, the killer's entity id from the kill record, so that every
- * page hides that creature's own view while its kill replays - and no other - by its id, not by which one stands nearest the attack.
- * A Hound's or a Smiler's message is B++'s, byte for byte: the B++ protocol contract (dev/stage-3h/gate/protocol_bpp.json) and its
- * golden traces hold it, and the addendum keeps the payload without a Skin-Stealer as it was) */
-const killerId = kill => kill.k === 'SkinStealer' && Number.isSafeInteger(kill.e) && kill.e > 0 ? { e: kill.e } : null;
+/* R20 B++ killer-identity exception: the replay always names the authoritative attacker if the id is valid.
+ * This is the ONLY added field for Hound and Smiler 'fx/death'; their original field order and semantics remain intact.
+ * Keep the historical B++ goldens immutable; record this intentional extension separately. */
+const killerId = kill => ['Hound', 'Smiler', 'SkinStealer'].includes(kill.k) && Number.isSafeInteger(kill.e) && kill.e > 0 ? { e: kill.e } : null;
 function fxFor(id, kill, info) {
   return Object.assign({ t: 'fx', k: 'death', id, c: kill.k === 'Smiler' || kill.k === 'SkinStealer' ? kill.k : 'Hound' }, killerId(kill), { x: kill.x, y: kill.y, a: kill.a, sx: kill.ax, sy: kill.ay,
     v: /^[ABCD]$/.test(kill.v) ? kill.v : 'A', w: kill.w || 0, lk: info.look, ek: info.ek, ec: info.ec, ep: info.ep, vx: Math.round(info.vx || 0), vy: Math.round(info.vy || 0), ex: info.ex ? 1 : 0, srv: 1 });
