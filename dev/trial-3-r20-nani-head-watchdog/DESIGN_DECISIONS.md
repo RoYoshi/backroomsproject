@@ -75,3 +75,41 @@ lowers the timer would change when a resumed body side-steps, which is a behavio
 
 **No logging was suppressed.**  The label, the recovery counters and the watchdog's note and reason are all as before.  They now fire
 only when something is in the way.
+
+## W3 (checkpoint D): the opt-in head swivel - the gaze leads into the bends (shared helper, the Skin-Stealer opts in; the page draws the server's head)
+
+**The capability.**  A species with a head it can turn says so in its caps: `HEAD_SWIVEL = { max, run, runFrom, rate, ahead }`.  Only
+the Skin-Stealer does (`{ max: .85, run: .4, runFrom: 240, rate: 3, ahead: 170 }`).  The Hound's head and the Smiler's keep their own
+code; neither has the capability, and neither calls the helper.  The pack: "Smiler must remain baseline"; the Hound's head is its own
+contract, so it is not opted in.
+
+**The shared helper, `headAhead(eng, e)` (`ai.entity.js`).**  While a body walks its route, as it comes within `ahead` px of a waypoint
+with another after it, the head angle (from the body's heading) toward that next waypoint, weighted by how near it is (`1 - d / ahead`),
+clamped to `max` rad (`run` rad above `runFrom` px/s).  It returns 0 for a species without the capability, mid-vault, for a vault or
+crawl link, and below 30 px/s.  It is only a direction for the head:
+- **It is not sight.**  The sight is the engine's own: `visualObservation` centred on `e.ang + e.head`, its range, light, posture and
+  `geo.sees` (walls) as before.  The swivel shows the corner's mouth as it opens and nothing behind the wall (NA02).
+- **It never moves the body.**  The follower's speed, turn, collision and corner timing are untouched (NA05: the same routes walked with
+  the head swivelling and straight give the same path; NC01-NC04 pass).
+- It is in the lock registry as two hunks tagged `head` (`r19n_patch.js` HEAD); PR25, WL05 and C15 hold the rest byte for byte.
+
+**The Skin-Stealer's use of it (`ai.skinstealer.js`).**
+- Its reactions come first, unchanged: a snap toward a sound or a movement (`skHeadStep`, `skSnap`), its gaze at a person it has noticed
+  (`skGaze`), a plan's own head (a post's sweep, a listen).  The swivel fills only what was a straight head: nobody to look at, or a plan
+  whose person it does not see.
+- In a borrowed skin it does not swivel (a wanderer's look, R19's).
+- `skSwivel` eases the head toward the swivel's angle, never faster than its `rate` (3 rad/s): no spin.  `skHeadStep`'s limits still apply
+  on top.
+- In 15 min of play, nobody in view, its head was turned more than .2 rad for 9.3 % of its walking (2.8 % without the swivel).
+
+**The page (`skin.body.js`).**  R19 drew .7 of the server's head while it moved and eased it at 1.3-5 /s; a watching head could be .6 rad
+behind, and the still figure's T5 "tilt" turned the drawn head up to .85 rad from where it looked.  Now:
+- the drawn head is the whole of the server's head, eased at 20 /s (a snap at 22 /s, as before);
+- the tilt is a small cock (.06-.12 rad).
+
+NA01: on 53,796 frames of real play, the drawn head is within .115 rad of the server's on 95 % of frames (R19's page on the same
+snapshots: .394); the drawn gaze (body + head) is within .243 rad of the sight's centre (R19: .397).  What remains is the body's own
+easing on the page and the snaps' first frames.
+
+**Not done.**  No look toward sounds was added: the Skin-Stealer's snap already turns its head to a sound.  No Hound opt-in: its head is
+its own.  No larger cone, no new range: the swivel is a direction within the existing cone's rules.

@@ -62,3 +62,44 @@ the chase's own sensitivity; the counts are the measure.
 
 The fix changes only the stuck accounting, never the motion.  Over 154 turnarounds per species on open floor, every arrival was R19's to
 within 0.016 s.  The few hundredths of difference are where R19's side-step fired.
+
+## Checkpoint D: the head swivel (W3)
+
+| run | Checkpoint B 68d4ff9 | **checkpoint D** |
+|---|---|---|
+| `npm test` | 344/357 | **348/362** in the full run (`evidence/D/npm_test.txt`); +5 tests (NA01-NA05).  The same 13 inherited failures, and SR04, re-judged below (`evidence/D/s_skinr19_rejudged.txt`: 6/6 after it), so 349/362 |
+| NA01-NA05 (`s_r20head.js`) | not in that tree | 5/5 |
+| ST01-ST04, NC01-NC04, PR25, WL05, C15 | PASS | PASS (the registry holds the swivel's two hunks, tagged `head`) |
+| `npm run build:check` | PASS | PASS |
+
+**SR04, re-judged.**  SR04 (R19) checks that a vault, once begun, is carried through on its own line.  It measured every vault in its 2 s
+against the first vault's line.  With the swivel, in one seed the creature saw the person 160 px to its side sooner, went for them and
+vaulted back from another place at 1.15 s.  That second vault was measured against the first one's line (16.6 px "off").  Each vault is
+now judged against its own line.  Every vault in every seed is exactly on its line (0.0 px) and lands at its 0.567 s.
+
+**The chases (`evidence/D/cmp_N_D.md`, the seeded study, 1,044 runs per species).**
+
+| species | caught B → D | runs that differ |
+|---|---|---|
+| Hound | 345 = 345 | 0 |
+| Smiler | 323 = 323 | 0 |
+| Skin-Stealer | 305 → 306 | 3: all sooner |
+
+**NA01-NA05, what each showed (`evidence/D/npm_test.txt`).**
+- **NA01 (the drawn head is where it looks).**
+  - 53,796 frames of real play: the drawn head is off the server's by 0 / .115 / .297 rad (median / 95th / 99th).  R19's page on the same
+    snapshots: .007 / .394 / .783.
+  - Standing still, its head at -.85, 0 and +.85: 282 placements, each seen exactly when inside the cone round `e.ang + e.head`.  Forty of
+    them were outside the body's own cone and seen through the turned head.
+- **NA02 (nothing behind a wall).**
+  - Play: 9,683 ticks of sight, 0 without a clear line.
+  - Its head turned straight at 90 people in the next room: 0 seen.
+  - 10 corners, walked and run, swivelling and straight: 40 sightings, every one within a think (.12 s) of the line opening, none before.
+- **NA03 (the head while it walks and runs).**
+  - Turned more than .2 rad, with nobody in view, for 9.3 % of its walking (2.8 % without the swivel).
+  - Never past .4 rad at a run; the fastest swivel was 3 rad/s.
+  - A 24 fps page draws the head within .083 rad on 95 % of frames.  A page joining 30 s late matches the first page after half a second.
+- **NA04 (other species unchanged).**  The Hound and the Smiler have no capability, make no call, and `headAhead` is 0 for them over about
+  9,500 ticks of bends (the Skin-Stealer: up to .85 rad).  A disguised Skin-Stealer's head stayed at 0.
+- **NA05 (it never moves a body).**  20 runs: every path and arrival identical with the head swivelling and straight.
+- **NA06 (R19's corner timing).**  NC01-NC04 pass unchanged; NA05 shows the swivel cannot change an arrival.

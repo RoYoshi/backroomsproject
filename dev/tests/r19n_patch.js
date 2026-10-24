@@ -14,7 +14,14 @@ const HUNKS = [
   "    e.unst = null; const c = carrotOf(eng, e, clamp(e.speed * .42, 64, 150)); tx = c.x; ty = c.y;\n    // (Trial 3 R19, the N track) the aim swinging back - over 57 deg off the body's heading - for a waypoint the body has passed on the inside\n    // of a bend: it cut the corner and is beside the waypoint - over the line square to the next leg through it, on the side its heading\n    // turns toward to take the next leg (the inside of the bend while it turns into it; a test of its heading, not of the bend's geometry:\n    // the review's fresh seeds found every drop on the inside), the waypoint 80 deg or more off its heading,\n    // within 26 px and .12 s of its travel - and can get onto the next leg from here: the line to a point its own look-ahead along it (64-150\n    // px by its speed, or the whole leg) is clear by its collider and 2 px, and neither the next waypoint nor the one after is a vault link\n    // or a crawl cell.  The waypoint is dropped and this tick followed again without it.  R8-R18 kept it until the body was 26 px from it or the\n    // whole next leg was clear: the aim fell back to the waypoint beside or behind it, the heading error passed 90 deg and the body stopped,\n    // pivoted and went (the stop-pivot-go of a Hound at a bend).  Only then: an aim that does not swing back is R18's, unchanged\n    const n1 = e.path[1], n2 = e.path[2];\n    if (!o.passed && n1 && !n1.link && (n1.c | 0) <= 1 && (wp.c | 0) <= 1 && !(n2 && (n2.link || (n2.c | 0) > 1)) && Math.abs(angDiff(Math.atan2(ty - e.y, tx - e.x), e.ang)) > 1) {\n      const d = Math.hypot(wp.x - e.x, wp.y - e.y), ll = Math.hypot(n1.x - wp.x, n1.y - wp.y) || 1, ux = (n1.x - wp.x) / ll, uy = (n1.y - wp.y) / ll, k = Math.min(ll, clamp(e.speed * .42, 64, 150));\n      const hx = Math.cos(e.ang), hy = Math.sin(e.ang), inner = (ux * (e.y - wp.y) - uy * (e.x - wp.x)) * (hx * uy - hy * ux) > 0;\n      if (d < 26 + e.speed * .12 && inner && (e.x - wp.x) * ux + (e.y - wp.y) * uy > 0 && Math.abs(angDiff(Math.atan2(wp.y - e.y, wp.x - e.x), e.ang)) > 1.4 && geo.lineClear(e.x, e.y, wp.x + ux * k, wp.y + uy * k, e.rc + 2, e.mode)) {\n        e.path.shift(); navOf(e).passed = (navOf(e).passed || 0) + 1; return follow(eng, e, dt, vmax, Object.assign({}, o, { passed: 1 }));\n      }\n    }\n"
  ],
   // (Trial 3 R20: the N track - the open-air STUCK, dev/trial-3-r20-nani-head-watchdog/DESIGN_DECISIONS.md W1, W2 - and the S track - a
-  // species with its own ear, opt-in, in hearEvent: dev/trial-3-r20-strategic-ambush/DESIGN_DECISIONS.md)
+  // species with its own ear, opt-in, in hearEvent: dev/trial-3-r20-strategic-ambush/DESIGN_DECISIONS.md - and the head swivel, opt-in,
+  // tagged head: dev/trial-3-r20-nani-head-watchdog/DESIGN_DECISIONS.md W3)
+ [
+  " * provides: approach, coarseMove, directOk, directTo, faceToward, follow, goTo, mkEntity, moodTick, moveCollide, navOf, plan,\n",
+  " * provides: approach, coarseMove, directOk, directTo, faceToward, follow, goTo, headAhead, mkEntity, moodTick, moveCollide, navOf, plan,\n",
+  "src/frameworks/nani/server/ai.entity.js",
+  "head"
+ ],
  [
   "  let target = o.hold ? 0 : vmax * (o.noSlow ? 1 : clamp(align, .1, 1));\n",
   "  const turnV = o.hold ? 0 : vmax * (o.noSlow ? 1 : clamp(align, .1, 1));       // (R20) the speed its own turn allows: what its progress is measured against\n  let target = turnV;\n",
@@ -24,6 +31,12 @@ const HUNKS = [
   "  const intent = Math.max(step, (o.hold ? 0 : vmax) * dt * .5);                 // stuck = it wants to move and does not (measured against intent, not the speed it was braked to)\n",
   "  // stuck = it wants to move and does not: measured against the speed its own turn allows, not the speed a wall or a corner braked it to.\n  // (R20: against its full speed, a body slowed to 10-15 % to turn round on open floor counted as stuck - the open-air STUCK, every species)\n  const intent = Math.max(step, turnV * dt * .5);\n",
   "src/frameworks/nani/server/ai.entity.js"
+ ],
+ [
+  "function moodTick(e, dt) {\n",
+  "/* (Trial 3 R20, the N track) the head swivel, for a species that opts in with caps.HEAD_SWIVEL = { max, run, rate, ahead }: the head angle\n * (from the body's heading) its gaze leads with while it walks its route - toward the next bend of its own path as it comes within\n * `ahead` px of it, more as it nears it, to `max` rad (`run` rad at a run).  It is only where its head points: the sight is the engine's\n * (centred on e.ang + e.head, range, light and walls as for every species), so the turn shows it the corner's mouth as it opens and nothing\n * behind the wall; its body's speed, turn and collision are untouched.  A species without the capability gets 0 and never calls it. */\nfunction headAhead(eng, e) {\n  const H = e.caps && e.caps.HEAD_SWIVEL, P = e.path;\n  if (!H || !P || P.length < 2 || e.trav || e.speed < 30 || P[0].link || P[1].link) return 0;\n  const d0 = Math.hypot(P[0].x - e.x, P[0].y - e.y); if (d0 > H.ahead) return 0;\n  const w = 1 - d0 / H.ahead, lim = e.speed > (H.runFrom || 230) ? H.run : H.max;\n  return clamp(angDiff(Math.atan2(P[1].y - e.y, P[1].x - e.x), e.ang) * w, -lim, lim);\n}\nfunction moodTick(e, dt) {\n",
+  "src/frameworks/nani/server/ai.entity.js",
+  "head"
  ],
  [
   "    if (e.kind === 'hound') { if (!idle) w.t += dt; } else w.t += dt;\n",
@@ -45,7 +58,7 @@ const HUNKS = [
   "  if (!clear) eff *= e.sp.hearWall || .6;                                       // (R20: its own share through a wall, if it has one)\n",
   "src/frameworks/nani/server/ai.senses.js"
  ]
-];   // [base text, this tree's text, file (R19's hunk: ai.entity.js)]
+];   // [base text, this tree's text, file (R19's hunk: ai.entity.js), tag ('head': the head swivel)]
 const FILE = 'src/frameworks/nani/server/ai.entity.js', fileOf = h => h[2] || FILE, FILES = [...new Set(HUNKS.map(fileOf))];
 const once = (s, x) => s.split(x).length === 2;
 /* the base of one file with every hunk of that file applied (null: a hunk's base text is not there exactly once, or its new text is already
@@ -53,9 +66,11 @@ const once = (s, x) => s.split(x).length === 2;
 function add(src, file = FILE) { let t = src; for (const h of HUNKS) { if (fileOf(h) !== file) continue; const [o, n] = h; if (!once(t, o) || t.includes(n)) return null; t = t.replace(o, () => n); } return t; }
 /* this tree's source (the part - file - or the built ai.js, which holds every part: no file) with every hunk taken back out (null: a hunk's
  * new text is not there exactly once) */
-function remove(src, file = null) { let t = src; for (const h of HUNKS) { if (file && fileOf(h) !== file) continue; const [o, n] = h; if (!once(t, n)) return null; t = t.replace(n, () => o); } return t; }
+const hdr = h => /^ \* (provides|uses):/.test(h[1]);   // (R20 D) a hunk of a part's header comment: the build leaves headers out of ai.js
+function remove(src, file = null) { let t = src; for (const h of HUNKS) { if (file && fileOf(h) !== file) continue; if (!file && hdr(h)) continue; const [o, n] = h; if (!once(t, n)) return null; t = t.replace(n, () => o); } return t; }
 const lines = f => HUNKS.filter(h => !f || fileOf(h) === f).reduce((a, [o, n]) => a + n.split('\n').length - o.split('\n').length, 0);
 /* (R20) the built ai.js with only the given hunks taken back out (R20's alone: R19 combined's engine) - null as remove() */
-const R20 = HUNKS.filter(h => h[2]), R19 = HUNKS.filter(h => !h[2]);   // (R20: R19's cornering hunk alone - NC01-NC04's subject)
-function without(src, hs) { let t = src; for (const [o, n] of hs) { if (!once(t, n)) return null; t = t.replace(n, () => o); } return t; }
-module.exports = { HUNKS, FILE, FILES, fileOf, add, remove, lines: lines(), linesOf: lines, R20, R19, without };
+const R20 = HUNKS.filter(h => h[2] && !h[3]), R19 = HUNKS.filter(h => !h[2]);   // (R20: R19's cornering hunk alone - NC01-NC04's subject)
+const HEAD = HUNKS.filter(h => h[3] === 'head');   // (R20 checkpoint D: the opt-in head swivel's helper, W3 - kept by the STUCK checks' R19 runs, which the Skin-Stealer's code calls)
+function without(src, hs) { let t = src; for (const h of hs) { if (hdr(h)) continue; const [o, n] = h; if (!once(t, n)) return null; t = t.replace(n, () => o); } return t; }
+module.exports = { HUNKS, FILE, FILES, fileOf, add, remove, lines: lines(), linesOf: lines, R20, R19, HEAD, without };

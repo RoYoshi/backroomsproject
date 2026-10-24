@@ -934,6 +934,18 @@ function faceToward(e, tx, ty, dt, rate = 4) {
   e.ang = (e.ang + clamp(err, -rate * dt, rate * dt) + TAU) % TAU;
   return Math.abs(err);
 }
+/* (Trial 3 R20, the N track) the head swivel, for a species that opts in with caps.HEAD_SWIVEL = { max, run, rate, ahead }: the head angle
+ * (from the body's heading) its gaze leads with while it walks its route - toward the next bend of its own path as it comes within
+ * `ahead` px of it, more as it nears it, to `max` rad (`run` rad at a run).  It is only where its head points: the sight is the engine's
+ * (centred on e.ang + e.head, range, light and walls as for every species), so the turn shows it the corner's mouth as it opens and nothing
+ * behind the wall; its body's speed, turn and collision are untouched.  A species without the capability gets 0 and never calls it. */
+function headAhead(eng, e) {
+  const H = e.caps && e.caps.HEAD_SWIVEL, P = e.path;
+  if (!H || !P || P.length < 2 || e.trav || e.speed < 30 || P[0].link || P[1].link) return 0;
+  const d0 = Math.hypot(P[0].x - e.x, P[0].y - e.y); if (d0 > H.ahead) return 0;
+  const w = 1 - d0 / H.ahead, lim = e.speed > (H.runFrom || 230) ? H.run : H.max;
+  return clamp(angDiff(Math.atan2(P[1].y - e.y, P[1].x - e.x), e.ang) * w, -lim, lim);
+}
 function moodTick(e, dt) {
   const m = e.mood;
   m.arousal = Math.max(0, m.arousal - dt * .12); m.excitement = Math.max(0, m.excitement - dt * .1); m.frustration = Math.max(0, m.frustration - dt * (.03 + .03 * (1 - e.tr.AGGRESSION)));
@@ -3346,7 +3358,8 @@ const SKIN = {
   traits: { INTELLIGENCE: .8, SADISM: .1, HUNGER: .6, PATIENCE: .75, CURIOSITY: .55, CAUTION: .7, TERRITORIALITY: .3, AGGRESSION: .45, PERSISTENCE: .45, SOCIAL: .1, HEARING: .7, VISION: .55, LIGHT_SENS: .5, MEMORY: .7 },
   jitter: .12,
   // one collider in every form: it cannot crawl, and a disguise never shrinks it (LogicZ does not exist; see DEFERRED.md)
-  caps: { CAN_VAULT: true, VAULT_SPEED: .9, CAN_CROUCH: true, CAN_CRAWL: false, CAN_SLIDE: false, CAN_OPEN_DOORS: false, CAN_BREAK_DOORS: false, CAN_USE_TIGHT_GAPS: false, TURNING_ABILITY: 3.6, ACCELERATION: 760 },
+  caps: { CAN_VAULT: true, VAULT_SPEED: .9, CAN_CROUCH: true, CAN_CRAWL: false, CAN_SLIDE: false, CAN_OPEN_DOORS: false, CAN_BREAK_DOORS: false, CAN_USE_TIGHT_GAPS: false, TURNING_ABILITY: 3.6, ACCELERATION: 760,
+    HEAD_SWIVEL: { max: .85, run: .4, runFrom: 240, rate: 3, ahead: 170 } },   // (R20, the N track) its gaze leads into the bends of its way (headAhead)
   // not a dark-seer: a lightless person in the dark is seen only from close by, as the Hound sees
   vision: { range: 760, fov: 2.5, dark: false, gain: 2.6, floor: 90 },
   // (R18, the owner's OVERTUNED EXPERIMENT of October 22 - "overtune first, balance down after I experience it"; Skin-Stealer only, the
@@ -4434,7 +4447,12 @@ function skGaze(eng, e, dt) {
     const v = r.visual, toward = ((e.x - v.x) * v.vx + (e.y - v.y) * v.vy) / Math.max(1, r.dist), s = (o && now - o.eyesAt < .5 ? 3 : 0) + (o && o.inView ? 1 : 0) + (toward > 40 ? 1 : 0) - r.dist / 800;
     if (s > bs) { bs = s; pid = id; } } }
   if (pid) { const r = e.mem.p.get(pid); if (r && !tgtGone(eng, e, r)) { const q = perc(eng, e, r); want = clamp(angDiff(Math.atan2(q.y - e.y, q.x - e.x), e.ang), -lim, lim); } }
+  else if (!e.disguise) { const ah = headAhead(eng, e); if (ah) { skSwivel(e, ah, dt, 5); return; } }   // (R20) nobody to look at: into the bend ahead
   const h = (e.head || 0) + (want - (e.head || 0)) * Math.min(1, dt * 5); e.head = Math.abs(h) < 1e-3 && !want ? 0 : h;
+}
+/* (R20, the N track) the head eased toward the swivel's angle, never faster than its HEAD_SWIVEL rate (no spin while it walks or runs) */
+function skSwivel(e, want, dt, k) {
+  const h = e.head || 0, R = e.caps.HEAD_SWIVEL.rate * dt; e.head = h + clamp((want - h) * Math.min(1, dt * k), -R, R);
 }
 
 /* ---- the decision: what it does about the people it perceives (on its think, 10 Hz near) ---- */
@@ -4640,7 +4658,9 @@ function skUnseen(eng, e) {
 /* ---- carrying a plan out (every tick) ---- */
 function skAct(eng, e, dt, thinkNow) {
   const P = e.plan, now = eng.now;
-  if (!P || P.k === 'leave') skGaze(eng, e, dt); else if (e.head) e.head = Math.abs(e.head) < .02 ? 0 : e.head * Math.max(0, 1 - dt * 6);   // (B1)
+  if (!P || P.k === 'leave') skGaze(eng, e, dt);
+  else { const ah = e.disguise || (P.pid && e.seenNow.has(P.pid)) ? 0 : headAhead(eng, e);   // (R20) a plan's way: its gaze into the bend ahead
+    if (ah) skSwivel(e, ah, dt, 6); else if (e.head) e.head = Math.abs(e.head) < .02 ? 0 : e.head * Math.max(0, 1 - dt * 6); }   // (B1)
   if (e.rx && skReact(eng, e, dt)) return;                                          // (B1) a look, over the plan
   if (!P) { if (e.hunt) { skHold(eng, e, dt); return; } skRoam(eng, e, dt, thinkNow); return; }   // (R1: between two steps of a hunt it does not wander off)
   const r = P.pid ? e.mem.p.get(P.pid) : null;
