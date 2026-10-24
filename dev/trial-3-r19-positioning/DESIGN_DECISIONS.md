@@ -9,21 +9,28 @@ buff, not a new chase, not omniscience.  Every number below is its own reckoning
 **Old.**  `skDecide` took a way round (flank) whenever it won the weighing and `skFlankSpot` found a covert way up to max(1600, 4.5 x d)
 long - in the lit hall, ~1700 px (~10 s) to reach a person 450 px away.
 
-**New.**  When the weighing picks a way round and its spot is found, it reckons the way's time: its withdrawal at its stalk (90), its
-hidden run at its run (270), its quiet last stretch (`SKC.sprintFrom + SKC.settle`, 316 px) at its stalk, its settle (`SK.flankSettle`, 0.3
-s) - the same paces `skCovertStep` will use.
+**New.**  When the weighing picks a way round and its spot is found, it reckons the way's time: its withdrawal at its stalk, its hidden
+run at its run, its quiet last stretch (`SKC.sprintFrom + SKC.settle`, 316 px) at its stalk, its settle (`SK.flankSettle`, 0.3 s) - the
+same paces `skCovertStep` will use, as they are now (`skSpeed`: a tired body is slower - the review found the first form used the rested
+table values).
 - *Somebody it sees moving* (over 60 px/s): carried on as it sees them going (their seen velocity x that time - no route, nothing about
-  where they mean to go), they would be within `SKC.rush` (360 px, its spring from cover) of its spot, or the way is worth less: f = 1 -
-  (off - 360) / 720, at least 0.15.  (The pack: "model detour cost against how far an observed moving quarry could plausibly travel".)
-  A way refused for somebody moving is not answered with the bait either (`W.retreat = 0` on that path): a back-off round a corner for
-  somebody already going their own way is the same absence.
+  where they mean to go), they would be within `SKC.rush` (360 px, its spring from cover) of its spot, or there is no way round them
+  (f = 0).  (The pack: "model detour cost against how far an observed moving quarry could plausibly travel".)  The first form weighed such a
+  way round down gradually (f >= 0.15); the independent review found it was then searched again and taken a think later.
 - *Somebody standing*: beyond what coming on openly would take (at its press when it may run - lerp(investigate 232, press 260) by hunger
   from `SK.chaseHunger` - else its prowl 205), it may spend `SK.detour` = lerp(12 s, 6 s) by `sm(.45, .9, hunger)`: f = 1 - over / budget,
   at least 0.15.  At .7 the budget is 8.5 s - the hall's 10.3 s way round is about worth it (R13-R18's tactic kept); at .85 it is 6.2 s,
   and the way round loses to coming on openly (the pack's Scene B: "a starving one presses rather than vanish for ten seconds").
-- W.flank is multiplied by f and the weighing re-run; when another answer wins it records why in `e.dbg.pos` (`flankRefused`: "its way
-  round P101 would take 10.2 s (against 1.7 s coming on; it may spend 6.2 s more): approach" / "(they would be 924 px from its spot by
-  then): watch") and `e.tally.flankRefused`.  The flank's own reason now carries its time ("... (1721 px, 10.3 s)").
+- W.flank is multiplied by f and the weighing re-run; when another answer wins, the refusal is **remembered for the place** as "no way
+  round here" already is (`e.noFlank`: `SK.noFlank`, 10 s, or until they are 200 px on) so the same search is not made on every think, and
+  it records why in `e.dbg.pos` (`flankRefused`: "its way round P101 would take 10.2 s (against 1.7 s coming on; it may spend 6.2 s more):
+  approach" / "(they would be 924 px from its spot by then): watch") and `e.tally.flankRefused`.  The record and the tally are written
+  only when the plan really changes - after the plan under way has had its say (`SK.rethink`) - not on a think the old plan was kept
+  (the review found records for refusals that changed nothing).  The flank's own reason now carries its time ("... (1721 px, 10.3 s)").
+- *Not the bait for somebody going their own way.*  A way round refused for somebody moving is not answered with the back-off (`W.retreat =
+  0`): a retreat round a corner for somebody already going their own way is the same absence.  The review's probe showed it then backed off
+  on the next think anyway; so while that refusal is remembered, or on a think it drops a stale way round (S1-2), the back-off weighs 0
+  for somebody moving (over 60 px/s) and not towards it.  Somebody walking towards it keeps R13-R18's answers, the lure among them.
 
 *Rejected first form:* one rule for both (the budget against open approach, x0.4 when they move, `SK.detour` 6-2.5 s).  It took R13-R18's
 way round away from moderately hungry ones facing a stander and failed seven R13-R16 suites (C17-C19, PR06, PR19, X05, X07) that hold that
@@ -34,14 +41,19 @@ not the tests.
 
 While it is on a way round and can see them (it decides only on a think with them in sight): if they are more than `SKC.moved` (150 px)
 from where they were when it chose the spot, or are moving away from the spot (over 80 px/s), the way round under way weighs 0.25 instead of
-2, so the weighing may pick another answer (`e.dbg.pos` `flankStale`).  Out of its sight it goes on (it cannot know).
+2, so the weighing may pick another answer (`e.dbg.pos` `flankStale`, written when the plan changes).  Out of its sight it goes on (it
+cannot know).  SR06: somebody it went round, seen walking off from its spot - given up 0.13-0.14 s after they set off, on the think of its
+record, and it came on (approach or chase) in 6/6; R18 kept the way round to the end of the 8 s run (`stale2`: some 10 s, then lay in wait
+at the spot for nobody).
 
-## S1-3 At the spot: they will have moved on (`skFromCover`)
+## S1-3 (withdrawn after the review) "They will have moved on" at the spot
 
-At its spot, if its belief of them (carried on by how they were moving when it last had them: perception and memory as before) lies beyond
-`SK.closeFrom + 50` (500 px), hungry enough to hunt and not exhausted, with a hunt still confident: it hunts on from its evidence
-(`skHuntNext`: listen, a guess along their way, search) instead of lying in wait for somebody who is not coming (`flankMovedOn`).  R13-R18
-lay in wait, then listened, then searched.
+The first S1 also had a rule at the spot (`skFromCover`): if its belief of them, carried on by how they were last moving, lay beyond
+`SK.closeFrom + 50`, it hunted on (`flankMovedOn`) instead of lying in wait.  The review found no test reached it.  Searched for: 36 h of
+simulated ordinary play (0 times), 30 placements x 4 ways of walking off once its way round was hidden (0).  Its precondition - last seen
+moving, yet not seen moving off from its spot - is the case S1-2 catches first, and somebody who starts moving only after it lost sight of
+them leaves a belief at rest.  Untested code that could not be reached was removed; R18's arrival (rush, or wait, then listen and search)
+is kept as it was.
 
 ## S1-4 The contest: an open approach heads for their way out (`skContest`)
 
@@ -50,7 +62,10 @@ enough to hunt, beyond its footwork's range (`SKF.near`, 400 px) and within `SK.
 footwork's own 12-ray reckoning (`skWayOut`, factored out of `skFight` unchanged); if that way lies `SK.contestOff` (0.6 rad) or more off
 the straight line beyond them (a doorway, a side passage), it heads for a point a little way out along it - 30 % of the distance, 100-200
 px from them, short of the wall, on open floor and with a clear line to them - instead of at them.  The point is kept while they stay within
-`SK.contestKeep` (120 px) of where it chose it (no flicker), re-reckoned at its usual re-route (1.5 s), dropped when its footwork has them.
+`SK.contestKeep` (120 px) of where it chose it (no flicker), re-reckoned at its usual re-route (1.5 s), dropped when its footwork has them.  **Only a point it can walk straight to with them in its sight all the way**: the point is on open
+floor (its collider + 2 px), has a clear line to them, a clear line from it at the route margin (its collider + 7 px), and every 60 px
+along that line sees them (`geo.los`); it then walks there directly (`directTo`).  The independent review found the first form's point
+could need a route out of their sight - it lost them there, listened and searched; else (no such point) it comes at them, as R18.
 Somebody walking or running gets R18's approach and chase, unchanged.  (The pack's option 2, "short contest / doorway position".)
 
 *Effect, measured* (`scene_r19.js escape`, a person standing at the junction, sprinting at 550 px): R18 - east (the side passage) escapes
@@ -63,9 +78,12 @@ escapes 8/8, west 0/8) - it is a positional choice, not a better chase.
 - No new per-tick search: the worth is reckoned only when the weighing has already picked a way round (its spot search, R7's rule, is
   unchanged and is the expensive part); the contest is reckoned only at the approach's re-route (at most every 1.5 s on a think) and is one
   12-ray scan, two clearance tests.
-- Hysteresis: a refused way round lowers that answer for that think only; the plan under way is still kept unless another is clearly better
-  (`SK.rethink`); the contest point is kept while the person stays within 120 px.  SR05 (a watcher flicking their view every 0.5 s for
-  20 s): at most one positioning record per think, at most 2 plans begun in any second, no way round dropped on the next think.
+- Hysteresis: a refused way round is remembered for the place (`SK.noFlank`, 200 px), as "no way round" already was; the plan under way is
+  still kept unless another is clearly better (`SK.rethink`); the contest point is kept while the person stays within 120 px.  SR05, in
+  four scenes where it does reckon (a watcher flicking their view every 0.5 s, somebody walking and stopping in turn every 0.6 s, somebody
+  walking towards it, somebody walking off its way round - 22 runs, 10 positioning records, 6 refusals, 11 ways round): at most one
+  positioning record per think, at most 3 plans begun in any second, no way round dropped on the next think, no covert search on the
+  thinks after a refusal (1 s), no way round begun within 2 s of one.
 
 ## S3-fix The vault is carried through (`skinTick`)
 
@@ -78,11 +96,11 @@ vault's line; on R18 the same scene left the line by 25 px and landed late.
 ## Instrumentation (admin only)
 
 `e.dbg.pos` (kind, the person's id, its reckoning in words) goes to the admin overlay's Skin-Stealer block as `ps` (only within 10 s); the
-tallies `contest`, `flankRefused`, `flankStale`, `flankMovedOn`.  The debug block is computed and sent only when an authenticated admin
+tallies `contest`, `flankRefused`, `flankStale`.  The debug block is computed and sent only when an authenticated admin
 client has debug on (src/core/server/loop.js `wantDbg`); the public snapshot entry is unchanged (PR26: `a,ac,h,i,s,v,x,y`).
 
 ## Balancing defaults (new)
 
 `SK.detour` [12, 6] s, `SK.contestFrom` 1000 px, `SK.contestOff` 0.6 rad, `SK.contestKeep` 120 px; 60 px/s (moving), `SKC.rush` (reach of
-the spot), 0.15 (least worth).  Unchanged: every speed (walk 160, prowl 205, investigate 232, press 260, run 270), stamina, the spring and
+the spot for somebody moving), 0.15 (least worth for somebody standing), 80 px/s (moving off from its spot).  Unchanged: every speed (walk 160, prowl 205, investigate 232, press 260, run 270), stamina, the spring and
 its wind-up, the kill, perception, memory, inference, cover auditing, the R18 weights.

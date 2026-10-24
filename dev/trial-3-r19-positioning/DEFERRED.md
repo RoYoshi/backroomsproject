@@ -17,8 +17,11 @@ Trial 3 is **not owner-approved**.
   PR06, PR19, X05, X07.  Whether it still reads as "clever but absent" at .7 is the owner's call (HUMAN_QA S-C); `SK.detour` is the knob.
 - **The contest** applies only to somebody standing (60 px/s or less): leading a walker or a runner would change R18's chase, which the
   owner asked to keep.
-- **A stale way round is noticed only when it sees them** (by design: no knowledge of unseen people).  Out of its sight it goes on, and its
-  arrival rule (S1-3) catches a person long gone.
+- **A stale way round is noticed only when it sees them** (by design: no knowledge of unseen people).  Out of its sight it goes on, and
+  arrives as R18 did (rush, or wait, then listen and search).  The first S1's arrival rule for this (S1-3, `flankMovedOn`) was withdrawn
+  after the review: nothing reached it in 36 h of simulated play or a targeted search (DESIGN_DECISIONS S1-3).
+- **A way round begun on the think before somebody sets off** (SR01: 2 of 16 walking-off runs; R18 9) is dropped on the next think when
+  they are seen moving (S1-2) - a 0.1 s start of a back-off; recorded, not hidden.
 - **Ignored openings**: one 3-second "lit person within 500 px, hungry, not about them" in 36 h of S at .55 (R18 none); not traced further.
 
 ## Not in this track (the pack's out-of-scope list)

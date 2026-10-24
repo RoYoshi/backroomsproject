@@ -8,7 +8,7 @@ the owner's Human QA: no merge, no deployment, no organic spawn (admin only, at 
 | `AUDIT.md` | the starting point verified, R18's tests, the source map, what was reproduced, the allowed change |
 | `DESIGN_DECISIONS.md` | old and new behaviour, the reckonings and their defaults, what was rejected and why |
 | `CHANGELOG.md` | each checkpoint: commit and files |
-| `REGRESSION.md` | every suite, the new SR01-SR05, the pack's S01-S30 mapped to evidence, changed measurements |
+| `REGRESSION.md` | every suite, the new SR01-SR06, the pack's S01-S30 mapped to evidence, changed measurements |
 | `BROWSER_AND_MEDIA.md` | the real-page scenes on R18 and this branch |
 | `PERFORMANCE.md` | the 60 Hz step and its counts against R18 |
 | `SECURITY_AND_SCOPE.md` | changed paths, data read, admin-only debug, secrets, protected refs |
@@ -22,7 +22,7 @@ tree), `verify_remote_r19.py` (the readback).  Evidence: `evidence/S0/` (R18), `
 ```
 npm run build:check                                   # the generated files are the parts' build
 ADMIN_PASSCODE=<synthetic> npm test                    # 335/348 here: the 13 failures R18 already has
-node dev/tests/run.js s_skinr19.js                     # SR01-SR05
+node dev/tests/run.js s_skinr19.js                     # SR01-SR06
 node dev/trial-3-r19-positioning/tools/scene_r19.js hall . stand .85
 node dev/trial-3-r19-positioning/tools/prechase_sim.js --mins 180 --seeds 12 --hunger .7 --log 1 --out P.json
 ```

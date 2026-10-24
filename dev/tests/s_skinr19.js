@@ -16,8 +16,15 @@
  *   SR04 (S22, S27, the R19 audit) a vault is carried through: begun, the body follows the vault's line until it lands, whatever it
  *        decides meanwhile - R8-R18 let its footwork or a spring move the body on mid-vault (through walls) and set it down later at the
  *        vault's far end (R19's 36 h simulation: an 830 px jump)
- *   SR05 (S30) no churn: a watcher turning to it and away every half second for 20 s - its positioning reckonings come at most once a think,
- *        its plans change at most a few times a second, and no way round is begun and dropped on the next think */
+ *        ...and somebody walking TOWARDS it from 900 px (the independent review's scene: R18 began a way round and dropped it a second later)
+ *        is not answered with one either
+ *   SR05 (S30) no churn, where it does reckon: a watcher turning to it and away every half second, somebody walking and stopping in turn,
+ *        somebody walking towards it, somebody walking off its way round - its positioning records at most once a think, its plans changed at
+ *        most a few times a second, no way round begun and dropped on the next think, and a refusal not searched again on the next thinks
+ *        (SK.noFlank: the independent review found S1's refusals searched again, and taken, a think later)
+ *   SR06 (S01, S25, stale evidence) a way round under way that no longer leads to them: somebody it went round, seen walking off from its
+ *        spot - it gives the way round up on that think (flankStale, with its reason), stays on them (never the bait for somebody going their
+ *        own way) - R13-R18 went on to the spot for some 10 s and lay in wait there for nobody */
 'use strict';
 const { World, DT, LONG, AI, bystander } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -32,12 +39,29 @@ function hall(seed, h, walk) {
   if (walk) p.go(2000, y, 'walk');
   return { w, p, e };
 }
+/* the independent review's scene: the same hall, somebody 900 px off walking towards it, looking at it */
+function towards(seed, h, D) {
+  const w = World(seed + 3800), y = LONG.y; bystander(w, 1300, 3300);
+  const p = w.player(5000, y, { light: true, angle: 0 }); p.stop('stand');
+  const e = w.eng.spawn('skinstealer', 5000 + D, y, { hunger: h }); e.tier = 'near'; e.ang = Math.PI;
+  p.look = () => Math.atan2(e.y - p.y, e.x - p.x); p.go(5000 + D, y, 'walk');
+  return { w, p, e };
+}
+/* SR06's scene: the hall's stander at .7; once its way round is under way (0.2 s), they walk 500 px straight off from its spot, still looking
+ * at it (it can see them go) */
+function offSpot(seed, h) {
+  const { w, p, e } = hall(seed, h, false); const S = { F: null, went: -1 };
+  S.each = t => { const P = e.plan; if (P && P.k === 'flank' && !S.F) S.F = { t, P, x: P.spot.x, y: P.spot.y };
+    if (S.F && S.went < 0 && t > S.F.t + .2) { S.went = t; const a = Math.atan2(p.y - S.F.y, p.x - S.F.x); p.go(p.x + Math.cos(a) * 500, p.y + Math.sin(a) * 500, 'walk'); } };
+  return { w, p, e, S };
+}
 /* what it did about p, and its positioning records, over a run */
 function watchRun(w, e, p, secs, each) {
   const R = { plans: [], pos: [], flanks: [], dead: false }; let last = null, lastPos = null;
   w.run(secs, (ww, t) => {
     const P = e.plan;
-    if (P !== last) { R.plans.push({ t: +t.toFixed(2), k: P ? P.k : 'roam', mode: P && P.mode, pid: P && P.pid }); last = P; if (P && P.k === 'flank') R.flanks.push({ t: +t.toFixed(2), worth: P.spot && P.spot.worth, v: Math.round(Math.hypot(p.vx || 0, p.vy || 0)) }); }
+    if (P !== last) { R.plans.push({ t: +t.toFixed(2), k: P ? P.k : 'roam', mode: P && P.mode, pid: P && P.pid }); last = P; if (P && P.k === 'flank') R.flanks.push({ t: +t.toFixed(2), worth: P.spot && P.spot.worth, v: Math.round(Math.hypot(p.vx || 0, p.vy || 0)), away: Math.round(((p.x - e.x) * (p.vx || 0) + (p.y - e.y) * (p.vy || 0)) / Math.max(1, Math.hypot(p.x - e.x, p.y - e.y))) }); }
+    const q = e.tally.coverQ || 0; if (q > (R.q || 0)) { (R.qs = R.qs || []).push(+t.toFixed(2)); } R.q = q;
     if (e.dbg.pos && e.dbg.pos.at !== lastPos) { lastPos = e.dbg.pos.at; R.pos.push(Object.assign({ t: +t.toFixed(2) }, e.dbg.pos)); }
     if (each) each(t);
     return !p.dead;
@@ -45,7 +69,7 @@ function watchRun(w, e, p, secs, each) {
   R.dead = p.dead; return R;
 }
 
-add('SR01 somebody it sees walking off is not answered with a long way round: refused with its reckoning, it stays on them (never the bait), and no way round is begun that its own reckoning says would find them gone', () => {
+add('SR01 somebody it sees walking off is not answered with a long way round: refused with its reckoning, it stays on them (never the bait), and no way round is begun that its own reckoning says would find them gone; nor for somebody walking towards it', () => {
   const rs = []; for (const h of [.6, .75]) for (const seed of [1, 2, 3, 4, 5, 6, 7, 8]) { const { w, p, e } = hall(seed, h, true); rs.push(Object.assign({ h, seed }, watchRun(w, e, p, 12))); }
   const refusals = rs.flatMap(r => r.pos.filter(q => q.k === 'flankRefused').map(q => ({ r, q })));
   const reasoned = refusals.filter(({ q }) => /would take [\d.]+ s \(they would be \d+ px from its spot by then\)/.test(q.why) && q.eta && q.eta.length === 2);
@@ -53,8 +77,13 @@ add('SR01 somebody it sees walking off is not answered with a long way round: re
   const bait = after.filter(k => k === 'retreat' || k === 'lure').length, away = after.filter(k => !['approach', 'chase', 'watch', 'leave'].includes(k)).length;
   const bad = rs.flatMap(r => r.flanks.filter(f => f.worth && f.worth.off !== undefined && f.worth.off > SKC_RUSH));
   const twitch = rs.filter(r => r.plans.some((x, i) => x.k === 'flank' && r.plans[i + 1] && r.plans[i + 1].t - x.t <= .15)).length;
-  return { ok: refusals.length >= 4 && reasoned.length === refusals.length && !bait && !away && !bad.length,
-    note: `${rs.length} runs (.6 and .75, walking off while looking back): ways round refused ${refusals.length}, each with its reckoning ${reasoned.length} (e.g. "${refusals[0] ? refusals[0].q.why : '-'}"); then ${Object.entries(after.reduce((a, k) => (a[k] = (a[k] || 0) + 1, a), {})).map(([k, n]) => k + ' ' + n).join(', ')}; the bait after one ${bait}; ways round begun against a mover its reckoning had gone ${bad.length}; a way round dropped within a think ${twitch} runs (begun on a think when they still stood); killed ${rs.filter(r => r.dead).length}` };
+  // (the independent review) towards it: a way round of some 9 s for somebody who will be on it in 4 - R18 began one in 3 of 4 and dropped it a
+  // second later; measured from what it did (a way round begun while they walked towards it), not from its own reckoning
+  const tw = [1, 2, 3, 4].map(seed => { const { w, p, e } = towards(seed, .6, 900); return watchRun(w, e, p, 10); });
+  const twRef = tw.flatMap(r => r.pos.filter(q => q.k === 'flankRefused')), twReasoned = twRef.filter(q => /would take [\d.]+ s \(they would be \d+ px from its spot by then\)/.test(q.why)).length;
+  const twFl = tw.flatMap(r => r.flanks.filter(f => f.v > 60 && f.away < -60));
+  return { ok: refusals.length >= 4 && reasoned.length === refusals.length && !bait && !away && !bad.length && twRef.length >= 2 && twReasoned === twRef.length && !twFl.length,
+    note: `${rs.length} runs (.6 and .75, walking off while looking back): ways round refused ${refusals.length}, each with its reckoning ${reasoned.length} (e.g. "${refusals[0] ? refusals[0].q.why : '-'}"); then ${Object.entries(after.reduce((a, k) => (a[k] = (a[k] || 0) + 1, a), {})).map(([k, n]) => k + ' ' + n).join(', ')}; the bait after one ${bait}; ways round begun against a mover its reckoning had gone ${bad.length}; a way round dropped within a think ${twitch} runs (begun on a think when they still stood); killed ${rs.filter(r => r.dead).length} | towards it from 900 px (.6, 4 runs): refused ${twRef.length} (with its reckoning ${twReasoned}; "${twRef[0] ? twRef[0].why : '-'}"), ways round begun while they came on ${twFl.length}${twFl.length ? ' (at ' + twFl.map(f => f.t + ' s, ' + f.v + ' px/s').join('; ') + ')' : ''}; killed ${tw.filter(r => r.dead).length}` };
 });
 
 add('SR02 the pack\'s Scene B: somebody standing in the lit hall, its covert way round some 10 s - at .7 it still goes round (R13-R18\'s tactic), at .85 it reckons the time against its budget, says so, and comes on openly instead of vanishing', () => {
@@ -120,18 +149,42 @@ add('SR04 a vault is carried through: begun, the body keeps to the vault\'s line
     note: `${ok.length} vaults with a person 160 px off and a hungry one (.9) in it: off the vault's line ${ok.map(r => r.off.toFixed(1)).join('/')} px, landed at ${ok.map(r => r.landed).join('/')} s (its vault ${(.5 / .9).toFixed(2)} s), jumps ${ok.reduce((a, r) => a + r.jump, 0)}` };
 });
 
-add('SR05 no churn: a watcher turning to it and away every half second for 20 s, at .6 and .8 - its positioning reckonings at most once a think, its plans changed at most a few times a second, no way round begun and dropped on the next think', () => {
+add('SR05 no churn where it reckons: a watcher turning to it and away every half second, somebody walking and stopping in turn, somebody walking towards it, somebody walking off its way round - its positioning records at most once a think, plans changed at most a few times a second, no way round begun and dropped on the next think, a refusal not searched again on the next thinks', () => {
   const rs = [];
-  for (const h of [.6, .8]) for (const seed of [1, 2, 3, 4]) {
-    const { w, p, e } = hall(seed + 40, h, false);
-    p.look = () => (Math.floor(w.t / .5) % 2 ? 0 : Math.atan2(e.y - p.y, e.x - p.x));
-    const R = watchRun(w, e, p, 20); R.h = h;
-    const perSec = []; for (let s = 0; s < 20; s++) perSec.push(R.plans.filter(x => x.t >= s && x.t < s + 1).length);
-    R.maxPlans = Math.max(...perSec); R.posMax = Math.max(0, ...Array.from({ length: 200 }, (_, i) => R.pos.filter(q => q.t >= i * .1 && q.t < i * .1 + .1).length));
-    R.twitch = R.plans.filter((x, i) => x.k === 'flank' && R.plans[i + 1] && R.plans[i + 1].t - x.t <= .15).length; rs.push(R);
+  const churn = (R, secs) => {
+    let mp = 0; for (let s = 0; s < secs; s++) mp = Math.max(mp, R.plans.filter(x => x.t >= s && x.t < s + 1).length);
+    let mq = 0; for (let i = 0; i < secs * 10; i++) mq = Math.max(mq, R.pos.filter(q => q.t >= i * .1 - 1e-6 && q.t < i * .1 + .1 - 1e-6).length);
+    R.maxPlans = mp; R.posMax = mq; R.twitch = R.plans.filter((x, i) => x.k === 'flank' && R.plans[i + 1] && R.plans[i + 1].t - x.t <= .15).length;
+    // after a refusal: a covert search on a later think within 1 s (the review's find), a way round begun within 2 s
+    R.reQ = R.pos.filter(q => q.k === 'flankRefused').reduce((a, q) => a + (R.qs || []).filter(t => t > q.t + .01 && t < q.t + 1).length, 0);
+    R.reFl = R.pos.filter(q => q.k === 'flankRefused').reduce((a, q) => a + R.flanks.filter(f => f.t > q.t + .01 && f.t < q.t + 2).length, 0);
+    rs.push(R); return R;
+  };
+  for (const h of [.6, .8]) for (const seed of [1, 2, 3, 4]) { const { w, p, e } = hall(seed + 40, h, false); p.look = () => (Math.floor(w.t / .5) % 2 ? 0 : Math.atan2(e.y - p.y, e.x - p.x)); churn(Object.assign(watchRun(w, e, p, 20), { sc: 'flick' }), 20); }
+  for (const h of [.6, .75]) for (const seed of [1, 2, 3]) {
+    const w = World(seed + 5100), y = LONG.y; bystander(w, 1300, 3300);
+    const p = w.player(5000, y, { light: true, angle: 0 }); p.stop('stand');
+    const e = w.eng.spawn('skinstealer', 5900, y, { hunger: h }); e.tier = 'near'; e.ang = Math.PI; p.look = () => Math.atan2(e.y - p.y, e.x - p.x);
+    let leg = -1; churn(Object.assign(watchRun(w, e, p, 16, t => { const k = Math.floor(t / .6) % 4; if (k !== leg) { leg = k; if (k === 0) p.go(4400, y, 'walk'); else if (k === 2) p.go(5000, y, 'walk'); else p.stop('stand'); } }), { sc: 'stopgo' }), 16);
   }
-  return { ok: rs.every(r => r.posMax <= 1 && r.maxPlans <= 4 && r.twitch === 0),
-    note: `${rs.length} runs: positioning records in any 0.1 s at most ${Math.max(...rs.map(r => r.posMax))}; plans begun in any second at most ${Math.max(...rs.map(r => r.maxPlans))} (${rs.map(r => r.plans.length).join('/')} in 20 s); ways round dropped within a think ${rs.reduce((a, r) => a + r.twitch, 0)}; killed ${rs.filter(r => r.dead).length}` };
+  for (const seed of [1, 2, 3, 4]) { const { w, p, e } = towards(seed, .6, 900); churn(Object.assign(watchRun(w, e, p, 10), { sc: 'towards' }), 10); }
+  for (const seed of [1, 2, 3, 4]) { const { w, p, e, S } = offSpot(seed, .7); churn(Object.assign(watchRun(w, e, p, 10, S.each), { sc: 'offSpot' }), 10); }
+  const nRec = rs.reduce((a, r) => a + r.pos.length, 0), nFl = rs.reduce((a, r) => a + r.flanks.length, 0), nRef = rs.reduce((a, r) => a + r.pos.filter(q => q.k === 'flankRefused').length, 0);
+  const by = k => rs.filter(r => r.sc === k);
+  return { ok: nRec >= 6 && nRef >= 3 && nFl >= 6 && rs.every(r => r.posMax <= 1 && r.maxPlans <= 4 && r.twitch === 0 && r.reQ === 0 && r.reFl === 0),
+    note: `${rs.length} runs (flick ${by('flick').length}, walk-and-stop ${by('stopgo').length}, towards ${by('towards').length}, off its way round ${by('offSpot').length}): positioning records ${nRec} (refusals ${nRef}), ways round begun ${nFl} - so it reckoned; records in any 0.1 s at most ${Math.max(...rs.map(r => r.posMax))}; plans begun in any second at most ${Math.max(...rs.map(r => r.maxPlans))}; ways round dropped within a think ${rs.reduce((a, r) => a + r.twitch, 0)}; after a refusal, covert searches on the next thinks (1 s) ${rs.reduce((a, r) => a + r.reQ, 0)} and ways round begun (2 s) ${rs.reduce((a, r) => a + r.reFl, 0)}; killed ${rs.filter(r => r.dead).length}` };
+});
+
+add('SR06 a way round under way that no longer leads to them: seen walking off from its spot, it gives the way round up on that think with its reason (flankStale), and stays on them - never the bait for somebody going their own way - where R13-R18 went on to the spot and lay in wait for nobody', () => {
+  const rs = [1, 2, 3, 4, 5, 6].map(seed => { const { w, p, e, S } = offSpot(seed, .7); const R = watchRun(w, e, p, 8, S.each); R.S = S; return R; });
+  const one = rs.map(R => {
+    const st = R.pos.find(q => q.k === 'flankStale'), F = R.S.F, fi = R.plans.findIndex(x => x.k === 'flank'), end = F && fi >= 0 ? R.plans[fi + 1] : null;
+    const next = st ? R.plans.filter(x => x.t >= st.t - 1e-6 && x.t < st.t + 2.5).map(x => x.k) : [];
+    return { F: !!F, went: R.S.went, st, endT: end ? end.t : 99, same: !!(st && end && Math.abs(end.t - st.t) < 1e-6), why: st && /P\d+ is moving off from its way round: \w+/.test(st.why), bait: next.filter(k => k === 'retreat' || k === 'lure').length, on: next.some(k => k === 'approach' || k === 'chase') };
+  });
+  const ok1 = one.filter(o => o.F && o.st && o.st.t - o.went <= 1 && o.same && o.why && !o.bait && o.on).length;
+  return { ok: one.filter(o => o.F).length >= 5 && ok1 === one.filter(o => o.F).length,
+    note: `${rs.length} runs (.7, standing, then walking 500 px off from its spot 0.2 s into its way round): ways round begun ${one.filter(o => o.F).length}; given up ${one.filter(o => o.st).map(o => (o.st.t - o.went).toFixed(2) + ' s').join('/')} after they set off, on the think of its record ${one.filter(o => o.same).length} ("${(one.find(o => o.st) || { st: { why: '-' } }).st.why}"); the bait within 2.5 s ${one.reduce((a, o) => a + o.bait, 0)}; came on (approach/chase) ${one.filter(o => o.on).length}; the way round otherwise ran ${one.filter(o => !o.st).map(o => o.endT === 99 ? 'past the run\'s end (' + (8 - o.went).toFixed(1) + ' s)' : (o.endT - o.went).toFixed(1) + ' s').join('/') || '-'}; killed ${rs.filter(r => r.dead).length}` };
 });
 
 module.exports = S;

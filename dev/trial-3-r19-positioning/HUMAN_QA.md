@@ -27,11 +27,16 @@ quickly, step away, WORLD SPEED 3x, then back to 1x before you judge anything.  
 | S-B | **Stand still** and watch it from ~450 px in the lit hall, its hunger high (~.85) | it does not disappear for ~10 s round the block; it comes on openly (the press you liked) | went round in most tries (7 s out of sight) |  |  |
 | S-C | The same at moderate hunger (~.7) | it may still go round you (R13-R18's flank) - the owner's choice whether that still feels "clever but absent" |  same |  |  |
 | S-D | Stand at a **junction** with a side passage, it coming from far down another hall, hungry | it angles toward your side way out before closing (not straight at you); if you bolt early the other way, you get away | straight at you |  |  |
-| S-E | Walk off **while** it is on its way round you (it backed out of your view) | when it sees you moving off it may change its mind; at its spot, if you are long gone it goes looking along your way instead of waiting | went on to its spot and waited |  |  |
+| S-E | Walk off **while** it is on its way round you, where it can still see you go | it gives the way round up and comes on (or watches) - not the bait; out of its sight it carries on as R18 did | went on to its spot and waited ~10 s |  |  |
 | S-F | Fool it: double back, hide silently, take the other door | it can be wrong; it recovers from evidence, never knows where you went |  |  |  |
 | S-G | **Fresh sprint** in a straight line when it gives chase | you still pull away (285 vs its 270); its chase, stare, head snap, press, spring and kills unchanged | the R18 chase |  |  |
 | S-H | Four people: split up, group, sprint into each other | it takes real openings it can see; no switching to somebody it never saw |  |  |  |
 | S-I | Make it vault a low prop (a counter) mid-hunt, then make it fight or spring | it lands first, then acts - never slides through a wall | could pass through things after an interrupted vault (rare) |  |  |
+
+**For your sign-off (a deliberate change you may not want):** a vault, once begun, is now carried through like a strike - for up to its
+vault time (0.56 s) it neither thinks nor springs.  R8-R18 let a decision move the body mid-vault (through the prop, rarely 830 px at once
+when the follower next ran).  If the short commitment feels wrong in play (S-I), the alternative is to end the vault early at a clear point
+instead - an engine-side change for you to authorize.
 
 **S-track questions (the pack's):** Does it choose a meaningful position before a chase?  Does it take openings promptly without becoming a
 mindless Hound?  Does the old stare feel more menacing through action?  Does a skilled player fool it sometimes?  Do bad detours still
