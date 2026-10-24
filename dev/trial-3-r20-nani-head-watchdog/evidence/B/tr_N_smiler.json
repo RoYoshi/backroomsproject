@@ -1,0 +1,689 @@
+{
+ "tree": "r20-n",
+ "patched": {
+  "hits": 4,
+  "grow": 456
+ },
+ "kinds": {
+  "smiler": {
+   "ticks": 243643,
+   "steerTicks": 53257,
+   "label": 0,
+   "labelFrozen": 0,
+   "labelFrozenStill": 0,
+   "labelOpen": 0,
+   "labelOpenFrozen": 0,
+   "grow": {
+    "real": 0.05,
+    "turn": 0,
+    "vcap": 0,
+    "feel": 0.41666666666666663,
+    "accel": 1.3833333333333333,
+    "hold": 0,
+    "other": 0
+   },
+   "growOpen": {
+    "real": 0,
+    "turn": 0,
+    "vcap": 0,
+    "feel": 0,
+    "accel": 0.8333333333333343,
+    "hold": 0,
+    "other": 0
+   },
+   "side": 0,
+   "replan": 0,
+   "wdChecks": 671,
+   "wdStuck": 19,
+   "wdEmb": 0,
+   "wdStuckIdleOK": 0,
+   "wdEvents": [
+    {
+     "run": 1,
+     "x": 7633,
+     "y": 4965,
+     "t": 514.5,
+     "stuck": true,
+     "emb": false,
+     "disp": 5,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "near",
+     "sp": 11,
+     "path": 6,
+     "clear": 27,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.93,
+      "steerFrac": 0.07
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 1,
+     "x": 7577,
+     "y": 3628,
+     "t": 610.77,
+     "stuck": true,
+     "emb": false,
+     "disp": 3,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 57,
+     "path": 3,
+     "clear": 21,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.84,
+      "steerFrac": 0.16
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 2,
+     "x": 5522,
+     "y": 4925,
+     "t": 179.62,
+     "stuck": true,
+     "emb": false,
+     "disp": 3,
+     "idle": false,
+     "stillNow": false,
+     "act": "search",
+     "state": "FOLLOWING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "near",
+     "sp": 12,
+     "path": 4,
+     "clear": 29,
+     "trav": false,
+     "why": "a loud run nearby",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.96,
+      "steerFrac": 0.04
+     },
+     "next": [
+      "-/lurk",
+      "-/search",
+      "-/drawn",
+      "-/search",
+      "-/drawn",
+      "-/search",
+      "-/rush",
+      "-/chase",
+      "-/stare"
+     ],
+     "nextWhy": [
+      "waiting in the dark",
+      "a loud run nearby",
+      "a fresher litwall lead",
+      "a loud run nearby",
+      "a fresher litwall lead",
+      "a loud run nearby",
+      "P100 walked in on it to point-blank (123 px, closed 12 px)",
+      "missed P100; they still carry a light",
+      "a kill: it lingers a moment, then goes back to the dark"
+     ]
+    },
+    {
+     "run": 2,
+     "x": 5231,
+     "y": 2725,
+     "t": 454.5,
+     "stuck": true,
+     "emb": false,
+     "disp": 2,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "near",
+     "sp": 11,
+     "path": 2,
+     "clear": 37,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.96,
+      "steerFrac": 0.04
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 3,
+     "x": 2641,
+     "y": 5794,
+     "t": 201.58,
+     "stuck": true,
+     "emb": false,
+     "disp": 3,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "near",
+     "sp": 11,
+     "path": 2,
+     "clear": 49,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.95,
+      "steerFrac": 0.05
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 3,
+     "x": 3253,
+     "y": 4668,
+     "t": 274.83,
+     "stuck": true,
+     "emb": false,
+     "disp": 26,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 110,
+     "path": 2,
+     "clear": 85,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.94,
+      "steerFrac": 0.06
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 4,
+     "x": 3659,
+     "y": 1369,
+     "t": 252.68,
+     "stuck": true,
+     "emb": false,
+     "disp": 5,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 3,
+     "clear": 71,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.92,
+      "steerFrac": 0.08
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 4,
+     "x": 5307,
+     "y": 1245,
+     "t": 386.83,
+     "stuck": true,
+     "emb": false,
+     "disp": 1,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 3,
+     "clear": 30,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.98,
+      "steerFrac": 0.02
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 4,
+     "x": 5320,
+     "y": 1241,
+     "t": 410.9,
+     "stuck": true,
+     "emb": false,
+     "disp": 13,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 73,
+     "path": 2,
+     "clear": 43,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.88,
+      "steerFrac": 0.12
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 4,
+     "x": 4989,
+     "y": 1163,
+     "t": 548.45,
+     "stuck": true,
+     "emb": false,
+     "disp": 5,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 3,
+     "clear": 85,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.91,
+      "steerFrac": 0.09
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 5,
+     "x": 4058,
+     "y": 1657,
+     "t": 448.65,
+     "stuck": true,
+     "emb": false,
+     "disp": 4,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 3,
+     "clear": 121,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.93,
+      "steerFrac": 0.07
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 5,
+     "x": 3513,
+     "y": 2544,
+     "t": 623.63,
+     "stuck": true,
+     "emb": false,
+     "disp": 1,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "near",
+     "sp": 11,
+     "path": 4,
+     "clear": 39,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.98,
+      "steerFrac": 0.02
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 6,
+     "x": 6862,
+     "y": 1611,
+     "t": 307.65,
+     "stuck": true,
+     "emb": false,
+     "disp": 3,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 52,
+     "path": 2,
+     "clear": 75,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.98,
+      "steerFrac": 0.02
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 6,
+     "x": 6853,
+     "y": 1596,
+     "t": 331.72,
+     "stuck": true,
+     "emb": false,
+     "disp": 18,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "near",
+     "sp": 87,
+     "path": 3,
+     "clear": 60,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.88,
+      "steerFrac": 0.12
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 6,
+     "x": 6856,
+     "y": 1579,
+     "t": 355.78,
+     "stuck": true,
+     "emb": false,
+     "disp": 17,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 83,
+     "path": 4,
+     "clear": 43,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.91,
+      "steerFrac": 0.09
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 6,
+     "x": 7091,
+     "y": 1678,
+     "t": 650.65,
+     "stuck": true,
+     "emb": false,
+     "disp": 1,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 2,
+     "clear": 50,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.99,
+      "steerFrac": 0.01
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 7,
+     "x": 5609,
+     "y": 862,
+     "t": 242.25,
+     "stuck": true,
+     "emb": false,
+     "disp": 2,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 43,
+     "path": 2,
+     "clear": 137,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.99,
+      "steerFrac": 0.01
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 8,
+     "x": 3638,
+     "y": 4297,
+     "t": 192.37,
+     "stuck": true,
+     "emb": false,
+     "disp": 13,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 55,
+     "path": 3,
+     "clear": 23,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.85,
+      "steerFrac": 0.15
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    },
+    {
+     "run": 8,
+     "x": 2533,
+     "y": 5662,
+     "t": 600.43,
+     "stuck": true,
+     "emb": false,
+     "disp": 0,
+     "idle": false,
+     "stillNow": false,
+     "act": "fade",
+     "state": "DISAPPEARING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "mid",
+     "sp": 11,
+     "path": 3,
+     "clear": 98,
+     "trav": false,
+     "why": "restless: moves to another dark spot",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.99,
+      "steerFrac": 0.01
+     },
+     "next": [
+      "-/lurk"
+     ],
+     "nextWhy": [
+      "waiting in the dark"
+     ]
+    }
+   ],
+   "episodes": [],
+   "frozenEp": []
+  }
+ }
+}

@@ -29,7 +29,7 @@ function rng(seed) { let s = (seed * 2654435761) >>> 0 || 1; return () => { s ^=
 let PAIR = null;
 function pair() {
   if (PAIR) return PAIR;
-  const src = fs.readFileSync(AIFILE, 'utf8'), ret = 'return { create, S, SNAMES,', without = RN.remove(src);
+  const src = fs.readFileSync(AIFILE, 'utf8'), ret = 'return { create, S, SNAMES,', without = RN.without(src, RN.R19);   // (R20: only R19's cornering hunk out - R20's open-air STUCK hunks, s_r20stuck.js's subject, on both sides)
   if (src.split(ret).length !== 2) throw new Error('ai.js: its return is not where this check expects it');
   if (without === null) throw new Error('the N hunks are not in the built ai.js exactly once');
   const load = (text, tag) => { const m = new Module(AIFILE + '#' + tag, module); m.filename = AIFILE; m.paths = Module._nodeModulePaths(path.dirname(AIFILE)); m._compile(text.replace(ret, 'return { plan, follow, navOf, create, S, SNAMES,'), AIFILE); return m.exports; };

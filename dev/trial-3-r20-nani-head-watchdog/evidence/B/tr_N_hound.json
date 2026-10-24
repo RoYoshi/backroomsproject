@@ -1,0 +1,232 @@
+{
+ "tree": "r20-n",
+ "patched": {
+  "hits": 4,
+  "grow": 456
+ },
+ "kinds": {
+  "hound": {
+   "ticks": 244597,
+   "steerTicks": 116319,
+   "label": 27.29999999999973,
+   "labelFrozen": 26.33333333333312,
+   "labelFrozenStill": 18.133333333333585,
+   "labelOpen": 1.016666666666668,
+   "labelOpenFrozen": 0.09999999999999999,
+   "grow": {
+    "real": 2.2166666666666637,
+    "turn": 0.9166666666666679,
+    "vcap": 0,
+    "feel": 4.333333333333323,
+    "accel": 6.016666666666651,
+    "hold": 0,
+    "other": 0
+   },
+   "growOpen": {
+    "real": 0,
+    "turn": 0.5166666666666666,
+    "vcap": 0,
+    "feel": 0,
+    "accel": 1.4999999999999996,
+    "hold": 0,
+    "other": 0
+   },
+   "side": 4,
+   "replan": 2,
+   "wdChecks": 673,
+   "wdStuck": 1,
+   "wdEmb": 0,
+   "wdStuckIdleOK": 0,
+   "wdEvents": [
+    {
+     "run": 4,
+     "x": 3715,
+     "y": 1755,
+     "t": 188.18,
+     "stuck": true,
+     "emb": false,
+     "disp": 347,
+     "idle": false,
+     "stillNow": false,
+     "act": "",
+     "state": "ROAMING",
+     "plan": null,
+     "planStuck": null,
+     "tier": "near",
+     "sp": 92,
+     "path": 5,
+     "clear": 27,
+     "trav": false,
+     "why": "",
+     "stuckT": 0,
+     "win": {
+      "stillFrac": 0,
+      "slowFrac": 0.22,
+      "steerFrac": 0.78
+     },
+     "next": [
+      "-/"
+     ],
+     "nextWhy": []
+    }
+   ],
+   "episodes": [
+    {
+     "run": 2,
+     "x": 1956,
+     "y": 4821,
+     "err0": -0.05,
+     "sp0": 29,
+     "t0": 380.53,
+     "max": 0.73,
+     "n": 321,
+     "act": "circle",
+     "plan": "PLAYING",
+     "causes": {
+      "accel": 26,
+      "turn": 2,
+      "feel": 23,
+      "real": 13
+     },
+     "dur": 5.35,
+     "lad": [],
+     "frozenFrac": 1,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 1573,
+     "y": 5067,
+     "err0": -0.03,
+     "sp0": 29,
+     "t0": 397.75,
+     "max": 0.17,
+     "n": 1,
+     "act": "circle",
+     "plan": "PLAYING",
+     "causes": {
+      "accel": 15,
+      "feel": 17
+     },
+     "dur": 0.02,
+     "lad": [],
+     "frozenFrac": 1,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 1572,
+     "y": 5067,
+     "err0": -0.03,
+     "sp0": 12,
+     "t0": 397.78,
+     "max": 0.17,
+     "n": 2,
+     "act": "circle",
+     "plan": "PLAYING",
+     "causes": {
+      "feel": 1,
+      "accel": 1
+     },
+     "dur": 0.04,
+     "lad": [],
+     "frozenFrac": 1,
+     "openFrac": 0
+    },
+    {
+     "run": 2,
+     "x": 1571,
+     "y": 5067,
+     "err0": -0.03,
+     "sp0": 9,
+     "t0": 397.83,
+     "max": 5.21,
+     "n": 484,
+     "act": "circle",
+     "plan": "PLAYING",
+     "causes": {
+      "feel": 108,
+      "accel": 133,
+      "real": 88
+     },
+     "dur": 8.07,
+     "lad": [
+      "sidestep",
+      "replan"
+     ],
+     "frozenFrac": 1,
+     "openFrac": 0.01
+    },
+    {
+     "run": 2,
+     "x": 1479,
+     "y": 5180,
+     "err0": 0.04,
+     "sp0": 15,
+     "t0": 406.13,
+     "max": 0.7,
+     "n": 55,
+     "act": "",
+     "plan": "HUNTING",
+     "causes": {
+      "accel": 42
+     },
+     "dur": 0.92,
+     "lad": [
+      "sidestep",
+      "sidestep"
+     ],
+     "frozenFrac": 0,
+     "openFrac": 1
+    },
+    {
+     "run": 4,
+     "x": 5589,
+     "y": 4369,
+     "err0": -0.23,
+     "sp0": 41,
+     "t0": 293.25,
+     "max": 1.8,
+     "n": 772,
+     "act": "circle",
+     "plan": "PLAYING",
+     "causes": {
+      "accel": 53,
+      "feel": 42,
+      "turn": 7,
+      "real": 29
+     },
+     "dur": 12.87,
+     "lad": [
+      "sidestep",
+      "replan"
+     ],
+     "frozenFrac": 1,
+     "openFrac": 0
+    },
+    {
+     "run": 5,
+     "x": 7705,
+     "y": 3660,
+     "err0": 0.27,
+     "sp0": 29,
+     "t0": 579.45,
+     "max": 0.18,
+     "n": 3,
+     "act": "",
+     "plan": "HUNTING",
+     "causes": {
+      "turn": 10,
+      "accel": 17,
+      "feel": 9
+     },
+     "dur": 0.05,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    }
+   ],
+   "frozenEp": []
+  }
+ }
+}

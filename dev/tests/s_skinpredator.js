@@ -604,7 +604,9 @@ add('PR25 (in-tree part) the Hound and the Smiler: the shared engine and their o
   const R15 = (f, base) => f.endsWith('/ai.capture.js') && base.split(R15_OLD).length === 2 ? base.replace(R15_OLD, () => R15_NEW) : base;
   // (Trial 3 R19, the N track - the owner's shared cornering QoL, documented in dev/trial-3-nani-corners/DESIGN_DECISIONS.md N1: ai.entity.js
   // may differ from 4518f93 by exactly the hunks in r19n_patch.js - and by nothing else)
-  const R19N = (f, base) => f === RN.FILE ? RN.add(base) : base, RN = require('./r19n_patch.js');
+  // (Trial 3 R20, the N track - the open-air STUCK, dev/trial-3-r20-nani-head-watchdog/DESIGN_DECISIONS.md W1/W2: ai.entity.js and ai.engine.js
+  // may differ by exactly the R20 hunks in the same registry, each applied to its own file - and by nothing else)
+  const R19N = (f, base) => RN.FILES.includes(f) ? RN.add(base, f) : base, RN = require('./r19n_patch.js');
   const same = shared.map(f => { let base = null; try { base = R19N(f, R15(f, execFileSync('git', ['show', '4518f93dff82e5ee8bfc8abb67dc0ecb4f77959a:' + f], { cwd: root, maxBuffer: 1 << 26 }).toString())); } catch (e) { } return { f: path.basename(f), same: base !== null && base === fs.readFileSync(path.join(root, f), 'utf8') }; });
   // a world with the director's own Hounds and Smilers and four players, no Skin-Stealer: the species' tick never runs
   const w = World(4500, { director: true }); w.sim.resetWorld(); for (const [x, y] of [[1300, 5900], [5000, LONG.y], [700, 5330], [8000, 3504]]) { const p = w.player(x, y, { light: true }); p.go(x + 300, y, 'walk'); }
@@ -612,7 +614,7 @@ add('PR25 (in-tree part) the Hound and the Smiler: the shared engine and their o
   try { w.run(20); } finally { AI.SKIN.tick = tk; }
   const kinds = [...new Set(w.eng.entities.map(e => e.kind))].sort();
   return { ok: same.every(q => q.same) && calls === 0 && !kinds.includes('skinstealer'),
-    note: `unchanged since 4518f93: ${same.map(q => q.f + (q.same ? '' : ' CHANGED')).join(', ')} (ai.capture.js but for R15's line, ai.entity.js but for R19 N's hunks) | 20 s with the director's ${kinds.join(' and ')} and four players: the Skin-Stealer's tick ran ${calls} times`, data: same };
+    note: `unchanged since 4518f93: ${same.map(q => q.f + (q.same ? '' : ' CHANGED')).join(', ')} (ai.capture.js but for R15's line, ai.entity.js and ai.engine.js but for R19 N's and R20 N's hunks) | 20 s with the director's ${kinds.join(' and ')} and four players: the Skin-Stealer's tick ran ${calls} times`, data: same };
 });
 
 add('PR26 nothing of a hunt is left behind: the quarry leaving the game, an admin clear, the level of detail going far, a removal, a world reset - the hunt, its plan, its guesses and the people it remembers go with them', () => {

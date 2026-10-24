@@ -1,0 +1,45 @@
+{
+ "tree": "r20-n",
+ "patched": {
+  "hits": 4,
+  "grow": 456
+ },
+ "kinds": {
+  "skinstealer": {
+   "ticks": 227003,
+   "steerTicks": 188574,
+   "label": 0,
+   "labelFrozen": 0,
+   "labelFrozenStill": 0,
+   "labelOpen": 0,
+   "labelOpenFrozen": 0,
+   "grow": {
+    "real": 0.03333333333333333,
+    "turn": 0.5166666666666666,
+    "vcap": 0,
+    "feel": 1.483333333333333,
+    "accel": 3.816666666666658,
+    "hold": 0,
+    "other": 0
+   },
+   "growOpen": {
+    "real": 0.016666666666666666,
+    "turn": 0.05,
+    "vcap": 0,
+    "feel": 0,
+    "accel": 2.0499999999999976,
+    "hold": 0,
+    "other": 0
+   },
+   "side": 0,
+   "replan": 0,
+   "wdChecks": 625,
+   "wdStuck": 0,
+   "wdEmb": 0,
+   "wdStuckIdleOK": 0,
+   "wdEvents": [],
+   "episodes": [],
+   "frozenEp": []
+  }
+ }
+}

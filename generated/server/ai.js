@@ -799,7 +799,8 @@ function steerTo(eng, e, tx, ty, vmax, dt, o = {}) {
   const turn = e.caps.TURNING_ABILITY * (o.turnMul || 1) * (1 - (sp.turnPenalty || .55) * ratio) * (e.mood.frustration > .6 ? 1.12 : 1);
   e.ang = (e.ang + clamp(err, -turn * dt, turn * dt) + TAU) % TAU;
   const align = Math.cos(Math.min(Math.abs(err), 1.5));
-  let target = o.hold ? 0 : vmax * (o.noSlow ? 1 : clamp(align, .1, 1));
+  const turnV = o.hold ? 0 : vmax * (o.noSlow ? 1 : clamp(align, .1, 1));       // (R20) the speed its own turn allows: what its progress is measured against
+  let target = turnV;
   if (o.vcap !== undefined) target = Math.min(target, o.vcap);
   const acc = (e.caps.ACCELERATION || 500) * (o.accMul || 1);
   // feeler: what is straight ahead of the body (centre and both shoulders).  A wall inside the stopping distance brakes it - and a slower body turns
@@ -812,7 +813,9 @@ function steerTo(eng, e, tx, ty, vmax, dt, o = {}) {
   e.speed = approach(e.speed, target, (target > e.speed ? acc : acc * 2.2) * dt);
   const step = e.speed * dt;
   e.moved = moveCollide(eng, e, Math.cos(e.ang) * step, Math.sin(e.ang) * step);
-  const intent = Math.max(step, (o.hold ? 0 : vmax) * dt * .5);                 // stuck = it wants to move and does not (measured against intent, not the speed it was braked to)
+  // stuck = it wants to move and does not: measured against the speed its own turn allows, not the speed a wall or a corner braked it to.
+  // (R20: against its full speed, a body slowed to 10-15 % to turn round on open floor counted as stuck - the open-air STUCK, every species)
+  const intent = Math.max(step, turnV * dt * .5);
   if (intent > .5 && e.moved < intent * .3) e.stuck += dt; else e.stuck = Math.max(0, e.stuck - dt * 1.5);
   e.vel.x = Math.cos(e.ang) * e.speed; e.vel.y = Math.sin(e.ang) * e.speed; e.want = want;
 }
@@ -5065,9 +5068,16 @@ function create(cfg) {
     const idle = e.act === 'listen' || e.act === 'rest' || e.act === 'feed' || e.state === S.HIDDEN || e.state === S.WATCHING || e.state === S.PLAYING || e.state === S.ALERT || e.state === S.CURIOUS || e.state === S.DORMANT || e.state === S.CAUTIOUS || e.state === S.EXCITED || e.state === S.FRUSTRATED || e.act === 'sniff' || e.act === 'freeze' || e.cap || !!(e.sp.still && e.sp.still(e));   // standing still on purpose is not being stuck (Trial 3: a species may say so itself)
     // a hound: only time spent trying to move counts toward 'stuck' (a pause to listen, then walking back past the same spot, is not being stuck).
     // (smilers keep the original rule: every 6 s, not moving 26 px while not idle - their behaviour tests are tuned against it)
-    if (e.kind === 'hound') { if (!idle) w.t += dt; } else w.t += dt;
+    // (R20) a species that says itself when it stands still on purpose (sp.still: the Skin-Stealer) has the hound's rule too, its stillness
+    // asked every tick rather than at the one tick of the check; a second of standing still on purpose begins its time afresh (a wait, a
+    // stare, a meal: whatever it does next is a new attempt); and it is stuck only if in its 6 s of trying it never got 60 px from where it
+    // began (a walk there and back past the same spot is not being stuck)
+    const own = !!e.sp.still;
+    if (own) { if (idle) { w.rest = (w.rest || 0) + dt; if (w.rest >= 1) { w.t = 0; w.x = e.x; w.y = e.y; w.far = 0; } } else w.rest = 0; }
+    if (e.kind === 'hound' || own) { if (!idle) w.t += dt; } else w.t += dt;
+    if (own) w.far = Math.max(w.far || 0, Math.hypot(e.x - w.x, e.y - w.y));
     w.u = (w.u || 0) + dt; if (w.u < 6) return; w.u = 0;                   // looked at every 6 s
-    let stuck = false; if (w.t >= 6) { stuck = Math.hypot(e.x - w.x, e.y - w.y) < 26 && (e.kind === 'hound' || !idle); w.x = e.x; w.y = e.y; w.t = 0; }
+    let stuck = false; if (w.t >= 6) { stuck = Math.hypot(e.x - w.x, e.y - w.y) < 26 && (own ? (w.far || 0) < 60 : e.kind === 'hound' || !idle); w.x = e.x; w.y = e.y; w.t = 0; w.far = 0; }
     const embedded = !e.trav && !geo.clear(e.x, e.y, 12, e.mode || 'walk');
     if (stuck || embedded) {
       e.unstuck = (e.unstuck || 0) + 1; const nv = navOf(e); nv.recover++; if (embedded) { nv.emergency++; eng.note(`${tagOf(e.kind, e.id)} EMERGENCY un-embed at ${Math.round(e.x)},${Math.round(e.y)}`); }

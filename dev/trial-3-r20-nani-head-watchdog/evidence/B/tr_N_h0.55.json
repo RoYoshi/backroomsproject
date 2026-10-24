@@ -1,0 +1,68 @@
+{
+ "tree": "r20-n",
+ "patched": {
+  "hits": 4,
+  "grow": 456
+ },
+ "kinds": {
+  "skinstealer": {
+   "ticks": 244268,
+   "steerTicks": 203425,
+   "label": 0.13333333333333333,
+   "labelFrozen": 0,
+   "labelFrozenStill": 0,
+   "labelOpen": 0,
+   "labelOpenFrozen": 0,
+   "grow": {
+    "real": 0.08333333333333333,
+    "turn": 0.5833333333333335,
+    "vcap": 0,
+    "feel": 1.7999999999999985,
+    "accel": 4.099999999999991,
+    "hold": 0,
+    "other": 0
+   },
+   "growOpen": {
+    "real": 0,
+    "turn": 0.11666666666666665,
+    "vcap": 0,
+    "feel": 0,
+    "accel": 2.3499999999999965,
+    "hold": 0,
+    "other": 0
+   },
+   "side": 0,
+   "replan": 0,
+   "wdChecks": 673,
+   "wdStuck": 0,
+   "wdEmb": 0,
+   "wdStuckIdleOK": 0,
+   "wdEvents": [],
+   "episodes": [
+    {
+     "run": 7,
+     "x": 5973,
+     "y": 2781,
+     "err0": 0.79,
+     "sp0": 20,
+     "t0": 235.08,
+     "max": 0.23,
+     "n": 8,
+     "act": "chase",
+     "plan": "intercept",
+     "causes": {
+      "turn": 7,
+      "accel": 11,
+      "real": 3,
+      "feel": 2
+     },
+     "dur": 0.14,
+     "lad": [],
+     "frozenFrac": 0,
+     "openFrac": 0
+    }
+   ],
+   "frozenEp": []
+  }
+ }
+}

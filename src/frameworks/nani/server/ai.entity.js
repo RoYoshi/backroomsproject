@@ -162,7 +162,8 @@ function steerTo(eng, e, tx, ty, vmax, dt, o = {}) {
   const turn = e.caps.TURNING_ABILITY * (o.turnMul || 1) * (1 - (sp.turnPenalty || .55) * ratio) * (e.mood.frustration > .6 ? 1.12 : 1);
   e.ang = (e.ang + clamp(err, -turn * dt, turn * dt) + TAU) % TAU;
   const align = Math.cos(Math.min(Math.abs(err), 1.5));
-  let target = o.hold ? 0 : vmax * (o.noSlow ? 1 : clamp(align, .1, 1));
+  const turnV = o.hold ? 0 : vmax * (o.noSlow ? 1 : clamp(align, .1, 1));       // (R20) the speed its own turn allows: what its progress is measured against
+  let target = turnV;
   if (o.vcap !== undefined) target = Math.min(target, o.vcap);
   const acc = (e.caps.ACCELERATION || 500) * (o.accMul || 1);
   // feeler: what is straight ahead of the body (centre and both shoulders).  A wall inside the stopping distance brakes it - and a slower body turns
@@ -175,7 +176,9 @@ function steerTo(eng, e, tx, ty, vmax, dt, o = {}) {
   e.speed = approach(e.speed, target, (target > e.speed ? acc : acc * 2.2) * dt);
   const step = e.speed * dt;
   e.moved = moveCollide(eng, e, Math.cos(e.ang) * step, Math.sin(e.ang) * step);
-  const intent = Math.max(step, (o.hold ? 0 : vmax) * dt * .5);                 // stuck = it wants to move and does not (measured against intent, not the speed it was braked to)
+  // stuck = it wants to move and does not: measured against the speed its own turn allows, not the speed a wall or a corner braked it to.
+  // (R20: against its full speed, a body slowed to 10-15 % to turn round on open floor counted as stuck - the open-air STUCK, every species)
+  const intent = Math.max(step, turnV * dt * .5);
   if (intent > .5 && e.moved < intent * .3) e.stuck += dt; else e.stuck = Math.max(0, e.stuck - dt * 1.5);
   e.vel.x = Math.cos(e.ang) * e.speed; e.vel.y = Math.sin(e.ang) * e.speed; e.want = want;
 }

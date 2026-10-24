@@ -192,13 +192,15 @@ add('WL05 the Hound and the Smiler: their species (speeds, caps, senses, hooks) 
   const parts = ['ai.head.js', 'ai.senses.js', 'ai.intelligence.js', 'ai.engine.js', 'ai.entity.js', 'ai.hound.js', 'ai.smiler.js'];
   // (Trial 3 R19, the N track - the owner's shared cornering QoL, dev/trial-3-nani-corners/DESIGN_DECISIONS.md N1: ai.entity.js is R8's
   // with exactly the hunks in r19n_patch.js applied, and nothing else)
-  const RN = require('./r19n_patch.js'), base = (p, r) => p === RN.FILE ? Buffer.from(RN.add(lf(r).toString()) ?? '\u0000', 'utf8') : r;
-  for (const f of parts) { const p = 'src/frameworks/nani/server/' + f, r = atR8(p); if (!r || !lf(base(p, r)).equals(lf(here(p)))) bad.push(f + ' differs from R8' + (p === RN.FILE ? ' (but for the R19 N hunks)' : '')); }
+  // (Trial 3 R20, the N track - the open-air STUCK, dev/trial-3-r20-nani-head-watchdog/DESIGN_DECISIONS.md W1/W2: ai.entity.js and ai.engine.js
+  // with exactly R20 N's hunks of the same registry applied too, each to its own file)
+  const RN = require('./r19n_patch.js'), base = (p, r) => RN.FILES.includes(p) ? Buffer.from(RN.add(lf(r).toString(), p) ?? '\u0000', 'utf8') : r;
+  for (const f of parts) { const p = 'src/frameworks/nani/server/' + f, r = atR8(p); if (!r || !lf(base(p, r)).equals(lf(here(p)))) bad.push(f + ' differs from R8' + (RN.FILES.includes(p) ? ' (but for the R19/R20 N hunks)' : '')); }
   const cap = 'src/frameworks/nani/server/ai.capture.js', c8 = lf(atR8(cap) || '').toString().split('\n'), c = lf(here(cap)).toString().split('\n');
   const diff = c.length === c8.length ? c.map((l, i) => l !== c8[i] ? i : -1).filter(i => i >= 0) : null;
   if (!diff || diff.length !== 1 || !/Trial 3 R15: the Skin-Stealer's D too/.test(c[diff[0]])) bad.push('ai.capture.js: not R8\'s but for R15\'s one line');
   const sp = k => Object.entries(AI[k].speeds).map(([a, b]) => a + ' ' + b).join(', ');
-  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `Hound (${sp('HOUND')}) and Smiler (${sp('SMILER')}) and their acts and traits as at R8; ${parts.length} parts byte for byte (ai.entity.js with R19 N's ${RN.HUNKS.length} cornering hunks, ${RN.lines} lines added); ai.capture.js one line apart (line ${diff[0] + 1}, R15)` };
+  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `Hound (${sp('HOUND')}) and Smiler (${sp('SMILER')}) and their acts and traits as at R8; ${parts.length} parts byte for byte (ai.entity.js and ai.engine.js with the ${RN.HUNKS.length} R19/R20 N hunks, ${RN.lines} lines added); ai.capture.js one line apart (line ${diff[0] + 1}, R15)` };
 });
 
 add('WL06 the Skin-Stealer\'s own speeds, every one under a fresh Wanderer\'s sprint (285): R18\'s overtuned profile in the owner\'s ranges - roam 140-175, prowl 195-215, investigation 225-240, press 255-265, its run (its most) at most 270 - its stealth paces slow', () => {
