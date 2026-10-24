@@ -1,0 +1,1430 @@
+{
+ "tool": "dev/trial-3-r20-kill-visibility/tools/rv_browser.js",
+ "chromium": "141.0.7390.37",
+ "tree": "R20RV",
+ "cases": [
+  {
+   "name": "RV01/02 two Skin-Stealers, variant A",
+   "kills": [
+    {
+     "e": 12,
+     "k": "SkinStealer",
+     "v": "A"
+    }
+   ],
+   "ents": [
+    {
+     "id": 12,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 13,
+     "kind": "skinstealer"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 15,
+     "playing": 11,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 11,
+     "killerShown": 0,
+     "killerJudged": 11,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 18,
+     "playing": 8,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 8,
+     "killerShown": 0,
+     "killerJudged": 8,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      12
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    },
+    {
+     "frames": 6,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    }
+   ]
+  },
+  {
+   "name": "RV01/02 two Skin-Stealers, variant B",
+   "kills": [
+    {
+     "e": 14,
+     "k": "SkinStealer",
+     "v": "B"
+    }
+   ],
+   "ents": [
+    {
+     "id": 14,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 15,
+     "kind": "skinstealer"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 14,
+     "playing": 11,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 11,
+     "killerShown": 0,
+     "killerJudged": 11,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 18,
+     "playing": 9,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 9,
+     "killerShown": 0,
+     "killerJudged": 9,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      14
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    },
+    {
+     "frames": 6,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    }
+   ]
+  },
+  {
+   "name": "RV01/02 two Skin-Stealers, variant C",
+   "kills": [
+    {
+     "e": 16,
+     "k": "SkinStealer",
+     "v": "C"
+    }
+   ],
+   "ents": [
+    {
+     "id": 16,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 17,
+     "kind": "skinstealer"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 14,
+     "playing": 10,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 10,
+     "killerShown": 0,
+     "killerJudged": 10,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 19,
+     "playing": 11,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 11,
+     "killerShown": 0,
+     "killerJudged": 11,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      16
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 4,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    },
+    {
+     "frames": 7,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    }
+   ]
+  },
+  {
+   "name": "RV01/02 two Skin-Stealers, variant D",
+   "kills": [
+    {
+     "e": 18,
+     "k": "SkinStealer",
+     "v": "D"
+    }
+   ],
+   "ents": [
+    {
+     "id": 18,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 19,
+     "kind": "skinstealer"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 14,
+     "playing": 10,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 10,
+     "killerShown": 0,
+     "killerJudged": 10,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 16,
+     "playing": 9,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 9,
+     "killerShown": 0,
+     "killerJudged": 9,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      18
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    },
+    {
+     "frames": 6,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    }
+   ]
+  },
+  {
+   "name": "RV03 swapped: the second-spawned nearer (it kills), variant A",
+   "kills": [
+    {
+     "e": 21,
+     "k": "SkinStealer",
+     "v": "A"
+    }
+   ],
+   "ents": [
+    {
+     "id": 20,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 21,
+     "kind": "skinstealer"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 13,
+     "playing": 10,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 10,
+     "killerShown": 0,
+     "killerJudged": 10,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 20,
+     "playing": 10,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 10,
+     "killerShown": 0,
+     "killerJudged": 10,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      21
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 4,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    },
+    {
+     "frames": 6,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    }
+   ]
+  },
+  {
+   "name": "RV03 four Skin-Stealers, two victims at once, variant A (a third page watching)",
+   "kills": [
+    {
+     "e": 22,
+     "k": "SkinStealer",
+     "v": "A"
+    },
+    {
+     "e": 24,
+     "k": "SkinStealer",
+     "v": "A"
+    }
+   ],
+   "ents": [
+    {
+     "id": 22,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 23,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 24,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 25,
+     "kind": "skinstealer"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 10,
+     "playing": 7,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 14,
+     "killerShown": 0,
+     "killerJudged": 10,
+     "attackers": [
+      1,
+      2
+     ],
+     "mostSkins": 4,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      24
+     ]
+    },
+    {
+     "page": 1,
+     "frames": 8,
+     "playing": 5,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 10,
+     "killerShown": 0,
+     "killerJudged": 8,
+     "attackers": [
+      1,
+      2
+     ],
+     "mostSkins": 4,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      22
+     ]
+    },
+    {
+     "page": 2,
+     "frames": 13,
+     "playing": 4,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 8,
+     "killerShown": 0,
+     "killerJudged": 7,
+     "attackers": [
+      1,
+      2
+     ],
+     "mostSkins": 4,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      24,
+      22
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 4
+    },
+    {
+     "frames": 3,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 4
+    },
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 4
+    }
+   ]
+  },
+  {
+   "name": "RV03 four Skin-Stealers, two victims at once, variant D (a third page watching)",
+   "kills": [
+    {
+     "e": 26,
+     "k": "SkinStealer",
+     "v": "D"
+    },
+    {
+     "e": 28,
+     "k": "SkinStealer",
+     "v": "D"
+    }
+   ],
+   "ents": [
+    {
+     "id": 26,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 27,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 28,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 29,
+     "kind": "skinstealer"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 10,
+     "playing": 7,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 14,
+     "killerShown": 0,
+     "killerJudged": 10,
+     "attackers": [
+      1,
+      2
+     ],
+     "mostSkins": 4,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      28
+     ]
+    },
+    {
+     "page": 1,
+     "frames": 9,
+     "playing": 6,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 12,
+     "killerShown": 0,
+     "killerJudged": 9,
+     "attackers": [
+      1,
+      2
+     ],
+     "mostSkins": 4,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      26
+     ]
+    },
+    {
+     "page": 2,
+     "frames": 14,
+     "playing": 6,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 12,
+     "killerShown": 0,
+     "killerJudged": 12,
+     "attackers": [
+      2,
+      2
+     ],
+     "mostSkins": 4,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      28,
+      26
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 7,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 4
+    },
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 4
+    },
+    {
+     "frames": 3,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 4
+    }
+   ]
+  },
+  {
+   "name": "RV03 four Skin-Stealers, two victims at once, again (repeated)",
+   "kills": [
+    {
+     "e": 30,
+     "k": "SkinStealer",
+     "v": "B"
+    },
+    {
+     "e": 32,
+     "k": "SkinStealer",
+     "v": "B"
+    }
+   ],
+   "ents": [
+    {
+     "id": 30,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 31,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 32,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 33,
+     "kind": "skinstealer"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 11,
+     "playing": 8,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 16,
+     "killerShown": 0,
+     "killerJudged": 12,
+     "attackers": [
+      1,
+      2
+     ],
+     "mostSkins": 4,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      32
+     ]
+    },
+    {
+     "page": 1,
+     "frames": 10,
+     "playing": 7,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 14,
+     "killerShown": 0,
+     "killerJudged": 10,
+     "attackers": [
+      1,
+      2
+     ],
+     "mostSkins": 4,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      30
+     ]
+    },
+    {
+     "page": 2,
+     "frames": 12,
+     "playing": 5,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 10,
+     "killerShown": 0,
+     "killerJudged": 10,
+     "attackers": [
+      2,
+      2
+     ],
+     "mostSkins": 4,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      32,
+      30
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 4,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 4
+    },
+    {
+     "frames": 3,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 4
+    },
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 4
+    }
+   ]
+  },
+  {
+   "name": "RV04 a fresh page joins at 0.7 s, the spectator's connection drops at 1.0 s and reconnects, variant D",
+   "joinAt": 0.72,
+   "dropAt": 1.82,
+   "heldAt": 2.08,
+   "lateFx": 1,
+   "lateAt": 4.7,
+   "backAt": 9.25,
+   "jIn": 15.35,
+   "kills": [
+    {
+     "e": 34,
+     "k": "SkinStealer",
+     "v": "D"
+    }
+   ],
+   "ents": [
+    {
+     "id": 34,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 35,
+     "kind": "skinstealer"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 89,
+     "playing": 9,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 9,
+     "killerShown": 0,
+     "killerJudged": 9,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 101,
+     "playing": 0,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 0,
+     "killerShown": 0,
+     "killerJudged": 0,
+     "attackers": [
+      0,
+      0
+     ],
+     "mostSkins": 0,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 2,
+     "frames": 19,
+     "playing": 1,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 1,
+     "killerShown": 0,
+     "killerJudged": 1,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      34
+     ]
+    },
+    {
+     "page": 3,
+     "frames": 135,
+     "playing": 7,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 2,
+     "killerShown": 0,
+     "killerJudged": 0,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 2,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      34
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    },
+    {
+     "frames": 3,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    },
+    {
+     "frames": 2,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    },
+    {
+     "frames": 3,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 2
+    }
+   ]
+  },
+  {
+   "name": "RV05 a Skin-Stealer kills beside a Hound and a Smiler",
+   "kills": [
+    {
+     "e": 36,
+     "k": "SkinStealer",
+     "v": "A"
+    }
+   ],
+   "ents": [
+    {
+     "id": 36,
+     "kind": "skinstealer"
+    },
+    {
+     "id": 37,
+     "kind": "hound"
+    },
+    {
+     "id": 38,
+     "kind": "smiler"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 14,
+     "playing": 11,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 0,
+     "killerShown": 0,
+     "killerJudged": 11,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 1,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 20,
+     "playing": 10,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 0,
+     "killerShown": 0,
+     "killerJudged": 10,
+     "attackers": [
+      1,
+      1
+     ],
+     "mostSkins": 1,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      36
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 4,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 1
+    },
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 1
+    }
+   ]
+  },
+  {
+   "name": "RV05 two Hounds, one kills",
+   "kills": [
+    {
+     "e": 39,
+     "k": "Hound",
+     "v": "A"
+    }
+   ],
+   "ents": [
+    {
+     "id": 39,
+     "kind": "hound"
+    },
+    {
+     "id": 40,
+     "kind": "hound"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 12,
+     "playing": 9,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 0,
+     "killerShown": 0,
+     "killerJudged": 0,
+     "attackers": [
+      0,
+      0
+     ],
+     "mostSkins": 0,
+     "hSlotsHidden": [
+      39
+     ],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 18,
+     "playing": 11,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 0,
+     "killerShown": 0,
+     "killerJudged": 0,
+     "attackers": [
+      0,
+      0
+     ],
+     "mostSkins": 0,
+     "hSlotsHidden": [
+      40
+     ],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      0
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 4,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    },
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    }
+   ]
+  },
+  {
+   "name": "RV05 two Hounds side by side (30 px apart), one kills",
+   "kills": [
+    {
+     "e": 41,
+     "k": "Hound",
+     "v": "B"
+    }
+   ],
+   "ents": [
+    {
+     "id": 41,
+     "kind": "hound"
+    },
+    {
+     "id": 42,
+     "kind": "hound"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 13,
+     "playing": 10,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 0,
+     "killerShown": 0,
+     "killerJudged": 0,
+     "attackers": [
+      0,
+      0
+     ],
+     "mostSkins": 0,
+     "hSlotsHidden": [
+      41
+     ],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 20,
+     "playing": 12,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 0,
+     "killerShown": 0,
+     "killerJudged": 0,
+     "attackers": [
+      0,
+      0
+     ],
+     "mostSkins": 0,
+     "hSlotsHidden": [
+      41
+     ],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      0
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 3,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    },
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    }
+   ]
+  },
+  {
+   "name": "RV05 two Smilers, one kills",
+   "kills": [
+    {
+     "e": 43,
+     "k": "Smiler",
+     "v": "A"
+    }
+   ],
+   "ents": [
+    {
+     "id": 43,
+     "kind": "smiler"
+    },
+    {
+     "id": 44,
+     "kind": "smiler"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 13,
+     "playing": 10,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 0,
+     "killerShown": 0,
+     "killerJudged": 0,
+     "attackers": [
+      0,
+      0
+     ],
+     "mostSkins": 0,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 17,
+     "playing": 9,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 0,
+     "killerShown": 0,
+     "killerJudged": 0,
+     "attackers": [
+      0,
+      0
+     ],
+     "mostSkins": 0,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [
+      43
+     ],
+     "killBy": null,
+     "replayIds": [
+      0
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    },
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 0
+    }
+   ]
+  },
+  {
+   "name": "RV05 a Hound kills beside a Skin-Stealer",
+   "kills": [
+    {
+     "e": 45,
+     "k": "Hound",
+     "v": "A"
+    }
+   ],
+   "ents": [
+    {
+     "id": 45,
+     "kind": "hound"
+    },
+    {
+     "id": 46,
+     "kind": "skinstealer"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 12,
+     "playing": 9,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 9,
+     "killerShown": 0,
+     "killerJudged": 0,
+     "attackers": [
+      0,
+      0
+     ],
+     "mostSkins": 1,
+     "hSlotsHidden": [
+      45
+     ],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 17,
+     "playing": 10,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 10,
+     "killerShown": 0,
+     "killerJudged": 0,
+     "attackers": [
+      0,
+      0
+     ],
+     "mostSkins": 1,
+     "hSlotsHidden": [
+      45
+     ],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": [
+      0
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 4,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 1
+    },
+    {
+     "frames": 7,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 1
+    }
+   ]
+  },
+  {
+   "name": "RV05 a Smiler kills beside a Skin-Stealer",
+   "kills": [
+    {
+     "e": 47,
+     "k": "Smiler",
+     "v": "A"
+    }
+   ],
+   "ents": [
+    {
+     "id": 47,
+     "kind": "smiler"
+    },
+    {
+     "id": 48,
+     "kind": "skinstealer"
+    }
+   ],
+   "pages": [
+    {
+     "page": 0,
+     "frames": 12,
+     "playing": 8,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 8,
+     "killerShown": 0,
+     "killerJudged": 0,
+     "attackers": [
+      0,
+      0
+     ],
+     "mostSkins": 1,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [],
+     "killBy": null,
+     "replayIds": []
+    },
+    {
+     "page": 1,
+     "frames": 18,
+     "playing": 10,
+     "bystanderHidden": 0,
+     "bystanderFaded": 0,
+     "bystanderSeen": 10,
+     "killerShown": 0,
+     "killerJudged": 0,
+     "attackers": [
+      0,
+      0
+     ],
+     "mostSkins": 1,
+     "hSlotsHidden": [],
+     "sSlotsHidden": [
+      null,
+      47
+     ],
+     "killBy": null,
+     "replayIds": [
+      0
+     ]
+    }
+   ],
+   "after": [
+    {
+     "frames": 3,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 1
+    },
+    {
+     "frames": 5,
+     "hidden": 0,
+     "faded": 0,
+     "attackers": 0,
+     "playing": 0,
+     "mirrors": 1
+    }
+   ]
+  }
+ ],
+ "errors": {
+  "V": [],
+  "S": []
+ }
+}
