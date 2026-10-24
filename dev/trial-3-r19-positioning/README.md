@@ -17,7 +17,8 @@ the owner's Human QA: no merge, no deployment, no organic spawn (admin only, at 
 | `DEFERRED.md` | what was seen and not changed, what is out of scope |
 
 Tools (`tools/`): `prechase_sim.js` (ordinary play, two people, hours of it), `scene_r19.js` (the hall, junction and escape scenes on any
-tree), `verify_remote_r19.py` (the readback).  Evidence: `evidence/S0/` (R18), `evidence/S3/` (this branch).
+tree), `r19_browser.js` (Scene B and the junction in the real game: a page moved by its own keys and mouse), `verify_remote_r19.py` (the
+readback).  Evidence: `evidence/S0/` (R18), `evidence/S3/` (this branch).
 
 ```
 npm run build:check                                   # the generated files are the parts' build

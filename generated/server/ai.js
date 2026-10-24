@@ -4372,7 +4372,9 @@ function skDecide(eng, e) {
   if (cur === 'retreat' && e.plan.arrived && !watched) W.retreat = 0;                       // out of sight now: decide afresh
   // (R19, the independent review) somebody going their own way (moving, not towards it) whose way round it has just dropped as stale, or
   // refused while they moved (remembered with the place: SK.noFlank, 200 px), is not answered with the bait on the next thinks either
-  if (Math.hypot(p.vx, p.vy) > 60 && away > 0 && (flankStale || (nf && e.noFlank.worth === 2))) W.retreat = 0;
+  // (the second review) ...nor one it gives up because they run off from it (fleeing: R13's rule ends the way round), which is as stale
+  const flankGone = flankStale || (!!FP && fleeing), goingOn = Math.hypot(p.vx, p.vy) > 60 && away > 0;
+  if (goingOn && (flankGone || (nf && e.noFlank.worth === 2))) W.retreat = 0;
   for (const k in W) W[k] = Math.max(0, W[k] * (.92 + .16 * e.rng()));
   const pick = () => Object.keys(W).sort((a, b) => W[b] - W[a] || a.localeCompare(b))[0];
   let best = pick(), fs = null;
@@ -4390,8 +4392,8 @@ function skDecide(eng, e) {
   // so the same search is not made again on every think; its record and tally are written only when the plan really changes, below)
   let pos = null;
   if (fs) { const q = skFlankWorth(e, p, d, fs); fs.worth = q;
-    if (q.f < 1) { W.flank *= q.f; if (q.off !== undefined) W.retreat = 0; const b2 = pick(); if (b2 !== 'flank') { e.noFlank = { x: p.x, y: p.y, t: now, worth: q.off !== undefined ? 2 : 1 }; pos = { k: 'flankRefused', eta: [q.etaF, q.etaD], why: `its way round P${r.id} would take ${q.etaF} s (${q.off !== undefined ? `they would be ${q.off} px from its spot by then` : `against ${q.etaD} s coming on; it may spend ${q.B} s more`}): ${b2}` }; best = b2; fs = null; } } }
-  if (flankStale && best !== 'flank') pos = { k: 'flankStale', why: `P${r.id} is moving off from its way round: ${best}` };
+    if (q.f < 1) { W.flank *= q.f; if (q.off !== undefined && away > 0) W.retreat = 0; const b2 = pick(); if (b2 !== 'flank') { e.noFlank = { x: p.x, y: p.y, t: now, worth: q.off !== undefined ? 2 : 1 }; pos = { k: 'flankRefused', eta: [q.etaF, q.etaD], why: `its way round P${r.id} would take ${q.etaF} s (${q.off !== undefined ? `they would be ${q.off} px from its spot by then` : `against ${q.etaD} s coming on; it may spend ${q.B} s more`}): ${b2}` }; best = b2; fs = null; } } }
+  if (flankGone && best !== 'flank') pos = { k: 'flankStale', why: `P${r.id} is ${flankStale ? 'moving' : 'running'} off from its way round: ${best}`, memo: goingOn ? { x: p.x, y: p.y, t: now, worth: 2 } : null };   // (remembered as a mover's refusal: no way round them, nor the bait, here for now)
   // (R13) an approach it is not seen making: covert only along a covert way to a spot within its spring that they cannot see (an
   // ambush point); with none, it comes on openly only very hungry (labelled: they can see it if they look) - else it looks for a hidden spot
   // at their side (a flank from where it is), or holds where it is, unseen
@@ -4410,7 +4412,7 @@ function skDecide(eng, e) {
   }
   if (cur && best !== cur && W[best] < (W[cur] || 0) * SK.rethink && !(cur === 'watch' && now > e.plan.until)) { skMindKept(e, now, SK_SEEN); return; }   // keep the plan unless something is clearly better
   if (best === cur) { skMindKept(e, now, SK_SEEN); return; }
-  if (pos) { e.tally[pos.k]++; e.dbg.pos = Object.assign({ at: +now.toFixed(2), pid: r.id }, pos); }   // (R19: the positioning choice that changed its plan)
+  if (pos) { if (pos.memo) e.noFlank = pos.memo; delete pos.memo; e.tally[pos.k]++; e.dbg.pos = Object.assign({ at: +now.toFixed(2), pid: r.id }, pos); }   // (R19: the positioning choice that changed its plan)
   if (retake && best !== 'leave') { e.left.delete(r.id); e.tally.reengage++; }                  // (R1, R7) taken up again - only now that it does: a departure kept keeps its cooldown
   if (best === 'leave') skLeave(eng, e, r, h < SK.band[0] ? `not hungry: it leaves P${r.id} alone` : crowd > 1 ? `more than one of them (${crowd})` : e.exh ? 'exhausted' : lit && watched ? 'seen in the light' : `it decides against P${r.id}`);
   else if (best === 'watch') skBegin(eng, e, 'watch', r, `it watches P${r.id}`);
@@ -4514,9 +4516,9 @@ function skAct(eng, e, dt, thinkNow) {
       // route is worked out again at most twice a second, not on every think)
       if (thinkNow && (now - (P.planT || -9) > 1.5 || (!e.path.length && (d >= SK.approachStop || now - P.planT > .5)))) {
         P.planT = now;
-        const G = skContest(eng, e, r, p, d, P);                                                   // (R19) at them, or for their way out
-        if (G !== p) directTo(eng, e, G.x, G.y);                                                    // (its contest point: straight there, in their sight - checked)
-        else if (directOk(eng, e, G.x, G.y, 420)) directTo(eng, e, G.x, G.y);
+        let G = skContest(eng, e, r, p, d, P);                                                     // (R19) at them, or for their way out
+        if (G !== p && !directOk(eng, e, G.x, G.y, SK.contestFrom)) { P.cp = null; G = p; }       // (the second review: a kept point is re-checked from where it is now - no straight line there, at them as R18)
+        if (G !== p || directOk(eng, e, G.x, G.y, 420)) directTo(eng, e, G.x, G.y);                // (its contest point: straight there, in their sight)
         else plan(eng, e, G.x, G.y, { why: G === p ? 'approach under cover' : 'their way out', cost: skCover(eng, p), maxNodes: 3000 });
       }
       // a still person it creeps up on; a moving one it shadows at their own pace (a little faster), so nobody simply walks away from it -

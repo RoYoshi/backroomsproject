@@ -33,6 +33,11 @@ quickly, step away, WORLD SPEED 3x, then back to 1x before you judge anything.  
 | S-H | Four people: split up, group, sprint into each other | it takes real openings it can see; no switching to somebody it never saw |  |  |  |
 | S-I | Make it vault a low prop (a counter) mid-hunt, then make it fight or spring | it lands first, then acts - never slides through a wall | could pass through things after an interrupted vault (rare) |  |  |
 
+**For your decision (fairness):** at the junction, a hungry one 550 px off now heads for your side passage first - in the simulation
+that way out went from 8/8 escapes (R18) to 0/8, while sprinting the other way along the hall still escaped 8/8 (S-D).  Whether one
+exit being closed and the other open is fair enough is yours to judge; `SK.contestFrom` / `SK.contestOff` are the knobs, and the contest
+applies only to somebody standing.
+
 **For your sign-off (a deliberate change you may not want):** a vault, once begun, is now carried through like a strike - for up to its
 vault time (0.56 s) it neither thinks nor springs.  R8-R18 let a decision move the body mid-vault (through the prop, rarely 830 px at once
 when the follower next ran).  If the short commitment feels wrong in play (S-I), the alternative is to end the vault early at a clear point

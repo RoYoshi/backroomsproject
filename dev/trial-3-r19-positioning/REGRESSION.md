@@ -20,11 +20,11 @@ No threshold, seed or assertion of an existing test was changed.
 
 | test | pack IDs | on S | on R18 (the negative proof: the same file run on an R18 checkout) |
 |---|---|---|---|
-| SR01 a walker is not answered by a long way round; refused with its reckoning; never the bait; no way begun its reckoning says finds them gone; nor for somebody walking towards it (added after the review) | S01, S26 | PASS: walking off - 7 refusals in 16 runs, each with its time and where they would be; then watch 3, approach 3, chase 1; the bait 0.  Towards it from 900 px - 3 refusals in 4 runs, ways round begun while they came on 0 | FAIL: 0 refusals; a way round begun and dropped within a think in 9 runs; towards it, a way round begun in 3 of 4 (dropped a second later) |
+| SR01 a walker is not answered by a long way round; refused with its reckoning; never the bait; no way begun its reckoning says finds them gone; nor for somebody walking towards it (added after the review) | S01, S26 | PASS: walking off - 7 refusals in 16 runs, each with its time and where they would be; then watch 3, approach 3, chase 1; the bait 0, and none within 2.5 s of a dropped way round (added after the second review).  Towards it from 900 px - 3 refusals in 4 runs, then the back-off R18 gives somebody coming on; ways round begun while they came on 0 | FAIL: 0 refusals; a way round begun and dropped within a think in 9 runs; towards it, a way round begun in 3 of 4 (dropped a second later) |
 | SR02 the pack's Scene B: at .7 it still goes round a stander (8/8); at .85 it refuses with its budget and comes on openly (5/5) | S10, S26 | PASS | FAIL: at .85 it went round in 5/8 |
 | SR03 the contest at a junction (points on open floor, reachable, to their side, never for a walker, dropped at the footwork's range; the other exit escapes) | S02, S27 | PASS: 6/6 standing, 0 bad points, escape west 8/8 | FAIL (no contest; escape west 7/8) |
 | SR04 a vault carried through (on the vault's line until it lands, its vault time) | S22, S27 (the audit's find) | PASS: 0.0 px off the line, landed at 0.567 s | FAIL: 25.1 px off the line in one run, landing late (0.60-0.65 s) |
-| SR05 no churn where it reckons (rewritten after the review found the first form's scene never reckoned): a flicking watcher, walk-and-stop, towards it, off its way round - 22 runs | S30 | PASS: 10 records (6 refusals), 11 ways round; at most 1 record a think, 3 plans in a second; no way round dropped on the next think; after a refusal no covert search on the next thinks and no way round within 2 s | FAIL only for having nothing to check (0 records, 0 refusals - R18 does not reckon); its churn measures are as good |
+| SR05 no churn where it reckons (rewritten after the review found the first form's scene never reckoned): a flicking watcher, walk-and-stop, towards it, off its way round - 22 runs | S30 | PASS: 10 records (6 refusals), 10 ways round; at most 1 record a think, 3 plans in a second; no way round dropped on the next think; after a refusal no covert search on the next thinks and no way round within 2 s | FAIL only for having nothing to check (0 records, 0 refusals - R18 does not reckon); its churn measures are as good |
 | SR06 a way round that no longer leads to them (added after the review): seen walking off from its spot | S01, S25 | PASS: given up 0.13-0.14 s after they set off, on the think of its record, 6/6; came on (approach/chase) 6/6; the bait 0 | FAIL: the way round ran to the end of the 8 s run in 6/6 |
 
 The R18 column: the same file run on an R18 checkout (`evidence/S0/r18_s_skinr19_negative.txt`).
@@ -81,3 +81,44 @@ The R18 column: the same file run on an R18 checkout (`evidence/S0/r18_s_skinr19
 - BR13, SK31, C13, C18, C27, P08, P16: small differences of seeded play after an earlier different choice (listed in the raw logs).
 - L9 (inherited failure): the same exception; only the path in its stack trace differs (sanitized in the evidence).
 - Y02, NV12, X09: timings of this machine (other jobs ran beside the suite); the performance comparison is `PERFORMANCE.md`.
+
+## Ordinary play, simulated (`tools/prechase_sim.js --mins 180 --seeds 12 --log 1`; 3 x 36 h per tree)
+
+One Skin-Stealer among two people playing as players do (exploring, meeting it, fleeing, hiding), seeded; R18 (`evidence/S0/sims/`)
+and S (`evidence/S3/sims/`) on the same seeds.  Summed over the three sets (hunger from .55, from .7 with seeds 1-12 and 13-24):
+
+| measure | R18 | S |
+|---|---|---|
+| ways round begun | 56 (17 / 17 / 22) | **7** |
+| ... of them out of sight while the person moved away (the "clever but absent" detour) | 25 | **4** |
+| ways round refused, with the reckoning in its record | - | 56 |
+| stale ways round given up (`flankStale`); contests of a way out | - | 2; 3 |
+| meetings / escapes / kills | 1847 / 1233 / 614 | 1924 / 1291 / 633 |
+| somebody walking away: closed within 200 px | 162 of 399 (41 %), median 2.1 / 2.2 / 3.1 s | 165 of 387 (43 %), median 2.7 / 3.6 / 3.8 s |
+| its pursuit, mean speed | 205 / 199 / 204 px/s | 203 / 204 / 204 px/s |
+| exhaustions (its own stamina) | 15, 80 s exhausted | 7, 46 s |
+| a vault set down late (R8-R18's stale vault, the `STALE` lines) | **22** | **0** |
+| faster than its run (`OVER` lines): the engine's watchdog setting a body back on open floor at the mid tier | 0 | 2 (68-70 px, 1900+ px from everybody - DEFERRED) |
+| a 5-20 px step of a roaming body at the mid tier, far from everybody (pre-existing; DEFERRED) | 3 (two at 2949-2969, 3720; one of 5 px at 7668, 4008) | 0 |
+| ignored openings (a lit person within 500 px, hungry, not about them) | 0 | 1 (at .55; not traced further) |
+
+What it means: the long way round after somebody moving is nearly gone (25 -> 4 absent detours in 108 h), the creature is not more lethal
+(kills +3 % with 4 % more meetings), and it closes on somebody walking away as often (43 % against 41 %), 0.5-1.4 s later in the median -
+it stares (watch) or comes on openly where R18 began a way round.  Its chase is R18's: the same pursuit speeds, every speed, stamina and kill rule
+unchanged (WL06, C26, PR05).
+
+## The S track's scenes, seed for seed (`tools/scene_r19.js`; `evidence/S0/scenes_r18.txt`, `evidence/S3/scenes_s.txt`)
+
+| scene (8 seeds each) | R18 | S |
+|---|---|---|
+| the lit hall, standing, .7 (its way round kept) | killed 6/8 | 6/8, a way round in 8/8 |
+| the lit hall, standing, .85 (Scene B) | killed 8/8, a way round of ~10 s in 5/8 | 8/8, came on openly (refused with its reckoning) |
+| the hall, walking off looking back, .6 | killed 6/8 | **8/8** - it stays on a walker (R18 lost two: a way round dropped into the bait, then 9 s out of their sight) |
+| the hall, walking off looking back, .75 | killed 8/8 | 8/8 |
+| the hall, walking off its way round, .7 | killed 5/8 | 5/8 |
+| the junction, sprint east (the side passage) / west (the hall) at 550 px | escaped 8/8 / 7/8 | **0/8** / 8/8 |
+| ... at 450 px | 0/8 / 1/8 | 4/8 / 2/8 |
+| ... at 350 px | 8/8 / 0/8 | 8/8 / 1/8 |
+
+The walker at .6 and the junction's east exit are the two places where S is harder on the person than R18; a straight fresh sprint still
+escapes (C26, PR05, the hall at 550 px); the owner's judgement is asked for both (HUMAN_QA S-A, S-D).

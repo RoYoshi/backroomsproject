@@ -29,8 +29,11 @@ table values).
   (the review found records for refusals that changed nothing).  The flank's own reason now carries its time ("... (1721 px, 10.3 s)").
 - *Not the bait for somebody going their own way.*  A way round refused for somebody moving is not answered with the back-off (`W.retreat =
   0`): a retreat round a corner for somebody already going their own way is the same absence.  The review's probe showed it then backed off
-  on the next think anyway; so while that refusal is remembered, or on a think it drops a stale way round (S1-2), the back-off weighs 0
-  for somebody moving (over 60 px/s) and not towards it.  Somebody walking towards it keeps R13-R18's answers, the lure among them.
+  on the next think anyway; so while that refusal is remembered, or on a think it drops a stale way round (S1-2) or one given up because
+  they run off from it (R13's `fleeing` rule), the back-off weighs 0 for somebody moving (over 60 px/s) and not towards it, and such a
+  dropped way round is remembered as a mover's refusal is.  Somebody walking towards it keeps R13-R18's answers, the lure among them - on
+  the refusal's own think too (the second review: that think had no such gate, and a walker coming on got a 0.2-0.7 s watch before the
+  back-off R18 gives them).
 
 *Rejected first form:* one rule for both (the budget against open approach, x0.4 when they move, `SK.detour` 6-2.5 s).  It took R13-R18's
 way round away from moderately hungry ones facing a stander and failed seven R13-R16 suites (C17-C19, PR06, PR19, X05, X07) that hold that
@@ -65,13 +68,29 @@ px from them, short of the wall, on open floor and with a clear line to them - i
 `SK.contestKeep` (120 px) of where it chose it (no flicker), re-reckoned at its usual re-route (1.5 s), dropped when its footwork has them.  **Only a point it can walk straight to with them in its sight all the way**: the point is on open
 floor (its collider + 2 px), has a clear line to them, a clear line from it at the route margin (its collider + 7 px), and every 60 px
 along that line sees them (`geo.los`); it then walks there directly (`directTo`).  The independent review found the first form's point
-could need a route out of their sight - it lost them there, listened and searched; else (no such point) it comes at them, as R18.
+could need a route out of their sight - it lost them there, listened and searched; else (no such point) it comes at them, as R18.  A
+kept point is re-checked from where the body is at each re-route (the second review: a body pushed off its line kept heading for it with
+no clear line); with no straight line from there it drops the point and comes at them.
 Somebody walking or running gets R18's approach and chase, unchanged.  (The pack's option 2, "short contest / doorway position".)
 
 *Effect, measured* (`scene_r19.js escape`, a person standing at the junction, sprinting at 550 px): R18 - east (the side passage) escapes
 8/8, west 7/8; S - east (now contested) 0/8, west 8/8.  One exit is closed, the other stays open: "meaningful but outplayable" (S02).  At
 450 px the picture changes (R18 catches east 8/8, west 7/8; S east 4/8, west 6/8) and at 350 px both trees are the footwork's (east
 escapes 8/8, west 0/8) - it is a positional choice, not a better chase.
+
+## The second independent review (after the fixes above)
+
+A second reviewer, who had not seen the work, read the fix commits and probed them (no blocker found):
+- *The refusal's own think blocked the back-off for somebody walking towards it* - gated by `away > 0` (above).
+- *A way round given up because they run off (`fleeing`) had no no-bait protection* - in SR01's walk-off scene (seed 4 at .6) it backed
+  off, lured and lost them: now as stale (above), recorded as `flankStale` ("running off from its way round") and remembered.
+- *The remembered-refusal branch of the no-bait rule was not pinned by any test* - checked by taking each branch out of the built file:
+  without the remembered branch SR06 fails (the bait once within 2.5 s); without the `fleeing` case SR01 fails (the bait twice within
+  2.5 s of a dropped way round, the check SR01 now makes).
+- *A kept contest point skipped the direct-route check* - re-checked (S1-4).
+- It found the merge needed a fresh run - done: the combined tree's suite, both new suites and the scenes (`dev/trial-3-r19-combined/`).
+- It raised for the owner: at 550 px the contest turns the side passage from 8/8 escapes into 0/8 while the hall stays 8/8 - one way out
+  closed, the other open (S1-4); whether that is fair enough is the owner's call (HUMAN_QA S-D).
 
 ## S2 Commitment, persistence, churn
 
