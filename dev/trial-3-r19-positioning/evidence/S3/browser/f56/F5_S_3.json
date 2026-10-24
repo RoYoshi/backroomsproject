@@ -1,0 +1,111 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r16g_campaign.js",
+ "part": "focused",
+ "chromium": "141.0.7390.37",
+ "tree": "r19-s",
+ "ids": {
+  "A": 1,
+  "B": 2
+ },
+ "F": [
+  {
+   "name": "F5 circled: it faces them and steps sideways after them, never faster than its run",
+   "try": 1,
+   "trace": [
+    [
+     0.29,
+     "roam",
+     "",
+     "",
+     ""
+    ],
+    [
+     0.97,
+     "approach",
+     "sight",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     1.81,
+     "approach",
+     "",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     5.26,
+     "chase",
+     "",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     5.69,
+     "chase",
+     "motion",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     6.81,
+     "chase",
+     "",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     8.2,
+     "approach",
+     "motion",
+     "P1 seen: its roaming gives way",
+     ""
+    ],
+    [
+     8.41,
+     "chase",
+     "motion",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     9.27,
+     "chase",
+     "",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     10.6,
+     "chase",
+     "",
+     "",
+     "1"
+    ]
+   ],
+   "deadAt": null,
+   "fightSamples": 147,
+   "meanErr": 0.68,
+   "side": 0.9,
+   "footwork": 125,
+   "footErr": 0.31,
+   "footSide": 0.9,
+   "footBack": 0,
+   "vmax": 270,
+   "flipT": null,
+   "dead": false,
+   "plans": [
+    "roam",
+    "approach",
+    "chase"
+   ],
+   "ok": true,
+   "note": "in its footwork (125 snapshots): facing off by 0.31 rad on average, sideways 0.9 s, backing 0 s | all 147 snapshots of it moving within 450 px: facing off by 0.68 rad, sideways 0.9 s, fastest 270 px/s (its run 270); plans roam>approach>chase"
+  }
+ ],
+ "errors": {
+  "A": [],
+  "B": []
+ },
+ "pass": true
+}

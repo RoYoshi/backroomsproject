@@ -1,0 +1,68 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r16g_campaign.js",
+ "part": "focused",
+ "chromium": "141.0.7390.37",
+ "tree": "r19-c",
+ "ids": {
+  "A": 1,
+  "B": 2
+ },
+ "F": [
+  {
+   "name": "F5 circled: it faces them and steps sideways after them, never faster than its run",
+   "try": 1,
+   "trace": [
+    [
+     0.26,
+     "roam",
+     "",
+     "",
+     ""
+    ],
+    [
+     0.91,
+     "approach",
+     "sight",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     1.35,
+     "approach",
+     "",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     2.78,
+     "roam",
+     "",
+     "P1 seen: its roaming gives way",
+     "1"
+    ]
+   ],
+   "deadAt": 3.02,
+   "fightSamples": 29,
+   "meanErr": 0.2,
+   "side": 0.2,
+   "footwork": 33,
+   "footErr": 0.23,
+   "footSide": 0.2,
+   "footBack": 0,
+   "vmax": 270,
+   "flipT": null,
+   "dead": true,
+   "plans": [
+    "roam",
+    "approach"
+   ],
+   "ok": true,
+   "note": "in its footwork (33 snapshots): facing off by 0.23 rad on average, sideways 0.2 s, backing 0 s | all 29 snapshots of it moving within 450 px: facing off by 0.2 rad, sideways 0.2 s, fastest 270 px/s (its run 270); plans roam>approach; the page was caught"
+  }
+ ],
+ "errors": {
+  "A": [],
+  "B": []
+ },
+ "pass": true
+}

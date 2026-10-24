@@ -1,0 +1,118 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r16g_campaign.js",
+ "part": "focused",
+ "chromium": "141.0.7390.37",
+ "tree": "r9-overhaul",
+ "ids": {
+  "A": 1,
+  "B": 2
+ },
+ "F": [
+  {
+   "name": "F5 circled: it faces them and steps sideways after them, never faster than its run",
+   "try": 1,
+   "trace": [
+    [
+     0.26,
+     "roam",
+     "",
+     "",
+     ""
+    ],
+    [
+     0.93,
+     "approach",
+     "sight",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     1.45,
+     "chase",
+     "",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     5.64,
+     "approach",
+     "",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     6.34,
+     "approach",
+     "motion",
+     "P1 seen: its roaming gives way",
+     ""
+    ],
+    [
+     7.27,
+     "approach",
+     "",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     8.71,
+     "approach",
+     "sound",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     9.41,
+     "approach",
+     "motion",
+     "P1 seen: its roaming gives way",
+     ""
+    ],
+    [
+     10.14,
+     "approach",
+     "",
+     "P1 seen: its roaming gives way",
+     "1"
+    ],
+    [
+     10.6,
+     "approach",
+     "motion",
+     "P1 seen: its roaming gives way",
+     ""
+    ],
+    [
+     10.6,
+     "chase",
+     "motion",
+     "",
+     "1"
+    ]
+   ],
+   "deadAt": null,
+   "fightSamples": 186,
+   "meanErr": 0.85,
+   "side": 0.3,
+   "footwork": 97,
+   "footErr": 0.28,
+   "footSide": 0.3,
+   "footBack": 0.3,
+   "vmax": 270,
+   "flipT": null,
+   "dead": false,
+   "plans": [
+    "roam",
+    "approach",
+    "chase"
+   ],
+   "ok": true,
+   "note": "in its footwork (97 snapshots): facing off by 0.28 rad on average, sideways 0.3 s, backing 0.3 s | all 186 snapshots of it moving within 450 px: facing off by 0.85 rad, sideways 0.3 s, fastest 270 px/s (its run 270); plans roam>approach>chase"
+  }
+ ],
+ "errors": {
+  "A": [],
+  "B": []
+ },
+ "pass": true
+}

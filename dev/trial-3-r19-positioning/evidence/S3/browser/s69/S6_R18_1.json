@@ -1,0 +1,35 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r16g_campaign.js",
+ "part": "threat",
+ "chromium": "141.0.7390.37",
+ "tree": "r9-overhaul",
+ "ids": {
+  "A": 1,
+  "B": 2
+ },
+ "S": [
+  {
+   "name": "S6 hiding behind a wall: it goes to where it last saw them and looks - it does not know where they are",
+   "hidAt": 8.549,
+   "lostAt": 5.58,
+   "toLastSeen": null,
+   "meanV": 148,
+   "plans": [
+    "roam",
+    "flank",
+    "leave",
+    "roam"
+   ],
+   "foundAgain": false,
+   "deadAt": null,
+   "ok": false,
+   "note": "it lost them at 5.58 s; at the place it last saw them null s later (moving at 148 px/s on average); it found them again: false; plans roam>flank>leave>roam; fastest 270 px/s (run 270), 1.35 s at 230+, presses 0, springs 0, stamina 88-100",
+   "fps": 2.4
+  }
+ ],
+ "errors": {
+  "A": [],
+  "B": []
+ },
+ "pass": false
+}

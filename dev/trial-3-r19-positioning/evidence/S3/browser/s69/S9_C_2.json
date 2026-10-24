@@ -1,0 +1,38 @@
+{
+ "tool": "dev/trial-3-r9-overhaul/tools/r16g_campaign.js",
+ "part": "threat",
+ "chromium": "141.0.7390.37",
+ "tree": "r19-c",
+ "ids": {
+  "A": 1,
+  "B": 2
+ },
+ "S": [
+  {
+   "name": "S9 a sound: it goes to look, at its investigation's pace, and gets a line on them",
+   "ranAt": 2.811,
+   "heardAt": 4.49,
+   "fastS": 0,
+   "sawAt": 1,
+   "nearest": 75,
+   "plans": [
+    "roam",
+    "listen",
+    "approach",
+    "roam",
+    "feed",
+    "roam"
+   ],
+   "deadAt": 6.04,
+   "dHeard": 227,
+   "ok": true,
+   "note": "it heard them at 4.49 s (ran at 2.811), 227 px off; 0 s at 200 px/s or more on its way; it got a line on them: true, nearest 75 px; plans roam>listen>approach>roam>feed>roam; fastest 176 px/s (run 270), 0 s at 230+, presses 0, springs 1, stamina 78-100; the page was caught at 6.04 s",
+   "fps": 2
+  }
+ ],
+ "errors": {
+  "A": [],
+  "B": []
+ },
+ "pass": true
+}
