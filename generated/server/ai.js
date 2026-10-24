@@ -4517,7 +4517,7 @@ function skAct(eng, e, dt, thinkNow) {
       if (thinkNow && (now - (P.planT || -9) > 1.5 || (!e.path.length && (d >= SK.approachStop || now - P.planT > .5)))) {
         P.planT = now;
         let G = skContest(eng, e, r, p, d, P);                                                     // (R19) at them, or for their way out
-        if (G !== p && !directOk(eng, e, G.x, G.y, SK.contestFrom)) { P.cp = null; G = p; }       // (the second review: a kept point is re-checked from where it is now - no straight line there, at them as R18)
+        if (G !== p && !directOk(eng, e, G.x, G.y, SK.contestFrom + 200)) { P.cp = null; G = p; } // (the second review: a kept point is re-checked from where it is now - no straight line there, at them as R18; a point lies at most 200 px beyond them)
         if (G !== p || directOk(eng, e, G.x, G.y, 420)) directTo(eng, e, G.x, G.y);                // (its contest point: straight there, in their sight)
         else plan(eng, e, G.x, G.y, { why: G === p ? 'approach under cover' : 'their way out', cost: skCover(eng, p), maxNodes: 3000 });
       }

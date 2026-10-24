@@ -46,8 +46,9 @@ While it is on a way round and can see them (it decides only on a think with the
 from where they were when it chose the spot, or are moving away from the spot (over 80 px/s), the way round under way weighs 0.25 instead of
 2, so the weighing may pick another answer (`e.dbg.pos` `flankStale`, written when the plan changes).  Out of its sight it goes on (it
 cannot know).  SR06: somebody it went round, seen walking off from its spot - given up 0.13-0.14 s after they set off, on the think of its
-record, and it came on (approach or chase) in 6/6; R18 kept the way round to the end of the 8 s run (`stale2`: some 10 s, then lay in wait
-at the spot for nobody).
+record, and it came on (approach or chase) in 6/6; R18 kept the way round to the end of the 8 s run (run on for 14 s: some 10 s, then it
+lay in wait at the spot for nobody).  A way round given up because they run off from it (R13's `fleeing` rule) is recorded the same way
+("running off from its way round", the second review).
 
 ## S1-3 (withdrawn after the review) "They will have moved on" at the spot
 
@@ -70,7 +71,8 @@ floor (its collider + 2 px), has a clear line to them, a clear line from it at t
 along that line sees them (`geo.los`); it then walks there directly (`directTo`).  The independent review found the first form's point
 could need a route out of their sight - it lost them there, listened and searched; else (no such point) it comes at them, as R18.  A
 kept point is re-checked from where the body is at each re-route (the second review: a body pushed off its line kept heading for it with
-no clear line); with no straight line from there it drops the point and comes at them.
+no clear line); with no straight line from there (or a point farther than `SK.contestFrom` + 200 px, the most a point can lie beyond
+somebody `SK.contestFrom` off) it drops the point and comes at them.
 Somebody walking or running gets R18's approach and chase, unchanged.  (The pack's option 2, "short contest / doorway position".)
 
 *Effect, measured* (`scene_r19.js escape`, a person standing at the junction, sprinting at 550 px): R18 - east (the side passage) escapes
