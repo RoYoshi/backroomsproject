@@ -22,6 +22,10 @@ Trial 3 is **not owner-approved**.
   after the review: nothing reached it in 36 h of simulated play or a targeted search (DESIGN_DECISIONS S1-3).
 - **A way round begun on the think before somebody sets off** (SR01: 2 of 16 walking-off runs; R18 9) is dropped on the next think when
   they are seen moving (S1-2) - a 0.1 s start of a back-off; recorded, not hidden.
+- **After a way round given up because they ran off, no way round near that place for 10 s** (it is remembered as a mover's refusal, as
+  "no way round here" has always been remembered, `SK.noFlank`, or until they are 200 px on): somebody who bolts briefly and then stands
+  still close by gets its open approach, its stare or its chase - not a second way round at once.  The second review asked whether this
+  could stop a fair way round; by design it can, for those 10 s; recorded, not changed.
 - **Ignored openings**: one "lit person within 500 px, hungry, not about them" in 36 h of S at .55 (R18 none; none in either tree at .7);
   not traced further.
 - **Closing on somebody walking away is 0.5-1.4 s slower in the median** in ordinary play (it stares or comes on openly where R18 began a
