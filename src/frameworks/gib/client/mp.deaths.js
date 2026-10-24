@@ -38,6 +38,24 @@ function killFx(f) {
   for (const x of [f.av, f.jl && f.jl.blood, f.jl && f.jl.foreground, f.jl && f.jl.debris, f.att, f.gib]) { if (!x) continue; try { x.parent && x.parent.removeChild(x); x.destroy({ children: true }); } catch { } }
   window.__hideBodies.delete('r' + f.id);
 }
+/* Match the server's killer by ID, not proximity to a bystander.  Re-resolve per frame:
+ * mirror slots can change while a replay is running or when a late client joins.
+ * A 400 px sanity bound prevents an old replay from hiding a distant, reused mirror. */
+function replayKillerSlots(f, A) {
+  const none = { h: -1, s: -1 };
+  if (!f.eid || !f.killAt || !Number.isFinite(f.killAt.x) || !Number.isFinite(f.killAt.y)) return none;
+  const close = p => !!p && Number.isFinite(p.x) && Number.isFinite(p.y) &&
+    Math.hypot(p.x - f.killAt.x, p.y - f.killAt.y) < 400;
+  if (f.cause === 'Hound') {
+    const h = hMap.get(f.eid);
+    return close(h) && Number.isSafeInteger(h.slot) && h.slot >= 0 ? { h: h.slot, s: -1 } : none;
+  }
+  if (f.cause === 'Smiler') {
+    const i = sSlot.indexOf(f.eid), m = i >= 0 && (A.q || [])[i];
+    return i >= 0 && close(m) && !m.off ? { h: -1, s: i } : none;
+  }
+  return none;
+}
 function startFx(m) {
   const A = window.__api, layer = A && A.layer && A.layer(); if (!A || !layer || !A.mkAvatar || !A.Jl || (m.id === myId() && m.k !== 'boom')) return;   // (Stage 3D HQ2: our own NEW RUN blast plays here too: our short beat shows it)
   if (m.k === 'end') { for (const f of fxs) if (f.id === m.id && (m.de == null || f.de === m.de)) f.end = true; return; }   // Stage 3D: an admin revive undid it
@@ -53,17 +71,11 @@ function startFx(m) {
     if (!(+m.el > .3) && EN() && EN().deathVoice) EN().deathVoice(m.c, m.x, m.y, jl.ph && jl.ph.ctx ? jl.ph.ctx.hits.slice() : null);   // Stage 3D: heard where it happens
     f.att = m.c === 'Smiler' ? new A.Gl({ x: m.sx, y: m.sy, angle: 0, state: 'ATTACKING', off: false, side: 0 }) : m.c === 'SkinStealer' && window.__skin ? window.__skin.attacker() : new A.Wl(); layer.addChild(f.att);   // (Trial 3: the Skin-Stealer's own attacker, which poses itself in attackPose)
     f.cause = m.c; f.kill = { h: -1, s: -1 };                                    // hide the real monster that made the kill while its attack replays
-    // (Trial 3 R20, the kill-visibility addendum) the killer by the server's own id of it where the message names one (m.e): a Skin-Stealer's
-    // death does (skinstealer.js hides that one, by f.eid, and no other).  A Hound's or a Smiler's message is B++'s and names none: as at
-    // R8-R19, the Hound (and the Smiler) nearest the attacker's place within 240 px - which a spectator's page can get wrong with a pack-mate
-    // beside the killer (REPORT.md RV05: reproduced; the fix, an id in their message too, changes the B++ protocol contract: the owner's call)
+    // R20 B++ exception: use only the server's killer entity ID, never a nearest-creature guess.
+    // If the ID is absent/invalid or the snapshot has not arrived, hide no mirrored entity.
     f.eid = Number.isSafeInteger(m.e) && m.e > 0 ? m.e : 0;
-    if (f.eid) { if (m.c === 'Hound') { const o = hMap.get(f.eid); f.kill.h = o ? o.slot : -1; } else if (m.c === 'Smiler') f.kill.s = sSlot.indexOf(f.eid); }
-    else {
-    let bd = 240; for (const o of hMap.values()) { const d = Math.hypot(o.x - m.sx, o.y - m.sy); if (d < bd) { bd = d; f.kill.h = o.slot; } }
-    bd = 240; (A.q || []).forEach((s, i) => { const d = Math.hypot(s.x - m.sx, s.y - m.sy); if (!s.off && d < bd) { bd = d; f.kill.s = i; } });
-    }
-    if (m.c !== 'Hound') f.kill.h = -1; if (m.c !== 'Smiler') f.kill.s = -1;          // (Trial 3: a Skin-Stealer's kill hides neither; skinstealer.js hides its own killer)
+    f.killAt = { x: m.sx, y: m.sy };
+    f.kill = replayKillerSlots(f, A);
     window.__hideBodies.add('r' + m.id);
   } else if (m.k === 'boom') {                                                     // Stage 3D HQ2: a NEW RUN blast - the server's event, its seed and direction; no attacker
     const d = +m.d || 0, jl = new A.Jl(); jl.start('Boom', now, { x: m.x - Math.cos(d), y: m.y - Math.sin(d) }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat, vx: m.vx || 0, vy: m.vy || 0, ex: 0 }, { v: 'A', s: m.s, d });
@@ -109,7 +121,11 @@ function updateFx(now) {
       f.att.visible = !done; f.att.position.set(jl.attacker.x, jl.attacker.y); f.att.rotation = jl.attacker.angle + Math.PI / 2; f.att.alpha = 1;
       if (f.cause === 'Smiler') { f.att.scale.set(1 + sm(.3, 1.7, jl.elapsed) * .9); if (EN()) EN().attackSmiler(f.att, now, 1 / 60); } else f.att.attackPose(jl.grip, jl.impact, jl.variant, jl);
     }
-    if (!done) { if (f.kill.h >= 0) window.__fxKill.add(f.kill.h); if (f.kill.s >= 0) window.__fxKillS.add(f.kill.s); }
+    if (!done) {
+      if (f.k === 'death') f.kill = replayKillerSlots(f, A);
+      if (f.kill.h >= 0) window.__fxKill.add(f.kill.h);
+      if (f.kill.s >= 0) window.__fxKillS.add(f.kill.s);
+    }
     else { f.doneAt = f.doneAt || now; const nb = bodiesList.find(x => x.k === f.id); if ((nb && (f.de != null && nb.de != null ? nb.de === f.de : (!f.old || nb.x !== f.old.x || nb.y !== f.old.y || nb.a !== f.old.a))) || now - f.doneAt > 8) { killFx(f); fxs.splice(i, 1); } }   // Stage 3D: the corpse of this very death takes over
   }
 }
