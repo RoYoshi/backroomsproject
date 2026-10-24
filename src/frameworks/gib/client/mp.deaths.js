@@ -6,7 +6,7 @@
  * the last view (BR-R's at M8). What the session did to this state at M8 - a death's or a corpse's message, a kill record, the epoch, a
  * closed connection, hiding our own corpse - it now asks for, through the functions at the end (each M8's lines). It reads the session's
  * myId() and peers, N.A.N.I.'s hound slots and angDiff, BR-R's mouse position (mx(), my()), and BR-R shows the hover name (hoverTip).
- * imports: core { cx EN NET parseLook partObj PEER_MODE toRec }, session { myId N peers tellId }, monsters { angDiff hMap },
+ * imports: core { cx EN NET parseLook partObj PEER_MODE toRec }, session { myId N peers tellId }, monsters { angDiff hMap sSlot },
  *          wanderers { hoverTip mx my }
  * exports: applyBodies, drawPeers, endAllFx, flushSt, forgetOwnDeath, fxMsg, hideCorpse, killNoted, noPeerLights, oldLights, showCorpse,
  *          startFx, takeBodies
@@ -14,7 +14,7 @@
  * uses: -
  * writes: -
  */
-function gibDeaths({ core: { cx, EN, NET, parseLook, partObj, PEER_MODE, toRec }, session: { myId, N, peers, tellId }, monsters: { angDiff, hMap }, wanderers: { hoverTip, mx, my } }) {
+function gibDeaths({ core: { cx, EN, NET, parseLook, partObj, PEER_MODE, toRec }, session: { myId, N, peers, tellId }, monsters: { angDiff, hMap, sSlot }, wanderers: { hoverTip, mx, my } }) {
 /* where the kill animation left the attacker (its world position and heading), so the server's hound carries on from there instead of popping back */
 /* Stage 3D: our own death starts from the server's kill record (the bundle's death class asks for it): the position, facing, speed and
  * exhaustion the server decided the death with, as it sent them - so our death, every spectator's replay and the server's corpse are one
@@ -53,8 +53,16 @@ function startFx(m) {
     if (!(+m.el > .3) && EN() && EN().deathVoice) EN().deathVoice(m.c, m.x, m.y, jl.ph && jl.ph.ctx ? jl.ph.ctx.hits.slice() : null);   // Stage 3D: heard where it happens
     f.att = m.c === 'Smiler' ? new A.Gl({ x: m.sx, y: m.sy, angle: 0, state: 'ATTACKING', off: false, side: 0 }) : m.c === 'SkinStealer' && window.__skin ? window.__skin.attacker() : new A.Wl(); layer.addChild(f.att);   // (Trial 3: the Skin-Stealer's own attacker, which poses itself in attackPose)
     f.cause = m.c; f.kill = { h: -1, s: -1 };                                    // hide the real monster that made the kill while its attack replays
+    // (Trial 3 R20, the kill-visibility addendum) the killer by the server's own id of it where the message names one (m.e): a Skin-Stealer's
+    // death does (skinstealer.js hides that one, by f.eid, and no other).  A Hound's or a Smiler's message is B++'s and names none: as at
+    // R8-R19, the Hound (and the Smiler) nearest the attacker's place within 240 px - which a spectator's page can get wrong with a pack-mate
+    // beside the killer (REPORT.md RV05: reproduced; the fix, an id in their message too, changes the B++ protocol contract: the owner's call)
+    f.eid = Number.isSafeInteger(m.e) && m.e > 0 ? m.e : 0;
+    if (f.eid) { if (m.c === 'Hound') { const o = hMap.get(f.eid); f.kill.h = o ? o.slot : -1; } else if (m.c === 'Smiler') f.kill.s = sSlot.indexOf(f.eid); }
+    else {
     let bd = 240; for (const o of hMap.values()) { const d = Math.hypot(o.x - m.sx, o.y - m.sy); if (d < bd) { bd = d; f.kill.h = o.slot; } }
     bd = 240; (A.q || []).forEach((s, i) => { const d = Math.hypot(s.x - m.sx, s.y - m.sy); if (!s.off && d < bd) { bd = d; f.kill.s = i; } });
+    }
     if (m.c !== 'Hound') f.kill.h = -1; if (m.c !== 'Smiler') f.kill.s = -1;          // (Trial 3: a Skin-Stealer's kill hides neither; skinstealer.js hides its own killer)
     window.__hideBodies.add('r' + m.id);
   } else if (m.k === 'boom') {                                                     // Stage 3D HQ2: a NEW RUN blast - the server's event, its seed and direction; no attacker

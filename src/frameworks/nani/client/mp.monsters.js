@@ -7,7 +7,7 @@
  * glitchesFrom, P.O.C.K.E.T.'s itemsFrom). The hit flash is faded by the per-frame hook through fadeHit (it wrote it at M8).
  * imports: core { EN NET netPose }, session { cpNow graceUntil N snap }, glitch { glitchesFrom }, cartograph { itemsFrom }
  * exports: angDiff, announceKill, applyCaught, applyServerState, clearKill, clearKiller, clearSlots, entitySignals, fadeHit, hitFlash, hMap,
- *          hSlots, markKiller, noFails, unhold
+ *          hSlots, markKiller, noFails, sSlot, unhold
  * provides: naniMonsters
  * uses: -
  * writes: -
@@ -22,6 +22,10 @@ const angDiff = (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b));
 /* the kill the server just made: which entity, which variant (A-D), where the wall is.  The death sequence in the bundle reads this. */
 function announceKill(k) {
   const K = window.__kill = Object.assign({}, k, { at: performance.now(), slot: -1 });
+  // (Trial 3 R20, the kill-visibility addendum) who killed us, kept for the death's whole length: the bundle takes window.__kill away as the
+  // death begins, and skinstealer.js hides the killing Skin-Stealer's own view by this id (R19: every one within 260 px of the attack).
+  // Kept on the Skin-Stealer script's own object (no new window name: the page's globals are B++'s)
+  if (window.__skin) window.__skin.killBy = { k: K.k, e: Number.isSafeInteger(K.e) ? K.e : 0, de: K.de };
   if (K.k === 'Hound') { const o = hMap.get(K.e); K.slot = o ? o.slot : -1; } else K.slot = sSlot.indexOf(K.e);
 }
 /* sounds the entities make (positional, voiced by ents.js) and lamps the smilers are killing */
@@ -87,11 +91,11 @@ function markKiller(A, by) {                          // our death has begun (th
   if (K && K.slot >= 0) b = K.slot; else { let bd = 1e18; for (const o of hMap.values()) { const d = Math.hypot(o.x - A.H.x, o.y - A.H.y); if (d < bd) { bd = d; b = o.slot; } } }
   window.__killer = by === 'Hound' ? b : -1;             // that hound's own model is replaced by the attack animation
 }
-const clearKill = () => { window.__kill = null; };
+const clearKill = () => { window.__kill = null; if (window.__skin) window.__skin.killBy = null; };
 const clearKiller = () => { window.__killer = -1; };
 const clearSlots = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); if (window.__skin) window.__skin.clear(); };
 function unhold() { if (window.__mv) { window.__mv.down = 0; window.__mv.dragTo = null; } }
 const noFails = () => { if (EN()) EN().setFails([]); };
 const fadeHit = t => { hitFlash = Math.max(0, hitFlash - t * 1.6); };
-return { angDiff, announceKill, applyCaught, applyServerState, clearKill, clearKiller, clearSlots, entitySignals, fadeHit, hitFlash: () => hitFlash, hMap, hSlots, markKiller, noFails, unhold };
+return { angDiff, announceKill, applyCaught, applyServerState, clearKill, clearKiller, clearSlots, entitySignals, fadeHit, hitFlash: () => hitFlash, hMap, hSlots, markKiller, noFails, sSlot, unhold };
 }

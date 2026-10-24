@@ -9,6 +9,7 @@
  *   {op:'spawn', kind, x, y, hunger}   a creature put exactly there, with that spawn hunger (as a scenario test places one), in the newest room;
  *                                      (R16g) goal {x, y}: a Skin-Stealer's roam begun toward it, as dev/tests and repro_ap.js give one a route
  *   {op:'probe', id}                   where it is and what it is doing (reported only; the scene never steers it)
+ *   {op:'kills'} / {op:'ents'}         (R20 RV) the players' kill records (the killer's entity id) and every creature's id, kind and place (reported only)
  *   {op:'disguise', id, look} / {op:'undress', id}   (R10 V09) the borrowed look it would wear after feeding at a kill, set or taken off for
  *                                      the scene (its body state, as a hunger is; the server sends it as it sends a real one)
  * The creature's AI is the tree's own: a scene only PLACES it, exactly as dev/tests do with eng.spawn. */
@@ -37,6 +38,12 @@ readline.createInterface({ input: process.stdin }).on('line', line => {
     const e = ent(m.id); if (!e) return out({ ok: false, op: m.op, err: 'no such entity' });
     e.disguise = m.op === 'disguise' ? { look: String(m.look || 'cap|plain|#336699|#e6bb76'), from: 0, t0: eng.now, until: eng.now + 600 } : null;
     return out({ ok: true, op: m.op, id: e.id });
+  }
+  if (m.op === 'kills') {                                                      // (R20 RV) every player's kill record as the server holds it: who killed them (eid), what kind, which variant
+    return out({ ok: true, op: 'kills', kills: (sim.players ? [...(sim.players.values ? sim.players.values() : sim.players)] : eng.pl || []).filter(p => p && p.kill).map(p => ({ pid: p.id, e: p.kill.e, k: p.kill.k, v: p.kill.v, ax: p.kill.ax, ay: p.kill.ay })) });
+  }
+  if (m.op === 'ents') {                                                       // (R20 RV) every creature: id, kind, place (reported only)
+    return out({ ok: true, op: 'ents', ents: eng.entities.map(e => ({ id: e.id, kind: e.kind, x: Math.round(e.x), y: Math.round(e.y), cap: e.cap ? e.cap.pid : 0 })) });
   }
   if (m.op === 'probe') {
     const e = ent(m.id);

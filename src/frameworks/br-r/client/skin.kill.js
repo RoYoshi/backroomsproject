@@ -4,7 +4,9 @@
  * where the death's physics has it (dphys.js: death.attacker), posed from the death's variant and time.  A replay: G.I.B.'s mp.js module
  * asks attacker() for its view and poses it every frame through attackPose (the Hound's view has the same method), so that loop is as it
  * was.  The real Skin-Stealer stays committed on its kill on the server until the death is over; its mirrored view is hidden while a death
- * it is making plays here (the death's source within 260 px of it), so one creature is never drawn twice.  Nothing here decides anything.
+ * it is making plays here, so one creature is never drawn twice: (R20, the kill-visibility addendum) the one the server names as the killer
+ * (its entity id), and no other - R9-R19 hid every Skin-Stealer within 260 px of the death's source, so a second one beside it vanished
+ * while the first one's kill played.  Nothing here decides anything.
  * (R14) The attacker's body is the living one's (skin.body.js's skeleton): its hands go where the victim's neck is - ahead of it by the
  * bodies' real distance in the death's physics, at the height the victim's neck is at that moment, standing, falling, on the floor.
  * imports: head { API BODY_SCALE clamp hooks K lend lerp sm }, body { classes newView paint shadeView }
@@ -93,12 +95,13 @@ function attacker() {
   };
   return v;
 }
-/* the mirrored Skin-Stealer whose kill is playing here (ours, or a replay's): the death draws it instead */
-const near = (o, p) => !!p && Math.hypot(o.x - p.x, o.y - p.y) < 260;
+/* the mirrored Skin-Stealer whose kill is playing here (ours, or a replay's): the death draws it instead.  (R20) Which one is the server's
+ * word: our own death's kill record (K.killBy, kept here by mp.js from the record's arrival) and a replay's own message (f.eid).  Without
+ * an id (an older server) none is hidden: never a guess by distance */
 lend('hidden', o => {
-  const A = API(), D = A && A.death && A.death();
-  if (D && D.active && D.kind === 'SkinStealer' && near(o, D.source)) return true;
-  for (const f of window.__fxs || []) if (!f.gone && f.cause === 'SkinStealer' && f.jl && !f.jl.finished && near(o, f.jl.source)) return true;
+  const A = API(), D = A && A.death && A.death(), KB = K.killBy;
+  if (D && D.active && D.kind === 'SkinStealer' && KB && KB.k === 'SkinStealer' && KB.e && KB.e === o.id) return true;
+  for (const f of window.__fxs || []) if (!f.gone && f.cause === 'SkinStealer' && f.jl && !f.jl.finished && f.eid && f.eid === o.id) return true;
   return false;
 });
 /* our own death over (or not a Skin-Stealer's): its attacker is put away */
