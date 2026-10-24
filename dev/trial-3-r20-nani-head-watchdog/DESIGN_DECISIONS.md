@@ -119,3 +119,20 @@ easing on the page and the snaps' first frames.
 
 **Not done.**  No look toward sounds was added: the Skin-Stealer's snap already turns its head to a sound.  No Hound opt-in: its head is
 its own.  No larger cone, no new range: the swivel is a direction within the existing cone's rules.
+
+## W4 (checkpoint D3): a second side-step at the same spot goes to the new route (the Skin-Stealer's alone)
+
+**What the combined tree's trace found** (`dev/trial-3-r20-combined/`, the stuck trace at hunger .55).  One Skin-Stealer search was pinned
+for 15 s on a corner: 14 side-steps, 5.5 s of red `STUCK`, then two watchdog resets with "stuck: the watchdog cleared its route".  That
+is real obstruction, not the open-air kind, but to a player it is the same symptom.
+
+There were two causes:
+1. **The goal could not be reached.**  The search's goal was a heard place against a wall, where its body cannot stand.  This is
+   inherited from R2 and fixed in the S track (C3): search goals are set down on floor its body fits.
+2. **The ladder never reached its new-route rung.**  R8-R19's ladder (side-step at .35 s, new route at .9 s) cannot get there when each
+   side-step frees the body for a moment: the timer falls back.  R19's own follower, given the same route, side-steps for all 15 s and
+   never plans a new route (ST05's negative proof).
+
+**The change (`ai.entity.js` `follow`).**  For a species with `caps.TURN_AWARE_STUCK` (the Skin-Stealer), a second side-step needed
+within 2.5 s and 40 px of the first goes straight to the new-route rung.  The ladder's later rungs are unchanged: an alternate route
+that keeps off the spot, then dropping the route.  The Hound's and the Smiler's ladders are R19's exactly (ST05 holds the Hound's to it).

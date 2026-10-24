@@ -125,3 +125,14 @@ The chase study against R19 combined (`evidence/D2/cmp_R19C_D2.md`, 1,044 runs p
 
 At checkpoints B-D, W1 was shared.  Those study tables show the Hound's and the Smiler's caught counts equal to R19's but a few loop runs
 differing; that is the difference D2 removes.
+
+## Checkpoint D3: W4, the corner pin
+
+`npm test` **350/363**: the same 13 inherited failures, +1 (ST05; `evidence/D3/npm_test.txt`).
+- **ST05, the Skin-Stealer.**  Pinned on R20's corner with an unreachable last waypoint: a new route at 4.2 s from setting off (the corner
+  is 2 s away), 5 side-steps in 15 s.  R19's follower: 13 side-steps and no new route in 15 s.
+- **ST05, the Hound:** R19's exactly.
+- **On floor its body fits, both arrive** in 1.8 s.
+
+The trace hook (`tools/trhook.js`) now finds the ladder's moved first line.  Its "replans" column does not count W4's escalations: the
+callback runs before them.
